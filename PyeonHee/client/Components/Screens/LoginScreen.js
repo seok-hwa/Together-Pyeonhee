@@ -55,7 +55,7 @@ const LoginScreen = ({navigation}) => {
       .then((response)=>response.json())
       .then((responseJson)=>{
         console.log(responseJson);
-        if(responseJson.success === true){
+        if(responseJson.status === 'success'){
           AsyncStorage.setItem('userID', id);
           console.log(id, '저장');
           navigation.replace('Main');
