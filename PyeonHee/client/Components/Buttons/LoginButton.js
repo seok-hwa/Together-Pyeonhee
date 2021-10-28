@@ -23,9 +23,9 @@ export default class LoginButton extends Component{
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     backgroundColor: '#0000CD',
     width: 250,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,

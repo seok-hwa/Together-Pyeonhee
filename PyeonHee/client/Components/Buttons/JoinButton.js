@@ -23,9 +23,9 @@ export default class JoinButton extends Component{
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     backgroundColor: '#F8F8FF',
     width: 250,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
