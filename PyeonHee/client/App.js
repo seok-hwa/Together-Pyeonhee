@@ -9,42 +9,40 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  Button,
-} from 'react-native';
+import MainScreen from './Components/Screens/MainScreen';
+import LoginScreen from './Components/Screens/LoginScreen';
+import JoinScreen from './Components/Screens/JoinScreen';
 
-function App(){
-  const [text, setText] = useState("Click this button to connect to server");
-  const connect =()=>{
-    const URL = "http://IPv4주소:로컬서버포트/welcome";
-    fetch(URL).then(response => {
-        if(response.status == 200){
-            return response.text();
-        }
-        else {
-            throw new Error("Something is wrong");
-        }
-    }).then(responseText => {
-        setText(responseText);
-    }).catch(error => {
-        console.error(error.message);
-    })
-  }
-  return (
-    <SafeAreaView style={styles.backgroundStyle}>
-      <Text>{text}</Text>
-      <Button title="connect" onPress={connect}></Button>
-    </SafeAreaView>
+const Stack = createNativeStackNavigator();
+
+function App(){         //navigation
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+        }} 
+        />
+        <Stack.Screen
+          name="Join"
+          component={JoinScreen}
+          options={{
+            headerShown: false,
+        }} 
+        />
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{
+            headerShown: false,
+        }} 
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
-
-const styles = StyleSheet.create({
-  backgroundStyle:{
-    flex: 1,
-  }
-});
+}
 
 export default App;
