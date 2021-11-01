@@ -29,7 +29,7 @@ const JoinScreen = ({navigation}) => {
             alert('이메일을 입력해주세요.');
             return;
         }
-        var emCheck = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+        var emCheck = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
         if(!emCheck.test(email)){
             alert('이메일 형식이 올바르지 않습니다.');
             return;
