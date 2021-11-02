@@ -13,39 +13,38 @@ import {
 } from 'react-native';
 
 const CheckRemember = (props) => {          //remember id component
-    const sendCheck=()=>{
-        props.getCheck(!(props.check));
+    const sendRememberCheck=()=>{
+        props.getRememberCheck(!(props.rememberCheck));
     }
     return(
-        <TouchableOpacity onPress={sendCheck}>
-            <Text>{props.check ? <Icon name="checkmark-circle-outline" size={20}></Icon> : <Icon name="ellipse-outline" size={20}></Icon>} 아이디 기억하기</Text>
+        <TouchableOpacity onPress={sendRememberCheck}>
+            <Text>{props.rememberCheck ? <Icon name="checkmark-circle-outline" size={20}></Icon> : <Icon name="ellipse-outline" size={20}></Icon>} 아이디 기억하기</Text>
         </TouchableOpacity>
     );
 };
 
 const LoginScreen = ({navigation}) => {
-    const [check, setCheck] = useState(false);
-    const getCheck=(check)=>{
-      setCheck(check);
+    const [rememberCheck, setRememberCheck] = useState(false);
+    const getRememberCheck=(rememberCheck)=>{
+      setRememberCheck(rememberCheck);
     }
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
-  
+    const [userID, setUserId] = useState('');
+    const [userPassword, setUserPassword] = useState('');
     const handleSubmitButton = () => {
-      if(!id){
+      if(!userID){
         alert('아이디를 입력해주세요.');
         return;
       }
-      if(!password){
+      if(!userPassword){
         alert('비밀번호를 입력해주세요.');
         return;
       }
       fetch('/login', {
         method: 'POST',
         body: JSON.stringify({
-          user_id: id,
-          user_password: password,
-          user_rememberCheck: check,
+          userID: userID,
+          userPassword: userPassword,
+          rememberCheck: rememberCheck,
         }),
         headers: {
           'Accept': 'application/json',
@@ -56,8 +55,8 @@ const LoginScreen = ({navigation}) => {
       .then((responseJson)=>{
         console.log(responseJson);
         if(responseJson.status === 'success'){
-          AsyncStorage.setItem('userID', id);
-          console.log(id, '저장');
+          AsyncStorage.setItem('userID', userID);
+          console.log(userID, '저장');
           navigation.replace('Main');
         }else{
           alert('아이디와 비밀번호를 다시 확인해주세요.');
@@ -80,18 +79,18 @@ const LoginScreen = ({navigation}) => {
             <TextInput 
               style={styles.textInputDesign}
               placeholder='아이디'
-              onChangeText={(id) => setId(id)}
+              onChangeText={(userID) => setUserId(userID)}
               maxLength ={20}
             />
             <TextInput
               secureTextEntry={true}
               style={styles.textInputDesign}
               placeholder='비밀번호'
-              onChangeText={(password) => setPassword(password)}
+              onChangeText={(userPassword) => setUserPassword(userPassword)}
               maxLength = {20}
             />
             <View style={styles.checkPosition}>
-              <CheckRemember check={check} getCheck={getCheck}/>
+              <CheckRemember rememberCheck={rememberCheck} getRememberCheck={getRememberCheck}/>
             </View>
           </View>
           <View style={styles.appFooter}>

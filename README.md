@@ -40,3 +40,9 @@ https://reactnavigation.org/docs/tab-based-navigation/ 사이트 참고
 1) 아이디 저장하기가 필요한가?
 2) 아직까지는 로그인에 성공하면 메인화면으로 가도록 설정해놨음 처음 로그인하면 설문조사 페이지로 가는 로직 추후 설정 필요
 3) 프록시 설정 필요
+
+## 3. 추천 예산 계획서
+
+### 3.1. 관련 패키지 설치
+#### 3.1.1. react native chart
+https://m.blog.naver.com/noisy2/222063240495 사이트 참고

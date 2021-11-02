@@ -10,54 +10,54 @@ import {
 } from 'react-native';
 
 const JoinScreen = ({navigation}) => {
-    const [id, setId] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordCheck, setPasswordCheck] = useState('');
+    const [userID, setUserId] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+    const [userPasswordCheck, setUserPasswordCheck] = useState('');
 
     const handleSubmitButton = () => {
-        if(!id){
+        if(!userID){
           alert('아이디를 입력해주세요.');
           return;
         }
         var idCheck = /^[a-zA-z0-9]{8,20}$/;
-        if(!idCheck.test(id)){
+        if(!idCheck.test(userID)){
             alert('아이디는 8~20자의 영문자, 숫자만 입력 가능합니다.');
             return;
         }
-        if(!email){
+        if(!userEmail){
             alert('이메일을 입력해주세요.');
             return;
         }
-        var emCheck = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
-        if(!emCheck.test(email)){
+        var emCheck = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
+        if(!emCheck.test(userEmail)){
             alert('이메일 형식이 올바르지 않습니다.');
             return;
         }
-        if(!password){
+        if(!userPassword){
           alert('비밀번호를 입력해주세요.');
           return;
         }
         var pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-        if(!pwCheck.test(password)){
+        if(!pwCheck.test(userPassword)){
             alert('비밀번호는 8~25자의 영문자, 숫자, 특수문자의 조합으로 입력해야 합니다.');
             return;
         }
-        if(!passwordCheck){
+        if(!userPasswordCheck){
             alert('비밀번호 확인을 입력해주세요.');
             return;
         }
-        if(password != passwordCheck){
+        if(userPassword != userPasswordCheck){
             alert('비밀번호가 일치하지 않습니다.');
             return;
         }
         fetch('/join', {
           method: 'POST',
           body: JSON.stringify({
-            user_id: id,
-            user_email: email,
-            user_password: password,
-            user_passwordCheck: passwordCheck,
+            userID: userID,
+            userEmail: userEmail,
+            userPassword: userPassword,
+            userPasswordCheck: userPasswordCheck,
           }),
           headers: {
             'Accept': 'application/json',
@@ -68,7 +68,7 @@ const JoinScreen = ({navigation}) => {
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){
-            console.log(id, password, '회원가입 완료');
+            console.log(userID, userPassword, '회원가입 완료');
             alert('회원가입이 완료되었습니다.');
             navigation.replace('Login');
           }else{
@@ -98,7 +98,7 @@ const JoinScreen = ({navigation}) => {
                     <TextInput 
                     style={styles.textInputDesign}
                     placeholder='8~20자(영문자+숫자만 사용)'
-                    onChangeText={(id) => setId(id)}
+                    onChangeText={(userID) => setUserId(userID)}
                     maxLength ={20}
                     />
                     <View style={styles.innerTextAlign}>
@@ -107,7 +107,7 @@ const JoinScreen = ({navigation}) => {
                     <TextInput 
                     style={styles.textInputDesign}
                     placeholder='ex)ex@ex.com'
-                    onChangeText={(email) => setEmail(email)}
+                    onChangeText={(userEmail) => setUserEmail(userEmail)}
                     maxLength ={50}
                     />
                     <View style={styles.innerTextAlign}>
@@ -117,7 +117,7 @@ const JoinScreen = ({navigation}) => {
                     secureTextEntry={true}
                     style={styles.textInputDesign}
                     placeholder='8~25자(영문자+숫자+특수문자 조합)'
-                    onChangeText={(password) => setPassword(password)}
+                    onChangeText={(userPassword) => setUserPassword(userPassword)}
                     maxLength = {25}
                     />
                     <View style={styles.innerTextAlign}>
@@ -126,7 +126,7 @@ const JoinScreen = ({navigation}) => {
                     <TextInput
                     secureTextEntry={true}
                     style={styles.textInputDesign}
-                    onChangeText={(passwordCheck) => setPasswordCheck(passwordCheck)}
+                    onChangeText={(userPasswordCheck) => setUserPasswordCheck(userPasswordCheck)}
                     maxLength = {25}
                     />
                 </View>
