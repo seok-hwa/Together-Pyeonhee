@@ -1,5 +1,12 @@
 # 2021-SW-CapstoneDesign
 
+## 공지사항
+### 1. 동료평가
+burndown chart에서 수행한 task 개수로 평가 진행
+### 2. Open Zoom Meeting
+평일 오후 7시~12시까지 zoom을 개설할테니 개발할떄 참여해서 진행
+### 3. Slack 이용
+카카오톡 확인이 늦어 캡스톤 디자인 개발과 관련된 모든 내용은 slack으로 진행
 ## 1. 개발 환경
 ### 1.1. Client
 #### 1.1.1. React Native 설치 (본 프로젝트는 React Native CLI로 진행)
