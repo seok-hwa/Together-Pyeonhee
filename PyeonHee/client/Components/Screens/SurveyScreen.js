@@ -3,9 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BasicSurveyScreen from './BasicSurveyScreen';
 import Mbti1Screen from './Mbti1Screen';
-import Mbti2Screen from './Mbti1Screen';
-import Mbti3Screen from './Mbti1Screen';
-import Mbti4Screen from './Mbti1Screen';
+import Mbti2Screen from './Mbti2Screen';
+import Mbti3Screen from './Mbti3Screen';
+import Mbti4Screen from './Mbti4Screen';
 
 const Stack = createNativeStackNavigator();
 

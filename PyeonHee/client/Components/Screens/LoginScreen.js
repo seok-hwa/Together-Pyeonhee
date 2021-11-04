@@ -40,6 +40,7 @@ const LoginScreen = ({navigation}) => {
         return;
       }
       navigation.navigate('Survey');
+      /*
       fetch('/login', {
         method: 'POST',
         body: JSON.stringify({
@@ -70,9 +71,8 @@ const LoginScreen = ({navigation}) => {
       })
       .catch((error)=>{
         console.error(error);
-      })
+      })*/
     }
-  
     return(         //login view
       <KeyboardAvoidingView style={styles.appSize}>
         <View style={styles.appLogoHeaderDiv}>
