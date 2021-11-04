@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './Components/Screens/MainScreen';
 import LoginScreen from './Components/Screens/LoginScreen';
 import JoinScreen from './Components/Screens/JoinScreen';
+import SurveyScreen from './Components/Screens/SurveyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,13 @@ function App(){         //navigation
         <Stack.Screen
           name="Main"
           component={MainScreen}
+          options={{
+            headerShown: false,
+        }} 
+        />
+        <Stack.Screen
+          name="Survey"
+          component={SurveyScreen}
           options={{
             headerShown: false,
         }} 
