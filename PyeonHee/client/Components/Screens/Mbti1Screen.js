@@ -386,96 +386,224 @@ const Mbti1Screen = ({navigation, route}) => {
           <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문1</Text></View>
           <View><Text style={styles.questionTitleStyle}>광고를 보고 물건을 구매한 적이 많다.</Text></View>
           <View style={styles.questionInnerBox}>
-            <TouchableOpacity onPress={check1_1_1}>
-              {mbti1_1_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.difDiv} onPress={check1_1_2}>
-              {mbti1_1_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={check1_1_3}>
-              {mbti1_1_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.difDiv} onPress={check1_1_4}>
-              {mbti1_1_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={check1_1_5}>
-              {mbti1_1_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.questionInnerBox}> 
-            <Text style={styles.answerText}>매우아니다          아니다         보통이다         그렇다          매우그렇다</Text> 
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_1_1}>
+                {mbti1_1_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_1_2}>
+                {mbti1_1_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_1_3}>
+                {mbti1_1_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>보통이다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_1_4}>
+                {mbti1_1_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>그렇다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_1_5}>
+                {mbti1_1_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우그렇다</Text>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.questionBox}>
           <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문2</Text></View>
             <View><Text style={styles.questionTitleStyle}>한 달 동안 돈을 어디에 쓸 것인지 계획한다.</Text></View>
             <View style={styles.questionInnerBox}>
-              <TouchableOpacity onPress={check1_2_1}>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_2_1}>
                 {mbti1_2_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
               </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
               <TouchableOpacity style={styles.difDiv} onPress={check1_2_2}>
                 {mbti1_2_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
-              <TouchableOpacity onPress={check1_2_3}>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_2_3}>
                 {mbti1_2_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
               </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>보통이다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
               <TouchableOpacity style={styles.difDiv} onPress={check1_2_4}>
                 {mbti1_2_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
-              <TouchableOpacity onPress={check1_2_5}>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>그렇다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_2_5}>
                 {mbti1_2_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
               </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우그렇다</Text>
+                </View>
+              </View>
             </View>
-          <View style={styles.questionInnerBox}> 
-            <Text style={styles.answerText}>매우아니다          아니다         보통이다         그렇다          매우그렇다</Text> 
           </View>
         </View>
         <View style={styles.questionBox}>
         <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문3</Text></View>
           <View><Text style={styles.questionTitleStyle}>우연히 좋은 물건을 보게 된다면 당장 사야한다.</Text></View>
           <View style={styles.questionInnerBox}>
-            <TouchableOpacity onPress={check1_3_1}>
-              {mbti1_3_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.difDiv} onPress={check1_3_2}>
-              {mbti1_3_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={check1_3_3}>
-              {mbti1_3_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.difDiv} onPress={check1_3_4}>
-              {mbti1_3_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={check1_3_5}>
-              {mbti1_3_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.questionInnerBox}> 
-            <Text style={styles.answerText}>매우아니다          아니다         보통이다         그렇다          매우그렇다</Text> 
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_3_1}>
+                {mbti1_3_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_3_2}>
+                {mbti1_3_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_3_3}>
+                {mbti1_3_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>보통이다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_3_4}>
+                {mbti1_3_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>그렇다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_3_5}>
+                {mbti1_3_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우그렇다</Text>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.questionBox}>
         <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문4</Text></View>
           <View><Text style={styles.questionTitleStyle}>예산을 초과해서 사용하면 불안하다.</Text></View>
           <View style={styles.questionInnerBox}>
-            <TouchableOpacity onPress={check1_4_1}>
-              {mbti1_4_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.difDiv} onPress={check1_4_2}>
-              {mbti1_4_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={check1_4_3}>
-              {mbti1_4_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.difDiv} onPress={check1_4_4}>
-              {mbti1_4_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={check1_4_5}>
-              {mbti1_4_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.questionInnerBox}> 
-            <Text style={styles.answerText}>매우아니다          아니다         보통이다         그렇다          매우그렇다</Text> 
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_4_1}>
+                {mbti1_4_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_4_2}>
+                {mbti1_4_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>아니다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_4_3}>
+                {mbti1_4_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>보통이다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_4_4}>
+                {mbti1_4_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>그렇다</Text>
+                </View>
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity style={styles.difDiv} onPress={check1_4_5}>
+                {mbti1_4_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              </TouchableOpacity>
+              <View style={styles.answerInnerDiv}>
+                <View style={styles.answerTextDiv}>
+                  <Text style={styles.answerText}>매우그렇다</Text>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.appFooter}>
@@ -621,8 +749,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   difDiv: {
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    height: 40,
+  },
+  answerOutDiv: {
+    borderWidth: 1,
+  },
+  answerInnerDiv: {
+    height: 30,
+    flexDirection: 'column-reverse',
   },
   questionInnerBox:{
     flexDirection: 'row',
@@ -637,6 +773,11 @@ const styles = StyleSheet.create({
   answerText:{
     fontSize: 10,
     fontWeight: 'bold',
+  },
+  answerTextDiv: {
+    alignItems: 'center',
+    marginTop: 10,
+    flexDirection: 'column-reverse',
   },
   appFooter:{
     flexDirection: 'row',
