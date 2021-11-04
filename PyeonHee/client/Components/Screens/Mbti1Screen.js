@@ -306,63 +306,56 @@ const Mbti1Screen = ({navigation, route}) => {
 
     let totalScore = 0;
 
-    const promise = new Promise((res, rej) => {
-      if(mbti1_1_2 === true){
-        totalScore=totalScore+5;
-      }else if(mbti1_1_3 === true){
-        totalScore=totalScore+13;
-      }else if(mbti1_1_4 === true){
-        totalScore=totalScore+20;
-      }else if(mbti1_1_5 === true){
-        totalScore=totalScore+25;
-      }
-  
-      if(mbti1_2_1 === true){
-        totalScore=totalScore+25;
-      }else if(mbti1_2_2 === true){
-        totalScore=totalScore+20;
-      }else if(mbti1_2_3 === true){
-        totalScore=totalScore+13;
-      }else if(mbti1_2_4 === true){
-        totalScore=totalScore+5;
-      }
-  
-      if(mbti1_3_2 === true){
-        totalScore=totalScore+5;
-      }else if(mbti1_3_3 === true){
-        totalScore=totalScore+13;
-      }else if(mbti1_3_4 === true){
-        totalScore=totalScore+20;
-      }else if(mbti1_3_5 === true){
-        totalScore=totalScore+25;
-      }
-  
-      if(mbti1_4_1 === true){
-        totalScore=totalScore+25;
-      }else if(mbti1_4_2 === true){
-        totalScore=totalScore+20;
-      }else if(mbti1_4_3 === true){
-        totalScore=totalScore+13;
-      }else if(mbti1_4_4 === true){
-        totalScore=totalScore+5;
-      }
+    if(mbti1_1_2 === true){
+      totalScore=totalScore+5;
+    }else if(mbti1_1_3 === true){
+      totalScore=totalScore+13;
+    }else if(mbti1_1_4 === true){
+      totalScore=totalScore+20;
+    }else if(mbti1_1_5 === true){
+      totalScore=totalScore+25;
+    }
 
-      setTimeout(()=> {
-        res(totalScore);
-      }, 500);
-    })
+    if(mbti1_2_1 === true){
+      totalScore=totalScore+25;
+    }else if(mbti1_2_2 === true){
+      totalScore=totalScore+20;
+    }else if(mbti1_2_3 === true){
+      totalScore=totalScore+13;
+    }else if(mbti1_2_4 === true){
+      totalScore=totalScore+5;
+    }
 
-    promise.then(value => {
-      console.log('총합');
-      console.log(totalScore);
+    if(mbti1_3_2 === true){
+      totalScore=totalScore+5;
+    }else if(mbti1_3_3 === true){
+      totalScore=totalScore+13;
+    }else if(mbti1_3_4 === true){
+      totalScore=totalScore+20;
+    }else if(mbti1_3_5 === true){
+      totalScore=totalScore+25;
+    }
 
-      navigation.navigate('Mbti2',{
-        userMonthlyIncome: route.params.userMonthlyIncome,
-        userFixedExpense: route.params.userFixedExpense,
-        userSavings: route.params.userSavings,
-        mbti1Score: totalScore,
-      });
-    })
+    if(mbti1_4_1 === true){
+      totalScore=totalScore+25;
+    }else if(mbti1_4_2 === true){
+      totalScore=totalScore+20;
+    }else if(mbti1_4_3 === true){
+      totalScore=totalScore+13;
+    }else if(mbti1_4_4 === true){
+      totalScore=totalScore+5;
+    }
+
+    
+    console.log('총합');
+    console.log(totalScore);
+
+    navigation.navigate('Mbti2',{
+      userMonthlyIncome: route.params.userMonthlyIncome,
+      userFixedExpense: route.params.userFixedExpense,
+      userSavings: route.params.userSavings,
+      mbti1Score: totalScore,
+    });
   }
   useEffect(()=>{
     AsyncStorage.getItem('userID', (err, result) => {
