@@ -24,19 +24,18 @@ function App(){         //navigation
 
   useEffect(()=>{
     AsyncStorage.setItem('url', url);
-    AsyncStorage.getItem("userID")
-        .then(
-            (value) => {
-                if (value !== null){
-                  setUserID(value);
-                  console.log(value);
-                }
-            }
-        )
-        .then(()=>{
-          setLoading(!loading);
-        })
-  },[]);
+    async function getStorage(){
+      if(await AsyncStorage.getItem("userID")){
+        let tempUserID = await AsyncStorage.getItem("userID");
+        console.log(tempUserID, '하하');
+        setUserID(tempUserID);
+      }
+      setLoading(true);
+    }
+    getStorage();
+
+  }, []);
+  
   if(loading === false){
     return(
       <View style={{flex: 1,}}>
