@@ -19,43 +19,80 @@ const Stack = createNativeStackNavigator();
 const url = 'http://ip주소:포트넘버'; //로컬서버 접속 url
 
 function App(){         //navigation
+  const [userID, setUserID] = useState('');
+  const [loading, setLoading] = useState(false);
+
   useEffect(()=>{
     AsyncStorage.setItem('url', url);
+    AsyncStorage.getItem("userID")
+        .then(
+            (value) => {
+                if (value !== null){
+                  setUserID(value);
+                  console.log(value);
+                }
+            }
+        )
+        .then(()=>{
+          setLoading(!loading);
+        })
   },[]);
-  return(
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            headerShown: false,
-        }} 
-        />
-        <Stack.Screen
-          name="Join"
-          component={JoinScreen}
-          options={{
-            headerShown: false,
-        }} 
-        />
-        <Stack.Screen
-          name="Main"
-          component={MainScreen}
-          options={{
-            headerShown: false,
-        }} 
-        />
-        <Stack.Screen
-          name="Survey"
-          component={SurveyScreen}
-          options={{
-            headerShown: false,
-        }} 
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  if(loading === false){
+    return(
+      <View style={{flex: 1,}}>
+      </View>
+    );
+  }
+  else if(userID === '' && loading === true){
+    return(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Join"
+            component={JoinScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Survey"
+            component={SurveyScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Main"
+            component={MainScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    ); 
+  }else if(loading === true){
+    return(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Main"
+            component={MainScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
 
 export default App;
