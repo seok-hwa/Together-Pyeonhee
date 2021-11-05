@@ -53,3 +53,5 @@ https://reactnavigation.org/docs/tab-based-navigation/ 사이트 참고
 ### 3.1. 관련 패키지 설치
 #### 3.1.1. react native chart
 https://m.blog.naver.com/noisy2/222063240495 사이트 참고
+
+## 4. mbit 설문조사
