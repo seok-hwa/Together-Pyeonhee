@@ -39,8 +39,7 @@ const LoginScreen = ({navigation}) => {
         alert('비밀번호를 입력해주세요.');
         return;
       }
-      navigation.navigate('Survey');
-      /*
+      //navigation.replace('Survey');   //for test
       fetch('/login', {
         method: 'POST',
         body: JSON.stringify({
@@ -60,9 +59,9 @@ const LoginScreen = ({navigation}) => {
           AsyncStorage.setItem('userID', userID);
           console.log(userID, '저장');
           if(responseJson.userMbti === null){
-            navigation.navigate('Survey');
+            navigation.replace('Survey');
           }else{
-            navigation.navigate('Main');
+            navigation.replace('Main');
           }
         }else{
           alert('아이디와 비밀번호를 다시 확인해주세요.');
@@ -71,7 +70,7 @@ const LoginScreen = ({navigation}) => {
       })
       .catch((error)=>{
         console.error(error);
-      })*/
+      })
     }
     return(         //login view
       <KeyboardAvoidingView style={styles.appSize}>

@@ -18,331 +18,331 @@ import {
 const Mbti1Screen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
 
-  const [mbti1_1_1, setMbti1_1_1] = useState(false);
-  const [mbti1_1_2, setMbti1_1_2] = useState(false);
-  const [mbti1_1_3, setMbti1_1_3] = useState(false);
-  const [mbti1_1_4, setMbti1_1_4] = useState(false);
-  const [mbti1_1_5, setMbti1_1_5] = useState(false);
+  const [mbti1_1, setMbti1_1] = useState(false);
+  const [mbti1_2, setMbti1_2] = useState(false);
+  const [mbti1_3, setMbti1_3] = useState(false);
+  const [mbti1_4, setMbti1_4] = useState(false);
+  const [mbti1_5, setMbti1_5] = useState(false);
 
-  const [mbti1_2_1, setMbti1_2_1] = useState(false);
-  const [mbti1_2_2, setMbti1_2_2] = useState(false);
-  const [mbti1_2_3, setMbti1_2_3] = useState(false);
-  const [mbti1_2_4, setMbti1_2_4] = useState(false);
-  const [mbti1_2_5, setMbti1_2_5] = useState(false);
+  const [mbti2_1, setMbti2_1] = useState(false);
+  const [mbti2_2, setMbti2_2] = useState(false);
+  const [mbti2_3, setMbti2_3] = useState(false);
+  const [mbti2_4, setMbti2_4] = useState(false);
+  const [mbti2_5, setMbti2_5] = useState(false);
 
-  const [mbti1_3_1, setMbti1_3_1] = useState(false);
-  const [mbti1_3_2, setMbti1_3_2] = useState(false);
-  const [mbti1_3_3, setMbti1_3_3] = useState(false);
-  const [mbti1_3_4, setMbti1_3_4] = useState(false);
-  const [mbti1_3_5, setMbti1_3_5] = useState(false);
+  const [mbti3_1, setMbti3_1] = useState(false);
+  const [mbti3_2, setMbti3_2] = useState(false);
+  const [mbti3_3, setMbti3_3] = useState(false);
+  const [mbti3_4, setMbti3_4] = useState(false);
+  const [mbti3_5, setMbti3_5] = useState(false);
 
-  const [mbti1_4_1, setMbti1_4_1] = useState(false);
-  const [mbti1_4_2, setMbti1_4_2] = useState(false);
-  const [mbti1_4_3, setMbti1_4_3] = useState(false);
-  const [mbti1_4_4, setMbti1_4_4] = useState(false);
-  const [mbti1_4_5, setMbti1_4_5] = useState(false);
+  const [mbti4_1, setMbti4_1] = useState(false);
+  const [mbti4_2, setMbti4_2] = useState(false);
+  const [mbti4_3, setMbti4_3] = useState(false);
+  const [mbti4_4, setMbti4_4] = useState(false);
+  const [mbti4_5, setMbti4_5] = useState(false);
 
-  const check1_1_1=()=>{
-    if(mbti1_1_1 === false){
-      setMbti1_1_1(!mbti1_1_1);
-      setMbti1_1_2(false);
-      setMbti1_1_3(false);
-      setMbti1_1_4(false);
-      setMbti1_1_5(false);
+  const check1_1=()=>{
+    if(mbti1_1 === false){
+      setMbti1_1(!mbti1_1);
+      setMbti1_2(false);
+      setMbti1_3(false);
+      setMbti1_4(false);
+      setMbti1_5(false);
     }
     else{
-      setMbti1_1_1(!mbti1_1_1);
+      setMbti1_1(!mbti1_1);
     }
   }
-  const check1_1_2=()=>{
-    if(mbti1_1_2 === false){
-      setMbti1_1_2(!mbti1_1_2);
-      setMbti1_1_1(false);
-      setMbti1_1_3(false);
-      setMbti1_1_4(false);
-      setMbti1_1_5(false);
+  const check1_2=()=>{
+    if(mbti1_2 === false){
+      setMbti1_2(!mbti1_2);
+      setMbti1_1(false);
+      setMbti1_3(false);
+      setMbti1_4(false);
+      setMbti1_5(false);
     }
     else{
-      setMbti1_1_2(!mbti1_1_2);
+      setMbti1_2(!mbti1_2);
     }
   }
-  const check1_1_3=()=>{
-    if(mbti1_1_3 === false){
-      setMbti1_1_3(!mbti1_1_3);
-      setMbti1_1_1(false);
-      setMbti1_1_2(false);
-      setMbti1_1_4(false);
-      setMbti1_1_5(false);
+  const check1_3=()=>{
+    if(mbti1_3 === false){
+      setMbti1_3(!mbti1_3);
+      setMbti1_1(false);
+      setMbti1_2(false);
+      setMbti1_4(false);
+      setMbti1_5(false);
     }
     else{
-      setMbti1_1_3(!mbti1_1_3);
+      setMbti1_3(!mbti1_3);
     }
   }
-  const check1_1_4=()=>{
-    if(mbti1_1_4 === false){
-      setMbti1_1_4(!mbti1_1_4);
-      setMbti1_1_1(false);
-      setMbti1_1_3(false);
-      setMbti1_1_2(false);
-      setMbti1_1_5(false);
+  const check1_4=()=>{
+    if(mbti1_4 === false){
+      setMbti1_4(!mbti1_4);
+      setMbti1_1(false);
+      setMbti1_3(false);
+      setMbti1_2(false);
+      setMbti1_5(false);
     }
     else{
-      setMbti1_1_4(!mbti1_1_4);
+      setMbti1_4(!mbti1_4);
     }
   }
-  const check1_1_5=()=>{
-    if(mbti1_1_5 === false){
-      setMbti1_1_5(!mbti1_1_5);
-      setMbti1_1_1(false);
-      setMbti1_1_3(false);
-      setMbti1_1_4(false);
-      setMbti1_1_2(false);
+  const check1_5=()=>{
+    if(mbti1_5 === false){
+      setMbti1_5(!mbti1_5);
+      setMbti1_1(false);
+      setMbti1_3(false);
+      setMbti1_4(false);
+      setMbti1_2(false);
     }
     else{
-      setMbti1_1_5(!mbti1_1_5);
-    }
-  }
-
-  const check1_2_1=()=>{
-    if(mbti1_2_1 === false){
-      setMbti1_2_1(!mbti1_2_1);
-      setMbti1_2_2(false);
-      setMbti1_2_3(false);
-      setMbti1_2_4(false);
-      setMbti1_2_5(false);
-    }
-    else{
-      setMbti1_2_1(!mbti1_2_1);
-    }
-  }
-  const check1_2_2=()=>{
-    if(mbti1_2_2 === false){
-      setMbti1_2_2(!mbti1_2_2);
-      setMbti1_2_1(false);
-      setMbti1_2_3(false);
-      setMbti1_2_4(false);
-      setMbti1_2_5(false);
-    }
-    else{
-      setMbti1_2_2(!mbti1_2_2);
-    }
-  }
-  const check1_2_3=()=>{
-    if(mbti1_2_3 === false){
-      setMbti1_2_3(!mbti1_2_3);
-      setMbti1_2_1(false);
-      setMbti1_2_2(false);
-      setMbti1_2_4(false);
-      setMbti1_2_5(false);
-    }
-    else{
-      setMbti1_2_3(!mbti1_2_3);
-    }
-  }
-  const check1_2_4=()=>{
-    if(mbti1_2_4 === false){
-      setMbti1_2_4(!mbti1_2_4);
-      setMbti1_2_1(false);
-      setMbti1_2_3(false);
-      setMbti1_2_2(false);
-      setMbti1_2_5(false);
-    }
-    else{
-      setMbti1_2_4(!mbti1_2_4);
-    }
-  }
-  const check1_2_5=()=>{
-    if(mbti1_2_5 === false){
-      setMbti1_2_5(!mbti1_2_5);
-      setMbti1_2_1(false);
-      setMbti1_2_3(false);
-      setMbti1_2_4(false);
-      setMbti1_2_2(false);
-    }
-    else{
-      setMbti1_2_5(!mbti1_2_5);
+      setMbti1_5(!mbti1_5);
     }
   }
 
-  const check1_3_1=()=>{
-    if(mbti1_3_1 === false){
-      setMbti1_3_1(!mbti1_3_1);
-      setMbti1_3_2(false);
-      setMbti1_3_3(false);
-      setMbti1_3_4(false);
-      setMbti1_3_5(false);
+  const check2_1=()=>{
+    if(mbti2_1 === false){
+      setMbti2_1(!mbti2_1);
+      setMbti2_2(false);
+      setMbti2_3(false);
+      setMbti2_4(false);
+      setMbti2_5(false);
     }
     else{
-      setMbti1_3_1(!mbti1_3_1);
+      setMbti2_1(!mbti2_1);
     }
   }
-  const check1_3_2=()=>{
-    if(mbti1_3_2 === false){
-      setMbti1_3_2(!mbti1_3_2);
-      setMbti1_3_1(false);
-      setMbti1_3_3(false);
-      setMbti1_3_4(false);
-      setMbti1_3_5(false);
+  const check2_2=()=>{
+    if(mbti2_2 === false){
+      setMbti2_2(!mbti2_2);
+      setMbti2_1(false);
+      setMbti2_3(false);
+      setMbti2_4(false);
+      setMbti2_5(false);
     }
     else{
-      setMbti1_3_2(!mbti1_3_2);
+      setMbti2_2(!mbti2_2);
     }
   }
-  const check1_3_3=()=>{
-    if(mbti1_3_3 === false){
-      setMbti1_3_3(!mbti1_3_3);
-      setMbti1_3_1(false);
-      setMbti1_3_2(false);
-      setMbti1_3_4(false);
-      setMbti1_3_5(false);
+  const check2_3=()=>{
+    if(mbti2_3 === false){
+      setMbti2_3(!mbti2_3);
+      setMbti2_1(false);
+      setMbti2_2(false);
+      setMbti2_4(false);
+      setMbti2_5(false);
     }
     else{
-      setMbti1_3_3(!mbti1_3_3);
+      setMbti2_3(!mbti2_3);
     }
   }
-  const check1_3_4=()=>{
-    if(mbti1_3_4 === false){
-      setMbti1_3_4(!mbti1_3_4);
-      setMbti1_3_1(false);
-      setMbti1_3_3(false);
-      setMbti1_3_2(false);
-      setMbti1_3_5(false);
+  const check2_4=()=>{
+    if(mbti2_4 === false){
+      setMbti2_4(!mbti2_4);
+      setMbti2_1(false);
+      setMbti2_3(false);
+      setMbti2_2(false);
+      setMbti2_5(false);
     }
     else{
-      setMbti1_3_4(!mbti1_3_4);
+      setMbti2_4(!mbti2_4);
     }
   }
-  const check1_3_5=()=>{
-    if(mbti1_3_5 === false){
-      setMbti1_3_5(!mbti1_3_5);
-      setMbti1_3_1(false);
-      setMbti1_3_3(false);
-      setMbti1_3_4(false);
-      setMbti1_3_2(false);
+  const check2_5=()=>{
+    if(mbti2_5 === false){
+      setMbti2_5(!mbti2_5);
+      setMbti2_1(false);
+      setMbti2_3(false);
+      setMbti2_4(false);
+      setMbti2_2(false);
     }
     else{
-      setMbti1_3_5(!mbti1_3_5);
+      setMbti2_5(!mbti2_5);
     }
   }
 
-  const check1_4_1=()=>{
-    if(mbti1_4_1 === false){
-      setMbti1_4_1(!mbti1_4_1);
-      setMbti1_4_2(false);
-      setMbti1_4_3(false);
-      setMbti1_4_4(false);
-      setMbti1_4_5(false);
+  const check3_1=()=>{
+    if(mbti3_1 === false){
+      setMbti3_1(!mbti3_1);
+      setMbti3_2(false);
+      setMbti3_3(false);
+      setMbti3_4(false);
+      setMbti3_5(false);
     }
     else{
-      setMbti1_4_1(!mbti1_4_1);
+      setMbti3_1(!mbti3_1);
     }
   }
-  const check1_4_2=()=>{
-    if(mbti1_4_2 === false){
-      setMbti1_4_2(!mbti1_4_2);
-      setMbti1_4_1(false);
-      setMbti1_4_3(false);
-      setMbti1_4_4(false);
-      setMbti1_4_5(false);
+  const check3_2=()=>{
+    if(mbti3_2 === false){
+      setMbti3_2(!mbti3_2);
+      setMbti3_1(false);
+      setMbti3_3(false);
+      setMbti3_4(false);
+      setMbti3_5(false);
     }
     else{
-      setMbti1_4_2(!mbti1_4_2);
+      setMbti3_2(!mbti3_2);
     }
   }
-  const check1_4_3=()=>{
-    if(mbti1_4_3 === false){
-      setMbti1_4_3(!mbti1_4_3);
-      setMbti1_4_1(false);
-      setMbti1_4_2(false);
-      setMbti1_4_4(false);
-      setMbti1_4_5(false);
+  const check3_3=()=>{
+    if(mbti3_3 === false){
+      setMbti3_3(!mbti3_3);
+      setMbti3_1(false);
+      setMbti3_2(false);
+      setMbti3_4(false);
+      setMbti3_5(false);
     }
     else{
-      setMbti1_4_3(!mbti1_4_3);
+      setMbti3_3(!mbti3_3);
     }
   }
-  const check1_4_4=()=>{
-    if(mbti1_4_4 === false){
-      setMbti1_4_4(!mbti1_4_4);
-      setMbti1_4_1(false);
-      setMbti1_4_3(false);
-      setMbti1_4_2(false);
-      setMbti1_4_5(false);
+  const check3_4=()=>{
+    if(mbti3_4 === false){
+      setMbti3_4(!mbti3_4);
+      setMbti3_1(false);
+      setMbti3_3(false);
+      setMbti3_2(false);
+      setMbti3_5(false);
     }
     else{
-      setMbti1_4_4(!mbti1_4_4);
+      setMbti3_4(!mbti3_4);
     }
   }
-  const check1_4_5=()=>{
-    if(mbti1_4_5 === false){
-      setMbti1_4_5(!mbti1_4_5);
-      setMbti1_4_1(false);
-      setMbti1_4_3(false);
-      setMbti1_4_4(false);
-      setMbti1_4_2(false);
+  const check3_5=()=>{
+    if(mbti3_5 === false){
+      setMbti3_5(!mbti3_5);
+      setMbti3_1(false);
+      setMbti3_3(false);
+      setMbti3_4(false);
+      setMbti3_2(false);
     }
     else{
-      setMbti1_4_5(!mbti1_4_5);
+      setMbti3_5(!mbti3_5);
+    }
+  }
+
+  const check4_1=()=>{
+    if(mbti4_1 === false){
+      setMbti4_1(!mbti4_1);
+      setMbti4_2(false);
+      setMbti4_3(false);
+      setMbti4_4(false);
+      setMbti4_5(false);
+    }
+    else{
+      setMbti4_1(!mbti4_1);
+    }
+  }
+  const check4_2=()=>{
+    if(mbti4_2 === false){
+      setMbti4_2(!mbti4_2);
+      setMbti4_1(false);
+      setMbti4_3(false);
+      setMbti4_4(false);
+      setMbti4_5(false);
+    }
+    else{
+      setMbti4_2(!mbti4_2);
+    }
+  }
+  const check4_3=()=>{
+    if(mbti4_3 === false){
+      setMbti4_3(!mbti4_3);
+      setMbti4_1(false);
+      setMbti4_2(false);
+      setMbti4_4(false);
+      setMbti4_5(false);
+    }
+    else{
+      setMbti4_3(!mbti4_3);
+    }
+  }
+  const check4_4=()=>{
+    if(mbti4_4 === false){
+      setMbti4_4(!mbti4_4);
+      setMbti4_1(false);
+      setMbti4_3(false);
+      setMbti4_2(false);
+      setMbti4_5(false);
+    }
+    else{
+      setMbti4_4(!mbti4_4);
+    }
+  }
+  const check4_5=()=>{
+    if(mbti4_5 === false){
+      setMbti4_5(!mbti4_5);
+      setMbti4_1(false);
+      setMbti4_3(false);
+      setMbti4_4(false);
+      setMbti4_2(false);
+    }
+    else{
+      setMbti4_5(!mbti4_5);
     }
   }
 
   const handleSubmitButton = () => {
-    if(mbti1_1_1 === false && mbti1_1_2 === false && mbti1_1_3 === false && mbti1_1_4 === false && mbti1_1_5 === false){
+    if(mbti1_1 === false && mbti1_2 === false && mbti1_3 === false && mbti1_4 === false && mbti1_5 === false){
       alert('체크 안 된 문항이 있습니다.');
       return;
     }
-    if(mbti1_2_1 === false && mbti1_2_2 === false && mbti1_2_3 === false && mbti1_2_4 === false && mbti1_2_5 === false){
+    if(mbti2_1 === false && mbti2_2 === false && mbti2_3 === false && mbti2_4 === false && mbti2_5 === false){
       alert('체크 안 된 문항이 있습니다.');
       return;
     }
-    if(mbti1_3_1 === false && mbti1_3_2 === false && mbti1_3_3 === false && mbti1_3_4 === false && mbti1_3_5 === false){
+    if(mbti3_1 === false && mbti3_2 === false && mbti3_3 === false && mbti3_4 === false && mbti3_5 === false){
       alert('체크 안 된 문항이 있습니다.');
       return;
     }
-    if(mbti1_4_1 === false && mbti1_4_2 === false && mbti1_4_3 === false && mbti1_4_4 === false && mbti1_4_5 === false){
+    if(mbti4_1 === false && mbti4_2 === false && mbti4_3 === false && mbti4_4 === false && mbti4_5 === false){
       alert('체크 안 된 문항이 있습니다.');
       return;
     }
 
     let totalScore = 0;
 
-    if(mbti1_1_2 === true){
+    if(mbti1_2 === true){
       totalScore=totalScore+5;
-    }else if(mbti1_1_3 === true){
+    }else if(mbti1_3 === true){
       totalScore=totalScore+13;
-    }else if(mbti1_1_4 === true){
+    }else if(mbti1_4 === true){
       totalScore=totalScore+20;
-    }else if(mbti1_1_5 === true){
+    }else if(mbti1_5 === true){
       totalScore=totalScore+25;
     }
 
-    if(mbti1_2_1 === true){
+    if(mbti2_1 === true){
       totalScore=totalScore+25;
-    }else if(mbti1_2_2 === true){
+    }else if(mbti2_2 === true){
       totalScore=totalScore+20;
-    }else if(mbti1_2_3 === true){
+    }else if(mbti2_3 === true){
       totalScore=totalScore+13;
-    }else if(mbti1_2_4 === true){
+    }else if(mbti2_4 === true){
       totalScore=totalScore+5;
     }
 
-    if(mbti1_3_2 === true){
+    if(mbti3_2 === true){
       totalScore=totalScore+5;
-    }else if(mbti1_3_3 === true){
+    }else if(mbti3_3 === true){
       totalScore=totalScore+13;
-    }else if(mbti1_3_4 === true){
+    }else if(mbti3_4 === true){
       totalScore=totalScore+20;
-    }else if(mbti1_3_5 === true){
+    }else if(mbti3_5 === true){
       totalScore=totalScore+25;
     }
 
-    if(mbti1_4_1 === true){
+    if(mbti4_1 === true){
       totalScore=totalScore+25;
-    }else if(mbti1_4_2 === true){
+    }else if(mbti4_2 === true){
       totalScore=totalScore+20;
-    }else if(mbti1_4_3 === true){
+    }else if(mbti4_3 === true){
       totalScore=totalScore+13;
-    }else if(mbti1_4_4 === true){
+    }else if(mbti4_4 === true){
       totalScore=totalScore+5;
     }
 
@@ -387,8 +387,8 @@ const Mbti1Screen = ({navigation, route}) => {
           <View><Text style={styles.questionTitleStyle}>광고를 보고 물건을 구매한 적이 많다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_1_1}>
-                {mbti1_1_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check1_1}>
+                {mbti1_1 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -397,8 +397,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_1_2}>
-                {mbti1_1_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check1_2}>
+                {mbti1_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -407,8 +407,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_1_3}>
-                {mbti1_1_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check1_3}>
+                {mbti1_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -417,8 +417,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_1_4}>
-                {mbti1_1_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check1_4}>
+                {mbti1_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -427,8 +427,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_1_5}>
-                {mbti1_1_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check1_5}>
+                {mbti1_5 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -443,8 +443,8 @@ const Mbti1Screen = ({navigation, route}) => {
             <View><Text style={styles.questionTitleStyle}>한 달 동안 돈을 어디에 쓸 것인지 계획한다.</Text></View>
             <View style={styles.questionInnerBox}>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_2_1}>
-                {mbti1_2_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check2_1}>
+                {mbti2_1 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -453,8 +453,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_2_2}>
-                {mbti1_2_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check2_2}>
+                {mbti2_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -463,8 +463,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_2_3}>
-                {mbti1_2_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check2_3}>
+                {mbti2_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -473,8 +473,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_2_4}>
-                {mbti1_2_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check2_4}>
+                {mbti2_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -483,8 +483,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_2_5}>
-                {mbti1_2_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check2_5}>
+                {mbti2_5 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -499,8 +499,8 @@ const Mbti1Screen = ({navigation, route}) => {
           <View><Text style={styles.questionTitleStyle}>우연히 좋은 물건을 보게 된다면 당장 사야한다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_3_1}>
-                {mbti1_3_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check3_1}>
+                {mbti3_1 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -509,8 +509,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_3_2}>
-                {mbti1_3_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check3_2}>
+                {mbti3_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -519,8 +519,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_3_3}>
-                {mbti1_3_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check3_3}>
+                {mbti3_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -529,8 +529,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_3_4}>
-                {mbti1_3_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check3_4}>
+                {mbti3_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -539,8 +539,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_3_5}>
-                {mbti1_3_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check3_5}>
+                {mbti3_5 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -555,8 +555,8 @@ const Mbti1Screen = ({navigation, route}) => {
           <View><Text style={styles.questionTitleStyle}>예산을 초과해서 사용하면 불안하다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_4_1}>
-                {mbti1_4_1 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check4_1}>
+                {mbti4_1 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -565,8 +565,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_4_2}>
-                {mbti1_4_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check4_2}>
+                {mbti4_2 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -575,8 +575,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_4_3}>
-                {mbti1_4_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check4_3}>
+                {mbti4_3 ? <View style={styles.answerCircle3_yes} /> : <View style={styles.answerCircle3_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -585,8 +585,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_4_4}>
-                {mbti1_4_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check4_4}>
+                {mbti4_4 ? <View style={styles.answerCircle2_yes} /> : <View style={styles.answerCircle2_no} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -595,8 +595,8 @@ const Mbti1Screen = ({navigation, route}) => {
               </View>
             </View>
             <View>
-              <TouchableOpacity style={styles.difDiv} onPress={check1_4_5}>
-                {mbti1_4_5 ? <View style={styles.answerCircle1_yes} /> : <View style={styles.answerCircle1_no} />}
+              <TouchableOpacity style={styles.difDiv} onPress={check4_5}>
+                {mbti4_5 ? <View style={styles.answerCircleyes} /> : <View style={styles.answerCircleno} />}
               </TouchableOpacity>
               <View style={styles.answerInnerDiv}>
                 <View style={styles.answerTextDiv}>
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
   },
-  answerCircle1_no: {
+  answerCircleno: {
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -722,7 +722,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
   },
-  answerCircle1_yes: {
+  answerCircleyes: {
     borderRadius: 20,
     width: 40,
     height: 40,
