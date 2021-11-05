@@ -24,12 +24,22 @@ const CheckRemember = (props) => {          //remember id component
 };
 
 const LoginScreen = ({navigation}) => {
+    const [url, setUrl] = useState('');
     const [rememberCheck, setRememberCheck] = useState(false);
     const getRememberCheck=(rememberCheck)=>{
       setRememberCheck(rememberCheck);
     }
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    
+    useEffect(()=>{
+      AsyncStorage.getItem('url', (err, result) => {
+        let tempUrl = result;
+        if(tempUrl!= null){
+          setUrl(tempUrl);
+        }
+    });
+    },[]);
     const handleSubmitButton = () => {
       if(!userID){
         alert('아이디를 입력해주세요.');
@@ -40,7 +50,7 @@ const LoginScreen = ({navigation}) => {
         return;
       }
       //navigation.replace('Survey');   //for test
-      fetch('/login', {
+      fetch(`${url}/login`, {
         method: 'POST',
         body: JSON.stringify({
           userID: userID,

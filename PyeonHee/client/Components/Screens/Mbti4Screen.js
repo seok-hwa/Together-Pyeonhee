@@ -16,6 +16,7 @@ import {
   TextInput,
 } from 'react-native';
 const Mbti4Screen = ({navigation, route}) => {
+  const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
 
   const [mbti1_1, setMbti1_1] = useState(false);
@@ -361,7 +362,7 @@ const Mbti4Screen = ({navigation, route}) => {
     console.log(route.params.mbti3Score);
     console.log('mbti4');
     console.log(totalScore);
-    fetch('/submitMbti', {
+    fetch(`${url}/submitMbti`, {
       method: 'POST',
       body: JSON.stringify({
         userID: userID,
@@ -399,11 +400,18 @@ const Mbti4Screen = ({navigation, route}) => {
   }
   useEffect(()=>{
     AsyncStorage.getItem('userID', (err, result) => {
-      const tempID = result;
+      let tempID = result;
       if(tempID!= null){
         setUserID(tempID);
       }
-    });
+    }).then(()=>{
+      AsyncStorage.getItem('url', (err, result) => {
+        let tempUrl = result;
+        if(tempUrl!= null){
+          setUrl(tempUrl);
+        }
+      })
+    })
   })
   return (
     <View style={styles.appSize}>

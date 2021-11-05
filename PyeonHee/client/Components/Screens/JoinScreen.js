@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import JoinRequestButton from '../Buttons/JoinRequestButton';
 import BackButton from '../Buttons/BackButton';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
     StyleSheet,
@@ -10,10 +11,20 @@ import {
 } from 'react-native';
 
 const JoinScreen = ({navigation}) => {
+    const [url, setUrl] = useState('');
     const [userID, setUserId] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userPasswordCheck, setUserPasswordCheck] = useState('');
+
+    useEffect(()=>{
+        AsyncStorage.getItem('url', (err, result) => {
+          let tempUrl = result;
+          if(tempUrl!= null){
+            setUrl(tempUrl);
+          }
+      });
+    },[]);
 
     const handleSubmitButton = () => {
         if(!userID){
@@ -51,7 +62,7 @@ const JoinScreen = ({navigation}) => {
             alert('비밀번호가 일치하지 않습니다.');
             return;
         }
-        fetch('/join', {
+        fetch(`${url}/signUp`, {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
