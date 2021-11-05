@@ -4,7 +4,7 @@
 ### 1. 동료평가
 burndown chart에서 수행한 task 개수로 평가 진행
 ### 2. Open Zoom Meeting
-평일 오후 7시~12시까지 zoom을 개설할테니 개발할떄 참여해서 진행
+평일 오후 7시~12시까지 zoom을 개설할테니 개발할때 참여해서 진행
 ### 3. Slack 이용
 카카오톡 확인이 늦어 캡스톤 디자인 개발과 관련된 모든 내용은 slack으로 진행
 ## 1. 개발 환경
@@ -53,3 +53,5 @@ https://reactnavigation.org/docs/tab-based-navigation/ 사이트 참고
 ### 3.1. 관련 패키지 설치
 #### 3.1.1. react native chart
 https://m.blog.naver.com/noisy2/222063240495 사이트 참고
+
+## 4. mbit 설문조사

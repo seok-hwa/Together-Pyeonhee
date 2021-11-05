@@ -39,6 +39,7 @@ const LoginScreen = ({navigation}) => {
         alert('비밀번호를 입력해주세요.');
         return;
       }
+      //navigation.replace('Survey');   //for test
       fetch('/login', {
         method: 'POST',
         body: JSON.stringify({
@@ -57,7 +58,11 @@ const LoginScreen = ({navigation}) => {
         if(responseJson.status === 'success'){
           AsyncStorage.setItem('userID', userID);
           console.log(userID, '저장');
-          navigation.replace('Main');
+          if(responseJson.userMbti === null){
+            navigation.replace('Survey');
+          }else{
+            navigation.replace('Main');
+          }
         }else{
           alert('아이디와 비밀번호를 다시 확인해주세요.');
           console.log('Check id or password');
@@ -67,7 +72,6 @@ const LoginScreen = ({navigation}) => {
         console.error(error);
       })
     }
-  
     return(         //login view
       <KeyboardAvoidingView style={styles.appSize}>
         <View style={styles.appLogoHeaderDiv}>
@@ -96,7 +100,7 @@ const LoginScreen = ({navigation}) => {
           <View style={styles.appFooter}>
             <View style={styles.appInnerFooter}>
               <LoginButton onPress={handleSubmitButton}/>
-              <JoinButton onPress={()=>navigation.replace('Join')}/>
+              <JoinButton onPress={()=>navigation.navigate('Join')}/>
             </View>
           </View>
         </View>
