@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 const LikeButton = (props) => {          //like
     const sendUserLike=()=>{
-        fetch('/like', {
+        fetch(`${props.url}/likeBudgetPlan/`, {
             method: 'POST',
             body: JSON.stringify({
                 budgetPlanID: props.budgetPlanID,
@@ -54,6 +54,7 @@ const LikeButton = (props) => {          //like
     );
 };
 const RecommendedPlanningScreen = () => {
+    const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [userAge, setUserAge] = useState(0);
     const [userIncome, setUserIncome] = useState(0);
@@ -122,42 +123,59 @@ const RecommendedPlanningScreen = () => {
         },
       ];
     
-    useEffect(()=>{
-        AsyncStorage.getItem('userID', (err, result) => {
-            const tempID = result;
-            if(tempID!= null){
-              setUserID(tempID);
+      useEffect(()=>{
+        let tempID;
+        let tempUrl;
+        AsyncStorage.getItem("userID")
+        .then(
+            (value) => {
+                if (value !== null){
+                    tempID=value
+                    setUserID(tempID);
+                }
             }
-        });
-        fetch(`/recommendedBudgetPlanning/${userID}`)   //get
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            console.log('response data');
-            console.log(responseJson);
-            setUserLikeCount(responseJson.userLikeCount);
-            setUserLike(responseJson.userLike);
-            setUserMBTI(responseJson.userMBTI);
-            setUserAge(responseJson.userAge);
-            setUserIncome(responseJson.userIncome);
-            setUserFixedExpense(responseJson.userFixedExpense);
-            setUserVariableExpense(responseJson.userVariableExpense);
-            setEducation(responseJson.education);
-            setTraffic(responseJson.traffic);
-            setShopping(responseJson.shopping);
-            setHobby(responseJson.hobby);
-            setInsurance(responseJson.insurance);
-            setManagement(responseJson.management);
-            setBudgetPlanID(responseJson.budgetPlanID);
-
-            setLoading(true);
-            
+        )
+        .then( () => {
+            AsyncStorage.getItem("url")
+            .then((value) => {
+                if (value !== null){
+                    tempUrl=value;
+                    setUrl(tempUrl);
+                }
+            })
+            .then(()=>{
+                console.log(tempID);
+                console.log(tempUrl);
+                fetch(`${tempUrl}/recommendedBudgetPlan?userID=${tempID}`)   //get
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('response data');
+                    console.log(responseJson);
+                    setUserLikeCount(responseJson.userLikeCount);
+                    setUserLike(responseJson.userLike);
+                    setUserMBTI(responseJson.userMBTI);
+                    setUserAge(responseJson.userAge);
+                    setUserIncome(responseJson.userIncome);
+                    setUserFixedExpense(responseJson.userFixedExpense);
+                    setUserVariableExpense(responseJson.userVariableExpense);
+                    setEducation(responseJson.education);
+                    setTraffic(responseJson.traffic);
+                    setShopping(responseJson.shopping);
+                    setHobby(responseJson.hobby);
+                    setInsurance(responseJson.insurance);
+                    setManagement(responseJson.management);
+                    setBudgetPlanID(responseJson.budgetPlanID);
+    
+                    setLoading(true);
+                })  
+            })
         })
         .catch((error)=>{
             console.error(error);
         })
-    }, [])    
+    }, [])   
     const handleSubmitButton = () => {
-        fetch('/budgetPlanningSave', {
+        fetch(`${url}/saveBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -206,7 +224,7 @@ const RecommendedPlanningScreen = () => {
                                     <Text>소비 성향 MBTI: {userMBTI}</Text>
                                 </View>
                                 <View style={styles.rightDivInCard}>
-                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
+                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount} url={url}/>
                                 </View>
                             </View>
                             <View style={styles.bottomDivInCard}>

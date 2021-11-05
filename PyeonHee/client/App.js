@@ -13,10 +13,15 @@ import MainScreen from './Components/Screens/MainScreen';
 import LoginScreen from './Components/Screens/LoginScreen';
 import JoinScreen from './Components/Screens/JoinScreen';
 import SurveyScreen from './Components/Screens/SurveyScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Stack = createNativeStackNavigator();
+const url = 'http://ip주소:포트넘버'; //로컬서버 접속 url
 
 function App(){         //navigation
+  useEffect(()=>{
+    AsyncStorage.setItem('url', url);
+  },[]);
   return(
     <NavigationContainer>
       <Stack.Navigator>
