@@ -29,7 +29,7 @@ https://www.youtube.com/watch?v=7_do8mOFPi4 사이트 참고해서 node.js 서�
 ### 1.4. Client/Server 통신
 client에서 fetch함수를 통해 node 로컬 서버로 접속할 때
 
-URL: http://IPv4주소:로컬서버포트/
+URL: 테스트시 App.js파일에서 url="http://IPv4주소:로컬서버포트/"로 변경후 실행
 
 ## 2. 로그인 및 회원가입
 
