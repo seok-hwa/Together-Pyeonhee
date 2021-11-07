@@ -1,8 +1,8 @@
 const config = {
     host : 'localhost',
-    id : 'seockas',
-    password : '355200',
-    database : 'pyeonhee'
+    id : '',
+    password : '',
+    database : ''
 };
 
 module.exports = config;
