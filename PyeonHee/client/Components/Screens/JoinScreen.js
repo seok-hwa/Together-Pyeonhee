@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import JoinRequestButton from '../Buttons/JoinRequestButton';
 import BackButton from '../Buttons/BackButton';
 import AsyncStorage from '@react-native-community/async-storage';
