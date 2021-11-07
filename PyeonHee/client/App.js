@@ -13,6 +13,7 @@ import MainScreen from './Components/Screens/MainScreen';
 import LoginScreen from './Components/Screens/LoginScreen';
 import JoinScreen from './Components/Screens/JoinScreen';
 import SurveyScreen from './Components/Screens/SurveyScreen';
+import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   View,
@@ -56,13 +57,6 @@ function App(){         //navigation
           }} 
           />
           <Stack.Screen
-            name="Join"
-            component={JoinScreen}
-            options={{
-              headerShown: false,
-          }} 
-          />
-          <Stack.Screen
             name="Survey"
             component={SurveyScreen}
             options={{
@@ -72,6 +66,20 @@ function App(){         //navigation
           <Stack.Screen
             name="Main"
             component={MainScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Iamport"
+            component={Iamport}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Join"
+            component={JoinScreen}
             options={{
               headerShown: false,
           }} 

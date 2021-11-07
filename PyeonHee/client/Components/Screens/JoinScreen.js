@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import JoinRequestButton from '../Buttons/JoinRequestButton';
 import BackButton from '../Buttons/BackButton';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage'
 
 import {
     StyleSheet,
@@ -9,13 +9,17 @@ import {
     View,
     TextInput,
 } from 'react-native';
-
-const JoinScreen = ({navigation}) => {
+const JoinScreen = ({route, navigation }) => {
     const [url, setUrl] = useState('');
     const [userID, setUserId] = useState('');
-    const [userEmail, setUserEmail] = useState('');
+    const [userAge, setUserAge] = useState(0);
     const [userPassword, setUserPassword] = useState('');
     const [userPasswordCheck, setUserPasswordCheck] = useState('');
+
+    const [userName, setUserName] = useState('');
+    const [userPhone, setUserPhone] = useState('');
+    
+    console.log('회원가입 데이터', route.params);
 
     useEffect(()=>{
         AsyncStorage.getItem('url', (err, result) => {
@@ -23,7 +27,9 @@ const JoinScreen = ({navigation}) => {
           if(tempUrl!= null){
             setUrl(tempUrl);
           }
-      });
+        });
+        setUserName(route.params.data.name);
+        setUserPhone(route.params.data.phone);
     },[]);
 
     const handleSubmitButton = () => {
@@ -36,13 +42,13 @@ const JoinScreen = ({navigation}) => {
             alert('아이디는 8~20자의 영문자, 숫자만 입력 가능합니다.');
             return;
         }
-        if(!userEmail){
-            alert('이메일을 입력해주세요.');
+        if(!userAge){
+            alert('나이를 입력해주세요.');
             return;
         }
-        var emCheck = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
-        if(!emCheck.test(userEmail)){
-            alert('이메일 형식이 올바르지 않습니다.');
+        var ageCheck = /^[0-9]{1,10}$/;
+        if(!ageCheck.test(userAge)){
+            alert('나이 형식이 올바르지 않습니다.');
             return;
         }
         if(!userPassword){
@@ -66,7 +72,9 @@ const JoinScreen = ({navigation}) => {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
-            userEmail: userEmail,
+            userAge: userAge,
+            userName: userName,
+            userPhone: userPhone,
             userPassword: userPassword,
             userPasswordCheck: userPasswordCheck,
           }),
@@ -93,11 +101,6 @@ const JoinScreen = ({navigation}) => {
     }
     return(
         <View style={styles.appSize}>
-            <View style={styles.appTopBar}>
-                <View style={styles.backButtonPosition}>
-                    <BackButton onPress={() => { if (navigation.canGoBack()) navigation.goBack(); else navigation.replace('Login')}}/>
-                </View>
-            </View>
             <View style={styles.appLogoHeaderDiv}>
                 <Text style={styles.logoJoin}>회원가입</Text>
             </View>
@@ -113,12 +116,12 @@ const JoinScreen = ({navigation}) => {
                     maxLength ={20}
                     />
                     <View style={styles.innerTextAlign}>
-                        <Text>이메일*</Text>
+                        <Text>나이*</Text>
                     </View>
                     <TextInput 
                     style={styles.textInputDesign}
-                    placeholder='ex)ex@ex.com'
-                    onChangeText={(userEmail) => setUserEmail(userEmail)}
+                    placeholder='숫자만 입력'
+                    onChangeText={(userAge) => setUserAge(userAge)}
                     maxLength ={50}
                     />
                     <View style={styles.innerTextAlign}>
@@ -150,28 +153,24 @@ const JoinScreen = ({navigation}) => {
 }
 const styles = StyleSheet.create({
     appSize: {
-        flex: 1,
-    },
-    appTopBar: {
-        flex: 1,
-    },
-    backButtonPosition: {
-        marginLeft: 10,
+        flex: 1, 
+        backgroundColor: 'white',
     },
     appLogoHeaderDiv: {
-        flex: 4,
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
     },
     logoJoin:{
-        marginTop: 40,
-        fontSize: 30,
+        marginTop: 10,
+        fontSize: 25,
         fontWeight: 'bold',
-        color: 'gray',
+        color: 'black',
     },
     appInnerBody: {
         flex: 1,
         alignItems: 'center',
+        marginTop: 40,
     },
     innerTextAlign: {
         flexDirection: 'row',
@@ -179,7 +178,9 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     appBody: {
-        flex: 10,
+        flex: 8,
+        borderTopWidth: 1,
+        borderColor: 'gray',
     },
     textInputDesign: {
         marginTop: 10,
@@ -188,8 +189,6 @@ const styles = StyleSheet.create({
         height: 40,
         width: 250,
         borderRadius: 5,
-        borderColor: 'black',
-        borderWidth: 1,
         backgroundColor: '#DCDCDC',
     },
     appFooter: {
