@@ -111,7 +111,7 @@ const LoginScreen = ({navigation}) => {
           <View style={styles.appFooter}>
             <View style={styles.appInnerFooter}>
               <LoginButton onPress={handleSubmitButton}/>
-              <JoinButton onPress={()=>navigation.navigate('Join')}/>
+              <JoinButton onPress={()=>navigation.navigate('Iamport')}/>
             </View>
           </View>
         </View>
