@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from './Components/Screens/MainScreen';
@@ -18,7 +18,7 @@ import {
   View,
 } from 'react-native';
 const Stack = createNativeStackNavigator();
-const url = 'http://ip주소:포트넘버'; //로컬서버 접속 url
+const url = 'http://192.168.0.7:8000'; //로컬서버 접속 url
 
 function App(){         //navigation
   const [userID, setUserID] = useState('');

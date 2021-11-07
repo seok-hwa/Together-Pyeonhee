@@ -41,6 +41,7 @@ const LoginScreen = ({navigation}) => {
     });
     },[]);
     const handleSubmitButton = () => {
+      //console.log(`${url}/login`);
       if(!userID){
         alert('아이디를 입력해주세요.');
         return;
