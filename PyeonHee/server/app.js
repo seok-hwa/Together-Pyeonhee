@@ -24,7 +24,8 @@ app.post('/login', function(req, res){
     var userID = req.body.userID;
     var userPassword = req.body.userPassword;
     db.query(`SELECT * FROM user WHERE user.id=? AND user.password = ?`,[userID,userPassword], function(error,result){
-        console.log(result);
+        console.log(result[0]);
+
         if(error) throw error;
         else{
             if(result.length === 0) {
@@ -37,12 +38,12 @@ app.post('/login', function(req, res){
             else{
                 const data = {
                     status : 'success',
-                    userID : result.id,
-                    userMbti : result.mbti,
-                    userAge : result.age,
+                    userID : result[0].id,
+                    userMbti : result[0].mbti,
+                    userAge : result[0].age,
                 }
                 console.log(data);
-                res.send(data);
+                //res.send(data);
             }
         }
     });
@@ -88,6 +89,37 @@ app.post('/signUp', function(req, res){
 // 설문조사 진행후 MBTI 제시
 app.post('/submitMbti', function(req,res){
     console.log(req.body)
+    var mbti_type = '';
+    var first_type = req.body.mbti1score;
+    var second_type = req.body.mbti1score;
+    var third_type = req.body.mbti1score;
+    var fourth_type = req.body.mbti1score;
+    if(first_type > 50){
+        mbti_type = mbti_type + 'I';
+    } else {
+        mbti_type = mbti_type + 'P';
+    }
+    if(second_type > 50){
+        mbti_type = mbti_type + 'H';
+    } else {
+        mbti_type = mbti_type + 'C';
+    }
+    if(third_type > 50){
+        mbti_type = mbti_type + 'O';
+    } else {
+        mbti_type = mbti_type + 'S';
+    }
+    if(fourth_type > 50){
+        mbti_type = mbti_type + 'E';
+    } else {
+        mbti_type = mbti_type + 'M';
+    }
+    console.log(mbti_type)
+    const data = {
+        mbtiType : mbti_type,
+    }
+    console.log(data);
+    res.send(data);
 });
 
 const PORT = 8000;
