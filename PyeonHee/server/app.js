@@ -24,6 +24,7 @@ app.post('/login', function(req, res){
     var userID = req.body.userID;
     var userPassword = req.body.userPassword;
     db.query(`SELECT * FROM user WHERE user.id=? AND user.password = ?`,[userID,userPassword], function(error,result){
+        console.log(result);
         if(error) throw error;
         else{
             if(result.length === 0) {
@@ -36,6 +37,9 @@ app.post('/login', function(req, res){
             else{
                 const data = {
                     status : 'success',
+                    id : result.id,
+                    mbti : result.mbti,
+                    age : result.age,
                 }
                 console.log(data);
                 res.send(data);
@@ -49,14 +53,16 @@ app.post('/signUp', function(req, res){
     console.log(req.body)
     var userID = req.body.userID;
     var userPassword = req.body.userPassword;
+    var userName = req.body.userName;
+    var userAge = req.body.userAge;
     // user table null 값 여부 변경 후 수정 예정
     db.query(`SELECT * FROM user WHERE user.id=?`,[userID], function(error1,check){
         console.log(check);
         if(error1) throw error1;
         else{
             if(check.length === 0) {
-                db.query(`insert into pyeonhee.user(id, password, name, mbti, age)
-                    values (?, ?, 'tom', 'ICSE', 27)`,[userID,userPassword], function(error2,result){
+                db.query(`insert into pyeonhee.user(id, password, name, age)
+                    values (?, ?, ?, ?)`,[userID,userPassword,userName,userAge], function(error2,result){
                     console.log(result);
                     if(error2) throw error2;
                     else {
@@ -77,6 +83,11 @@ app.post('/signUp', function(req, res){
             }
         }
     });
+});
+
+// 설문조사 진행후 MBTI 제시
+app.post('/submitMbti', function(req,res){
+    console.log(req.body)
 });
 
 const PORT = 8000;
