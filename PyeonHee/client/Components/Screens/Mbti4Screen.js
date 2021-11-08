@@ -348,6 +348,8 @@ const Mbti4Screen = ({navigation, route}) => {
     }
 
     console.log('mbti 설문조사 끝');
+    console.log('아이디');
+    console.log(userID);
     console.log('월수입');
     console.log(route.params.userMonthlyIncome);
     console.log('월 고정지출');
@@ -363,13 +365,13 @@ const Mbti4Screen = ({navigation, route}) => {
     console.log('mbti4');
     console.log(totalScore);
     /*
-    navigation.navigate('MbtiResult', {
+    navigation.navigate('MbtiResult', {       //result test
       mbti1Score: route.params.mbti1Score,
       mbti2Score: route.params.mbti2Score,
       mbti3Score: route.params.mbti3Score,
       mbti4Score: totalScore,
     });
-    */
+    */      
     fetch(`${url}/submitMbti`, {
       method: 'POST',
       body: JSON.stringify({
