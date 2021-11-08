@@ -43,7 +43,7 @@ app.post('/login', function(req, res){
                     userAge : result[0].age,
                 }
                 console.log(data);
-                //res.send(data);
+                res.send(data);
             }
         }
     });
@@ -89,11 +89,12 @@ app.post('/signUp', function(req, res){
 // 설문조사 진행후 MBTI 제시
 app.post('/submitMbti', function(req,res){
     console.log(req.body)
+    var userID = req.body.userID;
     var mbti_type = '';
     var first_type = req.body.mbti1score;
-    var second_type = req.body.mbti1score;
-    var third_type = req.body.mbti1score;
-    var fourth_type = req.body.mbti1score;
+    var second_type = req.body.mbti2score;
+    var third_type = req.body.mbti3score;
+    var fourth_type = req.body.mbti4score;
     if(first_type > 50){
         mbti_type = mbti_type + 'I';
     } else {
@@ -115,6 +116,10 @@ app.post('/submitMbti', function(req,res){
         mbti_type = mbti_type + 'M';
     }
     console.log(mbti_type)
+    db.query(`UPDATE user SET mbti = ? WHERE user.id = ?`,[mbti_type, userID], function(error,result){
+                    if(error) throw error;
+                    console.log(result);
+                });
     const data = {
         mbtiType : mbti_type,
     }
