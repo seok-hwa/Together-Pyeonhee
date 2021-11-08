@@ -384,7 +384,7 @@ const Mbti4Screen = ({navigation, route}) => {
       console.log(responseJson);
       if(responseJson.status === true){
         console.log('제출 완료');
-        navigation.replace('Main', {
+        navigation.navigate('MbtiResult', {
           mbti1Score: route.params.mbti1Score,
           mbti2Score: route.params.mbti2Score,
           mbti3Score: route.params.mbti3Score,

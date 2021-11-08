@@ -6,6 +6,7 @@ import Mbti1Screen from './Mbti1Screen';
 import Mbti2Screen from './Mbti2Screen';
 import Mbti3Screen from './Mbti3Screen';
 import Mbti4Screen from './Mbti4Screen';
+import MbtiResultScreen from './MbtiResultScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,13 @@ const SurveyScreen = ({ navigation}) => {
         <Stack.Screen
         name="Mbti4"
         component={Mbti4Screen}
+        options={{
+            headerShown: false,
+        }} 
+        />
+        <Stack.Screen
+        name="MbtiResult"
+        component={MbtiResultScreen}
         options={{
             headerShown: false,
         }} 
