@@ -37,9 +37,9 @@ app.post('/login', function(req, res){
             else{
                 const data = {
                     status : 'success',
-                    id : result.id,
-                    mbti : result.mbti,
-                    age : result.age,
+                    userId : result.id,
+                    userMbti : result.mbti,
+                    userAge : result.age,
                 }
                 console.log(data);
                 res.send(data);
