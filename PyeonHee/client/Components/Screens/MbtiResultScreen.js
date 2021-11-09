@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView, StyleSheet, Text, View, Button, } from 'react-native';
 import { StackedBarChart } from 'react-native-svg-charts';
+import MbtiToMain from '../Buttons/MbtiToMain';
 
 const MbtiScreen = ({navigation, route}) => {
   const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
-  // const [mbtiType, setMbtiType] = useState('');
-  // const [loading, setLoading] = useState(false);
+  const [mbtiType, setMbtiType] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     let tempID;
@@ -32,15 +33,15 @@ const MbtiScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             console.log(tempUrl);
-            // fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get
-            // .then((response)=>response.json())
-            // .then((responseJson)=>{
-            //     console.log('Mbti Info');
-            //     console.log(responseJson);
-            //     setMbtiType(responseJson.mbtiType);
+            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+               console.log('Mbti Info');
+               console.log(responseJson);
+               setMbtiType(responseJson.mbtiType);
 
-            //     setLoading(true);
-            // })  
+               setLoading(true);
+            })  
         })
     })
     .catch((error)=>{
@@ -189,6 +190,11 @@ const MbtiScreen = ({navigation, route}) => {
                     </View>
                 </View>
             </View>
+            <View style={styles.buttonPosition}>
+              <MbtiToMain onPress={()=>{
+                navigation.replace('Main');
+              }}/>
+            </View>
         </View>
       </ScrollView>
 
@@ -277,6 +283,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 30,
+  },
+  buttonPosition: {
+    alignItems: 'center',
   },
 });
 export default MbtiScreen;
