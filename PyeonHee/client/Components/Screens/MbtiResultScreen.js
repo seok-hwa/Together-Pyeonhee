@@ -78,8 +78,7 @@ const MbtiScreen = ({navigation, route}) => {
       <ScrollView style={styles.appBody}>
         <View>
             <View style={styles.typeBox}>
-                {/* <Text style={styles.typeText}>소비 성향 MBTI: {mbtiType} 형</Text> */}
-                <Text style={styles.typeText}>소비 성향 MBTI: PCSM 형</Text>
+                <Text style={styles.typeText}>소비 성향 MBTI: {mbtiType} 형</Text>
             </View>
 
             <View style={styles.resultBox}>
