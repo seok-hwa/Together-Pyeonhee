@@ -119,7 +119,6 @@ const JoinScreen = ({route, navigation }) => {
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){
-            console.log(userID, userPassword, '회원가입 완료');
             Popup.show({
                 type: 'success',
                 textBody: '회원가입이 완료 되었습니다.',
@@ -128,6 +127,7 @@ const JoinScreen = ({route, navigation }) => {
                 iconEnabled: false,
                 callback: () => Popup.hide()
             })
+            console.log(userID, userPassword, '회원가입 완료');
             navigation.replace('Login');
           }else{
             Popup.show({
