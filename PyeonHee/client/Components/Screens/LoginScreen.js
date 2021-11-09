@@ -51,7 +51,8 @@ const LoginScreen = ({navigation}) => {
         return;
       }
       //AsyncStorage.setItem('userID', userID); //for survey test
-      //navigation.replace('Survey');           //for survey test
+      // navigation.replace('Survey');           //for survey test
+      // navigation.replace('Main');           //for Main test
 
       fetch(`${url}/login`, {
         method: 'POST',
