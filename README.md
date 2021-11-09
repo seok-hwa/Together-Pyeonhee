@@ -108,3 +108,11 @@ https://m.blog.naver.com/noisy2/222063240495 사이트 참고
 ~~~
 yarn add css-tree css-select
 ~~~
+
+#### 4.1.2. PickerSelect
+~~~
+npm install react-native-picker-select
+~~~
+~~~
+npm install @react-native-picker/picker
+~~~
