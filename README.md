@@ -34,6 +34,13 @@ npm install nodemon
 npm install express
 ~~~
 
+#### 1.3.3. confirm
+~~~
+npm install react-native-status-bar-height
+~~~
+~~~
+npm install react-native-popup-confirm-toast
+~~~
 ### 1.4. Client/Server 통신
 client에서 fetch함수를 통해 node 로컬 서버로 접속할 때
 
