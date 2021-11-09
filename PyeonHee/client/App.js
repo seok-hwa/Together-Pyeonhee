@@ -19,7 +19,7 @@ import {
   View,
 } from 'react-native';
 const Stack = createNativeStackNavigator();
-const url = 'http://192.168.0.7:8000'; //로컬서버 접속 url
+const url = 'http://192.168.35.74:8000'; //로컬서버 접속 url
 
 function App(){         //navigation
   const [userID, setUserID] = useState('');
