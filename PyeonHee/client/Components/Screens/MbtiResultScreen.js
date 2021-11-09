@@ -8,7 +8,6 @@ const MbtiScreen = ({navigation, route}) => {
   const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
   const [mbtiType, setMbtiType] = useState('');
-  const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     let tempID;
@@ -39,9 +38,13 @@ const MbtiScreen = ({navigation, route}) => {
                console.log('Mbti Info');
                console.log(responseJson);
                setMbtiType(responseJson.mbtiType);
-
-               setLoading(true);
             })  
+            .catch((error)=>{
+              console.error(error);
+            })
+        })
+        .catch((error)=>{
+          console.error(error);
         })
     })
     .catch((error)=>{
