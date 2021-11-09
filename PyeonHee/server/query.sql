@@ -3,7 +3,7 @@ use pyeonhee;
 
 create table user
 (
-    id   varchar(10) not null primary key,
+    user_id   varchar(10) not null primary key,
     password varchar(15) not null,
     name varchar(12) not null,
     mbti varchar(4),
@@ -11,11 +11,11 @@ create table user
     tier varchar(10)
 );
 
-insert into pyeonhee.user(id, password, name, mbti, age, tier)
+insert into pyeonhee.user(user_id, password, name, mbti, age, tier)
 values ('abcd', '1234','john', 'ICSE', 20, 'Bronze');
-insert into pyeonhee.user(id, password, name, mbti, age, tier)
+insert into pyeonhee.user(user_id, password, name, mbti, age, tier)
 values ('efgh', '1234','james', 'PHOM', 23, 'Bronze');
-insert into pyeonhee.user(id, password, name, mbti, age, tier)
+insert into pyeonhee.user(user_id, password, name, mbti, age, tier)
 values ('pyeonhee', '1234','편히가계', 'PCSE', 26, 'Bronze');
 
 create table stamp (
@@ -24,7 +24,7 @@ create table stamp (
     diff int not null,
     description text,
     primary key (user_id,record_time),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 );
 
 create table point (
@@ -33,7 +33,7 @@ create table point (
     diff int not null,
     description text,
     primary key (user_id,record_time),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 );
 
 create table BudgetPlanning (
@@ -57,7 +57,7 @@ create table BudgetPlanning (
     etc_expense int not null,
 
     primary key (user_id,planning_number),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 );
 
 create table Savings ( 
@@ -72,7 +72,7 @@ create table Savings (
     finish_date datetime,
     all_savings_money int not null,
     primary key (user_id),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 );
 
 create table Storage (
@@ -80,7 +80,7 @@ create table Storage (
     planning_number int not null,
 
     primary key (user_id, planning_number),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 
 );
 
@@ -114,7 +114,7 @@ create table BankAddress (
     bank_address int not null, 
     bank_name varchar(12) not null,
     primary key (user_id),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 );
 create table FinancialProduct (
     product_name varchar(12) not null,
@@ -143,7 +143,7 @@ create table Reservation (
     checked boolean default false,
 
     primary key (consult_number),
-    foreign key (user_id) references pyeonhee.user (id)
+    foreign key (user_id) references pyeonhee.user (user_id)
 );
 /*
 insert into pyeonhee.user(id, name, mbti, age)
@@ -262,7 +262,7 @@ create table daily_data
     rest_money int not null,
 
     primary key (user_id),
-    foreign key (user_id) references pyeonhee.user(id)
+    foreign key (user_id) references pyeonhee.user(user_id)
 );
 
 
