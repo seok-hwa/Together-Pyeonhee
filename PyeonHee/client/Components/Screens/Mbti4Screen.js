@@ -386,9 +386,9 @@ const Mbti4Screen = ({navigation, route}) => {
       method: 'POST',
       body: JSON.stringify({
         userID: userID,
+        userAge: route.params.userAge,
         userMonthlyIncome: route.params.userMonthlyIncome,
-        userFixedExpense: route.params.userFixedExpense,
-        userSavings: route.params.userSavings,
+        userJob: route.params.userJob,
         mbti1Score: route.params.mbti1Score,
         mbti2Score: route.params.mbti2Score,
         mbti3Score: route.params.mbti3Score,

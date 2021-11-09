@@ -361,9 +361,9 @@ const Mbti2Screen = ({navigation, route}) => {
     console.log(totalScore);
 
     navigation.navigate('Mbti3',{
+      userAge: route.params.userAge,
       userMonthlyIncome: route.params.userMonthlyIncome,
-      userFixedExpense: route.params.userFixedExpense,
-      userSavings: route.params.userSavings,
+      userJob: route.params.userJob,
       mbti1Score: route.params.mbti1Score,
       mbti2Score: totalScore,
     });
