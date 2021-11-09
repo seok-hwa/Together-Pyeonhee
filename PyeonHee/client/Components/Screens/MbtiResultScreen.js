@@ -6,8 +6,8 @@ import { StackedBarChart } from 'react-native-svg-charts';
 const MbtiScreen = ({navigation, route}) => {
   const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
-  const [mbtiType, setMbtiType] = useState('');
-  const [loading, setLoading] = useState(false);
+  // const [mbtiType, setMbtiType] = useState('');
+  // const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
     let tempID;
@@ -32,15 +32,15 @@ const MbtiScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             console.log(tempUrl);
-            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('Mbti Info');
-                console.log(responseJson);
-                setMbtiType(responseJson.mbtiType);
+            // fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get
+            // .then((response)=>response.json())
+            // .then((responseJson)=>{
+            //     console.log('Mbti Info');
+            //     console.log(responseJson);
+            //     setMbtiType(responseJson.mbtiType);
 
-                setLoading(true);
-            })  
+            //     setLoading(true);
+            // })  
         })
     })
     .catch((error)=>{
@@ -78,8 +78,7 @@ const MbtiScreen = ({navigation, route}) => {
       <ScrollView style={styles.appBody}>
         <View>
             <View style={styles.typeBox}>
-                {/* <Text style={styles.typeText}>소비 성향 MBTI: {mbtiType} 형</Text> */}
-                <Text style={styles.typeText}>소비 성향 MBTI: PCSM 형</Text>
+                <Text style={styles.typeText}>소비 성향 MBTI: {route.params.mbtiType} 형</Text>
             </View>
 
             <View style={styles.resultBox}>
