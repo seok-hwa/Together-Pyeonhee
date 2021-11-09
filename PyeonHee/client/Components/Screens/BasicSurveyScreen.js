@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import NextToMbtiButton from '../Buttons/NextToMbtiButton';
+import { JOBS, INCOMES } from './constants';
+import RNPickerSelect from 'react-native-picker-select';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,40 +19,61 @@ import {
 } from 'react-native';
 const BasicSurveyScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
-  const [userMonthlyIncome, setUserMonthlyIncome] = useState(0);
-  const [userFixedExpense, setUserFixedExpense] = useState(0);
-  const [userSavings, setUserSavings] = useState(0);
+  const [userMonthlyIncome, setUserMonthlyIncome] = useState('');
+  const [userAge, setUserAge] = useState(0);
+  const [userJob, setUserJob] = useState('');
 
+  const placeholder = '선택';
   const handleSubmitButton = () => {
-    if(!userMonthlyIncome){
-      alert('월수입을 입력해주세요.');
+    if(!userAge){
+      Popup.show({
+        type: 'success',
+        textBody: '나이를 입력해주세요.',
+        buttonText: '확인',
+        okButtonStyle: {backgroundColor: '#0000CD'},
+        iconEnabled: false,
+        callback: () => Popup.hide()
+      })
       return;
     }
-    var numCheck = /^[0-9]{1,20}$/;
-    if(!numCheck.test(userMonthlyIncome)){
-        alert('숫자만 입력가능합니다.');
+    var ageCheck = /^[0-9]{1,3}$/;
+    if(!ageCheck.test(userAge)){
+        Popup.show({
+          type: 'success',
+          textBody: '숫자만 입력가능합니다.',
+          buttonText: '확인',
+          okButtonStyle: {backgroundColor: '#0000CD'},
+          iconEnabled: false,
+          callback: () => Popup.hide()
+        })
         return;
     }
-    if(!userFixedExpense){
-      alert('월 고정지출을 입력해주세요.');
+    if(!userJob){
+      Popup.show({
+        type: 'success',
+        textBody: '직업군을 선택해주세요.',
+        buttonText: '확인',
+        okButtonStyle: {backgroundColor: '#0000CD'},
+        iconEnabled: false,
+        callback: () => Popup.hide()
+      })
       return;
     }
-    if(!numCheck.test(userFixedExpense)){
-      alert('숫자만 입력가능합니다.');
-      return;
-    }
-    if(!userSavings){
-      alert('월 저축액를 입력해주세요.');
-      return;
-    }
-    if(!numCheck.test(userSavings)){
-      alert('숫자만 입력가능합니다.');
+    if(!userMonthlyIncome){
+      Popup.show({
+        type: 'success',
+        textBody: '월 수입을 선택해주세요.',
+        buttonText: '확인',
+        okButtonStyle: {backgroundColor: '#0000CD'},
+        iconEnabled: false,
+        callback: () => Popup.hide()
+      })
       return;
     }
     navigation.navigate('Mbti1', {
+      userAge: userAge,
       userMonthlyIncome: userMonthlyIncome,
-      userFixedExpense: userFixedExpense,
-      userSavings: userSavings,
+      userJob: userJob,
     });
   }
   useEffect(()=>{
@@ -61,6 +85,7 @@ const BasicSurveyScreen = ({navigation}) => {
     });
   })
   return (
+    <Root>
     <View style={styles.appSize}>
       <View style={styles.appLogoHeaderDiv}>
         <Text style={styles.logoText}>설문조사전 기본 정보</Text>
@@ -68,47 +93,52 @@ const BasicSurveyScreen = ({navigation}) => {
       <View style={styles.appBody}>
         <View style={styles.appInnerBody}>
           <View style={styles.innerTextAlign}>
+              <Text style={styles.questText}>나이</Text>
+          </View>
+          <View style={styles.textDiv}>
+            <TextInput 
+            style={styles.textInputDesign}
+            placeholder='숫자만 입력'
+            maxLength ={3}
+            onChangeText={(userAge) => setUserAge(userAge)}
+            />
+            <Text style={styles.wonText}>세</Text>
+          </View>
+          <View style={styles.innerTextAlign}>
+              <Text style={styles.questText}>직업</Text>
+          </View>  
+          <View style={styles.textDiv}>
+            <RNPickerSelect
+              placeholder={{
+                label: placeholder,
+                color: 'gray',
+              }}
+              style={pickerSelectStyles}
+                    onValueChange={(value) => setUserJob(value)}
+                    items={JOBS}
+            />    
+          </View>
+          <View style={styles.innerTextAlign}>
               <Text style={styles.questText}>월 수입</Text>
           </View>
           <View style={styles.textDiv}>
-            <TextInput 
-            style={styles.textInputDesign}
-            placeholder='숫자만 입력'
-            maxLength ={20}
-            onChangeText={(userMonthlyIncome) => setUserMonthlyIncome(userMonthlyIncome)}
+            <RNPickerSelect
+              placeholder={{
+                label: placeholder,
+                color: 'gray',
+              }}
+              style={pickerSelectStyles}
+                    onValueChange={(value) => setUserMonthlyIncome(value)}
+                    items={INCOMES}
             />
-            <Text style={styles.wonText}> 원</Text>
           </View>
-          <View style={styles.innerTextAlign}>
-              <Text style={styles.questText}>월 고정지출</Text>
-          </View>
-          <View style={styles.textDiv}>
-            <TextInput 
-            style={styles.textInputDesign}
-            placeholder='숫자만 입력'
-            maxLength ={20}
-            onChangeText={(userFixedExpense) => setUserFixedExpense(userFixedExpense)}
-            />
-            <Text style={styles.wonText}> 원</Text>
-          </View>
-          <View style={styles.innerTextAlign}>
-              <Text style={styles.questText}>월 저축액</Text>
-          </View>
-          <View style={styles.textDiv}>
-            <TextInput 
-            style={styles.textInputDesign}
-            placeholder='숫자만 입력'
-            maxLength ={20}
-            onChangeText={(userSavings) => setUserSavings(userSavings)}
-            />
-            <Text style={styles.wonText}> 원</Text>
-          </View>            
         </View>
       </View>
       <View style={styles.appFooter}>
         <NextToMbtiButton onPress={handleSubmitButton}/>  
       </View> 
     </View>
+    </Root>
   )
 }
 const styles = StyleSheet.create({
@@ -155,13 +185,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     height: 40,
-    width: 240,
+    width: 220,
     borderRadius: 3,
     backgroundColor: '#DCDCDC',
   },
   appFooter: {
     flex: 2,
     alignItems: 'center',
+  },
+});
+const pickerSelectStyles = StyleSheet.create({
+  inputAndroid: {
+      height: 40, 
+      width: 240, 
+      backgroundColor: '#DCDCDC',
+      borderColor: '#000000',  
+      borderRadius: 3,
+      padding: 10,
   },
 });
 export default BasicSurveyScreen;
