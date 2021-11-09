@@ -7,6 +7,10 @@ burndown chart에서 수행한 task 개수로 평가 진행
 평일 오후 7시~12시까지 zoom을 개설할테니 개발할때 참여해서 진행
 ### 3. Slack 이용
 카카오톡 확인이 늦어 캡스톤 디자인 개발과 관련된 모든 내용은 slack으로 진행
+<br>
+<br>
+<br>
+<br>
 
 ## 1. 개발 환경
 ### 1.1. Client
@@ -50,6 +54,10 @@ const url = 'http://IPv4주소:로컬서버포트';
 
 ### 1.5. Local MySQL 연결(server/)
 MySQL 연결할 때 config.js 파일에서 해당하는 내용들 기입 후 테스트 진행할 것 수정하고 다시 merge request 진행시 지우고 merge request 진행
+<br>
+<br>
+<br>
+<br>
 
 ## 2. 로그인 및 회원가입
 
@@ -95,12 +103,20 @@ npm install styled-system
 ### 2.2. 관련 이슈
 1) 아이디 저장하기가 필요한가?
 2) 프록시 설정 필요
+<br>
+<br>
+<br>
+<br>
 
 ## 3. 추천 예산 계획서
 
 ### 3.1. 관련 패키지 설치
 #### 3.1.1. react native chart(client/)
 https://m.blog.naver.com/noisy2/222063240495 사이트 참고
+<br>
+<br>
+<br>
+<br>
 
 ## 4. mbit 설문조사
 
