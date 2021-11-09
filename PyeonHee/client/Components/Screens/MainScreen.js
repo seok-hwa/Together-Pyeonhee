@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
-import AccountScreen from './AccountScreen';
-import FinanceScreen from './FinanceScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,10 +17,6 @@ const MainScreen = ({ navigation}) => {
             iconName = 'person-outline'
           } else if (route.name === 'Home') {
             iconName = 'grid-outline';
-          } else if (route.name === 'Account') {
-            iconName = 'create-outline';
-          } else if (route.name === 'Finance') {
-            iconName = 'business-outline';
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -31,8 +25,6 @@ const MainScreen = ({ navigation}) => {
       })}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Account" component={AccountScreen} />
-        <Tab.Screen name="Finance" component={FinanceScreen} />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
   );
