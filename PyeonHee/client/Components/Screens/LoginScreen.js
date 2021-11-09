@@ -3,6 +3,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
+
 import {
     StyleSheet,
     Text,
@@ -43,11 +45,25 @@ const LoginScreen = ({navigation}) => {
     const handleSubmitButton = () => {
       //console.log(`${url}/login`);
       if(!userID){
-        alert('아이디를 입력해주세요.');
+        Popup.show({
+          type: 'success',
+          textBody: '아이디를 입력해주세요.',
+          buttonText: '확인',
+          okButtonStyle: {backgroundColor: '#0000CD'},
+          iconEnabled: false,
+          callback: () => Popup.hide()
+        })
         return;
       }
       if(!userPassword){
-        alert('비밀번호를 입력해주세요.');
+        Popup.show({
+          type: 'success',
+          textBody: '비밀번호를 입력해주세요.',
+          buttonText: '확인',
+          okButtonStyle: {backgroundColor: '#0000CD'},
+          iconEnabled: false,
+          callback: () => Popup.hide()
+        })
         return;
       }
       AsyncStorage.setItem('userID', userID); //for survey test
@@ -77,7 +93,14 @@ const LoginScreen = ({navigation}) => {
             navigation.replace('Main');
           }
         }else{
-          alert('아이디와 비밀번호를 다시 확인해주세요.');
+          Popup.show({
+            type: 'success',
+            textBody: '아이디 또는 비밀번호를 다시 확인해주세요.',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
+          })
           console.log('Check id or password');
         }
       })
@@ -86,6 +109,7 @@ const LoginScreen = ({navigation}) => {
       })*/
     }
     return(         //login view
+      <Root>
       <KeyboardAvoidingView style={styles.appSize}>
         <View style={styles.appLogoHeaderDiv}>
           <Text style={styles.logoPyeon}>편히</Text>
@@ -118,6 +142,7 @@ const LoginScreen = ({navigation}) => {
           </View>
         </View>
       </KeyboardAvoidingView>
+      </Root>
     );
 };
 const styles = StyleSheet.create({
