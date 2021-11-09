@@ -121,6 +121,7 @@ app.post('/submitMbti', function(req,res){
                     console.log(result);
                 });
     const data = {
+        status : true,
         mbtiType : mbti_type,
     }
     console.log(data);
