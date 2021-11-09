@@ -89,11 +89,13 @@ app.post('/signUp', function(req, res){
 app.post('/submitMbti', function(req,res){
     console.log(req.body)
     var userID = req.body.userID;
+    var userAge = req.body.userAge;
     var mbti_type = '';
     var first_type = req.body.mbti1score;
     var second_type = req.body.mbti2score;
     var third_type = req.body.mbti3score;
     var fourth_type = req.body.mbti4score;
+    
     if(first_type > 50){
         mbti_type = mbti_type + 'I';
     } else {
@@ -114,15 +116,19 @@ app.post('/submitMbti', function(req,res){
     } else {
         mbti_type = mbti_type + 'M';
     }
-    console.log(mbti_type)
-    db.query(`UPDATE user SET mbti = ? WHERE user.user_id = ?`,[mbti_type, userID], function(error,result){
-                    if(error) throw error;
-                    console.log(result);
-                });
+    console.log(mbti_type);
+    db.query(`UPDATE user SET mbti = ? WHERE user.user_id = ?`,[mbti_type, userID], function(error2,result2){
+        if(error2) throw error2;
+         console.log(result2);
+    });
+    db.query(`UPDATE user SET age = ? WHERE user.user_id = ?`,[userAge, userID], function(error1,result1){
+        if(error1) throw error1;
+        console.log(result1);
+    });
     const data = {
         status : true,
         mbtiType : mbti_type,
-    }
+    };
     console.log(data);
     res.send(data);
 });
