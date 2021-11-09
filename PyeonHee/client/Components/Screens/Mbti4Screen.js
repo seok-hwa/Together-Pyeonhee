@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import MbtiSubmitButton from '../Buttons/MbtiSubmitButton';
 import MbtiPrevButton from '../Buttons/MbtiPrevButton';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
   SafeAreaView,
   ScrollView,
@@ -286,22 +287,31 @@ const Mbti4Screen = ({navigation, route}) => {
       setMbti4_5(!mbti4_5);
     }
   }
-
+  function checkAnswer(){
+    Popup.show({
+      type: 'success',
+      textBody: '체크 안 된 문항이 있습니다.',
+      buttonText: '확인',
+      okButtonStyle: {backgroundColor: '#0000CD'},
+      iconEnabled: false,
+      callback: () => Popup.hide()
+    })
+  }
   const handleSubmitButton = () => {
     if(mbti1_1 === false && mbti1_2 === false && mbti1_3 === false && mbti1_4 === false && mbti1_5 === false){
-      alert('체크 안 된 문항이 있습니다.');
+      checkAnswer();
       return;
     }
     if(mbti2_1 === false && mbti2_2 === false && mbti2_3 === false && mbti2_4 === false && mbti2_5 === false){
-      alert('체크 안 된 문항이 있습니다.');
+      checkAnswer();
       return;
     }
     if(mbti3_1 === false && mbti3_2 === false && mbti3_3 === false && mbti3_4 === false && mbti3_5 === false){
-      alert('체크 안 된 문항이 있습니다.');
+      checkAnswer();
       return;
     }
     if(mbti4_1 === false && mbti4_2 === false && mbti4_3 === false && mbti4_4 === false && mbti4_5 === false){
-      alert('체크 안 된 문항이 있습니다.');
+      checkAnswer();
       return;
     }
 
@@ -364,6 +374,7 @@ const Mbti4Screen = ({navigation, route}) => {
     console.log(route.params.mbti3Score);
     console.log('mbti4');
     console.log(totalScore);
+    
     /*
     navigation.navigate('MbtiResult', {       //result test
       mbti1Score: route.params.mbti1Score,
@@ -371,14 +382,15 @@ const Mbti4Screen = ({navigation, route}) => {
       mbti3Score: route.params.mbti3Score,
       mbti4Score: totalScore,
     });
-    */      
+    */
+
     fetch(`${url}/submitMbti`, {
       method: 'POST',
       body: JSON.stringify({
         userID: userID,
+        userAge: route.params.userAge,
         userMonthlyIncome: route.params.userMonthlyIncome,
-        userFixedExpense: route.params.userFixedExpense,
-        userSavings: route.params.userSavings,
+        userJob: route.params.userJob,
         mbti1Score: route.params.mbti1Score,
         mbti2Score: route.params.mbti2Score,
         mbti3Score: route.params.mbti3Score,
@@ -399,6 +411,7 @@ const Mbti4Screen = ({navigation, route}) => {
           mbti2Score: route.params.mbti2Score,
           mbti3Score: route.params.mbti3Score,
           mbti4Score: totalScore,
+          mbtiType: responseJson.mbtiType,
         });
       }else{
         console.log('fail to submit.');
@@ -424,6 +437,7 @@ const Mbti4Screen = ({navigation, route}) => {
     })
   })
   return (
+    <Root>
     <View style={styles.appSize}>
       <View style={styles.appTopBar}>
         <View style={styles.barTop}>
@@ -670,6 +684,7 @@ const Mbti4Screen = ({navigation, route}) => {
         </View>
       </ScrollView>
     </View>
+    </Root>
   )
 }
 const styles = StyleSheet.create({

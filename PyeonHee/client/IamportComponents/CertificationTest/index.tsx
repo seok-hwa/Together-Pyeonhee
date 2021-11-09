@@ -16,6 +16,7 @@ import {
 } from 'native-base';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { styles } from 'styled-system';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 type Props = StackScreenProps<RootStackParamList, 'CertificationTest'>;
 
@@ -31,6 +32,7 @@ function CertificationTest({ navigation }: Props) {
   const insets = useSafeAreaInsets();
 
   return (
+    <Root>
     <SafeAreaView
       style={{ flex: 1, justifyContent: 'center', backgroundColor: 'white', paddingTop: -insets.top, borderTopWidth: 1, borderColor: 'gray',}}
     >
@@ -82,20 +84,48 @@ function CertificationTest({ navigation }: Props) {
             /* @ts-ignore */
             onPress={() => {
                 if(carrier === ''){
-                    alert('통신사를 선택해주세요.');
+                  Popup.show({
+                    type: 'success',
+                    textBody: '통신사를 선택해주세요.',
+                    buttonText: '확인',
+                    okButtonStyle: {backgroundColor: '#0000CD'},
+                    iconEnabled: false,
+                    callback: () => Popup.hide()
+                  })
                     return;
                 }
                 if(name === ''){
-                    alert('이름을 입력해주세요.');
+                  Popup.show({
+                    type: 'success',
+                    textBody: '이름을 입력해주세요.',
+                    buttonText: '확인',
+                    okButtonStyle: {backgroundColor: '#0000CD'},
+                    iconEnabled: false,
+                    callback: () => Popup.hide()
+                  })
                     return;
                 }
                 if(phone === ''){
-                    alert('핸드폰 번호를 입력해주세요.');
+                  Popup.show({
+                    type: 'success',
+                    textBody: '핸드폰 번호를 입력해주세요.',
+                    buttonText: '확인',
+                    okButtonStyle: {backgroundColor: '#0000CD'},
+                    iconEnabled: false,
+                    callback: () => Popup.hide()
+                  })
                     return;
                 }
                 var phoneCheck = /^[0-9]{11}$/;
                 if(!phoneCheck.test(phone)){
-                    alert('전화번호를 다시 확인해주세요.');
+                  Popup.show({
+                    type: 'success',
+                    textBody: '핸드폰 번호를 확인 해주세요.',
+                    buttonText: '확인',
+                    okButtonStyle: {backgroundColor: '#0000CD'},
+                    iconEnabled: false,
+                    callback: () => Popup.hide()
+                  })
                     return;
                 }
                 
@@ -120,6 +150,7 @@ function CertificationTest({ navigation }: Props) {
         </FormControl>
       </ScrollView>
     </SafeAreaView>
+    </Root>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import JoinRequestButton from '../Buttons/JoinRequestButton';
 import BackButton from '../Buttons/BackButton';
 import AsyncStorage from '@react-native-community/async-storage'
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 import {
     StyleSheet,
@@ -12,7 +13,6 @@ import {
 const JoinScreen = ({route, navigation }) => {
     const [url, setUrl] = useState('');
     const [userID, setUserId] = useState('');
-    const [userAge, setUserAge] = useState(0);
     const [userPassword, setUserPassword] = useState('');
     const [userPasswordCheck, setUserPasswordCheck] = useState('');
 
@@ -34,45 +34,77 @@ const JoinScreen = ({route, navigation }) => {
 
     const handleSubmitButton = () => {
         if(!userID){
-          alert('아이디를 입력해주세요.');
+            Popup.show({
+                type: 'success',
+                textBody: '아이디를 입력해주세요.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+              })
           return;
         }
         var idCheck = /^[a-zA-z0-9]{8,20}$/;
         if(!idCheck.test(userID)){
-            alert('아이디는 8~20자의 영문자, 숫자만 입력 가능합니다.');
-            return;
-        }
-        if(!userAge){
-            alert('나이를 입력해주세요.');
-            return;
-        }
-        var ageCheck = /^[0-9]{1,10}$/;
-        if(!ageCheck.test(userAge)){
-            alert('나이 형식이 올바르지 않습니다.');
+            Popup.show({
+                type: 'success',
+                textBody: '아이디는 8~20자의 영문자, 숫자만 \n입력 가능합니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
             return;
         }
         if(!userPassword){
-          alert('비밀번호를 입력해주세요.');
-          return;
+            Popup.show({
+                type: 'success',
+                textBody: '비밀번호를 입력해주세요.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
+            return;
         }
         var pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
         if(!pwCheck.test(userPassword)){
-            alert('비밀번호는 8~25자의 영문자, 숫자, 특수문자의 조합으로 입력해야 합니다.');
+            Popup.show({
+                type: 'success',
+                textBody: '비밀번호는 8~25자의 영문자, 숫자, 특수문자의\n조합으로 입력해야 합니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
             return;
         }
         if(!userPasswordCheck){
-            alert('비밀번호 확인을 입력해주세요.');
+            Popup.show({
+                type: 'success',
+                textBody: '비밀번호 확인을 입력해주세요.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
             return;
         }
         if(userPassword != userPasswordCheck){
-            alert('비밀번호가 일치하지 않습니다.');
+            Popup.show({
+                type: 'success',
+                textBody: '비밀번호가 일치하지 않습니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
             return;
         }
         fetch(`${url}/signUp`, {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
-            userAge: userAge,
             userName: userName,
             userPhone: userPhone,
             userPassword: userPassword,
@@ -87,11 +119,25 @@ const JoinScreen = ({route, navigation }) => {
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){
+            Popup.show({
+                type: 'success',
+                textBody: '회원가입이 완료 되었습니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
             console.log(userID, userPassword, '회원가입 완료');
-            alert('회원가입이 완료되었습니다.');
             navigation.replace('Login');
           }else{
-            alert('이미 존재하는 아이디입니다.');
+            Popup.show({
+                type: 'success',
+                textBody: '이미 존재하는 아이디입니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
             console.log('fail to join. id is already exist.');
           }
         })
@@ -100,6 +146,7 @@ const JoinScreen = ({route, navigation }) => {
         })
     }
     return(
+        <Root>
         <View style={styles.appSize}>
             <View style={styles.appLogoHeaderDiv}>
                 <Text style={styles.logoJoin}>회원가입</Text>
@@ -114,15 +161,6 @@ const JoinScreen = ({route, navigation }) => {
                     placeholder='8~20자(영문자+숫자만 사용)'
                     onChangeText={(userID) => setUserId(userID)}
                     maxLength ={20}
-                    />
-                    <View style={styles.innerTextAlign}>
-                        <Text>나이*</Text>
-                    </View>
-                    <TextInput 
-                    style={styles.textInputDesign}
-                    placeholder='숫자만 입력'
-                    onChangeText={(userAge) => setUserAge(userAge)}
-                    maxLength ={50}
                     />
                     <View style={styles.innerTextAlign}>
                         <Text>비밀번호*</Text>
@@ -149,6 +187,7 @@ const JoinScreen = ({route, navigation }) => {
                 <JoinRequestButton onPress={handleSubmitButton}/>
             </View>
         </View>
+        </Root>
     )
 }
 const styles = StyleSheet.create({
@@ -170,7 +209,7 @@ const styles = StyleSheet.create({
     appInnerBody: {
         flex: 1,
         alignItems: 'center',
-        marginTop: 40,
+        marginTop: 100,
     },
     innerTextAlign: {
         flexDirection: 'row',

@@ -15,11 +15,16 @@ import JoinScreen from './Components/Screens/JoinScreen';
 import SurveyScreen from './Components/Screens/SurveyScreen';
 import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
+
 import {
   View,
 } from 'react-native';
 const Stack = createNativeStackNavigator();
+<<<<<<< HEAD
 const url = 'http://192.168.203.2:8000'; //로컬서버 접속 url
+=======
+const url = 'http://ip주소:포트넘버'; //로컬서버 접속 url
+>>>>>>> upstream/main
 
 function App(){         //navigation
   const [userID, setUserID] = useState('');
@@ -94,6 +99,34 @@ function App(){         //navigation
           <Stack.Screen
             name="Main"
             component={MainScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+           <Stack.Screen
+            name="Survey"
+            component={SurveyScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Iamport"
+            component={Iamport}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="Join"
+            component={JoinScreen}
             options={{
               headerShown: false,
           }} 

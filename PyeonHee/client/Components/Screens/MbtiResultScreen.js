@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView, StyleSheet, Text, View, Button, } from 'react-native';
 import { StackedBarChart } from 'react-native-svg-charts';
+import MbtiToMain from '../Buttons/MbtiToMain';
 
 const MbtiScreen = ({navigation, route}) => {
   const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
-  const [mbtiType, setMbtiType] = useState('');
-  const [loading, setLoading] = useState(false);
+  //const [mbtiType, setMbtiType] = useState('');
 
   useEffect(()=>{
     let tempID;
@@ -32,15 +32,20 @@ const MbtiScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             console.log(tempUrl);
-            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get
+            /*
+            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get 나중에 마이페이지를 통해 페이지 접속할 때 사용
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('Mbti Info');
-                console.log(responseJson);
-                setMbtiType(responseJson.mbtiType);
-
-                setLoading(true);
+               console.log('Mbti Info');
+               console.log(responseJson);
+               setMbtiType(responseJson.mbtiType);
             })  
+            .catch((error)=>{
+              console.error(error);
+            })*/
+        })
+        .catch((error)=>{
+          console.error(error);
         })
     })
     .catch((error)=>{
@@ -65,7 +70,6 @@ const MbtiScreen = ({navigation, route}) => {
     right: 100-route.params.mbti4Score
   },]
 
-
   return (
     <View style={styles.appSize}>
 
@@ -78,7 +82,7 @@ const MbtiScreen = ({navigation, route}) => {
       <ScrollView style={styles.appBody}>
         <View>
             <View style={styles.typeBox}>
-                <Text style={styles.typeText}>소비 성향 MBTI: {mbtiType} 형</Text>
+                <Text style={styles.typeText}>소비 성향 MBTI: {route.params.mbtiType} 형</Text>
             </View>
 
             <View style={styles.resultBox}>
@@ -189,6 +193,11 @@ const MbtiScreen = ({navigation, route}) => {
                     </View>
                 </View>
             </View>
+            <View style={styles.buttonPosition}>
+              <MbtiToMain onPress={()=>{
+                navigation.replace('Main');
+              }}/>
+            </View>
         </View>
       </ScrollView>
 
@@ -277,6 +286,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 30,
+  },
+  buttonPosition: {
+    alignItems: 'center',
   },
 });
 export default MbtiScreen;
