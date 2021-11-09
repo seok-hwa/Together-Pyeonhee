@@ -3,7 +3,7 @@ use pyeonhee;
 
 create table user
 (
-    id   varchar(10) not null primary key,
+    user_id   varchar(10) not null primary key,
     password varchar(15) not null,
     name varchar(12) not null,
     mbti varchar(4),
@@ -17,6 +17,21 @@ insert into pyeonhee.user(id, password, name, mbti, age, tier)
 values ('efgh', '1234','james', 'PHOM', 23, 'Bronze');
 insert into pyeonhee.user(id, password, name, mbti, age, tier)
 values ('pyeonhee', '1234','편히가계', 'PCSE', 26, 'Bronze');
+
+insert into pyeonhee.BudgetPlanning(user_id, planned_date, planning_number,
+            user_mbti, user_income, user_savings, like_number, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('abcd', now(), 1, 'ICSE', 3000000, 1000000, 12, 500000, 150000, 200000, 100000,
+        200000, 200000, 0, 0, 150000, 0);
+insert into pyeonhee.BudgetPlanning(user_id, planned_date, planning_number,
+            user_mbti, user_income, user_savings, like_number, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('efgh', now(), 2, 'PHOM', 2500000, 800000, 12, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
 
 create table stamp (
     user_id varchar(10) not null,
