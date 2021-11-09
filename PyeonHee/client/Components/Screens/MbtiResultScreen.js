@@ -7,7 +7,7 @@ import MbtiToMain from '../Buttons/MbtiToMain';
 const MbtiScreen = ({navigation, route}) => {
   const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
-  const [mbtiType, setMbtiType] = useState('');
+  //const [mbtiType, setMbtiType] = useState('');
 
   useEffect(()=>{
     let tempID;
@@ -32,7 +32,8 @@ const MbtiScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             console.log(tempUrl);
-            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get
+            /*
+            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get 나중에 마이페이지를 통해 페이지 접속할 때 사용
             .then((response)=>response.json())
             .then((responseJson)=>{
                console.log('Mbti Info');
@@ -41,7 +42,7 @@ const MbtiScreen = ({navigation, route}) => {
             })  
             .catch((error)=>{
               console.error(error);
-            })
+            })*/
         })
         .catch((error)=>{
           console.error(error);
@@ -68,7 +69,6 @@ const MbtiScreen = ({navigation, route}) => {
     left: route.params.mbti4Score,
     right: 100-route.params.mbti4Score
   },]
-
 
   return (
     <View style={styles.appSize}>
