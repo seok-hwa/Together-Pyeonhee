@@ -55,15 +55,14 @@ app.post('/signUp', function(req, res){
     var userID = req.body.userID;
     var userPassword = req.body.userPassword;
     var userName = req.body.userName;
-    var userAge = req.body.userAge;
     // user table null 값 여부 변경 후 수정 예정
     db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error1,check){
         console.log(check);
         if(error1) throw error1;
         else{
             if(check.length === 0) {
-                db.query(`insert into pyeonhee.user(user_id, password, name, age)
-                    values (?, ?, ?, ?)`,[userID,userPassword,userName,userAge], function(error2,result){
+                db.query(`insert into pyeonhee.user(user_id, password, name, tier)
+                    values (?, ?, ?, 'Bronze')`,[userID,userPassword,userName], function(error2,result){
                     console.log(result);
                     if(error2) throw error2;
                     else {
