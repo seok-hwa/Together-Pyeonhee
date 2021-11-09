@@ -23,7 +23,7 @@ app.get("/welcome", function(req, res){
 app.post('/login', function(req, res){
     var userID = req.body.userID;
     var userPassword = req.body.userPassword;
-    db.query(`SELECT * FROM user WHERE user.id=? AND user.password = ?`,[userID,userPassword], function(error,result){
+    db.query(`SELECT * FROM user WHERE user.user_id=? AND user.password = ?`,[userID,userPassword], function(error,result){
         console.log(result[0]);
 
         if(error) throw error;
@@ -57,12 +57,12 @@ app.post('/signUp', function(req, res){
     var userName = req.body.userName;
     var userAge = req.body.userAge;
     // user table null 값 여부 변경 후 수정 예정
-    db.query(`SELECT * FROM user WHERE user.id=?`,[userID], function(error1,check){
+    db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error1,check){
         console.log(check);
         if(error1) throw error1;
         else{
             if(check.length === 0) {
-                db.query(`insert into pyeonhee.user(id, password, name, age)
+                db.query(`insert into pyeonhee.user(user_id, password, name, age)
                     values (?, ?, ?, ?)`,[userID,userPassword,userName,userAge], function(error2,result){
                     console.log(result);
                     if(error2) throw error2;
@@ -116,7 +116,7 @@ app.post('/submitMbti', function(req,res){
         mbti_type = mbti_type + 'M';
     }
     console.log(mbti_type)
-    db.query(`UPDATE user SET mbti = ? WHERE user.id = ?`,[mbti_type, userID], function(error,result){
+    db.query(`UPDATE user SET mbti = ? WHERE user.user_id = ?`,[mbti_type, userID], function(error,result){
                     if(error) throw error;
                     console.log(result);
                 });
