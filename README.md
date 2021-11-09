@@ -34,6 +34,13 @@ npm install nodemon
 npm install express
 ~~~
 
+#### 1.3.3. confirm
+~~~
+npm install react-native-status-bar-height
+~~~
+~~~
+npm install react-native-popup-confirm-toast
+~~~
 ### 1.4. Client/Server 통신
 client에서 fetch함수를 통해 node 로컬 서버로 접속할 때
 
@@ -100,4 +107,12 @@ https://m.blog.naver.com/noisy2/222063240495 사이트 참고
 #### 4.1.1. css-tree css-select
 ~~~
 yarn add css-tree css-select
+~~~
+
+#### 4.1.2. PickerSelect
+~~~
+npm install react-native-picker-select
+~~~
+~~~
+npm install @react-native-picker/picker
 ~~~

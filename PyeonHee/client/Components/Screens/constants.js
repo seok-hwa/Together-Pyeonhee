@@ -1,0 +1,93 @@
+const JOBS = [
+    {
+        value: 'profession',
+        label: '전문직',
+    },
+    {
+        value: 'teacher',
+        label: '교직',
+    },
+    {
+        value: 'executive',
+        label: '관리직',
+    },
+    {
+        value: 'office',
+        label: '사무직',
+    },
+    {
+        value: 'selfEmployment',
+        label: '자영업',
+    },
+    {
+        value: 'sales',
+        label: '판매직',
+    },
+    {
+        value: 'service',
+        label: '서비스직',
+    },
+    {
+        value: 'production',
+        label: '생산/노무직',
+    },
+    {
+        value: 'craftsman',
+        label: '기능직',
+    },
+    {
+        value: 'agriculture',
+        label: '농/축/광/수산업',
+    },
+    {
+        value: 'student',
+        label: '학생',
+    },
+    {
+        value: 'housewife',
+        label: '주부',
+    },
+    {
+        value: 'inoccupation',
+        label: '무직',
+    },
+    {
+        value: 'retirement',
+        label: '퇴직/연금생활자',
+    },
+    {
+        value: 'etc',
+        label: '기타',
+    },
+];
+
+const INCOMES =[
+    {
+        value: '550',
+        label: '500만원 이상',
+    },
+    {
+        value: '450',
+        label: '400~500만원',
+    },
+    {
+        value: '350',
+        label: '300~400만원',
+    },
+    {
+        value: '250',
+        label: '200~300만원',
+    },
+    {
+        value: '150',
+        label: '100~200만원',
+    },
+    {
+        value: '100',
+        label: '100만원 미만',
+    },
+];
+export {
+    JOBS,
+    INCOMES,
+};
