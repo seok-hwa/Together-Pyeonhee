@@ -50,9 +50,9 @@ const LoginScreen = ({navigation}) => {
         alert('비밀번호를 입력해주세요.');
         return;
       }
-      //AsyncStorage.setItem('userID', userID); //for survey test
-      //navigation.replace('Survey');           //for survey test
-
+      AsyncStorage.setItem('userID', userID); //for survey test
+      navigation.replace('Main');           //for survey test
+      /*
       fetch(`${url}/login`, {
         method: 'POST',
         body: JSON.stringify({
@@ -83,7 +83,7 @@ const LoginScreen = ({navigation}) => {
       })
       .catch((error)=>{
         console.error(error);
-      })
+      })*/
     }
     return(         //login view
       <KeyboardAvoidingView style={styles.appSize}>

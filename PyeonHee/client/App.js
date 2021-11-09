@@ -98,6 +98,13 @@ function App(){         //navigation
               headerShown: false,
           }} 
           />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
