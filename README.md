@@ -133,3 +133,9 @@ npm install react-native-picker-select
 ~~~
 npm install @react-native-picker/picker
 ~~~
+<br>
+<br>
+<br>
+<br>
+
+## 5. 마이페이지
