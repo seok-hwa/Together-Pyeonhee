@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const config = require('./config');
+/*
 var mysql = require('mysql');
 var db = mysql.createConnection({
   host:config.host,
@@ -11,6 +12,35 @@ var db = mysql.createConnection({
 db.connect(function(err){
     if (err) throw err;
     console.log('Connected!');
+});
+*/
+//Cloud DB for MySQL
+const mysql = require('mysql2');
+const { Client } = require('ssh2');
+const sshClient = new Client();
+const SSHConnection = new Promise((resolve, reject) => {
+    sshClient.on('ready', () => {
+        sshClient.forwardOut(
+        config.forwardConfig.srcHost,
+        config.forwardConfig.srcPort,
+        config.forwardConfig.dstHost,
+        config.forwardConfig.dstPort,
+        (err, stream) => {
+             if (err) reject(err);
+             const updatedDbServer = {
+                 ...config.dbServer,
+                 stream
+            };
+            const connection =  mysql.createConnection(updatedDbServer);
+            connection.connect((error) => {
+            if (error) {
+                reject(error);
+            }
+            resolve(connection);
+            console.log('Connected!');
+            });
+        });
+    }).connect(config.tunnelConfig);
 });
 
 app.use(express.json());
