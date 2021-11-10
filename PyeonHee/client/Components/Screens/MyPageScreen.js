@@ -9,7 +9,7 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
-const MyPageScreen = () => {
+const MyPageScreen = ({navigation}) => {
     //useState for test
     const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
