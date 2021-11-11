@@ -54,20 +54,20 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'white',
+      margin: 10,
+      borderRadius: 10,
     },
     itemContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       height: 100,
-      borderTopWidth: 1,
-      borderColor: 'gray',
     },
     item1: {
       width: 100,
       justifyContent: 'space-between',
       alignItems: 'center',
       borderRightWidth: 1,
-      borderColor: 'gray',
+      borderRightColor: 'gray',
     },
     item2: {
       marginLeft: 50,
