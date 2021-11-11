@@ -154,5 +154,3 @@ const SSHConnection = new Promise((resolve, reject) => {
         });
     }).connect(config.tunnelConfig);
 });
-
-
