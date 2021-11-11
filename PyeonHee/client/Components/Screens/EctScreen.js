@@ -23,6 +23,9 @@ const EctScreen = ({navigation}) => {
                 <TouchableOpacity onPress={()=>navigation.navigate('MyPage')}>
                     <Text style={styles.tempBoard}>마이페이지</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('BudgetList')}>
+                    <Text style={styles.tempBoard}>추천 예산 계획서</Text>
+                </TouchableOpacity>
             </View>
         </View>
       )
@@ -47,7 +50,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 10,
         marginRight: 10,
-        height: 100,
+        height: 150,
         backgroundColor: 'white',
     },
 })

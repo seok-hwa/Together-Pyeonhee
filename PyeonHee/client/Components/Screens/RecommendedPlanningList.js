@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import BackButton from '../Buttons/BackButton';
-import { StyleSheet, Text, View, } from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import BudgetItem from './BudgetItem';
 
-const RecommendedPlanningList = () => {
+const RecommendedPlanningList = ({navigation}) => {
     const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState(0);
-
+    //for test
+    let tempData = [
+        {
+            userAge: 26, 
+            userIncome: '300', 
+            userFixedExpense: 300, 
+            userVariableExpense: 200, 
+            userTier: 'Gold', 
+            budgetPlanningID: 1,
+        },
+        {
+            userAge: 26, 
+            userIncome: '300', 
+            userFixedExpense: 300, 
+            userVariableExpense: 200, 
+            userTier: 'Gold', 
+            budgetPlanningID: 2,
+        },
+    ]
     useEffect(()=>{
         let tempID;
         let tempUrl;
@@ -32,6 +50,7 @@ const RecommendedPlanningList = () => {
             .then(()=>{
                 console.log(tempID);
                 console.log(tempUrl);
+                /*
                 fetch(`${tempUrl}/saveSelectBudgetPlan?userID=${tempID}`)   //get
                 .then((response)=>response.json())
                 .then((responseJson)=>{
@@ -41,6 +60,7 @@ const RecommendedPlanningList = () => {
 
                     setLoading(true);
                 })  
+                */
             })
         })
         .catch((error)=>{
@@ -52,21 +72,18 @@ const RecommendedPlanningList = () => {
         return (
             <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
-                    <View style={styles.backButtonPosition}>
-                        <BackButton />
-                    </View>
                     <View style={styles.appTitlePosition}>
                         <View>
                             <Text style={styles.appTitle}>추천 예산 계획서</Text> 
                         </View>
                     </View>
-                </View>
-            
+                </View>   
                 <ScrollView>
                     <View>
-                        {budgetData.map((budgetItems, index) => {
-                        return <BudgetItem key={index} BudgetData={budgetItems} />;
-                    })}
+                        {
+                        tempData.map(item => {
+                        return <BudgetItem userAge={item.userAge} userTier={item.userTier} userIncome={item.userIncome} userFixedExpense={item.userFixedExpense} userVariableExpense={item.userVariableExpense} key={item.budgetPlanningID} budgetPlanningID={item.budgetPlanningID} navigation={navigation}/>;
+                        })}
                     </View>
                 </ScrollView>
             </View>
@@ -77,7 +94,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     appTopBar: {
-        flex: 1,
+        height: 50,
         flexDirection: 'row',
         marginBottom: 5,
     },
