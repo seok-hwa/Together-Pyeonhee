@@ -73,8 +73,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error1) throw error1;
                     else{
                         if(check.length === 0) {
-                            db.query(`insert into user(user_id, password, name, tier)
-                                values (?, ?, ?, 'Bronze')`,[userID,userPassword,userName], function(error2,result){
+                            db.query(`insert into user(user_id, password, name)
+                                values (?, ?, ?)`,[userID,userPassword,userName], function(error2,result){
                                 console.log(result);
                                 if(error2) throw error2;
                                 else {
@@ -107,6 +107,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var second_type = req.body.mbti2score;
                 var third_type = req.body.mbti3score;
                 var fourth_type = req.body.mbti4score;
+                var userIncome = req.body.userMonthlyIncome;
+                var userJob = req.body.userJob;
                 
                 if(first_type > 50){
                     mbti_type = mbti_type + 'I';
@@ -138,6 +140,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                 WHERE user.user_id = ?`,[userAge, userID], function(error1,result1){
                     if(error1) throw error1;
                     console.log(result1);
+                });
+                db.query(`UPDATE user SET income = ? 
+                WHERE user.user_id = ?`, [userIncome, userID], function (error, result) {
+                    if (error) throw error;
+                    console.log(result);
+                });
+                db.query(`UPDATE user SET job = ? 
+                WHERE user.user_id = ?`, [userJob, userID], function (error, result) {
+                    if (error) throw error;
+                    console.log(result);
                 });
                 const data = {
                     status : true,
