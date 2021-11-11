@@ -23,7 +23,7 @@ import {
   View,
 } from 'react-native';
 const Stack = createNativeStackNavigator();
-const url = 'http://ip주소:포트넘버'; //로컬서버 접속 url
+const url = 'http://ip:port'; //로컬서버 접속 url
 
 function App(){         //navigation
   const [userID, setUserID] = useState('');
