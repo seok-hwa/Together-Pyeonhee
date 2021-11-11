@@ -17,6 +17,7 @@ import MyPageScreen from './Components/Screens/MyPageScreen';
 import BudgetListScreen from './Components/Screens/RecommendedPlanningList'; //for test budget List
 import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
+import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
 
 import {
   View,
@@ -98,7 +99,14 @@ function App(){         //navigation
             name="BudgetList"
             component={BudgetListScreen}
             options={{
-            headerShown: false,
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen     //for BudgetDetail test
+            name="BudgetDetail"
+            component={BudgetInfoScreen}
+            options={{
+              headerShown: false,
           }} 
           />
         </Stack.Navigator>
@@ -153,6 +161,13 @@ function App(){         //navigation
           <Stack.Screen     //for BudgetList test
             name="BudgetList"
             component={BudgetListScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen     //for BudgetDetail test
+            name="BudgetDetail"
+            component={BudgetInfoScreen}
             options={{
               headerShown: false,
           }} 

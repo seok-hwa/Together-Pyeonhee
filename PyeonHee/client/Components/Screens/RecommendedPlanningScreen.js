@@ -53,7 +53,7 @@ const LikeButton = (props) => {          //like
         </TouchableOpacity>
     );
 };
-const RecommendedPlanningScreen = () => {
+const RecommendedPlanningScreen = ({navigation, route}) => {
     const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [userAge, setUserAge] = useState(0);
@@ -122,7 +122,6 @@ const RecommendedPlanningScreen = () => {
             legendFontSize: 15
         },
       ];
-    
       useEffect(()=>{
         let tempID;
         let tempUrl;
@@ -146,7 +145,9 @@ const RecommendedPlanningScreen = () => {
             .then(()=>{
                 console.log(tempID);
                 console.log(tempUrl);
-                fetch(`${tempUrl}/recommendedBudgetPlan?userID=${tempID}`)   //get
+                setLoading(true); // for test
+                /*
+                fetch(`${tempUrl}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
                 .then((response)=>response.json())
                 .then((responseJson)=>{
                     console.log('response data');
@@ -167,13 +168,13 @@ const RecommendedPlanningScreen = () => {
                     setBudgetPlanID(responseJson.budgetPlanID);
     
                     setLoading(true);
-                })  
+                })  */
             })
         })
         .catch((error)=>{
             console.error(error);
         })
-    }, [])   
+    }, []) 
     const handleSubmitButton = () => {
         fetch(`${url}/saveBudgetPlan`, {
             method: 'POST',
@@ -205,9 +206,6 @@ const RecommendedPlanningScreen = () => {
         return (
             <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
-                    <View style={styles.backButtonPosition}>
-                        <BackButton />
-                    </View>
                     <View style={styles.appTitlePosition}>
                         <View>
                             <Text style={styles.appTitle}>추천 예산 계획서</Text> 
@@ -304,7 +302,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     appTopBar: {
-        flex: 1,
+        height: 50,
         flexDirection: 'row',
         marginBottom: 5,
     },
