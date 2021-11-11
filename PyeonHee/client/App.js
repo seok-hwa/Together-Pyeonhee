@@ -14,6 +14,7 @@ import LoginScreen from './Components/Screens/LoginScreen';
 import JoinScreen from './Components/Screens/JoinScreen';
 import SurveyScreen from './Components/Screens/SurveyScreen';
 import MyPageScreen from './Components/Screens/MyPageScreen';
+import BudgetListScreen from './Components/Screens/RecommendedPlanningList'; //for test budget List
 import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -95,6 +96,13 @@ function App(){         //navigation
               headerShown: false,
           }} 
           />
+          <Stack.Screen     //for BudgetList test
+            name="BudgetList"
+            component={BudgetListScreen}
+            options={{
+            headerShown: false,
+          }} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     ); 
@@ -140,6 +148,13 @@ function App(){         //navigation
           <Stack.Screen
             name="MyPage"
             component={MyPageScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen     //for BudgetList test
+            name="BudgetList"
+            component={BudgetListScreen}
             options={{
               headerShown: false,
           }} 
