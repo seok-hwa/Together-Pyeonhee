@@ -1,8 +1,23 @@
 const config = {
-    host : 'localhost',
-    id : '',
-    password : '',
-    database : ''
+    dbServer: {
+        host: '',
+        port: '',
+        user: '',
+        password: '',
+        database: ''
+    },
+    tunnelConfig: {
+        host: '',
+        port: '',
+        username: '',
+        password: ''
+    },
+    forwardConfig: {
+        srcHost: '',
+        srcPort: '',
+        dstHost: '',
+        dstPort: ''
+    }
 };
 
 module.exports = config;
