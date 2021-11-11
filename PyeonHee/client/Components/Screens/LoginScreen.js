@@ -66,9 +66,10 @@ const LoginScreen = ({navigation}) => {
         })
         return;
       }
-      //AsyncStorage.setItem('userID', userID); //for survey test
-      //navigation.replace('Survey');           //for Main test
-      
+      AsyncStorage.setItem('userID', userID); 
+      //navigation.replace('Survey');           //for survey test
+      navigation.replace('Main');             //for Main test
+      /*
       fetch(`${url}/login`, {
         method: 'POST',
         body: JSON.stringify({
@@ -106,7 +107,7 @@ const LoginScreen = ({navigation}) => {
       })
       .catch((error)=>{
         console.error(error);
-      })
+      })*/
     }
     return(         //login view
       <Root>

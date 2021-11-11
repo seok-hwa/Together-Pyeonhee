@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './HomeScreen';
 import BudgetScreen from './BudgetScreen';
 import AssetsScreen from './AssetsScreen';
-import ProfileScreen from './ProfileScreen';
+import EctScreen from './EctScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +33,7 @@ const MainScreen = ({ navigation}) => {
         <Tab.Screen name="편히" component={HomeScreen} />
         <Tab.Screen name="가계부" component={BudgetScreen} />
         <Tab.Screen name="자산" component={AssetsScreen} />
-        <Tab.Screen name="더보기" component={ProfileScreen} />
+        <Tab.Screen name="더보기" component={EctScreen} />
       </Tab.Navigator>
   );
 };

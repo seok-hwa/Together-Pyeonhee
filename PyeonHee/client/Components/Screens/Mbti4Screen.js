@@ -383,7 +383,6 @@ const Mbti4Screen = ({navigation, route}) => {
       mbti4Score: totalScore,
     });
     */
-
     fetch(`${url}/submitMbti`, {
       method: 'POST',
       body: JSON.stringify({
