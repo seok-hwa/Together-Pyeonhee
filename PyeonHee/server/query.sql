@@ -7,7 +7,7 @@ create table user
     password varchar(15) not null,
     name varchar(12) not null,
     mbti varchar(4),
-    age  int         not null,
+    age  int,
     tier varchar(10)
 );
 
