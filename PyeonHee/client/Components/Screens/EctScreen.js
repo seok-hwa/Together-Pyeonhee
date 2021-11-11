@@ -1,50 +1,54 @@
 import React, { Component, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import LogoutButton from '../Buttons/LogoutButton';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MyPageScreen from './MyPageScreen';
-import EctSelectScreen from './EctSelectScreen';
 import {
+    StyleSheet,
+    Text,
     View,
+    TouchableOpacity,
   } from 'react-native';
-const Stack = createNativeStackNavigator();
 const EctScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
-    const [loading, setLoading] = useState(false);
     useEffect(()=>{
       AsyncStorage.getItem('userID', (err, result) => {
         const tempID = result;
         if(tempID!= null){
           setUserID(tempID);
-          setLoading(true);
         }
       });
     })
-    if(loading === true){
-      return (
-        <Stack.Navigator>
-           <Stack.Screen
-            name="Select"
-            component={EctSelectScreen}
-            options={{
-                headerShown: false,
-            }} 
-            />
-          <Stack.Screen
-            name="MyPage"
-            component={MyPageScreen}
-            options={{
-                headerShown: false,
-            }} 
-            />
-      </Stack.Navigator>
+    return (
+        <View style={styles.appSize}>
+            <View style={styles.tempDiv}>
+                <Text style={styles.tempTitle}>메뉴</Text>
+                <TouchableOpacity onPress={()=>navigation.navigate('MyPage')}>
+                    <Text style={styles.tempBoard}>마이페이지</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
       )
-    }else{
-      return (
-          <View style={{ flex: 1,}}>
-          </View>
-      )
-    }
 }
-
+const styles = StyleSheet.create({
+    appSize: {
+        flex: 1,
+    },
+    tempTitle:{
+            margin: 10,
+            fontWeight: '900',
+            fontSize: 15,
+            color: 'black',
+    },
+    tempBoard: {
+        fontSize: 15,
+        margin: 10,
+    },
+    tempDiv: {
+        borderWidth: 1,
+        borderRadius: 10,
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight: 10,
+        height: 100,
+        backgroundColor: 'white',
+    },
+})
 export default EctScreen;
