@@ -26,7 +26,7 @@ const MainScreen = ({ navigation}) => {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#0000CD',
+        tabBarActiveTintColor: '#2B6CA7',
         tabBarInactiveTintColor: 'gray',
       })}
       >
