@@ -4,6 +4,7 @@ const config = require('./config');
 const mysql = require('mysql2');
 const { Client } = require('ssh2');
 const sshClient = new Client();
+app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
         sshClient.forwardOut(
@@ -17,6 +18,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                  ...config.dbServer,
                  stream
             };
+
             const db =  mysql.createConnection(updatedDbServer);
             db.connect((error) => {
             if (error) {
@@ -25,17 +27,15 @@ const SSHConnection = new Promise((resolve, reject) => {
             resolve(db);
             console.log('Connected!');
             });
-            app.use(express.json());
-            
-            app.get("/welcome", function(req, res){
-                res.send("Welcome");
-            });
+
+            // app.use(express.json());
 
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
-                db.query(`SELECT * FROM user WHERE user.user_id=? AND user.password = ?`,[userID,userPassword], function(error,result){
+                db.query(`SELECT * FROM user WHERE user.user_id=? 
+                AND user.password = ?`,[userID,userPassword], function(error,result){
                     console.log(result[0]);
 
                     if(error) throw error;
@@ -129,11 +129,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                     mbti_type = mbti_type + 'M';
                 }
                 console.log(mbti_type);
-                db.query(`UPDATE user SET mbti = ? WHERE user.user_id = ?`,[mbti_type, userID], function(error2,result2){
+                db.query(`UPDATE user SET mbti = ? 
+                WHERE user.user_id = ?`,[mbti_type, userID], function(error2,result2){
                     if(error2) throw error2;
                     console.log(result2);
                 });
-                db.query(`UPDATE user SET age = ? WHERE user.user_id = ?`,[userAge, userID], function(error1,result1){
+                db.query(`UPDATE user SET age = ? 
+                WHERE user.user_id = ?`,[userAge, userID], function(error1,result1){
                     if(error1) throw error1;
                     console.log(result1);
                 });
@@ -149,7 +151,6 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
             });
-
 
         });
     }).connect(config.tunnelConfig);
