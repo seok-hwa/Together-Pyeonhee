@@ -3,8 +3,8 @@ const config = {
         host: 'db-8dke6.cdb.ntruss.com',
         port: 3306,
         user: 'mysql_dba',
-        password: 'node1234!'
-        //database: ''
+        password: 'node1234!',
+        database: 'mysql-db'
     },
     tunnelConfig: {
         host: '106.10.56.88',
