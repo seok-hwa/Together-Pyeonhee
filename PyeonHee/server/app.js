@@ -159,6 +159,40 @@ const SSHConnection = new Promise((resolve, reject) => {
                 res.send(data);
             });
 
+            //마이페이지
+            app.get('/myInfo', function(req,res){
+                console.log(req.query.userID);
+                var userID = req.query.userID;
+                var userName;
+                var userTier;
+                var userStamp;
+                var userPoint;
+                db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error3, result3){
+                    if(error3) throw error3;
+                    console.log(result3);
+                    const data = {
+                        userName: result3[0].name,
+                    }
+                    console.log(data);
+                    res.send(data);
+                });
+                /*
+                db.query(`SELECT diff as current_stamp_count FROM stamp WHERE user_id = ?`, [userID], function(error4, result4){
+                    if(error4) throw error4;
+                    console.log(result4);
+                });
+                db.query(`SELECT diff as current_point FROM point WHERE user_id =?` [userID], function(error5, result5){
+                    if(error5) throw (error5);
+                    console.log(result5);
+                });*/
+                /*
+                const data = {
+                    userTier : user_Tier,
+                    userStamp : user_Stamp,
+                    userPoint : user_Point,
+                };*/
+            });
+
             const PORT = 8000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);

@@ -1,22 +1,22 @@
 const config = {
     dbServer: {
-        host: '',
-        port: '',
-        user: '',
-        password: '',
-        database: ''
+        host: 'db-8dke6.cdb.ntruss.com',
+        port: 3306,
+        user: 'mysql_dba',
+        password: 'node1234!',
+        database: 'mysql-db'
     },
     tunnelConfig: {
-        host: '',
-        port: '',
-        username: '',
-        password: ''
+        host: '106.10.56.88',
+        port: 8000,
+        username: 'root',
+        password: 'SWcapstone1105'
     },
     forwardConfig: {
-        srcHost: '',
-        srcPort: '',
-        dstHost: '',
-        dstPort: ''
+        srcHost: '127.0.0.1',
+        srcPort: 3306,
+        dstHost: 'db-8dke6.cdb.ntruss.com',
+        dstPort: 3306
     }
 };
 
