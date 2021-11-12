@@ -46,16 +46,11 @@ npm install react-native-status-bar-height
 ~~~
 npm install react-native-popup-confirm-toast
 ~~~
-### 1.4. Client/Server 통신
-client에서 fetch함수를 통해 node 로컬 서버로 접속할 때 App.js파일에서 변경후 실행
-~~~
-const url = 'http://IPv4주소:로컬서버포트';
-~~~
 
-### 1.5. Local MySQL 연결(server/)
+### 1.4. Local MySQL 연결(server/)
 MySQL 연결할 때 config.js 파일에서 해당하는 내용들 기입 후 테스트 진행할 것
 
-### 1.6. 서버 url 연결(client/)
+### 1.5. 서버 url 연결(client/)
 client 폴더안에 config.js 파일 생성후 아래와 같이 기입
 ~~~
 const config = {
