@@ -17,14 +17,13 @@ import MyPageScreen from './Components/Screens/MyPageScreen';
 import BudgetListScreen from './Components/Screens/RecommendedPlanningList'; //for test budget List
 import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
+import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
 
 import {
   View,
 } from 'react-native';
 const Stack = createNativeStackNavigator();
-
-const url = 'http://192.168.203.2:8000'; //로컬서버 접속 url
-
+const url = 'http://ip:port'; //로컬서버 접속 url
 
 function App(){         //navigation
   const [userID, setUserID] = useState('');
@@ -100,7 +99,14 @@ function App(){         //navigation
             name="BudgetList"
             component={BudgetListScreen}
             options={{
-            headerShown: false,
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen     //for BudgetDetail test
+            name="BudgetDetail"
+            component={BudgetInfoScreen}
+            options={{
+              headerShown: false,
           }} 
           />
         </Stack.Navigator>
@@ -155,6 +161,13 @@ function App(){         //navigation
           <Stack.Screen     //for BudgetList test
             name="BudgetList"
             component={BudgetListScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen     //for BudgetDetail test
+            name="BudgetDetail"
+            component={BudgetInfoScreen}
             options={{
               headerShown: false,
           }} 

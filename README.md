@@ -133,9 +133,22 @@ npm install react-native-picker-select
 ~~~
 npm install @react-native-picker/picker
 ~~~
+
+#### 4.1.2. Stacked Bar Chart(client/)
+~~~
+npm i react-native-svg
+npm install --save react-native-svg-charts
+~~~
 <br>
 <br>
 <br>
 <br>
 
 ## 5. 마이페이지
+
+## 6. Main 화면 
+### 6.1. 관련 패키지 설치
+#### 6.1.1. react native segmented-control-tab(client/)
+~~~
+npm install react-native-segmented-control-tab --save
+~~~

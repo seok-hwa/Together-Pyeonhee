@@ -1,6 +1,3 @@
-create schema pyeonhee;
-use pyeonhee;
-
 create table user
 (
     user_id   varchar(10) not null primary key,
@@ -8,15 +5,10 @@ create table user
     name varchar(12) not null,
     mbti varchar(4),
     age  int,
-    tier varchar(10)
+    tier varchar(10) default 'Bronze',
+    income int,
+    job varchar(10)
 );
-
-insert into pyeonhee.user(user_id, password, name, mbti, age, tier)
-values ('abcd', '1234','john', 'ICSE', 20, 'Bronze');
-insert into pyeonhee.user(user_id, password, name, mbti, age, tier)
-values ('efgh', '1234','james', 'PHOM', 23, 'Bronze');
-insert into pyeonhee.user(user_id, password, name, mbti, age, tier)
-values ('pyeonhee', '1234','편히가계', 'PCSE', 26, 'Bronze');
 
 create table stamp (
     user_id varchar(10) not null,
@@ -24,7 +16,7 @@ create table stamp (
     diff int not null,
     description text,
     primary key (user_id,record_time),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    foreign key (user_id) references user (user_id)
 );
 
 create table point (
@@ -33,22 +25,23 @@ create table point (
     diff int not null,
     description text,
     primary key (user_id,record_time),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    foreign key (user_id) references user (user_id)
 );
 
 create table BudgetPlanning (
     user_id varchar(10) not null,  
-    planned_date datetime default current_timestamp,
-    planning_number int not null,
+    planning_number int not null auto_increment,
+    planning_date timestamp default current_timestamp,
     user_mbti varchar(4) not null,
+    user_age  int not null,
     user_income int not null,
     user_savings int not null,
-    like_number int not null,
+    like_number int default 0,
 
     monthly_rent int not null,
     insurance_expense int not null,
     transportation_expense int not null,
-    communication_expense int not null,    
+    communication_expense int not null, 
     leisure_expense int not null,
     shopping_expense int not null,
     education_expense int not null,
@@ -56,8 +49,8 @@ create table BudgetPlanning (
     event_expense int not null,
     etc_expense int not null,
 
-    primary key (user_id,planning_number),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    primary key (planning_number),
+    foreign key (user_id) references user (user_id)
 );
 
 create table Savings ( 
@@ -72,7 +65,7 @@ create table Savings (
     finish_date datetime,
     all_savings_money int not null,
     primary key (user_id),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    foreign key (user_id) references user (user_id)
 );
 
 create table Storage (
@@ -80,7 +73,7 @@ create table Storage (
     planning_number int not null,
 
     primary key (user_id, planning_number),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    foreign key (user_id) references user (user_id)
 
 );
 
@@ -114,7 +107,7 @@ create table BankAddress (
     bank_address int not null, 
     bank_name varchar(12) not null,
     primary key (user_id),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    foreign key (user_id) references user (user_id)
 );
 create table FinancialProduct (
     product_name varchar(12) not null,
@@ -143,7 +136,7 @@ create table Reservation (
     checked boolean default false,
 
     primary key (consult_number),
-    foreign key (user_id) references pyeonhee.user (user_id)
+    foreign key (user_id) references user (user_id)
 );
 /*
 insert into pyeonhee.user(id, name, mbti, age)
@@ -213,9 +206,11 @@ create table bank_account
     primary key (user_id, bank, address_no)
 );
 
+/*
 insert into bank_account
 values ('abcd', 1, '1000000', '월급통장'),
        ('abcd', 2, '200000', '생활비 통장');
+*/
 
 create table expense_type
 (
@@ -262,7 +257,7 @@ create table daily_data
     rest_money int not null,
 
     primary key (user_id),
-    foreign key (user_id) references pyeonhee.user(user_id)
+    foreign key (user_id) references user(user_id)
 );
 
 

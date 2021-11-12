@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import BackButton from '../Buttons/BackButton';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import BudgetItem from './BudgetItem';
+import BudgetItem from '../BudgetItem';
 
-const RecommendedPlanningList = ({navigation}) => {
+const BudgetList = ({navigation}) => {
     const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState(0);
@@ -19,11 +18,11 @@ const RecommendedPlanningList = ({navigation}) => {
             budgetPlanningID: 1,
         },
         {
-            userAge: 26, 
-            userIncome: '300', 
+            userAge: 30, 
+            userIncome: '500', 
             userFixedExpense: 300, 
-            userVariableExpense: 200, 
-            userTier: 'Gold', 
+            userVariableExpense: 100, 
+            userTier: 'Silver', 
             budgetPlanningID: 2,
         },
     ]
@@ -69,25 +68,19 @@ const RecommendedPlanningList = ({navigation}) => {
     }, [])   
 
     
-        return (
-            <View style={styles.appSize}>
-                <View style={styles.appTopBar}>
-                    <View style={styles.appTitlePosition}>
-                        <View>
-                            <Text style={styles.appTitle}>추천 예산 계획서</Text> 
-                        </View>
-                    </View>
-                </View>   
-                <ScrollView>
-                    <View>
-                        {
+    return (
+        <View style={styles.appSize}>
+            {/* <Text>본인 예산 계획서</Text> */}
+            <ScrollView>
+                <View>
+                    {
                         tempData.map(item => {
                         return <BudgetItem userAge={item.userAge} userTier={item.userTier} userIncome={item.userIncome} userFixedExpense={item.userFixedExpense} userVariableExpense={item.userVariableExpense} key={item.budgetPlanningID} budgetPlanningID={item.budgetPlanningID} navigation={navigation}/>;
-                        })}
-                    </View>
-                </ScrollView>
-            </View>
-        )
+                    })}
+                </View>
+            </ScrollView>
+        </View>
+    )
 }
 const styles = StyleSheet.create({
     appSize: {
@@ -113,4 +106,4 @@ const styles = StyleSheet.create({
         fontSize: 15,
     },
 })
-export default RecommendedPlanningList;
+export default BudgetList;
