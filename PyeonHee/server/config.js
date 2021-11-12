@@ -16,7 +16,7 @@ const config = {
         srcHost: '',
         srcPort: ,
         dstHost: '',
-        dstPort: 3306
+        dstPort: 
     }
 };
 
