@@ -4,15 +4,17 @@ import BackButton from '../Buttons/BackButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlanningSaveButton from '../Buttons/PlanningSaveButton';
 import { PieChart } from 'react-native-chart-kit';
+import config from '../../config';
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
 } from 'react-native';
+const url = config.url;
 const LikeButton = (props) => {          //like
     const sendUserLike=()=>{
-        fetch(`${props.url}/likeBudgetPlan/`, {
+        fetch(`${url}/likeBudgetPlan/`, {
             method: 'POST',
             body: JSON.stringify({
                 budgetPlanID: props.budgetPlanID,
@@ -54,7 +56,6 @@ const LikeButton = (props) => {          //like
     );
 };
 const RecommendedPlanningScreen = ({navigation, route}) => {
-    const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [userAge, setUserAge] = useState(0);
     const [userIncome, setUserIncome] = useState(0);
@@ -124,7 +125,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
       ];
       useEffect(()=>{
         let tempID;
-        let tempUrl;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -134,45 +134,32 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 }
             }
         )
-        .then( () => {
-            AsyncStorage.getItem("url")
-            .then((value) => {
-                if (value !== null){
-                    tempUrl=value;
-                    setUrl(tempUrl);
-                }
-            })
-            .then(()=>{
-                console.log(tempID);
-                console.log(tempUrl);
-                setLoading(true); // for test
-                /*
-                fetch(`${tempUrl}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-                    setUserLikeCount(responseJson.userLikeCount);
-                    setUserLike(responseJson.userLike);
-                    setUserMBTI(responseJson.userMBTI);
-                    setUserAge(responseJson.userAge);
-                    setUserIncome(responseJson.userIncome);
-                    setUserFixedExpense(responseJson.userFixedExpense);
-                    setUserVariableExpense(responseJson.userVariableExpense);
-                    setEducation(responseJson.education);
-                    setTraffic(responseJson.traffic);
-                    setShopping(responseJson.shopping);
-                    setHobby(responseJson.hobby);
-                    setInsurance(responseJson.insurance);
-                    setManagement(responseJson.management);
-                    setBudgetPlanID(responseJson.budgetPlanID);
-    
-                    setLoading(true);
-                })  */
-            })
-        })
-        .catch((error)=>{
-            console.error(error);
+        .then(()=>{
+            console.log(tempID);
+            setLoading(true); // for test
+            /*
+            fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setUserLikeCount(responseJson.userLikeCount);
+                setUserLike(responseJson.userLike);
+                setUserMBTI(responseJson.userMBTI);
+                setUserAge(responseJson.userAge);
+                setUserIncome(responseJson.userIncome);
+                setUserFixedExpense(responseJson.userFixedExpense);
+                setUserVariableExpense(responseJson.userVariableExpense);
+                setEducation(responseJson.education);
+                setTraffic(responseJson.traffic);
+                setShopping(responseJson.shopping);
+                setHobby(responseJson.hobby);
+                setInsurance(responseJson.insurance);
+                setManagement(responseJson.management);
+                setBudgetPlanID(responseJson.budgetPlanID);
+
+                setLoading(true);
+            })  */
         })
     }, []) 
     const handleSubmitButton = () => {
@@ -222,7 +209,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                     <Text>소비 성향 MBTI: {userMBTI}</Text>
                                 </View>
                                 <View style={styles.rightDivInCard}>
-                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount} url={url}/>
+                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
                                 </View>
                             </View>
                             <View style={styles.bottomDivInCard}>

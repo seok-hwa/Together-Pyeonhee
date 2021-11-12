@@ -3,9 +3,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import BackButton from '../Buttons/BackButton';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import BudgetItem from './BudgetItem';
+import config from '../../config';
+const url = config.url;
 
 const RecommendedPlanningList = ({navigation}) => {
-    const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState(0);
     //for test
@@ -29,7 +30,6 @@ const RecommendedPlanningList = ({navigation}) => {
     ]
     useEffect(()=>{
         let tempID;
-        let tempUrl;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -39,32 +39,19 @@ const RecommendedPlanningList = ({navigation}) => {
                 }
             }
         )
-        .then( () => {
-            AsyncStorage.getItem("url")
-            .then((value) => {
-                if (value !== null){
-                    tempUrl=value;
-                    setUrl(tempUrl);
-                }
-            })
-            .then(()=>{
-                console.log(tempID);
-                console.log(tempUrl);
-                /*
-                fetch(`${tempUrl}/saveSelectBudgetPlan?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-                    setOtherBudgetData(responseJson.budgetData);
+        .then(()=>{
+            console.log(tempID);
+            /*
+            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setOtherBudgetData(responseJson.budgetData);
 
-                    setLoading(true);
-                })  
-                */
-            })
-        })
-        .catch((error)=>{
-            console.error(error);
+                setLoading(true);
+            })  
+            */
         })
     }, [])   
 

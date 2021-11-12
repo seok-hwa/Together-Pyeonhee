@@ -18,23 +18,22 @@ import BudgetListScreen from './Components/Screens/RecommendedPlanningList'; //f
 import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
 import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
+import config from './config';
 
 import {
   View,
 } from 'react-native';
 const Stack = createNativeStackNavigator();
-const url = 'http://192.168.0.13:8000'; //로컬서버 접속 url
+const url = config.url; //로컬서버 접속 url
 
 function App(){         //navigation
   const [userID, setUserID] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{
-    AsyncStorage.setItem('url', url);
     async function getStorage(){
       if(await AsyncStorage.getItem("userID")){
         let tempUserID = await AsyncStorage.getItem("userID");
-        console.log(tempUserID, '하하');
         setUserID(tempUserID);
       }
       setLoading(true);

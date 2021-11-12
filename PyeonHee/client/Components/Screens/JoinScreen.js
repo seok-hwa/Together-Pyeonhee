@@ -3,15 +3,15 @@ import JoinRequestButton from '../Buttons/JoinRequestButton';
 import BackButton from '../Buttons/BackButton';
 import AsyncStorage from '@react-native-community/async-storage'
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-
+import config from '../../config';
 import {
     StyleSheet,
     Text,
     View,
     TextInput,
 } from 'react-native';
+const url=config.url;
 const JoinScreen = ({route, navigation }) => {
-    const [url, setUrl] = useState('');
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [userPasswordCheck, setUserPasswordCheck] = useState('');
@@ -22,12 +22,6 @@ const JoinScreen = ({route, navigation }) => {
     console.log('회원가입 데이터', route.params);
 
     useEffect(()=>{
-        AsyncStorage.getItem('url', (err, result) => {
-          let tempUrl = result;
-          if(tempUrl!= null){
-            setUrl(tempUrl);
-          }
-        });
         setUserName(route.params.data.name);
         setUserPhone(route.params.data.phone);
     },[]);

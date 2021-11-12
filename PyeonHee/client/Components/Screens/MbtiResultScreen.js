@@ -5,7 +5,6 @@ import { StackedBarChart } from 'react-native-svg-charts';
 import MbtiToMain from '../Buttons/MbtiToMain';
 
 const MbtiScreen = ({navigation, route}) => {
-  const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
   //const [mbtiType, setMbtiType] = useState('');
 
@@ -21,19 +20,11 @@ const MbtiScreen = ({navigation, route}) => {
             }
         }
     )
-    .then( () => {
-        AsyncStorage.getItem("url")
-        .then((value) => {
-            if (value !== null){
-              tempUrl=value;
-              setUrl(tempUrl);
-            }
-        })
+    /*
         .then(()=>{
             console.log(tempID);
             console.log(tempUrl);
-            /*
-            fetch(`${tempUrl}/mbti-info?userID=${tempID}`)   //get 나중에 마이페이지를 통해 페이지 접속할 때 사용
+            fetch(`${url}/mbti-info?userID=${tempID}`)   //get 나중에 마이페이지를 통해 페이지 접속할 때 사용
             .then((response)=>response.json())
             .then((responseJson)=>{
                console.log('Mbti Info');
@@ -42,15 +33,11 @@ const MbtiScreen = ({navigation, route}) => {
             })  
             .catch((error)=>{
               console.error(error);
-            })*/
+            })
         })
         .catch((error)=>{
           console.error(error);
-        })
-    })
-    .catch((error)=>{
-        console.error(error);
-    })
+        })*/
   }, [])  
 
   var data1 = [{
