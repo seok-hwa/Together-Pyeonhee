@@ -63,27 +63,27 @@ const JOBS = [
 
 const INCOMES =[
     {
-        value: '550',
+        value: '5500000',
         label: '500만원 이상',
     },
     {
-        value: '450',
+        value: '4500000',
         label: '400~500만원',
     },
     {
-        value: '350',
+        value: '3500000',
         label: '300~400만원',
     },
     {
-        value: '250',
+        value: '2500000',
         label: '200~300만원',
     },
     {
-        value: '150',
+        value: '1500000',
         label: '100~200만원',
     },
     {
-        value: '100',
+        value: '1000000',
         label: '100만원 미만',
     },
 ];
