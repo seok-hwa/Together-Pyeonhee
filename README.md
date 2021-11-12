@@ -60,8 +60,8 @@ const config = {
 module.exports = config;
 ~~~
 
-### 1.7. .gitignore 적용
-.gitignore이 정상적으로 적용이 안 되어 push 될 때 아래 명령어로 캐시를 지우고 add
+### 1.6. .gitignore 적용
+server/config.js와 client/config.js가 .gitignore이 정상적으로 적용이 안 되어 push 될 때 아래 명령어로 캐시를 지우고 add
 ~~~
 git rm -r --cached .
 ~~~
