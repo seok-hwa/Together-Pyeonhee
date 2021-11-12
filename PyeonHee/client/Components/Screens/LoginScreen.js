@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-
+import config from '../../config';
 import {
     StyleSheet,
     Text,
@@ -13,6 +13,8 @@ import {
     TextInput,
     KeyboardAvoidingView,
 } from 'react-native';
+
+const url = config.url;
 
 const CheckRemember = (props) => {          //remember id component
     const sendRememberCheck=()=>{
@@ -26,24 +28,14 @@ const CheckRemember = (props) => {          //remember id component
 };
 
 const LoginScreen = ({navigation}) => {
-    const [url, setUrl] = useState('');
+    //const [url, setUrl] = useState('');
     const [rememberCheck, setRememberCheck] = useState(false);
     const getRememberCheck=(rememberCheck)=>{
       setRememberCheck(rememberCheck);
     }
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    
-    useEffect(()=>{
-      AsyncStorage.getItem('url', (err, result) => {
-        let tempUrl = result;
-        if(tempUrl!= null){
-          setUrl(tempUrl);
-        }
-    });
-    },[]);
     const handleSubmitButton = () => {
-      //console.log(`${url}/login`);
       if(!userID){
         Popup.show({
           type: 'success',
@@ -66,7 +58,7 @@ const LoginScreen = ({navigation}) => {
         })
         return;
       }
-      AsyncStorage.setItem('userID', userID); 
+      //AsyncStorage.setItem('userID', userID); 
       //navigation.replace('Survey');           //for survey test
       //navigation.replace('Main');             //for Main test
       //navigation.replace('BudgetList');         //for BudgetList test

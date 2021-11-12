@@ -99,7 +99,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 설문조사 진행후 MBTI 제시
             app.post('/submitMbti', function(req,res){
-                console.log(req.body)
+                console.log('여기부터',req.body)
                 var userID = req.body.userID;
                 var userAge = req.body.userAge;
                 var mbti_type = '';

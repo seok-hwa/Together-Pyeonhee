@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import MbtiSubmitButton from '../Buttons/MbtiSubmitButton';
 import MbtiPrevButton from '../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import config from '../../config';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,8 +17,8 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+const url = config.url;
 const Mbti4Screen = ({navigation, route}) => {
-  const [url, setUrl] = useState('');
   const [userID, setUserID] = useState('');
 
   const [mbti1_1, setMbti1_1] = useState(false);
@@ -426,14 +427,15 @@ const Mbti4Screen = ({navigation, route}) => {
       if(tempID!= null){
         setUserID(tempID);
       }
-    }).then(()=>{
+    })
+    /*.then(()=>{
       AsyncStorage.getItem('url', (err, result) => {
         let tempUrl = result;
         if(tempUrl!= null){
           setUrl(tempUrl);
         }
       })
-    })
+    })*/
   })
   return (
     <Root>

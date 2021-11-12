@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
+import config from '../../config';
 import {
     StyleSheet,
     Text,
@@ -9,9 +10,9 @@ import {
     Image,
     ScrollView,
 } from 'react-native';
+const url=config.url;
 const MyPageScreen = ({navigation}) => {
     //useState for test
-    const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
     const [userName, setUserName] = useState('테스트');
     const [userTier, setUserTier] = useState('Diamond');
@@ -20,10 +21,9 @@ const MyPageScreen = ({navigation}) => {
     const [loading, setLoading] = useState(true);
 
     //서버 구현 되면 사용
-/*
+    /*
     useEffect(()=>{
         let tempID;
-        let tempUrl;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -33,37 +33,24 @@ const MyPageScreen = ({navigation}) => {
                 }
             }
         )
-        .then( () => {
-            AsyncStorage.getItem("url")
-            .then((value) => {
-                if (value !== null){
-                    tempUrl=value;
-                    setUrl(tempUrl);
-                }
-            })
-            .then(()=>{
-                console.log(tempID);
-                console.log(tempUrl);
-                fetch(`${tempUrl}/myInfo?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-    
-                    setUserName(responseJson.userName);
-                    setUserTier(responseJson.userTier);
-                    setUserStamp(responseJson.userStamp);
-                    setUserPoint(responseJson.userPoint);
+        .then(()=>{
+            console.log(tempID);
+            console.log(tempUrl);
+            fetch(`${url}/myInfo?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
 
-                    setLoading(true);
-                })  
-            })
+                setUserName(responseJson.userName);
+                setUserTier(responseJson.userTier);
+                setUserStamp(responseJson.userStamp);
+                setUserPoint(responseJson.userPoint);
+
+                setLoading(true);
+            })  
         })
-        .catch((error)=>{
-            console.error(error);
-        })
-    }, [])   
-   */ 
+    }, [])  */
     function TierImage(){
         if(userTier === 'Bronze'){
             return(
