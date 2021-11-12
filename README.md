@@ -53,7 +53,23 @@ const url = 'http://IPv4주소:로컬서버포트';
 ~~~
 
 ### 1.5. Local MySQL 연결(server/)
-MySQL 연결할 때 config.js 파일에서 해당하는 내용들 기입 후 테스트 진행할 것 수정하고 다시 merge request 진행시 지우고 merge request 진행
+MySQL 연결할 때 config.js 파일에서 해당하는 내용들 기입 후 테스트 진행할 것
+
+### 1.6. 서버 url 연결(client/)
+client 폴더안에 config.js 파일 생성후 아래와 같이 기입
+~~~
+const config = {
+    url: 'http://IPv4주소:로컬서버포트',
+};
+
+module.exports = config;
+~~~
+
+### 1.7. .gitignore 적용
+.gitignore이 정상적으로 적용이 안 되어 push 될 때 아래 명령어로 캐시를 지우고 add
+~~~
+git rm -r --cached .
+~~~
 <br>
 <br>
 <br>
