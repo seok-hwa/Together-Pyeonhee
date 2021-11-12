@@ -20,7 +20,7 @@ const MyPageScreen = ({navigation}) => {
     const [loading, setLoading] = useState(true);
 
     //서버 구현 되면 사용
-/*
+    /*
     useEffect(()=>{
         let tempID;
         let tempUrl;
@@ -62,8 +62,7 @@ const MyPageScreen = ({navigation}) => {
         .catch((error)=>{
             console.error(error);
         })
-    }, [])   
-   */ 
+    }, [])   */
     function TierImage(){
         if(userTier === 'Bronze'){
             return(
