@@ -103,10 +103,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var userAge = req.body.userAge;
                 var mbti_type = '';
-                var first_type = req.body.mbti1score;
-                var second_type = req.body.mbti2score;
-                var third_type = req.body.mbti3score;
-                var fourth_type = req.body.mbti4score;
+                var first_type = req.body.mbti1Score;
+                var second_type = req.body.mbti2Score;
+                var third_type = req.body.mbti3Score;
+                var fourth_type = req.body.mbti4Score;
                 var userIncome = req.body.userMonthlyIncome;
                 var userJob = req.body.userJob;
                 
