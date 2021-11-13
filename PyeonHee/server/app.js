@@ -193,6 +193,87 @@ const SSHConnection = new Promise((resolve, reject) => {
                 };*/
             });
 
+            //예산계획추천페이지(모든 사용자 동일)
+            app.get('/saveSelectBudgetPlan', function (req, res) {
+                console.log(req.query.userID);
+                db.query(`SELECT * FROM BudgetPlanning order by like_number desc limit 5,5`, function (error, result) {
+                    if (error) throw error;
+                    console.log(result);
+                    res.send(result);
+                });
+            });
+
+            // 선택한 예산계획 상세보기
+            app.get('/recommendedBudgetPlan', function (req, res) {
+                console.log(req.query.budgetPlanningID);
+                var budgetPlanID = req.query.budgetPlanningID;
+                var userMBTI;
+                var userAge;
+                var userIncome;
+                var user_savings;
+                var userLikeCount;
+                var rent;
+                var insurance;
+                var traffic;
+                var communication;
+                var hobby;
+                var shoppshoppinging_expense;
+                var education;
+                var management;
+                var event;
+                var ect;
+
+                db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    console.log(result[0]);
+                    const data = {
+                        userLikeCount: result[0].like_number,
+                        userMBTI: result[0].user_mbti,
+                        userAge: result[0].user_age,
+                        userIncome: result[0].user_income,
+                        rent: result[0].monthly_rent,
+                        insurance: result[0].insurance_expense,
+                        traffic: result[0].transportation_expense,
+                        communication: result[0].communication_expense,
+                        hobby: result[0].leisure_expense,
+                        shopping: result[0].shopping_expense,
+                        education: result[0].education_expense,
+                        management: result[0].medical_expense,
+                        event: result[0].event_expense,
+                        ect: result[0].etc_expense,
+                        budgetPlanID: result[0].planning_number
+                    }
+                    console.log(data);
+                    res.send(data);
+                });
+            });
+
+            // 선택한 예산계획 보관함
+            app.post('/saveBudgetPlan', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var budgetPlanID = req.body.budgetPlanID;
+                db.query(`INSERT INTO Storage(user_id, planning_number) SELECT ?,? FROM DUAL
+                WHERE NOT EXISTS (SELECT user_id, planning_number FROM Storage WHERE user_id = ? and planning_number =?)`, [userID, budgetPlanID, userID, budgetPlanID], function (error, result) {
+                if (error) throw error;
+                    else {
+                        const data = {
+                            status: true
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            /*
+            // 선택한 예산계획 좋아요
+            app.post('/likeBudgetPlan/', function (req, res) {
+                console.log(req.body);
+                var budgetPlanID = req.body.budgetPlanID;
+                var userLike = req.body.userLike;
+            });
+            */
             const PORT = 8000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
