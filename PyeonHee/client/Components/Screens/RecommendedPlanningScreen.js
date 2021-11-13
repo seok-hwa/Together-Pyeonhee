@@ -58,25 +58,23 @@ const LikeButton = (props) => {          //like
 };
 const RecommendedPlanningScreen = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
-    const [userAge, setUserAge] = useState(25);
-    const [userIncome, setUserIncome] = useState(5000000);
-    const [userMBTI, setUserMBTI] = useState('PCSM');
-    const [userLikeCount, setUserLikeCount] = useState(412);
-    const [userFixedExpense, setUserFixedExpense] = useState(1200000);
-    const [userVariableExpense, setUserVariableExpense] = useState(2000000);
+    const [userAge, setUserAge] = useState(0);
+    const [userIncome, setUserIncome] = useState(0);
+    const [userMBTI, setUserMBTI] = useState('');
+    const [userLikeCount, setUserLikeCount] = useState(0);
     const [userLike, setUserLike] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const [rent, setRent] = useState(100000);
-    const [education, setEducation] = useState(100000);
-    const [traffic, setTraffic] = useState(50000);
-    const [shopping, setShopping] = useState(200000);
-    const [hobby, setHobby] = useState(150000);
-    const [insurance, setInsurance] = useState(100000);
-    const [management, setManagement] = useState(100000);
-    const [communication, setCommunication] = useState(100000);
-    const [event, setEvent] = useState(100000);
-    const [ect, setEct] = useState(100000);
+    const [rent, setRent] = useState(0);
+    const [education, setEducation] = useState(0);
+    const [traffic, setTraffic] = useState(0);
+    const [shopping, setShopping] = useState(0);
+    const [hobby, setHobby] = useState(0);
+    const [insurance, setInsurance] = useState(0);
+    const [medical, setMedical] = useState(0);
+    const [communication, setCommunication] = useState(0);
+    const [event, setEvent] = useState(0);
+    const [ect, setEct] = useState(0);
 
 
     const [budgetPlanID, setBudgetPlanID] = useState(2);
@@ -131,8 +129,8 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
           legendFontSize: 15
         },
         {
-            name: "관리",
-            population: management,
+            name: "의료",
+            population: medical,
             color: "#84C0FF",
             legendFontColor: "black",
             legendFontSize: 15
@@ -184,8 +182,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             let tempDateRate = parseInt(savingDate/savingDateCompleted*100);
             setMoneyRate(tempMoneyRate);
             setDateRate(tempDateRate);
-            setLoading(true); // for test
-            /*
+            console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`);
             fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
@@ -196,36 +193,37 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 setUserMBTI(responseJson.userMBTI);
                 setUserAge(responseJson.userAge);
                 setUserIncome(responseJson.userIncome);
-                setUserFixedExpense(responseJson.userFixedExpense);
-                setUserVariableExpense(responseJson.userVariableExpense);
 
                 setEducation(responseJson.education);
                 setTraffic(responseJson.traffic);
                 setShopping(responseJson.shopping);
                 setHobby(responseJson.hobby);
                 setInsurance(responseJson.insurance);
-                setManagement(responseJson.management);
+                setMedical(responseJson.medical);
                 setRent(responseJson.rent);
                 setCommunication(responseJson.communication);
                 setEct(responseJson.ect);
                 setEvent(responseJson.event);
 
                 setBudgetPlanID(responseJson.budgetPlanID);
+
+                setLoading(true);
+                /*
                 setSavingName(responseJson.savingName);
                 setSavingDate(responseJson.savingDate);
                 setSavingDateCompleted(responseJson.savingDateCompleted);
                 setSavingMoney(responseJson.savingMoney);
                 setSavingMoneyCompleted(responseJson.savingMoneyCompleted);
-
+                */
             }) 
+            /*
             .then(()=>{
                 let tempMoneyRate = parseInt(savingMoney/savingMoneyCompleted*100);
                 let tempDateRate = parseInt(savingDate/savingDateCompleted*100);
                 setMoneyRate(tempMoneyRate);
                 setDateRate(tempDateRate);
-
-                setLoading(true);
-            })*/
+            })
+            */
         })
     }, []) 
     const handleSubmitButton = () => {
@@ -339,10 +337,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 <Text style={styles.fixPlanMoneyText}>{traffic}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
-                                <Text style={styles.fixCate}>관리</Text>
-                                <Text style={styles.fixPlanMoneyText}>{management}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
                                 <Text style={styles.fixCate}>교육</Text>
                                 <Text style={styles.fixPlanMoneyText}>{education}원</Text>
                             </View>
@@ -353,6 +347,10 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         </View>
                         <Text style={styles.fixTitle}>계획</Text>
                         <View style={styles.planBody}>
+                            <View style={styles.fixInnerDiv}>
+                                <Text style={styles.fixCate}>의료</Text>
+                                <Text style={styles.fixPlanMoneyText}>{medical}원</Text>
+                            </View>
                             <View style={styles.fixInnerDiv}>
                                 <Text style={styles.fixCate}>쇼핑</Text>
                                 <Text style={styles.fixPlanMoneyText}>{shopping}원</Text>
@@ -419,6 +417,7 @@ const styles = StyleSheet.create({
         height: 50,
         flexDirection: 'row',
         marginBottom: 5,
+        backgroundColor: 'white',
     },
     backButtonPosition: {
         marginLeft: 10,
@@ -447,6 +446,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 10,
+        backgroundColor: 'white',
     },
     appTopInnderCard: {
         flex: 1,
@@ -540,6 +540,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 10,
+        backgroundColor: 'white',
     },
     fixTitle: {
         margin: 30,
@@ -549,7 +550,7 @@ const styles = StyleSheet.create({
     fixBody:{
         marginLeft: 30,
         marginRight: 30,
-        height: 180,
+        height: 150,
         borderWidth: 1,
         borderRadius: 3,
         alignItems: 'center',
@@ -564,7 +565,7 @@ const styles = StyleSheet.create({
     planBody:{
         marginLeft: 30,
         marginRight: 30,
-        height: 120,
+        height: 150,
         borderWidth: 1,
         borderRadius: 3,
         alignItems: 'center',

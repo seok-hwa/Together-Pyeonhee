@@ -219,7 +219,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var hobby;
                 var shoppshoppinging_expense;
                 var education;
-                var management;
+                var medical;
                 var event;
                 var ect;
 
@@ -238,7 +238,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         hobby: result[0].leisure_expense,
                         shopping: result[0].shopping_expense,
                         education: result[0].education_expense,
-                        management: result[0].medical_expense,
+                        medical: result[0].medical_expense,
                         event: result[0].event_expense,
                         ect: result[0].etc_expense,
                         budgetPlanID: result[0].planning_number
