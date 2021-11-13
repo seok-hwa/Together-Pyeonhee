@@ -2,33 +2,15 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 import BudgetItem from '../BudgetItem';
+import config from '../../../config';
 
+const url = config.url;
 const BudgetList = ({navigation}) => {
-    const [url, setUrl] = useState('');
     const [userID, setUserID] = useState('');
-    const [otherBudgetData, setOtherBudgetData] = useState(0);
-    //for test
-    let tempData = [
-        {
-            userAge: 26, 
-            userIncome: '300', 
-            userFixedExpense: 300, 
-            userVariableExpense: 200, 
-            userTier: 'Gold', 
-            budgetPlanningID: 1,
-        },
-        {
-            userAge: 30, 
-            userIncome: '500', 
-            userFixedExpense: 300, 
-            userVariableExpense: 100, 
-            userTier: 'Silver', 
-            budgetPlanningID: 2,
-        },
-    ]
+    const [otherBudgetData, setOtherBudgetData] = useState([]);
+
     useEffect(()=>{
         let tempID;
-        let tempUrl;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -38,32 +20,17 @@ const BudgetList = ({navigation}) => {
                 }
             }
         )
-        .then( () => {
-            AsyncStorage.getItem("url")
-            .then((value) => {
-                if (value !== null){
-                    tempUrl=value;
-                    setUrl(tempUrl);
-                }
-            })
-            .then(()=>{
-                console.log(tempID);
-                console.log(tempUrl);
-                /*
-                fetch(`${tempUrl}/saveSelectBudgetPlan?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-                    setOtherBudgetData(responseJson.budgetData);
-
-                    setLoading(true);
-                })  
-                */
-            })
-        })
-        .catch((error)=>{
-            console.error(error);
+        .then(()=>{
+            console.log(tempID);
+            console.log(`${url}/saveSelectBudgetPlan?userID=${tempID}`);
+            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setOtherBudgetData(responseJson);
+            })  
+            
         })
     }, [])   
 
@@ -74,8 +41,11 @@ const BudgetList = ({navigation}) => {
             <ScrollView>
                 <View>
                     {
-                        tempData.map(item => {
-                        return <BudgetItem userAge={item.userAge} userTier={item.userTier} userIncome={item.userIncome} userFixedExpense={item.userFixedExpense} userVariableExpense={item.userVariableExpense} key={item.budgetPlanningID} budgetPlanningID={item.budgetPlanningID} navigation={navigation}/>;
+                        otherBudgetData.map(item => {
+                        return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                        userFixedExpense={item.monthly_rent+item.insurance_expense+item.transportation_expense+item.communication_expense+item.education_expense} 
+                        userVariableExpense={item.leisure_expense+ item.shopping_expense+ item.medical_expense+ item.event_expense + item.etc_expense} 
+                        />;
                     })}
                 </View>
             </ScrollView>

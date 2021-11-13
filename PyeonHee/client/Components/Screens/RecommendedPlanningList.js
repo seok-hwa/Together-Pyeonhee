@@ -8,8 +8,9 @@ const url = config.url;
 
 const RecommendedPlanningList = ({navigation}) => {
     const [userID, setUserID] = useState('');
-    const [otherBudgetData, setOtherBudgetData] = useState(0);
+    const [otherBudgetData, setOtherBudgetData] = useState([]);
     //for test
+    
     let tempData = [
         {
             userAge: 26, 
