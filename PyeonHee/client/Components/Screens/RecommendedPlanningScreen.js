@@ -419,6 +419,7 @@ const styles = StyleSheet.create({
         height: 50,
         flexDirection: 'row',
         marginBottom: 5,
+        backgroundColor: 'white',
     },
     backButtonPosition: {
         marginLeft: 10,
@@ -447,6 +448,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 10,
+        backgroundColor: 'white',
     },
     appTopInnderCard: {
         flex: 1,
@@ -540,6 +542,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 10,
+        backgroundColor: 'white',
     },
     fixTitle: {
         margin: 30,
