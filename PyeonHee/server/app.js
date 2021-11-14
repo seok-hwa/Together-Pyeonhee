@@ -132,24 +132,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                 }
                 console.log(mbti_type);
                 db.query(`UPDATE user SET mbti = ? 
-                WHERE user.user_id = ?`,[mbti_type, userID], function(error2,result2){
-                    if(error2) throw error2;
-                    console.log(result2);
-                });
-                db.query(`UPDATE user SET age = ? 
-                WHERE user.user_id = ?`,[userAge, userID], function(error1,result1){
+                WHERE user.user_id = ?`,[mbti_type, userID], function(error1,result1){
                     if(error1) throw error1;
                     console.log(result1);
                 });
+                db.query(`UPDATE user SET age = ? 
+                WHERE user.user_id = ?`,[userAge, userID], function(error2,result2){
+                    if(error2) throw error2;
+                    console.log(result2);
+                });
                 db.query(`UPDATE user SET income = ? 
-                WHERE user.user_id = ?`, [userIncome, userID], function (error, result) {
-                    if (error) throw error;
-                    console.log(result);
+                WHERE user.user_id = ?`, [userIncome, userID], function (error3, result3) {
+                    if (error3) throw error3;
+                    console.log(result3);
                 });
                 db.query(`UPDATE user SET job = ? 
-                WHERE user.user_id = ?`, [userJob, userID], function (error, result) {
-                    if (error) throw error;
-                    console.log(result);
+                WHERE user.user_id = ?`, [userJob, userID], function (error4, result4) {
+                    if (error4) throw error4;
+                    console.log(result4);
                 });
                 const data = {
                     status : true,
