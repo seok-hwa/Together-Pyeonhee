@@ -27,34 +27,44 @@ const BudgetList = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/saveSelectBudgetPlan?userID=${tempID}`);
-            if(check === false){
-                fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-                    setOtherBudgetData(responseJson);
-                })  
-            }
-            else{
-                fetch(`${url}/viewBudgetPlan?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-                    setRecommendedBudgetData(responseJson);
-                })
-            }
+            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setOtherBudgetData(responseJson);
+            })  
         })
-    }, [])   
-
+    }, [])
+    
+    const checkHandler = () => {
+        setCheck(!check);
+        
+        if(check === false) {
+            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setOtherBudgetData(responseJson);
+            })  
+        } else {
+            fetch(`${url}/viewBudgetPlan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setRecommendedBudgetData(responseJson);
+            })
+        }
+    }
     
     return (
         <View style={styles.appSize}>
             {/* <Text>본인 예산 계획서</Text> */}
             <ScrollView>
                 <View style={styles.wrapper}>
-                    <CheckBox value={check} onChange={() => setCheck(!check)} />
+                    <CheckBox value={check} onChange={() => checkHandler()} />
                     <Text style={styles.text}>
                         나와 유사한 계획서 찾기
                     </Text>
