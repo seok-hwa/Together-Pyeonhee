@@ -27,22 +27,24 @@ const BudgetList = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/saveSelectBudgetPlan?userID=${tempID}`);
-            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                setOtherBudgetData(responseJson);
-            })  
-
-            fetch(`${url}/viewBudgetPlan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                setRecommendedBudgetData(responseJson);
-            })
-            
+            if(check === false){
+                fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('response data');
+                    console.log(responseJson);
+                    setOtherBudgetData(responseJson);
+                })  
+            }
+            else{
+                fetch(`${url}/viewBudgetPlan?userID=${tempID}`)   //get
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('response data');
+                    console.log(responseJson);
+                    setRecommendedBudgetData(responseJson);
+                })
+            }
         })
     }, [])   
 
