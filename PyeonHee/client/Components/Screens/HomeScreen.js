@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
   //   justifyContent: 'center',
   //   alignItems:'center',
     padding: 5,
-    backgroundColor: 'white',
   },
   smallcontainer: {
     flex: 1,
@@ -83,8 +82,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   tabStyle: {
-    borderColor: '#F2F2F2',
-    backgroundColor: '#F2F2F2',
+    borderColor: 'white',
+    backgroundColor: 'white',
   },
   activeTabStyle: {
     backgroundColor: '#2FB7AA',

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BudgetDetail from './RecommendedPlanningScreen';
-
+/*
 const TierImage = (props) => {
   const userTier = props.userTier;
   if(userTier === 'Bronze'){
@@ -27,7 +27,7 @@ const TierImage = (props) => {
           <Image source={require('./assets/tier/Diamond_single.png')} style={styles.tierDesign}/>
       )
   }
-}
+}*/
 const BudgetItem = (props) => {
     return (
         <TouchableOpacity
@@ -36,8 +36,9 @@ const BudgetItem = (props) => {
         >
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
-                    <TierImage userTier={props.userTier}/>
-                    <Text>{props.userTier}</Text>
+                    
+
+                    
                 </View>
                 <View style={styles.item2}>
                     <Text>나이: {props.userAge}세</Text>
