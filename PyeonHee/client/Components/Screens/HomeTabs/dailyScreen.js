@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button } from 'react-native';
 import config from'../../../config';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const url = config.url;
 
 const DailyScreen = (props) => {
-    const [userID, setUserID] = useState('');
+    const [userID, setUserID] = useState('aaaa');
     const [userName, setUserName] = useState('테스트');
     const [loading, setLoading] = useState(false);
 
@@ -26,6 +27,7 @@ const DailyScreen = (props) => {
 
     useEffect(()=>{
         let tempID;
+        /*
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -36,6 +38,7 @@ const DailyScreen = (props) => {
             }
         )
         .then(()=>{
+            */
             console.log(tempID);
             //for test
             fetch(`${url}/daily`, {
@@ -115,7 +118,7 @@ const DailyScreen = (props) => {
                 */
                setLoading(true);
             })
-        })
+        //})
     }, [])
 
     return (

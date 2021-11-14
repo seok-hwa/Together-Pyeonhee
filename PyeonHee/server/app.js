@@ -293,7 +293,9 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
-                var data = {};
+                var data = {
+                    dfdf: '',
+                };
                 db.query(`SELECT available_money, daily_spent_money, rest_money 
                         FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
                     if(error) throw error;
@@ -311,7 +313,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 ORDER BY planning_number desc; `, [userID], function(error, category){
                     if(error) throw error;
                     else{
-                        data.planning_number = category[0].planning_number;
+                        console.log('asdf', category);
+                        //data.planning_number = category[0].planning_number;
                         data.monthly_rent = category[0].monthly_rent;
                         data.insurance_expense = category[0].insurance_expense;
                         data.transportation_expense = category[0].transportation_expense;
@@ -324,11 +327,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                         data.etc_expense = category[0].etc_expense;
                     }  
                 });
-                console.log(data);
+                console.log('df', data);
                 res.send(data);
             });
 
-            const PORT = 8000;
+            const PORT = 5555;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
             });
