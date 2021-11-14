@@ -196,10 +196,39 @@ const SSHConnection = new Promise((resolve, reject) => {
             //예산계획추천페이지(모든 사용자 동일)
             app.get('/saveSelectBudgetPlan', function (req, res) {
                 console.log(req.query.userID);
-                db.query(`SELECT * FROM BudgetPlanning order by like_number desc limit 5,5`, function (error, result) {
+                db.query(`SELECT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age, 
+                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings, 
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense 
+                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 5,5`, function (error, result) {
                     if (error) throw error;
                     console.log(result);
                     res.send(result);
+                });
+            });
+
+            //사용자와 비슷한 MBTI 예산계획 추천
+            app.get('/viewBudgetPlan', function (req, res) {
+                console.log(req.query);
+                var userID = req.query.userID;
+                db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else{
+                        console.log(result[0]);
+                        var userMBTI = result[0].mbti;
+                        var userAge = result[0].age;
+                        var userIncome = result[0].income;
+                        //var userJob = result[0].job;
+                        var income_minus = userIncome - 500000;
+                        var income_plus = userIncome + 1000000;
+                        var age_minus = userAge - 5;
+                        var age_plus = userAge + 5;
+                        db.query(`SELECT * FROM BudgetPlanning WHERE user_mbti =? and user_income between ? and ?
+                        and user_age between ? and ? order by like_number desc`, [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
+                            if (error) throw error;
+                            console.log(result);
+                            res.send(result);
+                        });
+                    }
                 });
             });
 
@@ -318,7 +347,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 
             });
 
-            const PORT = 6000;
+            const PORT = 8000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
             });
