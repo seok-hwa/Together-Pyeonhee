@@ -124,6 +124,11 @@ npm install styled-system
 ### 3.1. 관련 패키지 설치
 #### 3.1.1. react native chart(client/)
 https://m.blog.naver.com/noisy2/222063240495 사이트 참고
+
+#### 3.1.2. react native checkbox(client/)
+~~~
+npm install @react-native-community/checkbox --save
+~~~
 <br>
 <br>
 <br>
