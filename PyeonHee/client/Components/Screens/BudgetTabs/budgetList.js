@@ -41,7 +41,7 @@ const BudgetList = ({navigation}) => {
         setCheck(!check);
         
         if(check === false) {
-            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
+            fetch(`${url}/saveSelectBudgetPlan?userID=${userID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
@@ -49,7 +49,7 @@ const BudgetList = ({navigation}) => {
                 setOtherBudgetData(responseJson);
             })  
         } else {
-            fetch(`${url}/viewBudgetPlan?userID=${tempID}`)   //get
+            fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
