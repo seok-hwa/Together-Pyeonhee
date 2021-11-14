@@ -222,8 +222,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                         var income_plus = userIncome + 1000000;
                         var age_minus = userAge - 5;
                         var age_plus = userAge + 5;
-                        db.query(`SELECT * FROM BudgetPlanning WHERE user_mbti =? and user_income between ? and ?
-                        and user_age between ? and ? order by like_number desc`, [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
+                        db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
+                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc`, 
+                        [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
                             if (error) throw error;
                             console.log(result);
                             res.send(result);
