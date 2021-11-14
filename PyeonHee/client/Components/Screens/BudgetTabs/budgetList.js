@@ -12,6 +12,7 @@ const BudgetList = ({navigation}) => {
     const [otherBudgetData, setOtherBudgetData] = useState([]);
     const [recommendedBudgetData, setRecommendedBudgetData] = useState([]);
     const [check, setCheck] = useState(false);
+    const [read, setRead] = useState(false);
 
     useEffect(()=>{
         let tempID;
@@ -40,15 +41,8 @@ const BudgetList = ({navigation}) => {
     const checkHandler = () => {
         setCheck(!check);
         
-        if(check === false) {
-            fetch(`${url}/saveSelectBudgetPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                setOtherBudgetData(responseJson);
-            })  
-        } else {
+        if(check === false && read === false) {
+            setRead(true);
             fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
@@ -61,14 +55,15 @@ const BudgetList = ({navigation}) => {
     
     return (
         <View style={styles.appSize}>
-            {/* <Text>본인 예산 계획서</Text> */}
             <ScrollView>
+        
                 <View style={styles.wrapper}>
-                    <CheckBox value={check} onChange={() => checkHandler()} />
+                    <CheckBox value={check} onChange={checkHandler} />
                     <Text style={styles.text}>
                         나와 유사한 계획서 찾기
                     </Text>
                 </View>
+
                 <View>
                     {check === false && 
                         otherBudgetData.map(item => {
@@ -79,7 +74,6 @@ const BudgetList = ({navigation}) => {
                         />;
                     })}
                     {check === true && 
-                    
                         recommendedBudgetData.map(item => {
                         return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
                         userFixedExpense={item.monthly_rent+item.insurance_expense+item.transportation_expense+item.communication_expense+item.education_expense} 
@@ -87,8 +81,8 @@ const BudgetList = ({navigation}) => {
                         userAge={item.user_age} userIncome={item.user_income}
                         />;
                     })}
-                
                 </View>
+
             </ScrollView>
         </View>
     )
@@ -96,25 +90,6 @@ const BudgetList = ({navigation}) => {
 const styles = StyleSheet.create({
     appSize: {
         flex: 1,
-    },
-    appTopBar: {
-        height: 50,
-        flexDirection: 'row',
-        marginBottom: 5,
-    },
-    backButtonPosition: {
-        marginLeft: 10,
-        flex: 1,
-        flexDirection: 'column-reverse',
-    },
-    appTitlePosition: {
-        flex: 10,
-        flexDirection: 'column-reverse',
-        marginLeft: 20,
-        marginBottom: 5,
-    },
-    appTitle: {
-        fontSize: 15,
     },
     wrapper: {
         display: 'flex',
