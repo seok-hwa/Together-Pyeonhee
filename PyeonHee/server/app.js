@@ -318,7 +318,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 
             });
 
-            const PORT = 8000;
+            const PORT = 6000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
             });
