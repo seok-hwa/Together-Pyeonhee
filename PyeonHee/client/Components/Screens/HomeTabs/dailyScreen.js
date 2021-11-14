@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button } from 'react-native';
+import config from'../../../config';
+
+const url = config.url;
 
 const DailyScreen = (props) => {
     const [userID, setUserID] = useState('');
@@ -21,6 +24,99 @@ const DailyScreen = (props) => {
     const [dailyMoney, setDailyMoney] = useState(1000);
     const [monthMoney, setMonthMoney] = useState(1000);
 
+    useEffect(()=>{
+        let tempID;
+        AsyncStorage.getItem("userID")
+        .then(
+            (value) => {
+                if (value !== null){
+                    tempID=value
+                    setUserID(tempID);
+                }
+            }
+        )
+        .then(()=>{
+            console.log(tempID);
+            //for test
+            fetch(`${url}/daily`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: userID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+
+                setDailyMoney(responseJson.available_money);
+                setCoinBank(responseJson.rest_money);
+
+                setEducation(responseJson.education_expense);
+                setTraffic(responseJson.transportation_expense);
+                setShopping(responseJson.shopping_expense);
+                setHobby(responseJson.leisure_expense);
+                setInsurance(responseJson.insurance_expense);
+                setMedical(responseJson.medical_expense);
+                setRent(responseJson.monthly_rent);
+                setCommunication(responseJson.communication_expense);
+                setEct(responseJson.etc_expense);
+                setEvent(responseJson.event_expense);
+
+                let total = responseJson.education_expense+responseJson.transportation_expense+
+                responseJson.shopping_expense+responseJson.leisure_expense+responseJson.insurance_expense+
+                responseJson.medical_expense+responseJson.monthly_rent+responseJson.communication_expense+
+                responseJson.etc_expense+responseJson.event_expense;
+                setMonthMoney(total);
+            }) 
+            .then(()=>{
+                /*
+                fetch(`${url}/daily/savings`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      userID: userID,
+                    }),
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('response data');
+                    console.log(responseJson);
+    
+                    setDailyMoney(responseJson.available_money);
+                    setCoinBank(responseJson.rest_money);
+    
+                    setEducation(responseJson.education_expense);
+                    setTraffic(responseJson.transportation_expense);
+                    setShopping(responseJson.shopping_expense);
+                    setHobby(responseJson.leisure_expense);
+                    setInsurance(responseJson.insurance_expense);
+                    setMedical(responseJson.medical_expense);
+                    setRent(responseJson.monthly_rent);
+                    setCommunication(responseJson.communication_expense);
+                    setEct(responseJson.etc_expense);
+                    setEvent(responseJson.event_expense);
+    
+                    let total = responseJson.education_expense+responseJson.transportation_expense+
+                    responseJson.shopping_expense+responseJson.leisure_expense+responseJson.insurance_expense+
+                    responseJson.medical_expense+responseJson.monthly_rent+responseJson.communication_expense+
+                    responseJson.etc_expense+responseJson.event_expense;
+                    setMonthMoney(total);
+    
+                    setLoading(true);
+                }) 
+                */
+               setLoading(true);
+            })
+        })
+    }, [])
 
     return (
         <View style={styles.appSize}>
