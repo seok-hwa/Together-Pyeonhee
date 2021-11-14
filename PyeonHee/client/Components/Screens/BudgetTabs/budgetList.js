@@ -63,6 +63,7 @@ const BudgetList = ({navigation}) => {
                         return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
                         userFixedExpense={item.monthly_rent+item.insurance_expense+item.transportation_expense+item.communication_expense+item.education_expense} 
                         userVariableExpense={item.leisure_expense+ item.shopping_expense+ item.medical_expense+ item.event_expense + item.etc_expense} 
+                        userAge={item.user_age} userIncome={item.user_income}
                         />;
                     })}
                     {check === true && 
@@ -71,6 +72,7 @@ const BudgetList = ({navigation}) => {
                         return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
                         userFixedExpense={item.monthly_rent+item.insurance_expense+item.transportation_expense+item.communication_expense+item.education_expense} 
                         userVariableExpense={item.leisure_expense+ item.shopping_expense+ item.medical_expense+ item.event_expense + item.etc_expense} 
+                        userAge={item.user_age} userIncome={item.user_income}
                         />;
                     })}
                 
