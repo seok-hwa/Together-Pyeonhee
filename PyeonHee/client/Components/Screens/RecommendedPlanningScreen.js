@@ -11,6 +11,7 @@ import {
     View,
     TouchableOpacity,
     ScrollView,
+    Image,
 } from 'react-native';
 const url = config.url;
 const LikeButton = (props) => {          //like
@@ -325,22 +326,27 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         <Text style={styles.fixTitle}>고정</Text>
                         <View style={styles.fixBody}>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/rent.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>월세</Text>
                                 <Text style={styles.fixPlanMoneyText}>{rent}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/insurance.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>보험</Text>
                                 <Text style={styles.fixPlanMoneyText}>{insurance}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/traffic.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교통</Text>
                                 <Text style={styles.fixPlanMoneyText}>{traffic}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교육</Text>
                                 <Text style={styles.fixPlanMoneyText}>{education}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/communication.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>통신</Text>
                                 <Text style={styles.fixPlanMoneyText}>{communication}원</Text>
                             </View>
@@ -348,22 +354,27 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         <Text style={styles.fixTitle}>계획</Text>
                         <View style={styles.planBody}>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/medical.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>의료</Text>
                                 <Text style={styles.fixPlanMoneyText}>{medical}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/shopping.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>쇼핑</Text>
                                 <Text style={styles.fixPlanMoneyText}>{shopping}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/hobby.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>취미</Text>
                                 <Text style={styles.fixPlanMoneyText}>{hobby}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/event.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>경조사</Text>
                                 <Text style={styles.fixPlanMoneyText}>{event}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/ect.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>기타</Text>
                                 <Text style={styles.fixPlanMoneyText}>{ect}원</Text>
                             </View>
@@ -551,12 +562,11 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         height: 150,
-        borderWidth: 1,
         borderRadius: 3,
         alignItems: 'center',
     },
     fixCate:{
-        width: 80,
+        width: 50,
     },
     fixInnerDiv:{
         flexDirection: 'row',
@@ -566,13 +576,17 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         height: 150,
-        borderWidth: 1,
         borderRadius: 3,
         alignItems: 'center',
     },
     fixPlanMoneyText:{
         width: 120,
         textAlign:'right',
+    },
+    iconDiv:{
+        width: 20,
+        height: 20,
+        marginRight: 15,
     },
 })
 export default RecommendedPlanningScreen;
