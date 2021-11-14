@@ -73,7 +73,10 @@ const DailyScreen = (props) => {
                 responseJson.medical_expense+responseJson.monthly_rent+responseJson.communication_expense+
                 responseJson.etc_expense+responseJson.event_expense;
                 setMonthMoney(total);
+
+                setLoading(true);
             }) 
+            /*
             .then(()=>{
                 fetch(`${url}/daily/savings`, {
                     method: 'POST',
@@ -115,6 +118,7 @@ const DailyScreen = (props) => {
                 
                setLoading(true);
             })
+            */
         //})
     }, [])
 
