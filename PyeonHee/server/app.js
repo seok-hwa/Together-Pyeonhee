@@ -138,12 +138,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
                 db.query(`UPDATE user SET age = ? 
                 WHERE user.user_id = ?`,[userAge, userID], function(error,result2){
-                    if(error2) throw error2;
+                    if(error) throw error;
                     console.log(result2);
                 });
                 db.query(`UPDATE user SET income = ? 
                 WHERE user.user_id = ?`, [userIncome, userID], function (error, result3) {
-                    if (error3) throw error3;
+                    if (error) throw error;
                     console.log(result3);
                 });
                 db.query(`UPDATE user SET job = ? 
@@ -293,11 +293,14 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
+                var data = {};
                 db.query(`SELECT available_money, daily_spent_money, rest_money 
                         FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
                     if(error) throw error;
                     else{
-                        console.log(money);
+                        data.available_money = money.available_money; // 일일 권장 소비 잔여 금액
+                        data.daily_spent_money = money.daily_spent_money; // 일일 권장 소비 금액
+                        data.rest_money = money.rest_money; // 저금통 금액
                     }
                 });
 
@@ -308,30 +311,21 @@ const SSHConnection = new Promise((resolve, reject) => {
                 ORDER BY planning_number desc; `, [userID], function(error, category){
                     if(error) throw error;
                     else{
-                        console.log(category);
+                        data.planning_number = category[0].planning_number;
+                        data.monthly_rent = category[0].monthly_rent;
+                        data.insurance_expense = category[0].insurance_expense;
+                        data.transportation_expense = category[0].transportation_expense;
+                        data.communication_expense = category[0].communication_expense;
+                        data.leisure_expense = category[0].leisure_expense;
+                        data.shopping_expense = category[0].shopping_expense;
+                        data.education_expense = category[0].education_expense;
+                        data.medical_expense = category[0].medical_expense;
+                        data.event_expense = category[0].event_expense;
+                        data.etc_expense = category[0].etc_expense;
                     }  
                 });
-
-                const data = {
-                    available_money : money.available_money, // 일일 권장 소비 잔여 금액
-                    daily_spent_money : money.daily_spent_money, // 일일 권장 소비 금액
-                    rest_money : money.rest_money, // 저금통 금액
-
-                    planning_number : category[0].planning_number,
-                    monthly_rent : category[0].monthly_rent, 
-                    insurance_expense : category[0].insurance_expense,
-                    transportation_expense : category[0].transportation_expense,
-                    communication_expense : category[0].communication_expense,
-                    leisure_expense : category[0].leisure_expense,
-                    shopping_expense : category[0].shopping_expense,
-                    education_expense : category[0].education_expense,
-                    medical_expense : category[0].medical_expense,
-                    event_expense : category[0].event_expense,
-                    etc_expense : category[0].etc_expense,
-                }
-
+                console.log(data);
                 res.send(data);
-
             });
 
             const PORT = 8000;
