@@ -24,7 +24,6 @@ const DailyScreen = (props) => {
     const [coinBank, setCoinBank] = useState(3000);
     const [dailyMoney, setDailyMoney] = useState(1000);
     const [monthMoney, setMonthMoney] = useState(1000);
-
     useEffect(()=>{
         let tempID;
         /*
@@ -37,8 +36,7 @@ const DailyScreen = (props) => {
                 }
             }
         )
-        .then(()=>{
-            */
+        .then(()=>{*/
             console.log(tempID);
             //for test
             fetch(`${url}/daily`, {
@@ -77,7 +75,6 @@ const DailyScreen = (props) => {
                 setMonthMoney(total);
             }) 
             .then(()=>{
-                /*
                 fetch(`${url}/daily/savings`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -115,7 +112,7 @@ const DailyScreen = (props) => {
     
                     setLoading(true);
                 }) 
-                */
+                
                setLoading(true);
             })
         //})
@@ -323,6 +320,6 @@ const styles = StyleSheet.create({
     },
     itemDiv: {
         flexDirection: 'row',
-        margin: 2,
+        margin: 4,
     },
 });

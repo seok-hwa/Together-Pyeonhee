@@ -293,45 +293,32 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
-                var data = {
-                    dfdf: '',
-                };
-                db.query(`SELECT available_money, daily_spent_money, rest_money 
-                        FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
+                // db.query(`SELECT available_money, daily_spent_money, rest_money 
+                //         FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
+                //     if(error) throw error;
+                //     else{
+                //         data.push({available_money = money.available_money}); // 일일 권장 소비 잔여 금액
+                //         data.push({daily_spent_money = money.daily_spent_money}); // 일일 권장 소비 금액
+                //         data.push({rest_money = money.rest_money}); // 저금통 금액
+                //         console.log(data);
+                //     }
+                // });
+                db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
+                BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
+                BudgetPlanning.event_expense, BudgetPlanning.etc_expense, daily_data.available_money, daily_data.daily_spent_money, 
+                daily_data.rest_money from daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id where daily_data.user_id = ?`, [userID], function(error, result){
                     if(error) throw error;
                     else{
-                        data.available_money = money.available_money; // 일일 권장 소비 잔여 금액
-                        data.daily_spent_money = money.daily_spent_money; // 일일 권장 소비 금액
-                        data.rest_money = money.rest_money; // 저금통 금액
-                    }
-                });
-
-                db.query(`SELECT planning_number, monthly_rent, insurance_expense, 
-                transportation_expense, communication_expense, leisure_expense, 
-                shopping_expense, education_expense, medical_expense,
-                event_expense, etc_expense FROM BudgetPlanning WHERE user_id = ? 
-                ORDER BY planning_number desc; `, [userID], function(error, category){
-                    if(error) throw error;
-                    else{
-                        console.log('asdf', category);
-                        //data.planning_number = category[0].planning_number;
-                        data.monthly_rent = category[0].monthly_rent;
-                        data.insurance_expense = category[0].insurance_expense;
-                        data.transportation_expense = category[0].transportation_expense;
-                        data.communication_expense = category[0].communication_expense;
-                        data.leisure_expense = category[0].leisure_expense;
-                        data.shopping_expense = category[0].shopping_expense;
-                        data.education_expense = category[0].education_expense;
-                        data.medical_expense = category[0].medical_expense;
-                        data.event_expense = category[0].event_expense;
-                        data.etc_expense = category[0].etc_expense;
+                        console.log(result[0])
+                        res.send(result[0]);
                     }  
                 });
-                console.log('df', data);
-                res.send(data);
+                console.log("Before");
+                
             });
 
-            const PORT = 5555;
+            const PORT = 6000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
             });
