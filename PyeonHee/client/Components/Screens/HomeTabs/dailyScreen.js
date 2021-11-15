@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView} from 'react-native';
 import config from'../../../config';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import SavingItem from '../SavingItem';
 const url = config.url;
 
 const DailyScreen = (props) => {
-    const [userID, setUserID] = useState('aaaa');
+    const [userID, setUserID] = useState('');
     const [userName, setUserName] = useState('테스트');
     const [loading, setLoading] = useState(false);
     const [month, setMonth] = useState('');
+    const [isCompleted, setIsCompleted] = useState(true);
 
     const [rent, setRent] = useState(1000);
     const [education, setEducation] = useState(2000);
@@ -25,9 +26,24 @@ const DailyScreen = (props) => {
     const [coinBank, setCoinBank] = useState(3000);
     const [dailyMoney, setDailyMoney] = useState(1000);
     const [monthMoney, setMonthMoney] = useState(1000);
+
+    const [saving, setSaving] = useState([]);
+    //for test
+    /*
+    let saving=[
+        {
+            saving_number: 1,
+            saving_name: '하하',
+            all_savings_money: 2000,
+            savings_money: 20000,
+            start_date: '2020',
+            finish_date: '2021',
+        },
+    ]*/
+
     useEffect(()=>{
         let tempID;
-        /*
+        
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -37,13 +53,13 @@ const DailyScreen = (props) => {
                 }
             }
         )
-        .then(()=>{*/
+        .then(()=>{
             console.log(tempID);
             //for test
             fetch(`${url}/daily`, {
                 method: 'POST',
                 body: JSON.stringify({
-                  userID: userID,
+                  userID: tempID,
                 }),
                 headers: {
                   'Accept': 'application/json',
@@ -52,55 +68,14 @@ const DailyScreen = (props) => {
             })
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data');
+                console.log('response data 야 여기야!!');
                 console.log(responseJson);
-
-                setDailyMoney(responseJson.available_money);
-                setCoinBank(responseJson.rest_money);
-
-                setEducation(responseJson.education_expense);
-                setTraffic(responseJson.transportation_expense);
-                setShopping(responseJson.shopping_expense);
-                setHobby(responseJson.leisure_expense);
-                setInsurance(responseJson.insurance_expense);
-                setMedical(responseJson.medical_expense);
-                setRent(responseJson.monthly_rent);
-                setCommunication(responseJson.communication_expense);
-                setEct(responseJson.etc_expense);
-                setEvent(responseJson.event_expense);
-
-                let total = responseJson.education_expense+responseJson.transportation_expense+
-                responseJson.shopping_expense+responseJson.leisure_expense+responseJson.insurance_expense+
-                responseJson.medical_expense+responseJson.monthly_rent+responseJson.communication_expense+
-                responseJson.etc_expense+responseJson.event_expense;
-                setMonthMoney(total);
-
-                var now = new Date();	// 현재 날짜 및 시간
-                var month = now.getMonth();	// 월
-
-                setMonth(month+1);
-                setLoading(true);
-            }) 
-            /*
-            .then(()=>{
-                fetch(`${url}/daily/savings`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      userID: userID,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('response data');
-                    console.log(responseJson);
-    
+                if(responseJson.length === 0){
+                    setIsCompleted(false);
+                }else{
                     setDailyMoney(responseJson.available_money);
                     setCoinBank(responseJson.rest_money);
-    
+
                     setEducation(responseJson.education_expense);
                     setTraffic(responseJson.transportation_expense);
                     setShopping(responseJson.shopping_expense);
@@ -111,24 +86,58 @@ const DailyScreen = (props) => {
                     setCommunication(responseJson.communication_expense);
                     setEct(responseJson.etc_expense);
                     setEvent(responseJson.event_expense);
-    
+
                     let total = responseJson.education_expense+responseJson.transportation_expense+
                     responseJson.shopping_expense+responseJson.leisure_expense+responseJson.insurance_expense+
                     responseJson.medical_expense+responseJson.monthly_rent+responseJson.communication_expense+
                     responseJson.etc_expense+responseJson.event_expense;
                     setMonthMoney(total);
+
+                    var now = new Date();	// 현재 날짜 및 시간
+                    var month = now.getMonth();	// 월
+
+                    setMonth(month+1);
+                }
+            }) 
+            .then(()=>{
+                
+                fetch(`${url}/daily/savings`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        userID: tempID,
+                    }),
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('response data');
+                    console.log(responseJson);
+                    
+                    setSaving(responseJson);
     
                     setLoading(true);
+                    if(loading === true){
+                        console.log('로딩 됐어');
+                    }else{
+                        console.log('로딩 안 됐어');
+                    }
+                    if(isCompleted === true){
+                        console.log('정보 됐어');
+                    }else{
+                        console.log('정보 안 됐어');
+                    }
                 }) 
-                
-               setLoading(true);
+                .then(()=>{
+                })
             })
-            */
-        //})
+        })
     }, [])
-    if(loading === true){
+    if(loading === true && isCompleted === true){
         return (
-            <View style={styles.appSize}>
+            <ScrollView style={styles.appSize}>
                 <View style={styles.appTopBar}>
                     <View style={styles.titleDiv}>
                         <Text style={styles.NameStyle}>{userName}</Text>
@@ -163,6 +172,15 @@ const DailyScreen = (props) => {
                             </View>
                         </View>
                     </View>
+                    <Text style={styles.dailyText}>Saving</Text>
+                        <View style={styles.savingBody}>
+                            {saving.length === 0 ?
+                            <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                            saving.map(item => {
+                            return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
+                            startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
+                            })}
+                        </View>
                     <Text style={styles.categoryText}>Category</Text>
                     <View style={styles.categoryBody}>
                         <View style={styles.categoryInnerBody}>
@@ -189,7 +207,7 @@ const DailyScreen = (props) => {
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/rent.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>월세</Text>
-                                <Text style={styles.priceTitle}>{monthMoney}원</Text>
+                                <Text style={styles.priceTitle}>{rent}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/insurance.png')} style={styles.categoryIconDiv}/>
@@ -202,6 +220,11 @@ const DailyScreen = (props) => {
                                 <Text style={styles.priceTitle}>{medical}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/education.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>교육</Text>
+                                <Text style={styles.priceTitle}>{education}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>경조사</Text>
                                 <Text style={styles.priceTitle}>{event}원</Text>
@@ -212,6 +235,22 @@ const DailyScreen = (props) => {
                                 <Text style={styles.priceTitle}>{ect}원</Text>
                             </View>
                         </View>
+                    </View>
+                </View>
+            </ScrollView>
+        )
+    }else if(loading === true && isCompleted === false){
+        return(
+            <View style={styles.appSize}>
+                <View style={styles.appTopBar}>
+                    <View style={styles.titleDiv}>
+                        <Text style={styles.NameStyle}>{userName}</Text>
+                        <Text style={styles.NextToNameStyle}>님</Text>
+                    </View>
+                </View>
+                <View style={styles.appBody}>
+                    <View style={styles.notCompletedInnerBody}>
+                        <Text style={styles.notCompletedText}>아직 예산 계획서를 작성하지 않았습니다.</Text>
                     </View>
                 </View>
             </View>
@@ -274,10 +313,18 @@ const styles = StyleSheet.create({
     dailyBody:{
         borderRadius: 20,
         borderWidth: 1,
-        flex: 1,
+        height: 100,
         marginLeft: 10,
         marginRight: 10,
         flexDirection: 'row',
+        backgroundColor: 'white',
+    },
+    savingBody:{
+        borderRadius: 20,
+        borderWidth: 1,
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10,
         backgroundColor: 'white',
     },
     categoryText:{
@@ -288,7 +335,7 @@ const styles = StyleSheet.create({
     categoryBody:{
         borderRadius: 20,
         borderWidth: 1,
-        flex: 3,
+        height: 300,
         marginBottom: 20,
         marginLeft: 30,
         marginRight: 30,
@@ -348,10 +395,21 @@ const styles = StyleSheet.create({
     },
     itemDiv: {
         flexDirection: 'row',
-        margin: 4,
+        margin: 2,
     },
     categoryIconDiv: {
         width: 20,
         height: 20,
+    },
+    notCompletedInnerBody: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        flex: 1,
+        borderRadius: 50,
+    },
+    notCompletedText :{
+        fontWeight: 'bold',
+        color: 'black',
     },
 });

@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import PlanningSaveButton from '../Buttons/PlanningSaveButton';
 import { PieChart } from 'react-native-chart-kit';
 import config from '../../config';
+import SavingItem from './SavingItem';
+
 import {
     StyleSheet,
     Text,
@@ -79,6 +81,9 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
 
 
     const [budgetPlanID, setBudgetPlanID] = useState(2);
+
+    const [saving, setSaving] = useState([]);
+
     const [savingName, setSavingName] = useState('1년안에 차사기');
     const [savingMoney, setSavingMoney] = useState(100000);
     const [savingMoneyCompleted, setSavingMoneyCompleted] = useState(20000000);
@@ -189,42 +194,28 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
-                setUserLikeCount(responseJson.userLikeCount);
-                setUserLike(responseJson.userLike);
-                setUserMBTI(responseJson.userMBTI);
-                setUserAge(responseJson.userAge);
-                setUserIncome(responseJson.userIncome);
+                setUserLikeCount(responseJson.data.userLikeCount);
+                setUserLike(responseJson.data.userLike);
+                setUserMBTI(responseJson.data.userMBTI);
+                setUserAge(responseJson.data.userAge);
+                setUserIncome(responseJson.data.userIncome);
 
-                setEducation(responseJson.education);
-                setTraffic(responseJson.traffic);
-                setShopping(responseJson.shopping);
-                setHobby(responseJson.hobby);
-                setInsurance(responseJson.insurance);
-                setMedical(responseJson.medical);
-                setRent(responseJson.rent);
-                setCommunication(responseJson.communication);
-                setEct(responseJson.ect);
-                setEvent(responseJson.event);
+                setEducation(responseJson.data.education);
+                setTraffic(responseJson.data.traffic);
+                setShopping(responseJson.data.shopping);
+                setHobby(responseJson.data.hobby);
+                setInsurance(responseJson.data.insurance);
+                setMedical(responseJson.data.medical);
+                setRent(responseJson.data.rent);
+                setCommunication(responseJson.data.communication);
+                setEct(responseJson.data.ect);
+                setEvent(responseJson.data.event);
 
-                setBudgetPlanID(responseJson.budgetPlanID);
+                setBudgetPlanID(responseJson.data.budgetPlanID);
+                setSaving(responseJson.result);
 
                 setLoading(true);
-                /*
-                setSavingName(responseJson.savingName);
-                setSavingDate(responseJson.savingDate);
-                setSavingDateCompleted(responseJson.savingDateCompleted);
-                setSavingMoney(responseJson.savingMoney);
-                setSavingMoneyCompleted(responseJson.savingMoneyCompleted);
-                */
             }) 
-            /*
-            .then(()=>{
-                let tempMoneyRate = parseInt(savingMoney/savingMoneyCompleted*100);
-                let tempDateRate = parseInt(savingDate/savingDateCompleted*100);
-                setMoneyRate(tempMoneyRate);
-                setDateRate(tempDateRate);
-            })
-            */
         })
     }, []) 
     const handleSubmitButton = () => {
@@ -287,38 +278,12 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                             </View>
                             <View style={styles.bottomDivInCard}>
-                                <View style={styles.savingOuterDiv}>
-                                    <View style={styles.textDiv} >
-                                        <Text>- 저축계획: </Text>
-                                        <Text style={styles.savingText}>{savingName}</Text> 
-                                    </View>
-                                    <View style={styles.savingDiv}>
-                                        <View style={styles.savingInnerDiv} >
-                                            <Text>모인금액: </Text>
-                                            <Text style={styles.textStyle}>{savingMoney}원</Text> 
-                                            <Text>    진행률: </Text>
-                                            <Text style={styles.progressText}>{moneyRate}%</Text>
-                                        </View>
-                                        <View style={styles.savingInnerDiv} >
-                                            <Text style={styles.goalText}> 목표금액: </Text>
-                                            <Text style={styles.goalText}>{savingMoneyCompleted}</Text> 
-                                            <Text style={styles.goalText}>원</Text>
-                                        </View>
-                                        <View style={styles.savingBottomDiv}>
-                                            <View style={styles.savingInnerDiv} >
-                                                <Text>진행기간: </Text>
-                                                <Text style={styles.textStyle}>{savingDate}일</Text> 
-                                                <Text>    진행률: </Text>
-                                                <Text style={styles.progressText}>{dateRate}%</Text>
-                                            </View>
-                                            <View style={styles.savingInnerDiv} >
-                                                <Text style={styles.goalText}> 목표기간: </Text>
-                                                <Text style={styles.goalText}>{savingDateCompleted}</Text> 
-                                                <Text style={styles.goalText}>일</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
+                                {saving.length === 0 ?
+                                <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                                saving.map(item => {
+                                return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
+                                startSavingDate={item.start_date} endSavingDate={item.finish_date} />;
+                                })}
                             </View>
                         </View>
                     </View>
@@ -450,7 +415,7 @@ const styles = StyleSheet.create({
         borderColor: '#DCDCDC',
     },
     appInnerBody: {
-        height: 260,
+        flex: 1,
         borderWidth: 2,
         borderRadius: 10,
         marginTop: 30,
@@ -484,6 +449,9 @@ const styles = StyleSheet.create({
     bottomDivInCard: {
         flex: 1,
         marginTop: 10,
+        borderWidth: 1,
+        borderRadius: 10,
+        alignItems: 'center',
     },
     appBottomInnerBody: {
         flex: 3,
