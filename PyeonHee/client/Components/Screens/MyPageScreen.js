@@ -14,10 +14,10 @@ const url=config.url;
 const MyPageScreen = ({navigation}) => {
     //useState for test
     const [userID, setUserID] = useState('');
-    const [userName, setUserName] = useState('테스트');
-    const [userTier, setUserTier] = useState('Diamond');
-    const [userStamp, setUserStamp] = useState(1500);
-    const [userPoint, setUserPoint] = useState(1200);
+    const [userName, setUserName] = useState('');
+    const [userTier, setUserTier] = useState('');
+    const [userStamp, setUserStamp] = useState(0);
+    const [userPoint, setUserPoint] = useState(0);
     const [loading, setLoading] = useState(true);
 
     //서버 구현 되면 사용
@@ -48,8 +48,10 @@ const MyPageScreen = ({navigation}) => {
                 setUserStamp(responseJson.userStamp);
                 setUserPoint(responseJson.userPoint);
 
+            })
+            .then(()=>{
                 setLoading(true);
-            })  
+            })
         })
     }, []) 
     function TierImage(){
@@ -72,6 +74,10 @@ const MyPageScreen = ({navigation}) => {
         }else if(userTier === 'Diamond'){
             return(
                 <Image source={require('./assets/tier/Diamond_single.png')} style={styles.tierDesign}/>
+            )
+        }else{
+            return(
+                <View style={styles.tierDesign} />
             )
         }
     }
