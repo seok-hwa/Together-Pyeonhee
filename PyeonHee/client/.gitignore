@@ -63,7 +63,7 @@ buck-out/
 config.js
 
 #ios font 충돌
-# /android/app/src/main/assets/
-# /ios/PyeonHee/info.plist
-# /ios/Podfile
-# /ios/PyeonHee.xcodeproj/project.pbxproj
+/android/app/src/main/assets/
+/ios/PyeonHee/info.plist
+/ios/Podfile
+/ios/PyeonHee.xcodeproj/project.pbxproj
