@@ -311,7 +311,9 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             // 예산계획 작성
-
+            app.post('/submitBudgetPlan', function(req, res){
+                console.log(req.body);
+            });
 
             
             /*
