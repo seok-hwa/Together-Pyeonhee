@@ -17,6 +17,7 @@ import MyPageScreen from './Components/Screens/MyPageScreen';
 import Iamport from './IamportComponents/App';
 import AsyncStorage from '@react-native-community/async-storage';
 import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
+import testScreen from './Components/Screens/testScreen';
 import config from './config';
 
 import {
@@ -100,6 +101,13 @@ function App(){         //navigation
               headerShown: false,
           }} 
           />
+          <Stack.Screen
+            name="test"
+            component={testScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     ); 
@@ -152,6 +160,13 @@ function App(){         //navigation
           <Stack.Screen     //for BudgetDetail test
             name="BudgetDetail"
             component={BudgetInfoScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="test"
+            component={testScreen}
             options={{
               headerShown: false,
           }} 
