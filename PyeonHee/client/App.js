@@ -17,6 +17,7 @@
  import Iamport from './IamportComponents/App';
  import AsyncStorage from '@react-native-community/async-storage';
  import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
+ import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen';
  import testScreen from './Components/Screens/testScreen';
  import config from './config';
  
@@ -94,6 +95,13 @@
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+            name="WriteBudget"
+            component={WriteBudgetScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
            <Stack.Screen     //for BudgetDetail test
              name="BudgetDetail"
              component={BudgetInfoScreen}
@@ -157,6 +165,13 @@
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+            name="WriteBudget"
+            component={WriteBudgetScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
            <Stack.Screen     //for BudgetDetail test
              name="BudgetDetail"
              component={BudgetInfoScreen}
