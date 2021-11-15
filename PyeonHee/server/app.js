@@ -196,10 +196,40 @@ const SSHConnection = new Promise((resolve, reject) => {
             //예산계획추천페이지(모든 사용자 동일)
             app.get('/saveSelectBudgetPlan', function (req, res) {
                 console.log(req.query.userID);
-                db.query(`SELECT * FROM BudgetPlanning order by like_number desc limit 5,5`, function (error, result) {
+                db.query(`SELECT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age, 
+                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings, 
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense 
+                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 5,5`, function (error, result) {
                     if (error) throw error;
                     console.log(result);
                     res.send(result);
+                });
+            });
+
+            //사용자와 비슷한 MBTI 예산계획 추천
+            app.get('/viewBudgetPlan', function (req, res) {
+                console.log(req.query);
+                var userID = req.query.userID;
+                db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else{
+                        console.log(result[0]);
+                        var userMBTI = result[0].mbti;
+                        var userAge = result[0].age;
+                        var userIncome = result[0].income;
+                        //var userJob = result[0].job;
+                        var income_minus = userIncome - 500000;
+                        var income_plus = userIncome + 1000000;
+                        var age_minus = userAge - 5;
+                        var age_plus = userAge + 5;
+                        db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
+                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc`, 
+                        [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
+                            if (error) throw error;
+                            console.log(result);
+                            res.send(result);
+                        });
+                    }
                 });
             });
 
@@ -207,26 +237,15 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/recommendedBudgetPlan', function (req, res) {
                 console.log(req.query.budgetPlanningID);
                 var budgetPlanID = req.query.budgetPlanningID;
-                var userMBTI;
-                var userAge;
-                var userIncome;
-                var user_savings;
-                var userLikeCount;
-                var rent;
-                var insurance;
-                var traffic;
-                var communication;
-                var hobby;
-                var shoppshoppinging_expense;
-                var education;
-                var medical;
-                var event;
-                var ect;
+                var userMBTI; var userAge; var userIncome; var user_savings;
+                var userLikeCount; var rent; var insurance; var traffic;
+                var communication; var hobby; var shoppshoppinging_expense;
+                var education; var medical; var event; var ect; var data;
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
                     console.log(result[0]);
-                    const data = {
+                    data = {
                         userLikeCount: result[0].like_number,
                         userMBTI: result[0].user_mbti,
                         userAge: result[0].user_age,
@@ -243,12 +262,25 @@ const SSHConnection = new Promise((resolve, reject) => {
                         ect: result[0].etc_expense,
                         budgetPlanID: result[0].planning_number
                     }
-                    console.log(data);
-                    res.send(data);
+                });
+                db.query(`SELECT user_id FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var userID = result[0].user_id;
+                        db.query(`SELECT * FROM Savings WHERE user_id =?`, [userID], function (error, result) {
+                            if (error) throw error;
+                            var data2 = {
+                                data,
+                                result
+                            }
+                            console.log(data2);
+                            res.send(data2);
+                        });
+                    }
                 });
             });
 
-            // 선택한 예산계획 보관함
+            // 선택한 예산계획 보관함 저장
             app.post('/saveBudgetPlan', function (req, res) {
                 console.log(req.body);
                 var userID = req.body.userID;
@@ -262,6 +294,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         console.log(data);
                         res.send(data);
+                    }
+                });
+            });
+
+            // 선택한 예산계획 보관함 삭제
+            app.post('/cancelBudgetPlan', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var budgetPlanID = req.body.budgetPlanID;
+                db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success;`, [userID, budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1){
+                            db.query(`DELETE FROM Storage WHERE user_id =? and planning_number =?`, [userID, budgetPlanID], function (error, result) {
+                                if (error) throw error;
+                                const data = {
+                                    status: true
+                                }
+                                console.log(data);
+                                res.send(data);
+                            });
+                        }
                     }
                 });
             });
@@ -280,7 +334,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.body);
                 var userID = req.body.userID;
                 db.query(`select saving_name, savings_money, start_date,finish_date, 
-                        all_savings_money from Savings where user_id = ?` , [userID], function(error, result){
+                        all_savings_money, saving_number from Savings where user_id = ?` , [userID], function(error, result){
                     if(error) throw error;
                     else{
                         console.log(result);
@@ -293,39 +347,31 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
-                var data = {};
-                db.query(`SELECT available_money, daily_spent_money, rest_money 
-                        FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
+                // db.query(`SELECT available_money, daily_spent_money, rest_money 
+                //         FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
+                //     if(error) throw error;
+                //     else{
+                //         data.push({available_money = money.available_money}); // 일일 권장 소비 잔여 금액
+                //         data.push({daily_spent_money = money.daily_spent_money}); // 일일 권장 소비 금액
+                //         data.push({rest_money = money.rest_money}); // 저금통 금액
+                //         console.log(data);
+                //     }
+                // });
+                db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
+                BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
+                BudgetPlanning.event_expense, BudgetPlanning.etc_expense, daily_data.available_money, daily_data.daily_spent_money, 
+                daily_data.rest_money from daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id where daily_data.user_id = ?`, [userID], function(error, result){
                     if(error) throw error;
-                    else{
-                        data.available_money = money.available_money; // 일일 권장 소비 잔여 금액
-                        data.daily_spent_money = money.daily_spent_money; // 일일 권장 소비 금액
-                        data.rest_money = money.rest_money; // 저금통 금액
+                    else if(result.length != 0){
+                        console.log(result[0])
+                        res.send(result[0]);
+                    } else{
+                        res.send([]);
                     }
                 });
-
-                db.query(`SELECT planning_number, monthly_rent, insurance_expense, 
-                transportation_expense, communication_expense, leisure_expense, 
-                shopping_expense, education_expense, medical_expense,
-                event_expense, etc_expense FROM BudgetPlanning WHERE user_id = ? 
-                ORDER BY planning_number desc; `, [userID], function(error, category){
-                    if(error) throw error;
-                    else{
-                        data.planning_number = category[0].planning_number;
-                        data.monthly_rent = category[0].monthly_rent;
-                        data.insurance_expense = category[0].insurance_expense;
-                        data.transportation_expense = category[0].transportation_expense;
-                        data.communication_expense = category[0].communication_expense;
-                        data.leisure_expense = category[0].leisure_expense;
-                        data.shopping_expense = category[0].shopping_expense;
-                        data.education_expense = category[0].education_expense;
-                        data.medical_expense = category[0].medical_expense;
-                        data.event_expense = category[0].event_expense;
-                        data.etc_expense = category[0].etc_expense;
-                    }  
-                });
-                console.log(data);
-                res.send(data);
+                console.log("Before");
+                
             });
 
             const PORT = 8001;
