@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import BackButton from '../Buttons/BackButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlanningSaveButton from '../Buttons/PlanningSaveButton';
+import PlanningSaveCancelButton from '../Buttons/PlanningSaveCancelButton';
 import { PieChart } from 'react-native-chart-kit';
 import config from '../../config';
 import SavingItem from './SavingItem';
@@ -66,6 +67,8 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
     const [userMBTI, setUserMBTI] = useState('');
     const [userLikeCount, setUserLikeCount] = useState(0);
     const [userLike, setUserLike] = useState(false);
+    const [userStore, setUserStore] = useState(false);
+
     const [loading, setLoading] = useState(false);
 
     const [rent, setRent] = useState(0);
@@ -83,14 +86,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
     const [budgetPlanID, setBudgetPlanID] = useState(2);
 
     const [saving, setSaving] = useState([]);
-
-    const [savingName, setSavingName] = useState('1년안에 차사기');
-    const [savingMoney, setSavingMoney] = useState(100000);
-    const [savingMoneyCompleted, setSavingMoneyCompleted] = useState(20000000);
-    const [savingDate, setSavingDate] = useState(20);
-    const [savingDateCompleted, setSavingDateCompleted] = useState(300);
-    const [moneyRate, setMoneyRate] = useState(0);
-    const [dateRate, setDateRate] = useState(0);
 
     const getUserLike=(userLike)=>{
         setUserLike(userLike);
@@ -170,7 +165,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             legendFontSize: 15
         },
       ];
-      useEffect(()=>{
+    useEffect(()=>{
         let tempID;
         AsyncStorage.getItem("userID")
         .then(
@@ -184,18 +179,14 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             //for test
-            let tempMoneyRate = parseInt(savingMoney/savingMoneyCompleted*100);
-            let tempDateRate = parseInt(savingDate/savingDateCompleted*100);
-            setMoneyRate(tempMoneyRate);
-            setDateRate(tempDateRate);
             console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`);
             fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
+
                 console.log(responseJson);
                 setUserLikeCount(responseJson.data.userLikeCount);
-                setUserLike(responseJson.data.userLike);
                 setUserMBTI(responseJson.data.userMBTI);
                 setUserAge(responseJson.data.userAge);
                 setUserIncome(responseJson.data.userIncome);
@@ -214,11 +205,55 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 setBudgetPlanID(responseJson.data.budgetPlanID);
                 setSaving(responseJson.result);
 
-                setLoading(true);
-            }) 
-        })
+                setLoading(true);//for test
+            })
+            /*
+            .then(()=>{
+                fetch(`${url}/didLike`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                    userID: tempID,
+                    budgetPlanID: route.params.budgetPlanningID,
+                    }),
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        setUserLike(true);
+                    }
+                })
+                .then(()=>{
+                    fetch(`${url}/didStore`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            userID: tempID,
+                            budgetPlanID: route.params.budgetPlanningID,
+                        }),
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type':'application/json',
+                        },
+                    })
+                    .then((response)=>response.json())
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            setUserStore(true);
+                        }
+                    })
+                    .then(()=>{
+                        setLoading(true);
+                    })
+                })
+            })*/
+        }) 
     }, []) 
-    const handleSubmitButton = () => {
+    const handleSubmitSaveButton = () => {
         fetch(`${url}/saveBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
@@ -235,9 +270,38 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             console.log(responseJson);
             if(responseJson.status === true){
                 console.log('추가 완료');
+                setUserStore(true);
                 alert('보관함에 추가되었습니다.');
             }else{
                 alert('보관함 저장에 실패했습니다.');
+                console.log('fail to save.');
+            }
+        })
+        .catch((error)=>{
+            console.error(error);
+        })
+    }
+    const handleSubmitCancelButton = () => {
+        fetch(`${url}/cancelBudgetPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              budgetPlanID: budgetPlanID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
+            if(responseJson.status === true){
+                console.log('삭제 완료');
+                setUserStore(false);
+                alert('보관함에서 삭제되었습니다.');
+            }else{
+                alert('계획서 삭제 실패');
                 console.log('fail to save.');
             }
         })
@@ -270,7 +334,9 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                     </View>
                                     <View style={styles.textDiv} >
                                         <Text>소비 성향 MBTI: </Text>
-                                        <Text style={styles.mbtiStyle}>{userMBTI}</Text> 
+                                        <View style={styles.mbtiInnerContainer}>
+                                            <Text style={styles.mbtiText}>{userMBTI}</Text>
+                                        </View> 
                                     </View>
                                 </View>
                                 <View style={styles.rightDivInCard}>
@@ -360,7 +426,11 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             accessor="population"
                             backgroundColor="transparent"
                         />
-                        <PlanningSaveButton onPress={handleSubmitButton}/>
+                        {userStore === false ?
+                            <PlanningSaveButton onPress={handleSubmitSaveButton}/>
+                            :
+                            <PlanningSaveCancelButton onPress={handleSubmitCancelButton}/>
+                        }
                     </View>
                 </View>
             </ScrollView>
@@ -555,6 +625,16 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         marginRight: 15,
+    },
+    mbtiInnerContainer: {
+        backgroundColor: 'pink',
+        padding: 3,
+        borderRadius: 5,
+    },
+    mbtiText: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'white',
     },
 })
 export default RecommendedPlanningScreen;
