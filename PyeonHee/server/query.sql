@@ -52,7 +52,7 @@ create table BudgetPlanning (
     primary key (planning_number),
     foreign key (user_id) references user (user_id)
 );
-
+/*
 create table Savings ( 
     user_id varchar(10) not null,
     planned_date datetime default current_timestamp,
@@ -65,6 +65,22 @@ create table Savings (
     finish_date datetime,
     all_savings_money int not null,
     primary key (user_id),
+    foreign key (user_id) references user (user_id)
+);
+*/
+/*Savings Table 수정_211113*/
+create table Savings ( 
+    user_id varchar(10) not null,
+    planned_date datetime default current_timestamp,
+    
+    saving_number int not null auto_increment,
+    saving_name varchar(30) not null, 
+
+    savings_money int not null,
+    start_date date default current_timestamp,
+    finish_date date default current_timestamp,
+    all_savings_money int default 0,
+    primary key (saving_number),
     foreign key (user_id) references user (user_id)
 );
 
@@ -292,3 +308,13 @@ where user_id = 'abcd'
   and bank = 1
   and address_no = 1000000;
   */
+
+  create table LikeCount (
+    user_id varchar(10) not null,
+    planning_number int not null,
+    like_check int default 1,
+
+    primary key (user_id, planning_number),
+    foreign key (user_id) references user (user_id),
+    foreign key (planning_number) references BudgetPlanning (planning_number)
+);
