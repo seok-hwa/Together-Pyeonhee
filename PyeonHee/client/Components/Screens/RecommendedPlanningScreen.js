@@ -306,13 +306,13 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                         </View>
                                         <View style={styles.savingBottomDiv}>
                                             <View style={styles.savingInnerDiv} >
-                                                <Text>진행기간: </Text>
+                                                <Text>시작일: </Text>
                                                 <Text style={styles.textStyle}>{savingDate}일</Text> 
                                                 <Text>    진행률: </Text>
                                                 <Text style={styles.progressText}>{dateRate}%</Text>
                                             </View>
                                             <View style={styles.savingInnerDiv} >
-                                                <Text style={styles.goalText}> 목표기간: </Text>
+                                                <Text style={styles.goalText}> 종료일: </Text>
                                                 <Text style={styles.goalText}>{savingDateCompleted}</Text> 
                                                 <Text style={styles.goalText}>일</Text>
                                             </View>
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
         borderColor: '#DCDCDC',
     },
     appInnerBody: {
-        height: 260,
+        flex: 1,
         borderWidth: 2,
         borderRadius: 10,
         marginTop: 30,
@@ -484,6 +484,7 @@ const styles = StyleSheet.create({
     bottomDivInCard: {
         flex: 1,
         marginTop: 10,
+        borderWidth: 1,
     },
     appBottomInnerBody: {
         flex: 3,

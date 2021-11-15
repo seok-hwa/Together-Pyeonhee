@@ -310,7 +310,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.body);
                 var userID = req.body.userID;
                 db.query(`select saving_name, savings_money, start_date,finish_date, 
-                        all_savings_money from Savings where user_id = ?` , [userID], function(error, result){
+                        all_savings_money, saving_number from Savings where user_id = ?` , [userID], function(error, result){
                     if(error) throw error;
                     else{
                         console.log(result);
@@ -339,10 +339,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                 BudgetPlanning.event_expense, BudgetPlanning.etc_expense, daily_data.available_money, daily_data.daily_spent_money, 
                 daily_data.rest_money from daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id where daily_data.user_id = ?`, [userID], function(error, result){
                     if(error) throw error;
-                    else{
+                    else if(result.length != 0){
                         console.log(result[0])
                         res.send(result[0]);
-                    }  
+                    } else{
+                        res.send([]);
+                    }
                 });
                 console.log("Before");
                 
