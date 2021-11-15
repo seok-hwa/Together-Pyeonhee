@@ -276,16 +276,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var budgetPlanID = req.body.budgetPlanID;
                 db.query(`INSERT INTO Storage(user_id, planning_number) SELECT ?,? FROM DUAL
-                WHERE NOT EXISTS (SELECT user_id, planning_number FROM Storage WHERE user_id = ? and planning_number =?)`, [userID, budgetPlanID, userID, budgetPlanID], function (error, result) {
-                if (error) throw error;
-                    else {
-                        const data = {
-                            status: true
+                WHERE NOT EXISTS (SELECT user_id, planning_number FROM Storage WHERE user_id = ? and planning_number =?)`,
+                    [userID, budgetPlanID, userID, budgetPlanID], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            const data = {
+                                status: true
+                            }
+                            res.send(data);
                         }
-                        console.log(data);
-                        res.send(data);
-                    }
-                });
+                    });
             });
 
             // 선택한 예산계획 보관함 삭제
@@ -293,37 +293,119 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.body);
                 var userID = req.body.userID;
                 var budgetPlanID = req.body.budgetPlanID;
-                db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success;`, [userID, budgetPlanID], function (error, result) {
-                    if (error) throw error;
-                    else {
-                        if (result[0].success == 1){
-                            db.query(`DELETE FROM Storage WHERE user_id =? and planning_number =?`, [userID, budgetPlanID], function (error, result) {
-                                if (error) throw error;
+                db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success`,
+                    [userID, budgetPlanID], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            if (result[0].success == 1) {
+                                db.query(`DELETE FROM Storage WHERE user_id =? and planning_number =?`,
+                                    [userID, budgetPlanID], function (error, result) {
+                                        if (error) throw error;
+                                        const data = {
+                                            status: true
+                                        }
+                                        res.send(data);
+                                    });
+                            }
+                        }
+                    });
+            });
+
+            // 좋아요&취소 버튼 기능
+            app.post('/likeBudgetPlan/', function (req, res) {
+                console.log(req.body);
+                var budgetPlanID = req.body.budgetPlanID;
+                var userLike = req.body.userLike;
+                var userID = req.body.userID;
+                if (userLike == false) {
+                    db.query(`INSERT INTO LikeCount(user_id, planning_number) SELECT ?, ? FROM DUAL
+                        WHERE NOT EXISTS (SELECT user_id, planning_number FROM LikeCount WHERE user_id =? and planning_number =?)`,
+                        [userID, budgetPlanID, userID, budgetPlanID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`UPDATE LikeCount SET like_check = 1 WHERE user_id = ? and planning_number = ?;`,
+                                    [userID, budgetPlanID], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            db.query(`UPDATE BudgetPlanning SET like_number = like_number + 1 WHERE planning_number = ?;`,
+                                                [budgetPlanID], function (error, result) {
+                                                    if (error) throw error;
+                                                    else {
+                                                        console.log("좋아요 +1");
+                                                        const data = {
+                                                            status: true
+                                                        }
+                                                        res.send(data);
+                                                    }
+                                                });
+                                        }
+                                    });
+                            }
+                        });
+                }
+                else {
+                    db.query(`UPDATE LikeCount SET like_check = 0 WHERE user_id = ? and planning_number = ?;`,
+                        [userID, budgetPlanID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`UPDATE BudgetPlanning SET like_number = like_number - 1 WHERE planning_number = ?;`,
+                                    [budgetPlanID], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            console.log("좋아요 취소");
+                                            const data = {
+                                                status: false
+                                            }
+                                            res.send(data);
+                                        }
+                                    });
+                            }
+                        });
+                }
+            });
+
+            // 좋아요 여부 확인
+            app.post('/didLike', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var budgetPlanID = req.body.budgetPlanID;
+                db.query(`SELECT EXISTS (SELECT * FROM LikeCount WHERE user_id = ? and planning_number = ? and like_check = 1 limit 1) as success`,
+                    [userID, budgetPlanID], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            if (result[0].success == 1) {
                                 const data = {
                                     status: true
                                 }
-                                console.log(data);
                                 res.send(data);
-                            });
+                            }
                         }
-                    }
-                });
+                    });
+            });
+
+            // 보관함 여부 확인
+            app.post('/didStore', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var budgetPlanID = req.body.budgetPlanID;
+                db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success`,
+                    [userID, budgetPlanID], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            if (result[0].success == 1) {
+                                const data = {
+                                    status: true
+                                }
+                                res.send(data);
+                            }
+                        }
+                    });
             });
 
             // 예산계획 작성
             app.post('/submitBudgetPlan', function(req, res){
                 console.log(req.body);
             });
-
-            
-            /*
-            // 선택한 예산계획 좋아요
-            app.post('/likeBudgetPlan/', function (req, res) {
-                console.log(req.body);
-                var budgetPlanID = req.body.budgetPlanID;
-                var userLike = req.body.userLike;
-            });
-            */
             
             // 편히 메뉴의 데일리데이터의 저금계획
             app.post(`/daily/savings`, function(req, res){
