@@ -3,14 +3,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 import BackButton from '../Buttons/BackButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlanningSaveButton from '../Buttons/PlanningSaveButton';
+import PlanningSaveCancelButton from '../Buttons/PlanningSaveCancelButton';
 import { PieChart } from 'react-native-chart-kit';
 import config from '../../config';
+import SavingItem from './SavingItem';
+
 import {
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
     ScrollView,
+    Image,
 } from 'react-native';
 const url = config.url;
 const LikeButton = (props) => {          //like
@@ -63,6 +67,8 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
     const [userMBTI, setUserMBTI] = useState('');
     const [userLikeCount, setUserLikeCount] = useState(0);
     const [userLike, setUserLike] = useState(false);
+    const [userStore, setUserStore] = useState(false);
+
     const [loading, setLoading] = useState(false);
 
     const [rent, setRent] = useState(0);
@@ -78,13 +84,8 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
 
 
     const [budgetPlanID, setBudgetPlanID] = useState(2);
-    const [savingName, setSavingName] = useState('1년안에 차사기');
-    const [savingMoney, setSavingMoney] = useState(100000);
-    const [savingMoneyCompleted, setSavingMoneyCompleted] = useState(20000000);
-    const [savingDate, setSavingDate] = useState(20);
-    const [savingDateCompleted, setSavingDateCompleted] = useState(300);
-    const [moneyRate, setMoneyRate] = useState(0);
-    const [dateRate, setDateRate] = useState(0);
+
+    const [saving, setSaving] = useState([]);
 
     const getUserLike=(userLike)=>{
         setUserLike(userLike);
@@ -164,7 +165,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             legendFontSize: 15
         },
       ];
-      useEffect(()=>{
+    useEffect(()=>{
         let tempID;
         AsyncStorage.getItem("userID")
         .then(
@@ -178,55 +179,81 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             //for test
-            let tempMoneyRate = parseInt(savingMoney/savingMoneyCompleted*100);
-            let tempDateRate = parseInt(savingDate/savingDateCompleted*100);
-            setMoneyRate(tempMoneyRate);
-            setDateRate(tempDateRate);
             console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`);
             fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
+
                 console.log(responseJson);
-                setUserLikeCount(responseJson.userLikeCount);
-                setUserLike(responseJson.userLike);
-                setUserMBTI(responseJson.userMBTI);
-                setUserAge(responseJson.userAge);
-                setUserIncome(responseJson.userIncome);
+                setUserLikeCount(responseJson.data.userLikeCount);
+                setUserMBTI(responseJson.data.userMBTI);
+                setUserAge(responseJson.data.userAge);
+                setUserIncome(responseJson.data.userIncome);
 
-                setEducation(responseJson.education);
-                setTraffic(responseJson.traffic);
-                setShopping(responseJson.shopping);
-                setHobby(responseJson.hobby);
-                setInsurance(responseJson.insurance);
-                setMedical(responseJson.medical);
-                setRent(responseJson.rent);
-                setCommunication(responseJson.communication);
-                setEct(responseJson.ect);
-                setEvent(responseJson.event);
+                setEducation(responseJson.data.education);
+                setTraffic(responseJson.data.traffic);
+                setShopping(responseJson.data.shopping);
+                setHobby(responseJson.data.hobby);
+                setInsurance(responseJson.data.insurance);
+                setMedical(responseJson.data.medical);
+                setRent(responseJson.data.rent);
+                setCommunication(responseJson.data.communication);
+                setEct(responseJson.data.ect);
+                setEvent(responseJson.data.event);
 
-                setBudgetPlanID(responseJson.budgetPlanID);
+                setBudgetPlanID(responseJson.data.budgetPlanID);
+                setSaving(responseJson.result);
 
-                setLoading(true);
-                /*
-                setSavingName(responseJson.savingName);
-                setSavingDate(responseJson.savingDate);
-                setSavingDateCompleted(responseJson.savingDateCompleted);
-                setSavingMoney(responseJson.savingMoney);
-                setSavingMoneyCompleted(responseJson.savingMoneyCompleted);
-                */
-            }) 
+                setLoading(true);//for test
+            })
             /*
             .then(()=>{
-                let tempMoneyRate = parseInt(savingMoney/savingMoneyCompleted*100);
-                let tempDateRate = parseInt(savingDate/savingDateCompleted*100);
-                setMoneyRate(tempMoneyRate);
-                setDateRate(tempDateRate);
-            })
-            */
-        })
+                fetch(`${url}/didLike`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                    userID: tempID,
+                    budgetPlanID: route.params.budgetPlanningID,
+                    }),
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        setUserLike(true);
+                    }
+                })
+                .then(()=>{
+                    fetch(`${url}/didStore`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            userID: tempID,
+                            budgetPlanID: route.params.budgetPlanningID,
+                        }),
+                        headers: {
+                        'Accept': 'application/json',
+                        'Content-Type':'application/json',
+                        },
+                    })
+                    .then((response)=>response.json())
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            setUserStore(true);
+                        }
+                    })
+                    .then(()=>{
+                        setLoading(true);
+                    })
+                })
+            })*/
+        }) 
     }, []) 
-    const handleSubmitButton = () => {
+    const handleSubmitSaveButton = () => {
         fetch(`${url}/saveBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
@@ -243,9 +270,38 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             console.log(responseJson);
             if(responseJson.status === true){
                 console.log('추가 완료');
+                setUserStore(true);
                 alert('보관함에 추가되었습니다.');
             }else{
                 alert('보관함 저장에 실패했습니다.');
+                console.log('fail to save.');
+            }
+        })
+        .catch((error)=>{
+            console.error(error);
+        })
+    }
+    const handleSubmitCancelButton = () => {
+        fetch(`${url}/cancelBudgetPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              budgetPlanID: budgetPlanID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
+            if(responseJson.status === true){
+                console.log('삭제 완료');
+                setUserStore(false);
+                alert('보관함에서 삭제되었습니다.');
+            }else{
+                alert('계획서 삭제 실패');
                 console.log('fail to save.');
             }
         })
@@ -278,7 +334,9 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                     </View>
                                     <View style={styles.textDiv} >
                                         <Text>소비 성향 MBTI: </Text>
-                                        <Text style={styles.mbtiStyle}>{userMBTI}</Text> 
+                                        <View style={styles.mbtiInnerContainer}>
+                                            <Text style={styles.mbtiText}>{userMBTI}</Text>
+                                        </View> 
                                     </View>
                                 </View>
                                 <View style={styles.rightDivInCard}>
@@ -286,38 +344,12 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                             </View>
                             <View style={styles.bottomDivInCard}>
-                                <View style={styles.savingOuterDiv}>
-                                    <View style={styles.textDiv} >
-                                        <Text>- 저축계획: </Text>
-                                        <Text style={styles.savingText}>{savingName}</Text> 
-                                    </View>
-                                    <View style={styles.savingDiv}>
-                                        <View style={styles.savingInnerDiv} >
-                                            <Text>모인금액: </Text>
-                                            <Text style={styles.textStyle}>{savingMoney}원</Text> 
-                                            <Text>    진행률: </Text>
-                                            <Text style={styles.progressText}>{moneyRate}%</Text>
-                                        </View>
-                                        <View style={styles.savingInnerDiv} >
-                                            <Text style={styles.goalText}> 목표금액: </Text>
-                                            <Text style={styles.goalText}>{savingMoneyCompleted}</Text> 
-                                            <Text style={styles.goalText}>원</Text>
-                                        </View>
-                                        <View style={styles.savingBottomDiv}>
-                                            <View style={styles.savingInnerDiv} >
-                                                <Text>진행기간: </Text>
-                                                <Text style={styles.textStyle}>{savingDate}일</Text> 
-                                                <Text>    진행률: </Text>
-                                                <Text style={styles.progressText}>{dateRate}%</Text>
-                                            </View>
-                                            <View style={styles.savingInnerDiv} >
-                                                <Text style={styles.goalText}> 목표기간: </Text>
-                                                <Text style={styles.goalText}>{savingDateCompleted}</Text> 
-                                                <Text style={styles.goalText}>일</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </View>
+                                {saving.length === 0 ?
+                                <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                                saving.map(item => {
+                                return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
+                                startSavingDate={item.start_date} endSavingDate={item.finish_date} />;
+                                })}
                             </View>
                         </View>
                     </View>
@@ -325,22 +357,27 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         <Text style={styles.fixTitle}>고정</Text>
                         <View style={styles.fixBody}>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/rent.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>월세</Text>
                                 <Text style={styles.fixPlanMoneyText}>{rent}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/insurance.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>보험</Text>
                                 <Text style={styles.fixPlanMoneyText}>{insurance}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/traffic.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교통</Text>
                                 <Text style={styles.fixPlanMoneyText}>{traffic}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교육</Text>
                                 <Text style={styles.fixPlanMoneyText}>{education}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/communication.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>통신</Text>
                                 <Text style={styles.fixPlanMoneyText}>{communication}원</Text>
                             </View>
@@ -348,22 +385,27 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         <Text style={styles.fixTitle}>계획</Text>
                         <View style={styles.planBody}>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/medical.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>의료</Text>
                                 <Text style={styles.fixPlanMoneyText}>{medical}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/shopping.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>쇼핑</Text>
                                 <Text style={styles.fixPlanMoneyText}>{shopping}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/hobby.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>취미</Text>
                                 <Text style={styles.fixPlanMoneyText}>{hobby}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/event.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>경조사</Text>
                                 <Text style={styles.fixPlanMoneyText}>{event}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/ect.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>기타</Text>
                                 <Text style={styles.fixPlanMoneyText}>{ect}원</Text>
                             </View>
@@ -384,7 +426,11 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             accessor="population"
                             backgroundColor="transparent"
                         />
-                        <PlanningSaveButton onPress={handleSubmitButton}/>
+                        {userStore === false ?
+                            <PlanningSaveButton onPress={handleSubmitSaveButton}/>
+                            :
+                            <PlanningSaveCancelButton onPress={handleSubmitCancelButton}/>
+                        }
                     </View>
                 </View>
             </ScrollView>
@@ -439,7 +485,7 @@ const styles = StyleSheet.create({
         borderColor: '#DCDCDC',
     },
     appInnerBody: {
-        height: 260,
+        flex: 1,
         borderWidth: 2,
         borderRadius: 10,
         marginTop: 30,
@@ -473,6 +519,9 @@ const styles = StyleSheet.create({
     bottomDivInCard: {
         flex: 1,
         marginTop: 10,
+        borderWidth: 1,
+        borderRadius: 10,
+        alignItems: 'center',
     },
     appBottomInnerBody: {
         flex: 3,
@@ -551,12 +600,11 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         height: 150,
-        borderWidth: 1,
         borderRadius: 3,
         alignItems: 'center',
     },
     fixCate:{
-        width: 80,
+        width: 50,
     },
     fixInnerDiv:{
         flexDirection: 'row',
@@ -566,13 +614,27 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         height: 150,
-        borderWidth: 1,
         borderRadius: 3,
         alignItems: 'center',
     },
     fixPlanMoneyText:{
         width: 120,
         textAlign:'right',
+    },
+    iconDiv:{
+        width: 20,
+        height: 20,
+        marginRight: 15,
+    },
+    mbtiInnerContainer: {
+        backgroundColor: 'pink',
+        padding: 3,
+        borderRadius: 5,
+    },
+    mbtiText: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'white',
     },
 })
 export default RecommendedPlanningScreen;
