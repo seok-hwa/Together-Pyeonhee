@@ -21,9 +21,10 @@ const MyPageScreen = ({navigation}) => {
     const [loading, setLoading] = useState(true);
 
     //서버 구현 되면 사용
-    /*
+    
     useEffect(()=>{
         let tempID;
+        console.log('asdfasdf');
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -35,7 +36,7 @@ const MyPageScreen = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(tempUrl);
+            console.log(`${url}/myInfo?userID=${tempID}`);
             fetch(`${url}/myInfo?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
@@ -50,7 +51,7 @@ const MyPageScreen = ({navigation}) => {
                 setLoading(true);
             })  
         })
-    }, [])  */
+    }, []) 
     function TierImage(){
         if(userTier === 'Bronze'){
             return(

@@ -167,31 +167,21 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userTier;
                 var userStamp;
                 var userPoint;
-                db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error3, result3){
+                db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function(error3, result3){
                     if(error3) throw error3;
-                    console.log(result3);
+                
                     const data = {
                         userName: result3[0].name,
+                        userTier: result3[0].tier,
+                        userStamp: result3[0].total_stamp,
+                        userPoint: result3[0].total_point
                     }
                     console.log(data);
                     res.send(data);
                 });
-                /*
-                db.query(`SELECT diff as current_stamp_count FROM stamp WHERE user_id = ?`, [userID], function(error4, result4){
-                    if(error4) throw error4;
-                    console.log(result4);
-                });
-                db.query(`SELECT diff as current_point FROM point WHERE user_id =?` [userID], function(error5, result5){
-                    if(error5) throw (error5);
-                    console.log(result5);
-                });*/
-                /*
-                const data = {
-                    userTier : user_Tier,
-                    userStamp : user_Stamp,
-                    userPoint : user_Point,
-                };*/
             });
+
+
 
             //예산계획추천페이지(모든 사용자 동일)
             app.get('/saveSelectBudgetPlan', function (req, res) {
@@ -320,6 +310,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            // 예산계획 작성
+
+
+            
             /*
             // 선택한 예산계획 좋아요
             app.post('/likeBudgetPlan/', function (req, res) {
