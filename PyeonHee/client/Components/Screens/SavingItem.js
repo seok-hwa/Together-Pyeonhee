@@ -3,6 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import { useNavigation } from '@react-navigation/native';
 
 const SavingItem = (props) => {
+    let today = new Date();   
+
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let date = today.getDate();  // 날짜
+
+    let fullDate = year + '-' + month + '-' + date;
+
     return (
         <View style={styles.savingOuterDiv}>
             <View style={styles.textDiv} >
@@ -21,13 +29,16 @@ const SavingItem = (props) => {
                 </View>
                 <View style={styles.savingBottomDiv}>
                     <View style={styles.savingInnerDiv} >
-                        <Text>시작일: </Text>
-                        <Text style={styles.textStyle}>{props.startSavingDate}일</Text> 
+                        <Text>현재날짜: </Text>
+                        <Text style={styles.textStyle}>{fullDate}</Text> 
+                    </View>
+                    <View style={styles.savingInnerDiv} >
+                        <Text style={styles.goalText}> 시작일: </Text>
+                        <Text style={styles.goalText}>{props.startSavingDate.substring(0,10)}</Text> 
                     </View>
                     <View style={styles.savingInnerDiv} >
                         <Text style={styles.goalText}> 종료일: </Text>
-                        <Text style={styles.goalText}>{props.endSavingDate}</Text> 
-                        <Text style={styles.goalText}>일</Text>
+                        <Text style={styles.goalText}>{props.endSavingDate.substring(0,10)}</Text> 
                     </View>
                 </View>
             </View>
@@ -50,7 +61,8 @@ const styles = StyleSheet.create({
     },
     savingDiv: {
         marginTop: 10,
-        height: 85,
+        height: 100,
+        width: 250,
         borderWidth: 1,
         borderRadius: 5,
     },
@@ -58,7 +70,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     savingOuterDiv: {
-        margin: 20,
+        margin: 10,
     },
     goalText: {
         fontSize: 12,
