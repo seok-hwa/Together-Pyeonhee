@@ -237,26 +237,15 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/recommendedBudgetPlan', function (req, res) {
                 console.log(req.query.budgetPlanningID);
                 var budgetPlanID = req.query.budgetPlanningID;
-                var userMBTI;
-                var userAge;
-                var userIncome;
-                var user_savings;
-                var userLikeCount;
-                var rent;
-                var insurance;
-                var traffic;
-                var communication;
-                var hobby;
-                var shoppshoppinging_expense;
-                var education;
-                var medical;
-                var event;
-                var ect;
+                var userMBTI; var userAge; var userIncome; var user_savings;
+                var userLikeCount; var rent; var insurance; var traffic;
+                var communication; var hobby; var shoppshoppinging_expense;
+                var education; var medical; var event; var ect; var data;
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
                     console.log(result[0]);
-                    const data = {
+                    data = {
                         userLikeCount: result[0].like_number,
                         userMBTI: result[0].user_mbti,
                         userAge: result[0].user_age,
@@ -273,8 +262,21 @@ const SSHConnection = new Promise((resolve, reject) => {
                         ect: result[0].etc_expense,
                         budgetPlanID: result[0].planning_number
                     }
-                    console.log(data);
-                    res.send(data);
+                });
+                db.query(`SELECT user_id FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var userID = result[0].user_id;
+                        db.query(`SELECT * FROM Savings WHERE user_id =?`, [userID], function (error, result) {
+                            if (error) throw error;
+                            var data2 = {
+                                data,
+                                result
+                            }
+                            console.log(data2);
+                            res.send(data2);
+                        });
+                    }
                 });
             });
 
