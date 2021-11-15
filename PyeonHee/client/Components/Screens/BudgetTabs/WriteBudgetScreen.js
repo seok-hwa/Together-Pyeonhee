@@ -16,19 +16,20 @@ import {
 } from 'react-native';
 import config from '../../../config';
 import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
-import SavingItem from './SavingItem';
 import InputBudget from './InputBudget';
+import SavingPlan from './SavingPlan';
+import SavingPlanList from './SavingPlanList';
 
 const url = config.url;
 const WriteBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
     const [addBotton, setAddBotton] = useState(false);
     const [read, setRead] = useState(false);
-    const [savingPlan, setSavingPlan] = useState([]);
+    // const [savingsPlan, setSavingsPlan] = useState([]);
 
 
     const [income, setIncome] = useState(0);   //수입
-    const [savings, setSaving] = useState(0);   //저금계획
+    const [savings, setSavings] = useState(0);   //저금계획
 
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
@@ -38,8 +39,8 @@ const WriteBudgetScreen = ({navigation}) => {
     const [insurance, setInsurance] = useState(0);              //보험
     const [transportation, setTransportation] = useState(0);    //교통비
     const [communication, setCommunication] = useState(0);      //통신비
-    const [subscription, setSubscription] = useState(0);        //구독료
-    const [food, setFood] = useState(0);                        //식비
+    const [subscription, setSubscription] = useState(0);        //구독료 (V) -> 백에서 추가
+    // const [food, setFood] = useState(0);                        //식비 (V) -> 생활비 대체 예정
 
     /* 계획지출 */
     const [leisure, setLeisure] = useState(0);      //문화, 취미, 여행
@@ -47,7 +48,6 @@ const WriteBudgetScreen = ({navigation}) => {
     const [education, setEducation] = useState(0);  //교육, 학습
     const [medical, setMedical] = useState(0);      //의료비
     const [event, setEvent] = useState(0);          //경조사,선물
-    const [eatOut, setEatOut] = useState(0);        //외식
     const [etc, setEtc] = useState(0);              //기타
     
     const handleSaveButton = () => {
@@ -81,7 +81,7 @@ const WriteBudgetScreen = ({navigation}) => {
             return;
         }
 
-        var tempTotal3 = parseInt(leisure) + parseInt(shopping) + parseInt(education) + parseInt(medical) + parseInt(event) + parseInt(eatOut) + parseInt(etc);
+        var tempTotal3 = parseInt(leisure) + parseInt(shopping) + parseInt(education) + parseInt(medical) + parseInt(event) + + parseInt(etc);
         if(parseInt(tempTotal3) > parseInt(plannedExpenditure)){
             Popup.show({
               type: 'success',
@@ -122,13 +122,12 @@ const WriteBudgetScreen = ({navigation}) => {
                 transportation: transportation,
                 communication: communication,
                 subscription: subscription,
-                food: food,
+                // food: food,
                 leisure: leisure,
                 shopping: shopping,
                 education: education,
                 medical: medical,
                 event: event,
-                eatOut: eatOut,
                 etc: etc,
             }),
             headers: {
@@ -149,21 +148,6 @@ const WriteBudgetScreen = ({navigation}) => {
         .catch((error)=>{
           console.error(error);
         })
-    }
-
-    const handleAdd = () => {
-        setAddBotton(!addBotton);
-
-        if(addBotton === false && read === false) {
-            setRead(true);
-            fetch(`${url}/viewSavingPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                setSavingPlan(responseJson);
-            })
-        }
     }
 
     useEffect(()=>{
@@ -200,18 +184,9 @@ const WriteBudgetScreen = ({navigation}) => {
                     <View style={{marginTop: 10, }}>
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
-                            <TouchableOpacity
-                                onPress={handleAdd}
-                            >
-                                <Icon name={'add-circle-outline'} size={20} color={'gray'}/>
-                            </TouchableOpacity>
+                            <SavingPlan income={income}/>
                         </View>
-                            {/* { addBotton === true && 
-                                savingPlan.map(item => {
-                                return <SavingItem topic={item.topic} key={item.saving_number} 
-                                startDate={item.startDate} dueDate={dueDate} savings={item.savings} 
-                                />;
-                            })} */}
+                        {/* <SavingPlanList/> */}
                     </View>
 
                     <View style={{marginTop: 10, }}>
@@ -264,15 +239,14 @@ const WriteBudgetScreen = ({navigation}) => {
                             <View style={styles.categoryContainer}><Text>구독료</Text></View>
                             <InputBudget setBudget={setSubscription}/>
                         </View>
-                        <View style={styles.category}>
+                        {/* <View style={styles.category}>
                             <View style={styles.logoContainer}>
                                 <Image source={require('../assets/category/food.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
                             </View>
                             <View style={styles.categoryContainer}><Text>식비</Text></View>
                             <InputBudget setBudget={setFood}/>
-                        </View>
+                        </View> */}
                     </View>
-
 
                     <View style={{marginTop: 10, }}>
                         <View style={styles.bigCategoryContainer}>
@@ -323,13 +297,6 @@ const WriteBudgetScreen = ({navigation}) => {
                             </View>
                             <View style={styles.categoryContainer}><Text>경조사/선물</Text></View>
                             <InputBudget setBudget={setEvent}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/knife.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
-                            </View>
-                            <View style={styles.categoryContainer}><Text>외식</Text></View>
-                            <InputBudget setBudget={setEatOut}/>
                         </View>
                         <View style={styles.category}>
                             <View style={styles.logoContainer}>
@@ -391,7 +358,6 @@ const styles = StyleSheet.create({
         height: 35,
         width: 170,
         fontWeight:'bold'
-        // backgroundColor: 'yellow',
     },
 });
 
