@@ -280,7 +280,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            // 선택한 예산계획 보관함
+            // 선택한 예산계획 보관함 저장
             app.post('/saveBudgetPlan', function (req, res) {
                 console.log(req.body);
                 var userID = req.body.userID;
@@ -294,6 +294,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         console.log(data);
                         res.send(data);
+                    }
+                });
+            });
+
+            // 선택한 예산계획 보관함 삭제
+            app.post('/cancelBudgetPlan', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var budgetPlanID = req.body.budgetPlanID;
+                db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success;`, [userID, budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1){
+                            db.query(`DELETE FROM Storage WHERE user_id =? and planning_number =?`, [userID, budgetPlanID], function (error, result) {
+                                if (error) throw error;
+                                const data = {
+                                    status: true
+                                }
+                                console.log(data);
+                                res.send(data);
+                            });
+                        }
                     }
                 });
             });
