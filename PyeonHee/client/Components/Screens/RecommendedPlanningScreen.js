@@ -24,6 +24,7 @@ const LikeButton = (props) => {          //like
             body: JSON.stringify({
                 budgetPlanID: props.budgetPlanID,
                 userLike: props.userLike,
+                userID: props.userID,
             }),
             headers: {
               'Accept': 'application/json',
@@ -340,7 +341,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                     </View>
                                 </View>
                                 <View style={styles.rightDivInCard}>
-                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
+                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} userID = {userID} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
                                 </View>
                             </View>
                             <View style={styles.bottomDivInCard}>

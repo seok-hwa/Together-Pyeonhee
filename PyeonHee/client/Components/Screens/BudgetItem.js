@@ -26,7 +26,11 @@ const TierImage = (props) => {
       return(
           <Image source={require('./assets/tier/Diamond_single.png')} style={styles.tierDesign}/>
       )
-  }
+  }else{
+        return(
+            <View style={styles.tierDesign} />
+        )
+    }
 }
 const BudgetItem = (props) => {
     return (
