@@ -379,6 +379,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 }
                                 res.send(data);
                             }
+                            else{
+                                const data = {
+                                    status: false
+                                }
+                                res.send(data);
+                            }
                         }
                     });
             });
@@ -395,6 +401,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                             if (result[0].success == 1) {
                                 const data = {
                                     status: true
+                                }
+                                res.send(data);
+                            }
+                            else{
+                                const data = {
+                                    status: false
                                 }
                                 res.send(data);
                             }
