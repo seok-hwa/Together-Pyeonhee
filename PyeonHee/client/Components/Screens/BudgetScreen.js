@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 // import WriteBudgetScreen from './BudgetTabs/WriteBudgetScreen';
 import BudgetList from './BudgetTabs/budgetList';
+import BudgetCabinet from './BudgetTabs/budgetCabinet';
 
 const BudgetScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
@@ -29,7 +30,7 @@ const BudgetScreen = ({navigation}) => {
           {selectedIndex === 0 && <View><Text>본인 계획서 보관함</Text></View>}
           {/* {selectedIndex === 0 && <WriteBudgetScreen navigation={navigation}/>} */}
           {selectedIndex === 1 && <BudgetList navigation={navigation}/>}
-          {selectedIndex === 2 && <View><Text>예산 계획서 보관함</Text></View>}
+          {selectedIndex === 2 && <BudgetCabinet navigation={navigation}/>}
             
             <View style={styles.tapContainer}>
                 <SegmentedControlTab
