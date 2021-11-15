@@ -23,6 +23,10 @@ const EctScreen = ({navigation}) => {
                 <TouchableOpacity onPress={()=>navigation.navigate('MyPage')}>
                     <Text style={styles.tempBoard}>마이페이지</Text>
                 </TouchableOpacity>
+                
+                <TouchableOpacity onPress={()=>navigation.navigate('WriteBudget')}>
+                    <Text style={styles.tempBoard}>예산계획서 작성하기</Text>
+                </TouchableOpacity>
             </View>
         </View>
       )
