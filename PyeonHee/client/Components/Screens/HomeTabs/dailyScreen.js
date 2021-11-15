@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Image } from 'react-native';
 import config from'../../../config';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -9,6 +9,7 @@ const DailyScreen = (props) => {
     const [userID, setUserID] = useState('aaaa');
     const [userName, setUserName] = useState('테스트');
     const [loading, setLoading] = useState(false);
+    const [month, setMonth] = useState('');
 
     const [rent, setRent] = useState(1000);
     const [education, setEducation] = useState(2000);
@@ -74,6 +75,10 @@ const DailyScreen = (props) => {
                 responseJson.etc_expense+responseJson.event_expense;
                 setMonthMoney(total);
 
+                var now = new Date();	// 현재 날짜 및 시간
+                var month = now.getMonth();	// 월
+
+                setMonth(month+1);
                 setLoading(true);
             }) 
             /*
@@ -121,87 +126,103 @@ const DailyScreen = (props) => {
             */
         //})
     }, [])
+    if(loading === true){
+        return (
+            <View style={styles.appSize}>
+                <View style={styles.appTopBar}>
+                    <View style={styles.titleDiv}>
+                        <Text style={styles.NameStyle}>{userName}</Text>
+                        <Text style={styles.NextToNameStyle}>님</Text>
+                    </View>
+                </View>
+                <View style={styles.appBody}>
+                    <View style={styles.innerTopDiv}>
+                        <View style={styles.monthDiv}>
+                            <Text style={styles.monthText}>{month}월</Text>
+                        </View>
+                    </View>
+                    <Text style={styles.dailyText}>Daily</Text>
+                    <View style={styles.dailyBody}>
+                        <View style={styles.savingDiv}>
+                            <View style={styles.savingLeftDiv}>
+                                <Image source={require('../assets/coinBank.png')} style={styles.iconDiv}/>
+                                <Text>저금통</Text>
+                            </View>
+                            <View style={styles.savingRightDiv}>
+                                <Text>+{coinBank}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.exDiv}>
+                            <View style={styles.exTopDiv}>
+                                <Text>월 누적 지출:</Text>
+                                <Text style={styles.exText}>{monthMoney}원</Text>
+                            </View>
+                            <View style={styles.exBottomDiv}>
+                                <Text>일일 잔여 예산:</Text> 
+                                <Text style={styles.exText}>{dailyMoney}원</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <Text style={styles.categoryText}>Category</Text>
+                    <View style={styles.categoryBody}>
+                        <View style={styles.categoryInnerBody}>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>쇼핑</Text>
+                                <Text style={styles.priceTitle}>{shopping}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/hobby.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>취미</Text>
+                                <Text style={styles.priceTitle}>{hobby}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>교통</Text>
+                                <Text style={styles.priceTitle}>{traffic}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>통신</Text>
+                                <Text style={styles.priceTitle}>{communication}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/rent.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>월세</Text>
+                                <Text style={styles.priceTitle}>{monthMoney}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/insurance.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>보험</Text>
+                                <Text style={styles.priceTitle}>{insurance}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/medical.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>의료</Text>
+                                <Text style={styles.priceTitle}>{medical}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>경조사</Text>
+                                <Text style={styles.priceTitle}>{event}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/ect.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>기타</Text>
+                                <Text style={styles.priceTitle}>{ect}원</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        )
+    }else{
+        return(
+            <View style={styles.appSize}>
 
-    return (
-        <View style={styles.appSize}>
-            <View style={styles.appTopBar}>
-                <View style={styles.titleDiv}>
-                    <Text style={styles.NameStyle}>{userName}</Text>
-                    <Text style={styles.NextToNameStyle}>님</Text>
-                </View>
             </View>
-            <View style={styles.appBody}>
-                <View style={styles.innerTopDiv}>
-                    <View style={styles.monthDiv}>
-                        <Text style={styles.monthText}>11월</Text>
-                    </View>
-                </View>
-                <Text style={styles.dailyText}>Daily</Text>
-                <View style={styles.dailyBody}>
-                    <View style={styles.savingDiv}>
-                        <View style={styles.savingLeftDiv}>
-                            <View style={styles.iconDiv}></View>
-                            <Text>저금통</Text>
-                        </View>
-                        <View style={styles.savingRightDiv}>
-                            <Text>+{coinBank}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.exDiv}>
-                        <View style={styles.exTopDiv}>
-                            <Text>월 누적 지출:</Text>
-                            <Text style={styles.exText}>{monthMoney}원</Text>
-                        </View>
-                        <View style={styles.exBottomDiv}>
-                            <Text>일일 잔여 예산:</Text> 
-                            <Text style={styles.exText}>{dailyMoney}원</Text>
-                        </View>
-                    </View>
-                </View>
-                <Text style={styles.categoryText}>Category</Text>
-                <View style={styles.categoryBody}>
-                    <View style={styles.categoryInnerBody}>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>쇼핑</Text>
-                            <Text style={styles.priceTitle}>{shopping}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>취미</Text>
-                            <Text style={styles.priceTitle}>{hobby}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>교통</Text>
-                            <Text style={styles.priceTitle}>{traffic}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>통신</Text>
-                            <Text style={styles.priceTitle}>{communication}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>월세</Text>
-                            <Text style={styles.priceTitle}>{monthMoney}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>보험</Text>
-                            <Text style={styles.priceTitle}>{insurance}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>의료</Text>
-                            <Text style={styles.priceTitle}>{medical}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>경조사</Text>
-                            <Text style={styles.priceTitle}>{event}원</Text>
-                        </View>
-                        <View style={styles.itemDiv}>
-                            <Text style={styles.itemTitle}>기타</Text>
-                            <Text style={styles.priceTitle}>{ect}원</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
+        );
+    }
 }
 
 export default DailyScreen;
@@ -257,6 +278,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         flexDirection: 'row',
+        backgroundColor: 'white',
     },
     categoryText:{
         margin: 10,
@@ -268,13 +290,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         flex: 3,
         marginBottom: 20,
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        backgroundColor: 'white',
     },
     iconDiv: {
         width: 50,
         height: 50,
-        borderWidth: 1,
     },
     savingDiv:{
         flex: 2,
@@ -291,6 +313,7 @@ const styles = StyleSheet.create({
     },
     savingRightDiv:{
         marginTop: 20,
+        marginLeft: 5,
     },
     exTopDiv: {
         flex: 1,
@@ -317,6 +340,7 @@ const styles = StyleSheet.create({
     },
     itemTitle: {
         width: 50,
+        marginLeft: 10,
     },
     priceTitle: {
         width: 120,
@@ -325,5 +349,9 @@ const styles = StyleSheet.create({
     itemDiv: {
         flexDirection: 'row',
         margin: 4,
+    },
+    categoryIconDiv: {
+        width: 20,
+        height: 20,
     },
 });
