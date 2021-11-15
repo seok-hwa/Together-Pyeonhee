@@ -33,8 +33,6 @@ const BudgetCabinet = ({navigation}) => {
             })  
         })
     }, [])
-    
-    
     return (
         <View style={styles.appSize}>
             <ScrollView>
