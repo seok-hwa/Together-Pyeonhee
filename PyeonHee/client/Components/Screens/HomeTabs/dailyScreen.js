@@ -9,6 +9,7 @@ const DailyScreen = (props) => {
     const [userID, setUserID] = useState('aaaa');
     const [userName, setUserName] = useState('테스트');
     const [loading, setLoading] = useState(false);
+    const [month, setMonth] = useState('');
 
     const [rent, setRent] = useState(1000);
     const [education, setEducation] = useState(2000);
@@ -74,6 +75,10 @@ const DailyScreen = (props) => {
                 responseJson.etc_expense+responseJson.event_expense;
                 setMonthMoney(total);
 
+                var now = new Date();	// 현재 날짜 및 시간
+                var month = now.getMonth();	// 월
+
+                setMonth(month+1);
                 setLoading(true);
             }) 
             /*
@@ -133,7 +138,7 @@ const DailyScreen = (props) => {
                 <View style={styles.appBody}>
                     <View style={styles.innerTopDiv}>
                         <View style={styles.monthDiv}>
-                            <Text style={styles.monthText}>11월</Text>
+                            <Text style={styles.monthText}>{month}월</Text>
                         </View>
                     </View>
                     <Text style={styles.dailyText}>Daily</Text>
