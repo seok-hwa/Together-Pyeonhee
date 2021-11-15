@@ -33,12 +33,13 @@ const LikeButton = (props) => {          //like
         })
         .then((response)=>response.json())
         .then((responseJson)=>{
-            props.getUserLikeCount(responseJson.userLikeCount);
             if(props.userLike == true){
                 alert('좋아요를 취소했습니다.');
+                props.getUserLikeCount(props.userLikeCount-1);
                 props.getUserLike(false);
             }else{
                 alert('좋아요를 눌렀습니다.');
+                props.getUserLikeCount(props.userLikeCount+1);
                 props.getUserLike(true);
             }
         })
@@ -206,9 +207,8 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 setBudgetPlanID(responseJson.data.budgetPlanID);
                 setSaving(responseJson.result);
 
-                setLoading(true);//for test
+                //setLoading(true);//for test
             })
-            /*
             .then(()=>{
                 fetch(`${url}/didLike`, {
                     method: 'POST',
@@ -227,8 +227,10 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                     if(responseJson.status === true){
                         setUserLike(true);
                     }
+                    console.log('좋아요 받았어?');
                 })
                 .then(()=>{
+                    console.log('보관함', `${url}/didStore`);
                     fetch(`${url}/didStore`, {
                         method: 'POST',
                         body: JSON.stringify({
@@ -251,7 +253,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         setLoading(true);
                     })
                 })
-            })*/
+            })
         }) 
     }, []) 
     const handleSubmitSaveButton = () => {
