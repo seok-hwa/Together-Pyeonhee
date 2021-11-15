@@ -414,6 +414,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                     });
             });
 
+            // 보관함에 저장된 예산계획서 확인
+            app.get('/BudgetPlanCabinet', function (req, res) {
+                console.log(req.query.userID);
+                var userID = req.query.userID;
+                db.query(`SELECT DISTINCT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age,
+                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings,
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense,
+                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense,
+                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense FROM user LEFT JOIN BudgetPlanning on user.user_id = BudgetPlanning.user_id 
+                LEFT JOIN Storage ON BudgetPlanning.planning_number = Storage.planning_number WHERE Storage.user_id = ?`, [userID],function (error, result) {
+                    if (error) throw error;
+                    console.log(result);
+                    res.send(result);
+                });
+            });
+
             // 예산계획 작성
             app.post('/submitBudgetPlan', function(req, res){
                 console.log(req.body);
