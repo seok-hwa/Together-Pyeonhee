@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const SavingPlanItem = (props) => {
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -10,7 +11,7 @@ const SavingPlanItem = (props) => {
     }}>
       <View style={styles.itemContainer}>
         <Text style={styles.topicText}>{props.savingName}</Text>
-
+        {/* <sumSavings/> */}
         <View >
           <Text>계획일: {props.plannedDate}</Text>
           <Text>기간: {props.period}개월</Text>

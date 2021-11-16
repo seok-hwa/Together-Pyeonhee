@@ -20,6 +20,7 @@
  import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen';
  import testScreen from './Components/Screens/testScreen';
  import config from './config';
+ import BudgetScreen from '/Components/Screens/BudgetScreen';
  
  import {
    View,
@@ -102,6 +103,13 @@
               headerShown: false,
           }} 
           />
+          <Stack.Screen
+            name="MyBudget"
+            component={BudgetScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
            <Stack.Screen     //for BudgetDetail test
              name="BudgetDetail"
              component={BudgetInfoScreen}
@@ -168,6 +176,13 @@
            <Stack.Screen
             name="WriteBudget"
             component={WriteBudgetScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+          <Stack.Screen
+            name="MyBudget"
+            component={BudgetScreen}
             options={{
               headerShown: false,
           }} 

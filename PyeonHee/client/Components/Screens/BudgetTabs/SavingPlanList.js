@@ -9,6 +9,7 @@ const url = config.url;
 const SavingPlanList = (props) => {
     const [userID, setUserID] = useState('');
     // const [savingsPlan, setSavingsPlan] = useState([]);
+    const [totalSavings, setTotalSavings] = useState(0);
 
     // for test
     let savingsPlan = [
@@ -45,42 +46,58 @@ const SavingPlanList = (props) => {
             console.log(tempID);
             console.log(`${url}/SavingBudgetPlan?userID=${tempID}`);
 
-            fetch(`${url}/SavingBudgetPlan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                if(responseJson === null) {
-                    return;
-                }
-                console.log('response data');
-                console.log(responseJson);
-                setSavingsPlan(responseJson);
-            })  
+            // fetch(`${url}/SavingBudgetPlan?userID=${tempID}`)   //get
+            // .then((response)=>response.json())
+            // .then((responseJson)=>{
+            //     if(responseJson === null) {
+            //         return;
+            //     }
+            //     console.log('response data');
+            //     console.log(responseJson);
+            //     setSavingsPlan(responseJson);
+            // })  
+
+            console.log('++++++totalSavings');
+            console.log(totalSavings);
+            let sum = 0;
+            let temp = savingsPlan.map(item => {
+                sum = sum + item.savings_money;
+                return item.savings_money;
+            })
+            console.log(sum);
+            setTotalSavings(sum);
+            props.setSavings(sum);
+            console.log('=============');
+            // console.log(totalSavings);
         })
     }, [])
 
     if(props.update === true) {
         props.setUpdate(false);
-        fetch(`${url}/SavingBudgetPlan?userID=${userID}`)   //get
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            if(responseJson === null) {
-                return;
-            }
-            console.log('response data');
-            console.log(responseJson);
-            setSavingsPlan(responseJson);
-        }) 
+        // fetch(`${url}/SavingBudgetPlan?userID=${userID}`)   //get
+        // .then((response)=>response.json())
+        // .then((responseJson)=>{
+        //     if(responseJson === null) {
+        //         return;
+        //     }
+        //     console.log('response data');
+        //     console.log(responseJson);
+        //     setSavingsPlan(responseJson);
+        // }) 
         console.log('업데이트완료!!!!!!!!!!!!!!!!!!');
     }
     
     return (
         <View>
+            {/* <Text>총 {props}원</Text> */}
+            <View>            
             {savingsPlan.map(item => {
-                return <SavingsPlanItem savingName={item.saving_name} key={item.saving_number} 
+                return (<SavingsPlanItem savingName={item.saving_name} key={item.saving_number} 
                 savingPlanningID={item.saving_number} savingMoney={item.savings_money} 
                 plannedDate={item.planned_date} period={item.period} allSavingsMoney={item.all_savings_money} 
-                />;
+                />);
             })}
+            </View>
         </View>
      )
 
