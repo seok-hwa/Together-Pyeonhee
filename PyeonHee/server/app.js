@@ -520,8 +520,39 @@ const SSHConnection = new Promise((resolve, reject) => {
                         res.send([]);
                     }
                 });
-                console.log("Before");
-                
+            });
+
+            // 가계부 메뉴의 본인 데이터 
+            app.get(`/myBudgetPlan`, function(req, res){
+                console.log(req.query.userID);
+                var userID = req.query.userID;
+                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
+                    if (error) throw error;
+                    else {
+                        console.log(result[0]);
+                        data = {
+                        userLikeCount: result[0].like_number,
+                        userMBTI: result[0].user_mbti,
+                        userAge: result[0].user_age,
+                        userIncome: result[0].user_income,
+                        rent: result[0].monthly_rent,
+                        insurance: result[0].insurance_expense,
+                        traffic: result[0].transportation_expense,
+                        communication: result[0].communication_expense,
+                        hobby: result[0].leisure_expense,
+                        shopping: result[0].shopping_expense,
+                        education: result[0].education_expense,
+                        medical: result[0].medical_expense,
+                        event: result[0].event_expense,
+                        ect: result[0].etc_expense,
+                        subscribe: result[0].subscribe_expense,
+                        budgetPlanID: result[0].planning_number
+                        };
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+
             });
 
             const PORT = 8000;
