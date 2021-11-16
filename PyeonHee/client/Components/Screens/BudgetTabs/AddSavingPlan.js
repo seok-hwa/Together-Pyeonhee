@@ -39,6 +39,7 @@ const SavingPlan = (props) => {
         fetch(`${url}/saveSavingPlan`, {
             method: 'POST',
             body: JSON.stringify({
+                userID: userID,
                 savingName: savingName,
                 savingMoney: savingMoney,
                 startDate: startDate,

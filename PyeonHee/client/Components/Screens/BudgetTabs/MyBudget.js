@@ -53,12 +53,12 @@ const MyBudgetScreen = ({navigation}) => {
 
     return(     
         <View> 
-            
+
         </View> 
     );
 };
 const styles = StyleSheet.create({
-    
+
 });
 
-export default MyBudgetScreen;
+export default MyBudgetScreen; 
