@@ -507,20 +507,10 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
-                // db.query(`SELECT available_money, daily_spent_money, rest_money 
-                //         FROM daily_data WHERE user_id = ?` , [userID], function(error, money){
-                //     if(error) throw error;
-                //     else{
-                //         data.push({available_money = money.available_money}); // 일일 권장 소비 잔여 금액
-                //         data.push({daily_spent_money = money.daily_spent_money}); // 일일 권장 소비 금액
-                //         data.push({rest_money = money.rest_money}); // 저금통 금액
-                //         console.log(data);
-                //     }
-                // });
                 db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                 BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
                 BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
-                BudgetPlanning.event_expense, BudgetPlanning.etc_expense, daily_data.available_money, daily_data.daily_spent_money, 
+                BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, daily_data.available_money, daily_data.daily_spent_money, 
                 daily_data.rest_money from daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id where daily_data.user_id = ?`, [userID], function(error, result){
                     if(error) throw error;
                     else if(result.length != 0){
