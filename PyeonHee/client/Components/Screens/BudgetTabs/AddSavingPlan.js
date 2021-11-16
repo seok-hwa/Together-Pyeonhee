@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { buttonStyle } from 'styled-system';
 import config from '../../../config';
 
 const url = config.url;
@@ -32,14 +33,16 @@ const SavingPlan = (props) => {
         console.log(savingName);
         console.log(savingMoney);
         console.log(startDate);
+        console.log(savingsDay);
         console.log(period);
         
         fetch(`${url}/saveSavingPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 savingName: savingName,
-                insavingMoneycome: savingMoney,
+                savingMoney: savingMoney,
                 startDate: startDate,
+                savingsDay: savingsDay,
                 period: period,    //기간으로 변경함 
             }),
             headers: {
@@ -83,10 +86,10 @@ const SavingPlan = (props) => {
                         <Text style={styles.modalText}>저금 계획</Text>
                         
                         <View style={styles.rowContainer}>
-                            <View style={{width: 80, height: 40, }} >
+                            <View style={styles.tagText} >
                                 <Text>제목: </Text>
                             </View>
-                            <View style={{width: 170, flexDirection: 'row', alignItems: 'center', }}>
+                            <View style={styles.inputContainer}>
                                 <TextInput
                                     style={styles.textInputDesign}
                                     onChangeText={text => setSavingName(text)}
@@ -97,56 +100,61 @@ const SavingPlan = (props) => {
                         </View>
 
                         <View style={styles.rowContainer}>
-                            <View style={{width: 80, height: 40, }} >
+                            <View style={styles.tagText} >
                                 <Text>저금 금액: </Text>
                             </View>
-                            <View style={{width: 170, flexDirection: 'row', alignItems: 'center', }}>
+                            <View style={styles.inputContainer}>
                                 <TextInput
                                     style={styles.textInputDesign}
                                     placeholder='0'
                                     onChangeText={text => setSavingMoney(text)}
                                     maxLength = {10}
                                     textAlign="right"
+                                    keyboardType="numeric"
                                 />
                                 <Text>원</Text>
                             </View>
                         </View>
 
                         <View style={styles.rowContainer}>
-                            <View style={{width: 80, height: 40, }} >
+                            <View style={styles.tagText} >
                                 <Text>시작 날짜: </Text>
                             </View>
-                            <View style={{width: 170, alignItems:'center'}}>
+                            <View style={styles.inputContainer}>
                                 <Text>{year}년 {todayMonth}월 {today}일</Text>
                             </View>
                         </View>
 
                         <View style={styles.rowContainer}>
-                            <View style={{width: 80, height: 40, }} >
+                            <View style={styles.tagText} >
                                 <Text>출금일: </Text>
                             </View>
-                            <View style={{width: 170, flexDirection: 'row', alignItems: 'center', }}>
+                            <View style={[styles.inputContainer, {justifyContent: 'space-between'}]}>
                                 <Text>매달</Text>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <TextInput
-                                    style={styles.textInputDesign}
-                                    onChangeText={text => setSavingsDay(text)}
-                                    maxLength = {2}
-                                    textAlign="right"
-                                />
+                                        style={styles.textInputDesign}
+                                        onChangeText={text => setSavingsDay(text)}
+                                        maxLength = {2}
+                                        textAlign="right"
+                                        keyboardType="numeric"
+                                    />
                                 <Text>일</Text>
+                                </View>
                             </View>
                         </View> 
 
                         <View style={styles.rowContainer}>
-                            <View style={{width: 80, height: 40, }} >
+                            <View style={styles.tagText} >
                                 <Text>기간: </Text>
                             </View>
-                            <View style={{width: 170, flexDirection: 'row', alignItems: 'center', }}>
+                            <View style={styles.inputContainer}>
                                 <TextInput
                                     style={styles.textInputDesign}
                                     onChangeText={text => setPeriod(text)}
                                     maxLength = {3}
                                     textAlign="right"
+                                    keyboardType="numeric"
                                 />
                                 <Text>개월</Text>
                             </View>
@@ -172,7 +180,11 @@ const SavingPlan = (props) => {
               onPress={() => {
                 setModalVisible(true);
               }}>
-                <Icon name={'add-circle-outline'} size={20} color={'gray'}/>
+                {/* <Icon name={'add-circle-outline'} size={20} color={'gray'}/> */}
+                {/* <View style={{backgroundColor: 'pink', justifyContent: 'flex-end',}}>
+                    <Text style={styles.addButtonStyle}> 추가하기 </Text>
+                </View> */}
+                <Text style={styles.addButtonStyle}> 추가하기 </Text>
             </TouchableOpacity>  
         </View>
     )
@@ -201,10 +213,32 @@ const styles = StyleSheet.create({
         padding: 3,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    tagText: {
+        width: 80,
+        height: 40, 
+        // backgroundColor: 'pink',
+        // alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputContainer: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        width: 200, 
+        height: 35,
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'flex-end',
+        borderRadius: 10,
+        borderColor: '#DCDCDC',
+        borderWidth: 1,
+        // backgroundColor:'yellow'
     },
     textInputDesign: {
         height: 35,
-        width: 170,
+        width: 100,
+        marginRight: 5, 
         borderRadius: 10,
         borderBottomColor: '#DCDCDC',
         borderBottomWidth: 1,
@@ -225,5 +259,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 10
       },
+      addButtonStyle: {
+        color: 'blue',
+      }
 })
 export default SavingPlan;

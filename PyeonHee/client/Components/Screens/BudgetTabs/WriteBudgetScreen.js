@@ -24,7 +24,6 @@ const url = config.url;
 const WriteBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
     const [addSavingsPlan, setAddSavingsPlan] = useState(false);
-    // const [update, setUpdate] = useState(false);
 
     const [income, setIncome] = useState(0);   //수입
     const [savings, setSavings] = useState(0);   //저금계획
@@ -35,12 +34,11 @@ const WriteBudgetScreen = ({navigation}) => {
     /* 고정지출 */
     const [monthlyRent, setMonthlyRent] = useState(0);          //월세
     const [insurance, setInsurance] = useState(0);              //보험
-    const [transportation, setTransportation] = useState(0);    //교통비
     const [communication, setCommunication] = useState(0);      //통신비
     const [subscription, setSubscription] = useState(0);        //구독료 (V) -> 백에서 추가
-    // const [food, setFood] = useState(0);                        //식비 (V) -> 생활비 대체 예정
 
     /* 계획지출 */
+    const [transportation, setTransportation] = useState(0);    //교통비
     const [leisure, setLeisure] = useState(0);      //문화, 취미, 여행
     const [shopping, setShopping] = useState(0);    //뷰티, 미용, 쇼핑
     const [education, setEducation] = useState(0);  //교육, 학습
@@ -66,7 +64,7 @@ const WriteBudgetScreen = ({navigation}) => {
             return;
         }
 
-        var tempTotal2 = parseInt(monthlyRent) + parseInt(insurance) + parseInt(transportation) + parseInt(communication) + parseInt(subscription) + parseInt(food);
+        var tempTotal2 = parseInt(monthlyRent) + parseInt(insurance) + parseInt(communication) + parseInt(subscription);
         if(parseInt(tempTotal2) > parseInt(fixedExpenditure)){
             Popup.show({
               type: 'success',
@@ -79,7 +77,7 @@ const WriteBudgetScreen = ({navigation}) => {
             return;
         }
 
-        var tempTotal3 = parseInt(leisure) + parseInt(shopping) + parseInt(education) + parseInt(medical) + parseInt(event) + + parseInt(etc);
+        var tempTotal3 = parseInt(transportation) + parseInt(leisure) + parseInt(shopping) + parseInt(education) + parseInt(medical) + parseInt(event) + parseInt(etc);
         if(parseInt(tempTotal3) > parseInt(plannedExpenditure)){
             Popup.show({
               type: 'success',
@@ -92,7 +90,7 @@ const WriteBudgetScreen = ({navigation}) => {
             return;
         }
 
-        /*
+        
         Popup.show({    //for test
             type: 'success',
             textBody: '제출을 완료하시겠습니까?',
@@ -101,10 +99,10 @@ const WriteBudgetScreen = ({navigation}) => {
             iconEnabled: false,
             callback: () => {
                 Popup.hide()
-                navigation.replace('Main');
+                navigation.replace('MyBudget');
             }
-          })
-          */
+        })
+          
         // return;
 
         fetch(`${url}/submitBudgetPlan`, {
@@ -120,7 +118,6 @@ const WriteBudgetScreen = ({navigation}) => {
                 transportation: transportation,
                 communication: communication,
                 subscription: subscription,
-                // food: food,
                 leisure: leisure,
                 shopping: shopping,
                 education: education,
@@ -159,7 +156,7 @@ const WriteBudgetScreen = ({navigation}) => {
 
     return(     
         <Root> 
-            <View style={{  paddingLeft: 20, borderBottomWidth: 0.5, margin: 10}}>
+            <View style={{paddingLeft: 20, borderBottomWidth: 0.5, margin: 10}}>
                 <Text style={{fontSize:20, }}>예산계획서 작성</Text>
             </View>
             <ScrollView style={styles.bodySize}>
@@ -182,9 +179,12 @@ const WriteBudgetScreen = ({navigation}) => {
                     <View style={{marginTop: 10, }}>
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
+                            <Text style={{fontSize: 15, fontWeight:'bold'}}>총 {savings} 원</Text>
+                        </View>
+                        <View style={{flex:1, flexDirection: 'row-reverse', marginLeft: 20}}>
                             <AddSavingPlan income={income} setAddSavingsPlan={setAddSavingsPlan}/>
                         </View>
-                        <SavingPlanList update={addSavingsPlan} setUpdate={setAddSavingsPlan}/>
+                        <SavingPlanList update={addSavingsPlan} setUpdate={setAddSavingsPlan} setSavings={setSavings}/>
                     </View>
 
                     <View style={{marginTop: 10, }}>
@@ -218,13 +218,6 @@ const WriteBudgetScreen = ({navigation}) => {
                         </View>
                         <View style={styles.category}>
                             <View style={styles.logoContainer}>
-                                <Icon name={'bus-outline'} size={20} color={'gray'} />
-                            </View>
-                            <View style={styles.categoryContainer}><Text>교통비</Text></View>
-                            <InputBudget setBudget={setTransportation}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
                                 <Icon name={'phone-portrait-outline'} size={20} color={'gray'} />
                             </View>
                             <View style={styles.categoryContainer}><Text>통신비</Text></View>
@@ -253,6 +246,13 @@ const WriteBudgetScreen = ({navigation}) => {
                                 />
                                 <Text style={{fontSize: 15, fontWeight:'bold'}}>원</Text>
                             </View>
+                        </View>
+                        <View style={styles.category}>
+                            <View style={styles.logoContainer}>
+                                <Icon name={'bus-outline'} size={20} color={'gray'} />
+                            </View>
+                            <View style={styles.categoryContainer}><Text>교통비</Text></View>
+                            <InputBudget setBudget={setTransportation}/>
                         </View>
                         <View style={styles.category}>
                             <View style={styles.logoContainer}>
