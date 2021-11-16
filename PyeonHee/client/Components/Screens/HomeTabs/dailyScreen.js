@@ -22,6 +22,7 @@ const DailyScreen = (props) => {
     const [communication, setCommunication] = useState(2000);
     const [event, setEvent] = useState(3000);
     const [ect, setEct] = useState(5000);
+    const [subscribe, setSubscribe] = useState(0);
 
     const [coinBank, setCoinBank] = useState(3000);
     const [dailyMoney, setDailyMoney] = useState(1000);
@@ -86,6 +87,7 @@ const DailyScreen = (props) => {
                     setCommunication(responseJson.communication_expense);
                     setEct(responseJson.etc_expense);
                     setEvent(responseJson.event_expense);
+                    setSubscribe(responseJson.subscribe_expense);
 
                     let total = responseJson.education_expense+responseJson.transportation_expense+
                     responseJson.shopping_expense+responseJson.leisure_expense+responseJson.insurance_expense+
@@ -228,6 +230,11 @@ const DailyScreen = (props) => {
                                 <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>경조사</Text>
                                 <Text style={styles.priceTitle}>{event}원</Text>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <Image source={require('../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
+                                <Text style={styles.itemTitle}>구독</Text>
+                                <Text style={styles.priceTitle}>{subscribe}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/ect.png')} style={styles.categoryIconDiv}/>
