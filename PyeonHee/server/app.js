@@ -487,6 +487,47 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             });
 
+            //저축계획 작성
+
+            app.post('/saveSavingPlan', function(req, res){
+                console.log(req.body);
+                var userID = req.body.userID;
+                var savingName = req.body.savingName;
+                var savingMoney = req.body.savingMoney;
+                var startDate = req.body.startDate;
+                var savingsDay = req.body.savingsDay;
+                var period = req.body.period;
+
+                var startYear = startDate.substring(0,4);
+                var startMonth = startDate.substring(5,7);
+                var startDay = startDate.substring(8,10);
+
+                if(startDay > savingsDay){
+                    if(startMonth == '12'){
+                        startYear = parseInt(startYear) + 1;
+                        startMonth = '01';
+                    }
+                    else{
+                        startMonth = parseInt(startMonth) + 1;
+                    }
+                }
+
+                startDate = startYear+'-'+startMonth+'-'+ savingsDay;
+
+                db.query(`INSERT INTO Savings(user_id, saving_name, savings_money, start_date, finish_date)
+                VALUES(?, ?, ?, ?,DATE_ADD(?, INTERVAL ? MONTH))`,
+                [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
+                    if(error) throw error;
+                    else{
+                        
+                        const data = {
+                            status : 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });    
             
             
             // 편히 메뉴의 데일리데이터의 저금계획
