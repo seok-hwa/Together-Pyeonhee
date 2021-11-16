@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config';
 import { WebView } from 'react-native-webview';
-
 import {
   SafeAreaView,
   ScrollView,
@@ -16,9 +15,16 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import AccountLink from './AssetsTab/accountLinkScreen';
+import BankingProduct from './AssetsTab/bankingProduct';
+import AssetCounseling from './AssetsTab/assetCounseling';
+
 const url = config.url;
 const AssetsScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   useEffect(()=>{
     AsyncStorage.getItem('userID', (err, result) => {
       const tempID = result;
@@ -27,12 +33,71 @@ const AssetsScreen = ({navigation}) => {
       }
     })
   })
+
+  const handleSingleIndexSelect = (index) => {
+    setSelectedIndex(index);
+  };
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Assets: {userID}</Text>
-      <Button title="오픈뱅킹 테스트" onPress={()=>navigation.navigate('test')}></Button>
-    </View>
+    <SafeAreaView style={styles.container}>
+        <View style={styles.smallcontainer}>
+
+          {selectedIndex === 0 && <AccountLink navigation={navigation}/>}
+          {selectedIndex === 1 && <BankingProduct navigation={navigation}/>}
+          {selectedIndex === 2 && <AssetCounseling navigation={navigation}/>}
+            
+            <View style={styles.tapContainer}>
+                <SegmentedControlTab
+                    values={['계좌연동', '은행상품', '자산상담']}
+                    selectedIndex={selectedIndex}
+                    onTabPress={handleSingleIndexSelect}
+                    tabStyle={styles.tabStyle}
+                    tabTextStyle={{color: '#595959', }}
+                    activeTabStyle={styles.activeTabStyle}
+                    borderRadius={20}
+                />
+            </View>
+
+        </View>
+      </SafeAreaView>
   )
 }
 
 export default AssetsScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 5,
+  },
+  smallcontainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  pageContainer: {
+    flex: 1,
+    padding: 5,
+  },
+  tapContainer: {
+      alignItems:'flex-end',
+      borderRadius: 20,
+      backgroundColor: 'white',
+      padding: 3,
+  },
+  headerText: {
+    flex: 1,
+    padding: 8,
+    fontSize: 14,
+    color: '#444444',
+    textAlign: 'center',
+    backgroundColor: 'white',
+  },
+  tabStyle: {
+    borderColor: 'white',
+    backgroundColor: 'white',
+  },
+  activeTabStyle: {
+    backgroundColor: '#2FB7AA',
+    borderRadius: 20,
+  },
+});

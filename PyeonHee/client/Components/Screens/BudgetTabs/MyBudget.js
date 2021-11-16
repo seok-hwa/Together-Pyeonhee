@@ -18,7 +18,24 @@ import config from '../../../config';
 const url = config.url;
 const MyBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
-    const [myBudgetData, setMyBudgetData] = useState({});
+    const [myBudgetData, setMyBudgetData] = useState({
+        userLikeCount: 0,
+        userMBTI: '',
+        userAge: 0,
+        userIncome: 0,
+        rent: 0,
+        insurance: 0,
+        traffic: 0,
+        communication: 0,
+        hobby: 0,
+        shopping: 0,
+        education: 0,
+        medical: 0,
+        event: 0,
+        ect: 0,
+        subscribe: null,
+        budgetPlanID: 0,
+    });
 
     const [savings, setSavings] = useState(0);
 
@@ -62,7 +79,8 @@ const MyBudgetScreen = ({navigation}) => {
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
-                myBudgetData(responseJson);
+                setMyBudgetData(responseJson);
+                // console.log(myBudgetData);
             })  
         })
     }, [])
@@ -75,7 +93,7 @@ const MyBudgetScreen = ({navigation}) => {
             <View style={styles.bigCategoryContainer}>
                 <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>
                 <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                    <Text style={{fontSize: 15, fontWeight:'bold'}}>{myBudgetData.income}원</Text>
+                    <Text style={{fontSize: 15, fontWeight:'bold'}}>{myBudgetData.userIncome}원</Text>
                 </View>
             </View>
 
