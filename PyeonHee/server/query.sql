@@ -48,6 +48,7 @@ create table BudgetPlanning (
     medical_expense int not null,
     event_expense int not null,
     etc_expense int not null,
+    subscribe_expense int not null,
 
     primary key (planning_number),
     foreign key (user_id) references user (user_id)

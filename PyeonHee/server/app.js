@@ -188,7 +188,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.query.userID);
                 db.query(`SELECT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age, 
                 BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings, 
-                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense 
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, 
+                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, 
+                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
                 from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 5,5`, function (error, result) {
                     if (error) throw error;
                     console.log(result);
@@ -230,7 +232,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userMBTI; var userAge; var userIncome; var user_savings;
                 var userLikeCount; var rent; var insurance; var traffic;
                 var communication; var hobby; var shoppshoppinging_expense;
-                var education; var medical; var event; var ect; var data;
+                var education; var medical; var event; var ect; var subscribe; var data;
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
@@ -250,6 +252,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         medical: result[0].medical_expense,
                         event: result[0].event_expense,
                         ect: result[0].etc_expense,
+                        subscribe: result[0].subscribe_expense,
                         budgetPlanID: result[0].planning_number
                     }
                 });
@@ -422,7 +425,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings,
                 BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense,
                 BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense,
-                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense FROM user LEFT JOIN BudgetPlanning on user.user_id = BudgetPlanning.user_id 
+                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
+                FROM user LEFT JOIN BudgetPlanning ON user.user_id = BudgetPlanning.user_id 
                 LEFT JOIN Storage ON BudgetPlanning.planning_number = Storage.planning_number WHERE Storage.user_id = ?`, [userID],function (error, result) {
                     if (error) throw error;
                     console.log(result);
