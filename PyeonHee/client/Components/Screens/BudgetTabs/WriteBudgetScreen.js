@@ -17,16 +17,14 @@ import {
 import config from '../../../config';
 import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import InputBudget from './InputBudget';
-import SavingPlan from './SavingPlan';
+import AddSavingPlan from './AddSavingPlan';
 import SavingPlanList from './SavingPlanList';
 
 const url = config.url;
 const WriteBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
-    const [addBotton, setAddBotton] = useState(false);
-    const [read, setRead] = useState(false);
-    // const [savingsPlan, setSavingsPlan] = useState([]);
-
+    const [addSavingsPlan, setAddSavingsPlan] = useState(false);
+    // const [update, setUpdate] = useState(false);
 
     const [income, setIncome] = useState(0);   //수입
     const [savings, setSavings] = useState(0);   //저금계획
@@ -164,7 +162,7 @@ const WriteBudgetScreen = ({navigation}) => {
             <View style={{  paddingLeft: 20, borderBottomWidth: 0.5, margin: 10}}>
                 <Text style={{fontSize:20, }}>예산계획서 작성</Text>
             </View>
-            <ScrollView style={styles.appSize}>
+            <ScrollView style={styles.bodySize}>
                 <KeyboardAvoidingView>
                     <View style={styles.bigCategoryContainer}>
                         <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>
@@ -184,9 +182,9 @@ const WriteBudgetScreen = ({navigation}) => {
                     <View style={{marginTop: 10, }}>
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
-                            <SavingPlan income={income}/>
+                            <AddSavingPlan income={income} setAddSavingsPlan={setAddSavingsPlan}/>
                         </View>
-                        {/* <SavingPlanList/> */}
+                        <SavingPlanList update={addSavingsPlan} setUpdate={setAddSavingsPlan}/>
                     </View>
 
                     <View style={{marginTop: 10, }}>
@@ -239,13 +237,6 @@ const WriteBudgetScreen = ({navigation}) => {
                             <View style={styles.categoryContainer}><Text>구독료</Text></View>
                             <InputBudget setBudget={setSubscription}/>
                         </View>
-                        {/* <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/food.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
-                            </View>
-                            <View style={styles.categoryContainer}><Text>식비</Text></View>
-                            <InputBudget setBudget={setFood}/>
-                        </View> */}
                     </View>
 
                     <View style={{marginTop: 10, }}>
@@ -317,7 +308,7 @@ const WriteBudgetScreen = ({navigation}) => {
     );
 };
 const styles = StyleSheet.create({
-    appSize: {
+    bodySize: {
         flex: 1,
     },
     appFooter: {

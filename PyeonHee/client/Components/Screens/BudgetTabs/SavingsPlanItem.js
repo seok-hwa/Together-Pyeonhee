@@ -1,23 +1,47 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SavingPlanItem = (props) => {
-    return (
-        <View style={styles.item2}>
-            <Text>주제: {props.savingName}</Text>
-            <Text>계획일: {props.plannedDate}</Text>
-            <Text>기간: {props.duration}</Text>
-            <Text>금액: {props.savingMoney}</Text>
-            <Text>현재까지 모인 금액: {props.allSavingsMoney}</Text>
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        alert('Pressed!');
+    }}>
+      <View style={styles.itemContainer}>
+        <Text style={styles.topicText}>{props.savingName}</Text>
+
+        <View >
+          <Text>계획일: {props.plannedDate}</Text>
+          <Text>기간: {props.period}개월</Text>
+          <Text>적금 금액:   {props.savingMoney}원</Text>
+          <Text>현재 누적액: {props.allSavingsMoney} 원</Text>
         </View>
-    );
+
+        <Icon name={'chevron-forward-outline'} size={20} color={'gray'} />
+      </View>
+    </TouchableOpacity>  
+  );
 };
 
 const styles = StyleSheet.create({
-    item2: {
+  itemContainer: {
+    padding: 8,
+    marginTop: 5,
+    marginLeft: 20,
     marginRight: 20,
-      justifyContent: 'space-between',
-    },
-  });
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'gray',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  topicText: {
+    fontSize: 15,
+    fontWeight: "bold",
+    width: 120,
+  },
+});
 
 export default SavingPlanItem;

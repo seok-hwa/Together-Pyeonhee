@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../config';
 import SavingsPlanItem from './SavingsPlanItem';
 
@@ -7,7 +8,27 @@ const url = config.url;
 
 const SavingPlanList = (props) => {
     const [userID, setUserID] = useState('');
-    const [savingsPlan, setSavingsPlan] = useState([]);
+    // const [savingsPlan, setSavingsPlan] = useState([]);
+
+    // for test
+    let savingsPlan = [
+        {
+            saving_name: '10년 안에 집사기',
+            savings_money: 100,
+            planned_date: '2021/8/16',
+            period: 25,
+            all_savings_money: 200,
+            saving_number: 1,
+        },
+        {
+            saving_name:'5년 안에 차',
+            savings_money: 50,
+            planned_date: '2021/5/5',
+            period: 13,
+            all_savings_money: 200,
+            saving_number: 2, 
+        },
+    ]
 
     useEffect(()=>{
         let tempID;
@@ -23,6 +44,7 @@ const SavingPlanList = (props) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/SavingBudgetPlan?userID=${tempID}`);
+
             fetch(`${url}/SavingBudgetPlan?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
@@ -35,12 +57,28 @@ const SavingPlanList = (props) => {
             })  
         })
     }, [])
+
+    if(props.update === true) {
+        props.setUpdate(false);
+        fetch(`${url}/SavingBudgetPlan?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            if(responseJson === null) {
+                return;
+            }
+            console.log('response data');
+            console.log(responseJson);
+            setSavingsPlan(responseJson);
+        }) 
+        console.log('업데이트완료!!!!!!!!!!!!!!!!!!');
+    }
     
     return (
         <View>
-            {savingsPlan.map(item => {  //이 table에서는 key value가 뭐지
-                return <SavingsPlanItem savingName={item.saving_name} key={item.planning_number} budgetPlanningID={item.planning_number} 
-                savingMoney={item.savings_money} plannedDate={item.planned_date} duration={item.duration} allSavingsMoney={item.all_savings_money} 
+            {savingsPlan.map(item => {
+                return <SavingsPlanItem savingName={item.saving_name} key={item.saving_number} 
+                savingPlanningID={item.saving_number} savingMoney={item.savings_money} 
+                plannedDate={item.planned_date} period={item.period} allSavingsMoney={item.all_savings_money} 
                 />;
             })}
         </View>

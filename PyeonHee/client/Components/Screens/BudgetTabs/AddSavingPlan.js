@@ -9,12 +9,12 @@ const SavingPlan = (props) => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const[savingName, setSavingName] = useState('');
-    const[savingMoney, setSavingMoney] = useState(0);
-    const[startDate, setStartDate] = useState(new Date());
-    // const[finishDate, setFinishDate] = useState('');
-    const[duration, setDuration] = useState(0);
-
+    const[savingName, setSavingName] = useState('');        //프로젝트 제목
+    const[savingMoney, setSavingMoney] = useState(0);       //저금금액
+    const[startDate, setStartDate] = useState(new Date());  //시작일
+    const[savingsDay, setSavingsDay] = useState(0);         //매달 출금일
+    const[period, setPeriod] = useState(0);                 //기간
+    
     let now = new Date();
     let year = now.getFullYear();
     let todayMonth = now.getMonth()+1;
@@ -32,15 +32,15 @@ const SavingPlan = (props) => {
         console.log(savingName);
         console.log(savingMoney);
         console.log(startDate);
-        console.log(duration);
+        console.log(period);
         
-        fetch(`${url}/saveBudgetPlan`, {
+        fetch(`${url}/saveSavingPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 savingName: savingName,
                 insavingMoneycome: savingMoney,
                 startDate: startDate,
-                duration: duration,    //기간으로 변경함 
+                period: period,    //기간으로 변경함 
             }),
             headers: {
                 'Accept': 'application/json',
@@ -52,6 +52,7 @@ const SavingPlan = (props) => {
           console.log(responseJson);
           if(responseJson.status === true){
             console.log('제출 완료');
+            // props.setAddSavingsPlan(true);
           }else{
             console.log('fail to submit.');
           }
@@ -59,6 +60,7 @@ const SavingPlan = (props) => {
         .catch((error)=>{
           console.error(error);
         })
+        props.setAddSavingsPlan(true);
 
     }
     
@@ -80,7 +82,7 @@ const SavingPlan = (props) => {
 
                         <Text style={styles.modalText}>저금 계획</Text>
                         
-                        <View style={styles.container}>
+                        <View style={styles.rowContainer}>
                             <View style={{width: 80, height: 40, }} >
                                 <Text>제목: </Text>
                             </View>
@@ -94,7 +96,7 @@ const SavingPlan = (props) => {
                             </View>
                         </View>
 
-                        <View style={styles.container}>
+                        <View style={styles.rowContainer}>
                             <View style={{width: 80, height: 40, }} >
                                 <Text>저금 금액: </Text>
                             </View>
@@ -103,14 +105,14 @@ const SavingPlan = (props) => {
                                     style={styles.textInputDesign}
                                     placeholder='0'
                                     onChangeText={text => setSavingMoney(text)}
-                                    maxLength = {20}
+                                    maxLength = {10}
                                     textAlign="right"
                                 />
                                 <Text>원</Text>
                             </View>
                         </View>
 
-                        <View style={styles.container}>
+                        <View style={styles.rowContainer}>
                             <View style={{width: 80, height: 40, }} >
                                 <Text>시작 날짜: </Text>
                             </View>
@@ -119,28 +121,43 @@ const SavingPlan = (props) => {
                             </View>
                         </View>
 
-                        <View style={styles.container}>
+                        <View style={styles.rowContainer}>
+                            <View style={{width: 80, height: 40, }} >
+                                <Text>출금일: </Text>
+                            </View>
+                            <View style={{width: 170, flexDirection: 'row', alignItems: 'center', }}>
+                                <Text>매달</Text>
+                                <TextInput
+                                    style={styles.textInputDesign}
+                                    onChangeText={text => setSavingsDay(text)}
+                                    maxLength = {2}
+                                    textAlign="right"
+                                />
+                                <Text>일</Text>
+                            </View>
+                        </View> 
+
+                        <View style={styles.rowContainer}>
                             <View style={{width: 80, height: 40, }} >
                                 <Text>기간: </Text>
                             </View>
                             <View style={{width: 170, flexDirection: 'row', alignItems: 'center', }}>
                                 <TextInput
                                     style={styles.textInputDesign}
-                                    onChangeText={text => setDuration(text)}
-                                    maxLength = {20}
+                                    onChangeText={text => setPeriod(text)}
+                                    maxLength = {3}
                                     textAlign="right"
                                 />
                                 <Text>개월</Text>
                             </View>
                         </View> 
 
-                        <View style={{marginTop: 20, flexDirection: 'row', alignItems: 'center', justifyContent: "center",}}>
+                        <View style={styles.buttonContainer}>
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={saveHandler}>
                                 <Text>추가</Text>
                             </TouchableOpacity> 
-
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={() => setModalVisible(!modalVisible)}>
@@ -149,7 +166,6 @@ const SavingPlan = (props) => {
                         </View>
                     </View>
                 </View>
-
             </Modal>
 
             <TouchableOpacity
@@ -181,7 +197,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center"
     },
-    container: {
+    rowContainer: {
         padding: 3,
         flexDirection: 'row',
         alignItems: 'center',
@@ -192,6 +208,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderBottomColor: '#DCDCDC',
         borderBottomWidth: 1,
+    },
+    buttonContainer: {
+        marginTop: 20, 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: "center",
     },
     button: {
         backgroundColor: '#6090FA',
