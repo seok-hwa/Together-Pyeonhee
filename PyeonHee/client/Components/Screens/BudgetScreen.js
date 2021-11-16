@@ -27,7 +27,6 @@ const BudgetScreen = ({navigation}) => {
     <SafeAreaView style={styles.container}>
         <View style={styles.smallcontainer}>
 
-          {/* {selectedIndex === 0 && <View><Text>본인 계획서 보관함</Text></View>} */}
           {selectedIndex === 0 && <MyBudgetPlan navigation={navigation}/>}
           {selectedIndex === 1 && <BudgetList navigation={navigation}/>}
           {selectedIndex === 2 && <BudgetCabinet navigation={navigation}/>}
