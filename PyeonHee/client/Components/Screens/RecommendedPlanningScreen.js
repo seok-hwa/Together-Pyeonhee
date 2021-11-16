@@ -83,6 +83,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
     const [communication, setCommunication] = useState(0);
     const [event, setEvent] = useState(0);
     const [ect, setEct] = useState(0);
+    const [subscribe, setSubscribe] = useState(0);
 
 
     const [budgetPlanID, setBudgetPlanID] = useState(2);
@@ -203,6 +204,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 setCommunication(responseJson.data.communication);
                 setEct(responseJson.data.ect);
                 setEvent(responseJson.data.event);
+                setSubscribe(responseJson.data.subscribe);
 
                 setBudgetPlanID(responseJson.data.budgetPlanID);
                 setSaving(responseJson.result);
@@ -370,11 +372,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 <Text style={styles.fixPlanMoneyText}>{insurance}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/traffic.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>교통</Text>
-                                <Text style={styles.fixPlanMoneyText}>{traffic}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교육</Text>
                                 <Text style={styles.fixPlanMoneyText}>{education}원</Text>
@@ -384,9 +381,19 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 <Text style={styles.fixCate}>통신</Text>
                                 <Text style={styles.fixPlanMoneyText}>{communication}원</Text>
                             </View>
+                            <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/subscribe.png')} style={styles.iconDiv}/>
+                                <Text style={styles.fixCate}>구독</Text>
+                                <Text style={styles.fixPlanMoneyText}>{subscribe}원</Text>
+                            </View>
                         </View>
                         <Text style={styles.fixTitle}>계획</Text>
                         <View style={styles.planBody}>
+                            <View style={styles.fixInnerDiv}>
+                            <Image source={require('./assets/category/traffic.png')} style={styles.iconDiv}/>
+                                <Text style={styles.fixCate}>교통</Text>
+                                <Text style={styles.fixPlanMoneyText}>{traffic}원</Text>
+                            </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/medical.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>의료</Text>
@@ -602,7 +609,7 @@ const styles = StyleSheet.create({
     fixBody:{
         marginLeft: 30,
         marginRight: 30,
-        height: 150,
+        height: 130,
         borderRadius: 3,
         alignItems: 'center',
     },
@@ -616,7 +623,7 @@ const styles = StyleSheet.create({
     planBody:{
         marginLeft: 30,
         marginRight: 30,
-        height: 150,
+        height: 170,
         borderRadius: 3,
         alignItems: 'center',
     },
