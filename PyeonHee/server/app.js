@@ -414,10 +414,76 @@ const SSHConnection = new Promise((resolve, reject) => {
                     });
             });
 
+            // 보관함에 저장된 예산계획서 확인
+            app.get('/BudgetPlanCabinet', function (req, res) {
+                console.log(req.query.userID);
+                var userID = req.query.userID;
+                db.query(`SELECT DISTINCT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age,
+                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings,
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense,
+                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense,
+                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense FROM user LEFT JOIN BudgetPlanning on user.user_id = BudgetPlanning.user_id 
+                LEFT JOIN Storage ON BudgetPlanning.planning_number = Storage.planning_number WHERE Storage.user_id = ?`, [userID],function (error, result) {
+                    if (error) throw error;
+                    console.log(result);
+                    res.send(result);
+                });
+            });
+
             // 예산계획 작성
             app.post('/submitBudgetPlan', function(req, res){
                 console.log(req.body);
+                var userID = req.body.userID;
+                var income = req.body.income;
+                var savings = req.body.savings;
+                var fixedExpenditure = req.body.fixedExpenditure;
+                var plannedExpenditure= req.body.plannedExpenditure;
+                var monthlyRent= req.body.monthlyRent;
+                var insurance = req.body.insurance;
+                var transportation = req.body.transportation;
+                var communication = req.body.communication;
+                var subscription = req.body.subscription;
+                var leisure = req.body.leisure;
+                var shopping = req.body.shopping;
+                var education = req.body.education;
+                var medical = req.body.medical;
+                var event = req.body.event;
+                var etc = req.body.etc;
+  
+                //food,eatOut없음
+                var userMBTI;
+                var userAge;
+
+                db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
+                    console.log(result);
+                    if(error) throw error;
+                    else {
+                        userMBTI = result[0].mbti;
+                        userAge = result[0].age;
+
+                        db.query(`INSERT INTO BudgetPlanning(user_id, user_mbti, user_age,user_income, user_savings, monthly_rent,
+                            insurance_expense,transportation_expense,communication_expense,
+                            leisure_expense, shopping_expense ,education_expense, medical_expense,
+                            event_expense, etc_expense) 
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
+                                insurance,transportation,communication,leisure,shopping,education,medical,event,etc], function(error1,result1){
+                                    if (error1) throw error1;
+                                    else{
+                                        const data = {
+                                            status : 'success',
+                                        }
+                                        console.log(data);
+                                        res.send(data);
+                                    }
+                                });
+                    }
+                });
+                
+
+
             });
+
+            
             
             // 편히 메뉴의 데일리데이터의 저금계획
             app.post(`/daily/savings`, function(req, res){
