@@ -17,14 +17,29 @@ import config from '../../../config';
 const url = config.url;
 const MyBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
-    const [myBudgetData, setMyBudgetData] = useState([]);
+    // const [myBudgetData, setMyBudgetData] = useState([]);
 
+    const [savings, setSavings] = useState(0);
+
+    let now = new Date();
     let todayMonth = now.getMonth()+1;
 
-    //for test
     let myBudgetData = {
-        income: 500,
-        savings: 300,
+        income: 3000000,
+        savings: 1000000,
+        fixedExpenditure: 500000,
+        plannedExpenditure: 1000000,
+        monthlyRent: 0,
+        insurance: 200000,
+        transportation: 150000,
+        communication: 80000,
+        subscription: 25000,
+        leisure: 200000,
+        shopping: 200000,
+        education: 30000,
+        medical: 20000,
+        event: 150000,
+        etc: 200000,
     }
 
     useEffect(()=>{
@@ -53,12 +68,39 @@ const MyBudgetScreen = ({navigation}) => {
 
     return(     
         <View> 
-            
+            <Text>
+                {todayMonth} 월
+            </Text>
+            <View style={styles.bigCategoryContainer}>
+                <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                    <Text style={{fontSize: 15, fontWeight:'bold'}}>{myBudgetData.income}원</Text>
+                </View>
+            </View>
+
+            <View style={{marginTop: 10, }}>
+                <View style={styles.bigCategoryContainer}>
+                    <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
+                    <Text style={{fontSize: 15, fontWeight:'bold'}}>총 {savings} 원</Text>
+                </View>
+                <SavingPlanList setSavings={setSavings}/>
+            </View>
+
         </View> 
     );
 };
 const styles = StyleSheet.create({
-    
+    bigCategoryContainer: {
+        marginLeft: 15,
+        marginRight: 15,
+        marginVertical: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottomColor: 'pink',
+        borderBottomWidth: 1,
+    },
+
 });
 
-export default MyBudgetScreen;
+export default MyBudgetScreen; 
