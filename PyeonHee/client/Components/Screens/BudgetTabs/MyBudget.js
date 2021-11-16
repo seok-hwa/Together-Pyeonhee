@@ -11,36 +11,37 @@ import {
     ScrollView,
     Button,
 } from 'react-native';
+import SavingPlanList from './SavingPlanList';
 
 import config from '../../../config';
 
 const url = config.url;
 const MyBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
-    // const [myBudgetData, setMyBudgetData] = useState([]);
+    const [myBudgetData, setMyBudgetData] = useState({});
 
     const [savings, setSavings] = useState(0);
 
     let now = new Date();
     let todayMonth = now.getMonth()+1;
 
-    let myBudgetData = {
-        income: 3000000,
-        savings: 1000000,
-        fixedExpenditure: 500000,
-        plannedExpenditure: 1000000,
-        monthlyRent: 0,
-        insurance: 200000,
-        transportation: 150000,
-        communication: 80000,
-        subscription: 25000,
-        leisure: 200000,
-        shopping: 200000,
-        education: 30000,
-        medical: 20000,
-        event: 150000,
-        etc: 200000,
-    }
+    // let myBudgetData = {
+    //     income: 3000000,
+    //     savings: 1000000,
+    //     fixedExpenditure: 500000,
+    //     plannedExpenditure: 1000000,
+    //     monthlyRent: 0,
+    //     insurance: 200000,
+    //     transportation: 150000,
+    //     communication: 80000,
+    //     subscription: 25000,
+    //     leisure: 200000,
+    //     shopping: 200000,
+    //     education: 30000,
+    //     medical: 20000,
+    //     event: 150000,
+    //     etc: 200000,
+    // }
 
     useEffect(()=>{
         let tempID;
@@ -49,20 +50,20 @@ const MyBudgetScreen = ({navigation}) => {
             (value) => {
                 if (value !== null){
                     tempID=value
-                    setUserID(tempID);
+                    setUserId(tempID);
                 }
             }
         )
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/myBudgetPlan?userID=${tempID}`);
-            // fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
-            // .then((response)=>response.json())
-            // .then((responseJson)=>{
-            //     console.log('response data');
-            //     console.log(responseJson);
-            //     myBudgetData(responseJson);
-            // })  
+            fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                myBudgetData(responseJson);
+            })  
         })
     }, [])
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { buttonStyle } from 'styled-system';
 import config from '../../../config';
 
 const url = config.url;
 
 const SavingPlan = (props) => {
-
+    const [userID, setUserId] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
     const[savingName, setSavingName] = useState('');        //프로젝트 제목
@@ -67,6 +67,14 @@ const SavingPlan = (props) => {
         props.setAddSavingsPlan(true);
 
     }
+    useEffect(()=>{
+        AsyncStorage.getItem('userID', (err, result) => {
+          let tempID = result;
+          if(tempID!= null){
+            setUserId(tempID);
+          }
+        })
+      })
     
     return (
         <View>
