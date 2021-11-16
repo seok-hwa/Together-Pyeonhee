@@ -89,7 +89,6 @@ const SavingPlanList = (props) => {
     
     return (
         <View>
-            {/* <Text>총 {props}원</Text> */}
             <View>            
             {savingsPlan.map(item => {
                 return (<SavingsPlanItem savingName={item.saving_name} key={item.saving_number} 

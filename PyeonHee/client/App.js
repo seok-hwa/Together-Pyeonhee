@@ -20,7 +20,7 @@
  import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen';
  import testScreen from './Components/Screens/testScreen';
  import config from './config';
- import BudgetScreen from '/Components/Screens/BudgetScreen';
+ import BudgetScreen from './Components/Screens/BudgetScreen';
  
  import {
    View,
