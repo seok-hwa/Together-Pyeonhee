@@ -55,6 +55,7 @@ client 폴더안에 config.js 파일 생성후 아래와 같이 기입
 ~~~
 const config = {
     url: 'http://IPv4주소:로컬서버포트',
+    openBankingURL: '오픈뱅킹인증 url',
 };
 
 module.exports = config;
