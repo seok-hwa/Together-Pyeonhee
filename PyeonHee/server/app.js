@@ -569,7 +569,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.query.userID;
                 db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
                     if (error) throw error;
-                    else {
+                    else if(result.length != 0){
                         console.log(result[0]);
                         var data = {
                         userLikeCount: result[0].like_number,
@@ -591,6 +591,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         };
                         console.log(data);
                         res.send(data);
+                    } else {
+                        res.send([]);
                     }
                 });
 
