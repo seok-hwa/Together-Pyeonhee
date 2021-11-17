@@ -17,10 +17,11 @@
  import Iamport from './IamportComponents/App';
  import AsyncStorage from '@react-native-community/async-storage';
  import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
- import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen';
+ import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
+ import BudgetScreen from './Components/Screens/BudgetScreen';
  import testScreen from './Components/Screens/testScreen';
  import config from './config';
- import BudgetScreen from './Components/Screens/BudgetScreen';
+
  
  import {
    View,
@@ -96,13 +97,13 @@
                headerShown: false,
            }} 
            />
-           <Stack.Screen
-            name="WriteBudget"
-            component={WriteBudgetScreen}
-            options={{
-              headerShown: false,
-          }} 
-          />
+           <Stack.Screen    //for Budget Writing test
+             name="WriteBudget"
+             component={WriteBudgetScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
           <Stack.Screen
             name="MyBudget"
             component={BudgetScreen}
@@ -173,13 +174,13 @@
                headerShown: false,
            }} 
            />
-           <Stack.Screen
-            name="WriteBudget"
-            component={WriteBudgetScreen}
-            options={{
-              headerShown: false,
-          }} 
-          />
+           <Stack.Screen    //for Budget Writing test
+             name="WriteBudget"
+             component={WriteBudgetScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
           <Stack.Screen
             name="MyBudget"
             component={BudgetScreen}

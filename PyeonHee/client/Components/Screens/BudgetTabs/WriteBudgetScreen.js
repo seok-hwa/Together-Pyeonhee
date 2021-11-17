@@ -48,6 +48,9 @@ const WriteBudgetScreen = ({navigation}) => {
     const [medical, setMedical] = useState(0);      //의료비
     const [event, setEvent] = useState(0);          //경조사,선물
     const [etc, setEtc] = useState(0);              //기타
+
+    let now = new Date();
+    let todayMonth = now.getMonth()+1;
     
     useEffect(()=>{
         let tempID;
@@ -63,7 +66,7 @@ const WriteBudgetScreen = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/myBudgetPlan?userID=${tempID}`);
+            console.log(`${url}/daily/savings`);
 
             fetch(`${url}/daily/savings`, {
                 method: 'POST',
@@ -94,6 +97,37 @@ const WriteBudgetScreen = ({navigation}) => {
             })
             }) 
     }, []);
+
+    if(addSavingsPlan === true) {
+        fetch(`${url}/daily/savings`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            
+            setSaving(responseJson);
+            setAddSavingsPlan(false);
+
+            // setLoading(true);
+            // if(loading === true){
+            //     console.log('로딩 됐어');
+            // }else{
+            //     console.log('로딩 안 됐어');
+            // }
+        }) 
+        .then(()=>{
+        })
+
+    }
 
     const handleSaveButton = () => {
         var tempTotal = parseInt(savings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
@@ -140,17 +174,18 @@ const WriteBudgetScreen = ({navigation}) => {
         }
 
         
-        // Popup.show({    //for test
-        //     type: 'success',
-        //     textBody: '제출을 완료하시겠습니까?',
-        //     buttonText: '확인',
-        //     okButtonStyle: {backgroundColor: 'gray'},
-        //     iconEnabled: false,
-        //     callback: () => {
-        //         Popup.hide()
-        //         navigation.replace('MyBudget');
-        //     }
-        // })
+        Popup.show({    //for test
+            type: 'success',
+            textBody: '제출을 완료하시겠습니까?',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: 'gray'},
+            iconEnabled: false,
+            callback: () => {
+                Popup.hide()
+                // navigation.goBack();
+                // navigation.replace('MyBudget');
+            }
+        })
           
         // return;
 
@@ -181,10 +216,13 @@ const WriteBudgetScreen = ({navigation}) => {
         })
         .then((response)=>response.json())
         .then((responseJson)=>{
-          console.log(responseJson);
-          if(responseJson.status === true){
             console.log('제출 완료');
-            navigation.replace('Main');
+            console.log(responseJson);
+            
+          if(responseJson.status === 'success'){
+            console.log('제출 완료!!!!!!');
+            // navigation.replace('Main');
+            navigation.goBack();
           }else{
             console.log('fail to submit.');
           }
@@ -206,11 +244,12 @@ const WriteBudgetScreen = ({navigation}) => {
 
     if(loading === true ){
     return(     
-        <Root> 
-            <View style={{paddingLeft: 20, borderBottomWidth: 0.5, margin: 10}}>
-                <Text style={{fontSize:20, }}>예산계획서 작성</Text>
-            </View>
+        <Root>       
             <ScrollView style={styles.bodySize}>
+                <View style ={{flexDirection: 'row', alignItems: 'center',}}>
+                    <Text style={styles.monthText}>{todayMonth} 월</Text>
+                    {/* <Text>예산계획서</Text> */}
+                </View>
                 <KeyboardAvoidingView>
                     <View style={styles.bigCategoryContainer}>
                         <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>
@@ -235,9 +274,7 @@ const WriteBudgetScreen = ({navigation}) => {
                         <View style={{flex:1, flexDirection: 'row-reverse', marginLeft: 20}}>
                             <AddSavingPlan income={income} setAddSavingsPlan={setAddSavingsPlan}/>
                         </View>
-                        {/* <SavingPlanList setSavings={setSavings}/> */}
-                        {/* <SavingPlanList update={addSavingsPlan} setUpdate={setAddSavingsPlan} setSavings={setSavings}/> */}
-
+                      
                         <View>
                             {saving.length === 0 ?
                                 <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
@@ -292,6 +329,7 @@ const WriteBudgetScreen = ({navigation}) => {
                             <View style={styles.categoryContainer}><Text>구독료</Text></View>
                             <InputBudget setBudget={setSubscription}/>
                         </View>
+
                     </View>
 
                     <View style={{marginTop: 10, }}>
@@ -353,7 +391,7 @@ const WriteBudgetScreen = ({navigation}) => {
                         </View>
                         <View style={styles.category}>
                             <View style={styles.logoContainer}>
-                                <Icon name={'log-out-outline'} size={20} color={'gray'} />
+                                <Icon name={'ellipsis-horizontal-outline'} size={20} color={'gray'} />
                             </View>
                             <View style={styles.categoryContainer}><Text>기타</Text></View>
                             <InputBudget setBudget={setEtc}/>
@@ -377,6 +415,13 @@ const WriteBudgetScreen = ({navigation}) => {
     }
 };
 const styles = StyleSheet.create({
+    monthText: {
+        fontSize: 23, 
+        fontWeight:'bold', 
+        marginLeft: 15, 
+        marginTop: 15,
+        color: 'black',
+    },
     bodySize: {
         flex: 1,
     },

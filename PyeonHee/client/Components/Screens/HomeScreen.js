@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   activeTabStyle: {
-    backgroundColor: '#2FB7AA',
+    backgroundColor: '#8EB3EE',
     borderRadius: 20,
   },
 });
