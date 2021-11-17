@@ -11,13 +11,19 @@ import {
     ScrollView,
     Button,
 } from 'react-native';
-import SavingPlanList from './SavingPlanList';
+// import SavingPlanList from './SavingPlanList';
+import SavingPlanItem from './SavingsPlanItem';
 
 import config from '../../../config';
 
 const url = config.url;
 const MyBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isCompleted, setIsCompleted] = useState(true);
+    const [saving, setSaving] = useState([]);
+    // const [sumOfSavings, setSumOfSavings] = (0);
+
     const [myBudgetData, setMyBudgetData] = useState({
         userLikeCount: 0,
         userMBTI: '',
@@ -37,31 +43,12 @@ const MyBudgetScreen = ({navigation}) => {
         budgetPlanID: 0,
     });
 
-    const [savings, setSavings] = useState(0);
-
     let now = new Date();
     let todayMonth = now.getMonth()+1;
 
-    // let myBudgetData = {
-    //     income: 3000000,
-    //     savings: 1000000,
-    //     fixedExpenditure: 500000,
-    //     plannedExpenditure: 1000000,
-    //     monthlyRent: 0,
-    //     insurance: 200000,
-    //     transportation: 150000,
-    //     communication: 80000,
-    //     subscription: 25000,
-    //     leisure: 200000,
-    //     shopping: 200000,
-    //     education: 30000,
-    //     medical: 20000,
-    //     event: 150000,
-    //     etc: 200000,
-    // }
-
     useEffect(()=>{
         let tempID;
+        
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -74,39 +61,94 @@ const MyBudgetScreen = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/myBudgetPlan?userID=${tempID}`);
+
             fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
-                setMyBudgetData(responseJson);
+                if(responseJson.length === 0){
+                    setIsCompleted(false);
+                } else{
+                    setMyBudgetData(responseJson);
+                }
                 // console.log(myBudgetData);
-            })  
+            }) 
+            .then(()=>{
+                
+                fetch(`${url}/daily/savings`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        userID: tempID,
+                    }),
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('response data');
+                    console.log(responseJson);
+                    
+                    setSaving(responseJson);
+    
+                    setLoading(true);
+                    if(loading === true){
+                        console.log('로딩 됐어');
+                    }else{
+                        console.log('로딩 안 됐어');
+                    }
+                    if(isCompleted === true){
+                        console.log('정보 됐어');
+                    }else{
+                        console.log('정보 안 됐어');
+                    }
+                }) 
+                .then(()=>{
+                })
+            })
         })
     }, [])
 
-    return(     
-        <View> 
-            <Text>
-                {todayMonth} 월
-            </Text>
-            <View style={styles.bigCategoryContainer}>
-                <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                    <Text style={{fontSize: 15, fontWeight:'bold'}}>{myBudgetData.userIncome}원</Text>
-                </View>
-            </View>
-
-            <View style={{marginTop: 10, }}>
+    if(loading === true && isCompleted === true){
+        return(     
+            <ScrollView> 
+                <Text style={{fontSize: 23, fontWeight:'bold'}}>
+                    {todayMonth}월
+                </Text>
                 <View style={styles.bigCategoryContainer}>
-                    <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
-                    <Text style={{fontSize: 15, fontWeight:'bold'}}>총 {savings} 원</Text>
+                    <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                        <Text style={{fontSize: 15, fontWeight:'bold'}}>{myBudgetData.userIncome}원</Text>
+                    </View>
                 </View>
-                <SavingPlanList setSavings={setSavings}/>
-            </View>
 
-        </View> 
-    );
+                <View style={{marginTop: 10, }}>
+                    <View style={styles.bigCategoryContainer}>
+                        <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
+                        {/* <Text style={{fontSize: 15, fontWeight:'bold'}}>총 {sumOfSavings} 원</Text> */}
+                    </View>
+                    <View>
+                        {saving.length === 0 ?
+                            <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                            saving.map(item => {
+                                return <SavingPlanItem key={item.saving_number} savingName={item.saving_name} 
+                                    currentSavingMoney={item.all_savings_money} savingMoney={item.savings_money}
+                                    startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
+                        })}
+                    </View>
+                </View>
+
+            </ScrollView> 
+        )
+    } else{
+        return(
+            <View>
+                <Text>로딩중..</Text>
+            </View>
+        );
+    }
 };
 const styles = StyleSheet.create({
     bigCategoryContainer: {
