@@ -571,7 +571,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if (error) throw error;
                     else {
                         console.log(result[0]);
-                        data = {
+                        var data = {
                         userLikeCount: result[0].like_number,
                         userMBTI: result[0].user_mbti,
                         userAge: result[0].user_age,
