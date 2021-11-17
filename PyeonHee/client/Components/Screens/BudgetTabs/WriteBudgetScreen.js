@@ -18,15 +18,18 @@ import config from '../../../config';
 import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import InputBudget from './InputBudget';
 import AddSavingPlan from './AddSavingPlan';
-import SavingPlanList from './SavingPlanList';
+import SavingPlanItem from './SavingsPlanItem';
 
 const url = config.url;
 const WriteBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
     const [addSavingsPlan, setAddSavingsPlan] = useState(false);
 
+    const [saving, setSaving] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     const [income, setIncome] = useState(0);   //수입
-    const [savings, setSavings] = useState(0);   //저금계획
+    const [savings, setSavings] = useState(0);   //저금계획 -> total 합계 받아오기
 
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
@@ -46,6 +49,52 @@ const WriteBudgetScreen = ({navigation}) => {
     const [event, setEvent] = useState(0);          //경조사,선물
     const [etc, setEtc] = useState(0);              //기타
     
+    useEffect(()=>{
+        let tempID;
+        
+        AsyncStorage.getItem("userID")
+        .then(
+            (value) => {
+                if (value !== null){
+                    tempID=value
+                    setUserId(tempID);
+                }
+            }
+        )
+        .then(()=>{
+            console.log(tempID);
+            console.log(`${url}/myBudgetPlan?userID=${tempID}`);
+
+            fetch(`${url}/daily/savings`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    userID: tempID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                
+                setSaving(responseJson);
+
+                setLoading(true);
+                if(loading === true){
+                    console.log('로딩 됐어');
+                }else{
+                    console.log('로딩 안 됐어');
+                }
+            }) 
+            .then(()=>{
+                
+            })
+            }) 
+    }, []);
+
     const handleSaveButton = () => {
         var tempTotal = parseInt(savings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
         console.log('수입');
@@ -91,17 +140,17 @@ const WriteBudgetScreen = ({navigation}) => {
         }
 
         
-        Popup.show({    //for test
-            type: 'success',
-            textBody: '제출을 완료하시겠습니까?',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: 'gray'},
-            iconEnabled: false,
-            callback: () => {
-                Popup.hide()
-                navigation.replace('MyBudget');
-            }
-        })
+        // Popup.show({    //for test
+        //     type: 'success',
+        //     textBody: '제출을 완료하시겠습니까?',
+        //     buttonText: '확인',
+        //     okButtonStyle: {backgroundColor: 'gray'},
+        //     iconEnabled: false,
+        //     callback: () => {
+        //         Popup.hide()
+        //         navigation.replace('MyBudget');
+        //     }
+        // })
           
         // return;
 
@@ -154,6 +203,8 @@ const WriteBudgetScreen = ({navigation}) => {
         })
     })
 
+
+    if(loading === true ){
     return(     
         <Root> 
             <View style={{paddingLeft: 20, borderBottomWidth: 0.5, margin: 10}}>
@@ -184,7 +235,18 @@ const WriteBudgetScreen = ({navigation}) => {
                         <View style={{flex:1, flexDirection: 'row-reverse', marginLeft: 20}}>
                             <AddSavingPlan income={income} setAddSavingsPlan={setAddSavingsPlan}/>
                         </View>
-                        <SavingPlanList update={addSavingsPlan} setUpdate={setAddSavingsPlan} setSavings={setSavings}/>
+                        {/* <SavingPlanList setSavings={setSavings}/> */}
+                        {/* <SavingPlanList update={addSavingsPlan} setUpdate={setAddSavingsPlan} setSavings={setSavings}/> */}
+
+                        <View>
+                            {saving.length === 0 ?
+                                <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                                saving.map(item => {
+                                    return <SavingPlanItem key={item.saving_number} savingName={item.saving_name} 
+                                        currentSavingMoney={item.all_savings_money} savingMoney={item.savings_money}
+                                        startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
+                            })}
+                        </View>
                     </View>
 
                     <View style={{marginTop: 10, }}>
@@ -305,7 +367,14 @@ const WriteBudgetScreen = ({navigation}) => {
             
             </ScrollView>
         </Root> 
-    );
+    )
+    }else{
+        return(
+            <View >
+                <Text>로딩중..</Text>
+            </View>
+        );
+    }
 };
 const styles = StyleSheet.create({
     bodySize: {

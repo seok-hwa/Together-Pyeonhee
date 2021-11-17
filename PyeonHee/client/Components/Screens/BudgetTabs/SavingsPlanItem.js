@@ -13,10 +13,11 @@ const SavingPlanItem = (props) => {
         <Text style={styles.topicText}>{props.savingName}</Text>
         {/* <sumSavings/> */}
         <View >
-          <Text>계획일: {props.plannedDate}</Text>
-          <Text>기간: {props.period}개월</Text>
+          <Text>시작일: {props.startSavingDate}</Text>
+          <Text>종료일: {props.endSavingDate}</Text>
+          {/* <Text>기간: {props.period}개월</Text> */}
           <Text>적금 금액:   {props.savingMoney}원</Text>
-          <Text>현재 누적액: {props.allSavingsMoney} 원</Text>
+          <Text>현재 누적액: {props.currentSavingMoney} 원</Text>
         </View>
 
         <Icon name={'chevron-forward-outline'} size={20} color={'gray'} />
