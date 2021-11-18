@@ -54,12 +54,12 @@ const SavingPlan = (props) => {
         .then((response)=>response.json())
         .then((responseJson)=>{
           console.log(responseJson);
-          if(responseJson.status === true){
-            console.log('제출 완료');
-            // props.setAddSavingsPlan(true);
-          }else{
-            console.log('fail to submit.');
-          }
+        //   if(responseJson.status === true){
+        //     console.log('제출 완료');
+        //     // props.setAddSavingsPlan(true);
+        //   }else{
+        //     console.log('fail to submit.');
+        //   }
         })
         .catch((error)=>{
           console.error(error);

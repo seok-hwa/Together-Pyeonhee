@@ -74,10 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  pageContainer: {
-    flex: 1,
-    padding: 5,
-  },
   tapContainer: {
       alignItems:'flex-end',
       borderRadius: 20,
@@ -97,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   activeTabStyle: {
-    backgroundColor: '#2FB7AA',
+    backgroundColor: '#8EB3EE',
     borderRadius: 20,
   },
 });
