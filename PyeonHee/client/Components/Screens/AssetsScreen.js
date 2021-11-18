@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../config';
-import { WebView } from 'react-native-webview';
 import {
   SafeAreaView,
   ScrollView,
@@ -20,9 +18,6 @@ import SegmentedControlTab from 'react-native-segmented-control-tab';
 import AccountLink from './AssetsTab/accountLinkScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
 import AssetCounseling from './AssetsTab/assetCounseling';
-
-const url = config.url;
-const openBankingURL = config.openBankingURL;
 
 const AssetsScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');

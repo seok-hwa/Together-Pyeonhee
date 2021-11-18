@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../config';
-import { WebView } from 'react-native-webview';
 import {
     SafeAreaView,
     ScrollView,

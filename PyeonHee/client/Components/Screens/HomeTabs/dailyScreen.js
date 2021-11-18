@@ -9,7 +9,9 @@ const DailyScreen = (props) => {
     const [userID, setUserID] = useState('');
     const [userName, setUserName] = useState('테스트');
     const [loading, setLoading] = useState(false);
+    const [year, setYear] = useState('');
     const [month, setMonth] = useState('');
+    const [day, setDay] = useState('');
     const [isCompleted, setIsCompleted] = useState(true);
 
     const [rent, setRent] = useState(1000);
@@ -69,7 +71,6 @@ const DailyScreen = (props) => {
             })
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data 야 여기야!!');
                 console.log(responseJson);
                 if(responseJson.length === 0){
                     setIsCompleted(false);
@@ -96,9 +97,13 @@ const DailyScreen = (props) => {
                     setMonthMoney(total);
 
                     var now = new Date();	// 현재 날짜 및 시간
+                    var year = now.getFullYear(); //년
                     var month = now.getMonth();	// 월
+                    var day = now.getDate(); 
 
+                    setYear(year);
                     setMonth(month+1);
+                    setDay(day);
                 }
             }) 
             .then(()=>{
@@ -121,16 +126,6 @@ const DailyScreen = (props) => {
                     setSaving(responseJson);
     
                     setLoading(true);
-                    if(loading === true){
-                        console.log('로딩 됐어');
-                    }else{
-                        console.log('로딩 안 됐어');
-                    }
-                    if(isCompleted === true){
-                        console.log('정보 됐어');
-                    }else{
-                        console.log('정보 안 됐어');
-                    }
                 }) 
                 .then(()=>{
                 })
@@ -149,7 +144,7 @@ const DailyScreen = (props) => {
                 <View style={styles.appBody}>
                     <View style={styles.innerTopDiv}>
                         <View style={styles.monthDiv}>
-                            <Text style={styles.monthText}>{month}월</Text>
+                            <Text style={styles.monthText}>{year}년 {month}월 {day}일</Text>
                         </View>
                     </View>
                     <Text style={styles.dailyText}>Daily</Text>
@@ -157,33 +152,24 @@ const DailyScreen = (props) => {
                         <View style={styles.savingDiv}>
                             <View style={styles.savingLeftDiv}>
                                 <Image source={require('../assets/coinBank.png')} style={styles.iconDiv}/>
-                                <Text>저금통</Text>
+                                <Text style={styles.savingLockerText}>저금통</Text>
                             </View>
                             <View style={styles.savingRightDiv}>
-                                <Text>+{coinBank}</Text>
+                                <Text style={styles.savingPriceText}>+  {coinBank}원</Text>
                             </View>
                         </View>
                         <View style={styles.exDiv}>
                             <View style={styles.exTopDiv}>
-                                <Text>월 누적 지출:</Text>
+                                <Text style={styles.exTitleDiv}>월 누적 지출:</Text>
                                 <Text style={styles.exText}>{monthMoney}원</Text>
                             </View>
                             <View style={styles.exBottomDiv}>
-                                <Text>일일 잔여 예산:</Text> 
+                                <Text style={styles.exTitleDiv}>일일 잔여 예산:</Text> 
                                 <Text style={styles.exText}>{dailyMoney}원</Text>
                             </View>
                         </View>
                     </View>
-                    <Text style={styles.dailyText}>Saving</Text>
-                        <View style={styles.savingBody}>
-                            {saving.length === 0 ?
-                            <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
-                            saving.map(item => {
-                            return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
-                            startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
-                            })}
-                        </View>
-                    <Text style={styles.categoryText}>Category</Text>
+                    <Text style={styles.dailyText}>Category</Text>
                     <View style={styles.categoryBody}>
                         <View style={styles.categoryInnerBody}>
                             <View style={styles.itemDiv}>
@@ -243,6 +229,15 @@ const DailyScreen = (props) => {
                             </View>
                         </View>
                     </View>
+                    <Text style={styles.dailyText}>Saving</Text>
+                        <View style={styles.savingBody}>
+                            {saving.length === 0 ?
+                            <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                            saving.map(item => {
+                            return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
+                            startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
+                            })}
+                        </View>
                 </View>
             </ScrollView>
         )
@@ -280,46 +275,46 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
     appTopBar: {
-        height: 50,
+        height: 40,
     },
     appBody:{
         flex: 1,
-        borderWidth: 1,
-        borderRadius: 50,
     },
     titleDiv: {
-        marginTop: 20,
+        marginTop: 10,
         marginLeft: 15,
         flexDirection: 'row',
     },
     NameStyle:{
-        fontSize: 20,
+        fontSize: 25,
+        fontWeight: 'bold',
         color: 'black',
     },
     NextToNameStyle: {
-        marginTop: 7,
+        marginTop: 9,
+        fontSize: 15,
+        fontWeight: 'bold',
     },
     innerTopDiv:{
         alignItems: 'center',
     },
     monthDiv:{
-        marginTop: 5,
+        marginTop: 4,
         borderRadius: 10,
         padding: 5,
         backgroundColor: '#87CEFA',
     },
     monthText:{
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 15,
     },
     dailyText:{
         margin: 10,
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: 'bold',
     },
     dailyBody:{
         borderRadius: 20,
-        borderWidth: 1,
         height: 100,
         marginLeft: 10,
         marginRight: 10,
@@ -327,13 +322,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     savingBody:{
-        borderRadius: 20,
-        borderWidth: 1,
+        borderRadius: 10,
         flex: 1,
         marginLeft: 10,
         marginRight: 10,
         backgroundColor: 'white',
         alignItems: 'center',
+    },
+    savingLockerText: {
+        marginTop: 5,
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     categoryText:{
         margin: 10,
@@ -342,16 +341,20 @@ const styles = StyleSheet.create({
     },
     categoryBody:{
         borderRadius: 20,
-        borderWidth: 1,
         height: 300,
         marginBottom: 20,
-        marginLeft: 30,
-        marginRight: 30,
+        marginLeft: 10,
+        marginRight: 10,
         backgroundColor: 'white',
     },
     iconDiv: {
         width: 50,
         height: 50,
+    },
+    exTitleDiv: {
+        width: 90,
+        fontSize: 13,
+        fontWeight: '500',
     },
     savingDiv:{
         flex: 2,
@@ -363,12 +366,16 @@ const styles = StyleSheet.create({
     savingLeftDiv:{
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: 5,
-        marginLeft: 5,
+        marginTop: 10,
+        marginLeft: 10,
     },
     savingRightDiv:{
-        marginTop: 20,
+        marginTop: 35,
         marginLeft: 5,
+    },
+    savingPriceText: {
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     exTopDiv: {
         flex: 1,
@@ -385,6 +392,7 @@ const styles = StyleSheet.create({
     exText: {
         width: 100,
         textAlign: 'right',
+        fontSize: 13,
     },
     categoryInnerBody: {
         marginLeft: 30,
@@ -394,8 +402,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     itemTitle: {
-        width: 50,
-        marginLeft: 10,
+        width: 60,
+        marginLeft: 20,
     },
     priceTitle: {
         width: 120,
