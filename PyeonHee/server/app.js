@@ -4,6 +4,7 @@ const config = require('./config');
 const mysql = require('mysql2');
 const { Client } = require('ssh2');
 const sshClient = new Client();
+var request = require('request');
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
@@ -603,6 +604,35 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                     });
                 }
+                });
+            });
+
+            // 사용자 토큰 발급
+            app.get('/Together', function (req, res) {
+                var authCode = req.query.code;
+                var option = {
+                    method: "POST",
+                    url: "https://testapi.openbanking.or.kr/oauth/2.0/token",
+                    headers: "",
+                    form: {
+                        code: authCode,
+                        client_id: config.client_id,
+                        client_secret: config.client_secret,
+                        redirect_uri: config.redirect_uri,
+                        grant_type: 'authorization_code'
+                    }
+                }
+
+                request(option, function (err, response, body) {
+                    var result = JSON.parse(body);
+                    var access_token;
+                    var user_seq_no;
+                    const data = {
+                        access_token: result.access_token,
+                        user_seq_no: result.user_seq_no
+                    }
+                    res.send(data);
+                    console.log(data);
                 });
             });
 
