@@ -231,12 +231,14 @@ const DailyScreen = (props) => {
                     </View>
                     <Text style={styles.dailyText}>Saving</Text>
                         <View style={styles.savingBody}>
+                            <View>
                             {saving.length === 0 ?
                             <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
                             saving.map(item => {
                             return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
                             startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
                             })}
+                            </View>
                         </View>
                 </View>
             </ScrollView>
