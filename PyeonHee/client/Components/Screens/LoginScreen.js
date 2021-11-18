@@ -62,6 +62,7 @@ const LoginScreen = ({navigation}) => {
       //navigation.replace('Survey');           //for survey test
       //navigation.replace('Main');             //for Main test
       //navigation.replace('BudgetList');         //for BudgetList test
+      console.log(`${url}/login`);
       fetch(`${url}/login`, {
         method: 'POST',
         body: JSON.stringify({

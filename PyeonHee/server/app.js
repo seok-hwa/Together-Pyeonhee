@@ -36,7 +36,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPassword = req.body.userPassword;
                 db.query(`SELECT * FROM user WHERE user.user_id=? 
                 AND user.password = ?`,[userID,userPassword], function(error,result){
-                    console.log(result[0]);
+                    //console.log(result[0]);
 
                     if(error) throw error;
                     else{
