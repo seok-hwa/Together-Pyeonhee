@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../config';
-import { WebView } from 'react-native-webview';
 import {
   SafeAreaView,
   ScrollView,
@@ -14,13 +12,13 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  Linking,
 } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import AccountLink from './AssetsTab/accountLinkScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
 import AssetCounseling from './AssetsTab/assetCounseling';
 
-const url = config.url;
 const AssetsScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -57,7 +55,6 @@ const AssetsScreen = ({navigation}) => {
                     borderRadius={20}
                 />
             </View>
-
         </View>
       </SafeAreaView>
   )
