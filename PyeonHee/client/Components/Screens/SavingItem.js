@@ -30,7 +30,7 @@ const SavingItem = (props) => {
                     </View>
                 </View>
             </View>
-        </View>
+            </View>
     );
 };
 
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     savingDiv: {
         marginTop: 10,
         height: 100,
-        width: 300,
+        width: 320,
         borderTopWidth: 1,
     },
     savingInnerDiv: {
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     textStyle: {
         marginLeft: 5,
         fontWeight: 'bold',
-        width: 110,
     },
   });
 
