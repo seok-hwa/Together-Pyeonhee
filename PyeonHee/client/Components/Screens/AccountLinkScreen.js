@@ -25,7 +25,7 @@ class testScreen extends Component {
       const tempID = result;
       if(tempID!= null){
         this.setState({
-          siteName: tempID,
+          userID: tempID,
         });
       }
     })
@@ -53,7 +53,8 @@ class testScreen extends Component {
 
 
   const requestToken = async (request_code) => {
-      var returnValue = "none";
+      var access_token = "none";
+      var user_sequence_num = "none";
       var request_token_url = "https://testapi.openbanking.or.kr/oauth/2.0/token";
 
       axios({
@@ -68,8 +69,9 @@ class testScreen extends Component {
           },
       }).then(function (response) {
           console.log('비교', response);
-          returnValue = response.data.access_token;
-          console.log('토큰', returnValue);
+          access_token = response.data.access_token;
+          user_sequence_num = response.data.user_seq_no;
+          console.log('토큰', access_token, '시퀀', user_sequence_num);
       }).then(()=>{
         //api 구현 되면 테스트
         /*
@@ -77,7 +79,8 @@ class testScreen extends Component {
           method: 'POST',
           body: JSON.stringify({
             userID: this.state.userID,
-            userToken: returnValue,
+            userToken: access_token,
+            userSeqNo: user_sequence_num,
           }),
           headers: {
             'Accept': 'application/json',
