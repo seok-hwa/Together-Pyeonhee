@@ -67,6 +67,7 @@ class testScreen extends Component {
               code: request_code,
           },
       }).then(function (response) {
+          console.log('비교', response);
           returnValue = response.data.access_token;
           console.log('토큰', returnValue);
       }).then(()=>{
