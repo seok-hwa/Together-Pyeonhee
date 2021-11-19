@@ -612,14 +612,14 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 사용자 토큰 발급
             app.get('/Together', function (req, res) {
-                console.log(req);
+                //console.log(req);
                 console.log('클라이언트는 토큰 값을 발급 받으면서 여기서 redirect 됨');
                 /*
                 
                 여기서 토큰을 db에 저장해서 나중에 저장 api에서 사용자 id랑 토큰 비교 후 다시 저장하면 될 듯
                 
                 */
-                res.send("<script>alert('계좌 등록');</script>");
+                res.send("<script>alert('조금 기다려 주세요');</script><h1 style=\"text-align: center; vertical-align: center;\">인증을 진행중입니다.</h1> <h4 style=\"text-align: center; vertical-align: center;\">뒤로가기를 눌러 확인해주세요.</h4>");
                 
                 
                 //프론트에서 발급 받고 여기로 자동 redirect되므로 프론트에서 진행
