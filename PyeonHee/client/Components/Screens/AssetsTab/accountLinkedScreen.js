@@ -64,9 +64,9 @@ const accountLinkScreen = ({navigation}) => {
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
-                console.log(responseJson.res_list);
+                console.log(responseJson);
 
-                setAccountList(responseJson.res_list);
+                setAccountList(responseJson);
                 setLoading(true);
             })
         })
@@ -85,8 +85,8 @@ const accountLinkScreen = ({navigation}) => {
                 {accountList.length === 0 ?
                 <Text>등록된 계좌가 없습니다.</Text> :
                 accountList.map(item => {
-                    return <AccountItem key={item.api_tran_id} accountId={item.api_tran_id} accountAlias={item.account_alias}
-                    accountCate={item.bank_name} accountNum={item.account_num_masked}/>;
+                    return <AccountItem key={item.fintech_use_num} accountAlias={item.account_alias}
+                    accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num}/>;
                 })}
             </ScrollView>
         </View>

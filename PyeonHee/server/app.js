@@ -738,6 +738,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         db.query(`SELECT * FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
                                             if (error) throw error;
                                             res.send(result);
+                                            console.log(result);
                                             console.log("전송");
                                         });
                                     });
