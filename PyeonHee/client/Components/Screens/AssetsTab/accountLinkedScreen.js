@@ -74,7 +74,7 @@ const accountLinkScreen = ({navigation}) => {
     return (
         <View style={styles.appSize}>
             <View style={styles.appTop}>
-                <LinkAccountButton onPress={()=>navigation.navigate('test')} />
+                <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
             </View>
             <View style={styles.appListTitle}>
                 <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
