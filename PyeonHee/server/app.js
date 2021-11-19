@@ -116,16 +116,19 @@ const SSHConnection = new Promise((resolve, reject) => {
                 } else {
                     mbti_type = mbti_type + 'P';
                 }
+
                 if(second_type > 50){
-                    mbti_type = mbti_type + 'H';
-                } else {
                     mbti_type = mbti_type + 'C';
-                }
-                if(third_type > 50){
-                    mbti_type = mbti_type + 'O';
                 } else {
-                    mbti_type = mbti_type + 'S';
+                    mbti_type = mbti_type + 'H';
                 }
+
+                if(third_type > 50){
+                    mbti_type = mbti_type + 'S';
+                } else {
+                    mbti_type = mbti_type + 'O';
+                }
+                
                 if(fourth_type > 50){
                     mbti_type = mbti_type + 'E';
                 } else {
