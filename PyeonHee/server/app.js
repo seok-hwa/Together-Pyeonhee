@@ -652,7 +652,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 */
             });
 
-            // 사용자 토큰 발급 CALLABCK 
+            // 사용자 토큰 발급 CALLBACK 
             app.post('/saveAccount', function (req, res) {
                 console.log(req.body);
                 var userID = req.body.userID;
@@ -690,8 +690,90 @@ const SSHConnection = new Promise((resolve, reject) => {
                             }
                         }
                     });
-
             });
+
+            // 연동한 계좌목록 조회
+            app.get('/accountList', function (req, res) {
+                console.log(req.query);
+                var userID = req.query.userID;
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            if (result[0].success == 1) { //오픈뱅킹 연동한 사용자
+                                db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                                    if (error) throw error;
+                                    var option = {
+                                        method: "GET",
+                                        url: "https://testapi.openbanking.or.kr/v2.0/user/me",
+                                        headers: {
+                                            Authorization: "Bearer " + result[0].access_token
+                                        },
+                                        qs: {
+                                            user_seq_no: result[0].user_seq_no
+                                        }
+                                    }
+                                    request(option, function (error, response, body) {
+                                        if (error) throw error;
+                                        var requestResultJSON = JSON.parse(body);
+                                        res.json(requestResultJSON);
+                                    });
+                                });
+                            }
+                            else { // 신규 사용자(오픈뱅킹 연동 X)
+                                console.log("연동내역이 없습니다.");
+                            }
+                        }
+                    });
+            });
+
+            /*
+            // 오픈뱅킹 연동 해지
+            app.get('/close', function (req, res) {
+                console.log(req.query);
+                var userID = req.query.userID;
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1) { //오픈뱅킹 연동한 사용자
+                            db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                                if (error) throw error;
+                                var option = {
+                                    method: "POST",
+                                    url: "https://testapi.openbanking.or.kr/v2.0/user/close",
+                                    headers: {
+                                        Authorization: "Bearer " + result[0].access_token
+                                    },
+                                    qs: {
+                                        client_use_code: config.client_use_code,
+                                        user_seq_no: result[0].user_seq_no
+                                    }
+                                }
+                                request(option, function (error, response, body) {
+                                    if (error) throw error;
+                                    var requestResultJSON = JSON.parse(body);
+                                    //res.json(requestResultJSON);
+                                    //"rsp_code": "A0000" 이면 [사용자연결동의 해제 상태]
+                                });
+                                db.query(`DELETE FROM openBankingUser WHERE user_id =?`,
+                                    [userID], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: 'success',
+                                            }
+                                            res.send(data);
+                                            console.log("오픈뱅킹 연동 해지 완료");
+                                        }
+                                    });
+                            });
+                        }
+                        else { // 오픈뱅킹 연동 X 사용자
+                            console.log("연동내역이 없습니다. 연동해지 불가능");
+                        }
+                    }
+                });
+            });
+            */
 
             const PORT = 8000;
             app.listen(PORT, function(){
