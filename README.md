@@ -116,7 +116,7 @@ npm install styled-system
 ~~~
 ### 2.2. 관련 이슈
 1) 아이디 저장하기가 필요한가?
-2) 프록시 설정 필요
+
 <br>
 <br>
 <br>
@@ -184,7 +184,7 @@ npm install react-native-segmented-control-tab --save
 
 ## 7. 계좌 연동
 ### 7.1. 관련 패키지 설치
-#### 7.1.1. axios(/clinet)
+#### 7.1.1. axios(/client)
 ~~~
 npm install --save axios
 ~~~
