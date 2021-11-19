@@ -119,7 +119,7 @@ create table RealExpense (
     foreign key (user_id) references pyeonhee.user (id)
 );
 */
-
+/*
 create table BankAddress (
     user_id varchar(10) not null,
     bank_address int not null, 
@@ -127,6 +127,7 @@ create table BankAddress (
     primary key (user_id),
     foreign key (user_id) references user (user_id)
 );
+*/
 create table FinancialProduct (
     product_name varchar(12) not null,
     product_type varchar(10) not null,
@@ -200,6 +201,7 @@ select sum(diff) as current_stamp_count
 from stamp
 where user_id = 'abcd';
 */
+/*
 create table bank
 (
     seq  int  not null primary key auto_increment comment '은행 고유번호',
@@ -223,7 +225,7 @@ create table bank_account
     alias      text        not null comment '사용자 별명',
     primary key (user_id, bank, address_no)
 );
-
+*/
 /*
 insert into bank_account
 values ('abcd', 1, '1000000', '월급통장'),
@@ -253,6 +255,7 @@ values ('월급'),
        ('용돈');
 */
 
+/*
 create table real_expense
 (
     user_id      varchar(10) not null,
@@ -265,6 +268,7 @@ create table real_expense
     primary key (user_id, expense_date, bank),
     foreign key (user_id,bank,address_no) references bank_account(user_id,bank,address_no)
 );
+*/
 
 create table daily_data 
 (
@@ -326,5 +330,21 @@ create table openBankingUser (
     access_token varchar(300) not null,
     user_seq_no varchar(10) not null,
     primary key (user_id, user_seq_no),
+    foreign key (user_id) references user (user_id)
+);
+
+/*21 11 19 수정*/
+/*기존 bank, bank_account, real_expense, bankAddress 테이블 삭제*/
+/*real_expense 테이블 다시 생성하기*/
+create table bank_account
+(
+    user_id    varchar(10) not null,
+    fintech_use_num varchar(25) not null,
+    account_alias varchar(20) not null, 
+    bank_code_std varchar(4) not null,
+    bank_name varchar(10) not null,
+    account_num_masked varchar(20) not null,
+    account_holder_name varchar(5) not null,
+    primary key (user_id, fintech_use_num),
     foreign key (user_id) references user (user_id)
 );
