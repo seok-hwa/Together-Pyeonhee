@@ -15,7 +15,7 @@ import {
   Linking,
 } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
-import AccountLink from './AssetsTab/accountLinkScreen';
+import AccountLink from './AssetsTab/accountLinkedScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
 import AssetCounseling from './AssetsTab/assetCounseling';
 
