@@ -799,6 +799,55 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
+            /*
+            // 연동한 출금계좌별명 변경
+            app.get('/update_info', function (req, res) {
+                console.log(req.query);
+                var userID = req.query.userID;
+                var fintechUseNum = req.query.fintech_use_num;
+                var newAlias = req.query.newAlias;//새로 변경할 계좌별명
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE fintech_use_num = ? limit 1) as success`, [fintechUseNum], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1) { //변경할 출금계좌
+                            db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                                if (error) throw error;
+                                var option = {
+                                    method: "POST",
+                                    url: "https://testapi.openbanking.or.kr/v2.0/account/update_info",
+                                    headers: {
+                                        Authorization: "Bearer " + result[0].access_token
+                                    },
+                                    qs: {
+                                        fintech_use_num: fintechUseNum,
+                                        account_alias: newAlias
+                                    }
+                                }
+                                request(option, function (error, response, body) {
+                                    if (error) throw error;
+                                    var requestResultJSON = JSON.parse(body);
+                                    var new_alias = requestResultJSON['account_alias']; //변경된 출금계좌별명
+                                    db.query(`UPDATE bank_account SET account_alias = ?`, [new_alias], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: 'success',
+                                            }
+                                            res.send(data);
+                                            console.log("출금계좌별명 변경완료");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        else { 
+                            console.log("DB에 저장된 계좌가 없습니다.");
+                        }
+                    }
+                });
+            });
+            */
+           
             const PORT = 8000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
