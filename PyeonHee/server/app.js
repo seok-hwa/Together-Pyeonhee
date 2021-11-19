@@ -715,7 +715,31 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     request(option, function (error, response, body) {
                                         if (error) throw error;
                                         var requestResultJSON = JSON.parse(body);
-                                        res.json(requestResultJSON);
+                                        //res.json(requestResultJSON);
+                                        //console.log(requestResultJSON);
+            
+                                        for (i in requestResultJSON['res_list']){
+                                            var fintech_use_num = requestResultJSON['res_list'][i]['fintech_use_num']; //핀테크이용번호
+                                            var account_alias = requestResultJSON['res_list'][i]['account_alias']; //출금계좌별명
+                                            var bank_code_std = requestResultJSON['res_list'][i]['bank_code_std']; //출금기관표준코드
+                                            var bank_name = requestResultJSON['res_list'][i]['bank_name']; //출금기관명
+                                            var account_num_masked = requestResultJSON['res_list'][i]['account_num_masked']; //계좌번호
+                                            var account_holder_name = requestResultJSON['res_list'][i]['account_holder_name']; //예금주성명
+                                            db.query(`INSERT INTO bank_account(user_id, fintech_use_num, account_alias, bank_code_std, bank_name, 
+                                                account_num_masked, account_holder_name) SELECT ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS 
+                                                (SELECT user_id, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name FROM bank_account 
+                                                WHERE user_id = ?  AND fintech_use_num =? AND account_alias=? AND bank_code_std =? AND bank_name =? AND account_num_masked=? AND account_holder_name =?)`, 
+                                                [userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name
+                                                , userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name], function (error, result) {
+                                                if (error) throw error;
+                                                //console.log("등록된 계좌 DB저장완료");
+                                            });
+                                        }
+                                        db.query(`SELECT * FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
+                                            if (error) throw error;
+                                            res.send(result);
+                                            console.log("전송");
+                                        });
                                     });
                                 });
                             }
@@ -775,6 +799,55 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
+            /*
+            // 연동한 출금계좌별명 변경
+            app.get('/update_info', function (req, res) {
+                console.log(req.query);
+                var userID = req.query.userID;
+                var fintechUseNum = req.query.fintech_use_num;
+                var newAlias = req.query.newAlias;//새로 변경할 계좌별명
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE fintech_use_num = ? limit 1) as success`, [fintechUseNum], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1) { //변경할 출금계좌
+                            db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                                if (error) throw error;
+                                var option = {
+                                    method: "POST",
+                                    url: "https://testapi.openbanking.or.kr/v2.0/account/update_info",
+                                    headers: {
+                                        Authorization: "Bearer " + result[0].access_token
+                                    },
+                                    qs: {
+                                        fintech_use_num: fintechUseNum,
+                                        account_alias: newAlias
+                                    }
+                                }
+                                request(option, function (error, response, body) {
+                                    if (error) throw error;
+                                    var requestResultJSON = JSON.parse(body);
+                                    var new_alias = requestResultJSON['account_alias']; //변경된 출금계좌별명
+                                    db.query(`UPDATE bank_account SET account_alias = ?`, [new_alias], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: 'success',
+                                            }
+                                            res.send(data);
+                                            console.log("출금계좌별명 변경완료");
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                        else { 
+                            console.log("DB에 저장된 계좌가 없습니다.");
+                        }
+                    }
+                });
+            });
+            */
+           
             const PORT = 8000;
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
