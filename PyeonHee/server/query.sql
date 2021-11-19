@@ -348,3 +348,23 @@ create table bank_account
     primary key (user_id, fintech_use_num),
     foreign key (user_id) references user (user_id)
 );
+
+/*21 11 20 수정*/
+/*real_expense 테이블 생성*/
+create table real_expense
+(
+    user_id      varchar(10) not null,
+    fintech_use_num varchar(25) not null,
+    bank_name varchar(10) not null,
+    balance_amt int default 0,
+    tran_date varchar(8) not null,
+    tran_time varchar(6) not null,
+    inout_type varchar(2) not null,
+    tran_type varchar(10) not null,
+    print_content varchar(20) not null,
+    tran_amt int not null,
+    after_balance_amt int not null,
+    branch_name varchar(10) not null,
+    primary key (user_id, fintech_use_num),
+    foreign key (user_id, fintech_use_num) references bank_account(user_id, fintech_use_num)
+);
