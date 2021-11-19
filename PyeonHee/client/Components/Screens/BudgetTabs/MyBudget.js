@@ -28,7 +28,7 @@ const MyBudgetScreen = ({navigation}) => {
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
 
-    // const [sumOfSavings, setSumOfSavings] = (0);
+    // const [sumOfSavings, setSumOfSavings] = useState(0);
 
     const [myBudgetData, setMyBudgetData] = useState({
         userLikeCount: 0,
@@ -88,10 +88,10 @@ const MyBudgetScreen = ({navigation}) => {
                     let total = responseJson.education + responseJson.transportation +
                     responseJson.shopping + responseJson.leisure + responseJson.insurance +
                     responseJson.medical + responseJson.rent + responseJson.communication +
-                    responseJson.etc + responseJson.event; //responseJson.subscribe 포함돼야함
+                    responseJson.etc + responseJson.event + responseJson.subscribe; //responseJson.subscribe 포함돼야함
 
                     let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
-                    parseInt(responseJson.communication) ; //responseJson.subscribe 포함돼야함
+                    parseInt(responseJson.communication) + responseJson.subscribe; //responseJson.subscribe 포함돼야함
                     console.log('고정지출 합:');
                     console.log(fixedTemp);
 
@@ -159,7 +159,7 @@ const MyBudgetScreen = ({navigation}) => {
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <Text style={{fontSize: 20, fontWeight:'bold', color: '#8EB3EE', marginRight: 3}}>
-                                1,000,0000
+                                하루권장소비금액!
                             </Text> 
                             <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                 원
@@ -313,7 +313,7 @@ const MyBudgetScreen = ({navigation}) => {
                             저금 계획
                         </Text>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                            {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                            {/* {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 */}
                         </Text>
                     </View>
                     <View>

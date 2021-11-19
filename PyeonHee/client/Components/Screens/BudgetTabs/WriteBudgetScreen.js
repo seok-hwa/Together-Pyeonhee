@@ -290,15 +290,17 @@ const WriteBudgetScreen = ({navigation}) => {
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>고정지출</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                <TextInput
+                                {/* <TextInput
                                     style={styles.textInputDesign}
                                     placeholder='0'
                                     onChangeText={text => setFixedExpenditure(text)}
                                     maxLength = {20}
                                     keyboardType="numeric"
                                     textAlign="right"
-                                />
-                                <Text style={{fontSize: 15, fontWeight:'bold'}}>원</Text>
+                                /> */}
+                                <Text style={{fontSize: 15, fontWeight:'bold'}}>
+                                    {parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription)}원
+                                </Text>
                             </View>
                         </View>
                         <View style={styles.category}>
@@ -336,15 +338,17 @@ const WriteBudgetScreen = ({navigation}) => {
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>계획지출</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                <TextInput
+                                {/* <TextInput
                                     style={styles.textInputDesign}
                                     placeholder='0'
                                     onChangeText={text => setPlannedExpenditure(text)}
                                     maxLength = {20}
                                     keyboardType="numeric"
                                     textAlign="right"
-                                />
-                                <Text style={{fontSize: 15, fontWeight:'bold'}}>원</Text>
+                                /> */}
+                                <Text style={{fontSize: 15, fontWeight:'bold'}}>
+                                    {parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc)}원
+                                </Text>
                             </View>
                         </View>
                         <View style={styles.category}>
