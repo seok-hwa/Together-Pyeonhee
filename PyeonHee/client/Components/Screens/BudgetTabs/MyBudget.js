@@ -47,6 +47,7 @@ const MyBudgetScreen = ({navigation}) => {
         ect: 0,
         subscribe: 0,
         budgetPlanID: 0,
+        sumOfSavings: 0,
     });
 
     let now = new Date();
@@ -158,7 +159,7 @@ const MyBudgetScreen = ({navigation}) => {
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <Text style={{fontSize: 20, fontWeight:'bold', color: '#8EB3EE', marginRight: 3}}>
-                                1,0000000
+                                1,000,0000
                             </Text> 
                             <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                 원
@@ -312,7 +313,7 @@ const MyBudgetScreen = ({navigation}) => {
                             저금 계획
                         </Text>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                            원
+                            {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
                         </Text>
                     </View>
                     <View>
