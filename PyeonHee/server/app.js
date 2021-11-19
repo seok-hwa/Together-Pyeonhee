@@ -727,7 +727,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             /*
-            // 오픈뱅킹 연동 해지
+            // 오픈뱅킹 모든 계좌연동 해지 (사용자탈퇴 API 요청을 받은 날의 익 영업일 중에 해지처리 됨)
             app.get('/close', function (req, res) {
                 console.log(req.query);
                 var userID = req.query.userID;
