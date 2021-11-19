@@ -917,12 +917,38 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                     request(option, function (error, response, body) {
                         var requestResultJSON = JSON.parse(body);
+                        var bankName = requestResultJSON['bank_name'];
+                        var balanceAmt = requestResultJSON['balance_amt'];
                         if (requestResultJSON['rsp_code'] == "A0000") {
-                            res.json(requestResultJSON);
-                            console.log("거래내역 조회 완료");
+                            for (i in requestResultJSON['res_list']) {
+                                var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
+                                var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
+                                var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
+                                var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
+                                var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
+                                var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
+                                var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
+                                var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
+                                db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date,
+                                        tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                                        FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date,
+                                        tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                                        FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                                        AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND trabranch_namen_amt =?)`, 
+                                        [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt ,
+                                        after_balance_amt, branch_name], function (error, result) {
+                                            if (error) throw error;
+                                            console.log("거래내역 DB저장완료");
+                                        });
+                            }
+                            db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintect_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                if (error) throw error;
+                                res.send(result);
+                                console.log(result);
+                                console.log("거래내역 조회 완료 (거래내역 전송)");
+                            });
                         }
                         else {
-                            res.json(requestResultJSON);
                             console.log("거래내역 조회 실패");
                         }
                     });
