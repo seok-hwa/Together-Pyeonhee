@@ -192,3 +192,23 @@ npm install request
 ~~~
 npm install --save axios
 ~~~
+
+<br>
+<br>
+<br>
+<br>
+
+## 8. 캘린더
+### 8.1. 관련 패키지 설치
+#### 8.1.1. moment(/client)
+~~~
+npm i moment
+~~~
+#### 8.1.2. prop-types(/client)
+~~~
+npm install --save prop-types
+~~~
+#### 8.1.3. calendars(/client)
+~~~
+npm install --save react-native-calendars
+~~~
