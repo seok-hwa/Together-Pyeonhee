@@ -184,11 +184,7 @@ npm install react-native-segmented-control-tab --save
 
 ## 7. 계좌 연동
 ### 7.1. 관련 패키지 설치
-#### 7.1.1. request(/server)
-~~~
-npm install request
-~~~
-#### 7.1.2. axios(/clinet)
+#### 7.1.1. axios(/clinet)
 ~~~
 npm install --save axios
 ~~~
