@@ -56,6 +56,8 @@ client 폴더안에 config.js 파일 생성후 아래와 같이 기입
 const config = {
     url: 'http://IPv4주소:로컬서버포트',
     openBankingURL: '오픈뱅킹인증 url',
+    client_id: '',
+    client_secret: '',
 };
 
 module.exports = config;
@@ -163,9 +165,30 @@ npm install --save react-native-svg-charts
 
 ## 5. 마이페이지
 
+<br>
+<br>
+<br>
+<br>
+
 ## 6. Main 화면 
 ### 6.1. 관련 패키지 설치
 #### 6.1.1. react native segmented-control-tab(client/)
 ~~~
 npm install react-native-segmented-control-tab --save
+~~~
+
+<br>
+<br>
+<br>
+<br>
+
+## 7. 계좌 연동
+### 7.1. 관련 패키지 설치
+#### 7.1.1. request(/server)
+~~~
+npm install request
+~~~
+#### 7.1.2. axios(/clinet)
+~~~
+npm install --save axios
 ~~~

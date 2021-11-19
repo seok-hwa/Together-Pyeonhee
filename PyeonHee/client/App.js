@@ -19,7 +19,7 @@
  import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
  import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
  import BudgetScreen from './Components/Screens/BudgetScreen';
- import testScreen from './Components/Screens/testScreen';
+ import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
  import config from './config';
 
  
@@ -119,8 +119,8 @@
            }} 
            />
            <Stack.Screen
-             name="test"
-             component={testScreen}
+             name="accountLink"
+             component={AccountLinkScreen}
              options={{
                headerShown: false,
            }} 
@@ -196,8 +196,8 @@
            }} 
            />
            <Stack.Screen
-             name="test"
-             component={testScreen}
+             name="accountLink"
+             component={AccountLinkScreen}
              options={{
                headerShown: false,
            }} 

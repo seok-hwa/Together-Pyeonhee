@@ -4,6 +4,7 @@ const config = require('./config');
 const mysql = require('mysql2');
 const { Client } = require('ssh2');
 const sshClient = new Client();
+var request = require('request');
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
@@ -36,7 +37,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPassword = req.body.userPassword;
                 db.query(`SELECT * FROM user WHERE user.user_id=? 
                 AND user.password = ?`,[userID,userPassword], function(error,result){
-                    console.log(result[0]);
+                    //console.log(result[0]);
 
                     if(error) throw error;
                     else{
@@ -115,16 +116,19 @@ const SSHConnection = new Promise((resolve, reject) => {
                 } else {
                     mbti_type = mbti_type + 'P';
                 }
+
                 if(second_type > 50){
-                    mbti_type = mbti_type + 'H';
-                } else {
                     mbti_type = mbti_type + 'C';
-                }
-                if(third_type > 50){
-                    mbti_type = mbti_type + 'O';
                 } else {
-                    mbti_type = mbti_type + 'S';
+                    mbti_type = mbti_type + 'H';
                 }
+
+                if(third_type > 50){
+                    mbti_type = mbti_type + 'S';
+                } else {
+                    mbti_type = mbti_type + 'O';
+                }
+                
                 if(fourth_type > 50){
                     mbti_type = mbti_type + 'E';
                 } else {
@@ -567,34 +571,125 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get(`/myBudgetPlan`, function(req, res){
                 console.log(req.query.userID);
                 var userID = req.query.userID;
-                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
-                    if (error) throw error;
-                    else if(result.length != 0){
-                        console.log(result[0]);
-                        var data = {
-                        userLikeCount: result[0].like_number,
-                        userMBTI: result[0].user_mbti,
-                        userAge: result[0].user_age,
-                        userIncome: result[0].user_income,
-                        rent: result[0].monthly_rent,
-                        insurance: result[0].insurance_expense,
-                        traffic: result[0].transportation_expense,
-                        communication: result[0].communication_expense,
-                        hobby: result[0].leisure_expense,
-                        shopping: result[0].shopping_expense,
-                        education: result[0].education_expense,
-                        medical: result[0].medical_expense,
-                        event: result[0].event_expense,
-                        ect: result[0].etc_expense,
-                        subscribe: result[0].subscribe_expense,
-                        budgetPlanID: result[0].planning_number
-                        };
-                        console.log(data);
-                        res.send(data);
-                    } else {
-                        res.send([]);
-                    }
+                db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error1,result1){
+                    if (error1) throw error1;
+                    else {
+                        
+                        db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
+                            if (error) throw error;
+
+                            else if(result.length != 0){
+                                console.log(result[0]);
+                                var data = {
+                                userLikeCount: result[0].like_number,
+                                userMBTI: result[0].user_mbti,
+                                userAge: result[0].user_age,
+                                userIncome: result[0].user_income,
+                                rent: result[0].monthly_rent,
+                                insurance: result[0].insurance_expense,
+                                traffic: result[0].transportation_expense,
+                                communication: result[0].communication_expense,
+                                hobby: result[0].leisure_expense,
+                                shopping: result[0].shopping_expense,
+                                education: result[0].education_expense,
+                                medical: result[0].medical_expense,
+                                event: result[0].event_expense,
+                                ect: result[0].etc_expense,
+                                subscribe: result[0].subscribe_expense,
+                                budgetPlanID: result[0].planning_number,
+                                sumOfSavings : parseInt(result1[0].total_savings_money),
+                                };
+                            console.log(data);
+                            res.send(data);
+                        } 
+                        else {
+                            res.send([]);
+                        }
+                    });
+                }
                 });
+            });
+
+            // 사용자 토큰 발급
+            app.get('/Together', function (req, res) {
+                console.log(req);
+                console.log('클라이언트는 토큰 값을 발급 받으면서 여기서 redirect 됨');
+                /*
+                
+                여기서 토큰을 db에 저장해서 나중에 저장 api에서 사용자 id랑 토큰 비교 후 다시 저장하면 될 듯
+                
+                */
+                res.send("<script>alert('조금 기다려 주세요');</script><h1 style=\"text-align: center; vertical-align: center;\">인증을 진행중입니다.</h1> <h4 style=\"text-align: center; vertical-align: center;\">뒤로가기를 눌러 확인해주세요.</h4>");
+                
+                
+                //프론트에서 발급 받고 여기로 자동 redirect되므로 프론트에서 진행
+                
+                /*
+
+                var option = {
+                    method: "POST",
+                    url: "https://testapi.openbanking.or.kr/oauth/2.0/token",
+                    headers: "",
+                    form: {
+                        code: authCode,
+                        client_id: config.client_id,
+                        client_secret: config.client_secret,
+                        redirect_uri: config.redirect_uri,
+                        grant_type: 'authorization_code'
+                    }
+                }
+                request(option, function (err, response, body) {
+                    var result = JSON.parse(body);
+                    var access_token;
+                    var user_seq_no;
+                    const data = {
+                        access_token: result.access_token,
+                        user_seq_no: result.user_seq_no
+                    }
+                    res.send(data);
+                    console.log(data);
+                });
+                */
+            });
+
+            // 사용자 토큰 발급 CALLABCK 
+            app.post('/saveAccount', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var userToken = req.body.userToken;
+                var userSeqNo = req.body.userSeqNo;
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? and user_seq_no = ? limit 1) as success`,
+                    [userID, userSeqNo], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            if (result[0].success == 1) { //사용자 토큰갱신
+                                db.query(`UPDATE openBankingUser SET access_token = ? WHERE user_seq_no = ? AND user_id =?`, 
+                                    [userToken, userSeqNo, userID], function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        const data = {
+                                            status: 'success',
+                                        }
+                                        res.send(data);
+                                        console.log("사용자 토큰 갱신 완료 (및 계좌등록 완료)");
+                                    }
+                                });
+                            }
+                            else { // 신규 사용자 토큰 등록
+                                db.query(`INSERT INTO openBankingUser(user_id, access_token, user_seq_no)
+                                VALUES(?, ?, ?)`, [userID, userToken, userSeqNo], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: 'success',
+                                            }
+                                            res.send(data);
+                                            console.log("사용자 토큰 등록 완료 (및 계좌등록 완료)");
+                                        }
+                                    });
+                            }
+                        }
+                    });
 
             });
 

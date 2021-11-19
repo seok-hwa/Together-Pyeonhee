@@ -48,7 +48,8 @@ create table BudgetPlanning (
     medical_expense int not null,
     event_expense int not null,
     etc_expense int not null,
-    subscribe_expense int not null,
+    subscribe_expense int default 0,
+    state int default 0,
 
     primary key (planning_number),
     foreign key (user_id) references user (user_id)
@@ -318,4 +319,12 @@ where user_id = 'abcd'
     primary key (user_id, planning_number),
     foreign key (user_id) references user (user_id),
     foreign key (planning_number) references BudgetPlanning (planning_number)
+);
+
+create table openBankingUser (
+    user_id varchar(10) not null,
+    access_token varchar(300) not null,
+    user_seq_no varchar(10) not null,
+    primary key (user_id, user_seq_no),
+    foreign key (user_id) references user (user_id)
 );

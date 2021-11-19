@@ -338,7 +338,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                         <Text style={styles.textStyle}>{userIncome}원</Text> 
                                     </View>
                                     <View style={styles.textDiv} >
-                                        <Text>소비 성향 MBTI: </Text>
+                                        <Text style={{marginTop: 3,}}>소비 성향 MBTI: </Text>
                                         <View style={styles.mbtiInnerContainer}>
                                             <Text style={styles.mbtiText}>{userMBTI}</Text>
                                         </View> 
@@ -348,6 +348,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                     <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} userID = {userID} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
                                 </View>
                             </View>
+                            <Text style={styles.savingTitle}>이 사용자의 저금계획</Text>
                             <View style={styles.bottomDivInCard}>
                                 {saving.length === 0 ?
                                 <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
@@ -471,9 +472,8 @@ const styles = StyleSheet.create({
     },
     appTopBar: {
         height: 50,
-        flexDirection: 'row',
-        marginBottom: 5,
         backgroundColor: 'white',
+        justifyContent: 'center',
     },
     backButtonPosition: {
         marginLeft: 10,
@@ -481,13 +481,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column-reverse',
     },
     appTitlePosition: {
-        flex: 10,
-        flexDirection: 'column-reverse',
         marginLeft: 20,
-        marginBottom: 5,
     },
     appTitle: {
         fontSize: 15,
+    },
+    infoDiv:{
+        width: 100,
+        borderWidth: 1,
     },
     appBody: {
         flex: 10,
@@ -496,7 +497,6 @@ const styles = StyleSheet.create({
     },
     appInnerBody: {
         flex: 1,
-        borderWidth: 2,
         borderRadius: 10,
         marginTop: 30,
         marginLeft: 20,
@@ -529,9 +529,13 @@ const styles = StyleSheet.create({
     bottomDivInCard: {
         flex: 1,
         marginTop: 10,
-        borderWidth: 1,
         borderRadius: 10,
         alignItems: 'center',
+    },
+    savingTitle:{
+        marginTop: 10,
+        fontSize: 15,
+        fontWeight: 'bold',
     },
     appBottomInnerBody: {
         flex: 3,
@@ -593,7 +597,6 @@ const styles = StyleSheet.create({
     },
     MoneyBody: {
         height: 500,
-        borderWidth: 2,
         borderRadius: 10,
         marginTop: 30,
         marginLeft: 20,
