@@ -96,7 +96,13 @@ const AccountLogo = (props) => {
         return(
             <Image source={require('./assets/accounts/uri.png')} style={styles.accountImage}/>
         )
-    }else{
+    }
+    else if(accountCate === '오픈은행'){
+        return(
+            <Image source={require('./assets/accounts/open.png')} style={styles.accountImage}/>
+        )
+    }
+    else{
           return(
               <View style={styles.accountImage} />
           )
@@ -112,7 +118,7 @@ const AccountItem = (props) => {
                     <View style={styles.accountContent}>
                         <View style={styles.accountInnerContent}>
                             <Text style={styles.accountCate}>{props.accountCate}({props.accountNum})</Text>
-                            <Text style={styles.accountMoney}>{props.accountBalance}원</Text>
+                            <Text style={styles.accountMoney}>{props.accountAlias}</Text>
                         </View>
                     </View>
                 </View>
