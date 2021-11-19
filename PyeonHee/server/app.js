@@ -612,7 +612,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 사용자 토큰 발급
             app.get('/Together', function (req, res) {
-                //console.log(req);
+                console.log(req);
                 console.log('클라이언트는 토큰 값을 발급 받으면서 여기서 redirect 됨');
                 /*
                 
@@ -650,6 +650,47 @@ const SSHConnection = new Promise((resolve, reject) => {
                     console.log(data);
                 });
                 */
+            });
+
+            // 사용자 토큰 발급 CALLABCK 
+            app.post('/saveAccount', function (req, res) {
+                console.log(req.body);
+                var userID = req.body.userID;
+                var userToken = req.body.userToken;
+                var userSeqNo = req.body.userSeqNo;
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? and user_seq_no = ? limit 1) as success`,
+                    [userID, userSeqNo], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            if (result[0].success == 1) { //사용자 토큰갱신
+                                db.query(`UPDATE openBankingUser SET access_token = ? WHERE user_seq_no = ? AND user_id =?`, 
+                                    [userToken, userSeqNo, userID], function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        const data = {
+                                            status: 'success',
+                                        }
+                                        res.send(data);
+                                        console.log("사용자 토큰 갱신 완료 (및 계좌등록 완료)");
+                                    }
+                                });
+                            }
+                            else { // 신규 사용자 토큰 등록
+                                db.query(`INSERT INTO openBankingUser(user_id, access_token, user_seq_no)
+                                VALUES(?, ?, ?)`, [userID, userToken, userSeqNo], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: 'success',
+                                            }
+                                            res.send(data);
+                                            console.log("사용자 토큰 등록 완료 (및 계좌등록 완료)");
+                                        }
+                                    });
+                            }
+                        }
+                    });
+
             });
 
             const PORT = 8000;

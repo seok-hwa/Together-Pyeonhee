@@ -74,7 +74,7 @@ class testScreen extends Component {
           console.log('토큰', access_token, '시퀀', user_sequence_num);
       }).then(()=>{
         //api 구현 되면 테스트
-        /*
+        
         fetch(`${url}/saveAccount`, {
           method: 'POST',
           body: JSON.stringify({
@@ -97,7 +97,7 @@ class testScreen extends Component {
           }
           navigation.replace('자산');
         })
-        */
+        
       })
       .catch(function (error) {
           console.log('error', error);
