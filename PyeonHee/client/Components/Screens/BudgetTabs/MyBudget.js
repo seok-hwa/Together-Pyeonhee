@@ -27,12 +27,7 @@ const MyBudgetScreen = ({navigation}) => {
     
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
-
-<<<<<<< HEAD
     // const [sumOfSavings, setSumOfSavings] = useState(0);
-=======
-    //const [sumOfSavings, setSumOfSavings] = (0);
->>>>>>> 517202d07c28e2482c55197b81d67578ddb88f00
 
     const [myBudgetData, setMyBudgetData] = useState({
         userLikeCount: 0,
