@@ -848,6 +848,86 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
             */
+
+            // 선택한 계좌 잔액 조회
+            app.post('/balance', function (req, res) {
+                var userID = req.body.userID;
+                var ranNum = Math.floor(Math.random() * 100000000);
+                var bankTranID = config.client_use_code + 'U' + ranNum;
+                var fintechUseNum = req.body.fintech_use_num;
+
+                db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                    if (error) throw error;
+                    var option = {
+                        method: "GET",
+                        url: "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num",
+                        headers: {
+                            Authorization: "Bearer " + result[0].accesstoken
+                        },
+                        qs: {
+                            bank_tran_id: bankTranID,
+                            fintech_use_num: fintechUseNum,
+                            tran_dtime: "20211119000000"//현재날짜시간으로 변경
+                        }
+                    }
+                    request(option, function (error, response, body) {
+                        var requestResultJSON = JSON.parse(body);
+                        if (requestResultJSON['rsp_code'] == "A0000") {
+                            res.json(requestResultJSON);
+                            console.log("잔액조회 완료");
+                        }
+                        else {
+                            res.json(requestResultJSON);
+                            console.log("잔액조회 실패");
+                        }
+                    });
+                });
+            });
+
+            // 선택한 계좌 거래내역 조회(핀테크이용번호 사용)
+            app.post('/transaction_list', function (req, res) {
+                var userID = req.body.userID;
+                var ranNum = Math.floor(Math.random() * 100000000);
+                var bankTranID = config.client_use_code + 'U' + ranNum;
+                var fintechUseNum = req.body.fintech_use_num;
+                var inquiryType;
+                var inquiryBase;
+                var fromDate;
+                var toDate;
+                var sortOrder;
+
+                db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                    if (error) throw error;
+                    var option = {
+                        method: "GET",
+                        url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
+                        headers: {
+                            Authorization: "Bearer " + result[0].accesstoken
+                        },
+                        qs: {
+                            bank_tran_id: bankTranID,
+                            fintech_use_num: fintechUseNum,
+                            inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
+                            inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
+                            from_date: "20211119", // 조회시작일자
+                            to_date: "20211119", //조회종료일자
+                            sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
+                            tran_dtime: "20211119000000"//현재날짜시간으로 변경
+                        }
+                    }
+                    request(option, function (error, response, body) {
+                        var requestResultJSON = JSON.parse(body);
+                        if (requestResultJSON['rsp_code'] == "A0000") {
+                            res.json(requestResultJSON);
+                            console.log("거래내역 조회 완료");
+                        }
+                        else {
+                            res.json(requestResultJSON);
+                            console.log("거래내역 조회 실패");
+                        }
+                    });
+                });
+            });
            
             const PORT = 8000;
             app.listen(PORT, function(){
