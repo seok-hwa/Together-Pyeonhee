@@ -622,6 +622,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 //프론트에서 발급 받고 여기로 자동 redirect되므로 프론트에서 진행
                 
                 /*
+
                 var option = {
                     method: "POST",
                     url: "https://testapi.openbanking.or.kr/oauth/2.0/token",
@@ -634,8 +635,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                         grant_type: 'authorization_code'
                     }
                 }
-                */
-/*
                 request(option, function (err, response, body) {
                     var result = JSON.parse(body);
                     var access_token;
