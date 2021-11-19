@@ -69,7 +69,7 @@ const accountLinkScreen = ({navigation}) => {
                 setLoading(true);
             })*/
         })
-    })
+    },[])
 
     return (
         <View style={styles.appSize}>
