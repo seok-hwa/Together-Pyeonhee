@@ -87,7 +87,54 @@ const INCOMES =[
         label: '100만원 미만',
     },
 ];
+const CATEGORY =[
+    {
+        value: 'shopping',
+        label: '쇼핑',
+    },
+    {
+        value: 'hobby',
+        label: '취미',
+    },
+    {
+        value: 'traffic',
+        label: '교통',
+    },
+    {
+        value: 'communication',
+        label: '통신',
+    },
+    {
+        value: 'monthRent',
+        label: '월세',
+    },
+    {
+        value: 'insurance',
+        label: '보험',
+    },
+    {
+        value: 'medical',
+        label: '의료',
+    },
+    {
+        value: 'education',
+        label: '교육',
+    },
+    {
+        value: 'event',
+        label: '경조사',
+    },
+    {
+        value: 'subscribe',
+        label: '구독',
+    },
+    {
+        value: 'etc',
+        label: '기타',
+    },
+];
 export {
     JOBS,
     INCOMES,
+    CATEGORY,
 };

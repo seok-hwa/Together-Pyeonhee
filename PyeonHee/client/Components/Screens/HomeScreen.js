@@ -12,7 +12,7 @@ import Daily from './HomeTabs/dailyScreen';
 import Calendar from './HomeTabs/CalendarScreen';
 import Transact from './HomeTabs/TransactionalInfoScreen';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -33,9 +33,9 @@ const HomeScreen = () => {
     <SafeAreaView style={styles.container}>
         <View style={styles.smallcontainer}>
 
-            {selectedIndex === 0 && <Daily cState={selectedIndex}/>}
-            {selectedIndex === 1 && <Calendar cState={selectedIndex}/>}
-            {selectedIndex === 2 && <Transact cState={selectedIndex}/>}
+            {selectedIndex === 0 && <Daily cState={selectedIndex} navigation={navigation}/>}
+            {selectedIndex === 1 && <Calendar cState={selectedIndex} navigation={navigation}/>}
+            {selectedIndex === 2 && <Transact cState={selectedIndex} navigation={navigation}/>}
         
             <View style={styles.tapContainer}>
                 <SegmentedControlTab

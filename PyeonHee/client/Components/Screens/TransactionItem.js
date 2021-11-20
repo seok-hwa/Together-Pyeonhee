@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import AccountItem from './AccountItem';
+import setCategoryScreen from './SetCategoryScreen';
+
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
     if(accountCate === '농협'){
@@ -112,7 +114,7 @@ const AccountLogo = (props) => {
 const TransactionItem = (props) => {
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {tranID: props.tranID, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate})}>
         <View style={styles.TranContentBox}>
             <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
             <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text></View>

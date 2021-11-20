@@ -100,39 +100,9 @@ const MbtiScreen = ({navigation, route}) => {
                             <Text>({100-route.params.mbti1Score}%)</Text>
                         </View>
                     </View>
-
                     <View style={styles.graphContainer}>
                         <View style={styles.graphTag}>
                             <Text>소비형(C)</Text>
-                            <Text>({route.params.mbti2Score}%)</Text>
-                        </View>
-                        <View style={styles.graphPos}>
-                            <View style={{width: 200 }}>
-                                <StackedBarChart
-                                    style={{ height: 10 }}
-                                    keys={['left', 'right']}
-                                    colors={
-                                        (route.params.mbti2Score > 50) ? ['#AD61CB', '#E5CDEF'] : ['#E5CDEF', '#AD61CB']}
-                                    data={data2}
-                                    showGrid={false}
-                                    horizontal= {true}
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.graphTag}>
-                            <Text>절약형(H)</Text>
-                            <Text>({100-route.params.mbti2Score}%)</Text>
-                        </View>
-                    </View>
-                </View>
-
-                <View style={styles.resultDivBox}>
-                    <View style={styles.resultName}>
-                        <Text style={styles.resultTag}>소비습관</Text>
-                    </View>
-                    <View style={styles.graphContainer}>
-                        <View style={styles.graphTag}>
-                            <Text>본인(S)</Text>
                             <Text>({route.params.mbti3Score}%)</Text>
                         </View>
                         <View style={styles.graphPos}>
@@ -149,11 +119,39 @@ const MbtiScreen = ({navigation, route}) => {
                             </View>
                         </View>
                         <View style={styles.graphTag}>
-                            <Text>타인(O))</Text>
+                            <Text>절약형(H)</Text>
                             <Text>({100-route.params.mbti3Score}%)</Text>
                         </View>
                     </View>
+                </View>
 
+                <View style={styles.resultDivBox}>
+                    <View style={styles.resultName}>
+                        <Text style={styles.resultTag}>소비습관</Text>
+                    </View>
+                    <View style={styles.graphContainer}>
+                        <View style={styles.graphTag}>
+                            <Text>본인(S)</Text>
+                            <Text>({route.params.mbti2Score}%)</Text>
+                        </View>
+                        <View style={styles.graphPos}>
+                            <View style={{width: 200 }}>
+                                <StackedBarChart
+                                    style={{ height: 10 }}
+                                    keys={['left', 'right']}
+                                    colors={
+                                        (route.params.mbti2Score > 50) ? ['#AD61CB', '#E5CDEF'] : ['#E5CDEF', '#AD61CB']}
+                                    data={data2}
+                                    showGrid={false}
+                                    horizontal= {true}
+                                />
+                            </View>
+                        </View>
+                        <View style={styles.graphTag}>
+                            <Text>타인(O))</Text>
+                            <Text>({100-route.params.mbti2Score}%)</Text>
+                        </View>
+                    </View>
                     <View style={styles.graphContainer}>
                         <View style={styles.graphTag}>
                             <Text>경험(E)</Text>
