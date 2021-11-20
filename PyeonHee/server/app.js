@@ -814,7 +814,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            /*
             // 오픈뱅킹 모든 계좌연동 해지 (사용자탈퇴 API 요청을 받은 날의 익 영업일 중에 해지처리 됨)
             app.get('/close', function (req, res) {
                 console.log(req.query);
@@ -832,13 +831,14 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     headers: {
                                         Authorization: "Bearer " + result[0].access_token
                                     },
-                                    qs: {
+                                    body: JSON.stringify({
                                         client_use_code: config.client_use_code,
                                         user_seq_no: result[0].user_seq_no
-                                    }
+                                    })
                                 }
                                 request(option, function (error, response, body) {
                                     var requestResultJSON = JSON.parse(body);
+                                    //console.log(requestResultJSON);
                                     if (requestResultJSON['rsp_code'] == "A0000") { //[사용자연결동의 해제 상태]
                                         const data = {
                                             status: true
@@ -847,23 +847,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         console.log("오픈뱅킹 연동 해지 완료");
                                         db.query(`DELETE FROM openBankingUser WHERE user_id =?`, [userID], function (error, result) {
                                             if (error) throw error;
-
+                                            console.log("오픈뱅킹 연동 DB 데이터 삭제 완료");
                                         });
-
                                     }
                                 });
-                                
-
                             });
                         }
-                        
                         else { // 오픈뱅킹 연동 X 사용자
+                            const data = {
+                                status: false
+                            }
+                            res.send(data);
                             console.log("연동내역이 없습니다. 연동해지 불가능");
                         }
                     }
                 });
             });
-            */
 
             /*
             // 연동한 출금계좌별명 변경
