@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import LinkAccountButton from '../../Buttons/LinkAccountButton';
 import AccountItem from '../AccountItem';
+import TerminateAccountButton from '../../Buttons/TerminateAccountButton';
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 
 import config from '../../../config';
 import {
@@ -72,11 +74,52 @@ const accountLinkScreen = ({navigation}) => {
         })
     },[])
 
+    const terminateAccount = () => {
+        Popup.show({
+            type: 'confirm',
+            title: '계좌 연동 취소',
+            textBody: '모든 계좌 연동을 취소하시겠습니까?',
+            buttonText: 'yes',
+            confirmText: 'no',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => {
+                fetch(`${url}/close?userID=${userID}`)   //get
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        console.log('연동 취소 완료');
+                        Popup.show({
+                            type: 'success',
+                            textBody: '계좌 연동이 해지되었습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                    }else{
+                        Popup.show({
+                            type: 'success',
+                            textBody: '해지에 실패했습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                        console.log('fail to terminate.');
+                    }
+                })
+            }
+        })
+    }
+
     if(loading === true){
     return (
         <View style={styles.appSize}>
             <View style={styles.appTop}>
                 <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
+                <TerminateAccountButton onPress={terminateAccount}/>
             </View>
             <View style={styles.appListTitle}>
                 <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
@@ -95,7 +138,6 @@ const accountLinkScreen = ({navigation}) => {
     return (
         <View style={styles.appSize}>
             <View style={styles.appTop}>
-                <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
             </View>
             <View style={styles.appListTitle}>
                 <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
@@ -120,10 +162,11 @@ const styles = StyleSheet.create({
     },
     appListTitle: {
         height: 50,
+        marginTop: 20,
         alignItems: 'center',
     },
     appListTitleText:{
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: 'bold',
     },
     appBody: {

@@ -19,6 +19,7 @@ import AccountLink from './AssetsTab/accountLinkedScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
 import AssetCounseling from './AssetsTab/assetCounseling';
 import config from '../../config';
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 
 const url = config.url;
 
@@ -41,6 +42,7 @@ const AssetsScreen = ({navigation}) => {
   };
 
   return (
+    <Root>
     <SafeAreaView style={styles.container}>
         <View style={styles.smallcontainer}>
 
@@ -61,6 +63,7 @@ const AssetsScreen = ({navigation}) => {
             </View>
         </View>
       </SafeAreaView>
+      </Root>
   )
 }
 
