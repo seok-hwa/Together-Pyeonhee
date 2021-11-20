@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView, YellowBox} from 'react-native';
+import { StyleSheet, Text, View, ScrollView} from 'react-native';
 
 import TransactionItem from './TransactionItem';
 import config from '../../../../config';
@@ -8,31 +8,31 @@ import config from '../../../../config';
 const url = config.url;
 const TransactionList = (props) => {
     const [userID, setUserID] = useState('');
-    // const [todayTransaction, setTodayTransaction] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [todayTransaction, setTodayTransaction] = useState([]);
+    // const [loading, setLoading] = useState(false);
 
-    let todayTransaction = [
-        {
-            name: '아침',
-            money: 1000,
-            id: 1,
-        },
-        {
-            name: '점심',
-            money: 5000,
-            id: 2,
-        },
-        {
-            name: '저녁',
-            money: 10000,
-            id: 3,
-        },
-        {
-            name: '출금',
-            money: -10000,
-            id: 3,
-        },
-    ]
+    // let todayTransaction = [
+    //     {
+    //         name: '아침',
+    //         money: 1000,
+    //         id: 1,
+    //     },
+    //     {
+    //         name: '점심',
+    //         money: 5000,
+    //         id: 2,
+    //     },
+    //     {
+    //         name: '저녁',
+    //         money: 10000,
+    //         id: 3,
+    //     },
+    //     {
+    //         name: '출금',
+    //         money: -10000,
+    //         id: 3,
+    //     },
+    // ]
 
     useEffect(()=>{
         let tempID;
@@ -46,18 +46,21 @@ const TransactionList = (props) => {
         .then(()=>{
             console.log(tempID);
             // console.log(`${url}/calendar/click?userID=${tempID}?today=${}`);
+            // let tempDay = props.pressedYear+props.pressedMonth+props.pressedDate;
+            // console.log(tempDay);
+            // console.log('tempDay');
 
-            /*
-            fetch(`${url}/calendar/click?userID=${tempID}?`)   //get 오늘 날짜도 보내주기
+            
+            fetch(`${url}/calendar/click?userID=${tempID}?today=${props.pressedYear}${props.pressedMonth}${props.pressedDate}`)   //get 오늘 날짜도 보내주기
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
 
                 setTodayTransaction(responseJson);
-                setLoading(true);
+                // setLoading(true);
             })  
-            */
+            
 
 
         })
@@ -66,7 +69,7 @@ const TransactionList = (props) => {
     return (
         <View>
             <View style={styles.todayContiner}>
-                <Text>{props.pressedDay}일  </Text>
+                <Text>{props.pressedDate}일  </Text>
             </View>
 
             <View>
