@@ -1040,10 +1040,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
 
             });
-            /*
+            
             // 최근거래내역
             app.post('/latestTranList', function (req, res) {
-                console.log("/latestTranList(최근거래내역)");
                 var userID = req.body.userID;
                 var now = new Date();
                 var year = now.getFullYear();
@@ -1051,7 +1050,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var date = now.getDate();
                 now = year + '-' + month + '-' + date;
                 //var fintechUseNum = req.body.fintechUseNum;
-
                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND state = 0`,
                     [userID, now], function (error, result) {
                         if (error) throw error;
@@ -1064,10 +1062,8 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 종합 거래내역
             app.post('/tranList', function (req, res) {
-                console.log("/tranList 거래내역");
                 var userID = req.body.userID;
                 //var fintechUseNum = req.body.fintechUseNum;
-
                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND state = 1 ORDER BY tran_date desc`,
                     [userID], function (error, result) {
                         if (error) throw error;
@@ -1077,7 +1073,31 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                     });
             });
-           */
+
+            /*
+            // 카테고리 설정
+            app.post('/update_category', function (req, res) {
+                console.log("/update_category 카테고리 변경");
+                var userID = req.body.userID;
+                var tranID = req.body.tranID; // tranID가 fintech_use_num ? 
+                var tranCate = req.body.tranCate;
+                
+                //var tranDate = req.body.tranDate;
+                //var tranTime = req.body.tranTime;
+                
+                db.query(`UPDATE real_expense SET state = 1, tran_type = ? WHERE user_id = ? AND fintech_use_num =? 
+                AND tran_date = ? AND tran_time =?`, [tranCate, userID, tranID, tranDate, tranTime], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            const data = {
+                                status: 'success'
+                            }
+                            res.send(data);
+                            console.log("카테고리 설정완료");
+                        }
+                    });
+            });
+            */
             const PORT = 8000;
 
             app.listen(PORT, function(){
