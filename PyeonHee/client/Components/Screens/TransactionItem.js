@@ -6,7 +6,7 @@ const AccountLogo = (props) => {
     const accountCate = props.bankName;
     if(accountCate === '농협'){
         return(
-            <Image source={require('./assets/accounts/nong.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
         )
     }else if(accountCate === '부산은행'){
         return(
@@ -18,33 +18,33 @@ const AccountLogo = (props) => {
         )
     }else if(accountCate === '대구은행'){
         return(
-            <Image source={require('./assets/accounts/daeku.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/daegu.png')} style={styles.accountImage}/>
         )
     }else if(accountCate === '광주은행'){
         return(
-            <Image source={require('./assets/accounts/Gwangju.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/gwangju.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '하나'){
+    }else if(accountCate === '하나은행'){
         return(
             <Image source={require('./assets/accounts/hana.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === 'IBK'){
+    }else if(accountCate === 'IBK기업은행'){
         return(
             <Image source={require('./assets/accounts/ibk.png')} style={styles.accountImage}/>
         )
     }else if(accountCate === '제일은행'){
         return(
-            <Image source={require('./assets/accounts/Jeil.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/sc.png')} style={styles.accountImage}/>
         )
     }else if(accountCate === '제주은행'){
         return(
             <Image source={require('./assets/accounts/jeju.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '저축'){
+    }else if(accountCate === 'SBI저축은행'){
         return(
-            <Image source={require('./assets/accounts/jeochook.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/sbi.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === 'KB'){
+    }else if(accountCate === 'KB국민은행'){
         return(
             <Image source={require('./assets/accounts/kb.png')} style={styles.accountImage}/>
         )
@@ -58,17 +58,17 @@ const AccountLogo = (props) => {
         )
     }else if(accountCate === '카카오뱅크'){
         return(
-            <Image source={require('./assets/accounts/kkobank.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/kakao.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '새마을은행'){
+    }else if(accountCate === 'MG새마을금고'){
         return(
-            <Image source={require('./assets/accounts/saema.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/mg.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '산림은행'){
+    }else if(accountCate === 'SJ산림은행'){
         return(
-            <Image source={require('./assets/accounts/sanreem.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/sj.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === 'SBI'){
+    }else if(accountCate === 'SBI저축은행'){
         return(
             <Image source={require('./assets/accounts/sbi.png')} style={styles.accountImage}/>
         )
@@ -76,11 +76,11 @@ const AccountLogo = (props) => {
         return(
             <Image source={require('./assets/accounts/shinhan.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '신협'){
+    }else if(accountCate === '신협은행'){
         return(
-            <Image source={require('./assets/accounts/shinhyeob.png')} style={styles.accountImage}/>
+            <Image source={require('./assets/accounts/sinhyeob.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '수협'){
+    }else if(accountCate === '수협은행'){
         return(
             <Image source={require('./assets/accounts/suhyeob.png')} style={styles.accountImage}/>
         )
