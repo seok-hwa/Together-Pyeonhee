@@ -329,7 +329,7 @@ create table openBankingUser (
     user_id varchar(10) not null,
     access_token varchar(300) not null,
     user_seq_no varchar(10) not null,
-    primary key (user_id, user_seq_no),
+    primary key (user_id),
     foreign key (user_id) references user (user_id)
 );
 
@@ -346,7 +346,7 @@ create table bank_account
     account_num_masked varchar(20) not null,
     account_holder_name varchar(5) not null,
     primary key (user_id, fintech_use_num),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references openBankingUser (user_id) on delete cascade
 );
 
 /*21 11 20 수정*/
@@ -367,6 +367,5 @@ create table real_expense
     branch_name varchar(10) not null,
     state int default 0,
     primary key (user_id, fintech_use_num, tran_date, tran_time),
-    foreign key (user_id, fintech_use_num) references bank_account(user_id, fintech_use_num)
+    foreign key (user_id, fintech_use_num) references bank_account(user_id, fintech_use_num) on delete cascade
 );
-
