@@ -1,4 +1,6 @@
 -- 신규 데이터 생성 (2021/11/21)
+
+-- 일반유저 데이터 생성
 insert into user(user_id, password, name, mbti, age, tier, income, job)
 values ('user1', '1234', 'user1', 'ICSE', '25', 'GOLD', 1500000, 'profession');
 insert into user(user_id, password, name, mbti, age, tier, income, job)
@@ -111,7 +113,9 @@ values ('user47', '1234', 'user47', 'PHOM', '25', 'SILVER', 2500000, 'production
 insert into user(user_id, password, name, mbti, age, tier, income, job)
 values ('user48', '1234', 'user48', 'PHOM', '25', 'SILVER', 2500000, 'retirement');
 
--- 추천목록
+
+
+-- 추천목록(좋아요 순)
 -- 즉흥적이고 소비형이며 본인 경험적
 insert into user(user_id, password, name, mbti, age, tier, income, job)
 values ('user49', '1234', 'user49', 'ICSE', '25', 'DIAMOND', 3500000, 'executive');
@@ -170,11 +174,11 @@ values ('user55', 'PHOE', '24', 512, 3200000, 1400000, 600000, 50000, 100000, 50
 
 -- 계획 절약 본인 경험
 insert into user(user_id, password, name, mbti, age, tier, income, job)
-values ('user56', '1234', 'user56', 'PHSE', '23', 'DIAMOND', 2500000, 'sales');
+values ('user56', '1234', 'user56', 'PHSE', '26', 'DIAMOND', 2500000, 'sales');
 insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_income, user_savings, 
 monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
 shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
-values ('user56', 'PHSE', '23', 572, 2400000, 1000000, 400000, 50000, 100000, 50000, 200000, 0, 0, 0, 50000, 0, 50000);
+values ('user56', 'PHSE', '26', 572, 2400000, 1000000, 400000, 50000, 100000, 50000, 200000, 0, 0, 0, 50000, 0, 50000);
 
 -- 계획 소비 타인 물질
 insert into user(user_id, password, name, mbti, age, tier, income, job)
@@ -191,3 +195,40 @@ insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_incom
 monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
 shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
 values ('user58', 'PHSM', '29', 452, 4500000, 2200000, 500000, 100000, 100000, 100000, 300000, 500000, 0, 0, 100000, 0, 100000);
+
+
+
+-- 나와 유사한 계획서 찾기 (PHSE 버전)
+-- 계획 절약 본인 경험
+insert into user(user_id, password, name, mbti, age, tier, income, job)
+values ('user59', '1234', 'user59', 'PHSE', '26', 'DIAMOND', 2500000, 'profession');
+insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_income, user_savings, 
+monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
+shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
+values ('user59', 'PHSE', '26', 384, 2300000, 1200000, 0, 70000, 100000, 70000, 200000, 60000, 0, 0, 50000, 0, 50000);
+
+-- 계획 절약 본인 경험
+insert into user(user_id, password, name, mbti, age, tier, income, job)
+values ('user60', '1234', 'user60', 'PHSE', '25', 'DIAMOND', 2500000, 'office');
+insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_income, user_savings, 
+monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
+shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
+values ('user60', 'PHSE', '25', 210, 2800000, 1200000, 500000, 50000, 100000, 50000, 200000, 100000, 0, 0, 50000, 0, 50000);
+
+-- 계획 절약 본인 경험
+insert into user(user_id, password, name, mbti, age, tier, income, job)
+values ('user61', '1234', 'user61', 'PHSE', '27', 'DIAMOND', 3500000, 'executive');
+insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_income, user_savings, 
+monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
+shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
+values ('user61', 'PHSE', '27', 64, 3300000, 1800000, 400000, 50000, 100000, 50000, 250000, 50000, 0, 0, 50000, 0, 50000);
+
+-- 계획 절약 본인 경험
+insert into user(user_id, password, name, mbti, age, tier, income, job)
+values ('user62', '1234', 'user62', 'PHSE', '21', 'SILVER', 1000000, 'student');
+insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_income, user_savings, 
+monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
+shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
+values ('user62', 'PHSE', '21', 7, 700000, 150000, 0, 0, 50000, 0, 50000, 30000, 0, 0, 30000, 0, 0);
+
+
