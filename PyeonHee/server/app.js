@@ -806,10 +806,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 });
                             });
                         }
-                        /*
                         else { // 신규 사용자(오픈뱅킹 연동 X)
+                            res.send('[]');
                             console.log("연동내역이 없습니다.");
-                        }*/
+                        }
                     }
                 });
             });
@@ -825,6 +825,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if (result[0].success == 1) { //오픈뱅킹 연동한 사용자
                             db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
                                 if (error) throw error;
+                                console.log(result);
                                 var option = {
                                     method: "POST",
                                     url: "https://testapi.openbanking.or.kr/v2.0/user/close",
@@ -837,24 +838,25 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     }
                                 }
                                 request(option, function (error, response, body) {
-                                    if (error) throw error;
                                     var requestResultJSON = JSON.parse(body);
-                                    //res.json(requestResultJSON);
-                                    //"rsp_code": "A0000" 이면 [사용자연결동의 해제 상태]
-                                });
-                                db.query(`DELETE FROM openBankingUser WHERE user_id =?`,
-                                    [userID], function (error, result) {
-                                        if (error) throw error;
-                                        else {
-                                            const data = {
-                                                status: 'success',
-                                            }
-                                            res.send(data);
-                                            console.log("오픈뱅킹 연동 해지 완료");
+                                    if (requestResultJSON['rsp_code'] == "A0000") { //[사용자연결동의 해제 상태]
+                                        const data = {
+                                            status: true
                                         }
-                                    });
+                                        res.send(data);
+                                        console.log("오픈뱅킹 연동 해지 완료");
+                                        db.query(`DELETE FROM openBankingUser WHERE user_id =?`, [userID], function (error, result) {
+                                            if (error) throw error;
+
+                                        });
+
+                                    }
+                                });
+                                
+
                             });
                         }
+                        
                         else { // 오픈뱅킹 연동 X 사용자
                             console.log("연동내역이 없습니다. 연동해지 불가능");
                         }
@@ -904,7 +906,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 });
                             });
                         }
-                        else { 
+                        else {
                             console.log("DB에 저장된 계좌가 없습니다.");
                         }
                     }
@@ -952,82 +954,131 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)
             app.get('/saveTranHistory', function (req, res) {
                 var userID = req.query.userID;
-                db.query(`SELECT access_token FROM openBankingUser WHERE user_id = ?`, [userID], function (error, result) {
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
                     if (error) throw error;
                     else {
-                        var accesstoken = result[0].access_token;
-                        db.query(`SELECT fintech_use_num FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
-                            if (error) throw error;
-                            else {
-                                for (j in result) {
-                                    var fintechUseNum = result[j].fintech_use_num;
-                                    //console.log(fintechUseNum);
-                                    var ranNum = Math.floor(Math.random() * 1000000000);
-                                    var bankTranID = config.client_use_code + 'U' + ranNum;
-                                    var option = {
-                                        method: "GET",
-                                        url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
-                                        headers: {
-                                            Authorization: "Bearer " + accesstoken
-                                        },
-                                        qs: {
-                                            bank_tran_id: bankTranID,
-                                            fintech_use_num: fintechUseNum,
-                                            inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
-                                            inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
-                                            from_date: "20211119", // 조회시작일자
-                                            to_date: "20211119", //조회종료일자
-                                            sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
-                                            tran_dtime: "20211119000000"//현재날짜시간으로 변경
-                                        }
-                                    }
-                                    request(option, function (error, response, body) {
-                                        var requestResultJSON = JSON.parse(body);
-                                        var bankName = requestResultJSON['bank_name'];
-                                        var balanceAmt = requestResultJSON['balance_amt'];
-                                        fintechUseNum = requestResultJSON['fintech_use_num'];
-                                        if (requestResultJSON['rsp_code'] == "A0000") {
-                                            for (i in requestResultJSON['res_list']) {
-                                                var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
-                                                var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
-                                                var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
-                                                var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
-                                                var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
-                                                var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
-                                                var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
-                                                var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
+                        if (result[0].success == 1) { //오픈뱅킹 연동한 사용자
+                            db.query(`SELECT access_token FROM openBankingUser WHERE user_id = ?`, [userID], function (error, result) {
+                                if (error) throw error;
+                                else {
+                                    var accesstoken = result[0].access_token;
+                                    db.query(`SELECT fintech_use_num FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            for (j in result) {
+                                                var fintechUseNum = result[j].fintech_use_num;
+                                                //console.log(fintechUseNum);
+                                                var ranNum = Math.floor(Math.random() * 1000000000);
+                                                var bankTranID = config.client_use_code + 'U' + ranNum;
+                                                var option = {
+                                                    method: "GET",
+                                                    url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
+                                                    headers: {
+                                                        Authorization: "Bearer " + accesstoken
+                                                    },
+                                                    qs: {
+                                                        bank_tran_id: bankTranID,
+                                                        fintech_use_num: fintechUseNum,
+                                                        inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
+                                                        inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
+                                                        from_date: "20211119", // 조회시작일자
+                                                        to_date: "20211119", //조회종료일자
+                                                        sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
+                                                        tran_dtime: "20211119000000"//현재날짜시간으로 변경
+                                                    }
+                                                }
+                                                request(option, function (error, response, body) {
+                                                    var requestResultJSON = JSON.parse(body);
+                                                    var bankName = requestResultJSON['bank_name'];
+                                                    var balanceAmt = requestResultJSON['balance_amt'];
+                                                    fintechUseNum = requestResultJSON['fintech_use_num'];
+                                                    if (requestResultJSON['rsp_code'] == "A0000") {
+                                                        for (i in requestResultJSON['res_list']) {
+                                                            var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
+                                                            var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
+                                                            var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
+                                                            var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
+                                                            var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
+                                                            var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
+                                                            var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
+                                                            var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
 
-                                                db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                            db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
                                                     tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
                                                     FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
                                                     tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
                                                     FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
                                                     AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
-                                                    [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                    after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                    after_balance_amt, branch_name], function (error, result) {
-                                                        if (error) throw error;
-                                                        // console.log("거래내역 DB저장완료");
-                                                        /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                                            if (error) throw error;
-                                                            res.send(result);
-                                                            //console.log(result);
-                                                            console.log("거래내역 조회 완료 (거래내역 전송)");
-                                                        });*/
-                                                });
-                                            }
-                                        }/*
+                                                                [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                    after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                    after_balance_amt, branch_name], function (error, result) {
+                                                                        if (error) throw error;
+                                                                        //console.log("거래내역 DB저장완료");
+                                                                        /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                                                            if (error) throw error;
+                                                                            res.send(result);
+                                                                            //console.log(result);
+                                                                            console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                                        });*/
+                                                                    });
+                                                        }
+                                                    }/*
                                         else {
                                             console.log("거래내역 조회 실패");
                                         }*/
+                                                });
+                                            }
+                                        }
                                     });
                                 }
-                            }
-                        });
+                            });
+                        }
+                        /*
+                        else { // 신규 사용자(오픈뱅킹 연동 X)
+                            console.log("연동내역이 없습니다.");
+                        }*/
                     }
                 });
+
             });
-           
+            /*
+            // 최근거래내역
+            app.post('/latestTranList', function (req, res) {
+                console.log("/latestTranList(최근거래내역)");
+                var userID = req.body.userID;
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = now.getMonth() + 1;
+                var date = now.getDate();
+                now = year + '-' + month + '-' + date;
+                //var fintechUseNum = req.body.fintechUseNum;
+
+                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND state = 0`,
+                    [userID, now], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+            });
+
+            // 종합 거래내역
+            app.post('/tranList', function (req, res) {
+                console.log("/tranList 거래내역");
+                var userID = req.body.userID;
+                //var fintechUseNum = req.body.fintechUseNum;
+
+                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND state = 1 ORDER BY tran_date desc`,
+                    [userID], function (error, result) {
+                        if (error) throw error;
+                        else {
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+            });
+           */
             const PORT = 8000;
 
             app.listen(PORT, function(){
