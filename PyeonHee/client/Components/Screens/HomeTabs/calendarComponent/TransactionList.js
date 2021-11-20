@@ -45,13 +45,15 @@ const TransactionList = (props) => {
         })
         .then(()=>{
             console.log(tempID);
-            // console.log(`${url}/calendar/click?userID=${tempID}?today=${}`);
-            // let tempDay = props.pressedYear+props.pressedMonth+props.pressedDate;
+            // console.log(`${url}/calendar/click?userID=${tempID}?today=${}`)/
+            // let tempDay = props.pressedYear+props.pressedMonth+props.pressedDate;/
+            let temp = 20211120;
+            console.log(`${url}/calendar/click?userID=${tempID}&today=${temp}`);
             // console.log(tempDay);
             // console.log('tempDay');
 
             
-            fetch(`${url}/calendar/click?userID=${tempID}?today=${props.pressedYear}${props.pressedMonth}${props.pressedDate}`)   //get 오늘 날짜도 보내주기
+            fetch(`${url}/calendar/click?userID=${tempID}&today=${temp}`)   //get 오늘 날짜도 보내주기
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');

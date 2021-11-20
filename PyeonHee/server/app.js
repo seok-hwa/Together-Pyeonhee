@@ -1089,7 +1089,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             }
                                         }
                                         else {
-                                            console.log("거래내역 조회 실패");
+                                            // console.log("거래내역 조회 실패");
                                         }
                                     });
                                 }

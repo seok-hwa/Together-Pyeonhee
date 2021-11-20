@@ -30,6 +30,7 @@ class CalendarScreen extends React.Component {
     super(props);
 
     this.state = {
+      userID: '',
       isLoading: true,
       calendarDate: calendarDate.format('YYYY-MM-DD'),
       horizontal: false,
@@ -74,23 +75,23 @@ class CalendarScreen extends React.Component {
   }
 
   componentDidMount () {
-    let tempID;
-
     AsyncStorage.getItem('userID', (err, result) => {
-      tempID = result;
+      const tempID = result;
       if(tempID!= null){
-          // setUserID(tempID);
+        this.setState({
+          userID: tempID,
+        });
       }
     })
     .then(()=>{
-        console.log(tempID);
-        console.log(`${url}/calendar/click?userID=${tempID}`);
+        console.log(this.state.userID);
+        console.log(`${url}/calendar?userID=${this.state.userID}`);
 
         
-        fetch(`${url}/calendar?userID=${userID}`)   //get 오늘 날짜도 보내주기
+        fetch(`${url}/calendar?userID=${this.state.userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
-          console.log('response data');
+          console.log('캘린더 정보 받아오기!');
           console.log(responseJson);
 
           this.setState({ monthlyData: responseJson});
