@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image } from 'react-native';
+import SetCategoryButton from '../Buttons/SetCategoryButton';
+import RNPickerSelect from 'react-native-picker-select';
+import { CATEGORY } from './constants';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 const url = config.url;
 const AccountLogo = (props) => {
@@ -115,6 +119,7 @@ const AccountLogo = (props) => {
 const SetCategoryScreen = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     //route.params.tranID  거래 아이디 
+    const [category, setCategory] = useState('');
     useEffect(()=>{
         AsyncStorage.getItem('userID', (err, result) => {
             const tempID = result;
@@ -123,9 +128,58 @@ const SetCategoryScreen = ({navigation, route}) => {
             }
         })
     })
-
+    const handleSubmitButton = () => {
+        if(!category){
+          Popup.show({
+            type: 'success',
+            textBody: '카테고리를 설정해주세요.',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
+          })
+          return;
+        }
+        console.log(`${url}/login`);
+        fetch(`${url}/update_category`, {
+          method: 'POST',
+          body: JSON.stringify({
+            userID: userID,
+            tranID: route.params.tranID ,
+          }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+          },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+          console.log(responseJson);
+          if(responseJson.status === 'success'){
+            Popup.show({
+                type: 'success',
+                textBody: '카테고리 설정을 완료했습니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+              })
+            console.log('success store category');
+            navigation.goBack();
+          }else{
+            alert('카테고리 설정 실패');
+            console.log('Check id or password');
+            navigation.goBack();
+          }
+        })
+        .catch((error)=>{
+          console.error(error);
+        })
+      }
     return (
+        <Root>
         <View style={styles.appSize}>
+            <Text style={styles.titleDiv}>카테고리 설정</Text>
             <View style={styles.appOutBody}>
             <AccountLogo bankName={route.params.bankName}/>
             <View style={styles.appBody}>
@@ -155,11 +209,21 @@ const SetCategoryScreen = ({navigation, route}) => {
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>종류: </Text>
-                <Text style={styles.tranContent}>{route.params.tranCate}</Text>
+                <RNPickerSelect
+              placeholder={{
+                label: route.params.tranCate,
+                color: 'gray',
+              }}
+              style={pickerSelectStyles}
+              onValueChange={(value) => setCategory(value)}
+                    items={CATEGORY}
+            />
             </View>
             </View>
+            <SetCategoryButton onPress={handleSubmitButton}/>
             </View>
         </View>
+        </Root>
     )
 }
 
@@ -202,4 +266,19 @@ const styles = StyleSheet.create({
         width: 170,
         fontSize: 17,
     },
+    titleDiv: {
+        fontSize: 20,
+        margin: 30,
+        fontWeight: 'bold',
+    },
 });
+const pickerSelectStyles = StyleSheet.create({
+    inputAndroid: {
+        height: 30, 
+        width: 170, 
+        backgroundColor: '#DCDCDC',
+        borderColor: '#000000',  
+        borderRadius: 3,
+        padding: 10,
+    },
+  });
