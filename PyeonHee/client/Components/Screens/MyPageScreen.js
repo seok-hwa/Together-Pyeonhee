@@ -163,8 +163,10 @@ const MyPageScreen = ({navigation}) => {
     }
     else{
         return(
+            <Root>
             <View style={styles.appSize}>
             </View>
+            </Root>
         );
     }
 }

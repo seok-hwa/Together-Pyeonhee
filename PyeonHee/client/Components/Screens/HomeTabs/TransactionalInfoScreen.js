@@ -88,10 +88,37 @@ const TransactionScreen = (props) => {
             tranPrice: 3000,
             tranCate: '생활',
         },
+        {
+            tranID: 2,
+            bankName: '농협',
+            organizationName: '스타벅스',
+            tranDate: '2021/11/20',
+            tranTime: '오후 2시 20분',
+            tranPrice: 3000,
+            tranCate: '생활',
+        },
+        {
+            tranID: 3,
+            bankName: 'KB국민은행',
+            organizationName: '스타벅스',
+            tranDate: '2021/11/20',
+            tranTime: '오후 2시 20분',
+            tranPrice: 3000,
+            tranCate: '생활',
+        },
+        {
+            tranID: 4,
+            bankName: 'IBK기업은행',
+            organizationName: '스타벅스',
+            tranDate: '2021/11/20',
+            tranTime: '오후 2시 20분',
+            tranPrice: 3000,
+            tranCate: '생활',
+        },
     ]
     const tempData = [
         {
-            tranID: 2,
+            tranID: 5,
             bankName: '오픈은행',
             organizationName: '아디다스',
             tranDate: '2021/11/16',
@@ -100,7 +127,7 @@ const TransactionScreen = (props) => {
             tranTime: '오후 11시 20분',
         },
         {
-            tranID: 3,
+            tranID: 6,
             bankName: '농협',
             organizationName: '아디다스',
             tranDate: '2021/11/15',
