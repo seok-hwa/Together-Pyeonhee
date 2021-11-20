@@ -6,23 +6,23 @@
  * @flow strict-local
  */
 
- import React, { useState, useEffect } from 'react';
- import { NavigationContainer } from '@react-navigation/native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
- import MainScreen from './Components/Screens/MainScreen';
- import LoginScreen from './Components/Screens/LoginScreen';
- import JoinScreen from './Components/Screens/JoinScreen';
- import SurveyScreen from './Components/Screens/SurveyScreen';
- import Iamport from './IamportComponents/App';
- import AsyncStorage from '@react-native-community/async-storage';
- import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
- import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
- import BudgetScreen from './Components/Screens/BudgetScreen';
- import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
- import config from './config';
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MainScreen from './Components/Screens/MainScreen';
+import LoginScreen from './Components/Screens/LoginScreen';
+import JoinScreen from './Components/Screens/JoinScreen';
+import SurveyScreen from './Components/Screens/SurveyScreen';
+import Iamport from './IamportComponents/App';
+import AsyncStorage from '@react-native-community/async-storage';
+import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
+import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
+import BudgetScreen from './Components/Screens/BudgetScreen';
+import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
+import config from './config';
 
  
- import {
+import {
    View,
  } from 'react-native';
  const Stack = createNativeStackNavigator();

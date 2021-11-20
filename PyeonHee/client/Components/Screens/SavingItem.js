@@ -12,11 +12,11 @@ const SavingItem = (props) => {
             <View style={styles.savingDiv}>
                 <View style={styles.savingInnerDiv} >
                     <Text style={{marginBottom: 5,}}>모인금액: </Text>
-                    <Text style={styles.textStyle}>{props.currentSavingMoney}원</Text> 
+                    <Text style={styles.textStyle}>{props.currentSavingMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
                 </View>
                 <View style={styles.savingInnerDiv} >
                     <Text style={styles.goalText}> 목표금액: </Text>
-                    <Text style={styles.goalText}>{props.goalSavingMoney}</Text> 
+                    <Text style={styles.goalText}>{props.goalSavingMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text> 
                     <Text style={styles.goalText}>원</Text>
                 </View>
                 <View style={styles.savingBottomDiv}>
