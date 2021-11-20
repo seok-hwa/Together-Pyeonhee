@@ -685,17 +685,8 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 사용자 토큰 발급
             app.get('/Together', function (req, res) {
                 console.log(req);
-                console.log('클라이언트는 토큰 값을 발급 받으면서 여기서 redirect 됨');
-                /*
-                
-                여기서 토큰을 db에 저장해서 나중에 저장 api에서 사용자 id랑 토큰 비교 후 다시 저장하면 될 듯
-                
-                */
                 res.send("<h1 style=\"text-align: center; vertical-align: center;\">인증을 진행중입니다.</h1> <h4 style=\"text-align: center; vertical-align: center;\">뒤로가기를 눌러 확인해주세요.</h4>");
-                
-                
                 //프론트에서 발급 받고 여기로 자동 redirect되므로 프론트에서 진행
-                
                 /*
                 var option = {
                     method: "POST",
@@ -729,13 +720,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var userToken = req.body.userToken;
                 var userSeqNo = req.body.userSeqNo;
-                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? and user_seq_no = ? limit 1) as success`,
-                    [userID, userSeqNo], function (error, result) {
-                        if (error) throw error;
-                        else {
-                            if (result[0].success == 1) { //사용자 토큰갱신
-                                db.query(`UPDATE openBankingUser SET access_token = ? WHERE user_seq_no = ? AND user_id =?`, 
-                                    [userToken, userSeqNo, userID], function (error, result) {
+                db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? and user_seq_no = ? limit 1) as success`, 
+                [userID, userSeqNo], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1) { //사용자 토큰갱신
+                            db.query(`UPDATE openBankingUser SET access_token = ? WHERE user_seq_no = ? AND user_id =?`,
+                                [userToken, userSeqNo, userID], function (error, result) {
                                     if (error) throw error;
                                     else {
                                         const data = {
@@ -745,22 +736,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         console.log("사용자 토큰 갱신 완료 (및 계좌등록 완료)");
                                     }
                                 });
-                            }
-                            else { // 신규 사용자 토큰 등록
-                                db.query(`INSERT INTO openBankingUser(user_id, access_token, user_seq_no)
-                                VALUES(?, ?, ?)`, [userID, userToken, userSeqNo], function (error, result) {
-                                        if (error) throw error;
-                                        else {
-                                            const data = {
-                                                status: 'success',
-                                            }
-                                            res.send(data);
-                                            console.log("사용자 토큰 등록 완료 (및 계좌등록 완료)");
-                                        }
-                                    });
-                            }
                         }
-                    });
+                        else { // 신규 사용자 토큰 등록
+                            db.query(`INSERT INTO openBankingUser(user_id, access_token, user_seq_no)
+                                VALUES(?, ?, ?)`, [userID, userToken, userSeqNo], function (error, result) {
+                                if (error) throw error;
+                                else {
+                                    const data = {
+                                        status: 'success',
+                                    }
+                                    res.send(data);
+                                    console.log("사용자 토큰 등록 완료 (및 계좌등록 완료)");
+                                }
+                            });
+                        }
+                    }
+                });
             });
 
             // 연동한 계좌목록 조회
@@ -768,58 +759,59 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.query);
                 var userID = req.query.userID;
                 db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
-                        if (error) throw error;
-                        else {
-                            if (result[0].success == 1) { //오픈뱅킹 연동한 사용자
-                                db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
-                                    if (error) throw error;
-                                    var option = {
-                                        method: "GET",
-                                        url: "https://testapi.openbanking.or.kr/v2.0/user/me",
-                                        headers: {
-                                            Authorization: "Bearer " + result[0].access_token
-                                        },
-                                        qs: {
-                                            user_seq_no: result[0].user_seq_no
-                                        }
+                    if (error) throw error;
+                    else {
+                        if (result[0].success == 1) { //오픈뱅킹 연동한 사용자
+                            db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+                                if (error) throw error;
+                                var option = {
+                                    method: "GET",
+                                    url: "https://testapi.openbanking.or.kr/v2.0/user/me",
+                                    headers: {
+                                        Authorization: "Bearer " + result[0].access_token
+                                    },
+                                    qs: {
+                                        user_seq_no: result[0].user_seq_no
                                     }
-                                    request(option, function (error, response, body) {
-                                        if (error) throw error;
-                                        var requestResultJSON = JSON.parse(body);
-                                        //res.json(requestResultJSON);
-                                        //console.log(requestResultJSON);
-            
-                                        for (i in requestResultJSON['res_list']){
-                                            var fintech_use_num = requestResultJSON['res_list'][i]['fintech_use_num']; //핀테크이용번호
-                                            var account_alias = requestResultJSON['res_list'][i]['account_alias']; //출금계좌별명
-                                            var bank_code_std = requestResultJSON['res_list'][i]['bank_code_std']; //출금기관표준코드
-                                            var bank_name = requestResultJSON['res_list'][i]['bank_name']; //출금기관명
-                                            var account_num_masked = requestResultJSON['res_list'][i]['account_num_masked']; //계좌번호
-                                            var account_holder_name = requestResultJSON['res_list'][i]['account_holder_name']; //예금주성명
-                                            db.query(`INSERT INTO bank_account(user_id, fintech_use_num, account_alias, bank_code_std, bank_name, 
-                                                account_num_masked, account_holder_name) SELECT ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS 
-                                                (SELECT user_id, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name FROM bank_account 
-                                                WHERE user_id = ?  AND fintech_use_num =? AND account_alias=? AND bank_code_std =? AND bank_name =? AND account_num_masked=? AND account_holder_name =?)`, 
-                                                [userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name
-                                                , userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name], function (error, result) {
+                                }
+                                request(option, function (error, response, body) {
+                                    if (error) throw error;
+                                    var requestResultJSON = JSON.parse(body);
+                                    //res.json(requestResultJSON);
+                                    //console.log(requestResultJSON);
+
+                                    for (i in requestResultJSON['res_list']) {
+                                        var fintech_use_num = requestResultJSON['res_list'][i]['fintech_use_num']; //핀테크이용번호
+                                        var account_alias = requestResultJSON['res_list'][i]['account_alias']; //출금계좌별명
+                                        var bank_code_std = requestResultJSON['res_list'][i]['bank_code_std']; //출금기관표준코드
+                                        var bank_name = requestResultJSON['res_list'][i]['bank_name']; //출금기관명
+                                        var account_num_masked = requestResultJSON['res_list'][i]['account_num_masked']; //계좌번호
+                                        var account_holder_name = requestResultJSON['res_list'][i]['account_holder_name']; //예금주성명
+                                        db.query(`INSERT INTO bank_account(user_id, fintech_use_num, account_alias, bank_code_std, bank_name, 
+                                            account_num_masked, account_holder_name) SELECT ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS 
+                                            (SELECT user_id, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name FROM bank_account 
+                                            WHERE user_id = ?  AND fintech_use_num =? AND account_alias=? AND bank_code_std =? AND bank_name =? AND account_num_masked=? AND account_holder_name =?)`,
+                                            [userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name, 
+                                            userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name], function (error, result) {
                                                 if (error) throw error;
                                                 //console.log("등록된 계좌 DB저장완료");
-                                            });
-                                        }
-                                        db.query(`SELECT * FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
-                                            if (error) throw error;
-                                            res.send(result);
-                                            console.log(result);
-                                            console.log("전송");
                                         });
+                                    }
+                                    db.query(`SELECT * FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
+                                        if (error) throw error;
+                                        res.send(result);
+                                        console.log(result);
+                                        //console.log("등록된 계좌 전송완료");
                                     });
                                 });
-                            }
-                            else { // 신규 사용자(오픈뱅킹 연동 X)
-                                console.log("연동내역이 없습니다.");
-                            }
+                            });
                         }
-                    });
+                        /*
+                        else { // 신규 사용자(오픈뱅킹 연동 X)
+                            console.log("연동내역이 없습니다.");
+                        }*/
+                    }
+                });
             });
 
             /*
@@ -920,10 +912,11 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
+            /*
             // 선택한 계좌 잔액 조회
             app.post('/balance', function (req, res) {
                 var userID = req.body.userID;
-                var ranNum = Math.floor(Math.random() * 100000000);
+                var ranNum = Math.floor(Math.random() * 1000000000);
                 var bankTranID = config.client_use_code + 'U' + ranNum;
                 var fintechUseNum = req.body.fintech_use_num;
 
@@ -954,81 +947,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                     });
                 });
             });
+            */
 
-            /*
-  // 선택한 계좌 거래내역 조회(핀테크이용번호 사용)
-  app.post('/transaction_list', function (req, res) {
-      var userID = req.body.userID;
-      var ranNum = Math.floor(Math.random() * 100000000);
-      var bankTranID = config.client_use_code + 'U' + ranNum;
-      var fintechUseNum = req.body.fintech_use_num;
-      var inquiryType;
-      var inquiryBase;
-      var fromDate;
-      var toDate;
-      var sortOrder;
-
-      db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
-          if (error) throw error;
-          var option = {
-              method: "GET",
-              url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
-              headers: {
-                  Authorization: "Bearer " + result[0].accesstoken
-              },
-              qs: {
-                  bank_tran_id: bankTranID,
-                  fintech_use_num: fintechUseNum,
-                  inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
-                  inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
-                  from_date: "20211119", // 조회시작일자
-                  to_date: "20211119", //조회종료일자
-                  sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
-                  tran_dtime: "20211119000000"//현재날짜시간으로 변경
-              }
-          }
-          request(option, function (error, response, body) {
-              var requestResultJSON = JSON.parse(body);
-              var bankName = requestResultJSON['bank_name'];
-              var balanceAmt = requestResultJSON['balance_amt'];
-              if (requestResultJSON['rsp_code'] == "A0000") {
-                  for (i in requestResultJSON['res_list']) {
-                      var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
-                      var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
-                      var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
-                      var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
-                      var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
-                      var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
-                      var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
-                      var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
-                      db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date,
-                              tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                              FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date,
-                              tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                              FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                              AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND trabranch_namen_amt =?)`, 
-                              [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt ,
-                              after_balance_amt, branch_name], function (error, result) {
-                                  if (error) throw error;
-                                  console.log("거래내역 DB저장완료");
-                              });
-                  }
-                  db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintect_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                      if (error) throw error;
-                      res.send(result);
-                      console.log(result);
-                      console.log("거래내역 조회 완료 (거래내역 전송)");
-                  });
-              }
-              else {
-                  console.log("거래내역 조회 실패");
-              }
-          });
-      });
-  });
- */
-
-            // 사용자의 연동한 계좌 내역 DB저장
+            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)
             app.get('/saveTranHistory', function (req, res) {
                 var userID = req.query.userID;
                 db.query(`SELECT access_token FROM openBankingUser WHERE user_id = ?`, [userID], function (error, result) {
@@ -1040,7 +961,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             else {
                                 for (j in result) {
                                     var fintechUseNum = result[j].fintech_use_num;
-                                    console.log(fintechUseNum);
+                                    //console.log(fintechUseNum);
                                     var ranNum = Math.floor(Math.random() * 1000000000);
                                     var bankTranID = config.client_use_code + 'U' + ranNum;
                                     var option = {
@@ -1083,22 +1004,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
                                                     AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
                                                     [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                        after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                        after_balance_amt, branch_name], function (error, result) {
+                                                    after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                    after_balance_amt, branch_name], function (error, result) {
+                                                        if (error) throw error;
+                                                        // console.log("거래내역 DB저장완료");
+                                                        /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
                                                             if (error) throw error;
-                                                            // console.log("거래내역 DB저장완료");
-                                                            /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                                                if (error) throw error;
-                                                                res.send(result);
-                                                                //console.log(result);
-                                                                console.log("거래내역 조회 완료 (거래내역 전송)");
-                                                            });*/
-                                                        });
+                                                            res.send(result);
+                                                            //console.log(result);
+                                                            console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                        });*/
+                                                });
                                             }
-                                        }
+                                        }/*
                                         else {
-                                            // console.log("거래내역 조회 실패");
-                                        }
+                                            console.log("거래내역 조회 실패");
+                                        }*/
                                     });
                                 }
                             }
