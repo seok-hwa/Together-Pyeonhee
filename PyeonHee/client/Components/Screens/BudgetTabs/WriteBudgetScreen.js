@@ -146,33 +146,6 @@ const WriteBudgetScreen = ({navigation}) => {
             })
             return;
         }
-
-        var tempTotal2 = parseInt(monthlyRent) + parseInt(insurance) + parseInt(communication) + parseInt(subscription);
-        if(parseInt(tempTotal2) > parseInt(fixedExpenditure)){
-            Popup.show({
-              type: 'success',
-              textBody: '고정지출 예산을 초과했습니다',
-              buttonText: '확인',
-              okButtonStyle: {backgroundColor: 'gray'},
-              iconEnabled: false,
-              callback: () => Popup.hide()
-            })
-            return;
-        }
-
-        var tempTotal3 = parseInt(transportation) + parseInt(leisure) + parseInt(shopping) + parseInt(education) + parseInt(medical) + parseInt(event) + parseInt(etc);
-        if(parseInt(tempTotal3) > parseInt(plannedExpenditure)){
-            Popup.show({
-              type: 'success',
-              textBody: '계획지출 예산을 초과했습니다',
-              buttonText: '확인',
-              okButtonStyle: {backgroundColor: 'gray'},
-              iconEnabled: false,
-              callback: () => Popup.hide()
-            })
-            return;
-        }
-
         
         Popup.show({    //for test
             type: 'success',
@@ -290,14 +263,6 @@ const WriteBudgetScreen = ({navigation}) => {
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>고정지출</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                {/* <TextInput
-                                    style={styles.textInputDesign}
-                                    placeholder='0'
-                                    onChangeText={text => setFixedExpenditure(text)}
-                                    maxLength = {20}
-                                    keyboardType="numeric"
-                                    textAlign="right"
-                                /> */}
                                 <Text style={{fontSize: 15, fontWeight:'bold'}}>
                                     {parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription)}원
                                 </Text>
@@ -338,14 +303,6 @@ const WriteBudgetScreen = ({navigation}) => {
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>계획지출</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                {/* <TextInput
-                                    style={styles.textInputDesign}
-                                    placeholder='0'
-                                    onChangeText={text => setPlannedExpenditure(text)}
-                                    maxLength = {20}
-                                    keyboardType="numeric"
-                                    textAlign="right"
-                                /> */}
                                 <Text style={{fontSize: 15, fontWeight:'bold'}}>
                                     {parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc)}원
                                 </Text>

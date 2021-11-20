@@ -52,7 +52,6 @@ class CalendarDayComponent extends React.Component {
 
   onDayPress() {
     this.props.onPress(this.props.date);
-    console.log('Pressed!!!')
   }
 
   render() {

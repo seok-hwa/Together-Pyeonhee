@@ -28,11 +28,7 @@ const MyBudgetScreen = ({navigation}) => {
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
 
-<<<<<<< HEAD
     // const [sumOfSavings, setSumOfSavings] = useState(0);
-=======
-    //const [sumOfSavings, setSumOfSavings] = (0);
->>>>>>> 517202d07c28e2482c55197b81d67578ddb88f00
 
     const [myBudgetData, setMyBudgetData] = useState({
         userLikeCount: 0,
@@ -52,6 +48,7 @@ const MyBudgetScreen = ({navigation}) => {
         subscribe: 0,
         budgetPlanID: 0,
         sumOfSavings: 0,
+        dailyMoney: 0,
     });
 
     let now = new Date();
@@ -92,15 +89,15 @@ const MyBudgetScreen = ({navigation}) => {
                     let total = responseJson.education + responseJson.transportation +
                     responseJson.shopping + responseJson.leisure + responseJson.insurance +
                     responseJson.medical + responseJson.rent + responseJson.communication +
-                    responseJson.etc + responseJson.event + responseJson.subscribe; //responseJson.subscribe 포함돼야함
+                    responseJson.etc + responseJson.event + responseJson.subscribe;
 
                     let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
-                    parseInt(responseJson.communication) + responseJson.subscribe; //responseJson.subscribe 포함돼야함
+                    parseInt(responseJson.communication) + responseJson.subscribe;
                     console.log('고정지출 합:');
                     console.log(fixedTemp);
 
                     let plannedTemp = parseInt(responseJson.education) + parseInt(responseJson.traffic) +
-                    parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + parseInt(responseJson.insurance) +
+                    parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + 
                     parseInt(responseJson.medical) + parseInt(responseJson.ect) + parseInt(responseJson.event) ;
                     console.log('계획지출 합:');
                     console.log(plannedTemp);
@@ -155,7 +152,6 @@ const MyBudgetScreen = ({navigation}) => {
                     {todayMonth}월
                 </Text>
 
-{/* 하루권장소비금액 주세요 */}
                 <View style={styles.container}>
                     <View style={styles.smallContainer}>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}> 
@@ -163,7 +159,7 @@ const MyBudgetScreen = ({navigation}) => {
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <Text style={{fontSize: 20, fontWeight:'bold', color: '#8EB3EE', marginRight: 3}}>
-                                하루권장소비금액!
+                                {myBudgetData.dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
                             </Text> 
                             <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                 원
