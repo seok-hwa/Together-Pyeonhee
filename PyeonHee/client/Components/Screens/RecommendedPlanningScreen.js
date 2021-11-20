@@ -7,6 +7,7 @@ import PlanningSaveCancelButton from '../Buttons/PlanningSaveCancelButton';
 import { PieChart } from 'react-native-chart-kit';
 import config from '../../config';
 import SavingItem from './SavingItem';
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 
 import {
     StyleSheet,
@@ -34,11 +35,11 @@ const LikeButton = (props) => {          //like
         .then((response)=>response.json())
         .then((responseJson)=>{
             if(props.userLike == true){
-                alert('좋아요를 취소했습니다.');
+                console.log('좋아요를 취소했습니다.');
                 props.getUserLikeCount(props.userLikeCount-1);
                 props.getUserLike(false);
             }else{
-                alert('좋아요를 눌렀습니다.');
+                console.log('좋아요를 눌렀습니다.');
                 props.getUserLikeCount(props.userLikeCount+1);
                 props.getUserLike(true);
             }
@@ -259,63 +260,116 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
         }) 
     }, []) 
     const handleSubmitSaveButton = () => {
-        fetch(`${url}/saveBudgetPlan`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userID: userID,
-              budgetPlanID: budgetPlanID,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            console.log(responseJson);
-            if(responseJson.status === true){
-                console.log('추가 완료');
-                setUserStore(true);
-                alert('보관함에 추가되었습니다.');
-            }else{
-                alert('보관함 저장에 실패했습니다.');
-                console.log('fail to save.');
+        Popup.show({
+            type: 'confirm',
+            title: '보관함',
+            textBody: '보관함에 추가 하시겠습니까?',
+            buttonText: 'yes',
+            confirmText: 'no',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => {
+              //Popup.hide()
+              fetch(`${url}/saveBudgetPlan`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: userID,
+                  budgetPlanID: budgetPlanID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        console.log('추가 완료');
+                        setUserStore(true);
+                        Popup.show({
+                            type: 'success',
+                            textBody: '보관함에 추가되었습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                    }else{
+                        Popup.show({
+                            type: 'success',
+                            textBody: '보관함에 추가되었습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                        console.log('fail to save.');
+                    }
+                })
+                .catch((error)=>{
+                    console.error(error);
+                })
             }
-        })
-        .catch((error)=>{
-            console.error(error);
-        })
+          })
     }
     const handleSubmitCancelButton = () => {
-        fetch(`${url}/cancelBudgetPlan`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userID: userID,
-              budgetPlanID: budgetPlanID,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            console.log(responseJson);
-            if(responseJson.status === true){
-                console.log('삭제 완료');
-                setUserStore(false);
-                alert('보관함에서 삭제되었습니다.');
-            }else{
-                alert('계획서 삭제 실패');
-                console.log('fail to save.');
+        Popup.show({
+            type: 'confirm',
+            title: '보관함',
+            textBody: '보관함에서 삭제 하시겠습니까?',
+            buttonText: 'yes',
+            confirmText: 'no',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => {
+              //Popup.hide()
+              fetch(`${url}/cancelBudgetPlan`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: userID,
+                  budgetPlanID: budgetPlanID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        console.log('삭제 완료');
+                        setUserStore(false);
+                        Popup.show({
+                            type: 'success',
+                            textBody: '보관함에서 삭제되었습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                    }else{
+                        console.log('fail to save.');
+                        Popup.show({
+                            type: 'success',
+                            textBody: '보관함 삭제를 실패 했습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                    }
+                })
+                .catch((error)=>{
+                    console.error(error);
+                })
             }
-        })
-        .catch((error)=>{
-            console.error(error);
-        })
+          })
     }
     if(loading === true){
         return (
+            <Root>
             <ScrollView style={styles.appSize}>
                 <View style={styles.appTopBar}>
                     <View style={styles.appTitlePosition}>
@@ -445,10 +499,12 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                     </View>
                 </View>
             </ScrollView>
+            </Root>
         )
     }
     else{
         return(
+            <Root>
             <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
                     <View style={styles.backButtonPosition}>
@@ -463,6 +519,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 <View style={styles.appBody}>
                 </View>
             </View>
+            </Root>
         );
     }
 }
