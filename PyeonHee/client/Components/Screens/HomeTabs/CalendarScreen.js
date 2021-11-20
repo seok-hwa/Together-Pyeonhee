@@ -9,6 +9,10 @@ import moment from 'moment';
 
 import TransactionList from './calendarComponent/TransactionList';
 
+import config from '../../../config';
+
+const url = config.url;
+
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
   monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
@@ -26,10 +30,15 @@ class CalendarScreen extends React.Component {
     super(props);
 
     this.state = {
+      userID: '',
+      isLoading: true,
       calendarDate: calendarDate.format('YYYY-MM-DD'),
       horizontal: false,
       dateChanged: moment().format('DD'),
-      dayChanged: moment().day(),
+      monthChanged: moment().format('MM'),
+      yearChanged: moment().format('YYYY'),
+
+      monthlyData: {},
     };
 
     this.onPressListView = this.onPressListView.bind(this);
@@ -49,16 +58,49 @@ class CalendarScreen extends React.Component {
     calendarDate = moment(date.dateString);
     console.log(calendarDate);
     this.updateCalendarDate();
-    // console.log(date.day); //눌린 날짜
+    console.log(date.day); //눌린 날짜
+    console.log(date.month);
+    console.log(date.year);
+
 
     this.setState({ dateChanged: date.day }); 
-    this.setState({ dayChanged: date.day });
+    this.setState({ monthChanged: date.month });
+    this.setState({ yearChanged: date.year });
   }
 
   updateCalendarDate() {
     this.setState({
       calendarDate: calendarDate.format('YYYY-MM-DD')
     });
+  }
+
+  componentDidMount () {
+    AsyncStorage.getItem('userID', (err, result) => {
+      const tempID = result;
+      if(tempID!= null){
+        this.setState({
+          userID: tempID,
+        });
+      }
+    })
+    .then(()=>{
+        console.log(this.state.userID);
+        console.log(`${url}/calendar?userID=${this.state.userID}`);
+
+        
+        fetch(`${url}/calendar?userID=${this.state.userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+          console.log('캘린더 정보 받아오기!');
+          console.log(responseJson);
+
+          this.setState({ monthlyData: responseJson});
+          // setLoading(true);
+        })  
+        .catch((error) => {
+          console.log(error)
+        }); 
+    })
   }
 
   render () {   
@@ -75,19 +117,24 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                markedDates={{
-                  '2021-11-19': {sum: 2000},
-                  '2021-11-20': {sum: -2125000},
-                  '2021-11-25': {sum: 0},
-                  '2021-11-26': {sum: 5000}
-                }}
+                // markedDates={{
+                //   '2021-11-19': {sum: 2000},
+                //   '2021-11-20': {sum: -2125000},
+                //   '2021-11-25': {sum: 0},
+                //   '2021-11-26': {sum: 5000}
+                // }}
+
+                markedDates={this.state.monthlyData}
+
+
+
                 onDayPress={this.onDayPress}
                 hideExtraDays={true}
                 onMonthChange={(month) => {console.log('month changed', month)}}
                 monthFormat={'MM월'}
             />
             <View style={styles.transactionContainer}>
-              <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged}/>
+              <TransactionList pressedDate={this.state.dateChanged} pressedMonth={this.state.monthChanged} pressedYear={this.state.yearChanged}/>
             </View>
         </ScrollView>
     );

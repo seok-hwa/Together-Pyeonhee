@@ -357,14 +357,15 @@ create table real_expense
     fintech_use_num varchar(25) not null,
     bank_name varchar(10) not null,
     balance_amt int default 0,
-    tran_date varchar(8) not null,
-    tran_time varchar(6) not null,
+    tran_date date not null,
+    tran_time time not null,
     inout_type varchar(2) not null,
     tran_type varchar(10) not null,
     print_content varchar(20) not null,
     tran_amt int not null,
     after_balance_amt int not null,
     branch_name varchar(10) not null,
-    primary key (user_id, fintech_use_num),
+    state int default 0,
+    primary key (user_id, fintech_use_num, tran_date, tran_time),
     foreign key (user_id, fintech_use_num) references bank_account(user_id, fintech_use_num)
 );

@@ -22,6 +22,7 @@ const MyBudgetScreen = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [isCompleted, setIsCompleted] = useState(true);
     const [saving, setSaving] = useState([]);
+    const [monthly, setMonthly] = useState(0);
 
     const [isSelected, setIsSelected] = useState(false);
     
@@ -102,8 +103,11 @@ const MyBudgetScreen = ({navigation}) => {
                     console.log('계획지출 합:');
                     console.log(plannedTemp);
 
+                    let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
+
                     setFixedExpenditure(fixedTemp);
                     setPlannedExpenditure(plannedTemp);
+                    setMonthly(monthlyTemp);
                 }
                 // console.log(myBudgetData);
             }) 
@@ -159,7 +163,7 @@ const MyBudgetScreen = ({navigation}) => {
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <Text style={{fontSize: 20, fontWeight:'bold', color: '#8EB3EE', marginRight: 3}}>
-                                {myBudgetData.dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+                                {myBudgetData.dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </Text> 
                             <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                 원
@@ -171,7 +175,7 @@ const MyBudgetScreen = ({navigation}) => {
 
                 <View style={styles.item2Container}>
                     <Text style={{fontSize: 15, fontWeight:'bold'}}>수입  {myBudgetData.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
-                    <Text style={{fontSize: 15, fontWeight:'bold'}}>한 달 예산  {myBudgetData.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                    <Text style={{fontSize: 15, fontWeight:'bold'}}>한 달 예산  {monthly.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                 </View>
 
                 <View style={styles.container}>
@@ -234,7 +238,7 @@ const MyBudgetScreen = ({navigation}) => {
                             계획지출 예산
                         </Text>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                            {plannedExpenditure.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                            {plannedExpenditure.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
                         </Text>
                     </View>
                     <View style={styles.category}>
@@ -313,7 +317,7 @@ const MyBudgetScreen = ({navigation}) => {
                             저금 계획
                         </Text>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                            {/* {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 */}
+                            {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
                         </Text>
                     </View>
                     <View>
