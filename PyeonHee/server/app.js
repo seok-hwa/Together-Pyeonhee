@@ -637,6 +637,37 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            // 캘린더 데이터
+            app.get(`/calendar`, function(req, res) {
+                console.log(req.query.userID)
+                var userID = req.query.userID;
+                //SELECT 컬럼 FROM 테이블 GROUP BY 그룹화할 컬럼 HAVING 조건식;
+                db.query(`SELECT sum(tran_amt) as daily_amount FROM real_expense GROUP BY tran_date HAVING user_id = ? `, [userID], function(error1, result){
+                    if(error) throw error;
+                    else if(result != 0) {
+                        console.log(result);
+                    }
+                })
+            });
+
+            // 캘린더 클릭시
+            app.get(`/calendar/click`, function(req, res) {
+                console.log(req.query.userID);
+                console.log(req.query.date);
+                var userID = req.query.userID;
+                var date = req.query.date;
+                db.query(`SELECT tran_type, inout_type, tran_amt FROM real_expense WHERE user_id = ? AND tran_date = ?`, [userID, date], function(error, result){
+                    if(error) throw error;
+                    else if (result != 0) {
+                        console.log(result);
+                        res.send(result);
+                    }
+                    else {
+                        res.send([]);
+                    }
+                });
+            });
+
             // 사용자 토큰 발급
             app.get('/Together', function (req, res) {
                 console.log(req);
@@ -981,7 +1012,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
            
-            const PORT = 6666;
+            const PORT = 8000;
 
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
