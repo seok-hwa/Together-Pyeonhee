@@ -11,6 +11,20 @@ const TransactionList = (props) => {
     const [todayTransaction, setTodayTransaction] = useState([]);
     const [loading, setLoading] = useState(false);
 
+
+    let tempDay = props.pressedDay;
+    console.log(`${url}/calendar/click?userID=${userID}&today=${tempDay}`);
+        
+    fetch(`${url}/calendar/click?userID=${userID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+        console.log('오늘의 거래 내역');
+        console.log(responseJson);
+
+        setTodayTransaction(responseJson);
+        setLoading(true);
+    })
+
     useEffect(()=>{
         let tempID;
 
@@ -22,21 +36,39 @@ const TransactionList = (props) => {
         })
         .then(()=>{
             console.log(tempID);
-      
-            let tempDay = props.pressedDay;
-            console.log(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`);
-    
-            fetch(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('오늘의 거래 내역');
-                console.log(responseJson);
+            // if(props.isChanged === true) {
+            //     let tempDay = props.pressedDay;
+            //     console.log(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`);
+        
+            //     fetch(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
+            //     .then((response)=>response.json())
+            //     .then((responseJson)=>{
+            //         console.log('오늘의 거래 내역');
+            //         console.log(responseJson);
 
-                setTodayTransaction(responseJson);
-                setLoading(true);
-            })
+            //         setTodayTransaction(responseJson);
+            //         props.closeChanged();
+            //         setLoading(true);
+            //     })
+            // }
+
+
+            // let tempDay = props.pressedDay;
+            //     console.log(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`);
+        
+            //     fetch(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
+            //     .then((response)=>response.json())
+            //     .then((responseJson)=>{
+            //         console.log('오늘의 거래 내역');
+            //         console.log(responseJson);
+
+            //         setTodayTransaction(responseJson);
+            //         props.closeChanged();
+            //         setLoading(true);
+            //     })
+            
         })
-    },[])  //-> 랜더링 문제 해결 필요
+    }, [])  //-> 랜더링 문제 해결 필요
 
     return (
         <View>
@@ -49,6 +81,12 @@ const TransactionList = (props) => {
                 {todayTransaction.length === 0 ?
                 <Text>거래 내역이 없습니다.</Text> :
                 <Text>거래 내역이 있습니다.</Text>}
+
+                {/* {todayTransaction.length === 0 ?
+                    <Text>거래 내역이 없습니다.</Text> :
+                    todayTransaction.map(item => {
+                        return <TransactionItem key={item.id} name={item.name} money={item.money}/>;
+                })} */}
                 
             </View>
 

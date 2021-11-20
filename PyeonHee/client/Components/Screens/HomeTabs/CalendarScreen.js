@@ -5,7 +5,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CalendarDayComponent from './calendarComponent/CalendarDayComponent';
-import moment from 'moment';
+import moment, { relativeTimeThreshold } from 'moment';
 
 import TransactionList from './calendarComponent/TransactionList';
 
@@ -66,11 +66,15 @@ class CalendarScreen extends React.Component {
     let tempDate = date.dateString.split("-");
     let temp = tempDate[0]+tempDate[1]+tempDate[2];
 
-    this.setState({ dayChanged: temp });
-    this.setState({ dateChanged: date.day }); 
+    this.setState({ 
+      dayChanged: temp,
+      dateChanged: date.day,
+      isPressed: true,
+     });
+    // this.setState({ dateChanged: date.day }); 
 
-
-    this.setState({ dayChanged: temp })
+    // this.setState({ isPressed: true })
+    // this.setState({ dayChanged: temp })
   }
 
   updateCalendarDate() {
@@ -108,6 +112,7 @@ class CalendarScreen extends React.Component {
   }
 
   render () {   
+    // const {closeUpdate} = this.closeUpdate;
 
     return (
         <ScrollView style={styles.appSize}>
@@ -138,7 +143,12 @@ class CalendarScreen extends React.Component {
                 monthFormat={'MM월'}
             />
             <View style={styles.transactionContainer}>
-              <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} isChanged={this.state.isPressed}/>
+              {/* {this.state.isPressed === true && 
+                <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
+                isChanged={this.state.isPressed}/>
+              } */}
+              <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
+              isChanged={this.state.isPressed}/>
             </View>
         </ScrollView>
     );
