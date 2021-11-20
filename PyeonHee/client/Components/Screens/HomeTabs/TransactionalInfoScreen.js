@@ -10,6 +10,14 @@ const TransactionScreen = (props) => {
     const [tranlatestList, setTranLatestList] = useState([]);
     const [tranList, setTranList] = useState([]);
     const [loading, setLoading] = useState(false);
+    
+    const fintechUseNum = ""; //이것만 넘겨줘도 ?
+
+    //const inquiryType = "A";
+    //const inquiryBase = "D";
+    //const fromDate="";
+    //const toDate = "";
+    //const sortOrder = "";
 
     useEffect(()=>{
         let tempID;
@@ -25,8 +33,18 @@ const TransactionScreen = (props) => {
             setLoading(true);
             //for test
             /*
-            console.log(`${url}/latestTranList?userID=${tempID}`);
-            fetch(`${url}/latestTranList?userID=${tempID}`)   //get
+            console.log(`${url}/latestTranList`);
+            fetch(`${url}/latestTranList`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: tempID,
+                  fintechUseNum: fintechUseNum,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
@@ -35,8 +53,18 @@ const TransactionScreen = (props) => {
                 setTranLatestList(responseJson);
             })
             .then(()=>{
-                console.log(`${url}/tranList?userID=${tempID}`);
-                fetch(`${url}/tranList?userID=${tempID}`)   //get
+                console.log(`${url}/tranList`);
+                fetch(`${url}/tranList`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      userID: tempID,
+                      fintechUseNum: fintechUseNum,
+                    }),
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type':'application/json',
+                    },
+                })
                 .then((response)=>response.json())
                 .then((responseJson)=>{
                     console.log('response data');
@@ -56,6 +84,7 @@ const TransactionScreen = (props) => {
             bankName: '오픈은행',
             organizationName: '스타벅스',
             tranDate: '2021/11/20',
+            tranTime: '오후 2시 20분',
             tranPrice: 3000,
             tranCate: '생활',
         },
@@ -68,12 +97,14 @@ const TransactionScreen = (props) => {
             tranDate: '2021/11/16',
             tranPrice: 300000,
             tranCate: '생활',
+            tranTime: '오후 11시 20분',
         },
         {
             tranID: 3,
             bankName: '농협',
             organizationName: '아디다스',
             tranDate: '2021/11/15',
+            tranTime: '오후 9시 10분',
             tranPrice: 200000,
             tranCate: '생활',
         },
@@ -93,7 +124,7 @@ const TransactionScreen = (props) => {
                 <ScrollView style={{flex: 1,}}>
                     {tempLatestData.map(item => {
                         return <TransactionItem key={item.tranID} bankName={item.bankName} organizationName={item.organizationName} tranDate={item.tranDate} 
-                        tranPrice={item.tranPrice} tranCate={item.tranCate} tranID={item.tranID}
+                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID}
                         />})
                     }
                 </ScrollView>
@@ -110,7 +141,7 @@ const TransactionScreen = (props) => {
                 <ScrollView style={{flex: 1,}}>
                     {tempData.map(item => {
                         return <TransactionItem key={item.tranID} bankName={item.bankName} organizationName={item.organizationName} tranDate={item.tranDate} 
-                        tranPrice={item.tranPrice} tranCate={item.tranCate} tranID={item.tranID}
+                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID}
                         />})
                     }
                 </ScrollView>
@@ -171,7 +202,6 @@ const styles = StyleSheet.create({
         height: 25,
         backgroundColor: '#8EB3EE',
         flexDirection: 'row',
-        borderWidth: 1,
         borderColor: 'gray',
     },
     BankNameDiv: {
