@@ -110,6 +110,9 @@ const accountLinkScreen = ({navigation}) => {
                         console.log('fail to terminate.');
                     }
                 })
+                .catch((e)=>{
+                    console.error(e);
+                })
             }
         })
     }
