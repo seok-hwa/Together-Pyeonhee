@@ -31,12 +31,12 @@ class CalendarScreen extends React.Component {
 
     this.state = {
       userID: '',
-      isLoading: true,
       calendarDate: calendarDate.format('YYYY-MM-DD'),
       horizontal: false,
       dateChanged: moment().format('DD'),
-      monthChanged: moment().format('MM'),
-      yearChanged: moment().format('YYYY'),
+      dayChanged: moment().format('YYYYMMDD'),
+
+      isPressed: true,
 
       monthlyData: {},
     };
@@ -56,16 +56,21 @@ class CalendarScreen extends React.Component {
 
   onDayPress(date) {
     calendarDate = moment(date.dateString);
-    console.log(calendarDate);
+
     this.updateCalendarDate();
-    console.log(date.day); //눌린 날짜
-    console.log(date.month);
-    console.log(date.year);
 
+    console.log(this.state.dayChanged);
 
+    console.log('눌린 날짜'); //눌린 날짜
+    console.log(date); //눌린 날짜
+    let tempDate = date.dateString.split("-");
+    let temp = tempDate[0]+tempDate[1]+tempDate[2];
+
+    this.setState({ dayChanged: temp });
     this.setState({ dateChanged: date.day }); 
-    this.setState({ monthChanged: date.month });
-    this.setState({ yearChanged: date.year });
+
+
+    this.setState({ dayChanged: temp })
   }
 
   updateCalendarDate() {
@@ -87,7 +92,6 @@ class CalendarScreen extends React.Component {
         console.log(this.state.userID);
         console.log(`${url}/calendar?userID=${this.state.userID}`);
 
-        
         fetch(`${url}/calendar?userID=${this.state.userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
@@ -134,7 +138,7 @@ class CalendarScreen extends React.Component {
                 monthFormat={'MM월'}
             />
             <View style={styles.transactionContainer}>
-              <TransactionList pressedDate={this.state.dateChanged} pressedMonth={this.state.monthChanged} pressedYear={this.state.yearChanged}/>
+              <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} isChanged={this.state.isPressed}/>
             </View>
         </ScrollView>
     );
