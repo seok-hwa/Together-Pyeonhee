@@ -117,13 +117,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                     mbti_type = mbti_type + 'P';
                 }
 
-                if(second_type > 50){
+                if(second_type < 50){
                     mbti_type = mbti_type + 'C';
                 } else {
                     mbti_type = mbti_type + 'H';
                 }
 
-                if(third_type > 50){
+                if(third_type < 50){
                     mbti_type = mbti_type + 'S';
                 } else {
                     mbti_type = mbti_type + 'O';
@@ -152,7 +152,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
                 db.query(`UPDATE user SET job = ? 
                 WHERE user.user_id = ?`, [userJob, userID], function (error, result4) {
-                    if (error4) throw error4;
+                    if (error) throw error;
                     console.log(result4);
                 });
                 const data = {
