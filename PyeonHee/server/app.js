@@ -566,19 +566,45 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+            function Calculate_Daily_Money(result, result1){
+                var available_money;
+                var fixedExp;
+                var plannedExp;
+                var dailyMoney;
 
+                let today = new Date();
+                let today_date = today.getDate();
+                let today_month = today.getMonth() + 1;
+                let today_years = today.getFullYear();
+
+                let lastTemp = new Date(today_years, today_month, 0);
+                let lastDate = lastTemp.getDate();
+
+
+                fixedExp = result[0].monthly_rent + result[0].insurance_expense + result[0].communication_expense + result[0].subscribe_expense;
+                plannedExp = result[0].transportation_expense + result[0].leisure_expense + result[0].shopping_expense + result[0].education_expense 
+                + result[0].medical_expense + result[0].event_expense + result[0].etc_expense;
+                totalSavings = parseInt(result1[0].total_savings_money);
+
+                dailyMoney = result[0].user_income - fixedExp - plannedExp - totalSavings;
+                dailyMoney = dailyMoney / lastDate;
+                dailyMoney = Math.floor(dailyMoney);
+
+                return dailyMoney;
+            }
             // 가계부 메뉴의 본인 데이터 
             app.get(`/myBudgetPlan`, function(req, res){
                 console.log(req.query.userID);
                 var userID = req.query.userID;
+                var dailyMoney;
                 db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error1,result1){
                     if (error1) throw error1;
                     else {
-                        
                         db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
                             if (error) throw error;
 
                             else if(result.length != 0){
+                                dailyMoney = Calculate_Daily_Money(result, result1);
                                 console.log(result[0]);
                                 var data = {
                                 userLikeCount: result[0].like_number,
@@ -598,6 +624,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 subscribe: result[0].subscribe_expense,
                                 budgetPlanID: result[0].planning_number,
                                 sumOfSavings : parseInt(result1[0].total_savings_money),
+                                dailyMoney : dailyMoney
                                 };
                             console.log(data);
                             res.send(data);
@@ -955,7 +982,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
            
-            const PORT = 5555;
+            const PORT = 8000;
+
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
             });
