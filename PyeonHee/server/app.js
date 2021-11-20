@@ -189,7 +189,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //예산계획추천페이지(모든 사용자 동일)
             app.get('/saveSelectBudgetPlan', function (req, res) {
-                console.log(req.query.userID);
+                //console.log(req.query.userID);
                 db.query(`SELECT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age, 
                 BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings, 
                 BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, 
@@ -197,19 +197,19 @@ const SSHConnection = new Promise((resolve, reject) => {
                 BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
                 from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 5,5`, function (error, result) {
                     if (error) throw error;
-                    console.log(result);
+                    //console.log(result);
                     res.send(result);
                 });
             });
 
             //사용자와 비슷한 MBTI 예산계획 추천
             app.get('/viewBudgetPlan', function (req, res) {
-                console.log(req.query);
+                //console.log(req.query);
                 var userID = req.query.userID;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
                     if (error) throw error;
                     else{
-                        console.log(result[0]);
+                        //console.log(result[0]);
                         var userMBTI = result[0].mbti;
                         var userAge = result[0].age;
                         var userIncome = result[0].income;
@@ -222,7 +222,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc`, 
                         [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
                             if (error) throw error;
-                            console.log(result);
+                            //console.log(result);
                             res.send(result);
                         });
                     }
@@ -231,7 +231,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 선택한 예산계획 상세보기
             app.get('/recommendedBudgetPlan', function (req, res) {
-                console.log(req.query.budgetPlanningID);
+                //console.log(req.query.budgetPlanningID);
                 var budgetPlanID = req.query.budgetPlanningID;
                 var userMBTI; var userAge; var userIncome; var user_savings;
                 var userLikeCount; var rent; var insurance; var traffic;
@@ -240,7 +240,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
-                    console.log(result[0]);
+                    //console.log(result[0]);
                     data = {
                         userLikeCount: result[0].like_number,
                         userMBTI: result[0].user_mbti,
@@ -270,7 +270,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 data,
                                 result
                             }
-                            console.log(data2);
+                            //console.log(data2);
                             res.send(data2);
                         });
                     }
@@ -279,7 +279,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 선택한 예산계획 보관함 저장
             app.post('/saveBudgetPlan', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var userID = req.body.userID;
                 var budgetPlanID = req.body.budgetPlanID;
                 db.query(`INSERT INTO Storage(user_id, planning_number) SELECT ?,? FROM DUAL
@@ -297,7 +297,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 선택한 예산계획 보관함 삭제
             app.post('/cancelBudgetPlan', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var userID = req.body.userID;
                 var budgetPlanID = req.body.budgetPlanID;
                 db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success`,
@@ -320,7 +320,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 좋아요&취소 버튼 기능
             app.post('/likeBudgetPlan/', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var budgetPlanID = req.body.budgetPlanID;
                 var userLike = req.body.userLike;
                 var userID = req.body.userID;
@@ -373,7 +373,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 좋아요 여부 확인
             app.post('/didLike', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var userID = req.body.userID;
                 var budgetPlanID = req.body.budgetPlanID;
                 db.query(`SELECT EXISTS (SELECT * FROM LikeCount WHERE user_id = ? and planning_number = ? and like_check = 1 limit 1) as success`,
@@ -398,7 +398,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 보관함 여부 확인
             app.post('/didStore', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var userID = req.body.userID;
                 var budgetPlanID = req.body.budgetPlanID;
                 db.query(`SELECT EXISTS (SELECT * FROM Storage WHERE user_id = ? and planning_number = ? limit 1) as success`,
@@ -423,7 +423,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 보관함에 저장된 예산계획서 확인
             app.get('/BudgetPlanCabinet', function (req, res) {
-                console.log(req.query.userID);
+                //console.log(req.query.userID);
                 var userID = req.query.userID;
                 db.query(`SELECT DISTINCT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age,
                 BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings,
@@ -433,7 +433,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 FROM user LEFT JOIN BudgetPlanning ON user.user_id = BudgetPlanning.user_id 
                 LEFT JOIN Storage ON BudgetPlanning.planning_number = Storage.planning_number WHERE Storage.user_id = ?`, [userID],function (error, result) {
                     if (error) throw error;
-                    console.log(result);
+                    //console.log(result);
                     res.send(result);
                 });
             });
@@ -1003,28 +1003,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                             var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
 
                                                             db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                                                    FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                                                    FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                                                    AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
-                                                                [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                                    after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                                    after_balance_amt, branch_name], function (error, result) {
-                                                                        if (error) throw error;
-                                                                        //console.log("거래내역 DB저장완료");
-                                                                        /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                                                            if (error) throw error;
-                                                                            res.send(result);
-                                                                            //console.log(result);
-                                                                            console.log("거래내역 조회 완료 (거래내역 전송)");
-                                                                        });*/
-                                                                    });
+                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                                                            FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                                                            FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                                                            AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
+                                                            [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                            after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                            after_balance_amt, branch_name], function (error, result) {
+                                                                if (error) throw error;
+                                                                //console.log("거래내역 DB저장완료");
+                                                                /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                                                    if (error) throw error;
+                                                                    res.send(result);
+                                                                    //console.log(result);
+                                                                    console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                                });*/        
+                                                                });
                                                         }
-                                                    }/*
-                                        else {
-                                            console.log("거래내역 조회 실패");
-                                        }*/
+                                                    }
+                                                    /*else {
+                                                        console.log("거래내역 조회 실패");
+                                                    }*/
                                                 });
                                             }
                                         }
