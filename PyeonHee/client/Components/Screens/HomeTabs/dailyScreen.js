@@ -127,8 +127,8 @@ const DailyScreen = (props) => {
     
                     setLoading(true);   //test
                 }) 
+                /*
                 .then(()=>{
-                    /*
                         fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
                         .then((response)=>response.json())
                         .then((responseJson)=>{
@@ -140,8 +140,7 @@ const DailyScreen = (props) => {
                             }
                         })
                         setLoading(true);
-                    */
-                })
+                })*/
             })
         })
     }, [])
