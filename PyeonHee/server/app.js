@@ -637,6 +637,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+
             // 캘린더 데이터
             app.get(`/calendar`, function(req, res) {
                 console.log(req.query.userID)
@@ -650,6 +651,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
 
+            
             // 캘린더 클릭시
             app.get(`/calendar/click`, function(req, res) {
                 console.log(req.query.userID);
