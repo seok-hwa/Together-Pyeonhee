@@ -18,18 +18,35 @@ import SegmentedControlTab from 'react-native-segmented-control-tab';
 import AccountLink from './AssetsTab/accountLinkedScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
 import AssetCounseling from './AssetsTab/assetCounseling';
+import config from '../../config';
+
+const url = config.url;
 
 const AssetsScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(()=>{
+    let tempID;
     AsyncStorage.getItem('userID', (err, result) => {
-      const tempID = result;
+      tempID = result;
       if(tempID!= null){
         setUserID(tempID);
       }
     })
+    /*
+    .then(()=>{
+      fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
+      .then((response)=>response.json())
+      .then((responseJson)=>{
+        console.log(responseJson);
+        if(responseJson.status === 'success'){
+          console.log('거래내역 저장 성공');
+        }else{
+          console.log('거래내역 저장 실패');
+        }
+      })
+    })*/
   })
 
   const handleSingleIndexSelect = (index) => {
