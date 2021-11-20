@@ -637,6 +637,43 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+
+            // 캘린더 데이터
+            app.get(`/calendar`, function(req, res) {
+                console.log(req.query.userID)
+                var userID = req.query.userID;
+                //SELECT 컬럼 FROM 테이블 GROUP BY 그룹화할 컬럼 HAVING 조건식;
+                db.query(`SELECT tran_date, sum(tran_amt) as daily_amount FROM real_expense where user_id = ? and inout_type = '출금' GROUP BY tran_date; `, [userID], function(error1, result1){
+                    if(error1) throw error1;
+                    else if(result1 != 0) {
+                        console.log(result1);
+                        db.query(`SELECT tran_date, sum(tran_amt) as daily_amount FROM real_expense where user_id = ? and inout_type = '입금' GROUP BY tran_date; `, [userID], function(error2, result2){
+                            if(error2) throw error2;
+                            console.log(result2);
+                        });
+                    }
+                })
+            });
+
+            
+            // 캘린더 클릭시
+            app.get(`/calendar/click`, function(req, res) {
+                console.log(req.query.userID);
+                console.log(req.query.date);
+                var userID = req.query.userID;
+                var date = req.query.date;
+                db.query(`SELECT tran_type, inout_type, tran_amt FROM real_expense WHERE user_id = ? AND tran_date = ?`, [userID, date], function(error, result){
+                    if(error) throw error;
+                    else if (result != 0) {
+                        console.log(result);
+                        res.send(result);
+                    }
+                    else {
+                        res.send([]);
+                    }
+                });
+            });
+
             // 사용자 토큰 발급
             app.get('/Together', function (req, res) {
                 console.log(req);
@@ -652,7 +689,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                 //프론트에서 발급 받고 여기로 자동 redirect되므로 프론트에서 진행
                 
                 /*
-
                 var option = {
                     method: "POST",
                     url: "https://testapi.openbanking.or.kr/oauth/2.0/token",
@@ -911,74 +947,155 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            // 선택한 계좌 거래내역 조회(핀테크이용번호 사용)
-            app.post('/transaction_list', function (req, res) {
-                var userID = req.body.userID;
-                var ranNum = Math.floor(Math.random() * 100000000);
-                var bankTranID = config.client_use_code + 'U' + ranNum;
-                var fintechUseNum = req.body.fintech_use_num;
-                var inquiryType;
-                var inquiryBase;
-                var fromDate;
-                var toDate;
-                var sortOrder;
+            /*
+  // 선택한 계좌 거래내역 조회(핀테크이용번호 사용)
+  app.post('/transaction_list', function (req, res) {
+      var userID = req.body.userID;
+      var ranNum = Math.floor(Math.random() * 100000000);
+      var bankTranID = config.client_use_code + 'U' + ranNum;
+      var fintechUseNum = req.body.fintech_use_num;
+      var inquiryType;
+      var inquiryBase;
+      var fromDate;
+      var toDate;
+      var sortOrder;
 
-                db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+      db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
+          if (error) throw error;
+          var option = {
+              method: "GET",
+              url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
+              headers: {
+                  Authorization: "Bearer " + result[0].accesstoken
+              },
+              qs: {
+                  bank_tran_id: bankTranID,
+                  fintech_use_num: fintechUseNum,
+                  inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
+                  inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
+                  from_date: "20211119", // 조회시작일자
+                  to_date: "20211119", //조회종료일자
+                  sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
+                  tran_dtime: "20211119000000"//현재날짜시간으로 변경
+              }
+          }
+          request(option, function (error, response, body) {
+              var requestResultJSON = JSON.parse(body);
+              var bankName = requestResultJSON['bank_name'];
+              var balanceAmt = requestResultJSON['balance_amt'];
+              if (requestResultJSON['rsp_code'] == "A0000") {
+                  for (i in requestResultJSON['res_list']) {
+                      var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
+                      var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
+                      var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
+                      var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
+                      var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
+                      var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
+                      var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
+                      var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
+                      db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date,
+                              tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                              FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date,
+                              tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                              FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                              AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND trabranch_namen_amt =?)`, 
+                              [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt ,
+                              after_balance_amt, branch_name], function (error, result) {
+                                  if (error) throw error;
+                                  console.log("거래내역 DB저장완료");
+                              });
+                  }
+                  db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintect_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                      if (error) throw error;
+                      res.send(result);
+                      console.log(result);
+                      console.log("거래내역 조회 완료 (거래내역 전송)");
+                  });
+              }
+              else {
+                  console.log("거래내역 조회 실패");
+              }
+          });
+      });
+  });
+ */
+
+            // 사용자의 연동한 계좌 내역 DB저장
+            app.get('/saveTranHistory', function (req, res) {
+                var userID = req.query.userID;
+                db.query(`SELECT access_token FROM openBankingUser WHERE user_id = ?`, [userID], function (error, result) {
                     if (error) throw error;
-                    var option = {
-                        method: "GET",
-                        url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
-                        headers: {
-                            Authorization: "Bearer " + result[0].accesstoken
-                        },
-                        qs: {
-                            bank_tran_id: bankTranID,
-                            fintech_use_num: fintechUseNum,
-                            inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
-                            inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
-                            from_date: "20211119", // 조회시작일자
-                            to_date: "20211119", //조회종료일자
-                            sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
-                            tran_dtime: "20211119000000"//현재날짜시간으로 변경
-                        }
-                    }
-                    request(option, function (error, response, body) {
-                        var requestResultJSON = JSON.parse(body);
-                        var bankName = requestResultJSON['bank_name'];
-                        var balanceAmt = requestResultJSON['balance_amt'];
-                        if (requestResultJSON['rsp_code'] == "A0000") {
-                            for (i in requestResultJSON['res_list']) {
-                                var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
-                                var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
-                                var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
-                                var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
-                                var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
-                                var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
-                                var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
-                                var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
-                                db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date,
-                                        tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                                        FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date,
-                                        tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                                        FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                                        AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND trabranch_namen_amt =?)`, 
-                                        [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt ,
-                                        after_balance_amt, branch_name], function (error, result) {
-                                            if (error) throw error;
-                                            console.log("거래내역 DB저장완료");
-                                        });
+                    else {
+                        var accesstoken = result[0].access_token;
+                        db.query(`SELECT fintech_use_num FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                for (j in result) {
+                                    var fintechUseNum = result[j].fintech_use_num;
+                                    console.log(fintechUseNum);
+                                    var ranNum = Math.floor(Math.random() * 1000000000);
+                                    var bankTranID = config.client_use_code + 'U' + ranNum;
+                                    var option = {
+                                        method: "GET",
+                                        url: "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num",
+                                        headers: {
+                                            Authorization: "Bearer " + accesstoken
+                                        },
+                                        qs: {
+                                            bank_tran_id: bankTranID,
+                                            fintech_use_num: fintechUseNum,
+                                            inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
+                                            inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
+                                            from_date: "20211119", // 조회시작일자
+                                            to_date: "20211119", //조회종료일자
+                                            sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
+                                            tran_dtime: "20211119000000"//현재날짜시간으로 변경
+                                        }
+                                    }
+                                    request(option, function (error, response, body) {
+                                        var requestResultJSON = JSON.parse(body);
+                                        var bankName = requestResultJSON['bank_name'];
+                                        var balanceAmt = requestResultJSON['balance_amt'];
+                                        fintechUseNum = requestResultJSON['fintech_use_num'];
+                                        if (requestResultJSON['rsp_code'] == "A0000") {
+                                            for (i in requestResultJSON['res_list']) {
+                                                var tran_date = requestResultJSON['res_list'][i]['tran_date']; //거래일자
+                                                var tran_time = requestResultJSON['res_list'][i]['tran_time']; //거래시간
+                                                var inout_type = requestResultJSON['res_list'][i]['inout_type']; //입출금구분
+                                                var tran_type = requestResultJSON['res_list'][i]['tran_type']; //거래구분
+                                                var print_content = requestResultJSON['res_list'][i]['print_content']; //통장인자내용
+                                                var tran_amt = requestResultJSON['res_list'][i]['tran_amt']; //거래금액
+                                                var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
+                                                var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
+
+                                                db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                                                    FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                                                    FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                                                    AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
+                                                    [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                        after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                        after_balance_amt, branch_name], function (error, result) {
+                                                            if (error) throw error;
+                                                            // console.log("거래내역 DB저장완료");
+                                                            /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                                                if (error) throw error;
+                                                                res.send(result);
+                                                                //console.log(result);
+                                                                console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                            });*/
+                                                        });
+                                            }
+                                        }
+                                        else {
+                                            console.log("거래내역 조회 실패");
+                                        }
+                                    });
+                                }
                             }
-                            db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintect_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                if (error) throw error;
-                                res.send(result);
-                                console.log(result);
-                                console.log("거래내역 조회 완료 (거래내역 전송)");
-                            });
-                        }
-                        else {
-                            console.log("거래내역 조회 실패");
-                        }
-                    });
+                        });
+                    }
                 });
             });
            
