@@ -146,6 +146,7 @@ const SetCategoryScreen = ({navigation, route}) => {
           body: JSON.stringify({
             userID: userID,
             tranID: route.params.tranID ,
+            tranCate: category,
           }),
           headers: {
             'Accept': 'application/json',
