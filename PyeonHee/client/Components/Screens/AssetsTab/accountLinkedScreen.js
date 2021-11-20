@@ -22,9 +22,10 @@ const url = config.url;
 const accountLinkScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [accountList, setAccountList] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     //for test
+    /*
     let tempData = [
         {
             accountCate: '농협',
@@ -44,7 +45,7 @@ const accountLinkScreen = ({navigation}) => {
             accountBalance: 1000000,
             accountId: 3,
         },
-    ]
+    ]*/
     useEffect(()=>{
         let tempID;
 
@@ -58,7 +59,7 @@ const accountLinkScreen = ({navigation}) => {
             console.log(tempID);
             //for test
             console.log(`${url}/accountList?userID=${tempID}`);
-            /*
+            
             fetch(`${url}/accountList?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
@@ -67,10 +68,11 @@ const accountLinkScreen = ({navigation}) => {
 
                 setAccountList(responseJson);
                 setLoading(true);
-            })*/
+            })
         })
-    })
+    },[])
 
+    if(loading === true){
     return (
         <View style={styles.appSize}>
             <View style={styles.appTop}>
@@ -80,15 +82,30 @@ const accountLinkScreen = ({navigation}) => {
                 <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
             </View>
             <ScrollView style={styles.appBody}>
-                {tempData.length === 0 ?
+                {accountList.length === 0 ?
                 <Text>등록된 계좌가 없습니다.</Text> :
-                tempData.map(item => {
-                    return <AccountItem key={item.accountId} accountId={item.accountId} accountBalance={item.accountBalance}
-                    accountCate={item.accountCate} accountNum={item.accountNum}/>;
+                accountList.map(item => {
+                    return <AccountItem key={item.fintech_use_num} accountAlias={item.account_alias}
+                    accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num}/>;
                 })}
             </ScrollView>
         </View>
+    )}
+    else{
+    return (
+        <View style={styles.appSize}>
+            <View style={styles.appTop}>
+                <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
+            </View>
+            <View style={styles.appListTitle}>
+                <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
+            </View>
+            <ScrollView style={styles.appBody}>
+                <View></View>
+            </ScrollView>
+        </View>
     )
+    }
 }
 
 export default accountLinkScreen;

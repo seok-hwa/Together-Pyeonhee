@@ -116,7 +116,7 @@ npm install styled-system
 ~~~
 ### 2.2. 관련 이슈
 1) 아이디 저장하기가 필요한가?
-2) 프록시 설정 필요
+
 <br>
 <br>
 <br>
@@ -184,11 +184,27 @@ npm install react-native-segmented-control-tab --save
 
 ## 7. 계좌 연동
 ### 7.1. 관련 패키지 설치
-#### 7.1.1. request(/server)
-~~~
-npm install request
-~~~
-#### 7.1.2. axios(/clinet)
+#### 7.1.1. axios(/client)
 ~~~
 npm install --save axios
+~~~
+
+<br>
+<br>
+<br>
+<br>
+
+## 8. 캘린더
+### 8.1. 관련 패키지 설치
+#### 8.1.1. moment(/client)
+~~~
+npm i moment
+~~~
+#### 8.1.2. prop-types(/client)
+~~~
+npm install --save prop-types
+~~~
+#### 8.1.3. calendars(/client)
+~~~
+npm install --save react-native-calendars
 ~~~

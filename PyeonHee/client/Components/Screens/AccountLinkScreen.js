@@ -91,11 +91,13 @@ class testScreen extends Component {
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){
-            console.log(userID, userPassword, '계좌 등록 완료');
+            console.log('계좌 등록 완료');
+            alert('계좌 등록이 완료되었습니다.');
           }else{
-            console.log(userID, userPassword, '계좌 등록 실패');
+            console.log('계좌 등록 실패');
+            alert('계좌 등록에 실패했습니다.');
           }
-          navigation.replace('자산');
+          this.props.navigation.goBack();
         })
         
       })

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './HomeScreen';
 import BudgetScreen from './BudgetScreen';
 import AssetsScreen from './AssetsScreen';
-import EctScreen from './EctScreen';
+import MyPageScreen from './MyPageScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +21,7 @@ const MainScreen = ({ navigation}) => {
             iconName = 'folder-outline';
           } else if (route.name === '자산') {
             iconName = 'card-outline';
-          } else if (route.name === '더보기') {
+          } else if (route.name === '마이페이지') {
             iconName = 'menu-outline';
           }
           return <Icon name={iconName} size={size} color={color} />;
@@ -33,7 +33,7 @@ const MainScreen = ({ navigation}) => {
         <Tab.Screen name="편히" component={HomeScreen} />
         <Tab.Screen name="가계부" component={BudgetScreen} />
         <Tab.Screen name="자산" component={AssetsScreen} />
-        <Tab.Screen name="더보기" component={EctScreen} />
+        <Tab.Screen name="마이페이지" component={MyPageScreen} />
       </Tab.Navigator>
   );
 };
