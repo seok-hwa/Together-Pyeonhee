@@ -36,7 +36,7 @@ const TransactionList = (props) => {
                 setLoading(true);
             })
         })
-    })  //-> 랜더링 문제 해결 필요
+    },[])  //-> 랜더링 문제 해결 필요
 
     return (
         <View>
