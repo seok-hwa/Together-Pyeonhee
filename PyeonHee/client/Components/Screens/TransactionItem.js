@@ -32,7 +32,7 @@ const AccountLogo = (props) => {
         return(
             <Image source={require('./assets/accounts/ibk.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === '제일은행'){
+    }else if(accountCate === 'SC제일은행'){
         return(
             <Image source={require('./assets/accounts/sc.png')} style={styles.accountImage}/>
         )
@@ -60,7 +60,7 @@ const AccountLogo = (props) => {
         return(
             <Image source={require('./assets/accounts/kakao.png')} style={styles.accountImage}/>
         )
-    }else if(accountCate === 'MG새마을금고'){
+    }else if(accountCate === '새마을금고'){
         return(
             <Image source={require('./assets/accounts/mg.png')} style={styles.accountImage}/>
         )
