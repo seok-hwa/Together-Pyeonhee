@@ -53,7 +53,7 @@ const BudgetItem = (props) => {
 
                 <View style={styles.item2}>
                     <Text>나이: {props.userAge}세</Text>
-                    <Text>수입: {props.userIncome}원</Text>
+                    <Text>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     <Text>직업: {props.userJob}</Text>
                     {/* <Text>고정지출: {props.userFixedExpense}원</Text>
                     <Text>변동지출: {props.userVariableExpense}원</Text> */}

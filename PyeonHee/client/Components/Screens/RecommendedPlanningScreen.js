@@ -389,7 +389,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                     </View>
                                     <View style={styles.textDiv} >
                                         <Text>수입: </Text>
-                                        <Text style={styles.textStyle}>{userIncome}원</Text> 
+                                        <Text style={styles.textStyle}>{userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
                                     </View>
                                     <View style={styles.textDiv} >
                                         <Text style={{marginTop: 3,}}>소비 성향 MBTI: </Text>
@@ -419,27 +419,27 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/rent.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>월세</Text>
-                                <Text style={styles.fixPlanMoneyText}>{rent}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/insurance.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>보험</Text>
-                                <Text style={styles.fixPlanMoneyText}>{insurance}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교육</Text>
-                                <Text style={styles.fixPlanMoneyText}>{education}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/communication.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>통신</Text>
-                                <Text style={styles.fixPlanMoneyText}>{communication}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/subscribe.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>구독</Text>
-                                <Text style={styles.fixPlanMoneyText}>{subscribe}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
                         <Text style={styles.fixTitle}>계획</Text>
@@ -447,32 +447,32 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/traffic.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>교통</Text>
-                                <Text style={styles.fixPlanMoneyText}>{traffic}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/medical.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>의료</Text>
-                                <Text style={styles.fixPlanMoneyText}>{medical}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/shopping.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>쇼핑</Text>
-                                <Text style={styles.fixPlanMoneyText}>{shopping}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/hobby.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>취미</Text>
-                                <Text style={styles.fixPlanMoneyText}>{hobby}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/event.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>경조사</Text>
-                                <Text style={styles.fixPlanMoneyText}>{event}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/ect.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>기타</Text>
-                                <Text style={styles.fixPlanMoneyText}>{ect}원</Text>
+                                <Text style={styles.fixPlanMoneyText}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
                     </View>

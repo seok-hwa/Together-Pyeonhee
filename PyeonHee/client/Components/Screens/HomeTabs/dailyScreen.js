@@ -125,9 +125,22 @@ const DailyScreen = (props) => {
                     
                     setSaving(responseJson);
     
-                    setLoading(true);
+                    setLoading(true);   //test
                 }) 
                 .then(()=>{
+                    /*
+                        fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
+                        .then((response)=>response.json())
+                        .then((responseJson)=>{
+                            console.log(responseJson);
+                            if(responseJson.status === 'success'){
+                            console.log('거래내역 저장 성공');
+                            }else{
+                            console.log('거래내역 저장 실패');
+                            }
+                        })
+                        setLoading(true);
+                    */
                 })
             })
         })
@@ -155,17 +168,17 @@ const DailyScreen = (props) => {
                                 <Text style={styles.savingLockerText}>저금통</Text>
                             </View>
                             <View style={styles.savingRightDiv}>
-                                <Text style={styles.savingPriceText}>+  {coinBank}원</Text>
+                                <Text style={styles.savingPriceText}>+  {coinBank.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
                         <View style={styles.exDiv}>
                             <View style={styles.exTopDiv}>
                                 <Text style={styles.exTitleDiv}>월 누적 지출:</Text>
-                                <Text style={styles.exText}>{monthMoney}원</Text>
+                                <Text style={styles.exText}>{monthMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.exBottomDiv}>
                                 <Text style={styles.exTitleDiv}>일일 잔여 예산:</Text> 
-                                <Text style={styles.exText}>{dailyMoney}원</Text>
+                                <Text style={styles.exText}>{dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
                     </View>
@@ -175,57 +188,57 @@ const DailyScreen = (props) => {
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>쇼핑</Text>
-                                <Text style={styles.priceTitle}>{shopping}원</Text>
+                                <Text style={styles.priceTitle}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/hobby.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>취미</Text>
-                                <Text style={styles.priceTitle}>{hobby}원</Text>
+                                <Text style={styles.priceTitle}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>교통</Text>
-                                <Text style={styles.priceTitle}>{traffic}원</Text>
+                                <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>통신</Text>
-                                <Text style={styles.priceTitle}>{communication}원</Text>
+                                <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/rent.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>월세</Text>
-                                <Text style={styles.priceTitle}>{rent}원</Text>
+                                <Text style={styles.priceTitle}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/insurance.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>보험</Text>
-                                <Text style={styles.priceTitle}>{insurance}원</Text>
+                                <Text style={styles.priceTitle}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/medical.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>의료</Text>
-                                <Text style={styles.priceTitle}>{medical}원</Text>
+                                <Text style={styles.priceTitle}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/education.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>교육</Text>
-                                <Text style={styles.priceTitle}>{education}원</Text>
+                                <Text style={styles.priceTitle}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>경조사</Text>
-                                <Text style={styles.priceTitle}>{event}원</Text>
+                                <Text style={styles.priceTitle}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>구독</Text>
-                                <Text style={styles.priceTitle}>{subscribe}원</Text>
+                                <Text style={styles.priceTitle}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/ect.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>기타</Text>
-                                <Text style={styles.priceTitle}>{ect}원</Text>
+                                <Text style={styles.priceTitle}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
                     </View>

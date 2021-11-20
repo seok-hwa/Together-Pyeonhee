@@ -117,7 +117,7 @@ const TransactionItem = (props) => {
             <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
             <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text></View>
             <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
-            <View style={styles.tranPrice}><Text style={styles.tranPriceFont}>{props.tranPrice}원</Text></View>
+            <View style={styles.tranPrice}><Text style={styles.tranPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             <View style={styles.tranCate}><Text style={styles.cateFont}>{props.tranCate}</Text></View>
         </View>
         </TouchableOpacity>

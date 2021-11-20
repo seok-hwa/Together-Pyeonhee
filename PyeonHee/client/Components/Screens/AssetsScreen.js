@@ -34,19 +34,6 @@ const AssetsScreen = ({navigation}) => {
         setUserID(tempID);
       }
     })
-    /*
-    .then(()=>{
-      fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
-      .then((response)=>response.json())
-      .then((responseJson)=>{
-        console.log(responseJson);
-        if(responseJson.status === 'success'){
-          console.log('거래내역 저장 성공');
-        }else{
-          console.log('거래내역 저장 실패');
-        }
-      })
-    })*/
   })
 
   const handleSingleIndexSelect = (index) => {
