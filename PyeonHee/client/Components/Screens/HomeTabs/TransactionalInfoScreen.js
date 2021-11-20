@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
 import TransactionItem from '../TransactionItem';
 import config from '../../../config';
 
 const url = config.url;
-const TransactionScreen = (props) => {
+const TransactionScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [tranlatestList, setTranLatestList] = useState([]);
     const [tranList, setTranList] = useState([]);
@@ -151,7 +151,7 @@ const TransactionScreen = (props) => {
                 <ScrollView style={{flex: 1,}}>
                     {tempLatestData.map(item => {
                         return <TransactionItem key={item.tranID} bankName={item.bankName} organizationName={item.organizationName} tranDate={item.tranDate} 
-                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID}
+                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID} navigation={navigation}
                         />})
                     }
                 </ScrollView>
@@ -168,7 +168,7 @@ const TransactionScreen = (props) => {
                 <ScrollView style={{flex: 1,}}>
                     {tempData.map(item => {
                         return <TransactionItem key={item.tranID} bankName={item.bankName} organizationName={item.organizationName} tranDate={item.tranDate} 
-                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID}
+                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID} navigation={navigation}
                         />})
                     }
                 </ScrollView>

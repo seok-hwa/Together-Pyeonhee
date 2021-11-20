@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import AccountItem from './AccountItem';
-import setCategoryScreen from './SetCategoryScreen';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
+import config from '../../config';
+import { SafeAreaView, StyleSheet, Text, View, Button, Image } from 'react-native';
 
+const url = config.url;
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
     if(accountCate === '농협'){
@@ -111,89 +111,95 @@ const AccountLogo = (props) => {
           )
       }
   }
-const TransactionItem = (props) => {
+
+const SetCategoryScreen = ({navigation, route}) => {
+    const [userID, setUserID] = useState('');
+    //route.params.tranID  거래 아이디 
+    useEffect(()=>{
+        AsyncStorage.getItem('userID', (err, result) => {
+            const tempID = result;
+            if(tempID!= null){
+                setUserID(tempID);
+            }
+        })
+    })
 
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {tranID: props.tranID, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate})}>
-        <View style={styles.TranContentBox}>
-            <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
-            <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text></View>
-            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
-            <View style={styles.tranPrice}><Text style={styles.tranPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-            <View style={styles.tranCate}><Text style={styles.cateFont}>{props.tranCate}</Text></View>
+        <View style={styles.appSize}>
+            <View style={styles.appOutBody}>
+            <AccountLogo bankName={route.params.bankName}/>
+            <View style={styles.appBody}>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>계좌 번호: </Text>
+                <Text style={styles.tranContent}>123412</Text>
+            </View>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>계좌 별명: </Text>
+                <Text style={styles.tranContent}>나나</Text>
+            </View>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>거래 일자: </Text>
+                <Text style={styles.tranContent}>{route.params.tranDate}</Text>
+            </View>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>거래 시간: </Text>
+                <Text style={styles.tranContent}>{route.params.tranTime}</Text>
+            </View>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>거래 금액: </Text>
+                <Text style={styles.tranContent}>{route.params.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+            </View>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle} >상호명: </Text>
+                <Text style={styles.tranContent}>{route.params.organizationName}</Text>
+            </View>
+            <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>종류: </Text>
+                <Text style={styles.tranContent}>{route.params.tranCate}</Text>
+            </View>
+            </View>
+            </View>
         </View>
-        </TouchableOpacity>
-    );
-};
+    )
+}
+
+export default SetCategoryScreen;
 
 const styles = StyleSheet.create({
-    BankNameDiv: {
-        width: 65,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftColor: 'gray',
+    appSize: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-    OrganizationNameDiv: {
-        flex: 2.5,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftColor: 'gray',
-    },
-    tranDate:{
-        flex: 3,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftColor: 'gray',
-
-    },
-    tranPrice:{
-        flex: 4,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftColor: 'gray',
-    },
-    tranCate:{
-        flex: 2,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftColor: 'gray',
-    },
-    TranBox: {
-        flex: 2,
+    appOutBody:{
         backgroundColor: 'white',
-        borderRadius: 5,
-        
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
     },
-    TranContentBox:{
-        height: 65,
+    appBody: {
+        margin: 30,
+    },
+    lowDiv: {
         flexDirection: 'row',
-        borderTopWidth: 1,
-        borderTopColor: 'gray',
+        width: 250,
+        marginTop: 10,
     },
     accountImage: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
+        width: 100,
+        height: 100,
+        borderRadius: 50,
         borderWidth: 1,
     },
-    BankFont: {
-        fontSize: 13,
+    tranTitle: {
+        fontSize: 17,
         fontWeight: 'bold',
-        textAlign: 'center',
+        width: 80,
     },
-    tranDateFont:{
-        fontSize: 11,
-        textAlign: 'center',
-    },
-    tranPriceFont:{
-        fontSize: 12,
+    tranContent: {
         textAlign: 'right',
-        fontWeight: 'bold',
-    },
-    cateFont:{
-        fontSize: 12,
-        textAlign: 'center',
+        width: 170,
+        fontSize: 17,
     },
 });
-
-export default TransactionItem;
