@@ -1,11 +1,13 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, TextInput } from 'react-native';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import { LocaleConfig } from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CalendarDayComponent from './calendarComponent/CalendarDayComponent';
 import moment from 'moment';
+
+import TransactionList from './calendarComponent/TransactionList';
 
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -25,7 +27,9 @@ class CalendarScreen extends React.Component {
 
     this.state = {
       calendarDate: calendarDate.format('YYYY-MM-DD'),
-      horizontal: false
+      horizontal: false,
+      dateChanged: moment().format('DD'),
+      dayChanged: moment().day(),
     };
 
     this.onPressListView = this.onPressListView.bind(this);
@@ -43,7 +47,12 @@ class CalendarScreen extends React.Component {
 
   onDayPress(date) {
     calendarDate = moment(date.dateString);
+    console.log(calendarDate);
     this.updateCalendarDate();
+    // console.log(date.day); //눌린 날짜
+
+    this.setState({ dateChanged: date.day }); 
+    this.setState({ dayChanged: date.day });
   }
 
   updateCalendarDate() {
@@ -76,8 +85,10 @@ class CalendarScreen extends React.Component {
                 hideExtraDays={true}
                 onMonthChange={(month) => {console.log('month changed', month)}}
                 monthFormat={'MM월'}
-                    
             />
+            <View style={styles.transactionContainer}>
+              <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged}/>
+            </View>
         </ScrollView>
     );
   }
@@ -96,4 +107,10 @@ const styles = StyleSheet.create({
         marginLeft: 15, 
         marginTop: 15,
     },
-});
+    transactionContainer: {
+      // backgroundColor: 'pink',
+      borderTopWidth: 5,
+      borderTopColor: '#F2F2F2',
+
+    }
+  });
