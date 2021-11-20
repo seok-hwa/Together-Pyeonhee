@@ -643,10 +643,14 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.query.userID)
                 var userID = req.query.userID;
                 //SELECT 컬럼 FROM 테이블 GROUP BY 그룹화할 컬럼 HAVING 조건식;
-                db.query(`SELECT sum(tran_amt) as daily_amount FROM real_expense GROUP BY tran_date HAVING user_id = ? `, [userID], function(error1, result){
-                    if(error) throw error;
-                    else if(result != 0) {
-                        console.log(result);
+                db.query(`SELECT tran_date, sum(tran_amt) as daily_amount FROM real_expense where user_id = ? and inout_type = '출금' GROUP BY tran_date; `, [userID], function(error1, result1){
+                    if(error1) throw error1;
+                    else if(result1 != 0) {
+                        console.log(result1);
+                        db.query(`SELECT tran_date, sum(tran_amt) as daily_amount FROM real_expense where user_id = ? and inout_type = '입금' GROUP BY tran_date; `, [userID], function(error2, result2){
+                            if(error2) throw error2;
+                            console.log(result2);
+                        });
                     }
                 })
             });
@@ -1074,7 +1078,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
                                                         after_balance_amt, branch_name], function (error, result) {
                                                             if (error) throw error;
-                                                            console.log("거래내역 DB저장완료");
+                                                            // console.log("거래내역 DB저장완료");
                                                             /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
                                                                 if (error) throw error;
                                                                 res.send(result);
