@@ -548,8 +548,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-             // 편히 메뉴의 데일리데이터의 권장소비금액과 카테고리별 금액
-             app.post(`/daily`, function(req, res){
+            // 편히 메뉴의 데일리데이터의 권장소비금액과 카테고리별 금액
+            app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
                 db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error, name){
@@ -562,24 +562,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                         BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
                         daily_data.available_money, daily_data.daily_spent_money, daily_data.rest_money 
                         FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                        where daily_data.user_id = ?`, [userID], function(error1, result1){
+                        where daily_data.user_id = ? order by planning_number desc;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else if(result1.length != 0){
                                 console.log(result1[0])
-                                db.query(`SELECT tran_type, tran_date, inout_type, sum(tran_amt) as daily_amount FROM real_expense  
-                                WHERE user_id = ? AND inout_type = '출금' GROUP BY tran_type, MID(tran_date,1,7);`, [userID], function(error2, result2){
+                                db.query(`SELECT available_money, daily_spend_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
+                                    var daily_money = result2[0].available_money;
+                                    var spend_money = result2[0].available_money - result2[0].daily_spend_money;
                                     if(error2) throw error2;
-                                    else if(result1[0].length != 0){
+                                    else if(result2[0].length != 0){
                                         console.log(result2[0]);
-                                        db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error3, result3){
+                                        db.query(`SELECT tran_type, tran_date, inout_type, sum(tran_amt) as daily_amount FROM real_expense  
+                                        WHERE user_id = ? AND inout_type = '출금' GROUP BY tran_type, MID(tran_date,1,7);`, [userID], function(error3, result3){
                                             if(error3) throw error3;
                                             else{
-                                                var daily_money = result3[0].available_money;
-                                                var spend_money = result3[0].available_money - result3[0].daily_spend_money;
                                                 data = {
                                                     userName : name,
-                                                    planamt : result1,
-                                                    realamt : result2,
+                                                    planamt : result1[0],
+                                                    realamt : result3,
                                                     daily_money : daily_money,
                                                     spend_money : spend_money
                                                 };
@@ -592,7 +592,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     else{
                                         data = {
                                             userName : name,
-                                            planamt : result1,
+                                            planamt : result1[0],
+                                            realamt : [],
+                                            daily_money : daily_money,
+                                            spend_money : spend_money,
                                         };
                                         res.send(data);
                                     }
@@ -600,7 +603,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 
                             } else{
                                 data = {
-                                    userName : name
+                                    userName : name,
+                                    planamt : result1[0],
+                                    realamt : [],
+                                    daily_money : 0,
+                                    spend_money : 0
                                 };
                                 res.send(data);
                             }
@@ -608,7 +615,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            
+
+        
             function Calculate_Daily_Money(result, result1){
                 var available_money;
                 var fixedExp;
@@ -993,7 +1001,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
-            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)_데일리업데이트
+            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)
             app.get('/saveTranHistory', function (req, res) {
                 var userID = req.query.userID;
                 db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
@@ -1045,29 +1053,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                             var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
                                                             var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
 
-                                                            db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? and fintech_use_num = ? and tran_date = ? and tran_time = ? limit 1) as success;`,
-                                                            [userID, fintechUseNum, tran_date, tran_time], function (error, result) {
-                                                                if (result[0].success == 0) {//한번도 연동하지 않은 계좌일때
-                                                                    db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                                                                    FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                                                                    FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                                                                    AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
-                                                                        [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                                        after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                                        after_balance_amt, branch_name], function (error, result) {
-                                                                                if (error) throw error;
-                                                                                //console.log("거래내역 DB저장완료");
-                                                                                /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                                                                    if (error) throw error;
-                                                                                    res.send(result);
-                                                                                    //console.log(result);
-                                                                                    console.log("거래내역 조회 완료 (거래내역 전송)");
-                                                                                });*/
-                                                                            });
-                                                                }
-                                                            });
+                                                            db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                                                            FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                                                            FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                                                            AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
+                                                            [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                            after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                            after_balance_amt, branch_name], function (error, result) {
+                                                                if (error) throw error;
+                                                                //console.log("거래내역 DB저장완료");
+                                                                /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                                                    if (error) throw error;
+                                                                    res.send(result);
+                                                                    //console.log(result);
+                                                                    console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                                });*/        
+                                                                });
                                                         }
                                                     }
                                                     /*else {
