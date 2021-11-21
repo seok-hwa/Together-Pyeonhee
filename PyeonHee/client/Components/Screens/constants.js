@@ -89,47 +89,47 @@ const INCOMES =[
 ];
 const CATEGORY =[
     {
-        value: 'shopping',
+        value: '쇼핑',
         label: '쇼핑',
     },
     {
-        value: 'hobby',
+        value: '취미',
         label: '취미',
     },
     {
-        value: 'traffic',
+        value: '교통',
         label: '교통',
     },
     {
-        value: 'communication',
+        value: '통신',
         label: '통신',
     },
     {
-        value: 'monthRent',
+        value: '월세',
         label: '월세',
     },
     {
-        value: 'insurance',
+        value: '보험',
         label: '보험',
     },
     {
-        value: 'medical',
+        value: '의료',
         label: '의료',
     },
     {
-        value: 'education',
+        value: '교육',
         label: '교육',
     },
     {
-        value: 'event',
+        value: '경조사',
         label: '경조사',
     },
     {
-        value: 'subscribe',
+        value: '구독',
         label: '구독',
     },
     {
-        value: 'etc',
+        value: '기타',
         label: '기타',
     },
 ];
