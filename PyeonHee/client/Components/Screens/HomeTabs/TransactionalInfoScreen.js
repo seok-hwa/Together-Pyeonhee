@@ -11,7 +11,6 @@ const TransactionScreen = ({navigation}) => {
     const [tranList, setTranList] = useState([]);
     const [loading, setLoading] = useState(false);
     
-    const fintechUseNum = ""; //이것만 넘겨줘도 ?
 
     //const inquiryType = "A";
     //const inquiryBase = "D";
@@ -32,13 +31,11 @@ const TransactionScreen = ({navigation}) => {
             console.log(tempID);
             setLoading(true);
             //for test
-            /*
             console.log(`${url}/latestTranList`);
             fetch(`${url}/latestTranList`, {
                 method: 'POST',
                 body: JSON.stringify({
                   userID: tempID,
-                  fintechUseNum: fintechUseNum,
                 }),
                 headers: {
                   'Accept': 'application/json',
@@ -58,7 +55,6 @@ const TransactionScreen = ({navigation}) => {
                     method: 'POST',
                     body: JSON.stringify({
                       userID: tempID,
-                      fintechUseNum: fintechUseNum,
                     }),
                     headers: {
                       'Accept': 'application/json',
@@ -74,10 +70,10 @@ const TransactionScreen = ({navigation}) => {
                     setLoading(true);
                 })
             })
-            */
         })
     },[])
     //for test
+    /*
     const tempLatestData = [
         {
             tranID: 1,
@@ -115,7 +111,8 @@ const TransactionScreen = ({navigation}) => {
             tranPrice: 3000,
             tranCate: '생활',
         },
-    ]
+    ]*/
+    /*
     const tempData = [
         {
             tranID: 5,
@@ -135,7 +132,7 @@ const TransactionScreen = ({navigation}) => {
             tranPrice: 200000,
             tranCate: '생활',
         },
-    ]
+    ]*/
     if(loading === true){
     return (
         <View style={styles.appSize}>
@@ -149,9 +146,10 @@ const TransactionScreen = ({navigation}) => {
                     <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
                 </View>
                 <ScrollView style={{flex: 1,}}>
-                    {tempLatestData.map(item => {
-                        return <TransactionItem key={item.tranID} bankName={item.bankName} organizationName={item.organizationName} tranDate={item.tranDate} 
-                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID} navigation={navigation}
+                    {tranlatestList.map((item, index) => {
+                        return <TransactionItem key={index} bankName={item.bank_name} organizationName={item.branch_name} tranDate={item.tran_date} 
+                        tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
+                        inputType={item.inout_type} fintech={item.fintech_use_num}
                         />})
                     }
                 </ScrollView>
@@ -166,9 +164,10 @@ const TransactionScreen = ({navigation}) => {
                     <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
                 </View>
                 <ScrollView style={{flex: 1,}}>
-                    {tempData.map(item => {
-                        return <TransactionItem key={item.tranID} bankName={item.bankName} organizationName={item.organizationName} tranDate={item.tranDate} 
-                        tranPrice={item.tranPrice} tranTime={item.tranTime} tranCate={item.tranCate} tranID={item.tranID} navigation={navigation}
+                    {tranList.map(item => {
+                        return <TransactionItem key={index} bankName={item.bank_name} organizationName={item.branch_name} tranDate={item.tran_date} 
+                        tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
+                        inputType={item.inout_type} fintech={item.fintech_use_num}
                         />})
                     }
                 </ScrollView>

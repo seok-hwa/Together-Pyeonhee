@@ -1054,6 +1054,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     [userID, now], function (error, result) {
                         if (error) throw error;
                         else {
+                            console.log('최근');
                             console.log(result);
                             res.send(result);
                         }
@@ -1068,22 +1069,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                     [userID], function (error, result) {
                         if (error) throw error;
                         else {
+                            console.log('거래');
                             console.log(result);
                             res.send(result);
                         }
                     });
             });
 
-            /*
             // 카테고리 설정
             app.post('/update_category', function (req, res) {
                 console.log("/update_category 카테고리 변경");
                 var userID = req.body.userID;
-                var tranID = req.body.tranID; // tranID가 fintech_use_num ? 
+                var tranID = req.body.fintech; // tranID가 fintech_use_num ? 
                 var tranCate = req.body.tranCate;
                 
-                //var tranDate = req.body.tranDate;
-                //var tranTime = req.body.tranTime;
+                var tranDate = req.body.tranDate;
+                var tranTime = req.body.tranTime;
                 
                 db.query(`UPDATE real_expense SET state = 1, tran_type = ? WHERE user_id = ? AND fintech_use_num =? 
                 AND tran_date = ? AND tran_time =?`, [tranCate, userID, tranID, tranDate, tranTime], function (error, result) {
@@ -1097,7 +1098,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                     });
             });
-            */
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
