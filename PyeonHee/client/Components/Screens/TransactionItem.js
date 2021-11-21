@@ -114,11 +114,11 @@ const AccountLogo = (props) => {
 const TransactionItem = (props) => {
 
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {tranID: props.tranID, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate})}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate})}>
         <View style={styles.TranContentBox}>
             <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
             <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text></View>
-            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
+            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate.substring(0,10)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
             <View style={styles.tranPrice}><Text style={styles.tranPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             <View style={styles.tranCate}><Text style={styles.cateFont}>{props.tranCate}</Text></View>
         </View>

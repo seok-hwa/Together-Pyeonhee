@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default TransactionList; 
+export default TransactionList;

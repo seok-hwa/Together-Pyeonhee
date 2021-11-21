@@ -145,8 +145,10 @@ const SetCategoryScreen = ({navigation, route}) => {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
-            tranID: route.params.tranID ,
+            fintech: route.params.fintech,
             tranCate: category,
+            tranDate: route.params.tranDate,
+            tranTime: route.params.tranTime,
           }),
           headers: {
             'Accept': 'application/json',
@@ -194,7 +196,7 @@ const SetCategoryScreen = ({navigation, route}) => {
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>거래 일자: </Text>
-                <Text style={styles.tranContent}>{route.params.tranDate}</Text>
+                <Text style={styles.tranContent}>{route.params.tranDate.substring(0,10)}</Text>
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>거래 시간: </Text>
