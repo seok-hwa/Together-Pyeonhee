@@ -79,11 +79,15 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 console.log(result);
                                 if(error2) throw error2;
                                 else {
-                                    const data = {
-                                        status : 'success',
-                                    }
-                                    console.log(data);
-                                    res.send(data);
+                                    db.query(`insert into daily_data(user_id, available_money, daily_spent_money, rest_money)
+                                    values(?, 0, 0, 0)`, [userID], function(error2, check){
+                                        const data = {
+                                            status : 'success',
+                                        }
+                                        console.log(data);
+                                        res.send(data);
+                                    });
+                                    
                                 }
                             });
                         }
