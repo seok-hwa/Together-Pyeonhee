@@ -75,7 +75,7 @@ const DailyScreen = (props) => {
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log(responseJson);
-                if(responseJson.planamt.length === 0 && responseJson.realamt.length === 0){
+                if((responseJson.planamt.length === 0 && responseJson.realamt.length === 0) || responseJson.length === 0){
                     setIsCompleted(false);
                 }else{
                     console.log('이름', responseJson.userName[0].name);
@@ -230,7 +230,7 @@ const DailyScreen = (props) => {
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
-                            <View style={styles.itemDiv}>rr
+                            <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>통신</Text>
                                 <Text style={styles.realPriceTitle}>{realCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
