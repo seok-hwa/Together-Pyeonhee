@@ -950,7 +950,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
-            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)
+            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)_데일리업데이트
             app.get('/saveTranHistory', function (req, res) {
                 var userID = req.query.userID;
                 db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
@@ -1002,24 +1002,29 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                             var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
                                                             var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
 
-                                                            db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                                                            FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                                                            FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                                                            AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
-                                                            [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                            after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                            after_balance_amt, branch_name], function (error, result) {
-                                                                if (error) throw error;
-                                                                //console.log("거래내역 DB저장완료");
-                                                                /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                                                    if (error) throw error;
-                                                                    res.send(result);
-                                                                    //console.log(result);
-                                                                    console.log("거래내역 조회 완료 (거래내역 전송)");
-                                                                });*/        
-                                                                });
+                                                            db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? and fintech_use_num = ? and tran_date = ? and tran_time = ? limit 1) as success;`,
+                                                            [userID, fintechUseNum, tran_date, tran_time], function (error, result) {
+                                                                if (result[0].success == 0) {//한번도 연동하지 않은 계좌일때
+                                                                    db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                                                                    FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                                                                    FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                                                                    AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
+                                                                        [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                        after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                        after_balance_amt, branch_name], function (error, result) {
+                                                                                if (error) throw error;
+                                                                                //console.log("거래내역 DB저장완료");
+                                                                                /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                                                                    if (error) throw error;
+                                                                                    res.send(result);
+                                                                                    //console.log(result);
+                                                                                    console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                                                });*/
+                                                                            });
+                                                                }
+                                                            });
                                                         }
                                                     }
                                                     /*else {
