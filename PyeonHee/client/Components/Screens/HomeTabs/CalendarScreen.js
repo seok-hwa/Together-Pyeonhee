@@ -153,10 +153,6 @@ class CalendarScreen extends React.Component {
                 monthFormat={'MM월'}
             />
             <View style={styles.transactionContainer}>
-              {/* {this.state.isPressed === true && 
-                <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
-                isChanged={this.state.isPressed}/>
-              } */}
               <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
               isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction}/>
             </View>
