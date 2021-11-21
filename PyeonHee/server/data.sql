@@ -138,7 +138,7 @@ values ('user51', '1234', 'user51', 'ICOM', 23, 'DIAMOND', 2500000, 'service');
 insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_income, user_savings, 
 monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
 shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
-values ('user51', 'ICOE', 23, 647, 2700000, 700000, 0, 100000, 100000, 0, 300000, 500000, 0, 0, 200000, 0, 50000);
+values ('user51', 'ICOM', 23, 490, 2700000, 700000, 0, 100000, 100000, 0, 300000, 500000, 0, 0, 200000, 0, 50000);
 insert into Savings(user_id, saving_name, savings_money, start_date, finish_date, all_savings_money)
 values ('user51', '내집마련', 500000, '2021-06-01 00:00:00', '2027-05-31 00:00:00', 3000000);
 insert into Savings(user_id, saving_name, savings_money, start_date, finish_date, all_savings_money)
