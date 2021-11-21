@@ -562,24 +562,25 @@ const SSHConnection = new Promise((resolve, reject) => {
                         BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
                         daily_data.available_money, daily_data.daily_spent_money, daily_data.rest_money 
                         FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                        where daily_data.user_id = ?`, [userID], function(error1, result1){
+                        where daily_data.user_id = ? order by planning_number desc;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else if(result1.length != 0){
                                 console.log(result1[0])
-                                db.query(`SELECT tran_type, tran_date, inout_type, sum(tran_amt) as daily_amount FROM real_expense  
-                                WHERE user_id = ? AND inout_type = '출금' GROUP BY tran_type, MID(tran_date,1,7);`, [userID], function(error2, result2){
+                                db.query(`SELECT available_money, daily_spend_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
+                                    var daily_money = result2[0].available_money;
+                                    var spend_money = result2[0].available_money - result2[0].daily_spend_money;
                                     if(error2) throw error2;
-                                    else if(result1[0].length != 0){
+                                    else if(result2[0].length != 0){
                                         console.log(result2[0]);
-                                        db.query(`SELECT available_money, daily_spend_money FROM daily_data WHERE user_id = ?`, [userID], function(error3, result3){
+                                        db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
+                                        WHERE user_id = ? AND inout_type = '출금' GROUP BY tran_type, MID(tran_date,1,7);`, [userID], function(error3, result3){
                                             if(error3) throw error3;
                                             else{
-                                                var daily_money = result3[0].available_money;
-                                                var spend_money = result3[0].available_money - result3[0].daily_spend_money;
+                                                
                                                 data = {
                                                     userName : name,
-                                                    planamt : result1,
-                                                    realamt : result2,
+                                                    planamt : result1[0],
+                                                    realamt : result3,
                                                     daily_money : daily_money,
                                                     spend_money : spend_money
                                                 };
@@ -592,7 +593,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     else{
                                         data = {
                                             userName : name,
-                                            planamt : result1
+                                            planamt : result1,
+                                            realamt : [],
+                                            daily_money : daily_money,
+                                            spend_money : spend_money
                                         };
                                         res.send(data);
                                     }
@@ -600,7 +604,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 
                             } else{
                                 data = {
-                                    userName : name
+                                    userName : name,
+                                    planamt : [],
+                                    realamt : [],
+                                    daily_money : [],
+                                    spend_money : []
                                 };
                                 res.send(data);
                             }
@@ -608,7 +616,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            
+
             function Calculate_Daily_Money(result, result1){
                 var available_money;
                 var fixedExp;
