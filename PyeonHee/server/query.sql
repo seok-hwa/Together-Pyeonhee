@@ -357,7 +357,7 @@ create table real_expense
     fintech_use_num varchar(25) not null,
     bank_name varchar(10) not null,
     balance_amt int default 0,
-    tran_date date not null,
+    tran_date varchar(11) not null,
     tran_time time not null,
     inout_type varchar(2) not null,
     tran_type varchar(10) not null,
