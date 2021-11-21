@@ -583,7 +583,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     daily_money : daily_money,
                                                     spend_money : spend_money
                                                 };
-                                                console.log(data);
+                                                console.log('이거', data);
                                                 res.send(data);
                                             }
                                         })
@@ -595,7 +595,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             planamt : result1[0],
                                             realamt : [],
                                             daily_money : daily_money,
-                                            spend_money : spend_money
+                                            spend_money : spend_money,
                                         };
                                         res.send(data);
                                     }
@@ -604,7 +604,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             } else{
                                 data = {
                                     userName : name,
-                                    planamt : result1[0],
+                                    planamt : [],
                                     realamt : [],
                                     daily_money : 0,
                                     spend_money : 0
