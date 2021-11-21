@@ -194,8 +194,8 @@ const WriteBudgetScreen = ({navigation}) => {
             
           if(responseJson.status === 'success'){
             console.log('제출 완료!!!!!!');
-            // navigation.replace('Main');
-            navigation.goBack();
+            navigation.replace('Main');
+            // navigation.goBack();
           }else{
             console.log('fail to submit.');
           }
