@@ -26,8 +26,22 @@ const DailyScreen = (props) => {
     const [ect, setEct] = useState(5000);
     const [subscribe, setSubscribe] = useState(0);
 
+    const [realRent, setRealRent] = useState(1000);
+    const [realEducation, setRealEducation] = useState(2000);
+    const [realTraffic, setRealTraffic] = useState(3000);
+    const [realShopping, setRealShopping] = useState(4000);
+    const [realHobby, setRealHobby] = useState(5000);
+    const [realInsurance, setRealInsurance] = useState(1000);
+    const [realMedical, setRealMedical] = useState(2000);
+    const [realCommunication, setRealCommunication] = useState(2000);
+    const [realEvent, setRealEvent] = useState(3000);
+    const [realEct, setRealEct] = useState(5000);
+    const [realSubscribe, setRealSubscribe] = useState(0);
+
     const [coinBank, setCoinBank] = useState(3000);
-    const [dailyMoney, setDailyMoney] = useState(1000);
+
+    const [dailyRestMoney, setDailyRestMoney] = useState(1000);
+    const [dailyAvailableMoney, setDailyAvailableMoney] = useState(0);
     const [monthMoney, setMonthMoney] = useState(1000);
 
     const [saving, setSaving] = useState([]);
@@ -75,25 +89,40 @@ const DailyScreen = (props) => {
                 if(responseJson.length === 0){
                     setIsCompleted(false);
                 }else{
-                    setDailyMoney(responseJson.available_money);
-                    setCoinBank(responseJson.rest_money);
+                    console.log('이름', responseJson.userName[0].name);
+                    setUserName(responseJson.userName[0].name);
 
-                    setEducation(responseJson.education_expense);
-                    setTraffic(responseJson.transportation_expense);
-                    setShopping(responseJson.shopping_expense);
-                    setHobby(responseJson.leisure_expense);
-                    setInsurance(responseJson.insurance_expense);
-                    setMedical(responseJson.medical_expense);
-                    setRent(responseJson.monthly_rent);
-                    setCommunication(responseJson.communication_expense);
-                    setEct(responseJson.etc_expense);
-                    setEvent(responseJson.event_expense);
-                    setSubscribe(responseJson.subscribe_expense);
+                    setCoinBank(responseJson.planamt.rest_money);
+                    setDailyRestMoney(responseJson.planamt.available_money - responseJson.planamt.daily_spent_money);
+                    setDailyAvailableMoney(responseJson.planamt.available_money);
 
-                    let total = responseJson.education_expense+responseJson.transportation_expense+
-                    responseJson.shopping_expense+responseJson.leisure_expense+responseJson.insurance_expense+
-                    responseJson.medical_expense+responseJson.monthly_rent+responseJson.communication_expense+
-                    responseJson.etc_expense+responseJson.event_expense;
+                    setEducation(responseJson.planamt.education_expense);
+                    setTraffic(responseJson.planamt.transportation_expense);
+                    setShopping(responseJson.planamt.shopping_expense);
+                    setHobby(responseJson.planamt.leisure_expense);
+                    setInsurance(responseJson.planamt.insurance_expense);
+                    setMedical(responseJson.planamt.medical_expense);
+                    setRent(responseJson.planamt.monthly_rent);
+                    setCommunication(responseJson.planamt.communication_expense);
+                    setEct(responseJson.planamt.etc_expense);
+                    setEvent(responseJson.planamt.event_expense);
+                    setSubscribe(responseJson.planamt.subscribe_expense);
+
+                    setRealEducation(responseJson.realamt[0].daily_amount);
+                    setRealTraffic(responseJson.realamt[0].daily_amount);
+                    setRealShopping(responseJson.realamt[4].daily_amount);
+                    setRealHobby(responseJson.realamt[0].daily_amount);
+                    setRealInsurance(responseJson.realamt[0].daily_amount);
+                    setRealMedical(responseJson.realamt[0].daily_amount);
+                    setRealRent(responseJson.realamt[0].daily_amount);
+                    setRealCommunication(responseJson.realamt[0].daily_amount);
+                    setRealEct(responseJson.realamt[0].daily_amount);
+                    setRealEvent(responseJson.realamt[0].daily_amount);
+                    setRealSubscribe(responseJson.realamt[0].daily_amount);
+
+                    let total = Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount)+
+                    Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+
+                    Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount);
                     setMonthMoney(total);
 
                     var now = new Date();	// 현재 날짜 및 시간
@@ -176,11 +205,11 @@ const DailyScreen = (props) => {
                             </View>
                             <View style={styles.exBottomDiv}>
                                 <Text style={styles.exTitleDiv}>일일 권장 금액:</Text> 
-                                <Text style={styles.exText}>0원</Text>
+                                <Text style={styles.exText}>{dailyAvailableMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.exBottomDiv}>
                                 <Text style={styles.exTitleDiv}>일일 잔여 예산:</Text> 
-                                <Text style={styles.exText}>{dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <Text style={styles.exText}>{dailyRestMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
                     </View>
@@ -190,77 +219,77 @@ const DailyScreen = (props) => {
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>쇼핑</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/hobby.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>취미</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>교통</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>통신</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/rent.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>월세</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/insurance.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>보험</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/medical.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>의료</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/education.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>교육</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>경조사</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>구독</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/ect.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>기타</Text>
-                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.realPriceTitle}>{realEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>

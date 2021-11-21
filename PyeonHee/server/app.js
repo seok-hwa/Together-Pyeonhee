@@ -566,7 +566,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             if(error1) throw error1;
                             else if(result1.length != 0){
                                 console.log(result1[0])
-                                db.query(`SELECT available_money, daily_spend_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
+                                db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                     var daily_money = result2[0].available_money;
                                     var spend_money = result2[0].available_money - result2[0].daily_spend_money;
                                     if(error2) throw error2;
@@ -583,7 +583,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     daily_money : daily_money,
                                                     spend_money : spend_money
                                                 };
-                                                console.log(data);
+                                                console.log('이거', data);
                                                 res.send(data);
                                             }
                                         })
@@ -604,7 +604,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             } else{
                                 data = {
                                     userName : name,
-                                    planamt : result1[0],
+                                    planamt : [],
                                     realamt : [],
                                     daily_money : 0,
                                     spend_money : 0
