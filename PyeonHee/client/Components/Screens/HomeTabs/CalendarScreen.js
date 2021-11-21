@@ -38,6 +38,7 @@ class CalendarScreen extends React.Component {
       isPressed: true,
       todayTransaction: [],
       monthlyData: {},
+      loading: false,
     };
 
     this.onPressListView = this.onPressListView.bind(this);
@@ -72,7 +73,7 @@ class CalendarScreen extends React.Component {
       isPressed: true,
      });
 
-    console.log(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`);
+    console.log(`야야 ${url}/calendar/click?userID=${this.state.userID}&today=${temp}`);
     fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`)   //get 오늘 날짜도 보내주기
     .then((response)=>response.json())
     .then((responseJson)=>{
@@ -114,6 +115,24 @@ class CalendarScreen extends React.Component {
 
           this.setState({ monthlyData: responseJson});
           // setLoading(true);
+        })
+        .then(()=>{
+          let dayChanged = moment().format('YYYYMMDD');
+          fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${dayChanged}`)   //get 오늘 날짜도 보내주기
+          .then((response)=>response.json())
+          .then((responseJson)=>{
+                    console.log('오늘의 거래 내역');
+                    console.log(responseJson);
+
+                    this.setState({
+                      todayTransaction: responseJson,
+              })
+
+              console.log(this.state.todayTransaction);
+          })
+          .then(()=>{
+            this.setState({loading: true,});
+          })
         })  
         .catch((error) => {
           console.log(error)
@@ -123,7 +142,7 @@ class CalendarScreen extends React.Component {
 
   render () {   
     // const {closeUpdate} = this.closeUpdate;
-
+    if(this.state.loading === true){
     return (
         <ScrollView style={styles.appSize}>
             <Calendar
@@ -157,8 +176,42 @@ class CalendarScreen extends React.Component {
               isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction}/>
             </View>
         </ScrollView>
-    );
-  }
+      );
+    }else{
+      return(
+      <ScrollView style={styles.appSize}>
+            <Calendar
+                current={this.state.calendarDate}
+
+                dayComponent={CalendarDayComponent}
+
+                // onPressListView={this.onPressListView}
+                // onPressGridView={this.onPressGridView}
+
+
+                //for test
+                // markedDates={{
+                //   '2021-11-19': {sum: 2000},
+                //   '2021-11-20': {sum: -2125000},
+                //   '2021-11-25': {sum: 0},
+                //   '2021-11-26': {sum: 5000}
+                // }}
+
+                markedDates={this.state.monthlyData}
+
+
+
+                onDayPress={this.onDayPress}
+                hideExtraDays={true}
+                onMonthChange={(month) => {console.log('month changed', month)}}
+                monthFormat={'MM월'}
+            />
+            <View style={styles.transactionContainer}>
+            </View>
+        </ScrollView>
+      )
+    }
+}
 }
 
 export default CalendarScreen;

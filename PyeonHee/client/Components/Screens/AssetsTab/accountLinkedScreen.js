@@ -18,6 +18,7 @@ import {
     Button,
     TouchableOpacity,
     TextInput,
+    FlatList,
 } from 'react-native';
 
 const url = config.url;
@@ -118,39 +119,39 @@ const accountLinkScreen = ({navigation}) => {
     }
 
     if(loading === true){
-    return (
-        <View style={styles.appSize}>
-            <View style={styles.appTop}>
-                <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
-                <TerminateAccountButton onPress={terminateAccount}/>
+        return (
+            <View style={styles.appSize}>
+                <View style={styles.appTop}>
+                    <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
+                    <TerminateAccountButton onPress={terminateAccount}/>
+                </View>
+                <View style={styles.appListTitle}>
+                    <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
+                </View>
+                <ScrollView style={styles.appBody}>
+                    {accountList.length === 0 ?
+                    <Text>등록된 계좌가 없습니다.</Text> :
+                    accountList.map(item => {
+                        return <AccountItem key={item.fintech_use_num} accountAlias={item.account_alias}
+                        accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num}/>;
+                    })}
+                </ScrollView>
             </View>
-            <View style={styles.appListTitle}>
-                <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
+        )}
+        else{
+        return (
+            <View style={styles.appSize}>
+                <View style={styles.appTop}>
+                </View>
+                <View style={styles.appListTitle}>
+                    <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
+                </View>
+                <ScrollView style={styles.appBody}>
+                    <View></View>
+                </ScrollView>
             </View>
-            <ScrollView style={styles.appBody}>
-                {accountList.length === 0 ?
-                <Text>등록된 계좌가 없습니다.</Text> :
-                accountList.map(item => {
-                    return <AccountItem key={item.fintech_use_num} accountAlias={item.account_alias}
-                    accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num}/>;
-                })}
-            </ScrollView>
-        </View>
-    )}
-    else{
-    return (
-        <View style={styles.appSize}>
-            <View style={styles.appTop}>
-            </View>
-            <View style={styles.appListTitle}>
-                <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
-            </View>
-            <ScrollView style={styles.appBody}>
-                <View></View>
-            </ScrollView>
-        </View>
-    )
-    }
+        )
+        }
 }
 
 export default accountLinkScreen;

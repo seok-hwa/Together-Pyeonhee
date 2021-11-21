@@ -25,7 +25,6 @@ const TransactionList = (props) => {
             }
         })
         .then(()=>{
-            console.log(tempID);
         })
     }, [])  //-> 랜더링 문제 해결 필요
 
