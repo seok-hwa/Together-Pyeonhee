@@ -55,23 +55,23 @@ const MyPageScreen = ({navigation}) => {
         })
     }, []) 
     function TierImage(){
-        if(userTier === 'Bronze'){
+        if(userTier === 'BRONZE'){
             return(
                 <Image source={require('./assets/tier/Bronze_single.png')} style={styles.tierDesign}/>
             )
-        }else if(userTier === 'Silver'){
+        }else if(userTier === 'SILVER'){
             return(
                 <Image source={require('./assets/tier/Silver_single.png')} style={styles.tierDesign}/>
             )
-        }else if(userTier === 'Gold'){
+        }else if(userTier === 'GOLD'){
             return(
                 <Image source={require('./assets/tier/Gold_single.png')} style={styles.tierDesign}/>
             )
-        }else if(userTier === 'Platinum'){
+        }else if(userTier === 'PLATINUM'){
             return(
                 <Image source={require('./assets/tier/Platinum_single.png')} style={styles.tierDesign}/>
             )
-        }else if(userTier === 'Diamond'){
+        }else if(userTier === 'DIAMOND'){
             return(
                 <Image source={require('./assets/tier/Diamond_single.png')} style={styles.tierDesign}/>
             )
