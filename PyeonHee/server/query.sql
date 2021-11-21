@@ -16,7 +16,7 @@ create table stamp (
     diff int not null,
     description text,
     primary key (user_id,record_time),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references user (user_id) on delete cascade
 );
 
 create table point (
@@ -25,7 +25,7 @@ create table point (
     diff int not null,
     description text,
     primary key (user_id,record_time),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references user (user_id) on delete cascade
 );
 
 create table BudgetPlanning (
@@ -52,7 +52,7 @@ create table BudgetPlanning (
     state int default 0,
 
     primary key (planning_number),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references user (user_id) on delete cascade
 );
 /*
 create table Savings ( 
@@ -83,7 +83,7 @@ create table Savings (
     finish_date datetime default current_timestamp,
     all_savings_money int default 0,
     primary key (saving_number),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references user (user_id) on delete cascade
 );
 
 create table Storage (
@@ -91,7 +91,7 @@ create table Storage (
     planning_number int not null,
 
     primary key (user_id, planning_number),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references user (user_id) on delete cascade
 
 );
 
@@ -155,7 +155,7 @@ create table Reservation (
     checked boolean default false,
 
     primary key (consult_number),
-    foreign key (user_id) references user (user_id)
+    foreign key (user_id) references user (user_id) on delete cascade
 );
 /*
 insert into pyeonhee.user(id, name, mbti, age)
@@ -279,7 +279,7 @@ create table daily_data
     rest_money int not null,
 
     primary key (user_id),
-    foreign key (user_id) references user(user_id)
+    foreign key (user_id) references user(user_id) on delete cascade
 );
 
 
@@ -322,7 +322,7 @@ where user_id = 'abcd'
 
     primary key (user_id, planning_number),
     foreign key (user_id) references user (user_id),
-    foreign key (planning_number) references BudgetPlanning (planning_number)
+    foreign key (planning_number) references BudgetPlanning (planning_number) on delete cascade
 );
 
 create table openBankingUser (
