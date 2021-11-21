@@ -427,11 +427,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 <Text style={styles.fixPlanMoneyText}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>교육</Text>
-                                <Text style={styles.fixPlanMoneyText}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
                                 <Image source={require('./assets/category/communication.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>통신</Text>
                                 <Text style={styles.fixPlanMoneyText}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
@@ -453,6 +448,11 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             <Image source={require('./assets/category/medical.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>의료</Text>
                                 <Text style={styles.fixPlanMoneyText}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                            </View>
+                            <View style={styles.fixInnerDiv}>
+                                <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
+                                <Text style={styles.fixCate}>교육</Text>
+                                <Text style={styles.fixPlanMoneyText}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
                             <Image source={require('./assets/category/shopping.png')} style={styles.iconDiv}/>
@@ -669,7 +669,7 @@ const styles = StyleSheet.create({
     fixBody:{
         marginLeft: 30,
         marginRight: 30,
-        height: 130,
+        height: 110,
         borderRadius: 3,
         alignItems: 'center',
     },
@@ -683,7 +683,7 @@ const styles = StyleSheet.create({
     planBody:{
         marginLeft: 30,
         marginRight: 30,
-        height: 170,
+        height: 190,
         borderRadius: 3,
         alignItems: 'center',
     },

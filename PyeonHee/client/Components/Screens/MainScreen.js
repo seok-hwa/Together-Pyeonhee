@@ -5,11 +5,12 @@ import HomeScreen from './HomeScreen';
 import BudgetScreen from './BudgetScreen';
 import AssetsScreen from './AssetsScreen';
 import MyPageScreen from './MyPageScreen';
-
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 const Tab = createBottomTabNavigator();
 
 const MainScreen = ({ navigation}) => {
   return (
+    <Root>
       <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({color, size }) => {
@@ -35,6 +36,7 @@ const MainScreen = ({ navigation}) => {
         <Tab.Screen name="자산" component={AssetsScreen} />
         <Tab.Screen name="마이페이지" component={MyPageScreen} />
       </Tab.Navigator>
+      </Root>
   );
 };
 
