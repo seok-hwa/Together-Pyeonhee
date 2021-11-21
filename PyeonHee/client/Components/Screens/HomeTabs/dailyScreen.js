@@ -100,7 +100,10 @@ const DailyScreen = (props) => {
                     }
 
                     if(responseJson.realamt.length != 0){
+                        let tempMonthMoney=0;
                         responseJson.realamt.map(item  => {
+                            tempMonthMoney=tempMonthMoney+Number(item.daily_amount);
+                            console.log('monthmoney=', monthMoney);
                             if(item.tran_type === '쇼핑'){
                                 setRealShopping(item.daily_amount);
                             }else if(item.tran_type === '교통'){
@@ -109,11 +112,11 @@ const DailyScreen = (props) => {
                                 setRealSubscribe(item.daily_amount);
                             }else if(item.tran_type === '통신'){
                                 setRealCommunication(item.daily_amount);
-                            }else if(item.tran_type === '취미'){
+                            }else if(item.tran_type === '여가'){
                                 setRealHobby(item.daily_amount);
                             }else if(item.tran_type === '교육'){
                                 setRealEducation(item.daily_amount);
-                            }else if(item.tran_type === '경조사'){
+                            }else if(item.tran_type === '선물'){
                                 setRealEvent(item.daily_amount);
                             }else if(item.tran_type === '보험'){
                                 setRealInsurance(item.daily_amount);
@@ -127,10 +130,7 @@ const DailyScreen = (props) => {
                                 setRealEct(item.daily_amount);
                             }
                         })
-                        let total = Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount)+
-                        Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+
-                        Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount);
-                        setMonthMoney(total);
+                        setMonthMoney(tempMonthMoney);
                     }
 
 
@@ -434,11 +434,11 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     savingDiv:{
-        flex: 1,
+        flex: 3,
         flexDirection: 'row',
     },
     exDiv:{
-        flex: 1,
+        flex: 4,
     },
     savingLeftDiv:{
         flexDirection: 'column',
@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     exText: {
-        width: 75,
+        width: 90,
         textAlign: 'right',
         fontSize: 13,
     },
