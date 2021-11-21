@@ -156,7 +156,7 @@ const WriteBudgetScreen = ({navigation}) => {
     }
 
     const handleSaveButton = () => {
-        var tempTotal = parseInt(savings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
+        var tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
         console.log('수입');
         console.log(income)
         console.log('유효성검사 1');
@@ -193,7 +193,7 @@ const WriteBudgetScreen = ({navigation}) => {
             body: JSON.stringify({
                 userID: userID,
                 income: income,
-                savings: savings,
+                savings: sumOfSavings,
                 fixedExpenditure: fixedExpenditure,
                 plannedExpenditure: plannedExpenditure,
                 monthlyRent: monthlyRent,
