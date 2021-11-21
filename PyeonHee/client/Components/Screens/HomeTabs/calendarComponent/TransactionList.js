@@ -40,7 +40,7 @@ const TransactionList = (props) => {
                 { props.todayTransaction.length === 0 ?
                     <Text>거래 내역이 없습니다.</Text> :
                     props.todayTransaction.map((item, index) => {
-                        return <TransactionItem key={index} name={item.tran_type} inout={item.inout_type} money={item.tran_amt}/>;
+                        return <TransactionItem key={index} name={item.print_content} type={item.tran_type} inout={item.inout_type} money={item.tran_amt}/>;
                 })}
                 
             </View>
