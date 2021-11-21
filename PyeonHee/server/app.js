@@ -476,9 +476,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                         db.query(`INSERT INTO BudgetPlanning(user_id, user_mbti, user_age,user_income, user_savings, monthly_rent,
                             insurance_expense,transportation_expense,communication_expense,
                             leisure_expense, shopping_expense ,education_expense, medical_expense,
-                            event_expense, etc_expense) 
+                            event_expense, etc_expense, subscribe_expense) 
                             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
-                                insurance,transportation,communication,leisure,shopping,education,medical,event,etc], function(error1,result1){
+                                insurance,transportation,communication,leisure,shopping,education,medical,event,etc, subscription], function(error1,result1){
                                     if (error1) throw error1;
                                     else{
                                         db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error2,result2){
