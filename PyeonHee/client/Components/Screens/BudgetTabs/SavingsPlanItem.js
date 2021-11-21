@@ -10,6 +10,11 @@ const SavingPlanItem = (props) => {
   let finishYear = props.endSavingDate.substring(0, 4);
   let finishMonth = props.endSavingDate.substring(5, 7);
   let finishDay = props.endSavingDate.substring(8, 10);
+  
+  // let temp = props.savingMoney + props.prevSum;
+  // props.setUpdate(temp);
+  // console.log(temp);
+
 
   return (
     <TouchableOpacity
