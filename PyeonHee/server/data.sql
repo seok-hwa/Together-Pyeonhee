@@ -9,7 +9,7 @@ insert into user(user_id, password, name, mbti, age, tier, income, job)
 values ('user3', '1234', 'user3', 'ICSE', 23, 'BROZE', 3500000, 'office');
 
 insert into user(user_id, password, name, mbti, age, tier, income, job)
-values ('user4', '1234', 'user4', 'ICSM', 21, 'GOLD', 1000000'student');
+values ('user4', '1234', 'user4', 'ICSM', 21, 'GOLD', 1000000, 'student');
 insert into user(user_id, password, name, mbti, age, tier, income, job)
 values ('user5', '1234', 'user5', 'ICSM', 24, 'SILVER', 1500000, 'office');
 insert into user(user_id, password, name, mbti, age, tier, income, job)
@@ -245,5 +245,3 @@ insert into BudgetPlanning(user_id, user_mbti, user_age, like_number, user_incom
 monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense,
 shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
 values ('user62', 'PHSE', 21, 7, 700000, 150000, 0, 0, 50000, 0, 50000, 30000, 0, 0, 30000, 0, 0);
-
-
