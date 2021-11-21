@@ -548,24 +548,67 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            // 편히 메뉴의 데일리데이터의 권장소비금액과 카테고리별 금액
-            app.post(`/daily`, function(req, res){
+             // 편히 메뉴의 데일리데이터의 권장소비금액과 카테고리별 금액
+             app.post(`/daily`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
-                db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
-                BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
-                BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
-                BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, daily_data.available_money, daily_data.daily_spent_money, 
-                daily_data.rest_money from daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id where daily_data.user_id = ?`, [userID], function(error, result){
+                db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error, name){
                     if(error) throw error;
-                    else if(result.length != 0){
-                        console.log(result[0])
-                        res.send(result[0]);
-                    } else{
-                        res.send([]);
+                    else {
+                        console.log(name);
+                        db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                        BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
+                        BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
+                        BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
+                        daily_data.available_money, daily_data.daily_spent_money, daily_data.rest_money 
+                        FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
+                        where daily_data.user_id = ?`, [userID], function(error1, result1){
+                            if(error1) throw error1;
+                            else if(result1.length != 0){
+                                console.log(result1[0])
+                                db.query(`SELECT tran_type, tran_date, inout_type, sum(tran_amt) as daily_amount FROM real_expense  
+                                WHERE user_id = ? AND inout_type = '출금' GROUP BY tran_type, MID(tran_date,1,7);`, [userID], function(error2, result2){
+                                    if(error2) throw error2;
+                                    else if(result1[0].length != 0){
+                                        console.log(result2[0]);
+                                        db.query(`SELECT available_money, daily_spend_money FROM daily_data WHERE user_id = ?`, [userID], function(error3, result3){
+                                            if(error3) throw error3;
+                                            else{
+                                                var daily_money = result3[0].available_money;
+                                                var spend_money = result3[0].available_money - result3[0].daily_spend_money;
+                                                data = {
+                                                    userName : name,
+                                                    planamt : result1,
+                                                    realamt : result2,
+                                                    daily_money : daily_money,
+                                                    spend_money : spend_money
+                                                };
+                                                console.log(data);
+                                                res.send(data);
+                                            }
+                                        })
+    
+                                    }
+                                    else{
+                                        data = {
+                                            userName : name,
+                                            planamt : result1
+                                        };
+                                        res.send(data);
+                                    }
+                                })
+                                
+                            } else{
+                                data = {
+                                    userName : name
+                                };
+                                res.send(data);
+                            }
+                        });
                     }
                 });
             });
+            
             function Calculate_Daily_Money(result, result1){
                 var available_money;
                 var fixedExp;
