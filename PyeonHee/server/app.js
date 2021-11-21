@@ -566,9 +566,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                             if(error1) throw error1;
                             else if(result1.length != 0){
                                 console.log(result1[0])
-                                db.query(`SELECT available_money, daily_spend_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
+                                db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                     var daily_money = result2[0].available_money;
-                                    var spend_money = result2[0].available_money - result2[0].daily_spend_money;
+                                    var spend_money = result2[0].available_money - result2[0].daily_spent_money;
                                     if(error2) throw error2;
                                     else if(result2[0].length != 0){
                                         console.log(result2[0]);
