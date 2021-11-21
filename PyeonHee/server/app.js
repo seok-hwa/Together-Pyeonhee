@@ -551,7 +551,6 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 편히 메뉴의 데일리데이터의 권장소비금액과 카테고리별 금액
             app.post(`/daily`, function(req, res){
                 // console.log(req.body);
-                tmp = ['월세', '보험', '교통', '통신', '여가', '쇼핑', '교육', '의료', '선물', '구독', '기타', '송금', '저금'];
                 var userID = req.body.userID;
                 db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error, name){
                     if(error) throw error;
