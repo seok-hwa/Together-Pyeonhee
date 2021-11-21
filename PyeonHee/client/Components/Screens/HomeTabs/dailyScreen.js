@@ -100,17 +100,33 @@ const DailyScreen = (props) => {
                     }
 
                     if(responseJson.realamt.length != 0){
-                        setRealEducation(responseJson.realamt[0].daily_amount);
-                        setRealTraffic(responseJson.realamt[0].daily_amount);
-                        setRealShopping(responseJson.realamt[4].daily_amount);
-                        setRealHobby(responseJson.realamt[0].daily_amount);
-                        setRealInsurance(responseJson.realamt[0].daily_amount);
-                        setRealMedical(responseJson.realamt[0].daily_amount);
-                        setRealRent(responseJson.realamt[0].daily_amount);
-                        setRealCommunication(responseJson.realamt[0].daily_amount);
-                        setRealEct(responseJson.realamt[0].daily_amount);
-                        setRealEvent(responseJson.realamt[0].daily_amount);
-                        setRealSubscribe(responseJson.realamt[0].daily_amount);
+                        responseJson.realamt.map(item  => {
+                            if(item.tran_type === '쇼핑'){
+                                setRealShopping(item.daily_amount);
+                            }else if(item.tran_type === '교통'){
+                                setRealTraffic(item.daily_amount);
+                            }else if(item.tran_type === '구독'){
+                                setRealSubscribe(item.daily_amount);
+                            }else if(item.tran_type === '통신'){
+                                setRealCommunication(item.daily_amount);
+                            }else if(item.tran_type === '취미'){
+                                setRealHobby(item.daily_amount);
+                            }else if(item.tran_type === '교육'){
+                                setRealEducation(item.daily_amount);
+                            }else if(item.tran_type === '경조사'){
+                                setRealEvent(item.daily_amount);
+                            }else if(item.tran_type === '보험'){
+                                setRealInsurance(item.daily_amount);
+                            }else if(item.tran_type === '의료'){
+                                setRealMedical(item.daily_amount);
+                            }else if(item.tran_type === '월세'){
+                                setRealRent(item.daily_amount);
+                            }else if(item.tran_type === '기타'){
+                                setRealEct(item.daily_amount);
+                            }else{
+                                setRealEct(item.daily_amount);
+                            }
+                        })
                         let total = Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount)+
                         Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+
                         Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount);

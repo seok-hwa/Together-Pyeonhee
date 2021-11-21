@@ -191,10 +191,6 @@ const SetCategoryScreen = ({navigation, route}) => {
                 <Text style={styles.tranContent}>123412</Text>
             </View>
             <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>계좌 별명: </Text>
-                <Text style={styles.tranContent}>나나</Text>
-            </View>
-            <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>거래 일자: </Text>
                 <Text style={styles.tranContent}>{route.params.tranDate.substring(0,10)}</Text>
             </View>
