@@ -568,18 +568,19 @@ const SSHConnection = new Promise((resolve, reject) => {
                         FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
                         where daily_data.user_id = ? order by planning_number desc;`, [userID], function(error1, result1){
                             if(error1) throw error1;
-                            else if(result1.length != 0){
-                                // console.log(result1[0])
+                            else if(result1[0].planning_number != null){
+                                console.log(result1[0])
                                 db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                     var daily_money = result2[0].available_money;
                                     var spend_money = result2[0].available_money - result2[0].daily_spent_money;
                                     if(error2) throw error2;
                                     else if(result2[0].length != 0){
-                                        // console.log(result2[0]);
+                                        console.log(result2[0]);
                                         db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
                                         WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function(error3, result3){
+                                            console.log(result3[0]);
                                             if(error3) throw error3;
-                                            else{
+                                            else if(result3[0] != 0){
                                                 console.log(result3);
                                                 data = {
                                                     userName : name,
@@ -589,6 +590,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     spend_money : spend_money
                                                 };
                                                 console.log('이거 다 들어가있는거야', data);
+                                                res.send(data);
+                                            }
+                                            else{
+                                                data = {
+                                                    userName : name,
+                                                    planamt : result1[0],
+                                                    realamt : [],
+                                                    daily_money : daily_money,
+                                                    spend_money : spend_money,
+                                                };
+                                                console.log('이거 거래내역 없는거야', data);
                                                 res.send(data);
                                             }
                                         })
