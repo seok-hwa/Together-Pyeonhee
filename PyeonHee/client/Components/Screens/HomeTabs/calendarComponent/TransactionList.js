@@ -51,7 +51,6 @@ const TransactionList = (props) => {
 const styles = StyleSheet.create({
     todayContiner: {
         margin: 8,
-        // backgroundColor: 'yellow',
     }
 
 });
