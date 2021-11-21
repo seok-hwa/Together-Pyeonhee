@@ -7,56 +7,45 @@ const url = config.url;
 
 const DailyScreen = (props) => {
     const [userID, setUserID] = useState('');
-    const [userName, setUserName] = useState('테스트');
+    const [userName, setUserName] = useState('');
     const [loading, setLoading] = useState(false);
     const [year, setYear] = useState('');
     const [month, setMonth] = useState('');
     const [day, setDay] = useState('');
     const [isCompleted, setIsCompleted] = useState(true);
 
-    const [rent, setRent] = useState(1000);
-    const [education, setEducation] = useState(2000);
-    const [traffic, setTraffic] = useState(3000);
-    const [shopping, setShopping] = useState(4000);
-    const [hobby, setHobby] = useState(5000);
-    const [insurance, setInsurance] = useState(1000);
-    const [medical, setMedical] = useState(2000);
-    const [communication, setCommunication] = useState(2000);
-    const [event, setEvent] = useState(3000);
-    const [ect, setEct] = useState(5000);
+    const [rent, setRent] = useState(0);
+    const [education, setEducation] = useState(0);
+    const [traffic, setTraffic] = useState(0);
+    const [shopping, setShopping] = useState(0);
+    const [hobby, setHobby] = useState(0);
+    const [insurance, setInsurance] = useState(0);
+    const [medical, setMedical] = useState(0);
+    const [communication, setCommunication] = useState(0);
+    const [event, setEvent] = useState(0);
+    const [ect, setEct] = useState(0);
     const [subscribe, setSubscribe] = useState(0);
 
-    const [realRent, setRealRent] = useState(1000);
-    const [realEducation, setRealEducation] = useState(2000);
-    const [realTraffic, setRealTraffic] = useState(3000);
-    const [realShopping, setRealShopping] = useState(4000);
-    const [realHobby, setRealHobby] = useState(5000);
-    const [realInsurance, setRealInsurance] = useState(1000);
-    const [realMedical, setRealMedical] = useState(2000);
-    const [realCommunication, setRealCommunication] = useState(2000);
-    const [realEvent, setRealEvent] = useState(3000);
-    const [realEct, setRealEct] = useState(5000);
+    const [realRent, setRealRent] = useState(0);
+    const [realEducation, setRealEducation] = useState(0);
+    const [realTraffic, setRealTraffic] = useState(0);
+    const [realShopping, setRealShopping] = useState(0);
+    const [realHobby, setRealHobby] = useState(0);
+    const [realInsurance, setRealInsurance] = useState(0);
+    const [realMedical, setRealMedical] = useState(0);
+    const [realCommunication, setRealCommunication] = useState(0);
+    const [realEvent, setRealEvent] = useState(0);
+    const [realEct, setRealEct] = useState(0);
     const [realSubscribe, setRealSubscribe] = useState(0);
 
-    const [coinBank, setCoinBank] = useState(3000);
+    const [coinBank, setCoinBank] = useState(0);
 
-    const [dailyRestMoney, setDailyRestMoney] = useState(1000);
+    const [dailyRestMoney, setDailyRestMoney] = useState(0);
     const [dailyAvailableMoney, setDailyAvailableMoney] = useState(0);
-    const [monthMoney, setMonthMoney] = useState(1000);
+    const [monthMoney, setMonthMoney] = useState(0);
 
     const [saving, setSaving] = useState([]);
     //for test
-    /*
-    let saving=[
-        {
-            saving_number: 1,
-            saving_name: '하하',
-            all_savings_money: 2000,
-            savings_money: 20000,
-            start_date: '2020',
-            finish_date: '2021',
-        },
-    ]*/
 
     useEffect(()=>{
         let tempID;
@@ -86,44 +75,48 @@ const DailyScreen = (props) => {
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log(responseJson);
-                if(responseJson.length === 0){
+                if(responseJson.planamt.length === 0 && responseJson.realamt.length === 0){
                     setIsCompleted(false);
                 }else{
                     console.log('이름', responseJson.userName[0].name);
                     setUserName(responseJson.userName[0].name);
 
-                    setCoinBank(responseJson.planamt.rest_money);
-                    setDailyRestMoney(responseJson.planamt.available_money - responseJson.planamt.daily_spent_money);
-                    setDailyAvailableMoney(responseJson.planamt.available_money);
+                    if(responseJson.planamt.length != 0){
+                        setCoinBank(responseJson.planamt.rest_money);
+                        setDailyRestMoney(responseJson.planamt.available_money - responseJson.planamt.daily_spent_money);
+                        setDailyAvailableMoney(responseJson.planamt.available_money);
 
-                    setEducation(responseJson.planamt.education_expense);
-                    setTraffic(responseJson.planamt.transportation_expense);
-                    setShopping(responseJson.planamt.shopping_expense);
-                    setHobby(responseJson.planamt.leisure_expense);
-                    setInsurance(responseJson.planamt.insurance_expense);
-                    setMedical(responseJson.planamt.medical_expense);
-                    setRent(responseJson.planamt.monthly_rent);
-                    setCommunication(responseJson.planamt.communication_expense);
-                    setEct(responseJson.planamt.etc_expense);
-                    setEvent(responseJson.planamt.event_expense);
-                    setSubscribe(responseJson.planamt.subscribe_expense);
+                        setEducation(responseJson.planamt.education_expense);
+                        setTraffic(responseJson.planamt.transportation_expense);
+                        setShopping(responseJson.planamt.shopping_expense);
+                        setHobby(responseJson.planamt.leisure_expense);
+                        setInsurance(responseJson.planamt.insurance_expense);
+                        setMedical(responseJson.planamt.medical_expense);
+                        setRent(responseJson.planamt.monthly_rent);
+                        setCommunication(responseJson.planamt.communication_expense);
+                        setEct(responseJson.planamt.etc_expense);
+                        setEvent(responseJson.planamt.event_expense);
+                        setSubscribe(responseJson.planamt.subscribe_expense);
+                    }
 
-                    setRealEducation(responseJson.realamt[0].daily_amount);
-                    setRealTraffic(responseJson.realamt[0].daily_amount);
-                    setRealShopping(responseJson.realamt[4].daily_amount);
-                    setRealHobby(responseJson.realamt[0].daily_amount);
-                    setRealInsurance(responseJson.realamt[0].daily_amount);
-                    setRealMedical(responseJson.realamt[0].daily_amount);
-                    setRealRent(responseJson.realamt[0].daily_amount);
-                    setRealCommunication(responseJson.realamt[0].daily_amount);
-                    setRealEct(responseJson.realamt[0].daily_amount);
-                    setRealEvent(responseJson.realamt[0].daily_amount);
-                    setRealSubscribe(responseJson.realamt[0].daily_amount);
+                    if(responseJson.realamt.length != 0){
+                        setRealEducation(responseJson.realamt[0].daily_amount);
+                        setRealTraffic(responseJson.realamt[0].daily_amount);
+                        setRealShopping(responseJson.realamt[4].daily_amount);
+                        setRealHobby(responseJson.realamt[0].daily_amount);
+                        setRealInsurance(responseJson.realamt[0].daily_amount);
+                        setRealMedical(responseJson.realamt[0].daily_amount);
+                        setRealRent(responseJson.realamt[0].daily_amount);
+                        setRealCommunication(responseJson.realamt[0].daily_amount);
+                        setRealEct(responseJson.realamt[0].daily_amount);
+                        setRealEvent(responseJson.realamt[0].daily_amount);
+                        setRealSubscribe(responseJson.realamt[0].daily_amount);
+                        let total = Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount)+
+                        Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+
+                        Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount);
+                        setMonthMoney(total);
+                    }
 
-                    let total = Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount) + Number(responseJson.realamt[0].daily_amount)+
-                    Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount)+
-                    Number(responseJson.realamt[0].daily_amount)+Number(responseJson.realamt[0].daily_amount);
-                    setMonthMoney(total);
 
                     var now = new Date();	// 현재 날짜 및 시간
                     var year = now.getFullYear(); //년
@@ -237,10 +230,10 @@ const DailyScreen = (props) => {
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
-                            <View style={styles.itemDiv}>
+                            <View style={styles.itemDiv}>rr
                                 <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>통신</Text>
-                                <Text style={styles.realPriceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <Text style={styles.realPriceTitle}>{realCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                 <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>

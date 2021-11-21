@@ -597,6 +597,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             daily_money : daily_money,
                                             spend_money : spend_money,
                                         };
+                                        console.log('이거', data);
                                         res.send(data);
                                     }
                                 })
@@ -609,6 +610,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     daily_money : 0,
                                     spend_money : 0
                                 };
+                                console.log('이거', data);
                                 res.send(data);
                             }
                         });
