@@ -29,7 +29,8 @@ const WriteBudgetScreen = ({navigation}) => {
     const [loading, setLoading] = useState(false);
 
     const [income, setIncome] = useState(0);   //수입
-    const [savings, setSavings] = useState(0);   //저금계획 -> total 합계 받아오기
+    // const [savings, setSavings] = useState(0);   //저금계획 -> total 합계 받아오기
+    const [sumOfSavings, setSumOfSavings] = useState(0);    //저금계획 총합계
 
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
@@ -91,6 +92,19 @@ const WriteBudgetScreen = ({navigation}) => {
                 }else{
                     console.log('로딩 안 됐어');
                 }
+
+                if(saving.length > 0) {
+                    let tempSum = 0;
+    
+                    saving.map(item => {
+                        tempSum = tempSum + item.savings_money;
+                        // return tempSum;
+                    })
+                    console.log('저금계획 합계');
+                    console.log(tempSum);
+                    setSumOfSavings(tempSum);
+                }
+
             }) 
             .then(()=>{
                 
@@ -115,6 +129,18 @@ const WriteBudgetScreen = ({navigation}) => {
             console.log(responseJson);
             
             setSaving(responseJson);
+            if(saving.length > 0) {
+                let tempSum = 0;
+
+                saving.map(item => {
+                    tempSum = tempSum + item.savings_money;
+                    // return tempSum;
+                })
+                console.log('저금계획 합계');
+                console.log(tempSum);
+                setSumOfSavings(tempSum);
+            }
+            
             setAddSavingsPlan(false);
 
             // setLoading(true);
@@ -242,7 +268,7 @@ const WriteBudgetScreen = ({navigation}) => {
                     <View style={{marginTop: 10, }}>
                         <View style={styles.bigCategoryContainer}>
                             <Text style={{fontSize: 15, fontWeight:'bold'}}>저금계획</Text>
-                            <Text style={{fontSize: 15, fontWeight:'bold'}}>총 {savings} 원</Text>
+                            <Text style={{fontSize: 15, fontWeight:'bold'}}>총 {sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                         </View>
                         <View style={{flex:1, flexDirection: 'row-reverse', marginLeft: 20}}>
                             <AddSavingPlan income={income} setAddSavingsPlan={setAddSavingsPlan}/>

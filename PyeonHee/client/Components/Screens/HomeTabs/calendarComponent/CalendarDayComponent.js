@@ -24,7 +24,7 @@ class CalendarDayComponent extends React.Component {
     };
 
     if (state === 'today') {
-      style.text.color = 'blue';
+      style.text.color = '#00f';
     } else if (current === date.dateString) {
       style.content.borderRadius = 50;
       style.content.borderWidth = 1;
