@@ -126,8 +126,6 @@ const DailyScreen = (props) => {
                                 setRealRent(item.daily_amount);
                             }else if(item.tran_type === '기타'){
                                 setRealEct(item.daily_amount);
-                            }else{
-                                setRealEct(item.daily_amount);
                             }
                         })
                         setMonthMoney(tempMonthMoney);
