@@ -28,7 +28,6 @@ class CalendarScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       userID: '',
       calendarDate: calendarDate.format('YYYY-MM-DD'),
@@ -37,7 +36,7 @@ class CalendarScreen extends React.Component {
       dayChanged: moment().format('YYYYMMDD'),
 
       isPressed: true,
-
+      todayTransaction: [],
       monthlyData: {},
     };
 
@@ -66,11 +65,26 @@ class CalendarScreen extends React.Component {
     let tempDate = date.dateString.split("-");
     let temp = tempDate[0]+tempDate[1]+tempDate[2];
 
+
     this.setState({ 
       dayChanged: temp,
       dateChanged: date.day,
       isPressed: true,
      });
+
+    console.log(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`);
+    fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`)   //get 오늘 날짜도 보내주기
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+        console.log('오늘의 거래 내역');
+        console.log(responseJson);
+
+        this.setState({
+          todayTransaction: responseJson,
+        })
+
+        console.log('이거이거!', this.state.todayTransaction);
+    })
     // this.setState({ dateChanged: date.day }); 
 
     // this.setState({ isPressed: true })
@@ -148,7 +162,7 @@ class CalendarScreen extends React.Component {
                 isChanged={this.state.isPressed}/>
               } */}
               <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
-              isChanged={this.state.isPressed}/>
+              isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction}/>
             </View>
         </ScrollView>
     );

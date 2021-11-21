@@ -7,8 +7,8 @@ const TransactionItem = (props) => {
         <View>
                 <View style ={styles.itemContainer}>
                     <Text>{props.name}</Text>
-                    {props.money > 0 && <Text style={{color: 'blue'}}>+{props.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
-                    {props.money < 0 && <Text style={{color: 'red'}}>{props.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
+                    {props.inout === '입금' && <Text style={{color: 'blue'}}>+{props.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
+                    {props.inout === '출금' && <Text style={{color: 'red'}}>{props.money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
                 </View>
         </View>
     );
