@@ -10,7 +10,7 @@ import { Root, Popup } from 'react-native-popup-confirm-toast';
 const url = config.url;
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
-    if(accountCate === '농협'){
+    if(accountCate === 'NH농협은행'){
         return(
             <Image source={require('./assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
         )
@@ -207,8 +207,15 @@ const SetCategoryScreen = ({navigation, route}) => {
                 <Text style={styles.tranContent}>{route.params.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
             </View>
             <View style={styles.lowDiv}>
+                <Text style={styles.tranTitle}>거래 종류: </Text>
+                <Text style={styles.tranContent}>{route.params.inoutType}</Text>
+            </View>
+            <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle} >상호명: </Text>
-                <Text style={styles.tranContent}>{route.params.organizationName}</Text>
+                <View style={styles.tranContent}>
+                    <Text >{route.params.organizationName}</Text>
+                    <Text style={styles.styleBranch}>({route.params.branchName})</Text>
+                </View>
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>종류: </Text>
@@ -268,11 +275,22 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         width: 170,
         fontSize: 17,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
     },
     titleDiv: {
         fontSize: 20,
         margin: 30,
         fontWeight: 'bold',
+    },
+    styleBranch: {
+        fontSize: 11,
+    },
+    organizationStyle:{
+        textAlign: 'right',
+        width: 110,
+        fontSize: 17,
     },
 });
 const pickerSelectStyles = StyleSheet.create({

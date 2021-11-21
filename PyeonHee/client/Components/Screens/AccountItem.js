@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const AccountLogo = (props) => {
     const accountCate = props.accountCate;
-    if(accountCate === '농협'){
+    if(accountCate === 'NH농협은행'){
         return(
             <Image source={require('./assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
         )

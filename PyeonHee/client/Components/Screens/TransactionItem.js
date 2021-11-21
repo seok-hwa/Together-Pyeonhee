@@ -6,7 +6,7 @@ import setCategoryScreen from './SetCategoryScreen';
 
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
-    if(accountCate === '농협'){
+    if(accountCate === 'NH농협은행'){
         return(
             <Image source={require('./assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
         )
@@ -114,12 +114,15 @@ const AccountLogo = (props) => {
 const TransactionItem = (props) => {
 
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate})}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate, inoutType: props.inoutType, branchName: props.branchName})}>
         <View style={styles.TranContentBox}>
             <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
-            <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text></View>
+            <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text><Text style={styles.BankInFont}>{props.branchName}</Text></View>
             <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate.substring(0,10)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
-            <View style={styles.tranPrice}><Text style={styles.tranPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+            <View style={styles.tranPrice}>
+            {props.inoutType === '입금' ? <Text style={styles.tranInPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>:
+            <Text style={styles.tranOutPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
+            </View>
             <View style={styles.tranCate}><Text style={styles.cateFont}>{props.tranCate}</Text></View>
         </View>
         </TouchableOpacity>
@@ -181,14 +184,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    BankInFont: {
+        fontSize: 10,
+        textAlign: 'center',
+    },
     tranDateFont:{
         fontSize: 11,
         textAlign: 'center',
     },
-    tranPriceFont:{
+    tranInPriceFont:{
         fontSize: 12,
         textAlign: 'right',
         fontWeight: 'bold',
+        color: 'blue',
+    },
+    tranOutPriceFont:{
+        fontSize: 12,
+        textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'red',
     },
     cateFont:{
         fontSize: 12,

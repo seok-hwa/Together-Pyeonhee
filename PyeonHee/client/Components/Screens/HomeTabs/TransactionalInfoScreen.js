@@ -147,9 +147,9 @@ const TransactionScreen = ({navigation}) => {
                 </View>
                 <ScrollView style={{flex: 1,}}>
                     {tranlatestList.map((item, index) => {
-                        return <TransactionItem key={index} bankName={item.bank_name} organizationName={item.branch_name} tranDate={item.tran_date} 
+                        return <TransactionItem key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
                         tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
-                        inputType={item.inout_type} fintech={item.fintech_use_num}
+                        inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content}
                         />})
                     }
                 </ScrollView>
@@ -165,9 +165,9 @@ const TransactionScreen = ({navigation}) => {
                 </View>
                 <ScrollView style={{flex: 1,}}>
                     {tranList.map(item => {
-                        return <TransactionItem key={index} bankName={item.bank_name} organizationName={item.branch_name} tranDate={item.tran_date} 
+                        return <TransactionItem key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
                         tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
-                        inputType={item.inout_type} fintech={item.fintech_use_num}
+                        inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content}
                         />})
                     }
                 </ScrollView>
