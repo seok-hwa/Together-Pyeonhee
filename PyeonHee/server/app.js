@@ -1001,7 +1001,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
-            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)
+            // 사용자의 연동한 계좌 내역 DB저장 (선택한 계좌 거래내역 조회_핀테크이용번호 사용)_데일리업데이트
             app.get('/saveTranHistory', function (req, res) {
                 var userID = req.query.userID;
                 db.query(`SELECT EXISTS (SELECT * FROM openBankingUser WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
@@ -1031,8 +1031,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         fintech_use_num: fintechUseNum,
                                                         inquiry_type: "A", //조회구분코드 “A”:All, “I”:입금, “O”:출금
                                                         inquiry_base: "D", //조회기준코드 “D”:일자, “T”:시간
-                                                        from_date: "20211119", // 조회시작일자
-                                                        to_date: "20211119", //조회종료일자
+                                                        from_date: "20200101", // 조회시작일자
+                                                        to_date: "20200101", //조회종료일자
                                                         sort_order: "D", //정렬순서 “D”:Descending, “A”:Ascending
                                                         tran_dtime: "20211119000000"//현재날짜시간으로 변경
                                                     }
@@ -1053,24 +1053,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                             var after_balance_amt = requestResultJSON['res_list'][i]['after_balance_amt']; //거래후잔액
                                                             var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
 
-                                                            db.query(`INSERT INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                                                            FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                            tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                                                            FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                                                            AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
-                                                            [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                            after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                            after_balance_amt, branch_name], function (error, result) {
-                                                                if (error) throw error;
-                                                                //console.log("거래내역 DB저장완료");
-                                                                /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
-                                                                    if (error) throw error;
-                                                                    res.send(result);
-                                                                    //console.log(result);
-                                                                    console.log("거래내역 조회 완료 (거래내역 전송)");
-                                                                });*/        
-                                                                });
+                                                            db.query(`INSERT IGNORE INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
+                                                                    FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
+                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
+                                                                    FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
+                                                                    AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
+                                                                [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                    after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                    after_balance_amt, branch_name], function (error, result) {
+                                                                        if (error) throw error;
+                                                                        /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                                                                            if (error) throw error;
+                                                                            res.send(result);
+                                                                            //console.log(result);
+                                                                            console.log("거래내역 조회 완료 (거래내역 전송)");
+                                                                        });*/
+                                                                    });
                                                         }
                                                     }
                                                     /*else {
@@ -1091,7 +1090,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
 
             });
-            
+
             // 최근거래내역
             app.post('/latestTranList', function (req, res) {
                 var userID = req.body.userID;
@@ -1099,7 +1098,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var year = now.getFullYear();
                 var month = now.getMonth() + 1;
                 var date = now.getDate();
-                now = year + '-' + month + '-' + date;
+                //now = year + '-' + month + '-' + date;
+                now = year + "" + month + "" + date;
                 //var fintechUseNum = req.body.fintechUseNum;
                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND state = 0`,
                     [userID, now], function (error, result) {
@@ -1131,23 +1131,22 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post('/update_category', function (req, res) {
                 console.log("/update_category 카테고리 변경");
                 var userID = req.body.userID;
-                var tranID = req.body.fintech; // tranID가 fintech_use_num ? 
+                var fintech = req.body.fintech;
                 var tranCate = req.body.tranCate;
-                
                 var tranDate = req.body.tranDate;
                 var tranTime = req.body.tranTime;
-                
-                db.query(`UPDATE real_expense SET state = 1, tran_type = ? WHERE user_id = ? AND fintech_use_num =? 
-                AND tran_date = ? AND tran_time =?`, [tranCate, userID, tranID, tranDate, tranTime], function (error, result) {
-                        if (error) throw error;
-                        else {
-                            const data = {
-                                status: 'success'
-                            }
-                            res.send(data);
-                            console.log("카테고리 설정완료");
+                var tranDate = tranDate.substring(0, 10);
+                db.query(`UPDATE real_expense SET state = 1, tran_type = ? WHERE user_id = ? AND fintech_use_num =?
+                AND tran_date = ? AND tran_time =?`, [tranCate, userID, fintech, tranDate, tranTime], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success'
                         }
-                    });
+                        res.send(data);
+                        console.log("카테고리 설정완료");
+                    }
+                });
             });
 
             const PORT = 8000;
