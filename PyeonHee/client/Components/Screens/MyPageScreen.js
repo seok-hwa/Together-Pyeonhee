@@ -101,7 +101,6 @@ const MyPageScreen = ({navigation}) => {
       }
     if(loading === true){
         return(
-            <Root>
             <ScrollView style={styles.appSize}>
                 <View style={styles.appTopDiv}>
                     <View style={styles.titleDiv}>
@@ -158,15 +157,12 @@ const MyPageScreen = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-            </Root>
         );
     }
     else{
         return(
-            <Root>
             <View style={styles.appSize}>
             </View>
-            </Root>
         );
     }
 }

@@ -42,7 +42,6 @@ const AssetsScreen = ({navigation}) => {
   };
 
   return (
-    <Root>
     <SafeAreaView style={styles.container}>
         <View style={styles.smallcontainer}>
 
@@ -63,7 +62,6 @@ const AssetsScreen = ({navigation}) => {
             </View>
         </View>
       </SafeAreaView>
-      </Root>
   )
 }
 
