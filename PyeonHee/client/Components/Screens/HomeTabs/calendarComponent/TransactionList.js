@@ -14,17 +14,7 @@ const TransactionList = (props) => {
 
     let tempDay = props.pressedDay;
     console.log(`${url}/calendar/click?userID=${userID}&today=${tempDay}`);
-        /*
-    fetch(`${url}/calendar/click?userID=${userID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
-    .then((response)=>response.json())
-    .then((responseJson)=>{
-        console.log('오늘의 거래 내역');
-        console.log(responseJson);
 
-        setTodayTransaction(responseJson);
-        setLoading(true);
-    })
-*/
     useEffect(()=>{
         let tempID;
 
@@ -36,37 +26,6 @@ const TransactionList = (props) => {
         })
         .then(()=>{
             console.log(tempID);
-            // if(props.isChanged === true) {
-            //     let tempDay = props.pressedDay;
-            //     console.log(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`);
-        
-            //     fetch(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
-            //     .then((response)=>response.json())
-            //     .then((responseJson)=>{
-            //         console.log('오늘의 거래 내역');
-            //         console.log(responseJson);
-
-            //         setTodayTransaction(responseJson);
-            //         props.closeChanged();
-            //         setLoading(true);
-            //     })
-            // }
-
-
-            // let tempDay = props.pressedDay;
-            //     console.log(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`);
-        
-            //     fetch(`${url}/calendar/click?userID=${tempID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
-            //     .then((response)=>response.json())
-            //     .then((responseJson)=>{
-            //         console.log('오늘의 거래 내역');
-            //         console.log(responseJson);
-
-            //         setTodayTransaction(responseJson);
-            //         props.closeChanged();
-            //         setLoading(true);
-            //     })
-            
         })
     }, [])  //-> 랜더링 문제 해결 필요
 

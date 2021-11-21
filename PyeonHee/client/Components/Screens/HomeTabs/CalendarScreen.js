@@ -83,12 +83,8 @@ class CalendarScreen extends React.Component {
           todayTransaction: responseJson,
         })
 
-        console.log('이거이거!', this.state.todayTransaction);
+        console.log(this.state.todayTransaction);
     })
-    // this.setState({ dateChanged: date.day }); 
-
-    // this.setState({ isPressed: true })
-    // this.setState({ dayChanged: temp })
   }
 
   updateCalendarDate() {
