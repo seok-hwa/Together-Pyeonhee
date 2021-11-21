@@ -75,11 +75,11 @@ const DailyScreen = (props) => {
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log(responseJson);
+                console.log('이름', responseJson.userName[0].name);
+                setUserName(responseJson.userName[0].name);
                 if((responseJson.planamt.length === 0 && responseJson.realamt.length === 0) || responseJson.length === 0){
                     setIsCompleted(false);
                 }else{
-                    console.log('이름', responseJson.userName[0].name);
-                    setUserName(responseJson.userName[0].name);
 
                     if(responseJson.planamt.length != 0){
                         setCoinBank(responseJson.planamt.rest_money);
