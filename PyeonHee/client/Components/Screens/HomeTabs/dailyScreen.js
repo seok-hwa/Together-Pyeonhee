@@ -175,6 +175,10 @@ const DailyScreen = (props) => {
                                 <Text style={styles.exText}>{monthMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.exBottomDiv}>
+                                <Text style={styles.exTitleDiv}>일일 권장 금액:</Text> 
+                                <Text style={styles.exText}>0원</Text>
+                            </View>
+                            <View style={styles.exBottomDiv}>
                                 <Text style={styles.exTitleDiv}>일일 잔여 예산:</Text> 
                                 <Text style={styles.exText}>{dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
@@ -186,56 +190,78 @@ const DailyScreen = (props) => {
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>쇼핑</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/hobby.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>취미</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>교통</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>통신</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/rent.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>월세</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/insurance.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>보험</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/medical.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>의료</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/education.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>교육</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>경조사</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>구독</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.itemDiv}>
                                 <Image source={require('../assets/category/ect.png')} style={styles.categoryIconDiv}/>
                                 <Text style={styles.itemTitle}>기타</Text>
+                                <Text style={styles.realPriceTitle}>0원</Text>
+                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                         </View>
@@ -365,16 +391,16 @@ const styles = StyleSheet.create({
         height: 50,
     },
     exTitleDiv: {
-        width: 90,
-        fontSize: 13,
+        width: 80,
+        fontSize: 12,
         fontWeight: '500',
     },
     savingDiv:{
-        flex: 2,
+        flex: 1,
         flexDirection: 'row',
     },
     exDiv:{
-        flex: 3,
+        flex: 1,
     },
     savingLeftDiv:{
         flexDirection: 'column',
@@ -403,7 +429,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     exText: {
-        width: 100,
+        width: 75,
         textAlign: 'right',
         fontSize: 13,
     },
@@ -415,12 +441,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     itemTitle: {
-        width: 60,
-        marginLeft: 20,
+        width: 50,
+        marginLeft: 5,
     },
     priceTitle: {
-        width: 120,
+        width: 80,
         textAlign: 'right',
+        fontSize: 12,
+        marginTop: 3,
+    },
+    realPriceTitle: {
+        width: 130,
+        textAlign: 'right',
+        fontSize: 15,
+    },
+    slashFont: {
+        width: 30,
+        textAlign: 'center',
+        fontSize: 15,
     },
     itemDiv: {
         flexDirection: 'row',
