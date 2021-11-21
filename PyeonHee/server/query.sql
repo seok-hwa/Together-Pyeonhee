@@ -5,9 +5,9 @@ create table user
     name varchar(12) not null,
     mbti varchar(4),
     age  int,
-    tier varchar(10) default 'Bronze',
+    tier varchar(10) default 'BRONZE',
     income int,
-    job varchar(10)
+    job varchar(20)
 );
 
 create table stamp (
@@ -79,8 +79,8 @@ create table Savings (
     saving_name varchar(30) not null, 
 
     savings_money int not null,
-    start_date date default current_timestamp,
-    finish_date date default current_timestamp,
+    start_date datetime default current_timestamp,
+    finish_date datetime default current_timestamp,
     all_savings_money int default 0,
     primary key (saving_number),
     foreign key (user_id) references user (user_id)
