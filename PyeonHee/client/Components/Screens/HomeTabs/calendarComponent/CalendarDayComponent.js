@@ -19,7 +19,7 @@ class CalendarDayComponent extends React.Component {
         borderColor: '181c26',
       },
       text: {
-        color: '',
+        color: '#181c26',
       }
     };
 
