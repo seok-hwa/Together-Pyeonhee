@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
 
 import BudgetItem from '../BudgetItem';
 import config from '../../../config';
@@ -9,6 +9,8 @@ const url = config.url;
 const BudgetCabinet = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(()=>{
         let tempID;
@@ -30,24 +32,47 @@ const BudgetCabinet = ({navigation}) => {
                 console.log('response data');
                 console.log(responseJson);
                 setOtherBudgetData(responseJson);
+            })
+            .then(()=>{
+                setLoading(true);
             })  
         })
     }, [])
+    const loadCabinet = () => {
+        setRefresh(true);
+        fetch(`${url}/BudgetPlanCabinet?userID=${userID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setOtherBudgetData(responseJson);
+            })
+            .then(()=>{
+                setRefresh(false);
+            })  
+    }
+    if(loading === true){
     return (
         <View style={styles.appSize}>
-            <ScrollView>
                 <View>
-                    {
-                        otherBudgetData.map(item => {
-                        return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti}
-                        />;
-                    })
-                    }
+                    <FlatList
+                    keyExtractor={item => item.planning_number}
+                    data={otherBudgetData}
+                    renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                    userTier={item.tier} userJob={item.job} userMbti={item.user_mbti}
+                    />}
+                    refreshing={refresh}
+                    onRefresh={loadCabinet}
+                    />
                 </View>
-            </ScrollView>
         </View>
-    )
+    )}
+    else{
+        return(
+            <View style={styles.appSize}>
+            </View>
+        )
+    }
 }
 const styles = StyleSheet.create({
     appSize: {

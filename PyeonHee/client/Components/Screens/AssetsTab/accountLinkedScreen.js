@@ -26,7 +26,7 @@ const accountLinkScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [accountList, setAccountList] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    const [refresh, setRefresh] = useState(false);
     //for test
     /*
     let tempData = [
@@ -74,7 +74,20 @@ const accountLinkScreen = ({navigation}) => {
             })
         })
     },[])
+    const loadAccount = () => {
+        setRefresh(true);
+        fetch(`${url}/accountList?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
 
+            setAccountList(responseJson);
+        })
+        .then(()=>{
+            setRefresh(false);
+        })
+    }
     const terminateAccount = () => {
         Popup.show({
             type: 'confirm',
@@ -128,14 +141,19 @@ const accountLinkScreen = ({navigation}) => {
                 <View style={styles.appListTitle}>
                     <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
                 </View>
-                <ScrollView style={styles.appBody}>
-                    {accountList.length === 0 ?
-                    <Text>등록된 계좌가 없습니다.</Text> :
-                    accountList.map(item => {
-                        return <AccountItem key={item.fintech_use_num} accountAlias={item.account_alias}
-                        accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num}/>;
-                    })}
-                </ScrollView>
+                {
+                    accountList.length === 0?
+                    <Text>아직 등록된 계좌가 없습니다.</Text> :
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    data={accountList}
+                    renderItem={({item}) => <AccountItem accountAlias={item.account_alias}
+                    accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num} />}
+                    refreshing={refresh}
+                    onRefresh={loadAccount}
+                />
+                }
+                
             </View>
         )}
         else{
