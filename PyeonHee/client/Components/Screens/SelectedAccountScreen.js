@@ -179,7 +179,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
                 iconEnabled: false,
                 callback: () => Popup.hide()
             })
-            console.log(userID, userPassword, '계좌 별명 변경 완료');
+            //console.log(userID, userPassword, '계좌 별명 변경 완료');
           }else{
             setModalVisible(false);
             alert('계좌 별명 변경 실패')
