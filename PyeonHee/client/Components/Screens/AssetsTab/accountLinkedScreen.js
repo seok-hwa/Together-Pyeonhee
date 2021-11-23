@@ -147,7 +147,7 @@ const accountLinkScreen = ({navigation}) => {
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={accountList}
-                    renderItem={({item}) => <AccountItem accountAlias={item.account_alias}
+                    renderItem={({item}) => <AccountItem accountAlias={item.account_alias} navigation={navigation} accountBalance={item.accountBalance}
                     accountCate={item.bank_name} accountNum={item.account_num_masked} fintech_use_num={item.fintech_use_num} />}
                     refreshing={refresh}
                     onRefresh={loadAccount}

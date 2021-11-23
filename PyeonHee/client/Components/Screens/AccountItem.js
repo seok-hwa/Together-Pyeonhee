@@ -112,13 +112,13 @@ const AccountLogo = (props) => {
 const AccountItem = (props) => {
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('SelectedAccount', {accountCate: props.accountCate, accountNum: props.accountNum, accountAlias: props.accountAlias, accountBalance: props.accountBalance,})}>
                 <View style={styles.accountCard}>
                     <AccountLogo accountCate={props.accountCate}/>
                     <View style={styles.accountContent}>
                         <View style={styles.accountInnerContent}>
-                            <Text style={styles.accountCate}>{props.accountCate}({props.accountNum})</Text>
-                            <Text style={styles.accountMoney}>{props.accountAlias}</Text>
+                            <Text style={styles.accountCate}>{props.accountCate}({props.accountNum})/{props.accountAlias}</Text>
+                            <Text style={styles.accountMoney}>{props.accountBalance}원</Text>
                         </View>
                     </View>
                 </View>

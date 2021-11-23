@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config';
-import { SafeAreaView, StyleSheet, Text, View, Button, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView } from 'react-native';
+import UpdateAccountButton from '../Buttons/updateAliasButton';
 import SetCategoryButton from '../Buttons/SetCategoryButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { CATEGORY } from './constants';
@@ -9,7 +10,7 @@ import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 const url = config.url;
 const AccountLogo = (props) => {
-    const accountCate = props.bankName;
+    const accountCate = props.accountCate;
     if(accountCate === 'NH농협은행'){
         return(
             <Image source={require('./assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
@@ -116,7 +117,7 @@ const AccountLogo = (props) => {
       }
   }
 
-const SetCategoryScreen = ({navigation, route}) => {
+const SelectedAccountScreen = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     //route.params.tranID  거래 아이디 
     const [category, setCategory] = useState('');
@@ -128,135 +129,134 @@ const SetCategoryScreen = ({navigation, route}) => {
             }
         })
     })
-    const handleSubmitButton = () => {
-        if(!category){
-          Popup.show({
-            type: 'success',
-            textBody: '카테고리를 설정해주세요.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-          })
-          return;
-        }
-        console.log(`${url}/login`);
-        fetch(`${url}/update_category`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: userID,
-            fintech: route.params.fintech,
-            tranCate: category,
-            tranDate: route.params.tranDate,
-            tranTime: route.params.tranTime,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-          console.log(responseJson);
-          if(responseJson.status === 'success'){
-            Popup.show({
-                type: 'success',
-                textBody: '카테고리 설정을 완료했습니다.',
-                buttonText: '확인',
-                okButtonStyle: {backgroundColor: '#0000CD'},
-                iconEnabled: false,
-                callback: () => {
-                    Popup.hide();
-                    navigation.goBack();
-                }
-              })
-            console.log('success store category');
-          }else{
-            alert('카테고리 설정 실패');
-            console.log('Check id or password');
-            navigation.goBack();
-          }
-        })
-        .catch((error)=>{
-          console.error(error);
-        })
-      }
+
     return (
-        <Root>
         <View style={styles.appSize}>
-            <Text style={styles.titleDiv}>카테고리 설정</Text>
-            <View style={styles.appOutBody}>
-            <AccountLogo bankName={route.params.bankName}/>
-            <View style={styles.appBody}>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>계좌 번호: </Text>
-                <Text style={styles.tranContent}>123412</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 일자: </Text>
-                <Text style={styles.tranContent}>{route.params.tranDate.substring(0,10)}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 시간: </Text>
-                <Text style={styles.tranContent}>{route.params.tranTime}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 금액: </Text>
-                <Text style={styles.tranContent}>{route.params.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 종류: </Text>
-                <Text style={styles.tranContent}>{route.params.inoutType}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle} >상호명: </Text>
-                <View style={styles.tranContent}>
-                    <Text >{route.params.organizationName}</Text>
-                    <Text style={styles.styleBranch}>({route.params.branchName})</Text>
+            <View style={styles.appTopDiv}>
+                <View style={styles.appTopLeftDiv}>
+                    <AccountLogo accountCate={route.params.accountCate}/>
+                    <Text style={{fontSize: 12,}}>{route.params.accountCate}</Text>
+                    <Text style={styles.aliasFont}>{route.params.accountAlias}</Text>
+                </View>
+                <View style={styles.appTopRightDiv}>
+                    <View style={styles.appTopRightTop}>
+                        <UpdateAccountButton />
+                    </View>
+                    <View style={styles.appTopRightBottom}>
+                        <Text style={styles.aliasFont}>계좌 번호: {route.params.accountNum}</Text>
+                        <Text style={styles.aliasFont}>계좌 잔액: {route.params.accountBalance}원</Text>
+                    </View>
                 </View>
             </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>종류: </Text>
-                <RNPickerSelect
-              placeholder={{
-                label: route.params.tranCate,
-                color: 'gray',
-              }}
-              style={pickerSelectStyles}
-              onValueChange={(value) => setCategory(value)}
-                    items={CATEGORY}
-            />
+            <View style={{flex: 4,}}>
+            <Text style={styles.titleFont}>거래 내역</Text>
+            <View style={styles.latestTranBox}>
+                <View style={styles.graphTitle}>
+                    <View style={styles.OrganizationNameDiv}><Text style={styles.graphFont}>상호명</Text></View>
+                    <View style={styles.tranDate}><Text style={styles.graphFont}>거래일자</Text></View>
+                    <View style={styles.tranPrice}><Text style={styles.graphFont}>거래금액</Text></View>
+                    <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
+                </View>
+                <ScrollView style={{flex: 1,}}>
+                </ScrollView>
             </View>
-            </View>
-            <SetCategoryButton onPress={handleSubmitButton}/>
             </View>
         </View>
-        </Root>
     )
 }
 
-export default SetCategoryScreen;
+export default SelectedAccountScreen;
 
 const styles = StyleSheet.create({
     appSize: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
+      padding: 10,
     },
-    appOutBody:{
+    appTopDiv:{
+        flexDirection: 'row',
+        flex: 1,
         backgroundColor: 'white',
+        borderRadius: 5,
         padding: 10,
+    },
+    appTopLeftDiv:{
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRightWidth: 1,
+        borderRightColor: 'gray',
+    },
+    appTopRightDiv:{
+        flex: 2,
+        flexDirection: 'column',
+    },
+    appTopRightTop: {
+        flex: 1,
+        flexDirection: 'row-reverse',
+        padding: 5,
+    },
+    appTopRightBottom:{
+        flex: 2,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+    titleFont: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginTop: 5,
+    },
+    latestTranBox: {
+        flex: 1,
+        backgroundColor: 'white',
         borderRadius: 10,
     },
-    appBody: {
-        margin: 30,
-    },
-    lowDiv: {
+    graphTitle:{
+        height: 25,
+        backgroundColor: '#8EB3EE',
         flexDirection: 'row',
-        width: 250,
-        marginTop: 10,
+        borderColor: 'gray',
+    },
+    BankNameDiv: {
+        width: 65,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderLeftColor: 'gray',
+    },
+    OrganizationNameDiv: {
+        flex: 2.5,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderLeftColor: 'gray',
+    },
+    tranDate:{
+        flex: 3,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderLeftColor: 'gray',
+
+    },
+    tranPrice:{
+        flex: 4,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderLeftColor: 'gray',
+    },
+    tranCate:{
+        flex: 2,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftWidth: 1,
+        borderLeftColor: 'gray',
+    },
+    graphFont:{
+        fontSize: 13,
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     accountImage: {
         width: 100,
@@ -264,40 +264,9 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 1,
     },
-    tranTitle: {
-        fontSize: 17,
+    aliasFont: {
+        marginTop: 10,
+        fontSize: 15,
         fontWeight: 'bold',
-        width: 80,
-    },
-    tranContent: {
-        textAlign: 'right',
-        width: 170,
-        fontSize: 17,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end',
-    },
-    titleDiv: {
-        fontSize: 20,
-        margin: 30,
-        fontWeight: 'bold',
-    },
-    styleBranch: {
-        fontSize: 11,
-    },
-    organizationStyle:{
-        textAlign: 'right',
-        width: 110,
-        fontSize: 17,
-    },
-});
-const pickerSelectStyles = StyleSheet.create({
-    inputAndroid: {
-        height: 30, 
-        width: 170, 
-        backgroundColor: '#DCDCDC',
-        borderColor: '#000000',  
-        borderRadius: 3,
-        padding: 10,
     },
 });
