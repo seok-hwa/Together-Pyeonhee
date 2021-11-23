@@ -192,39 +192,6 @@ const SelectedAccountScreen = ({navigation, route}) => {
         })
     }
 
-    //test data
-    const tempData = [
-        {
-            branch_name: '강남점',
-            tran_date: '2021/11/20',
-            tran_time: '오후 2시 20분',
-            tran_amt: 3000,
-            tran_type: '생활',
-            inout_type: '출금',
-            fintech_use_num: '1234123',
-            print_content: '스타벅스',
-        },
-        {
-            branch_name: '강남점',
-            tran_date: '2021/11/20',
-            tran_time: '오후 2시 20분',
-            tran_amt: 3000,
-            tran_type: '생활',
-            inout_type: '출금',
-            fintech_use_num: '1234123',
-            print_content: '스타벅스',
-        },
-        {
-            branch_name: '강남점',
-            tran_date: '2021/11/20',
-            tran_time: '오후 2시 20분',
-            tran_amt: 3000,
-            tran_type: '생활',
-            inout_type: '출금',
-            fintech_use_num: '1234123',
-            print_content: '스타벅스',
-        },
-    ]
     useEffect(()=>{
         let tempID;
 
@@ -241,7 +208,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
             fetch(`${url}/selectedAccountHistory`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    userID: userID,
+                    userID: tempID,
                     fintech_use_num: route.params.fintech_use_num,
                 }),
                 headers: {
@@ -262,6 +229,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
         })
     }, [])
 
+    if(loadging === true){
     return (
         <Root>
         <View style={styles.appSize}>
@@ -319,7 +287,12 @@ const SelectedAccountScreen = ({navigation, route}) => {
                     <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
                 </View>
                 <ScrollView style={{flex: 1,}}>
-                    {tempData.map((item, index) => {
+                    {
+                        accountHistory.length === 0 ?
+                        <View style={{alignItems: 'center',}}>
+                        <Text>거래 내역이 없습니다.</Text>
+                        </View> :
+                        accountHistory.map((item, index) => {
                         return <TransactionItemInAccount key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
                         tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID}
                         inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content}
@@ -331,6 +304,72 @@ const SelectedAccountScreen = ({navigation, route}) => {
         </View>
         </Root>
     )
+                }
+    else{
+        return(
+            <Root>
+        <View style={styles.appSize}>
+            <Modal
+                    animationType="slide"
+                    transparent={true} // 배경 투명 하게 
+                    visible={modalVisible}
+
+                    onRequestClose={() => {
+                        setModalVisible(false);
+            }}>
+                <View style={styles.modalSize}>
+                    <View style={styles.modalBodySize}>
+                        <View style={styles.modalTopBar}>
+                            <Text style={styles.modalTitle}>계좌 별명 변경</Text>
+                        </View>
+                        <View style={styles.modalContent}>
+                            <Text style={{fontSize: 16, fontWeight: 'bold',}}> 계좌 별명</Text>
+                            <TextInput
+                                style={styles.textInputDesign}
+                                placeholder={accountAlias}
+                                onChangeText={(tempAccountAlias) => setTempAccountAlias(tempAccountAlias)}
+                                maxLength ={20}
+                            />
+                        </View>
+                        <View style={styles.modalBottom}>
+                            <SubmitAliasButton onPress={handleSubmitButton}/>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+            <View style={styles.appTopDiv}>
+                <View style={styles.appTopLeftDiv}>
+                    <AccountLogo accountCate={route.params.accountCate}/>
+                    <Text style={{fontSize: 12,}}>{route.params.accountCate}</Text>
+                    <Text style={styles.aliasFont}>{accountAlias}</Text>
+                </View>
+                <View style={styles.appTopRightDiv}>
+                    <View style={styles.appTopRightTop}>
+                        <UpdateAccountButton onPress={()=>{setModalVisible(true)}}/>
+                    </View>
+                    <View style={styles.appTopRightBottom}>
+                        <Text style={styles.aliasFont}>계좌 번호: {route.params.accountNum}</Text>
+                        <Text style={styles.aliasFont}>계좌 잔액: {route.params.accountBalance}원</Text>
+                    </View>
+                </View>
+            </View>
+            <View style={{flex: 4,}}>
+            <Text style={styles.titleFont}>거래 내역</Text>
+            <View style={styles.latestTranBox}>
+                <View style={styles.graphTitle}>
+                    <View style={styles.OrganizationNameDiv}><Text style={styles.graphFont}>상호명</Text></View>
+                    <View style={styles.tranDate}><Text style={styles.graphFont}>거래일자</Text></View>
+                    <View style={styles.tranPrice}><Text style={styles.graphFont}>거래금액</Text></View>
+                    <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
+                </View>
+                <ScrollView style={{flex: 1,}}>
+                </ScrollView>
+            </View>
+            </View>
+        </View>
+        </Root>
+        )
+    }
 }
 
 export default SelectedAccountScreen;
