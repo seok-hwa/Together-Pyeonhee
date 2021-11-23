@@ -152,7 +152,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
               })
           return;
         }
-        /*
+        
         fetch(`${url}/update_info`, {
           method: 'POST',
           body: JSON.stringify({
@@ -188,7 +188,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
         })
         .catch((error)=>{
           console.error(error);
-        })*/
+        })
     }
 
     //test data
