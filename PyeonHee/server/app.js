@@ -1167,7 +1167,6 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 카테고리 설정
             app.post('/update_category', function (req, res) {
-                console.log("/update_category 카테고리 변경");
                 var userID = req.body.userID;
                 var fintech = req.body.fintech;
                 var tranCate = req.body.tranCate;
@@ -1191,7 +1190,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post('/selectedAccountHistory', function (req, res) {
                 var userID = req.body.userID;
                 var fintechUseNum = req.body.fintech_use_num;
-                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ? ORDER BY tran_date desc`, [userID, fintechUseNum], function (error, result) {
                     if (error) throw error;
                     else{
                         res.send(result);
