@@ -165,10 +165,12 @@ const SetCategoryScreen = ({navigation, route}) => {
                 buttonText: '확인',
                 okButtonStyle: {backgroundColor: '#0000CD'},
                 iconEnabled: false,
-                callback: () => Popup.hide()
+                callback: () => {
+                    Popup.hide();
+                    navigation.goBack();
+                }
               })
             console.log('success store category');
-            navigation.goBack();
           }else{
             alert('카테고리 설정 실패');
             console.log('Check id or password');
@@ -298,4 +300,4 @@ const pickerSelectStyles = StyleSheet.create({
         borderRadius: 3,
         padding: 10,
     },
-  });
+});

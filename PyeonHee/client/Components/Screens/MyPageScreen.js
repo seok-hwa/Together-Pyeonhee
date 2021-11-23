@@ -18,6 +18,8 @@ const MyPageScreen = ({navigation}) => {
     const [userTier, setUserTier] = useState('');
     const [userStamp, setUserStamp] = useState(0);
     const [userPoint, setUserPoint] = useState(0);
+    const [userMbti, setUserMbti] = useState('');
+
     const [loading, setLoading] = useState(true);
 
     //서버 구현 되면 사용
@@ -47,6 +49,7 @@ const MyPageScreen = ({navigation}) => {
                 setUserTier(responseJson.userTier);
                 setUserStamp(responseJson.userStamp);
                 setUserPoint(responseJson.userPoint);
+                setUserMbti(responseJson.userMbti);
 
             })
             .then(()=>{
@@ -116,6 +119,12 @@ const MyPageScreen = ({navigation}) => {
                         </View>
                         <View style={styles.innerTopRight}>
                             <View style={styles.stampPointDiv}>
+                                <View style={styles.mbtiDiv}>
+                                    <Text>소비성향 MBTI</Text>
+                                    <View style={styles.mbtiInnerContainer}>
+                                        <Text style={styles.mbtiText}>{userMbti}</Text>
+                                    </View> 
+                                </View>
                                 <View style={styles.stampDiv}>
                                     <Image source={require('./assets/stamp.png')} style={styles.stampPointDesign}/>
                                     <Text style={styles.stampPointText}>스탬프</Text>
@@ -194,14 +203,22 @@ const styles = StyleSheet.create({
     },
     stampPointDiv: {
         marginLeft: 10,
-        marginTop: 20,
+        flex: 1,
+    },
+    mbtiDiv: {
+        padding: 5,
+        flex: 1,
+        flexDirection: 'row',
     },
     stampDiv: {
+        padding: 5,
+        flex: 1,
         flexDirection: 'row',
     },
     pointDiv: {
+        padding: 5,
+        flex: 1,
         flexDirection: 'row',
-        marginTop: 25,
     },
     titleDiv: {
         marginTop: 20,
@@ -275,6 +292,18 @@ const styles = StyleSheet.create({
         marginRight: 10,
         height: 100,
         backgroundColor: 'white',
+    },
+    mbtiInnerContainer: {
+        backgroundColor: 'pink',
+        padding: 3,
+        borderRadius: 5,
+        marginLeft: 10,
+        height: 26,
+    },
+    mbtiText: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        color: 'white',
     },
 })
 export default MyPageScreen;

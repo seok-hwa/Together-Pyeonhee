@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import AccountItem from './AccountItem';
+import setCategoryScreen from './SetCategoryScreen';
 
 const AccountLogo = (props) => {
-    const accountCate = props.accountCate;
+    const accountCate = props.bankName;
     if(accountCate === 'NH농협은행'){
         return(
             <Image source={require('./assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
@@ -109,57 +111,100 @@ const AccountLogo = (props) => {
           )
       }
   }
-const AccountItem = (props) => {
+const TransactionItem = (props) => {
 
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('SelectedAccount', {accountCate: props.accountCate, accountNum: props.accountNum, accountAlias: props.accountAlias, accountBalance: props.accountBalance, fintech_use_num: props.fintech_use_num,})}>
-                <View style={styles.accountCard}>
-                    <AccountLogo accountCate={props.accountCate}/>
-                    <View style={styles.accountContent}>
-                        <View style={styles.accountInnerContent}>
-                            <Text style={styles.accountCate}>{props.accountCate}({props.accountNum})/{props.accountAlias}</Text>
-                            <Text style={styles.accountMoney}>{props.accountBalance}원</Text>
-                        </View>
-                    </View>
-                </View>
-        </TouchableOpacity>
+        <View style={styles.TranContentBox}>
+            <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text><Text style={styles.BankInFont}>{props.branchName}</Text></View>
+            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate.substring(0,10)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
+            <View style={styles.tranPrice}>
+            {props.inoutType === '입금' ? <Text style={styles.tranInPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>:
+            <Text style={styles.tranOutPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
+            </View>
+            <View style={styles.tranCate}><Text style={styles.cateFont}>{props.tranCate}</Text></View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    accountCard: {
+    BankNameDiv: {
+        width: 65,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftColor: 'gray',
+    },
+    OrganizationNameDiv: {
+        flex: 2.5,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftColor: 'gray',
+    },
+    tranDate:{
+        flex: 3,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftColor: 'gray',
+
+    },
+    tranPrice:{
+        flex: 4,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftColor: 'gray',
+    },
+    tranCate:{
+        flex: 2,
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderLeftColor: 'gray',
+    },
+    TranBox: {
+        flex: 2,
         backgroundColor: 'white',
-        padding: 7,
+        borderRadius: 5,
+        
+    },
+    TranContentBox:{
+        height: 65,
+        flexDirection: 'row',
         borderTopWidth: 1,
         borderTopColor: 'gray',
-        flexDirection:'row',
-        margin: 2,
     },
     accountImage: {
-        height: 60,
         width: 60,
-        borderWidth: 1,
+        height: 60,
         borderRadius: 30,
+        borderWidth: 1,
     },
-    accountContent: {
-        flex: 1,
-        flexDirection: 'row-reverse',
+    BankFont: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
-    accountCate: {
-        fontSize: 15,
-        marginRight: 10,
-        width: 250,
+    BankInFont: {
+        fontSize: 10,
+        textAlign: 'center',
+    },
+    tranDateFont:{
+        fontSize: 11,
+        textAlign: 'center',
+    },
+    tranInPriceFont:{
+        fontSize: 12,
         textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'blue',
     },
-    accountInnerContent: {
-        flexDirection: 'column',
-    },
-    accountMoney: {
-        marginTop: 8,
-        fontSize: 17,
-        width: 250,
+    tranOutPriceFont:{
+        fontSize: 12,
         textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'red',
     },
-  });
+    cateFont:{
+        fontSize: 12,
+        textAlign: 'center',
+    },
+});
 
-export default AccountItem;
+export default TransactionItem;

@@ -20,6 +20,7 @@ import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen
 import BudgetScreen from './Components/Screens/BudgetScreen';
 import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
 import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
+import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
 
 import config from './config';
 
@@ -126,6 +127,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="SelectedAccount"
+             component={SelectedAccountScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      ); 
@@ -199,6 +207,13 @@ import {
            <Stack.Screen
              name="SetCategory"
              component={SetCategoryScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="SelectedAccount"
+             component={SelectedAccountScreen}
              options={{
                headerShown: false,
            }} 

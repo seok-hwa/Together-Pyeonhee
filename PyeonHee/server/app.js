@@ -1180,7 +1180,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             status: 'success'
                         }
                         res.send(data);
-                        console.log("카테고리 설정완료");
+                        console.log("카테고리 설정완료", data);
                     }
                 });
             });
