@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView } from 'react-native';
-import UpdateAccountButton from '../Buttons/updateAliasButton';
+import UpdateAccountButton from '../Buttons/UpdateAliasButton';
 import SetCategoryButton from '../Buttons/SetCategoryButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { CATEGORY } from './constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import TransactionItemInAccount from './TransactionItemInAccount';
 
 const url = config.url;
 const AccountLogo = (props) => {
@@ -120,15 +121,73 @@ const AccountLogo = (props) => {
 const SelectedAccountScreen = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     //route.params.tranID  거래 아이디 
-    const [category, setCategory] = useState('');
+    const [accountHistory, setAccountHistory] = useState('');
+    const [loadging, setLoading] = useState(false);
+    
+    const tempData = [
+        {
+            branch_name: '강남점',
+            tran_date: '2021/11/20',
+            tran_time: '오후 2시 20분',
+            tran_amt: 3000,
+            tran_type: '생활',
+            inout_type: '출금',
+            fintech_use_num: '1234123',
+            print_content: '스타벅스',
+        },
+        {
+            branch_name: '강남점',
+            tran_date: '2021/11/20',
+            tran_time: '오후 2시 20분',
+            tran_amt: 3000,
+            tran_type: '생활',
+            inout_type: '출금',
+            fintech_use_num: '1234123',
+            print_content: '스타벅스',
+        },
+        {
+            branch_name: '강남점',
+            tran_date: '2021/11/20',
+            tran_time: '오후 2시 20분',
+            tran_amt: 3000,
+            tran_type: '생활',
+            inout_type: '출금',
+            fintech_use_num: '1234123',
+            print_content: '스타벅스',
+        },
+    ]
     useEffect(()=>{
+        let tempID;
+
         AsyncStorage.getItem('userID', (err, result) => {
-            const tempID = result;
+            tempID = result;
             if(tempID!= null){
                 setUserID(tempID);
             }
         })
-    })
+        .then(()=>{
+            console.log(`${url}/selectedAccountHistory`);
+            /*
+            fetch(`${url}/selectedAccountHistory`, {
+                method: 'POST',
+                body: JSON.stringify({
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
+                setAccountHistory(responseJson);
+                
+            })
+            .then(()=>{
+                setLoading(true);
+            })*/
+        })
+    }, [])
 
     return (
         <View style={styles.appSize}>
@@ -158,6 +217,12 @@ const SelectedAccountScreen = ({navigation, route}) => {
                     <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
                 </View>
                 <ScrollView style={{flex: 1,}}>
+                    {tempData.map((item, index) => {
+                        return <TransactionItemInAccount key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
+                        tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID}
+                        inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content}
+                        />})
+                    }
                 </ScrollView>
             </View>
             </View>
