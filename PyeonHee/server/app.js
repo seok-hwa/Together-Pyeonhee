@@ -1186,7 +1186,20 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-
+        
+            // 선택한 계좌 내역 조회
+            app.post('/selectedAccountHistory', function (req, res) {
+                var userID = req.body.userID;
+                var fintechUseNum = req.body.fintech_use_num;
+                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
+                    if (error) throw error;
+                    else{
+                        res.send(result);
+                        console.log(fintechUseNum,"의 계좌내역 조회 완료");
+                    }
+                });
+            });
+            
             const PORT = 8000;
 
             app.listen(PORT, function(){

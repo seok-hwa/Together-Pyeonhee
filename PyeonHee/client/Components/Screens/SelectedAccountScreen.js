@@ -180,6 +180,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
                 callback: () => Popup.hide()
             })
             //console.log(userID, userPassword, '계좌 별명 변경 완료');
+              console.log(userID, '계좌 별명 변경 완료');
           }else{
             setModalVisible(false);
             alert('계좌 별명 변경 실패')
@@ -236,7 +237,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
         .then(()=>{
             setAccountAlias(route.params.accountAlias);
             console.log(`${url}/selectedAccountHistory`);
-            /*
+            
             fetch(`${url}/selectedAccountHistory`, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -257,7 +258,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
             .then(()=>{
                 setLoading(true);
             })
-            */
+            
         })
     }, [])
 
