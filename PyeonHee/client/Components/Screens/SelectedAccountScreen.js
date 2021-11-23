@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config';
-import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView, Modal, TextInput,} from 'react-native';
 import UpdateAccountButton from '../Buttons/UpdateAliasButton';
 import SetCategoryButton from '../Buttons/SetCategoryButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { CATEGORY } from './constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import TransactionItemInAccount from './TransactionItemInAccount';
-
+import SubmitAliasButton from '../Buttons/SubmitAliasButton';
 const url = config.url;
 const AccountLogo = (props) => {
     const accountCate = props.accountCate;
@@ -123,7 +123,75 @@ const SelectedAccountScreen = ({navigation, route}) => {
     //route.params.tranID  거래 아이디 
     const [accountHistory, setAccountHistory] = useState('');
     const [loadging, setLoading] = useState(false);
-    
+    const [modalVisible, setModalVisible] = useState(false);
+    const [accountAlias, setAccountAlias] = useState('');
+    const [tempAccountAlias, setTempAccountAlias] = useState('');
+
+    const handleSubmitButton = () => {
+        if(!tempAccountAlias){
+            setModalVisible(false);
+            Popup.show({
+                type: 'success',
+                textBody: '별명을 입력해주세요.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+              })
+          return;
+        }
+        if(tempAccountAlias === accountAlias){
+            setModalVisible(false);
+            Popup.show({
+                type: 'success',
+                textBody: '기존의 계좌 별명과 같습니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+              })
+          return;
+        }
+        /*
+        fetch(`${url}/update_info`, {
+          method: 'POST',
+          body: JSON.stringify({
+              userID: userID,
+              fintech_use_num: route.params.fintech_use_num,
+              newAlias: tempAccountAlias,
+          }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+          },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+          console.log(responseJson);
+          if(responseJson.status === 'success'){
+            setAccountAlias(tempAccountAlias);
+            setModalVisible(false);
+            Popup.show({
+                type: 'success',
+                textBody: '변경이 완료 되었습니다.',
+                buttonText: '확인',
+                okButtonStyle: {backgroundColor: '#0000CD'},
+                iconEnabled: false,
+                callback: () => Popup.hide()
+            })
+            console.log(userID, userPassword, '계좌 별명 변경 완료');
+          }else{
+            setModalVisible(false);
+            alert('계좌 별명 변경 실패')
+            console.log('fail to update.');
+          }
+        })
+        .catch((error)=>{
+          console.error(error);
+        })*/
+    }
+
+    //test data
     const tempData = [
         {
             branch_name: '강남점',
@@ -166,11 +234,14 @@ const SelectedAccountScreen = ({navigation, route}) => {
             }
         })
         .then(()=>{
+            setAccountAlias(route.params.accountAlias);
             console.log(`${url}/selectedAccountHistory`);
             /*
             fetch(`${url}/selectedAccountHistory`, {
                 method: 'POST',
                 body: JSON.stringify({
+                    userID: userID,
+                    fintech_use_num: route.params.fintech_use_num,
                 }),
                 headers: {
                   'Accept': 'application/json',
@@ -185,21 +256,51 @@ const SelectedAccountScreen = ({navigation, route}) => {
             })
             .then(()=>{
                 setLoading(true);
-            })*/
+            })
+            */
         })
     }, [])
 
     return (
+        <Root>
         <View style={styles.appSize}>
+            <Modal
+                    animationType="slide"
+                    transparent={true} // 배경 투명 하게 
+                    visible={modalVisible}
+
+                    onRequestClose={() => {
+                        setModalVisible(false);
+            }}>
+                <View style={styles.modalSize}>
+                    <View style={styles.modalBodySize}>
+                        <View style={styles.modalTopBar}>
+                            <Text style={styles.modalTitle}>계좌 별명 변경</Text>
+                        </View>
+                        <View style={styles.modalContent}>
+                            <Text style={{fontSize: 16, fontWeight: 'bold',}}> 계좌 별명</Text>
+                            <TextInput
+                                style={styles.textInputDesign}
+                                placeholder={accountAlias}
+                                onChangeText={(tempAccountAlias) => setTempAccountAlias(tempAccountAlias)}
+                                maxLength ={20}
+                            />
+                        </View>
+                        <View style={styles.modalBottom}>
+                            <SubmitAliasButton onPress={handleSubmitButton}/>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
             <View style={styles.appTopDiv}>
                 <View style={styles.appTopLeftDiv}>
                     <AccountLogo accountCate={route.params.accountCate}/>
                     <Text style={{fontSize: 12,}}>{route.params.accountCate}</Text>
-                    <Text style={styles.aliasFont}>{route.params.accountAlias}</Text>
+                    <Text style={styles.aliasFont}>{accountAlias}</Text>
                 </View>
                 <View style={styles.appTopRightDiv}>
                     <View style={styles.appTopRightTop}>
-                        <UpdateAccountButton />
+                        <UpdateAccountButton onPress={()=>{setModalVisible(true)}}/>
                     </View>
                     <View style={styles.appTopRightBottom}>
                         <Text style={styles.aliasFont}>계좌 번호: {route.params.accountNum}</Text>
@@ -227,6 +328,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
             </View>
             </View>
         </View>
+        </Root>
     )
 }
 
@@ -333,5 +435,48 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 15,
         fontWeight: 'bold',
+    },
+    modalSize: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.50)',
+    },
+    modalBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    modalTopBar: {
+        flex: 1,
+        padding: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: 'gray',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalTitle:{
+        fontSize: 17,
+        fontWeight: 'bold',
+    },
+    modalContent:{
+        flex: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    textInputDesign: {
+        marginTop: 10,
+        paddingHorizontal: 10,
+        height: 40,
+        width: 200,
+        borderRadius: 5,
+        backgroundColor: '#DCDCDC',
+    },
+    modalBottom: {
+        flex: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

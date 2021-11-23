@@ -112,7 +112,7 @@ const AccountLogo = (props) => {
 const AccountItem = (props) => {
 
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('SelectedAccount', {accountCate: props.accountCate, accountNum: props.accountNum, accountAlias: props.accountAlias, accountBalance: props.accountBalance,})}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('SelectedAccount', {accountCate: props.accountCate, accountNum: props.accountNum, accountAlias: props.accountAlias, accountBalance: props.accountBalance, fintech_use_num: props.fintech_use_num,})}>
                 <View style={styles.accountCard}>
                     <AccountLogo accountCate={props.accountCate}/>
                     <View style={styles.accountContent}>
