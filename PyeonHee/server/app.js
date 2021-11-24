@@ -6,6 +6,23 @@ const { Client } = require('ssh2');
 const sshClient = new Client();
 const bcrypt = require('bcrypt');
 var request = require('request');
+/*
+var Iamport = require("iamport");
+var iamport = new Iamport({
+    impkey: config.REST_API,
+    impsecret: config.REST_API_SECRET
+});
+app.use(bodyParser.json());
+
+//결제번호, 주문번호 추출
+app.post("/Together_iamport", async (req, res) => {
+    try {
+        const { imp_uid, merchant_uid } = req.body;
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+*/
 const saltRounds = 10;
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
