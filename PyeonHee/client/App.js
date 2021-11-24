@@ -29,6 +29,7 @@ import config from './config';
 import {
    View,
  } from 'react-native';
+
  const Stack = createNativeStackNavigator();
  const url = config.url; //로컬서버 접속 url
  
@@ -44,7 +45,7 @@ import {
 
    useEffect(()=>{
       foregroundListener();
-     async function getStorage(){
+      async function getStorage(){
        if(await AsyncStorage.getItem("userID")){
          let tempUserID = await AsyncStorage.getItem("userID");
          setUserID(tempUserID);
