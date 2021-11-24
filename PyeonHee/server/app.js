@@ -114,31 +114,43 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var fourth_type = req.body.mbti4Score;
                 var userIncome = req.body.userMonthlyIncome;
                 var userJob = req.body.userJob;
-                
+                var description= '';
+
                 if(first_type > 50){
                     mbti_type = mbti_type + 'I';
+                    description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
                 } else {
                     mbti_type = mbti_type + 'P';
+                    description = description + '당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. ';
                 }
 
                 if(second_type < 50){
                     mbti_type = mbti_type + 'C';
+                    description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
                 } else {
                     mbti_type = mbti_type + 'H';
+                    description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
                 }
 
                 if(third_type < 50){
                     mbti_type = mbti_type + 'S';
+                    description = description + '종종 본인 스스로에게 선물을 해주기도 하고 가끔 좋아하는 음식을 먹으며 스트레스를 푸시네요. ';
                 } else {
                     mbti_type = mbti_type + 'O';
+                    description = description + '종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. ';
                 }
                 
                 if(fourth_type > 50){
                     mbti_type = mbti_type + 'E';
+                    description = description + '소비를 크게 차지하는 부분은 쇼핑을 위주로 하기보다 취미나 사람들을 만나고 경험적인 일을 쌓는데 주로 사용하십니다. ';
                 } else {
                     mbti_type = mbti_type + 'M';
+                    description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
                 }
+
                 console.log(mbti_type);
+                console.log(description);
+
                 db.query(`UPDATE user SET mbti = ? 
                 WHERE user.user_id = ?`,[mbti_type, userID], function(error,result1){
                     if(error) throw error;
@@ -162,6 +174,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 const data = {
                     status : true,
                     mbtiType : mbti_type,
+                    description : description
                 };
                 console.log(data);
                 res.send(data);
@@ -1009,7 +1022,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var ranNum = Math.floor(Math.random() * 1000000000);
                 var bankTranID = config.client_use_code + 'U' + ranNum;
                 var fintechUseNum = req.body.fintech_use_num;
-
                 db.query('SELECT * FROM openBankingUser WHERE user_id = ?', [userID], function (error, result) {
                     if (error) throw error;
                     var option = {
