@@ -178,6 +178,11 @@ const MbtiScreen = ({navigation, route}) => {
                     </View>
                 </View>
             </View>
+            <View style={styles.descriptionBox}>
+                  <Text style={styles.descriptionFont}>
+                    {route.params.description}
+                  </Text>
+                </View>
             <View style={styles.buttonPosition}>
               <MbtiToMain onPress={()=>{
                 navigation.replace('Main');
@@ -206,6 +211,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
   },
+  subLogo:{
+    marginTop: 30,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   appBody: {
     borderTopWidth: 2,
     borderColor: '#DCDCDC',
@@ -231,6 +241,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#DCDCDC',
     justifyContent: 'center',
+  },
+  descriptionBox: {
+    margin: 8,
+    borderRadius: 15,
+    alignItems: 'center',
+    backgroundColor: '#DCDCDC',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  descriptionFont: {
+    fontSize: 16,
+    fontWeight: '600',
   },
   resultDivBox: {
     margin: 8,
