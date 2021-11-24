@@ -4,7 +4,9 @@ const config = require('./config');
 const mysql = require('mysql2');
 const { Client } = require('ssh2');
 const sshClient = new Client();
+const bcrypt = require('bcrypt');
 var request = require('request');
+const saltRounds = 10;
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
@@ -35,8 +37,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post('/login', function(req, res){
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
-                db.query(`SELECT * FROM user WHERE user.user_id=? 
-                AND user.password = ?`,[userID,userPassword], function(error,result){
+                db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
                     //console.log(result[0]);
 
                     if(error) throw error;
@@ -49,14 +50,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                             res.send(data);
                         }
                         else{
-                            const data = {
-                                status : 'success',
-                                userID : result[0].user_id,
-                                userMbti : result[0].mbti,
-                                userAge : result[0].age,
+                            const same = bcrypt.compareSync(userPassword, result[0].password);
+                            if(same){
+                                const data = {
+                                    status : 'success',
+                                    userID : result[0].user_id,
+                                    userMbti : result[0].mbti,
+                                    userAge : result[0].age,
+                                };
+                                console.log(data);
+                                res.send(data);
                             }
-                            console.log(data);
-                            res.send(data);
+                            else {
+                                const data = {
+                                    status : 'failed',
+                                }
+                                console.log(data);
+                                res.send(data);
+                            }
                         }
                     }
                 });
@@ -69,13 +80,14 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPassword = req.body.userPassword;
                 var userName = req.body.userName;
                 // user table null 값 여부 변경 후 수정 예정
+                const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error1,check){
                     console.log(check);
                     if(error1) throw error1;
                     else{
                         if(check.length === 0) {
                             db.query(`insert into user(user_id, password, name)
-                                values (?, ?, ?)`,[userID,userPassword,userName], function(error2,result){
+                                values (?, ?, ?)`,[userID,encryptedPassowrd,userName], function(error2,result){
                                 console.log(result);
                                 if(error2) throw error2;
                                 else {
