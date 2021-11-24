@@ -21,6 +21,7 @@ import BudgetScreen from './Components/Screens/BudgetScreen';
 import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
 import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
 import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
+import messaging from '@react-native-firebase/messaging';
 
 import config from './config';
 
@@ -34,8 +35,15 @@ import {
  function App(){         //navigation
    const [userID, setUserID] = useState('');
    const [loading, setLoading] = useState(false);
- 
+
+  const foregroundListener = () => {
+    messaging().onMessage(async message => {
+      console.log('Message handled in the foreground!', message);
+    })
+  }
+
    useEffect(()=>{
+      foregroundListener();
      async function getStorage(){
        if(await AsyncStorage.getItem("userID")){
          let tempUserID = await AsyncStorage.getItem("userID");
@@ -44,7 +52,6 @@ import {
        setLoading(true);
      }
      getStorage();
- 
    }, []);
    
    if(loading === false){
