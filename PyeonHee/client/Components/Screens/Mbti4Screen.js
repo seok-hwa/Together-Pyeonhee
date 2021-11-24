@@ -412,6 +412,7 @@ const Mbti4Screen = ({navigation, route}) => {
           mbti3Score: route.params.mbti3Score,
           mbti4Score: totalScore,
           mbtiType: responseJson.mbtiType,
+          description : responseJson.description,
         });
       }else{
         console.log('fail to submit.');
