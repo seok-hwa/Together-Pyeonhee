@@ -84,8 +84,7 @@ const LoginScreen = ({navigation}) => {
           if(responseJson.userMbti === null){
             navigation.replace('Survey');
           }else{
-            //navigation.replace('Main');
-            navigation.replace('Survey');
+            navigation.replace('Main');
           }
         }else{
           Popup.show({
