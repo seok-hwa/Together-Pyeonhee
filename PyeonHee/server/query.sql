@@ -1,7 +1,7 @@
 create table user
 (
     user_id   varchar(10) not null primary key,
-    password varchar(15) not null,
+    password varchar(300) not null,
     name varchar(12) not null,
     mbti varchar(4),
     age  int,
