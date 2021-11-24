@@ -190,7 +190,7 @@ const SetCategoryScreen = ({navigation, route}) => {
             <View style={styles.appBody}>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>계좌 번호: </Text>
-                <Text style={styles.tranContent}>123412</Text>
+                <Text style={styles.tranContent}>1111111111</Text>
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>거래 일자: </Text>
