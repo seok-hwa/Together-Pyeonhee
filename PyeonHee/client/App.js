@@ -28,6 +28,8 @@ import config from './config';
  
 import {
    View,
+   StyleSheet,
+   Text,
  } from 'react-native';
 
  const Stack = createNativeStackNavigator();
@@ -36,6 +38,7 @@ import {
  function App(){         //navigation
    const [userID, setUserID] = useState('');
    const [loading, setLoading] = useState(false);
+   const [hasMbti, setHasMbti] = useState(false);
 
   const foregroundListener = () => {
     //foreground 메시지 받기
@@ -46,19 +49,44 @@ import {
 
    useEffect(()=>{
       foregroundListener();
-      async function getStorage(){
-       if(await AsyncStorage.getItem("userID")){
-         let tempUserID = await AsyncStorage.getItem("userID");
-         setUserID(tempUserID);
-       }
-       setLoading(true);
-     }
-     getStorage();
+      let tempID='';
+      AsyncStorage.getItem("userID")
+      .then(
+          (value) => {
+              if (value !== null){
+                  tempID=value
+                  setUserID(tempID);
+              }
+          }
+      )
+      .then(()=>{
+        /*
+        if(tempID != ''){
+          fetch(`${url}/getMbti?userID=${tempID}`)   //get
+          .then((response)=>response.json())
+          .then((responseJson)=>{
+            if(responseJson.hasMbti === 'true'){
+              setHasMbti(true);
+            }else{
+              setHasMbti(false);
+            }
+          })
+          .then(()=>{
+            setLoading(true);
+          })
+        }else{
+          setLoading(true);
+        }*/
+
+        //테스트
+        setHasMbti(true);
+        setLoading(true);
+      })
    }, []);
    
    if(loading === false){
      return(
-       <View style={{flex: 1,}}>
+       <View style={styles.appSize}>
        </View>
      );
    }
@@ -146,7 +174,7 @@ import {
          </Stack.Navigator>
        </NavigationContainer>
      ); 
-   }else if(loading === true){
+   }else if(userID != '' && hasMbti === true && loading === true){
      return(
        <NavigationContainer>
          <Stack.Navigator>
@@ -230,7 +258,95 @@ import {
          </Stack.Navigator>
        </NavigationContainer>
      );
-   }
+   }else if(userID != '' && hasMbti === false && loading === true){
+    return(
+      <NavigationContainer>
+         <Stack.Navigator>
+           <Stack.Screen
+             name="Survey"
+             component={SurveyScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="Main"
+             component={MainScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="Login"
+             component={LoginScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="Iamport"
+             component={Iamport}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="Join"
+             component={JoinScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen    //for Budget Writing test
+             name="WriteBudget"
+             component={WriteBudgetScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+          <Stack.Screen
+            name="MyBudget"
+            component={BudgetScreen}
+            options={{
+              headerShown: false,
+          }} 
+          />
+           <Stack.Screen     //for BudgetDetail test
+             name="BudgetDetail"
+             component={BudgetInfoScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="accountLink"
+             component={AccountLinkScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="SetCategory"
+             component={SetCategoryScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="SelectedAccount"
+             component={SelectedAccountScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+         </Stack.Navigator>
+       </NavigationContainer>
+    )
+  }
  }
- 
+ const styles = StyleSheet.create({
+  appSize: {
+      flex: 1,
+  },
+});
  export default App;
