@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import messaging from '@react-native-firebase/messaging';
 import config from '../../config';
 import {
     StyleSheet,
@@ -35,6 +36,13 @@ const LoginScreen = ({navigation}) => {
     }
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    
+    //파이어베이스 디바이스 토큰 저장
+    const getFcmToken = async () => {
+      let fcmToken = await messaging().getToken();
+      return fcmToken;
+    };
+
     const handleSubmitButton = () => {
       if(!userID){
         Popup.show({
@@ -58,49 +66,49 @@ const LoginScreen = ({navigation}) => {
         })
         return;
       }
-      //AsyncStorage.setItem('userID', userID); 
-      //navigation.replace('Survey');           //for survey test
-      //navigation.replace('Main');             //for Main test
-      //navigation.replace('BudgetList');         //for BudgetList test
-      console.log(`${url}/login`);
-      fetch(`${url}/login`, {
-        method: 'POST',
-        body: JSON.stringify({
-          userID: userID,
-          userPassword: userPassword,
-          rememberCheck: rememberCheck,
-        }),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type':'application/json',
-        },
-      })
-      .then((response)=>response.json())
-      .then((responseJson)=>{
-        console.log(responseJson);
-        if(responseJson.status === 'success'){
-          AsyncStorage.setItem('userID', userID);
-          console.log(userID, '저장');
-          if(responseJson.userMbti === null){
-            navigation.replace('Survey');
+      getFcmToken().then((fcmToken)=>{
+        console.log('디바이스 토큰: ', fcmToken);
+        console.log(`${url}/login`);
+        fetch(`${url}/login`, {
+          method: 'POST',
+          body: JSON.stringify({
+            userID: userID,
+            userPassword: userPassword,
+            rememberCheck: rememberCheck,
+            deviceToken: fcmToken,
+          }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+          },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+          console.log(responseJson);
+          if(responseJson.status === 'success'){
+            AsyncStorage.setItem('userID', userID);
+            console.log(userID, '저장');
+            if(responseJson.userMbti === null){
+              navigation.replace('Survey');
+            }else{
+              navigation.replace('Main');
+            }
           }else{
-            navigation.replace('Main');
+            Popup.show({
+              type: 'success',
+              textBody: '아이디 또는 비밀번호를 다시 확인해주세요.',
+              buttonText: '확인',
+              okButtonStyle: {backgroundColor: '#0000CD'},
+              iconEnabled: false,
+              callback: () => Popup.hide()
+            })
+            console.log('Check id or password');
           }
-        }else{
-          Popup.show({
-            type: 'success',
-            textBody: '아이디 또는 비밀번호를 다시 확인해주세요.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-          })
-          console.log('Check id or password');
-        }
-      })
-      .catch((error)=>{
-        console.error(error);
-      })
+        })
+        .catch((error)=>{
+          console.error(error);
+        })
+      });
     }
     return(         //login view
       <Root>

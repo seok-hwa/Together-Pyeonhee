@@ -97,7 +97,22 @@ const MyPageScreen = ({navigation}) => {
             Popup.hide()
             AsyncStorage.removeItem('userID')
             .then(()=>{
-              navigation.reset({routes: [{name: 'Login'}]})
+                //디바이스 토큰 삭제
+                /*
+                fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === 'success'){
+                        console.log('디바이스 토큰 삭제');
+                    }
+                    else{
+                        console.log('디바이스 토큰 삭제 실패');
+                    }
+                })*/
+            })
+            .then(()=>{
+                navigation.reset({routes: [{name: 'Login'}]})
             })
           }
         })

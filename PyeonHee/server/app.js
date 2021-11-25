@@ -6,6 +6,49 @@ const { Client } = require('ssh2');
 const sshClient = new Client();
 const bcrypt = require('bcrypt');
 var request = require('request');
+/*
+const admin = require('firebase-admin');
+var Iamport = require("iamport");
+var iamport = new Iamport({
+    impkey: config.REST_API,
+    impsecret: config.REST_API_SECRET
+});
+app.use(bodyParser.json());
+
+//결제번호, 주문번호 추출
+app.post("/Together_iamport", async (req, res) => {
+    try {
+        const { imp_uid, merchant_uid } = req.body;
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+
+let serviceAccount = require('./pyeonhee-AccountKey.json');
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+});
+
+let target_token = ' ';//알림을 받을 디바이스의 토큰값
+let message = {
+    data: {
+        title: '테스트 데이터 발송',
+        body: '하루권장소비액 잔액이 4500원 남았습니다.',
+    },
+    token: target_token,
+}
+
+admin
+    .message()
+    .sene(message)
+    .then(function (response) {
+        console.log('푸시알림메시지 전송성공!', response)
+    })
+    .catch(function (error) {
+        console.log('푸시알림메시지 전송실패!', error)
+    })
+*/
 const saltRounds = 10;
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
@@ -35,6 +78,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
+                console.log(req.body);
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
@@ -81,6 +125,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userName = req.body.userName;
                 // user table null 값 여부 변경 후 수정 예정
                 const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
+                console.log(encryptedPassowrd);
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error1,check){
                     console.log(check);
                     if(error1) throw error1;
@@ -502,7 +547,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             insurance_expense,transportation_expense,communication_expense,
                             leisure_expense, shopping_expense ,education_expense, medical_expense,
                             event_expense, etc_expense, subscribe_expense) 
-                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
                                 insurance,transportation,communication,leisure,shopping,education,medical,event,etc, subscription], function(error1,result1){
                                     if (error1) throw error1;
                                     else{

@@ -208,3 +208,15 @@ npm install --save prop-types
 ~~~
 npm install --save react-native-calendars
 ~~~
+
+<br>
+<br>
+<br>
+<br>
+
+## 9. 알림
+### 9.1. 관련 패키지 설치
+#### 9.1.1. 파이어베이스 모듈(/client)
+~~~
+npm i -s @react-native-firebase/app @react-native-firebase/messaging
+~~~
