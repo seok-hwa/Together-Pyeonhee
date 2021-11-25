@@ -547,7 +547,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             insurance_expense,transportation_expense,communication_expense,
                             leisure_expense, shopping_expense ,education_expense, medical_expense,
                             event_expense, etc_expense, subscribe_expense) 
-                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
                                 insurance,transportation,communication,leisure,shopping,education,medical,event,etc, subscription], function(error1,result1){
                                     if (error1) throw error1;
                                     else{
