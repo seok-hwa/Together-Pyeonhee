@@ -98,7 +98,7 @@ const MyPageScreen = ({navigation}) => {
             AsyncStorage.removeItem('userID')
             .then(()=>{
                 //디바이스 토큰 삭제
-                /*
+                
                 fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
                 .then((response)=>response.json())
                 .then((responseJson)=>{
@@ -109,7 +109,7 @@ const MyPageScreen = ({navigation}) => {
                     else{
                         console.log('디바이스 토큰 삭제 실패');
                     }
-                })*/
+                })
             })
             .then(()=>{
                 navigation.reset({routes: [{name: 'Login'}]})
