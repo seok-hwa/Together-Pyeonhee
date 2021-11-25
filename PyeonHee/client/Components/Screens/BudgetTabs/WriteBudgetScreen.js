@@ -93,9 +93,15 @@ const WriteBudgetScreen = ({navigation}) => {
                     console.log('로딩 안 됐어');
                 }
 
+                
+                
+
+            }) 
+            .then((saving)=>{
+                console.log('여긴 온건가');
                 if(saving.length > 0) {
                     let tempSum = 0;
-    
+            
                     saving.map(item => {
                         tempSum = tempSum + item.savings_money;
                         // return tempSum;
@@ -104,9 +110,6 @@ const WriteBudgetScreen = ({navigation}) => {
                     console.log(tempSum);
                     setSumOfSavings(tempSum);
                 }
-
-            }) 
-            .then(()=>{
                 
             })
             }) 
@@ -156,13 +159,14 @@ const WriteBudgetScreen = ({navigation}) => {
     }
 
     const handleSaveButton = () => {
-        var tempFixed = parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription);
-        setFixedExpenditure(tempFixed);
+        // let tempFixed = monthlyRent + insurance + communication + subscription;
+        // // let tempFixed = parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription);
+        setFixedExpenditure(parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription));
 
         console.log('고정지출');
         console.log(fixedExpenditure);
 
-        var tempPlanned = parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc);
+        let tempPlanned = parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc);
         setPlannedExpenditure(tempPlanned);
 
         console.log('계획지출');
@@ -170,7 +174,7 @@ const WriteBudgetScreen = ({navigation}) => {
 
         
         // var tempTotal = sumOfSavings + fixedExpenditure + plannedExpenditure;
-        var tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
+        let tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
 
         console.log('수입');
         console.log(income)
@@ -260,10 +264,9 @@ const WriteBudgetScreen = ({navigation}) => {
     return(     
         <Root>       
             <ScrollView style={styles.bodySize}>
-                <View style ={{flexDirection: 'row', alignItems: 'center',}}>
-                    <Text style={styles.monthText}>{todayMonth} 월</Text>
-                    {/* <Text>예산계획서</Text> */}
-                </View>
+
+                <Text>{todayMonth} 월</Text>
+                
                 <KeyboardAvoidingView>
                     <View style={styles.bigCategoryContainer}>
                         <Text style={{fontSize: 15, fontWeight:'bold'}}>수입</Text>

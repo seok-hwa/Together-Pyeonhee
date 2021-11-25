@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
     StyleSheet,
     Text,
@@ -13,23 +14,29 @@ import {
 } from 'react-native';
 import SavingPlanItem from './SavingsPlanItem';
 import WriteBudget from './WriteBudgetScreen';
+import AddSavingPlan from './AddSavingPlan';
+import EditBudget from './EditBudget';
+import PlanningSaveButton from '../../Buttons/PlanningSaveButton';
+import PlanningSaveCancelButton from '../../Buttons/PlanningSaveCancelButton';
 
 import config from '../../../config';
 
 const url = config.url;
-const MyBudgetScreen = ({navigation}) => {
+const MyBudgetScreen = ({navigation, route}) => {
     const [userID, setUserId] = useState('');
     const [loading, setLoading] = useState(false);
     const [isCompleted, setIsCompleted] = useState(true);
     const [saving, setSaving] = useState([]);
     const [monthly, setMonthly] = useState(0);
+    const [addSavingsPlan, setAddSavingsPlan] = useState(false);
+    const [isEdited, setIsEdited] = useState(false);
 
     const [isSelected, setIsSelected] = useState(false);
     
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
 
-    // const [sumOfSavings, setSumOfSavings] = useState(0);
+    const [userStore, setUserStore] = useState(false);
 
     const [myBudgetData, setMyBudgetData] = useState({
         userLikeCount: 0,
@@ -52,6 +59,7 @@ const MyBudgetScreen = ({navigation}) => {
         dailyMoney: 0,
     });
 
+
     let now = new Date();
     let todayMonth = now.getMonth()+1;
 
@@ -59,10 +67,125 @@ const MyBudgetScreen = ({navigation}) => {
         setIsSelected(true);
         console.log('눌렀다!');
         console.log(isSelected);
-      };
+    };
+
+    if(addSavingsPlan === true) {
+        fetch(`${url}/daily/savings`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            
+            setSaving(responseJson);
+            setAddSavingsPlan(false);
+        }) 
+        .then(()=>{
+            fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                if(responseJson.length === 0){
+                    setIsCompleted(false);
+                } else{
+                    setMyBudgetData(responseJson);
+
+                    let total = responseJson.education + responseJson.transportation +
+                    responseJson.shopping + responseJson.leisure + responseJson.insurance +
+                    responseJson.medical + responseJson.rent + responseJson.communication +
+                    responseJson.etc + responseJson.event + responseJson.subscribe;
+
+                    let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
+                    parseInt(responseJson.communication) + responseJson.subscribe;
+                    console.log('고정지출 합:');
+                    console.log(fixedTemp);
+
+                    let plannedTemp = parseInt(responseJson.education) + parseInt(responseJson.traffic) +
+                    parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + 
+                    parseInt(responseJson.medical) + parseInt(responseJson.ect) + parseInt(responseJson.event) ;
+                    console.log('계획지출 합:');
+                    console.log(plannedTemp);
+
+                    let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
+
+                    setFixedExpenditure(fixedTemp);
+                    setPlannedExpenditure(plannedTemp);
+                    setMonthly(monthlyTemp);
+                }
+                // console.log(myBudgetData);
+            })
+            .then(()=>{
+            }) 
+        })
+    }
+
+    const handleSubmitSaveButton = () => {
+        if(userStore === false) {
+            fetch(`${url}/saveBudgetPlan`, {
+                method: 'POST',
+                body: JSON.stringify({
+                userID: userID,
+                budgetPlanID: myBudgetData.budgetPlanID,
+                }),
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+                },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        console.log('추가 완료');
+                        setUserStore(true);
+                    }else{
+                        console.log('fail to save.');
+                    }
+                })
+                .catch((error)=>{
+                    console.error(error);
+                })
+        } else {
+
+            fetch(`${url}/cancelBudgetPlan`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: userID,
+                  budgetPlanID: myBudgetData.budgetPlanID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        console.log('삭제 완료');
+                        setUserStore(false);
+                    }else{
+                        console.log('fail to save.');
+                    }
+                })
+                .catch((error)=>{
+                    console.error(error);
+                })
+        }
+    }
 
     useEffect(()=>{
         let tempID;
+        let tempBudgetID;
         
         AsyncStorage.getItem("userID")
         .then(
@@ -108,6 +231,8 @@ const MyBudgetScreen = ({navigation}) => {
                     setFixedExpenditure(fixedTemp);
                     setPlannedExpenditure(plannedTemp);
                     setMonthly(monthlyTemp);
+                    setIsEdited(false);
+                    tempBudgetID = responseJson.budgetPlanID;
                 }
                 // console.log(myBudgetData);
             }) 
@@ -130,7 +255,7 @@ const MyBudgetScreen = ({navigation}) => {
                     
                     setSaving(responseJson);
     
-                    setLoading(true);
+                    // setLoading(true);
                     if(loading === true){
                         console.log('로딩 됐어');
                     }else{
@@ -141,20 +266,54 @@ const MyBudgetScreen = ({navigation}) => {
                     }else{
                         console.log('정보 안 됐어');
                     }
+                  
                 }) 
+            })
+            .then(()=>{
+                console.log('보관함', `${url}/didStore`);
+                fetch(`${url}/didStore`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        userID: tempID,
+                        budgetPlanID: tempBudgetID,
+                    }),
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+                    if(responseJson.status === true){
+                        setUserStore(true);
+                    }
+                })
                 .then(()=>{
+                    setLoading(true);
                 })
             })
+            .then(()=>{
+            })
         })
-    }, [])
+    }, [isEdited])
 
     if(loading === true && isCompleted === true){
         return(     
             <ScrollView style={styles.appSize}> 
                 
-                <Text style={styles.monthText}>
-                    {todayMonth}월
-                </Text>
+                <View style={{flexDirection: 'row', paddingTop: 15, justifyContent: 'space-between',}}>
+                    <Text style={styles.monthText}>
+                        {todayMonth}월
+                    </Text>
+                    <TouchableOpacity
+                        onPress={handleSubmitSaveButton}
+                    >
+                        { userStore === false && <Image source={require('../assets/emptyRibbon.png')} style={{width: 25, height: 30, tintColor: 'gray', marginRight: 20,}}/> }
+                        { userStore === true && <Image source={require('../assets/filledRibbon.png')} style={{width: 25, height: 30, tintColor: '#8EB3EE', marginRight: 20,}}/> }
+                        {/* <Icon name={'bookmark-outline'} size={20} color={'#8EB3EE'}/> */}
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.container}>
                     <View style={styles.smallContainer}>
@@ -183,6 +342,10 @@ const MyBudgetScreen = ({navigation}) => {
                         <Text style={{fontSize: 20, fontWeight:'bold'}}>
                             카테고리별 예산
                         </Text>
+
+                        <View style={{flex:1, flexDirection: 'row-reverse', marginLeft: 20}}>
+                            <EditBudget setIsEdited={setIsEdited}/>
+                        </View>
                     </View>
 
                     <View style={styles.smallContainer}>
@@ -313,9 +476,15 @@ const MyBudgetScreen = ({navigation}) => {
 
                 <View style={styles.container}>
                     <View style={styles.smallContainer}>
-                        <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                            저금 계획
-                        </Text>
+                        <View style={{flexDirection: 'row', }}>
+                            <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                                저금 계획
+                            </Text>
+
+                            <View style={{marginLeft: 10, alignItems: 'center', justifyContent: 'center'}}>
+                                <AddSavingPlan income={myBudgetData.userIncome} setAddSavingsPlan={setAddSavingsPlan}/>
+                            </View>
+                        </View>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}>
                             {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
                         </Text>
@@ -329,9 +498,7 @@ const MyBudgetScreen = ({navigation}) => {
                                     startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
                         })}
                     </View>
-                </View>
-
-
+                </View>            
             </ScrollView> 
         )
     } else if(loading === true && isCompleted === false){
@@ -353,14 +520,11 @@ const styles = StyleSheet.create({
     appSize: {
         flex: 1,
         backgroundColor: 'white',
-        // color: 'black',
     },
     monthText: {
         fontSize: 23, 
         fontWeight:'bold', 
-        // margin: 15,
         marginLeft: 15, 
-        marginTop: 15,
         color: 'black',
     },
     container: {
@@ -383,13 +547,6 @@ const styles = StyleSheet.create({
         borderBottomColor: '#F2F2F2',
         borderBottomWidth: 5,
     },
-    savingList: {
-        margin: 15,
-        paddingBottom: 10,
-        justifyContent: 'space-between',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 5,
-    },
     category: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -407,8 +564,7 @@ const styles = StyleSheet.create({
     },
     moneyText: {
         fontWeight:'bold', 
-    }
-
+    }, 
 });
 
 export default MyBudgetScreen;
