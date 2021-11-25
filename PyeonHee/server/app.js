@@ -7,6 +7,7 @@ const sshClient = new Client();
 const bcrypt = require('bcrypt');
 var request = require('request');
 const admin = require('firebase-admin');
+const schedule = require('node-schedule');
 /*
 var Iamport = require("iamport");
 var iamport = new Iamport({
@@ -28,7 +29,7 @@ let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
-const saltRounds = 10;
+
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
@@ -55,12 +56,54 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // app.use(express.json());
 
+            global_id = '';
+            // 12시가 되면 일일권장금액 이행 여부 확인
+            schedule.scheduleJob('0 0 0 * * *', async()=>{
+                db.query(`SELECT * FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
+                    console.log(result[0]);
+                    if(error1) throw error1;
+                    else{
+                        if(result1[0].daily_spent_money <= result1[0].available_money){
+                            daily_count = result1[0].daily_count + 1;
+                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                                if(error2) throw error2;
+                                console.log(result2);
+                            })
+                        }
+                    }
+                })
+            });
+
+            //매달 1일 모든 예산계획서 state를 0으로 초기화
+            schedule.scheduleJob('0 0 0 1 * *', async()=>{
+                db.query(`UPDATE BudgetPlanning SET state = 0`, function(error, result){
+                    if(error) throw error;
+                    console.log(result);
+                })
+            });
+
+            // 30분마다 일일소비량 업데이트
+            schedule.scheduleJob('0 */30 * * * *', async()=>{
+                db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
+                    if(error1) throw error1;
+                    else if(result1.length != 0){
+                        console.log(result1);
+                        daily_spent_money = result1[0].spend_money
+                        db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
+                            if(error2) throw error2;
+                            console.log(result2);
+                        })
+                    }
+                })
+            });
+
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 var deviceToken = req.body.deviceToken;
+                global_id = req.body.userID;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
                     //console.log(result[0]);
 
