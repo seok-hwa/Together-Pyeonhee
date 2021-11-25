@@ -81,6 +81,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 console.log(req.body);
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
+                var deviceToken = req.body.deviceToken;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
                     //console.log(result[0]);
 
@@ -96,6 +97,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                         else{
                             const same = bcrypt.compareSync(userPassword, result[0].password);
                             if(same){
+                                db.query(`UPDATE user SET deviceToken = ? WHERE user_id = ?`,
+                                    [deviceToken, userID], function (error, result) {
+                                        if (error) throw error;
+                                        console.log("디바이스 토큰값 저장 완료");
+                                    });
                                 const data = {
                                     status : 'success',
                                     userID : result[0].user_id,
@@ -115,6 +121,19 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                     }
                 });
+            });
+
+            //로그아웃(디바이스 토큰 삭제)
+            app.get('/removeDeviceToken', function (req, res) {
+                var userID = req.query.userID;
+                db.query(`UPDATE user SET deviceToken = null WHERE user_id = ?`,
+                    [userID], function (error, result) {
+                        if (error) throw error;
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                    });
             });
 
             // 회원가입 기능 (JoinScreen.js)

@@ -7,7 +7,10 @@ create table user
     age  int,
     tier varchar(10) default 'BRONZE',
     income int,
-    job varchar(20)
+    job varchar(20),
+    deviceToken varchar(300),
+    total_stamp int default 0,
+    total_point int default 2000
 );
 
 create table stamp (
