@@ -7,7 +7,10 @@ create table user
     age  int,
     tier varchar(10) default 'BRONZE',
     income int,
-    job varchar(20)
+    job varchar(20),
+    deviceToken varchar(300),
+    total_stamp int default 0,
+    total_point int default 2000
 );
 
 create table stamp (
@@ -277,6 +280,7 @@ create table daily_data
     daily_spent_money int not null,
 
     rest_money int not null,
+    daily_count int default 0,
 
     primary key (user_id),
     foreign key (user_id) references user(user_id) on delete cascade

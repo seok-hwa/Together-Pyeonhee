@@ -6,8 +6,9 @@ const { Client } = require('ssh2');
 const sshClient = new Client();
 const bcrypt = require('bcrypt');
 var request = require('request');
-/*
 const admin = require('firebase-admin');
+const schedule = require('node-schedule');
+/*
 var Iamport = require("iamport");
 var iamport = new Iamport({
     impkey: config.REST_API,
@@ -23,33 +24,12 @@ app.post("/Together_iamport", async (req, res) => {
         res.status(400).send(e);
     }
 });
-
-
+*/
 let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
 
-let target_token = ' ';//알림을 받을 디바이스의 토큰값
-let message = {
-    data: {
-        title: '테스트 데이터 발송',
-        body: '하루권장소비액 잔액이 4500원 남았습니다.',
-    },
-    token: target_token,
-}
-
-admin
-    .message()
-    .sene(message)
-    .then(function (response) {
-        console.log('푸시알림메시지 전송성공!', response)
-    })
-    .catch(function (error) {
-        console.log('푸시알림메시지 전송실패!', error)
-    })
-*/
-const saltRounds = 10;
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
@@ -76,11 +56,119 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // app.use(express.json());
 
+            global_id = '';
+            // 12시가 되면 일일권장금액 이행 여부 확인
+            schedule.scheduleJob('0 0 0 * * *', async()=>{
+                db.query(`SELECT * FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
+                    console.log(result[0]);
+                    if(error1) throw error1;
+                    else{
+                        if(result1[0].daily_spent_money <= result1[0].available_money){
+                            daily_count = result1[0].daily_count + 1;
+                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                                if(error2) throw error2;
+                                console.log(result2);
+                            })
+                        }
+                    }
+                })
+            });
+
+            //매달 1일 모든 예산계획서 state를 0으로 초기화
+            schedule.scheduleJob('0 0 0 1 * *', async()=>{
+                db.query(`UPDATE BudgetPlanning SET state = 0`, function(error, result){
+                    if(error) throw error;
+                    console.log(result);
+                })
+            });
+
+            // 30분마다 일일소비량 업데이트
+            schedule.scheduleJob('0 */30 * * * *', async()=>{
+                db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
+                    if(error1) throw error1;
+                    else if(result1.length != 0){
+                        console.log(result1);
+                        daily_spent_money = result1[0].spend_money
+                        db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
+                            if(error2) throw error2;
+                            console.log(result2);
+                        })
+                    }
+                })
+            });
+            
+            //잔액 푸시알림
+            // schedule.scheduleJob('*/30 * * * * *', function (){
+            //     db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+            //         if (error) throw error;
+            //         else{
+            //             for (i in result) {
+            //                 var userID = result[i].user_id;
+            //                 var deviceToken = result[i].deviceToken;
+
+            //                 db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
+            //                     if (error) throw error;
+            //                     else{
+            //                         var now = new Date();
+            //                         var year = now.getFullYear();
+            //                         var month = now.getMonth() + 1;
+            //                         var date = now.getDate();
+            //                         now = year + "" + month + "" + date;
+            //                         if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
+            //                             db.query(``, [userID], function (error, result) {
+            //                                 if (error) throw error;
+            //                                 else{
+            //                                     db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? limit 1) as success`, [userID, now], function (error, result) {
+            //                                         if (error) throw error;
+            //                                         else {
+            //                                             if (result[0].success == 1) {
+            //                                                 console.log('최근 거래내역 존재 푸시알림보내기★');
+            //                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
+            //                                                 let message = {
+            //                                                     notification: {
+            //                                                         title: '테스트 데이터 발송',
+            //                                                         body: '하루권장소비액 잔액이 4500원 남았습니다.',
+            //                                                     },
+            //                                                     token: target_token,
+            //                                                 }
+
+            //                                                 admin.messaging().send(message)
+            //                                                     .then(function (response) {
+            //                                                         console.log('푸시알림메시지 전송성공!', response)
+            //                                                     })
+            //                                                     .catch(function (error) {
+            //                                                         console.log('푸시알림메시지 전송실패!', error)
+            //                                                     })
+            //                                             }
+            //                                             else{//계좌연동 but.거래내역 존재X
+            //                                                 console.log("확인3");
+            //                                             }
+            //                                         }
+            //                                     });
+            //                                 }
+
+            //                             });
+
+            //                         }
+            //                         else{//계좌연동 X 사용자
+
+            //                         }
+            //                     }
+                                
+            //                 });
+
+            //             }
+            //         }
+            //     });
+            // });
+            
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
+                var deviceToken = req.body.deviceToken;
+                global_id = req.body.userID;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
                     //console.log(result[0]);
 
@@ -96,6 +184,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                         else{
                             const same = bcrypt.compareSync(userPassword, result[0].password);
                             if(same){
+                                db.query(`UPDATE user SET deviceToken = ? WHERE user_id = ?`,
+                                    [deviceToken, userID], function (error, result) {
+                                        if (error) throw error;
+                                        console.log("디바이스 토큰값 저장 완료");
+                                    });
                                 const data = {
                                     status : 'success',
                                     userID : result[0].user_id,
@@ -114,6 +207,41 @@ const SSHConnection = new Promise((resolve, reject) => {
                             }
                         }
                     }
+                });
+            });
+
+            //로그아웃(디바이스 토큰 삭제)
+            app.get('/removeDeviceToken', function (req, res) {
+                var userID = req.query.userID;
+                db.query(`UPDATE user SET deviceToken = null WHERE user_id = ?`,
+                    [userID], function (error, result) {
+                        if (error) throw error;
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                    });
+            });
+
+            // mbti진행
+            app.get('/getMbti', function (req, res) {
+                var userID = req.query.userID;
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].mbti != null) {
+                            const data = {
+                                status: 'true',
+                            }
+                            res.send(data);
+                        }
+                        else {
+                            const data = {
+                                status: 'false',
+                            }
+                            res.send(data);
+                        }
+                    } 
                 });
             });
 
@@ -257,6 +385,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                     console.log(data);
                     res.send(data);
                 });
+                /*
+                db.query(`SELECT deviceToken FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else{
+                        let target_token = result[0].deviceToken;//알림을 받을 디바이스의 토큰값
+                        let message = {
+                            notification: {
+                                title: '테스트 데이터 발송',
+                                body: '하루권장소비액 잔액이 4500원 남았습니다.',
+                            },
+                            token: target_token,
+                        }
+
+                        admin.messaging().send(message)
+                            .then(function (response) {
+                                console.log('푸시알림메시지 전송성공!', response)
+                            })
+                            .catch(function (error) {
+                                console.log('푸시알림메시지 전송실패!', error)
+                            })
+                    }
+                });*/
             });
 
 

@@ -27,19 +27,28 @@ https://www.youtube.com/watch?v=7_do8mOFPi4 사이트 참고해서 node.js 서�
 ~~~
 npx nodemon app.js
 ~~~
-### 1.3. 관련 패키지 설치
-#### 1.3.1. nodemon(server/)
+### 1.3. Admin
+#### 1.3.1. React 설치(admin/)
+~~~
+npm install react
+~~~
+#### 1.3.2. admin 웹 실행(admin/)
+~~~
+npm start
+~~~
+### 1.4. 관련 패키지 설치
+#### 1.4.1. nodemon(server/)
 ~~~
 npm install nodemon
 ~~~
 
 서버 실행
-#### 1.3.2. express(server/)
+#### 1.4.2. express(server/)
 ~~~
 npm install express
 ~~~
 
-#### 1.3.3. confirm(client/)
+#### 1.4.3. confirm(client/)
 ~~~
 npm install react-native-status-bar-height
 ~~~
@@ -47,10 +56,10 @@ npm install react-native-status-bar-height
 npm install react-native-popup-confirm-toast
 ~~~
 
-### 1.4. Local MySQL 연결(server/)
+### 1.5. Local MySQL 연결(server/)
 MySQL 연결할 때 config.js 파일에서 해당하는 내용들 기입 후 테스트 진행할 것
 
-### 1.5. 서버 url 연결(client/)
+### 1.6. 서버 url 연결(client/)
 client 폴더안에 config.js 파일 생성후 아래와 같이 기입
 ~~~
 const config = {
@@ -63,7 +72,7 @@ const config = {
 module.exports = config;
 ~~~
 
-### 1.6. .gitignore 적용
+### 1.7. .gitignore 적용
 server/config.js와 client/config.js가 .gitignore이 정상적으로 적용이 안 되어 push 될 때 아래 명령어로 캐시를 지우고 add
 ~~~
 git rm -r --cached .
@@ -216,7 +225,23 @@ npm install --save react-native-calendars
 
 ## 9. 알림
 ### 9.1. 관련 패키지 설치
-#### 9.1.1. 파이어베이스 모듈(/client)
+#### 9.1.1. 파이어베이스 모듈(client/)
 ~~~
 npm i -s @react-native-firebase/app @react-native-firebase/messaging
+~~~
+
+#### 9.1.2. 파이어베이스 admin(server/)
+~~~
+npm install firebase-admin
+~~~
+
+<br>
+<br>
+<br>
+<br>
+
+## 10. 특정 시간 이벤트 발생
+### 10.1. node-schedule(server/)
+~~~
+npm i node-schedule
 ~~~
