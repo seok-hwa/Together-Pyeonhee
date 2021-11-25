@@ -116,7 +116,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             //                             now = year + "" + month + "" + date;
             //                             //console.log("오늘날짜 확인 : ", now);
             //                             if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
-            //                                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ?`, [userID, now], function (error, result) {
+            //                                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND alarm = 0`, [userID, now], function (error, result) {
             //                                     if (error) throw error;
             //                                     else {
             //                                         if (result[0]!= undefined) { //계좌연동 & 거래내역 존재
@@ -154,6 +154,10 @@ const SSHConnection = new Promise((resolve, reject) => {
             //                                                         }
             //                                                     });
             //                                                 }
+            //                                             });
+            //                                             db.query(`UPDATE real_expense SET alarm = 1 WHERE user_id = ? AND tran_date = ?`, [userID, now], function (error, result) {
+            //                                                 if (error) throw error;
+            //                                                 //console.log("알림완료 --> alarm = 1 로 변경");
             //                                             });
             //                                         }
             //                                         else {//계좌연동 but.거래내역 존재X
