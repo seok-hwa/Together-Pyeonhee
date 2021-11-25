@@ -6,8 +6,8 @@ const { Client } = require('ssh2');
 const sshClient = new Client();
 const bcrypt = require('bcrypt');
 var request = require('request');
-/*
 const admin = require('firebase-admin');
+/*
 var Iamport = require("iamport");
 var iamport = new Iamport({
     impkey: config.REST_API,
@@ -23,32 +23,11 @@ app.post("/Together_iamport", async (req, res) => {
         res.status(400).send(e);
     }
 });
-
-
+*/
 let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
-
-let target_token = ' ';//알림을 받을 디바이스의 토큰값
-let message = {
-    data: {
-        title: '테스트 데이터 발송',
-        body: '하루권장소비액 잔액이 4500원 남았습니다.',
-    },
-    token: target_token,
-}
-
-admin
-    .message()
-    .sene(message)
-    .then(function (response) {
-        console.log('푸시알림메시지 전송성공!', response)
-    })
-    .catch(function (error) {
-        console.log('푸시알림메시지 전송실패!', error)
-    })
-*/
 const saltRounds = 10;
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
@@ -280,6 +259,24 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //마이페이지
             app.get('/myInfo', function(req,res){
+                /*
+                let target_token = '';//알림을 받을 디바이스의 토큰값
+                let message = {
+                    notification: {
+                        title: '테스트 데이터 발송',
+                        body: '하루권장소비액 잔액이 4500원 남았습니다.',
+                    },
+                    token: target_token,
+                }
+
+                admin.messaging().send(message)
+                    .then(function (response) {
+                        console.log('푸시알림메시지 전송성공!', response)
+                    })
+                    .catch(function (error) {
+                        console.log('푸시알림메시지 전송실패!', error)
+                    })
+                */
                 console.log(req.query.userID);
                 var userID = req.query.userID;
                 var userName;
