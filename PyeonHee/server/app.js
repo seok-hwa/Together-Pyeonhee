@@ -97,7 +97,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
             
-            // //잔액 푸시알림
+            //잔액 푸시알림
             // schedule.scheduleJob('*/30 * * * * *', function (){
             //     db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
             //         if (error) throw error;
@@ -116,16 +116,17 @@ const SSHConnection = new Promise((resolve, reject) => {
             //                             now = year + "" + month + "" + date;
             //                             //console.log("오늘날짜 확인 : ", now);
             //                             if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
-            //                                 db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? limit 1) as success`, [userID, now], function (error, result) {
+            //                                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ?`, [userID, now], function (error, result) {
             //                                     if (error) throw error;
             //                                     else {
-            //                                         if (result[0].success == 1) { //계좌연동 & 거래내역 존재
-            //                                             //console.log('최근 거래내역 존재 푸시알림보내기 + ',userID);
+            //                                         if (result[0]!= undefined) { //계좌연동 & 거래내역 존재
+            //                                             var tranAmt = result[0].tran_amt;
+            //                                             console.log('최근 거래내역 존재 푸시알림보내기 + ',userID);
             //                                             let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
             //                                             let message = {
             //                                                 notification: {
             //                                                     title: '테스트 데이터 발송',
-            //                                                     body: '하루권장소비액 잔액이 4500원 남았습니다.',
+            //                                                     body: tranAmt + '원 사용했습니다.'
             //                                                 },
             //                                                 token: target_token,
             //                                             }
