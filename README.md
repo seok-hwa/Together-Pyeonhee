@@ -234,3 +234,10 @@ npm i -s @react-native-firebase/app @react-native-firebase/messaging
 ~~~
 npm install firebase-admin
 ~~~
+
+
+## 10. 특정 시간 이벤트 발생
+### 10.1. node-schedule
+~~~
+npm i node-schedule
+~~~
