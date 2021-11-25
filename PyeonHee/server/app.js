@@ -136,6 +136,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                     });
             });
 
+            // mbti진행
+            app.get('/getMbti', function (req, res) {
+                var userID = req.query.userID;
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if (result[0].mbti != null) {
+                            const data = {
+                                status: 'true',
+                            }
+                            res.send(data);
+                        }
+                        else {
+                            const data = {
+                                status: 'false',
+                            }
+                            res.send(data);
+                        }
+                    } 
+                });
+            });
+
             // 회원가입 기능 (JoinScreen.js)
             app.post('/signUp', function(req, res){
                 console.log(req.body)
