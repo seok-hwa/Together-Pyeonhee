@@ -167,8 +167,8 @@ const MyPageScreen = ({navigation}) => {
                 </View>
                 <View style={styles.assetBudgetDiv}>
                     <Text style={styles.assetBudgetTitle}>예산</Text>
-                    <TouchableOpacity onPress={()=>alert('예산 계획서 보관 페이지 이동')}>
-                        <Text style={styles.assetBudgetBoard} >예산 계획서 보관함</Text>
+                    <TouchableOpacity onPress={()=>{navigation.navigate('MonthReport')}}>
+                        <Text style={styles.assetBudgetBoard} >한달 리포트 보기</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('WriteBudget')}>
                         <Text style={styles.assetBudgetBoard} >예산 계획서 작성</Text>
