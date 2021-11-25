@@ -71,6 +71,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 var deviceToken = req.body.deviceToken;
+                global_id = req.body.userID;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
                     //console.log(result[0]);
 
