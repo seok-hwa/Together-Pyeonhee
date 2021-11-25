@@ -82,6 +82,21 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
 
+            // 30분마다 일일소비량 업데이트
+            schedule.scheduleJob('0 */30 * * * *', async()=>{
+                db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
+                    if(error1) throw error1;
+                    else if(result1.length != 0){
+                        console.log(result1);
+                        daily_spent_money = result1[0].spend_money
+                        db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
+                            if(error2) throw error2;
+                            console.log(result2);
+                        })
+                    }
+                })
+            });
+
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
                 console.log(req.body);
