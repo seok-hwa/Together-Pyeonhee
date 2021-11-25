@@ -7,6 +7,7 @@ const sshClient = new Client();
 const bcrypt = require('bcrypt');
 var request = require('request');
 const admin = require('firebase-admin');
+const schedule = require('node-schedule');
 /*
 var Iamport = require("iamport");
 var iamport = new Iamport({
@@ -28,7 +29,7 @@ let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
-const saltRounds = 10;
+
 app.use(express.json());
 const SSHConnection = new Promise((resolve, reject) => {
     sshClient.on('ready', () => {
@@ -54,6 +55,15 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             // app.use(express.json());
+
+            // 스케줄링
+            global_id = '';
+            schedule.scheduleJob('0 0 0 * * *', async()=>{
+                // db.query(`SELECT user_id FROM user WHERE user_id = ?`, [global_id], function(error, result){
+                //     console.log(result[0]);
+                // })
+            
+            });
 
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
