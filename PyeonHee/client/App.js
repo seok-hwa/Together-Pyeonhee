@@ -28,6 +28,8 @@ import config from './config';
  
 import {
    View,
+   StyleSheet,
+   Text,
  } from 'react-native';
 
  const Stack = createNativeStackNavigator();
@@ -58,6 +60,7 @@ import {
           }
       )
       .then(()=>{
+        /*
         if(tempID != ''){
           fetch(`${url}/getMbti?userID=${tempID}`)   //get
           .then((response)=>response.json())
@@ -73,13 +76,17 @@ import {
           })
         }else{
           setLoading(true);
-        }
+        }*/
+
+        //테스트
+        setHasMbti(true);
+        setLoading(true);
       })
    }, []);
    
    if(loading === false){
      return(
-       <View style={{flex: 1,}}>
+       <View style={styles.appSize}>
        </View>
      );
    }
@@ -330,5 +337,9 @@ import {
     )
   }
  }
- 
+ const styles = StyleSheet.create({
+  appSize: {
+      flex: 1,
+  },
+});
  export default App;
