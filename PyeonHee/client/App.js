@@ -21,6 +21,7 @@ import BudgetScreen from './Components/Screens/BudgetScreen';
 import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
 import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
 import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
+import messaging from '@react-native-firebase/messaging';
 
 import config from './config';
 
@@ -28,15 +29,24 @@ import config from './config';
 import {
    View,
  } from 'react-native';
+
  const Stack = createNativeStackNavigator();
  const url = config.url; //로컬서버 접속 url
  
  function App(){         //navigation
    const [userID, setUserID] = useState('');
    const [loading, setLoading] = useState(false);
- 
+
+  const foregroundListener = () => {
+    //foreground 메시지 받기
+    messaging().onMessage(async message => {
+      console.log('Message handled in the foreground!', message);
+    })
+  }
+
    useEffect(()=>{
-     async function getStorage(){
+      foregroundListener();
+      async function getStorage(){
        if(await AsyncStorage.getItem("userID")){
          let tempUserID = await AsyncStorage.getItem("userID");
          setUserID(tempUserID);
@@ -44,7 +54,6 @@ import {
        setLoading(true);
      }
      getStorage();
- 
    }, []);
    
    if(loading === false){
