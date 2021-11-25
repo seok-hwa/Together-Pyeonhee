@@ -277,7 +277,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                     console.log(data);
                     res.send(data);
                 });
-                /*
                 db.query(`SELECT deviceToken FROM user WHERE user_id = ?`, [userID], function (error, result) {
                     if (error) throw error;
                     else{
@@ -298,7 +297,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 console.log('푸시알림메시지 전송실패!', error)
                             })
                     }
-                });*/
+                });
             });
 
 
