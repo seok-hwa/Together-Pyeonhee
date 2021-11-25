@@ -411,4 +411,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default MyBudgetScreen; 
+export default MyBudgetScreen;

@@ -156,7 +156,22 @@ const WriteBudgetScreen = ({navigation}) => {
     }
 
     const handleSaveButton = () => {
+        var tempFixed = parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription);
+        setFixedExpenditure(tempFixed);
+
+        console.log('고정지출');
+        console.log(fixedExpenditure);
+
+        var tempPlanned = parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc);
+        setPlannedExpenditure(tempPlanned);
+
+        console.log('계획지출');
+        console.log(plannedExpenditure);
+
+        
+        // var tempTotal = sumOfSavings + fixedExpenditure + plannedExpenditure;
         var tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
+
         console.log('수입');
         console.log(income)
         console.log('유효성검사 1');
