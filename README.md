@@ -225,7 +225,12 @@ npm install --save react-native-calendars
 
 ## 9. 알림
 ### 9.1. 관련 패키지 설치
-#### 9.1.1. 파이어베이스 모듈(/client)
+#### 9.1.1. 파이어베이스 모듈(client/)
 ~~~
 npm i -s @react-native-firebase/app @react-native-firebase/messaging
+~~~
+
+#### 9.1.2. 파이어베이스 admin(server/)
+~~~
+npm install firebase-admin
 ~~~
