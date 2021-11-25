@@ -259,24 +259,6 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //마이페이지
             app.get('/myInfo', function(req,res){
-                /*
-                let target_token = '';//알림을 받을 디바이스의 토큰값
-                let message = {
-                    notification: {
-                        title: '테스트 데이터 발송',
-                        body: '하루권장소비액 잔액이 4500원 남았습니다.',
-                    },
-                    token: target_token,
-                }
-
-                admin.messaging().send(message)
-                    .then(function (response) {
-                        console.log('푸시알림메시지 전송성공!', response)
-                    })
-                    .catch(function (error) {
-                        console.log('푸시알림메시지 전송실패!', error)
-                    })
-                */
                 console.log(req.query.userID);
                 var userID = req.query.userID;
                 var userName;
@@ -295,6 +277,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                     console.log(data);
                     res.send(data);
                 });
+                /*
+                db.query(`SELECT deviceToken FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else{
+                        let target_token = result[0].deviceToken;//알림을 받을 디바이스의 토큰값
+                        let message = {
+                            notification: {
+                                title: '테스트 데이터 발송',
+                                body: '하루권장소비액 잔액이 4500원 남았습니다.',
+                            },
+                            token: target_token,
+                        }
+
+                        admin.messaging().send(message)
+                            .then(function (response) {
+                                console.log('푸시알림메시지 전송성공!', response)
+                            })
+                            .catch(function (error) {
+                                console.log('푸시알림메시지 전송실패!', error)
+                            })
+                    }
+                });*/
             });
 
 
