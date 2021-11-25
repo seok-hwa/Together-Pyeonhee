@@ -56,13 +56,30 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // app.use(express.json());
 
-            // 스케줄링
             global_id = '';
+            // 12시가 되면 일일권장금액 이행 여부 확인
             schedule.scheduleJob('0 0 0 * * *', async()=>{
-                // db.query(`SELECT user_id FROM user WHERE user_id = ?`, [global_id], function(error, result){
-                //     console.log(result[0]);
-                // })
-            
+                db.query(`SELECT * FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
+                    console.log(result[0]);
+                    if(error1) throw error1;
+                    else{
+                        if(result1[0].daily_spent_money <= result1[0].available_money){
+                            daily_count = result1[0].daily_count + 1;
+                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                                if(error2) throw error2;
+                                console.log(result2);
+                            })
+                        }
+                    }
+                })
+            });
+
+            //매달 1일 모든 예산계획서 state를 0으로 초기화
+            schedule.scheduleJob('0 0 0 1 * *', async()=>{
+                db.query(`UPDATE BudgetPlanning SET state = 0`, function(error, result){
+                    if(error) throw error;
+                    console.log(result);
+                })
             });
 
             // 로그인 기능 (LoginScreen.js)
