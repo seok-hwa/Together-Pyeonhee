@@ -28,11 +28,11 @@ https://www.youtube.com/watch?v=7_do8mOFPi4 사이트 참고해서 node.js 서�
 npx nodemon app.js
 ~~~
 ### 1.3. Admin
-#### 1.3.1. React 설치(/admin)
+#### 1.3.1. React 설치(admin/)
 ~~~
 npm install react
 ~~~
-#### 1.3.2. admin 웹 실행(/admin)
+#### 1.3.2. admin 웹 실행(admin/)
 ~~~
 npm start
 ~~~
