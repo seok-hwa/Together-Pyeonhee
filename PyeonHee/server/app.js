@@ -78,6 +78,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
+                console.log(req.body);
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){
@@ -124,6 +125,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userName = req.body.userName;
                 // user table null 값 여부 변경 후 수정 예정
                 const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
+                console.log(encryptedPassowrd);
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error1,check){
                     console.log(check);
                     if(error1) throw error1;

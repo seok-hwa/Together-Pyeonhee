@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import messaging from '@react-native-firebase/messaging';
 import config from '../../config';
 import {
     StyleSheet,
@@ -35,6 +36,14 @@ const LoginScreen = ({navigation}) => {
     }
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    const [deviceToken, setDeviceToken] = useState('');
+    
+    //파이어베이스 디바이스 토큰 저장
+    const getFcmToken = async () => {
+      let fcmToken = await messaging().getToken();
+      setDeviceToken(fcmToken);
+    };
+
     const handleSubmitButton = () => {
       if(!userID){
         Popup.show({
@@ -58,10 +67,9 @@ const LoginScreen = ({navigation}) => {
         })
         return;
       }
-      //AsyncStorage.setItem('userID', userID); 
-      //navigation.replace('Survey');           //for survey test
-      //navigation.replace('Main');             //for Main test
-      //navigation.replace('BudgetList');         //for BudgetList test
+      getFcmToken();
+      console.log('디바이스 토큰: ', deviceToken);
+
       console.log(`${url}/login`);
       fetch(`${url}/login`, {
         method: 'POST',
@@ -69,6 +77,7 @@ const LoginScreen = ({navigation}) => {
           userID: userID,
           userPassword: userPassword,
           rememberCheck: rememberCheck,
+          deviceToken: deviceToken,
         }),
         headers: {
           'Accept': 'application/json',
