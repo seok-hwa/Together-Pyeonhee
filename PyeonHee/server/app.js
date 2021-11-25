@@ -35,6 +35,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
+                console.log(req.body);
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 db.query(`SELECT * FROM user WHERE user.user_id=?`,[userID], function(error,result){

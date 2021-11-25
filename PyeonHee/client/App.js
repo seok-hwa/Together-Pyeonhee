@@ -38,6 +38,7 @@ import {
    const [loading, setLoading] = useState(false);
 
   const foregroundListener = () => {
+    //foreground 메시지 받기
     messaging().onMessage(async message => {
       console.log('Message handled in the foreground!', message);
     })
