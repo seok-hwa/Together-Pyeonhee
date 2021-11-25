@@ -97,66 +97,58 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
             
-            //잔액 푸시알림
+            // //잔액 푸시알림
             // schedule.scheduleJob('*/30 * * * * *', function (){
             //     db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
             //         if (error) throw error;
             //         else{
             //             for (i in result) {
-            //                 var userID = result[i].user_id;
-            //                 var deviceToken = result[i].deviceToken;
-
-            //                 db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
-            //                     if (error) throw error;
-            //                     else{
-            //                         var now = new Date();
-            //                         var year = now.getFullYear();
-            //                         var month = now.getMonth() + 1;
-            //                         var date = now.getDate();
-            //                         now = year + "" + month + "" + date;
-            //                         if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
-            //                             db.query(``, [userID], function (error, result) {
-            //                                 if (error) throw error;
-            //                                 else{
-            //                                     db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? limit 1) as success`, [userID, now], function (error, result) {
-            //                                         if (error) throw error;
-            //                                         else {
-            //                                             if (result[0].success == 1) {
-            //                                                 console.log('최근 거래내역 존재 푸시알림보내기★');
-            //                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
-            //                                                 let message = {
-            //                                                     notification: {
-            //                                                         title: '테스트 데이터 발송',
-            //                                                         body: '하루권장소비액 잔액이 4500원 남았습니다.',
-            //                                                     },
-            //                                                     token: target_token,
-            //                                                 }
-
-            //                                                 admin.messaging().send(message)
-            //                                                     .then(function (response) {
-            //                                                         console.log('푸시알림메시지 전송성공!', response)
-            //                                                     })
-            //                                                     .catch(function (error) {
-            //                                                         console.log('푸시알림메시지 전송실패!', error)
-            //                                                     })
+            //                 (function(i){
+            //                     var userID = result[i].user_id;
+            //                     var deviceToken = result[i].deviceToken;
+            //                     db.query(`SELECT EXISTS (SELECT * FROM bank_account WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
+            //                         if (error) throw error;
+            //                         else {
+            //                             var now = new Date();
+            //                             var year = now.getFullYear();
+            //                             var month = now.getMonth() + 1;
+            //                             var date = now.getDate();
+            //                             now = year + "" + month + "" + date;
+            //                             //console.log("오늘날짜 확인 : ", now);
+            //                             if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
+            //                                 db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? limit 1) as success`, [userID, now], function (error, result) {
+            //                                     if (error) throw error;
+            //                                     else {
+            //                                         if (result[0].success == 1) { //계좌연동 & 거래내역 존재
+            //                                             //console.log('최근 거래내역 존재 푸시알림보내기 + ',userID);
+            //                                             let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
+            //                                             let message = {
+            //                                                 notification: {
+            //                                                     title: '테스트 데이터 발송',
+            //                                                     body: '하루권장소비액 잔액이 4500원 남았습니다.',
+            //                                                 },
+            //                                                 token: target_token,
             //                                             }
-            //                                             else{//계좌연동 but.거래내역 존재X
-            //                                                 console.log("확인3");
-            //                                             }
+            //                                             admin.messaging().send(message)
+            //                                                 .then(function (response) {
+            //                                                     console.log('푸시알림메시지 전송성공!', response)
+            //                                                 })
+            //                                                 .catch(function (error) {
+            //                                                     console.log('푸시알림메시지 전송실패!', error)
+            //                                                 })
             //                                         }
-            //                                     });
-            //                                 }
-
-            //                             });
-
+            //                                         else {//계좌연동 but.거래내역 존재X
+            //                                             console.log(userID, "계좌연동 O but.최근거래내역 X");
+            //                                         }
+            //                                     }
+            //                                 });
+            //                             }
+            //                             else {//계좌연동 X 사용자
+            //                                 console.log(userID, "계좌연동 X");
+            //                             }
             //                         }
-            //                         else{//계좌연동 X 사용자
-
-            //                         }
-            //                     }
-                                
-            //                 });
-
+            //                     });
+            //                 })(i);
             //             }
             //         }
             //     });
