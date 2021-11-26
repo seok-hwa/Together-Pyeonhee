@@ -5,8 +5,9 @@ import { StackedBarChart} from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, } from 'react-native';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 const url = config.url;
-const ReportWithLastScreen = ({navigation}) => {
+const ReportWithLastScreen = (props) => {
     const [userID, setUserID] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [currentRent, setCurrentRent] = useState(200000);
     const [currentInsurance, setCurrentInsurance] = useState(100000);
@@ -64,7 +65,7 @@ const ReportWithLastScreen = ({navigation}) => {
     const difEct = currentEct - lastEct < 0? " -"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     
     const fixData = {
-        labels: ["10월", "11월"],
+        labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: [`월세${difRent}`, `보험${difInsurance}`, `통신${difCommunication}`, `구독${difSubscribe}`],
         data: [[lastRent, lastInsurance, lastCommunication, lastSubscribe], [currentRent, currentInsurance, currentCommunication, currentSubscribe]],
         barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
@@ -76,33 +77,72 @@ const ReportWithLastScreen = ({navigation}) => {
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
     };
     const variable1Data = {
-        labels: ["10월", "11월"],
+        labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: [`기타${difEct}`, `의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
         data: [[lastEct,lastMedical, lastTraffic, lastEducation], [currentEct,currentMedical, currentTraffic, currentEducation]],
         barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const variable2Data = {
-        labels: ["10월", "11월"],
+        labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: [`식비${difDinner}`, `쇼핑${difShopping}`, `취미${difHobby}`, `경조사${difEvent}`],
         data: [[lastDinner, lastShopping, lastHobby, lastEvent], [currentDinner, currentShopping, currentHobby, currentEvent]],
         barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const totalData = {
-        labels: ["10월", "11월"],
+        labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: ["총액"],
         data: [[lastTotal], [currentTotal]],
         barColors: ["#ced6e0"]
     }
 
     useEffect(()=>{
+        let tempID;
         AsyncStorage.getItem('userID', (err, result) => {
-            const tempID = result;
+            tempID = result;
             if(tempID!= null){
                 setUserID(tempID);
             }
         })
-    })
+        .then(()=>{
+            /*
+            fetch(`${url}/monthReportWithLast?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                setCurrentRent(responseJson.currentRent);
+                setCurrentInsurance(responseJson.currentInsurance);
+                setCurrentCommunication(responseJson.currentCommunication);
+                setCurrentSubscribe(responseJson.currentSubscribe);
+                setCurrentTraffic(responseJson.currentTraffic);
+                setCurrentMedical(responseJson.currentMedical);
+                setCurrentEducation(responseJson.currentEducation);
+                setCurrentEct(responseJson.currentEct);
+                setCurrentShopping(responseJson.currentShopping);
+                setCurrentHobby(responseJson.currentHobby);
+                setCurrentEvent(responseJson.currentEvent);
+                setCurrentDinner(responseJson.currentDinner);
 
+                setLastRent(responseJson.lastRent);
+                setLastInsurance(responseJson.lastInsurance);
+                setLastCommunication(responseJson.lastCommunication);
+                setLastSubscribe(responseJson.lastSubscribe);
+                setLastTraffic(responseJson.lastTraffic);
+                setLastMedical(responseJson.lastMedical);
+                setLastEducation(responseJson.lastEducation);
+                setLastEct(responseJson.lastEct);
+                setLastShopping(responseJson.lastShopping);
+                setLastHobby(responseJson.lastHobby);
+                setLastEvent(responseJson.lastEvent);
+                setLastDinner(responseJson.lastDinner);
+            })
+            .then(()=>{
+              setLoading(true);
+            })
+            */
+            //for test
+            setLoading(true);
+          })
+    })
+    if(loading === true){
     return (
         <ScrollView style={styles.appSize}>
             <View style={styles.fixDiv}>
@@ -117,12 +157,12 @@ const ReportWithLastScreen = ({navigation}) => {
                 />
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달(11월)</Text>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
                     <Text style={styles.priceFont}>{currentFixTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>저번달(10월)</Text>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastFixTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
@@ -135,7 +175,7 @@ const ReportWithLastScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+기타)</Text>
+                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+식비)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable2Data}
@@ -146,12 +186,12 @@ const ReportWithLastScreen = ({navigation}) => {
                 />
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달(11월)</Text>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
                     <Text style={styles.priceFont}>{currentVariableTotal2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>저번달(10월)</Text>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastVariableTotal2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
@@ -164,7 +204,7 @@ const ReportWithLastScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출(교육+교통+의료)</Text>
+                <Text style={styles.cateFont}>계획지출(교육+교통+의료+기타)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable1Data}
@@ -175,12 +215,12 @@ const ReportWithLastScreen = ({navigation}) => {
                 />
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달(11월)</Text>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
                     <Text style={styles.priceFont}>{currentVariableTotal1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>저번달(10월)</Text>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastVariableTotal1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
@@ -204,12 +244,12 @@ const ReportWithLastScreen = ({navigation}) => {
                 />
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달(11월)</Text>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
                     <Text style={styles.priceFont}>{currentTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>저번달(10월)</Text>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
@@ -223,6 +263,13 @@ const ReportWithLastScreen = ({navigation}) => {
             </View>
         </ScrollView>
     )
+    }else{
+        return(
+            <View style={styles.appSize}>
+                
+            </View>
+        )
+    }
 }
 
 export default ReportWithLastScreen;

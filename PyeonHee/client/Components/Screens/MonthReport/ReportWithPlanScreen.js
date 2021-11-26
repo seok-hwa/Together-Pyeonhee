@@ -5,8 +5,9 @@ import { StackedBarChart, ProgressChart } from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 const url = config.url;
-const ReportWithPlanScreen = ({navigation}) => {
+const ReportWithPlanScreen = (props) => {
     const [userID, setUserID] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [realRent, setRealRent] = useState(200000);
     const [realInsurance, setRealInsurance] = useState(100000);
@@ -119,12 +120,54 @@ const ReportWithPlanScreen = ({navigation}) => {
                 setUserID(tempID);
             }
         })
+        .then(()=>{
+            /*
+            fetch(`${url}/monthReportWithplan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                setRealRent(responseJson.realRent);
+                setRealInsurance(responseJson.realInsurance);
+                setRealCommunication(responseJson.realCommunication);
+                setRealSubscribe(responseJson.realSubscribe);
+                setRealTraffic(responseJson.realTraffic);
+                setRealMedical(responseJson.realMedical);
+                setRealEducation(responseJson.realEducation);
+                setRealEct(responseJson.realEct);
+                setRealShopping(responseJson.realShopping);
+                setRealHobby(responseJson.realHobby);
+                setRealEvent(responseJson.realEvent);
+                setRealDinner(responseJson.realDinner);
+
+                setPlanRent(responseJson.planRent);
+                setPlanInsurance(responseJson.planInsurance);
+                setPlanCommunication(responseJson.planCommunication);
+                setPlanSubscribe(responseJson.planSubscribe);
+                setPlanTraffic(responseJson.planTraffic);
+                setPlanMedical(responseJson.planMedical);
+                setPlanEducation(responseJson.planEducation);
+                setPlanEct(responseJson.planEct);
+                setPlanShopping(responseJson.planShopping);
+                setPlanHobby(responseJson.planHobby);
+                setPlanEvent(responseJson.planEvent);
+                setPlanDinner(responseJson.planDinner);
+
+                setRealProgress(responseJson.realProgress);
+                setPlannedProgress(responseJson.plannedProgress);
+            })
+            .then(()=>{
+                setLoading(true);
+            })*/
+
+            //for test
+            setLoading(true);
+          })
     })
 
+    if(loading === true){
     return (
         <ScrollView style={styles.appSize}>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>11월 예산 계획 이행률</Text>
+                <Text style={styles.cateFont}>{props.month}월 예산 계획 이행률</Text>
                 <View style={styles.tempRow}>
                 <ProgressChart
                 data={progressChartData}
@@ -172,7 +215,7 @@ const ReportWithPlanScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+기타)</Text>
+                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+식비)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable2Data}
@@ -201,7 +244,7 @@ const ReportWithPlanScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출(교육+교통+의료)</Text>
+                <Text style={styles.cateFont}>계획지출(교육+교통+의료+기타)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable1Data}
@@ -260,6 +303,13 @@ const ReportWithPlanScreen = ({navigation}) => {
             </View>
         </ScrollView>
     )
+    }else{
+        return(
+            <View style={styles.appSize}>
+                
+            </View>
+        )
+    }
 }
 
 export default ReportWithPlanScreen;
