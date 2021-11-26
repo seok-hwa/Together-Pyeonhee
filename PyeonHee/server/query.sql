@@ -280,6 +280,7 @@ create table daily_data
     daily_spent_money int not null,
 
     rest_money int not null,
+    daily_count int default 0,
 
     primary key (user_id),
     foreign key (user_id) references user(user_id) on delete cascade
@@ -369,6 +370,7 @@ create table real_expense
     after_balance_amt int not null,
     branch_name varchar(10) not null,
     state int default 0,
+    alarm int default 0,
     primary key (user_id, fintech_use_num, tran_date, tran_time),
     foreign key (user_id, fintech_use_num) references bank_account(user_id, fintech_use_num) on delete cascade
 );
