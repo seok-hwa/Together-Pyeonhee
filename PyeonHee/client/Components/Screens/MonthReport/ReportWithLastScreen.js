@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../config'
-import { StackedBarChart, ProgressChart } from 'react-native-chart-kit';
+import config from '../../../config'
+import { StackedBarChart} from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, } from 'react-native';
-import MbtiSelectButton from '../Buttons/MbtiSelectButton';
+import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 const url = config.url;
 const ReportWithLastScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -36,9 +36,6 @@ const ReportWithLastScreen = ({navigation}) => {
     const [lastEvent, setLastEvent] = useState(280000);
     const [lastEct, setLastEct] = useState(60000);
 
-    const [realProgress, setRealProgress] = useState(26);
-    const [plannedProgress, setPlannedProgress] = useState(30);
-
     const currentFixTotal = currentRent+currentInsurance+currentCommunication+currentSubscribe;
     const lastFixTotal = lastRent+lastInsurance+lastCommunication+lastSubscribe;
 
@@ -50,8 +47,6 @@ const ReportWithLastScreen = ({navigation}) => {
 
     const currentTotal = currentFixTotal+currentVariableTotal1+currentVariableTotal2;
     const lastTotal = lastFixTotal+lastVariableTotal1+lastVariableTotal2;
-
-    const progressPercentage = realProgress/plannedProgress;
 
     const difRent = currentRent - lastRent < 0 ? " -"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difInsurance = currentInsurance - lastInsurance < 0? " -"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -77,15 +72,6 @@ const ReportWithLastScreen = ({navigation}) => {
         backgroundGradientTo: "#ffffff",
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
     };
-    const progressConfig = {
-        backgroundColor: "#ffffff",
-        backgroundGradientFrom: "#ffffff",
-        backgroundGradientTo: "#ffffff",
-        color: (opacity = 1) => `rgba(50, 50, 100, ${opacity})`,
-        style: {
-          borderRadius: 30
-        },
-    };
     const variable1Data = {
         labels: ["10월", "11월"],
         legend: [`의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
@@ -104,10 +90,6 @@ const ReportWithLastScreen = ({navigation}) => {
         data: [[lastTotal], [currentTotal]],
         barColors: ["#ced6e0"]
     }
-    const progressChartData = {
-        labels: ["이행률"], // optional
-        data: [progressPercentage]
-    };
 
     useEffect(()=>{
         AsyncStorage.getItem('userID', (err, result) => {
@@ -120,25 +102,6 @@ const ReportWithLastScreen = ({navigation}) => {
 
     return (
         <ScrollView style={styles.appSize}>
-            <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>11월 예산 계획 이행도</Text>
-                <View style={styles.tempRow}>
-                <ProgressChart
-                data={progressChartData}
-                width={300}
-                height={150}
-                chartConfig={progressConfig}
-                hideLegend={false}
-                />
-                </View>
-                <View style={styles.progressDiv}>
-                    <Text>총 </Text>
-                    <Text>{plannedProgress}</Text>
-                    <Text>일 중 </Text>
-                    <Text style={styles.realProgressFont}>{realProgress}</Text>
-                    <Text>일 이행</Text>
-                </View>
-            </View>
             <View style={styles.fixDiv}>
                 <Text style={styles.cateFont}>고정지출</Text>
                 <View style={styles.tempRow}>
@@ -231,7 +194,7 @@ const ReportWithLastScreen = ({navigation}) => {
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={totalData}
-                    width={370}
+                    width={350}
                     height={250}
                     chartConfig={fixConfig}
                     withHorizontalLabels={false}
@@ -253,21 +216,6 @@ const ReportWithLastScreen = ({navigation}) => {
                         <Text style={styles.upFont}>+{Math.abs(currentTotal - lastTotal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> :
                         <Text style={styles.downFont}>-{Math.abs(currentTotal - lastTotal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     }
-                </View>
-            </View>
-            <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>11월 소비 패턴 분석 결과</Text>
-                <View style={styles.resultDiv}>
-                    <Text style={styles.nameHighlight}>테스트</Text>
-                    <Text>님의 소비 패턴 mbti는 </Text>
-                    <Text style={styles.mbtiHighlight}>ISHO</Text>
-                    <Text>입니다.</Text>
-                </View>
-                <View>
-                    <Text>    mbti 설명란</Text>
-                </View> 
-                <View style={styles.buttonDiv}>
-                    <MbtiSelectButton />
                 </View>
             </View>
         </ScrollView>
@@ -346,5 +294,8 @@ const styles = StyleSheet.create({
     },
     buttonDiv: {
         alignItems: 'center',
+    },
+    descriptionDiv:{
+        padding: 10,
     },
 });

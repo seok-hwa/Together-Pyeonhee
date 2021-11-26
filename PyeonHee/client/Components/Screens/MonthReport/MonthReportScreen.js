@@ -19,12 +19,14 @@ import ReportWithLastScreen from './ReportWithLastScreen';
 import ReportWithPlanScreen from './ReportWithPlanScreen';
 import config from '../../../config';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
-
+import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 const url = config.url;
 
 const MonthReportScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [userMbti, setUserMbti] = useState('ISOH');
+  const [mbtiDescription, setMbtiDescription] = useState('이러이러한 소비 패턴을 가지고 있습니다.');
 
   useEffect(()=>{
     let tempID;
@@ -59,7 +61,21 @@ const MonthReportScreen = ({navigation}) => {
             </View>
           {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation}/>}
           {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation}/>}
-            
+          <View style={styles.fixDiv}>
+                <Text style={styles.cateFont}>11월 소비 패턴 분석 결과</Text>
+                <View style={styles.resultDiv}>
+                    <Text style={styles.nameHighlight}>테스트</Text>
+                    <Text>님의 소비 패턴 mbti는 </Text>
+                    <Text style={styles.mbtiHighlight}>{userMbti}</Text>
+                    <Text>입니다.</Text>
+                </View>
+                <View style={styles.descriptionDiv}>
+                    <Text>{mbtiDescription}</Text>
+                </View> 
+                <View style={styles.buttonDiv}>
+                    <MbtiSelectButton />
+                </View>
+            </View>
         </View>
       </SafeAreaView>
   )
@@ -78,7 +94,6 @@ const styles = StyleSheet.create({
   },
   tapContainer: {
       alignItems:'flex-start',
-      borderRadius: 20,
       backgroundColor: 'white',
       padding: 3,
   },
@@ -108,5 +123,75 @@ topFont: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
+},
+cateFont: {
+  fontSize: 17,
+  fontWeight: 'bold',
+  margin: 10,
+},
+tempRow: {
+  alignItems: 'center',
+},
+fixDiv: {
+  margin: 10,
+  padding: 5,
+  backgroundColor: 'white',
+  borderRadius: 5,
+},
+monthRow: {
+  flexDirection: 'row',
+  height: 40,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+monthFont: {
+  width: 90,
+},
+priceFont:{
+  width: 140,
+  fontSize: 14,
+  fontWeight: 'bold',
+  textAlign: 'right',
+},
+upFont:{
+  color: 'red',
+  fontSize: 14,
+  fontWeight: 'bold',
+  width: 130,
+  textAlign: 'right',
+},
+downFont:{
+  color: 'blue',
+  fontSize: 14,
+  fontWeight: 'bold',
+  width: 130,
+  textAlign: 'right',
+},
+resultDiv: {
+  flexDirection: 'row',
+  padding: 5,
+},
+nameHighlight: {
+  fontWeight: 'bold',
+},
+mbtiHighlight:{
+  fontWeight: 'bold',
+  color: 'blue',
+},
+realProgressFont: {
+  fontWeight: 'bold',
+  color: 'blue',
+},
+progressDiv: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  marginBottom: 10,
+},
+buttonDiv: {
+  alignItems: 'center',
+},
+descriptionDiv:{
+  paddingLeft: 10,
+  paddingRight: 10,
 },
 });
