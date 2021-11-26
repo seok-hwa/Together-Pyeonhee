@@ -799,7 +799,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
                         daily_data.available_money, daily_data.daily_spent_money, daily_data.rest_money 
                         FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                        where daily_data.user_id = ? order by planning_number desc;`, [userID], function(error1, result1){
+                        where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else if(result1[0].planning_number != null){
                                 console.log(result1[0])
@@ -1416,6 +1416,92 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
             
+            // 계획한 내역과 실제 사용 내역 제공
+            app.get(`/monthReportWithplan`, function(req, res){
+                var userID = req.query.userID;
+                var live_expense = 0;
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
+                    if(error1) throw error1;
+                    else{
+                        if(real_spend.length === 0){
+                            console.log("소비내역이 없습니다.")
+                            data = {
+                                real : [],
+                                paln : [],
+                                live_expense : 0,
+                            }
+                            res.send(data);
+                        }
+                        else {
+                            console.log(real_spend[0]);
+                            db.query(`SELECT BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                            BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
+                            BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
+                            BudgetPlanning.etc_expense, daily_data.rest_money FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
+                            WHERE daily_data.user_id = ? AND BudgetPlanning.state = 1`, [userID], function(error2, plan_spend){
+                                if(error2) throw error2;
+                                else{
+                                    if(real_spend.length === 0){
+                                        console.log("계획한 내역이 없습니다.");
+                                        data = {
+                                            real : real_spend[0],
+                                            plan : [],
+                                            live_expense : 0,
+                                        }
+                                        res.send(data);
+                                    }
+                                    else{
+                                        console.log(plan_spend[0]);
+                                        live_expense = plan_spend[0].user_income - plan_spend[0].user_savings - plan_spend[0].monthly_rent - plan_spend[0].insurance_expense;
+                                        live_expense = live_expense - plan_spend[0].transportation_expense -plan_spend[0].communication_expense - plan_spend[0].leisure_expense;
+                                        live_expense = live_expense - plan_spend[0].shopping_expense - plan_spend[0].education_expense - plan_spend[0].medical_expense;
+                                        live_expense = live_expense - plan_spend[0].event_expense - plan_spend[0].subscribe_expense - plan_spend[0].etc_expense; 
+                                        data = {
+                                            real : real_spend[0],
+                                            plan : plan_spend[0],
+                                            live_expense : live_expense, 
+                                        }
+                                        console.log(data);
+                                        res.send(data);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+            });
+
+            // 지난달과 이번달 사용 내역 제공
+            app.get(`/monthReportWithLast`, function(req, res){
+                var userID = req.query.userID;
+                
+            });
+
+            // 한달리포트로 MBTI 제시
+            app.get(`/monthReportMbti`, function(req, res){
+                var userID = req.query.userID;
+
+            });
+
+            // 한달리포트 MBTI 설정
+            app.post(`/updateMbti`, function(req, res) {
+                var userID = req.body.userID;
+                var userMbti = req.body.userMbti;
+                db.query(`UPDATE user SET mbti = ? WHERE user_id = ?`, [userMbti, userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        data = {
+                            status : true,
+                        }
+                        res.send(data);
+                        console.log("MBTI 적용 완료")
+                    }
+                });
+            });
+
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
