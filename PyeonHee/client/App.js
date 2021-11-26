@@ -21,7 +21,7 @@ import BudgetScreen from './Components/Screens/BudgetScreen';
 import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
 import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
 import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
-import MonthReportScreen from './Components/Screens/MonthReportScreen';
+import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
 
 import messaging from '@react-native-firebase/messaging';
 

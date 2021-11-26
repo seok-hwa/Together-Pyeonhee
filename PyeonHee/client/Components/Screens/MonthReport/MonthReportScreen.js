@@ -17,7 +17,7 @@ import {
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import ReportWithLastScreen from './ReportWithLastScreen';
 import ReportWithPlanScreen from './ReportWithPlanScreen';
-import config from '../../config';
+import config from '../../../config';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 
 const url = config.url;
