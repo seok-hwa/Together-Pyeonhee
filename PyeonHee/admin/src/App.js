@@ -1,14 +1,15 @@
 import logo from './logo.svg';
+import Header from './Header';
+import Login from './Login';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          편히가계 관리자 웹사이트
-        </p>
-      </header>
+      <Header></Header>
+      <div className="AppBody">
+        <Login ></Login>
+      </div>
     </div>
   );
 }
