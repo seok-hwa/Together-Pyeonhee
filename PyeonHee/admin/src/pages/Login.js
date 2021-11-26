@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 
-function Login() {
+function Login(props) {
     const [userID, setUserID] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
@@ -15,7 +14,6 @@ function Login() {
     }
     const submit=()=>{
         console.log('아이디:',userID, '패스워드:',userPassword);
-        /*
         axios({
             method:"POST",
             url: `/adminLogin`,
@@ -27,13 +25,14 @@ function Login() {
         .then((res)=>{
             if(res.status === 'success'){
                 alert('로그인 성공');
+                props.setLogin(true);
             }else{
                 alert('로그인 실패');
             }
         }).catch(error=>{
             console.log(error);
             throw new Error(error);
-        });*/
+        });
     }
   return (
     <div className="LoginDiv">
