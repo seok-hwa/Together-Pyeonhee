@@ -16,11 +16,12 @@ const ReportWithLastScreen = ({navigation}) => {
     const [currentTraffic, setCurrentTraffic] = useState(100000);
     const [currentMedical, setCurrentMedical] = useState(120000);
     const [currentEducation, setCurrentEducation] = useState(100000);
+    const [currentEct, setCurrentEct] = useState(100000);
 
     const [currentShopping, setCurrentShopping] = useState(300000);
     const [currentHobby, setCurrentHobby] = useState(150000);
     const [currentEvent, setCurrentEvent] = useState(210000);
-    const [currentEct, setCurrentEct] = useState(100000);
+    const [currentDinner, setCurrentDinner] = useState(100000);
 
     const [lastRent, setLastRent] = useState(200000);
     const [lastInsurance, setLastInsurance] = useState(100000);
@@ -30,20 +31,21 @@ const ReportWithLastScreen = ({navigation}) => {
     const [lastTraffic, setLastTraffic] = useState(130000);
     const [lastMedical, setLastMedical] = useState(150000);
     const [lastEducation, setLastEducation] = useState(90000);
+    const [lastEct, setLastEct] = useState(60000);
 
     const [lastShopping, setLastShopping] = useState(210000);
     const [lastHobby, setLastHobby] = useState(150000);
     const [lastEvent, setLastEvent] = useState(280000);
-    const [lastEct, setLastEct] = useState(60000);
+    const [lastDinner, setLastDinner] = useState(60000);
 
     const currentFixTotal = currentRent+currentInsurance+currentCommunication+currentSubscribe;
     const lastFixTotal = lastRent+lastInsurance+lastCommunication+lastSubscribe;
 
-    const currentVariableTotal1 = currentTraffic+currentMedical+currentEducation;
-    const lastVariableTotal1 = lastTraffic+lastMedical+lastEducation;
+    const currentVariableTotal1 = currentTraffic+currentMedical+currentEducation+currentEct;
+    const lastVariableTotal1 = lastTraffic+lastMedical+lastEducation+lastEct;
 
-    const currentVariableTotal2 = currentShopping+currentHobby+currentEvent+currentEct;
-    const lastVariableTotal2 = lastShopping+lastHobby+lastEvent+lastEct;
+    const currentVariableTotal2 = currentShopping+currentHobby+currentEvent+currentDinner;
+    const lastVariableTotal2 = lastShopping+lastHobby+lastEvent+lastDinner;
 
     const currentTotal = currentFixTotal+currentVariableTotal1+currentVariableTotal2;
     const lastTotal = lastFixTotal+lastVariableTotal1+lastVariableTotal2;
@@ -58,6 +60,7 @@ const ReportWithLastScreen = ({navigation}) => {
     const difEvent = currentEvent - lastEvent < 0? " -"+ Math.abs(currentEvent - lastEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEvent - lastEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difHobby = currentHobby - lastHobby < 0? " -"+ Math.abs(currentHobby - lastHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentHobby - lastHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difShopping = currentShopping - lastShopping < 0? " -"+ Math.abs(currentShopping - lastShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentShopping - lastShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difDinner = currentDinner - lastDinner < 0? " -"+ Math.abs(currentDinner - lastDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentDinner - lastDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difEct = currentEct - lastEct < 0? " -"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     
     const fixData = {
@@ -74,14 +77,14 @@ const ReportWithLastScreen = ({navigation}) => {
     };
     const variable1Data = {
         labels: ["10월", "11월"],
-        legend: [`의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
-        data: [[lastMedical, lastTraffic, lastEducation], [currentMedical, currentTraffic, currentEducation]],
-        barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
+        legend: [`기타${difEct}`, `의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
+        data: [[lastEct,lastMedical, lastTraffic, lastEducation], [currentEct,currentMedical, currentTraffic, currentEducation]],
+        barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const variable2Data = {
         labels: ["10월", "11월"],
-        legend: [`기타${difEct}`, `쇼핑${difShopping}`, `취미${difHobby}`, `경조사${difEvent}`],
-        data: [[lastEct, lastShopping, lastHobby, lastEvent], [currentEct, currentShopping, currentHobby, currentEvent]],
+        legend: [`식비${difDinner}`, `쇼핑${difShopping}`, `취미${difHobby}`, `경조사${difEvent}`],
+        data: [[lastDinner, lastShopping, lastHobby, lastEvent], [currentDinner, currentShopping, currentHobby, currentEvent]],
         barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const totalData = {
