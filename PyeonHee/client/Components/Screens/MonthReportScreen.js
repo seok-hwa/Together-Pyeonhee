@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../config'
-import { StackedBarChart } from 'react-native-chart-kit';
+import { StackedBarChart, ProgressChart } from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, } from 'react-native';
-
+import MbtiSelectButton from '../Buttons/MbtiSelectButton';
 const url = config.url;
 const AssetCounseling = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -36,6 +36,9 @@ const AssetCounseling = ({navigation}) => {
     const [lastEvent, setLastEvent] = useState(280000);
     const [lastEct, setLastEct] = useState(60000);
 
+    const [realProgress, setRealProgress] = useState(26);
+    const [plannedProgress, setPlannedProgress] = useState(30);
+
     const currentFixTotal = currentRent+currentInsurance+currentCommunication+currentSubscribe;
     const lastFixTotal = lastRent+lastInsurance+lastCommunication+lastSubscribe;
 
@@ -48,6 +51,8 @@ const AssetCounseling = ({navigation}) => {
     const currentTotal = currentFixTotal+currentVariableTotal1+currentVariableTotal2;
     const lastTotal = lastFixTotal+lastVariableTotal1+lastVariableTotal2;
 
+    const progressPercentage = realProgress/plannedProgress;
+
     const fixData = {
         labels: ["10월", "11월"],
         legend: ["월세", "보험", "통신", "구독"],
@@ -59,6 +64,15 @@ const AssetCounseling = ({navigation}) => {
         backgroundGradientFrom: "#ffffff",
         backgroundGradientTo: "#ffffff",
         color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+    };
+    const progressConfig = {
+        backgroundColor: "#ffffff",
+        backgroundGradientFrom: "#ffffff",
+        backgroundGradientTo: "#ffffff",
+        color: (opacity = 1) => `rgba(50, 50, 100, ${opacity})`,
+        style: {
+          borderRadius: 16
+        },
     };
     const variable1Data = {
         labels: ["10월", "11월"],
@@ -78,6 +92,11 @@ const AssetCounseling = ({navigation}) => {
         data: [[lastTotal], [currentTotal]],
         barColors: ["#ced6e0"]
     }
+    const progressChartData = {
+        labels: ["이행률"], // optional
+        data: [progressPercentage]
+    };
+
     useEffect(()=>{
         AsyncStorage.getItem('userID', (err, result) => {
             const tempID = result;
@@ -122,7 +141,7 @@ const AssetCounseling = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출1</Text>
+                <Text style={styles.cateFont}>계획지출(교육+교통+의료)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable1Data}
@@ -151,7 +170,7 @@ const AssetCounseling = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출2</Text>
+                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+기타)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable2Data}
@@ -184,7 +203,7 @@ const AssetCounseling = ({navigation}) => {
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={totalData}
-                    width={350}
+                    width={370}
                     height={250}
                     chartConfig={fixConfig}
                     withHorizontalLabels={false}
@@ -208,6 +227,40 @@ const AssetCounseling = ({navigation}) => {
                     }
                 </View>
             </View>
+            <View style={styles.fixDiv}>
+                <Text style={styles.cateFont}>11월 예산 계획 이행도</Text>
+                <View style={styles.tempRow}>
+                <ProgressChart
+                data={progressChartData}
+                width={300}
+                height={150}
+                chartConfig={progressConfig}
+                hideLegend={false}
+                />
+                </View>
+                <View style={styles.progressDiv}>
+                    <Text>총 </Text>
+                    <Text>{plannedProgress}</Text>
+                    <Text>일 중 </Text>
+                    <Text style={styles.realProgressFont}>{realProgress}</Text>
+                    <Text>일 이행</Text>
+                </View>
+            </View>
+            <View style={styles.fixDiv}>
+                <Text style={styles.cateFont}>11월 소비 패턴 분석 결과</Text>
+                <View style={styles.resultDiv}>
+                    <Text style={styles.nameHighlight}>테스트</Text>
+                    <Text>님의 소비 패턴 mbti는 </Text>
+                    <Text style={styles.mbtiHighlight}>ISHO</Text>
+                    <Text>입니다.</Text>
+                </View>
+                <View>
+                    <Text>    mbti 설명란</Text>
+                </View> 
+                <View style={styles.buttonDiv}>
+                    <MbtiSelectButton />
+                </View>
+            </View>
         </ScrollView>
     )
 }
@@ -222,8 +275,7 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'flex-end',
-        borderBottomWidth: 1,
-        borderBottomColor: 'gray',
+        backgroundColor: 'white',
     },
     topFont: {
         fontSize: 19,
@@ -233,15 +285,14 @@ const styles = StyleSheet.create({
     cateFont: {
         fontSize: 17,
         fontWeight: 'bold',
-        marginTop: 10,
-        marginLeft: 10,
+        margin: 10,
     },
     tempRow: {
         alignItems: 'center',
     },
     fixDiv: {
         marginTop: 20,
-        margin: 5,
+        margin: 10,
         padding: 5,
         backgroundColor: 'white',
         borderRadius: 5,
@@ -274,5 +325,28 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: 130,
         textAlign: 'right',
+    },
+    resultDiv: {
+        flexDirection: 'row',
+        padding: 10,
+    },
+    nameHighlight: {
+        fontWeight: 'bold',
+    },
+    mbtiHighlight:{
+        fontWeight: 'bold',
+        color: 'blue',
+    },
+    realProgressFont: {
+        fontWeight: 'bold',
+        color: 'blue',
+    },
+    progressDiv: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 10,
+    },
+    buttonDiv: {
+        alignItems: 'center',
     },
 });
