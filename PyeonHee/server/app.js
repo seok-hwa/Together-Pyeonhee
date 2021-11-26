@@ -97,66 +97,81 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
             
-            //잔액 푸시알림
+            //일일권장 소비금액 (잔액 푸시알림)
             // schedule.scheduleJob('*/30 * * * * *', function (){
             //     db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
             //         if (error) throw error;
             //         else{
             //             for (i in result) {
-            //                 var userID = result[i].user_id;
-            //                 var deviceToken = result[i].deviceToken;
+            //                 (function(i){
+            //                     var userID = result[i].user_id;
+            //                     var deviceToken = result[i].deviceToken;
+            //                     db.query(`SELECT EXISTS (SELECT * FROM bank_account WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
+            //                         if (error) throw error;
+            //                         else {
+            //                             var now = new Date();
+            //                             var year = now.getFullYear();
+            //                             var month = now.getMonth() + 1;
+            //                             var date = now.getDate();
+            //                             now = year + "" + month + "" + date;
+            //                             //console.log("오늘날짜 확인 : ", now);
+            //                             if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
+            //                                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND alarm = 0`, [userID, now], function (error, result) {
+            //                                     if (error) throw error;
+            //                                     else {
+            //                                         if (result[0]!= undefined) { //계좌연동 & 거래내역 존재
+            //                                             var tranAmt = result[0].tran_amt;
+            //                                             console.log('최근 거래내역 존재 푸시알림보내기 + ',userID);
+            //                                             var dailyMoney;
+            //                                             var balanceMoney;
+            //                                             db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function (error, result1) {
+            //                                                 if (error) throw error;
+            //                                                 else {
+            //                                                     db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function (error, result) {
+            //                                                         if (error) throw error;
+            //                                                         else{
+            //                                                             if (result[0] != undefined) {
+            //                                                                 dailyMoney = Calculate_Daily_Money(result, result1);
+            //                                                                 balanceMoney = dailyMoney - tranAmt;
+            //                                                                 console.log('[출금]', tranAmt,'원 **하루권장소비량', balanceMoney +'원 남았습니다.**');
 
-            //                 db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
-            //                     if (error) throw error;
-            //                     else{
-            //                         var now = new Date();
-            //                         var year = now.getFullYear();
-            //                         var month = now.getMonth() + 1;
-            //                         var date = now.getDate();
-            //                         now = year + "" + month + "" + date;
-            //                         if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
-            //                             db.query(``, [userID], function (error, result) {
-            //                                 if (error) throw error;
-            //                                 else{
-            //                                     db.query(`SELECT EXISTS (SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? limit 1) as success`, [userID, now], function (error, result) {
-            //                                         if (error) throw error;
-            //                                         else {
-            //                                             if (result[0].success == 1) {
-            //                                                 console.log('최근 거래내역 존재 푸시알림보내기★');
-            //                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
-            //                                                 let message = {
-            //                                                     notification: {
-            //                                                         title: '테스트 데이터 발송',
-            //                                                         body: '하루권장소비액 잔액이 4500원 남았습니다.',
-            //                                                     },
-            //                                                     token: target_token,
+            //                                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
+            //                                                                 let message = {
+            //                                                                     notification: {
+            //                                                                         title: '테스트 데이터 발송',
+            //                                                                         body: '[출금]' + tranAmt + '원 **하루권장소비량' + balanceMoney +'원 남았습니다.**'
+            //                                                                     },
+            //                                                                     token: target_token,
+            //                                                                 }
+            //                                                                 admin.messaging().send(message)
+            //                                                                     .then(function (response) {
+            //                                                                         console.log('푸시알림메시지 전송성공!', response)
+            //                                                                     })
+            //                                                                     .catch(function (error) {
+            //                                                                         console.log('푸시알림메시지 전송실패!', error)
+            //                                                                     })
+            //                                                             }
+            //                                                         }
+            //                                                     });
             //                                                 }
-
-            //                                                 admin.messaging().send(message)
-            //                                                     .then(function (response) {
-            //                                                         console.log('푸시알림메시지 전송성공!', response)
-            //                                                     })
-            //                                                     .catch(function (error) {
-            //                                                         console.log('푸시알림메시지 전송실패!', error)
-            //                                                     })
-            //                                             }
-            //                                             else{//계좌연동 but.거래내역 존재X
-            //                                                 console.log("확인3");
-            //                                             }
+            //                                             });
+            //                                             db.query(`UPDATE real_expense SET alarm = 1 WHERE user_id = ? AND tran_date = ?`, [userID, now], function (error, result) {
+            //                                                 if (error) throw error;
+            //                                                 //console.log("알림완료 --> alarm = 1 로 변경");
+            //                                             });
             //                                         }
-            //                                     });
-            //                                 }
-
-            //                             });
-
+            //                                         else {//계좌연동 but.거래내역 존재X
+            //                                             console.log(userID, "계좌연동 O but.최근거래내역 X");
+            //                                         }
+            //                                     }
+            //                                 });
+            //                             }
+            //                             else {//계좌연동 X 사용자
+            //                                 console.log(userID, "계좌연동 X");
+            //                             }
             //                         }
-            //                         else{//계좌연동 X 사용자
-
-            //                         }
-            //                     }
-                                
-            //                 });
-
+            //                     });
+            //                 })(i);
             //             }
             //         }
             //     });
@@ -385,31 +400,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     console.log(data);
                     res.send(data);
                 });
-                /*
-                db.query(`SELECT deviceToken FROM user WHERE user_id = ?`, [userID], function (error, result) {
-                    if (error) throw error;
-                    else{
-                        let target_token = result[0].deviceToken;//알림을 받을 디바이스의 토큰값
-                        let message = {
-                            notification: {
-                                title: '테스트 데이터 발송',
-                                body: '하루권장소비액 잔액이 4500원 남았습니다.',
-                            },
-                            token: target_token,
-                        }
-
-                        admin.messaging().send(message)
-                            .then(function (response) {
-                                console.log('푸시알림메시지 전송성공!', response)
-                            })
-                            .catch(function (error) {
-                                console.log('푸시알림메시지 전송실패!', error)
-                            })
-                    }
-                });*/
             });
-
-
 
             //예산계획추천페이지(모든 사용자 동일)
             app.get('/saveSelectBudgetPlan', function (req, res) {
@@ -732,8 +723,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            //저축계획 작성
 
+            //저축계획 작성
             app.post('/saveSavingPlan', function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
@@ -826,7 +817,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     daily_money : daily_money,
                                                     spend_money : spend_money
                                                 };
-                                                console.log('이거 다 들어가있는거야', data);
+                                                //console.log('이거 다 들어가있는거야', data);
                                                 res.send(data);
                                             }
                                             else{
@@ -837,7 +828,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     daily_money : daily_money,
                                                     spend_money : spend_money,
                                                 };
-                                                console.log('이거 거래내역 없는거야', data);
+                                                //console.log('이거 거래내역 없는거야', data);
                                                 res.send(data);
                                             }
                                         })
@@ -851,7 +842,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             daily_money : daily_money,
                                             spend_money : spend_money,
                                         };
-                                        console.log('이거 실제금액 없는거야', data);
+                                        //console.log('이거 실제금액 없는거야', data);
                                         res.send(data);
                                     }
                                 })
@@ -864,7 +855,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     daily_money : 0,
                                     spend_money : 0
                                 };
-                                console.log('이거 계획조차 안한거야', data);
+                                //console.log('이거 계획조차 안한거야', data);
                                 res.send(data);
                             }
                         });
@@ -899,6 +890,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
                 return dailyMoney;
             }
+
             // 가계부 메뉴의 본인 데이터 
             app.get(`/myBudgetPlan`, function(req, res){
                 console.log(req.query.userID);
