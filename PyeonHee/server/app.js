@@ -395,15 +395,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPoint;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function(error3, result3){
                     if(error3) throw error3;
-                
-                    const data = {
-                        userName: result3[0].name,
-                        userTier: result3[0].tier,
-                        userStamp: result3[0].total_stamp,
-                        userPoint: result3[0].total_point
+                    else{
+                        const data = {
+                            userName: result3[0].name,
+                            userTier: result3[0].tier,
+                            userStamp: result3[0].total_stamp,
+                            userPoint: result3[0].total_point,
+                            userMbti : result3[0].mbti,
+                        }
+                        console.log(data);
+                        res.send(data);
                     }
-                    console.log(data);
-                    res.send(data);
                 });
             });
 
@@ -863,7 +865,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         }
                                                     }
                                                     
-                                                    
+                                    
                                                 })
             
                                             }
