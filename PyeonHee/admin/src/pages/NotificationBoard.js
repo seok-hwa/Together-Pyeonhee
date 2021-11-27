@@ -4,9 +4,12 @@ import '../App.css';
 
 function NotificationBoard({ match }) {
 return (
-    <div className="LoginDiv">
-        <p>공지게시판{match.params.boardID}</p>
+  <div className="NotificationDiv">
+    <p className="NotificationTitleText">공지사항 작성</p>
+    <div className="NotificationBodyDiv">
+
     </div>
+  </div>
   );
 }
 

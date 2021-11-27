@@ -24,7 +24,7 @@ function Login(props) {
             }
         })
         .then((res)=>{
-            if(res.status === 'success'){
+            if(res.data.status === 'success'){
                 alert('로그인 성공');
                 sessionStorage.setItem('userID', userID);
                 document.location.href = '/';
