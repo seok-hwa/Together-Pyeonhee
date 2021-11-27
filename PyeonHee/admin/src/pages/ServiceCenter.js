@@ -43,7 +43,8 @@ function ServiceCenter(props) {
       url: '/adminGetQueryList',
     })
     .then((res)=>{
-        setQueries(res);
+        console.log(res.data);
+        setQueries(res.data);
     }).catch(error=>{
         console.log(error);
         throw new Error(error);

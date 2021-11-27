@@ -42,7 +42,8 @@ function Notification(props) {
       url: '/adminGetNotificationList',
     })
     .then((res)=>{
-        setNotification(res);
+        console.log(res.data);
+        setNotification(res.data);
     }).catch(error=>{
         console.log(error);
         throw new Error(error);
