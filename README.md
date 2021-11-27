@@ -265,7 +265,7 @@ npm install axios
 ~~~
 #### 11.1.2. react-router-dom (admin/)
 ~~~
-npm install react-router-dom
+npm i react-router-dom@5.2.0
 ~~~
 #### 11.1.3. material ui (admin/)
 ~~~
