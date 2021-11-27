@@ -395,15 +395,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPoint;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function(error3, result3){
                     if(error3) throw error3;
-                
-                    const data = {
-                        userName: result3[0].name,
-                        userTier: result3[0].tier,
-                        userStamp: result3[0].total_stamp,
-                        userPoint: result3[0].total_point
+                    else{
+                        const data = {
+                            userName: result3[0].name,
+                            userTier: result3[0].tier,
+                            userStamp: result3[0].total_stamp,
+                            userPoint: result3[0].total_point,
+                            userMbti : result3[0].mbti,
+                        }
+                        console.log(data);
+                        res.send(data);
                     }
-                    console.log(data);
-                    res.send(data);
                 });
             });
 
@@ -801,31 +803,26 @@ const SSHConnection = new Promise((resolve, reject) => {
                         FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
                         where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
-                            else if(result1[0].planning_number != null){
-                                console.log(result1[0])
-                                db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
-                                    var daily_money = result2[0].available_money;
-                                    var spend_money = result2[0].available_money - result2[0].daily_spent_money;
-                                    if(error2) throw error2;
-                                    else if(result2[0].length != 0){
-                                        console.log(result2[0]);
-                                        db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
-                                        WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function(error3, result3){
-                                            console.log(result3[0]);
-                                            if(error3) throw error3;
-                                            else if(result3[0] != 0){
-                                                console.log(result3);
-                                                data = {
-                                                    userName : name,
-                                                    planamt : result1[0],
-                                                    realamt : result3,
-                                                    daily_money : daily_money,
-                                                    spend_money : spend_money
-                                                };
-                                                //console.log('이거 다 들어가있는거야', data);
-                                                res.send(data);
-                                            }
-                                            else{
+                            else{
+                                if(result1.length === 0) {
+                                    data = {
+                                        userName : name,
+                                        planamt : [],
+                                        realamt : [],
+                                        daily_money : 0,
+                                        spend_money : 0
+                                    };
+                                    //console.log('이거 계획조차 안한거야', data);
+                                    res.send(data);
+                                }
+                                else{
+                                    console.log(result1[0])
+                                    db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
+                                        var daily_money = result2[0].available_money;
+                                        var spend_money = result2[0].available_money - result2[0].daily_spent_money;
+                                        if(error2) throw error2;
+                                        else{
+                                            if(result2.length === 0){
                                                 data = {
                                                     userName : name,
                                                     planamt : result1[0],
@@ -833,36 +830,53 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     daily_money : daily_money,
                                                     spend_money : spend_money,
                                                 };
-                                                //console.log('이거 거래내역 없는거야', data);
+                                                //console.log('이거 실제금액 없는거야', data);
                                                 res.send(data);
                                             }
-                                        })
-    
-                                    }
-                                    else{
-                                        data = {
-                                            userName : name,
-                                            planamt : result1[0],
-                                            realamt : [],
-                                            daily_money : daily_money,
-                                            spend_money : spend_money,
-                                        };
-                                        //console.log('이거 실제금액 없는거야', data);
-                                        res.send(data);
-                                    }
-                                })
+                                            else{
+                                                console.log(result2[0]);
+                                                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
+                                                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function(error3, result3){
+                                                    console.log(result3[0]);
+                                                    if(error3) throw error3;
+                                                    else{
+                                                        if(result3.length === 0){
+                                                            data = {
+                                                                userName : name,
+                                                                planamt : result1[0],
+                                                                realamt : [],
+                                                                daily_money : daily_money,
+                                                                spend_money : spend_money,
+                                                            };
+                                                            //console.log('이거 거래내역 없는거야', data);
+                                                            res.send(data);
+                                                        }
+                                                        else{
+                                                            console.log(result3);
+                                                            data = {
+                                                                userName : name,
+                                                                planamt : result1[0],
+                                                                realamt : result3,
+                                                                daily_money : daily_money,
+                                                                spend_money : spend_money
+                                                            };
+                                                            //console.log('이거 다 들어가있는거야', data);
+                                                            res.send(data);
+                                                        }
+                                                    }
+                                                    
+                                    
+                                                })
+            
+                                            }
+                                        }
+                                        
+                                    })
+                                    
+                                } 
                                 
-                            } else{
-                                data = {
-                                    userName : name,
-                                    planamt : [],
-                                    realamt : [],
-                                    daily_money : 0,
-                                    spend_money : 0
-                                };
-                                //console.log('이거 계획조차 안한거야', data);
-                                res.send(data);
                             }
+                            
                         });
                     }
                 });
