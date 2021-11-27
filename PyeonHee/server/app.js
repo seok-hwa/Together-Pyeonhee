@@ -1475,7 +1475,46 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 지난달과 이번달 사용 내역 제공
             app.get(`/monthReportWithLast`, function(req, res){
                 var userID = req.query.userID;
-                
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
+                    if(error1) throw error1;
+                    else{
+                        if(real_spend.length === 0){
+                            console.log("이번달 내역이 없습니다.");
+                            data = {
+                                real_spend = [],
+                                last_spend = [],
+                            };
+                            res.send(data);
+                        }
+                        else{
+                            console.log(real_spend);
+                            db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error2, last_spend){
+                                if(error2) throw error2;
+                                else{
+                                    if(last_spend.length === 0){
+                                        console.log("지난달 내역이 없습니다.");
+                                        data = {
+                                            real_spend = real_spend,
+                                            last_spend = [],
+                                        };
+                                        res.send(data);
+                                    }
+                                    else{
+                                        console.log(last_spend);
+                                        data = {
+                                            real_spend = real_spend,
+                                            last_spend = last_spend,
+                                        };
+                                        console.log(data);
+                                        res.send(data);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                });
             });
 
             // 한달리포트로 MBTI 제시
