@@ -1482,8 +1482,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(real_spend.length === 0){
                             console.log("이번달 내역이 없습니다.");
                             data = {
-                                real_spend = [],
-                                last_spend = [],
+                                real_spend : [],
+                                last_spend : [],
                             };
                             res.send(data);
                         }
@@ -1496,16 +1496,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     if(last_spend.length === 0){
                                         console.log("지난달 내역이 없습니다.");
                                         data = {
-                                            real_spend = real_spend,
-                                            last_spend = [],
+                                            real_spend : real_spend,
+                                            last_spend : [],
                                         };
                                         res.send(data);
                                     }
                                     else{
                                         console.log(last_spend);
                                         data = {
-                                            real_spend = real_spend,
-                                            last_spend = last_spend,
+                                            real_spend : real_spend,
+                                            last_spend : last_spend,
                                         };
                                         console.log(data);
                                         res.send(data);
