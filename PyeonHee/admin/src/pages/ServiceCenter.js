@@ -4,8 +4,10 @@ import '../App.css';
 
 function ServiceCenter() {
   return (
-    <div className="LoginDiv">
-        <p>고객센터</p>
+    <div className="ServiceDiv">
+      <p className="ServiceTitleText">고객센터</p>
+      <div className="ServiceBodyDiv">
+      </div>
     </div>
   );
 }

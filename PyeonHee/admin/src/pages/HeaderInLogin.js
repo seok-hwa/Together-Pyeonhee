@@ -8,9 +8,12 @@ function HeaderInLogin() {
       document.location.href = '/'
     }
   }
+  const toMain = () => {
+      document.location.href = '/'
+    }
   return (
     <div className="Header">
-        <p className="HeaderText">
+        <p className="HeaderText" onClick={toMain}>
           편히가계 관리자 웹사이트
         </p>
         <div className="HeaderRouter">
@@ -18,7 +21,7 @@ function HeaderInLogin() {
             <Link to="/service">
             <p className="HeaderLink">고객센터</p>
             </Link>
-            <Link to="/">
+            <Link to="/notification">
             <p className="HeaderLink">공지사항</p>
             </Link>
         </div>

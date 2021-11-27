@@ -112,7 +112,38 @@
   font-size: 0.5cm;
   font-weight: bold;
 }
-
+.NotificationTitleText {
+  font-size: 0.8cm;
+  font-weight: bold;
+  color: #fff;
+}
+.NotificationBodyDiv {
+  background-color: #fff;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.NotificationDiv{
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+}
+.ServiceTitleText {
+  font-size: 0.8cm;
+  font-weight: bold;
+  color: #fff;
+}
+.ServiceBodyDiv {
+  background-color: #fff;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.ServiceDiv{
+  width: 90%;
+  align-items: center;
+  justify-content: center;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

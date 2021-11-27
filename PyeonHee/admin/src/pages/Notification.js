@@ -4,8 +4,10 @@ import '../App.css';
 
 function Notification() {
   return (
-    <div className="LoginDiv">
-        <p>공지사항</p>
+    <div className="NotificationDiv">
+      <p className="NotificationTitleText">공지사항</p>
+      <div className="NotificationBodyDiv">
+      </div>
     </div>
   );
 }
