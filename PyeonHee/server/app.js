@@ -730,7 +730,69 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+            //예산계획 수정 
 
+            app.post('/editBudget', function(req,res){
+                console.log(req.body);
+                
+                var userID = req.body.userID;
+                var monthlyRent= req.body.monthlyRent;
+                var insurance = req.body.insurance;
+                var transportation = req.body.transportation;
+                var communication = req.body.communication;
+                var subscription = req.body.subscription;
+                var leisure = req.body.leisure;
+                var shopping = req.body.shopping;
+                var education = req.body.education;
+                var medical = req.body.medical;
+                var event = req.body.event;
+                var etc = req.body.etc;
+
+                db.query(`SELECT * FROM user WHERE user.user_id=?`, [userID], function(error,result){
+                    console.log(result);
+                    if(error) throw error;
+                    else {
+                        userMBTI = result[0].mbti;
+                        userAge = result[0].age;
+
+                        db.query(`UPDATE BudgetPlanning SET monthly_rent=?,insurance_expense=?,transportation_expense=?,communication_expense=?,
+                            leisure_expense=?, shopping_expense=?,education_expense=?, medical_expense=?,
+                            event_expense=?, etc_expense=?, subscribe_expense=? WHERE user_id =?`,[monthlyRent,insurance,transportation,communication,
+                                leisure,shopping,education,medical,event,etc,subscription,userID], function(error1,result1){
+                                    if (error1) throw error1;
+                                    else{
+                                        db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error2,result2){
+                                            if (error1) throw error1;
+                                            else {
+                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error3, result3){
+                                                    if (error) throw error;
+                        
+                                                    else if(result.length != 0){
+                                                        var dailyMoney = Calculate_Daily_Money(result3, result2);
+                                                        console.log(result[0]);
+                                                        db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
+                                                            if (error4) throw error4;
+                                                            else{
+                                                                const data = {
+                                                                    status : 'success',
+                                                                }
+                                                                console.log(data);
+                                                                res.send(data);
+                                                            }
+                                                        })
+                                                } 
+                                                else {
+                                                    res.send([]);
+                                                }
+                                            });
+                                        }
+                                        });                                        
+                                    }
+                                });
+                    }
+                })
+            })
+            
             //저축계획 작성
             app.post('/saveSavingPlan', function(req, res){
                 console.log(req.body);
