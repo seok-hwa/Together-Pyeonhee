@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../App.css';
 import {Paper, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import {withStyles} from '@material-ui/core/styles';
+import Queries from "../components/Queries";
 const styles = theme => ({
   root: {
     width: '100%',
@@ -13,8 +14,40 @@ const styles = theme => ({
   },
 
 })
+const queries =[
+  {
+    id: 2,
+    category: '티어',
+    title: '플레에서 안 올라요',
+    userID: 'sdfsdf1',
+    date: '2021-11-28'
+  },
+  {
+    id: 1,
+    category: '포인트',
+    title: '포인트 오류인 것 같습니다.',
+    userID: 'swewe123',
+    date: '2021-11-27'
+  },
+]
 function ServiceCenter(props) {
   const {classes} = props;
+  //const [queries, setQueries] = useState([]);
+
+  /*
+  useEffect(() => {
+    axios({
+      method:"GET",
+      url: '/adminGetQueryList',
+    })
+    .then((res)=>{
+        setQueries(res);
+    }).catch(error=>{
+        console.log(error);
+        throw new Error(error);
+    });
+  },[])*/
+
   return (
     <div className="ServiceDiv">
       <p className="ServiceTitleText">고객센터</p>
@@ -30,6 +63,9 @@ function ServiceCenter(props) {
                 <TableCell>날짜</TableCell>
               </TableRow>
             </TableHead>
+            <TableBody>
+              {queries.map(c => {return (<Queries key={c.id} id={c.id} category={c.category} title={c.title} userID={c.userID} date={c.date}/>)})}
+            </TableBody>
           </Table>
         </Paper>
       </div>
