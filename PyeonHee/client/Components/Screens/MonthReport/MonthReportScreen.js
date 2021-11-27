@@ -26,8 +26,8 @@ const MonthReportScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('테스트');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [userMbti, setUserMbti] = useState('ISOH');
-  const [mbtiDescription, setMbtiDescription] = useState('이러이러한 소비 패턴을 가지고 있습니다.');
+  const [userMbti, setUserMbti] = useState('PHOM');
+  const [mbtiDescription, setMbtiDescription] = useState('당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. 수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. 종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. 소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다.');
   const [loading, setLoading] = useState(false);
   const [didWrite, setDidWrite] = useState(false);
 
@@ -139,13 +139,13 @@ const MonthReportScreen = ({navigation}) => {
           <View style={styles.fixDiv}>
                 <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
                 <View style={styles.resultDiv}>
-                    <Text style={styles.nameHighlight}>{userName}</Text>
+                    <Text style={styles.nameHighlight}> {userName}</Text>
                     <Text>님의 소비 패턴 MBTI는 </Text>
                     <Text style={styles.mbtiHighlight}>{userMbti}</Text>
                     <Text>입니다.</Text>
                 </View>
                 <View style={styles.descriptionDiv}>
-                    <Text>{mbtiDescription}</Text>
+                    <Text style={{fontSize: 13,}}>{mbtiDescription}</Text>
                 </View> 
                 <View style={styles.buttonDiv}>
                     <MbtiSelectButton onPress={handleSubmitButton}/>
@@ -297,6 +297,7 @@ buttonDiv: {
 descriptionDiv:{
   paddingLeft: 10,
   paddingRight: 10,
+  fontSize: 11,
 },
 notThere: {
   alignItems: 'center',

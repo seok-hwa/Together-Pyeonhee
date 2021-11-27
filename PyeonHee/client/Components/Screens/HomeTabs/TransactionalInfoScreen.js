@@ -1,311 +1,79 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
-import TransactionItem from '../TransactionItem';
-import config from '../../../config';
+import { SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import LatestTransactionScreen from './TransactionalInfoComponent/LatestTransactionScreen';
+import TotalTransactionScreen from './TransactionalInfoComponent/TotalTransactionScreen';
 
-const url = config.url;
-const TransactionScreen = ({navigation}) => {
-    const [userID, setUserID] = useState('');
-    const [tranlatestList, setTranLatestList] = useState([]);
-    const [tranList, setTranList] = useState([]);
-    const [loading, setLoading] = useState(false);
-    
+const TransactionalInfoScreen = ({navigation}) => {
+  const [userID, setUserID] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-    //const inquiryType = "A";
-    //const inquiryBase = "D";
-    //const fromDate="";
-    //const toDate = "";
-    //const sortOrder = "";
+  useEffect(()=>{
+    AsyncStorage.getItem('userID', (err, result) => {
+      const tempID = result;
+      if(tempID!= null){
+        setUserID(tempID);
+      }
+    });
+  })
 
-    useEffect(()=>{
-        let tempID;
+  const handleSingleIndexSelect = (index) => {
+    setSelectedIndex(index);
+  };
 
-        AsyncStorage.getItem('userID', (err, result) => {
-            tempID = result;
-            if(tempID!= null){
-                setUserID(tempID);
-            }
-        })
-        .then(()=>{
-            console.log(tempID);
-            setLoading(true);
-            //for test
-            console.log(`${url}/latestTranList`);
-            fetch(`${url}/latestTranList`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: tempID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('최근 거래 내역');
-                console.log(responseJson);
-
-                setTranLatestList(responseJson);
-            })
-            .then(()=>{
-                console.log(`${url}/tranList`);
-                fetch(`${url}/tranList`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      userID: tempID,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('거래 내역');
-                    console.log(responseJson);
-    
-                    setTranList(responseJson);
-                    setLoading(true);
-                })
-            })
-        })
-    },[])
-    //for test
-    /*
-    const tempLatestData = [
-        {
-            tranID: 1,
-            bankName: '오픈은행',
-            organizationName: '스타벅스',
-            tranDate: '2021/11/20',
-            tranTime: '오후 2시 20분',
-            tranPrice: 3000,
-            tranCate: '생활',
-        },
-        {
-            tranID: 2,
-            bankName: '농협',
-            organizationName: '스타벅스',
-            tranDate: '2021/11/20',
-            tranTime: '오후 2시 20분',
-            tranPrice: 3000,
-            tranCate: '생활',
-        },
-        {
-            tranID: 3,
-            bankName: 'KB국민은행',
-            organizationName: '스타벅스',
-            tranDate: '2021/11/20',
-            tranTime: '오후 2시 20분',
-            tranPrice: 3000,
-            tranCate: '생활',
-        },
-        {
-            tranID: 4,
-            bankName: 'IBK기업은행',
-            organizationName: '스타벅스',
-            tranDate: '2021/11/20',
-            tranTime: '오후 2시 20분',
-            tranPrice: 3000,
-            tranCate: '생활',
-        },
-    ]*/
-    /*
-    const tempData = [
-        {
-            tranID: 5,
-            bankName: '오픈은행',
-            organizationName: '아디다스',
-            tranDate: '2021/11/16',
-            tranPrice: 300000,
-            tranCate: '생활',
-            tranTime: '오후 11시 20분',
-        },
-        {
-            tranID: 6,
-            bankName: '농협',
-            organizationName: '아디다스',
-            tranDate: '2021/11/15',
-            tranTime: '오후 9시 10분',
-            tranPrice: 200000,
-            tranCate: '생활',
-        },
-    ]*/
-    if(loading === true){
-    return (
-        <View style={styles.appSize}>
-            <Text style={styles.titleFont}>최근 거래 내역</Text>
-            <View style={styles.latestTranBox}>
-                <View style={styles.graphTitle}>
-                    <View style={styles.BankNameDiv}><Text style={styles.graphFont}>은행</Text></View>
-                    <View style={styles.OrganizationNameDiv}><Text style={styles.graphFont}>상호명</Text></View>
-                    <View style={styles.tranDate}><Text style={styles.graphFont}>거래일자</Text></View>
-                    <View style={styles.tranPrice}><Text style={styles.graphFont}>거래금액</Text></View>
-                    <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
-                </View>
-                <ScrollView style={{flex: 1,}}>
-                    {tranlatestList.map((item, index) => {
-                        return <TransactionItem key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
-                        tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
-                        inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content}
-                        />})
-                    }
-                </ScrollView>
-            </View>
-            <Text style={styles.titleFont}>거래 내역</Text>
-            <View style={styles.TranBox}>
-                <View style={styles.graphTitle}>
-                    <View style={styles.BankNameDiv}><Text style={styles.graphFont}>은행</Text></View>
-                    <View style={styles.OrganizationNameDiv}><Text style={styles.graphFont}>상호명</Text></View>
-                    <View style={styles.tranDate}><Text style={styles.graphFont}>거래일자</Text></View>
-                    <View style={styles.tranPrice}><Text style={styles.graphFont}>거래금액</Text></View>
-                    <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
-                </View>
-                <ScrollView style={{flex: 1,}}>
-                    {tranList.map((item, index )=> {
-                        return <TransactionItem key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
-                        tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
-                        inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content}
-                        />})
-                    }
-                </ScrollView>
-            </View>
+  return (
+    <SafeAreaView style={styles.container}>
+        <View style={styles.smallcontainer}>
+        <View style={styles.tapContainer}>
+                <SegmentedControlTab
+                    values={['최근 거래 내역', '종합 거래 내역']}
+                    selectedIndex={selectedIndex}
+                    onTabPress={handleSingleIndexSelect}
+                    tabStyle={styles.tabStyle}
+                    tabTextStyle={{color: '#595959', }}
+                    activeTabStyle={styles.activeTabStyle}
+                    borderRadius={20}
+                />
         </View>
-    )
-    }
-    else{
-        return (
-            <View style={styles.appSize}>
-                <Text style={styles.titleFont}>최근 거래 내역</Text>
-                <View style={styles.latestTranBox}>
-                    <View style={styles.graphTitle}>
-                        <View style={styles.BankNameDiv}><Text style={styles.graphFont}>은행</Text></View>
-                        <View style={styles.OrganizationNameDiv}><Text style={styles.graphFont}>상호명</Text></View>
-                        <View style={styles.tranDate}><Text style={styles.graphFont}>거래일자</Text></View>
-                        <View style={styles.tranPrice}><Text style={styles.graphFont}>거래금액</Text></View>
-                        <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
-                    </View>
-                    <ScrollView style={{flex: 1,}}>
-                    </ScrollView>
-                </View>
-                <Text style={styles.titleFont}>거래 내역</Text>
-                <View style={styles.TranBox}>
-                    <View style={styles.graphTitle}>
-                        <View style={styles.BankNameDiv}><Text style={styles.graphFont}>은행</Text></View>
-                        <View style={styles.OrganizationNameDiv}><Text style={styles.graphFont}>상호명</Text></View>
-                        <View style={styles.tranDate}><Text style={styles.graphFont}>거래일자</Text></View>
-                        <View style={styles.tranPrice}><Text style={styles.graphFont}>거래금액</Text></View>
-                        <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
-                    </View>
-                    <ScrollView style={{flex: 1,}}>
-                    </ScrollView>
-                </View>
-            </View>
-        )
-    }
+          {selectedIndex === 0 && <LatestTransactionScreen navigation={navigation}/>}
+          {selectedIndex === 1 && <TotalTransactionScreen navigation={navigation}/>}
+
+        </View>
+      </SafeAreaView>
+  )
 }
 
-export default TransactionScreen;
+export default TransactionalInfoScreen;
 
 const styles = StyleSheet.create({
-    appSize: {
-      flex: 1,
-      padding: 4,
-    },
-    titleFont: {
-        fontSize: 17,
-        fontWeight: 'bold',
-        marginTop: 5,
-    },
-    latestTranBox: {
-        flex: 1,
-        backgroundColor: 'white',
-        borderRadius: 5,
-    },
-    graphTitle:{
-        height: 25,
-        backgroundColor: '#8EB3EE',
-        flexDirection: 'row',
-        borderColor: 'gray',
-    },
-    BankNameDiv: {
-        width: 65,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
-    },
-    OrganizationNameDiv: {
-        flex: 2.5,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
-    },
-    tranDate:{
-        flex: 3,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
-
-    },
-    tranPrice:{
-        flex: 4,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
-    },
-    tranCate:{
-        flex: 2,
-        alignContent: 'center',
-        justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
-    },
-    graphFont:{
-        fontSize: 13,
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    TranBox: {
-        flex: 2,
-        backgroundColor: 'white',
-        borderRadius: 5,
-        
-    },
-    TranContentBox:{
-        height: 65,
-        flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: 'gray',
-    },
-    BankImageView: {
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-        borderWidth: 1,
-    },
-    BankFont: {
-        fontSize: 13,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    tranDateFont:{
-        fontSize: 12,
-        textAlign: 'center',
-    },
-    tranPriceFont:{
-        fontSize: 12,
-        textAlign: 'right',
-        fontWeight: 'bold',
-    },
-    cateFont:{
-        fontSize: 12,
-        textAlign: 'center',
-    },
+  container: {
+    flex: 1,
+  },
+  smallcontainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  tapContainer: {
+      alignItems:'flex-end',
+      borderRadius: 20,
+      backgroundColor: 'white',
+      padding: 3,
+  },
+  headerText: {
+    flex: 1,
+    padding: 8,
+    fontSize: 14,
+    color: '#444444',
+    textAlign: 'center',
+    backgroundColor: 'white',
+  },
+  tabStyle: {
+    borderColor: 'white',
+    backgroundColor: 'white',
+  },
+  activeTabStyle: {
+    backgroundColor: '#8EB3EE',
+    borderRadius: 20,
+  },
 });
