@@ -10,17 +10,25 @@ import ServiceCenter from './pages/ServiceCenter';
 import './App.css';
 
 function App() {
-  const [login, setLogin] = useState(false);
-  if(login === false){
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    if(sessionStorage.getItem('userID') === null){
+      console.log('isLogin ?? :: ', isLogin)
+    } else {
+      setIsLogin(true);
+      console.log('isLogin ?? :: ', isLogin)
+    }
+  })
+ 
+  if(isLogin === false){
   return (
     <BrowserRouter>
     <div className="App">
       <HeaderInLogount />
       <div className="AppBody">
         <Routes>
-          <Route path="/" element={<Login setLogin={setLogin}/>} />
-          <Route path="/main" element={<Notification />} />
-          <Route path="/service" element={<ServiceCenter />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </div>
     </div>
@@ -33,8 +41,7 @@ function App() {
         <HeaderInLogin />
         <div className="AppBody">
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/main" element={<Notification />} />
+            <Route path="/" element={<Notification />} />
             <Route path="/service" element={<ServiceCenter />} />
           </Routes>
         </div>

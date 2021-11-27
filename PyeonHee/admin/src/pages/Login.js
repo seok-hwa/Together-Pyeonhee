@@ -14,6 +14,7 @@ function Login(props) {
     }
     const submit=()=>{
         console.log('아이디:',userID, '패스워드:',userPassword);
+        /*
         axios({
             method:"POST",
             url: `/adminLogin`,
@@ -25,7 +26,8 @@ function Login(props) {
         .then((res)=>{
             if(res.status === 'success'){
                 alert('로그인 성공');
-                props.setLogin(true);
+                sessionStorage.setItem('userID', userID);
+                document.location.href = '/';
             }else{
                 alert('로그인 실패');
             }
@@ -33,6 +35,12 @@ function Login(props) {
             console.log(error);
             throw new Error(error);
         });
+        */
+
+        //for test
+        alert('로그인 성공');
+        sessionStorage.setItem('userID', userID);
+        document.location.href = '/';
     }
   return (
     <div className="LoginDiv">
