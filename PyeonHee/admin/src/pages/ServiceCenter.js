@@ -12,7 +12,9 @@ const styles = theme => ({
   table: {
     minWidth: 1080
   },
-
+  tableRow: {
+    fontWeight: 'bold'
+  }
 })
 const queries =[
   {
@@ -56,11 +58,11 @@ function ServiceCenter(props) {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>번호</TableCell>
-                <TableCell>분류</TableCell>
-                <TableCell>제목</TableCell>
-                <TableCell>작성자ID</TableCell>
-                <TableCell>날짜</TableCell>
+                <TableCell className={classes.tableRow}>번호</TableCell>
+                <TableCell className={classes.tableRow}>분류</TableCell>
+                <TableCell className={classes.tableRow}>제목</TableCell>
+                <TableCell className={classes.tableRow}>작성자ID</TableCell>
+                <TableCell className={classes.tableRow}>날짜</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
