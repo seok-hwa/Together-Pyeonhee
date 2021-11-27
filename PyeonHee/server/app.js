@@ -395,15 +395,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPoint;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function(error3, result3){
                     if(error3) throw error3;
-                
-                    const data = {
-                        userName: result3[0].name,
-                        userTier: result3[0].tier,
-                        userStamp: result3[0].total_stamp,
-                        userPoint: result3[0].total_point
+                    else{
+                        const data = {
+                            userName: result3[0].name,
+                            userTier: result3[0].tier,
+                            userStamp: result3[0].total_stamp,
+                            userPoint: result3[0].total_point,
+                            userMbti : result3[0].mbti,
+                        }
+                        console.log(data);
+                        res.send(data);
                     }
-                    console.log(data);
-                    res.send(data);
                 });
             });
 
@@ -692,8 +694,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         db.query(`INSERT INTO BudgetPlanning(user_id, user_mbti, user_age,user_income, user_savings, monthly_rent,
                             insurance_expense,transportation_expense,communication_expense,
                             leisure_expense, shopping_expense ,education_expense, medical_expense,
-                            event_expense, etc_expense, subscribe_expense) 
-                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
+                            event_expense, etc_expense, subscribe_expense, state) 
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
                                 insurance,transportation,communication,leisure,shopping,education,medical,event,etc, subscription], function(error1,result1){
                                     if (error1) throw error1;
                                     else{
@@ -793,39 +795,34 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     else {
                         // console.log(name);
-                        db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                        db.query(`SELECT BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                         BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
                         BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
                         BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
                         daily_data.available_money, daily_data.daily_spent_money, daily_data.rest_money 
                         FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                        where daily_data.user_id = ? order by planning_number desc;`, [userID], function(error1, result1){
+                        where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
-                            else if(result1[0].planning_number != null){
-                                console.log(result1[0])
-                                db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
-                                    var daily_money = result2[0].available_money;
-                                    var spend_money = result2[0].available_money - result2[0].daily_spent_money;
-                                    if(error2) throw error2;
-                                    else if(result2[0].length != 0){
-                                        console.log(result2[0]);
-                                        db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
-                                        WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function(error3, result3){
-                                            console.log(result3[0]);
-                                            if(error3) throw error3;
-                                            else if(result3[0] != 0){
-                                                console.log(result3);
-                                                data = {
-                                                    userName : name,
-                                                    planamt : result1[0],
-                                                    realamt : result3,
-                                                    daily_money : daily_money,
-                                                    spend_money : spend_money
-                                                };
-                                                //console.log('이거 다 들어가있는거야', data);
-                                                res.send(data);
-                                            }
-                                            else{
+                            else{
+                                if(result1.length === 0) {
+                                    data = {
+                                        userName : name,
+                                        planamt : [],
+                                        realamt : [],
+                                        daily_money : 0,
+                                        spend_money : 0
+                                    };
+                                    //console.log('이거 계획조차 안한거야', data);
+                                    res.send(data);
+                                }
+                                else{
+                                    console.log(result1[0])
+                                    db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
+                                        var daily_money = result2[0].available_money;
+                                        var spend_money = result2[0].available_money - result2[0].daily_spent_money;
+                                        if(error2) throw error2;
+                                        else{
+                                            if(result2.length === 0){
                                                 data = {
                                                     userName : name,
                                                     planamt : result1[0],
@@ -833,36 +830,53 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     daily_money : daily_money,
                                                     spend_money : spend_money,
                                                 };
-                                                //console.log('이거 거래내역 없는거야', data);
+                                                //console.log('이거 실제금액 없는거야', data);
                                                 res.send(data);
                                             }
-                                        })
-    
-                                    }
-                                    else{
-                                        data = {
-                                            userName : name,
-                                            planamt : result1[0],
-                                            realamt : [],
-                                            daily_money : daily_money,
-                                            spend_money : spend_money,
-                                        };
-                                        //console.log('이거 실제금액 없는거야', data);
-                                        res.send(data);
-                                    }
-                                })
+                                            else{
+                                                console.log(result2[0]);
+                                                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
+                                                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function(error3, result3){
+                                                    console.log(result3[0]);
+                                                    if(error3) throw error3;
+                                                    else{
+                                                        if(result3.length === 0){
+                                                            data = {
+                                                                userName : name,
+                                                                planamt : result1[0],
+                                                                realamt : [],
+                                                                daily_money : daily_money,
+                                                                spend_money : spend_money,
+                                                            };
+                                                            //console.log('이거 거래내역 없는거야', data);
+                                                            res.send(data);
+                                                        }
+                                                        else{
+                                                            console.log(result3);
+                                                            data = {
+                                                                userName : name,
+                                                                planamt : result1[0],
+                                                                realamt : result3,
+                                                                daily_money : daily_money,
+                                                                spend_money : spend_money
+                                                            };
+                                                            //console.log('이거 다 들어가있는거야', data);
+                                                            res.send(data);
+                                                        }
+                                                    }
+                                                    
+                                    
+                                                })
+            
+                                            }
+                                        }
+                                        
+                                    })
+                                    
+                                } 
                                 
-                            } else{
-                                data = {
-                                    userName : name,
-                                    planamt : [],
-                                    realamt : [],
-                                    daily_money : 0,
-                                    spend_money : 0
-                                };
-                                //console.log('이거 계획조차 안한거야', data);
-                                res.send(data);
                             }
+                            
                         });
                     }
                 });
@@ -1416,6 +1430,173 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
             
+            // 계획한 내역과 실제 사용 내역 제공
+            app.get(`/monthReportWithplan`, function(req, res){
+                var userID = req.query.userID;
+                var live_expense = 0;
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
+                    if(error1) throw error1;
+                    else{
+                        if(real_spend.length === 0){
+                            console.log("소비내역이 없습니다.")
+                            data = {
+                                real : [],
+                                paln : [],
+                                live_expense : 0,
+                            }
+                            res.send(data);
+                        }
+                        else {
+                            console.log(real_spend[0]);
+                            db.query(`SELECT BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                            BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
+                            BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
+                            BudgetPlanning.etc_expense, daily_data.rest_money FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
+                            WHERE daily_data.user_id = ? AND BudgetPlanning.state = 1`, [userID], function(error2, plan_spend){
+                                if(error2) throw error2;
+                                else{
+                                    if(real_spend.length === 0){
+                                        console.log("계획한 내역이 없습니다.");
+                                        data = {
+                                            real : real_spend[0],
+                                            plan : [],
+                                            live_expense : 0,
+                                        }
+                                        res.send(data);
+                                    }
+                                    else{
+                                        console.log(plan_spend[0]);
+                                        live_expense = plan_spend[0].user_income - plan_spend[0].user_savings - plan_spend[0].monthly_rent - plan_spend[0].insurance_expense;
+                                        live_expense = live_expense - plan_spend[0].transportation_expense -plan_spend[0].communication_expense - plan_spend[0].leisure_expense;
+                                        live_expense = live_expense - plan_spend[0].shopping_expense - plan_spend[0].education_expense - plan_spend[0].medical_expense;
+                                        live_expense = live_expense - plan_spend[0].event_expense - plan_spend[0].subscribe_expense - plan_spend[0].etc_expense; 
+                                        data = {
+                                            real : real_spend[0],
+                                            plan : plan_spend[0],
+                                            live_expense : live_expense, 
+                                        }
+                                        console.log(data);
+                                        res.send(data);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+            });
+
+            // 지난달과 이번달 사용 내역 제공
+            app.get(`/monthReportWithLast`, function(req, res){
+                var userID = req.query.userID;
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
+                    if(error1) throw error1;
+                    else{
+                        if(real_spend.length === 0){
+                            console.log("이번달 내역이 없습니다.");
+                            data = {
+                                real_spend : [],
+                                last_spend : [],
+                            };
+                            res.send(data);
+                        }
+                        else{
+                            console.log(real_spend);
+                            db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error2, last_spend){
+                                if(error2) throw error2;
+                                else{
+                                    if(last_spend.length === 0){
+                                        console.log("지난달 내역이 없습니다.");
+                                        data = {
+                                            real_spend : real_spend,
+                                            last_spend : [],
+                                        };
+                                        res.send(data);
+                                    }
+                                    else{
+                                        console.log(last_spend);
+                                        data = {
+                                            real_spend : real_spend,
+                                            last_spend : last_spend,
+                                        };
+                                        console.log(data);
+                                        res.send(data);
+                                    }
+                                }
+                            })
+                        }
+                    }
+                });
+            });
+
+            // 한달리포트로 MBTI 제시
+            app.get(`/monthReportMbti`, function(req, res){
+                var userID = req.query.userID;
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
+                    if(error1) throw error1;
+                    else{
+                        if(spend_money.length === 0 ){
+                            console.log("MBTI 제시를 위한 이번달 내역이 없습니다.");
+                            data = {
+                                userMbti : '',
+                            }
+                            res.send(data);
+                        }
+                        else{
+
+                        }
+                    }    
+                })
+
+            });
+
+            // 한달리포트 MBTI 설정
+            app.post(`/updateMbti`, function(req, res) {
+                var userID = req.body.userID;
+                var userMbti = req.body.userMbti;
+                db.query(`UPDATE user SET mbti = ? WHERE user_id = ?`, [userMbti, userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        data = {
+                            status : true,
+                        }
+                        res.send(data);
+                        console.log("MBTI 적용 완료")
+                    }
+                });
+            });
+
+            //관리자 로그인
+            app.post('/adminLogin', function (req, res) {
+                console.log(req.body);
+                var adminID = req.body.userID;
+                var adminPassword = req.body.userPassword;
+                db.query(`SELECT * FROM admin WHERE admin_id = ? AND password = ?`, [adminID, adminPassword], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        console.log(result[0]);
+                        if (result[0] != undefined) {
+                            const data = {
+                                status: 'success',
+                            }
+                            res.send(data);
+                            console.log(data);
+                        }
+                        else {
+                            const data = {
+                                status: 'fail',
+                            }
+                            res.send(data);
+                            console.log(data);
+                        }
+                    }
+                });
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){

@@ -72,7 +72,13 @@ const config = {
 module.exports = config;
 ~~~
 
-### 1.7. .gitignore 적용
+### 1.7. 서버 url 연결(admin/)
+package.json에서 "proxy": "http://IPv4주소:로컬서버포트"로 설정 후 실행
+
+~~~
+"proxy": "http://IPv4주소:로컬서버포트"
+~~~
+### 1.8. .gitignore 적용
 server/config.js와 client/config.js가 .gitignore이 정상적으로 적용이 안 되어 push 될 때 아래 명령어로 캐시를 지우고 add
 ~~~
 git rm -r --cached .
@@ -244,4 +250,25 @@ npm install firebase-admin
 ### 10.1. node-schedule(server/)
 ~~~
 npm i node-schedule
+~~~
+
+<br>
+<br>
+<br>
+<br>
+
+## 11. 관리자 웹사이트 로그인
+### 11.1. 관련 패키지 설치
+#### 11.1.1. axios (admin/)
+~~~
+npm install axios
+~~~
+#### 11.1.2. react-router-dom (admin/)
+버전 6이상은 다운 받지 말 것!
+~~~
+npm i react-router-dom@5.2.0
+~~~
+#### 11.1.3. material ui (admin/)
+~~~
+npm install @material-ui/core
 ~~~

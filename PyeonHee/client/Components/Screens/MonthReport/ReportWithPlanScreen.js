@@ -5,8 +5,9 @@ import { StackedBarChart, ProgressChart } from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
 const url = config.url;
-const ReportWithPlanScreen = ({navigation}) => {
+const ReportWithPlanScreen = (props) => {
     const [userID, setUserID] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [realRent, setRealRent] = useState(200000);
     const [realInsurance, setRealInsurance] = useState(100000);
@@ -16,11 +17,12 @@ const ReportWithPlanScreen = ({navigation}) => {
     const [realTraffic, setRealTraffic] = useState(100000);
     const [realMedical, setRealMedical] = useState(120000);
     const [realEducation, setRealEducation] = useState(100000);
+    const [realEct, setRealEct] = useState(100000);
 
     const [realShopping, setRealShopping] = useState(300000);
     const [realHobby, setRealHobby] = useState(150000);
     const [realEvent, setRealEvent] = useState(210000);
-    const [realEct, setRealEct] = useState(100000);
+    const [realDinner, setRealDinner] = useState(100000);
 
     const [planRent, setPlanRent] = useState(200000);
     const [planInsurance, setPlanInsurance] = useState(100000);
@@ -30,20 +32,21 @@ const ReportWithPlanScreen = ({navigation}) => {
     const [planTraffic, setPlanTraffic] = useState(130000);
     const [planMedical, setPlanMedical] = useState(150000);
     const [planEducation, setPlanEducation] = useState(90000);
+    const [planEct, setPlanEct] = useState(60000);
 
     const [planShopping, setPlanShopping] = useState(210000);
     const [planHobby, setPlanHobby] = useState(150000);
     const [planEvent, setPlanEvent] = useState(280000);
-    const [planEct, setPlanEct] = useState(60000);
+    const [planDinner, setPlanDinner] = useState(60000);
 
     const realFixTotal = realRent+realInsurance+realCommunication+realSubscribe;
     const planFixTotal = planRent+planInsurance+planCommunication+planSubscribe;
 
-    const realVariableTotal1 = realTraffic+realMedical+realEducation;
-    const planVariableTotal1 = planTraffic+planMedical+planEducation;
+    const realVariableTotal1 = realTraffic+realMedical+realEducation+realEct;
+    const planVariableTotal1 = planTraffic+planMedical+planEducation+planEct;
 
-    const realVariableTotal2 = realShopping+realHobby+realEvent+realEct;
-    const planVariableTotal2 = planShopping+planHobby+planEvent+planEct;
+    const realVariableTotal2 = realShopping+realHobby+realEvent+realDinner;
+    const planVariableTotal2 = planShopping+planHobby+planEvent+planDinner;
 
     const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2;
     const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2;
@@ -63,6 +66,7 @@ const ReportWithPlanScreen = ({navigation}) => {
     const difEvent = realEvent - planEvent < 0? " -"+ Math.abs(realEvent - planEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realEvent - planEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difHobby = realHobby - planHobby < 0? " -"+ Math.abs(realHobby - planHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realHobby - planHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difShopping = realShopping - planShopping < 0? " -"+ Math.abs(realShopping - planShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realShopping - planShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difDinner = realDinner - planDinner < 0? " -"+ Math.abs(realDinner - planDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realDinner - planDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difEct = realEct - planEct < 0? " -"+ Math.abs(realEct - planEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realEct - planEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     const progressConfig = {
@@ -92,14 +96,14 @@ const ReportWithPlanScreen = ({navigation}) => {
     };
     const variable1Data = {
         labels: ["예산 계획","실제 지출"],
-        legend: [`의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
-        data: [[planMedical, planTraffic, planEducation], [realMedical, realTraffic, realEducation]],
-        barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
+        legend: [`기타${difEct}`, `의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
+        data: [[planEct, planMedical, planTraffic, planEducation], [realEct, realMedical, realTraffic, realEducation]],
+        barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const variable2Data = {
         labels: ["예산 계획", "실제 지출"],
-        legend: [`기타${difEct}`, `쇼핑${difShopping}`, `취미${difHobby}`, `경조사${difEvent}`],
-        data: [[planEct, planShopping, planHobby, planEvent], [realEct, realShopping, realHobby, realEvent]],
+        legend: [`식비${difDinner}`, `쇼핑${difShopping}`, `취미${difHobby}`, `경조사${difEvent}`],
+        data: [[planDinner, planShopping, planHobby, planEvent], [realDinner, realShopping, realHobby, realEvent]],
         barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const totalData = {
@@ -116,12 +120,54 @@ const ReportWithPlanScreen = ({navigation}) => {
                 setUserID(tempID);
             }
         })
+        .then(()=>{
+            /*
+            fetch(`${url}/monthReportWithplan?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                setRealRent(responseJson.realRent);
+                setRealInsurance(responseJson.realInsurance);
+                setRealCommunication(responseJson.realCommunication);
+                setRealSubscribe(responseJson.realSubscribe);
+                setRealTraffic(responseJson.realTraffic);
+                setRealMedical(responseJson.realMedical);
+                setRealEducation(responseJson.realEducation);
+                setRealEct(responseJson.realEct);
+                setRealShopping(responseJson.realShopping);
+                setRealHobby(responseJson.realHobby);
+                setRealEvent(responseJson.realEvent);
+                setRealDinner(responseJson.realDinner);
+
+                setPlanRent(responseJson.planRent);
+                setPlanInsurance(responseJson.planInsurance);
+                setPlanCommunication(responseJson.planCommunication);
+                setPlanSubscribe(responseJson.planSubscribe);
+                setPlanTraffic(responseJson.planTraffic);
+                setPlanMedical(responseJson.planMedical);
+                setPlanEducation(responseJson.planEducation);
+                setPlanEct(responseJson.planEct);
+                setPlanShopping(responseJson.planShopping);
+                setPlanHobby(responseJson.planHobby);
+                setPlanEvent(responseJson.planEvent);
+                setPlanDinner(responseJson.planDinner);
+
+                setRealProgress(responseJson.realProgress);
+                setPlannedProgress(responseJson.plannedProgress);
+            })
+            .then(()=>{
+                setLoading(true);
+            })*/
+
+            //for test
+            setLoading(true);
+          })
     })
 
+    if(loading === true){
     return (
         <ScrollView style={styles.appSize}>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>11월 예산 계획 이행도</Text>
+                <Text style={styles.cateFont}>{props.month}월 예산 계획 이행률</Text>
                 <View style={styles.tempRow}>
                 <ProgressChart
                 data={progressChartData}
@@ -169,7 +215,7 @@ const ReportWithPlanScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+기타)</Text>
+                <Text style={styles.cateFont}>계획지출(경조사+취미+쇼핑+식비)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable2Data}
@@ -198,7 +244,7 @@ const ReportWithPlanScreen = ({navigation}) => {
                 </View>
             </View>
             <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>계획지출(교육+교통+의료)</Text>
+                <Text style={styles.cateFont}>계획지출(교육+교통+의료+기타)</Text>
                 <View style={styles.tempRow}>
                     <StackedBarChart
                     data={variable1Data}
@@ -257,6 +303,13 @@ const ReportWithPlanScreen = ({navigation}) => {
             </View>
         </ScrollView>
     )
+    }else{
+        return(
+            <View style={styles.appSize}>
+                
+            </View>
+        )
+    }
 }
 
 export default ReportWithPlanScreen;
