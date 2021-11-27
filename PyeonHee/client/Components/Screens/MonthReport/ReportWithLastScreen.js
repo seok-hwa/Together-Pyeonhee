@@ -108,31 +108,35 @@ const ReportWithLastScreen = (props) => {
             fetch(`${url}/monthReportWithLast?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                setCurrentRent(responseJson.currentRent);
-                setCurrentInsurance(responseJson.currentInsurance);
-                setCurrentCommunication(responseJson.currentCommunication);
-                setCurrentSubscribe(responseJson.currentSubscribe);
-                setCurrentTraffic(responseJson.currentTraffic);
-                setCurrentMedical(responseJson.currentMedical);
-                setCurrentEducation(responseJson.currentEducation);
-                setCurrentEct(responseJson.currentEct);
-                setCurrentShopping(responseJson.currentShopping);
-                setCurrentHobby(responseJson.currentHobby);
-                setCurrentEvent(responseJson.currentEvent);
-                setCurrentDinner(responseJson.currentDinner);
+                if(responseJson.length != 0){
+                    setCurrentRent(responseJson.currentRent);
+                    setCurrentInsurance(responseJson.currentInsurance);
+                    setCurrentCommunication(responseJson.currentCommunication);
+                    setCurrentSubscribe(responseJson.currentSubscribe);
+                    setCurrentTraffic(responseJson.currentTraffic);
+                    setCurrentMedical(responseJson.currentMedical);
+                    setCurrentEducation(responseJson.currentEducation);
+                    setCurrentEct(responseJson.currentEct);
+                    setCurrentShopping(responseJson.currentShopping);
+                    setCurrentHobby(responseJson.currentHobby);
+                    setCurrentEvent(responseJson.currentEvent);
+                    setCurrentDinner(responseJson.currentDinner);
 
-                setLastRent(responseJson.lastRent);
-                setLastInsurance(responseJson.lastInsurance);
-                setLastCommunication(responseJson.lastCommunication);
-                setLastSubscribe(responseJson.lastSubscribe);
-                setLastTraffic(responseJson.lastTraffic);
-                setLastMedical(responseJson.lastMedical);
-                setLastEducation(responseJson.lastEducation);
-                setLastEct(responseJson.lastEct);
-                setLastShopping(responseJson.lastShopping);
-                setLastHobby(responseJson.lastHobby);
-                setLastEvent(responseJson.lastEvent);
-                setLastDinner(responseJson.lastDinner);
+                    if(responseJson.last_spend.length !=0){
+                        setLastRent(responseJson.lastRent);
+                        setLastInsurance(responseJson.lastInsurance);
+                        setLastCommunication(responseJson.lastCommunication);
+                        setLastSubscribe(responseJson.lastSubscribe);
+                        setLastTraffic(responseJson.lastTraffic);
+                        setLastMedical(responseJson.lastMedical);
+                        setLastEducation(responseJson.lastEducation);
+                        setLastEct(responseJson.lastEct);
+                        setLastShopping(responseJson.lastShopping);
+                        setLastHobby(responseJson.lastHobby);
+                        setLastEvent(responseJson.lastEvent);
+                        setLastDinner(responseJson.lastDinner);
+                    }
+                }
             })
             .then(()=>{
               setLoading(true);
@@ -141,7 +145,7 @@ const ReportWithLastScreen = (props) => {
             //for test
             setLoading(true);
           })
-    })
+    },[])
     if(loading === true){
     return (
         <ScrollView style={styles.appSize}>

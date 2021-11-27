@@ -6,6 +6,7 @@ import HeaderInLogount from "./pages/HeaderInLogout";
 import Login from './pages/Login';
 import Notification from './pages/Notification';
 import ServiceCenter from './pages/ServiceCenter';
+import Main from "./pages/Main";
 
 import './App.css';
 
@@ -41,7 +42,8 @@ function App() {
         <HeaderInLogin />
         <div className="AppBody">
           <Routes>
-            <Route path="/" element={<Notification />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/notification" element={<Notification />} />
             <Route path="/service" element={<ServiceCenter />} />
           </Routes>
         </div>
