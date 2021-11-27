@@ -267,3 +267,7 @@ npm install axios
 ~~~
 npm install react-router-dom
 ~~~
+#### 11.1.3. material ui (admin/)
+~~~
+npm install @material-ui/core
+~~~
