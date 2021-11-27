@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import logo from './logo.svg';
-import './App.css';
+import '../App.css';
 
-function Login() {
+function Login(props) {
     const [userID, setUserID] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
@@ -27,13 +26,21 @@ function Login() {
         .then((res)=>{
             if(res.status === 'success'){
                 alert('로그인 성공');
+                sessionStorage.setItem('userID', userID);
+                document.location.href = '/';
             }else{
                 alert('로그인 실패');
             }
         }).catch(error=>{
             console.log(error);
             throw new Error(error);
-        });*/
+        });
+        */
+
+        //for test
+        alert('로그인 성공');
+        sessionStorage.setItem('userID', userID);
+        document.location.href = '/';
     }
   return (
     <div className="LoginDiv">

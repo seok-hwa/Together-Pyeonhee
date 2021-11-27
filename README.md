@@ -263,3 +263,7 @@ npm i node-schedule
 ~~~
 npm install axios
 ~~~
+#### 11.1.2. react-router-dom (admin/)
+~~~
+npm install react-router-dom
+~~~
