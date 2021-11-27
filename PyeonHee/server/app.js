@@ -692,8 +692,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         db.query(`INSERT INTO BudgetPlanning(user_id, user_mbti, user_age,user_income, user_savings, monthly_rent,
                             insurance_expense,transportation_expense,communication_expense,
                             leisure_expense, shopping_expense ,education_expense, medical_expense,
-                            event_expense, etc_expense, subscribe_expense) 
-                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
+                            event_expense, etc_expense, subscribe_expense, state) 
+                            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,[userID,userMBTI,userAge,income,savings,monthlyRent,
                                 insurance,transportation,communication,leisure,shopping,education,medical,event,etc, subscription], function(error1,result1){
                                     if (error1) throw error1;
                                     else{
@@ -793,7 +793,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     else {
                         // console.log(name);
-                        db.query(`select  BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                        db.query(`SELECT BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                         BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
                         BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
                         BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
@@ -1520,6 +1520,22 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 한달리포트로 MBTI 제시
             app.get(`/monthReportMbti`, function(req, res){
                 var userID = req.query.userID;
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
+                    if(error1) throw error1;
+                    else{
+                        if(spend_money.length === 0 ){
+                            console.log("MBTI 제시를 위한 이번달 내역이 없습니다.");
+                            data = {
+                                userMbti : '',
+                            }
+                            res.send(data);
+                        }
+                        else{
+
+                        }
+                    }    
+                })
 
             });
 
