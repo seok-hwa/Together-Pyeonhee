@@ -7334,10 +7334,10 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native-webview@^11.14.3", "react-native-webview@>=10.8.3":
-  "integrity" "sha512-y/+7mE6by/uLGSIVmlp1xpJvL37rAuOL90EWTJYKZWL5iM8lN+pQkj/zwcPcGu4zNmuHdXXUk/cMR8hE89mNYg=="
-  "resolved" "https://registry.npmjs.org/react-native-webview/-/react-native-webview-11.14.3.tgz"
-  "version" "11.14.3"
+"react-native-webview@^11.14.4", "react-native-webview@>=10.8.3":
+  "integrity" "sha512-667NNC1VEjl8PNBwGiEllWe7QhcqauCFeisL4Pk9cgQbtCiacemYF+8d+VJg27eMGJ0G05RFgpB5aDZbBcNhmw=="
+  "resolved" "https://registry.npmjs.org/react-native-webview/-/react-native-webview-11.14.4.tgz"
+  "version" "11.14.4"
   dependencies:
     "escape-string-regexp" "2.0.0"
     "invariant" "2.2.4"
