@@ -1570,6 +1570,32 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 로그인
+            app.post('/adminLogin', function (req, res) {
+                console.log(req.body);
+                var adminID = req.body.userID;
+                var adminPassword = req.body.userPassword;
+                db.query(`SELECT * FROM admin WHERE admin_id = ? AND password = ?`, [adminID, adminPassword], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        console.log(result[0]);
+                        if (result[0] != undefined) {
+                            const data = {
+                                status: 'success',
+                            }
+                            res.send(data);
+                            console.log(data);
+                        }
+                        else {
+                            const data = {
+                                status: 'fail',
+                            }
+                            res.send(data);
+                            console.log(data);
+                        }
+                    }
+                });
+            });
 
             const PORT = 8000;
 
