@@ -264,6 +264,7 @@ npm i node-schedule
 npm install axios
 ~~~
 #### 11.1.2. react-router-dom (admin/)
+버전 6이상은 다운 받지 말 것!
 ~~~
 npm i react-router-dom@5.2.0
 ~~~
