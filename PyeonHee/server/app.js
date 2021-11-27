@@ -1482,8 +1482,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(real_spend.length === 0){
                             console.log("이번달 내역이 없습니다.");
                             data = {
-                                real_spend = [],
-                                last_spend = [],
+                                real_spend : [],
+                                last_spend : [],
                             };
                             res.send(data);
                         }
@@ -1496,16 +1496,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     if(last_spend.length === 0){
                                         console.log("지난달 내역이 없습니다.");
                                         data = {
-                                            real_spend = real_spend,
-                                            last_spend = [],
+                                            real_spend : real_spend,
+                                            last_spend : [],
                                         };
                                         res.send(data);
                                     }
                                     else{
                                         console.log(last_spend);
                                         data = {
-                                            real_spend = real_spend,
-                                            last_spend = last_spend,
+                                            real_spend : real_spend,
+                                            last_spend : last_spend,
                                         };
                                         console.log(data);
                                         res.send(data);
@@ -1520,6 +1520,22 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 한달리포트로 MBTI 제시
             app.get(`/monthReportMbti`, function(req, res){
                 var userID = req.query.userID;
+                db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
+                    if(error1) throw error1;
+                    else{
+                        if(spend_money.length === 0 ){
+                            console.log("MBTI 제시를 위한 이번달 내역이 없습니다.");
+                            data = {
+                                userMbti : '',
+                            }
+                            res.send(data);
+                        }
+                        else{
+
+                        }
+                    }    
+                })
 
             });
 
