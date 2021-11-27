@@ -407,3 +407,14 @@ create table comment
     foreign key (user_id) references user (user_id) on delete cascade,
     foreign key (board_number) references board (board_number) on delete cascade
 );
+
+/*공지사항*/
+create table notice
+(
+    notice_number int not null auto_increment,
+    category varchar(10) not null,
+    title varchar(50) not null,
+    content text not null,
+    notice_date timestamp default current_timestamp,
+    primary key (notice_number)
+);
