@@ -1801,6 +1801,33 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 });
                             }
                         });
+                        //관리자 공지사항 등록 시, 사용자에게 푸시알림
+                        db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                for (i in result) {
+                                    (function (i) {
+                                        var userID = result[i].user_id;
+                                        var deviceToken = result[i].deviceToken;
+                                        let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
+                                        let message = {
+                                            notification: {
+                                                title: '편히가계 공지사항',
+                                                body: '**' + boardTitle + '**'
+                                            },
+                                            token: target_token,
+                                        }
+                                        admin.messaging().send(message)
+                                            .then(function (response) {
+                                                console.log(userID,'푸시알림메시지 전송성공!', response)
+                                            })
+                                            .catch(function (error) {
+                                                console.log('푸시알림메시지 전송실패!', error)
+                                            })
+                                    })(i);
+                                }
+                            }
+                        });
                     }
                 });
             });
