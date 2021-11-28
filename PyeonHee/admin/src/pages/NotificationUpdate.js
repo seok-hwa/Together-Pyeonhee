@@ -3,10 +3,10 @@ import axios from 'axios';
 import '../App.css';
 
 function NotificationUpdate({ match }) {
-  const [boardTitle, setBoardTitle] = useState('이렇게 올까?');
-  const [boardContent, setBoardContent] = useState('저렇게?');
-  const [boardCate, setBoardCate] = useState('티어');
-  const [loading,setLoading] = useState(true);
+  const [boardTitle, setBoardTitle] = useState('');
+  const [boardContent, setBoardContent] = useState('');
+  const [boardCate, setBoardCate] = useState('');
+  const [loading,setLoading] = useState(false);
 
   const adminID = sessionStorage.getItem('userID');
 
@@ -19,7 +19,6 @@ function NotificationUpdate({ match }) {
   const handleInputCate = (e) => {
     setBoardCate(e.target.value)
   }
-/*
   useEffect(() => {
     axios({
         method:"POST",
@@ -29,9 +28,10 @@ function NotificationUpdate({ match }) {
         }
     })
     .then((res)=>{
-        setBoardTitle(res.data.boardTitle);
-        setBoardContent(res.data.boardContent);
-        setBoardCate(res.data.boardCate);
+        console.log(res.data[0]);
+        setBoardTitle(res.data[0].title);
+        setBoardContent(res.data[0].content);
+        setBoardCate(res.data[0].category);
     })
     .then(()=>{
         setLoading(true);
@@ -39,7 +39,7 @@ function NotificationUpdate({ match }) {
     .catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
   const submit=()=>{
     if(boardTitle ===''){
@@ -50,7 +50,6 @@ function NotificationUpdate({ match }) {
         alert('내용을 입력하세요.');
       }
     console.log('제목:',boardTitle, '내용:',boardContent, '분류:', boardCate);
-    /*
     axios({
         method:"POST",
         url: `/notificationBoardUpdate`,
@@ -71,7 +70,7 @@ function NotificationUpdate({ match }) {
     }).catch(error=>{
         console.log(error);
         throw new Error(error);
-    });*/
+    });
     //for test
     alert('수정 성공');
     document.location.href = '/notification';
