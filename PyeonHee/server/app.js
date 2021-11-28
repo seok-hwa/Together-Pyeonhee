@@ -1832,7 +1832,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //관리자 공지사항 글 삭제
-            app.post('/adminLogin', function (req, res) {
+            app.post('/notificationDelete', function (req, res) {
                 var noticeNumber = req.body.boardID;
                 db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
                     if (error) throw error;
