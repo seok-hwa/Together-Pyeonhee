@@ -11,7 +11,7 @@ function NotificationBoard({ match }) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/notificationBoard`,
+      url: `/notificationBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }
