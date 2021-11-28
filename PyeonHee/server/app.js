@@ -1561,7 +1561,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 real_spend : [],
                                 last_spend : [],
                             };
-                            res.send(data);
+                            res.send([]);
                         }
                         else{
                             console.log(real_spend);
@@ -1620,7 +1620,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             data = {
                                 userMbti : '',
                             }
-                            res.send(data);
+                            res.send([]);
                         }
                         else{
                             console.log(spend_money);

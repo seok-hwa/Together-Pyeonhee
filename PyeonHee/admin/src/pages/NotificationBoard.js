@@ -35,7 +35,10 @@ function NotificationBoard({ match }) {
           <p className="NotificationBoardTitleFont">{boardTitle}</p>
         </div>
         <div className="NotificationBoardDateDiv">
-          <p className="NotificationBoardDateFont">작성일: {boardDate}</p>
+          <div className="NotificationBoardInnerDateDiv">
+            <p className="NotificationBoardDateFont">작성일: {boardDate}</p>
+            <p className="NotificationBoardDateFont">분류: {boardCate}</p>
+          </div>
         </div>
         <div className="NotificationBoardOuterContentDiv">
           <div className="NotificationBoardInnerContentDiv">

@@ -44,10 +44,10 @@ const MonthReportScreen = ({navigation}) => {
     })
 
     .then(()=>{
-      /*
       fetch(`${url}/monthReportMbti?userID=${tempID}`)   //get
       .then((response)=>response.json())
       .then((responseJson)=>{
+        console.log(responseJson);
         if(responseJson.length != ''){
           setUserName(responseJson.userName);
           setUserMbti(responseJson.userMbti);
@@ -57,13 +57,13 @@ const MonthReportScreen = ({navigation}) => {
       })
       .then(()=>{
         setLoading(true);
-      })*/
+      })
 
       //for test
-      setDidWrite(true);
-      setLoading(true);
+      //setDidWrite(true);
+      //setLoading(true);
     })
-  })
+  }, [])
 
   const handleSingleIndexSelect = (index) => {
     setSelectedIndex(index);
@@ -164,7 +164,7 @@ const MonthReportScreen = ({navigation}) => {
                 <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
             </View>
             <View style={styles.notThere}>
-              <Text style={{fontSize: 18, fontWeight: 'bold',}}>작성된 예산 계획서가 없습니다.</Text>
+              <Text style={{fontSize: 18, fontWeight: 'bold',}}>{month}월 소비 내역이 없습니다.</Text>
             </View>
         </View>
       </SafeAreaView>
