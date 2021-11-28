@@ -17,38 +17,24 @@ const styles = theme => ({
     fontWeight: 'bold'
   }
 })
-const notifications =[
-  {
-    id: 2,
-    category: '티어',
-    title: '티어 정책입니다.',
-    date: '2021-11-28'
-  },
-  {
-    id: 1,
-    category: '포인트',
-    title: '포인트 정책입니다.',
-    date: '2021-11-27'
-  },
-]
 function Notification(props) {
   const {classes} = props;
-  //const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
-  /*
   useEffect(() => {
+    console.log('들어왔다.');
     axios({
       method:"GET",
       url: '/adminGetNotificationList',
     })
     .then((res)=>{
         console.log(res.data);
-        setNotification(res.data);
+        setNotifications(res.data);
     }).catch(error=>{
         console.log(error);
         throw new Error(error);
     });
-  },[])*/
+  },[])
 
   const writeNotification = () => {
       document.location.href = '/notificationWrite';
@@ -72,7 +58,7 @@ function Notification(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {notifications.map(c => {return (<Notifications key={c.id} id={c.id} category={c.category} title={c.title} date={c.date}/>)})}
+              {notifications.map(c => {return (<Notifications key={c.notice_number} id={c.notice_number} category={c.category} title={c.title} date={c.notice_date}/>)})}
             </TableBody>
           </Table>
         </Paper>

@@ -374,3 +374,48 @@ create table real_expense
     primary key (user_id, fintech_use_num, tran_date, tran_time),
     foreign key (user_id, fintech_use_num) references bank_account(user_id, fintech_use_num) on delete cascade
 );
+
+/*관리자페이지_21 11 27 생성*/
+create table admin
+(
+    admin_id   varchar(10) not null primary key,
+    password varchar(300) not null,
+    name varchar(12) not null
+);
+
+/*게시판*/
+create table board
+(
+    board_number int not null auto_increment,
+    title varchar(50) not null,
+    content text not null,
+    user_id varchar(10) not null,
+    board_date timestamp default current_timestamp,
+    primary key (board_number),
+    foreign key (user_id) references user (user_id) on delete cascade
+);
+
+/*게시판 댓글*/
+create table comment
+(
+    comment_number int not null auto_increment,
+    board_number int not null,
+    content text not null,
+    user_id varchar(10) not null,
+    comment_date timestamp default current_timestamp,
+    primary key (comment_number),
+    foreign key (user_id) references user (user_id) on delete cascade,
+    foreign key (board_number) references board (board_number) on delete cascade
+);
+
+/*공지사항*/
+create table notice
+(
+    notice_number int not null auto_increment,
+    category varchar(10) not null,
+    title varchar(50) not null,
+    content text not null,
+    notice_date timestamp default current_timestamp,
+    modified_date timestamp default current_timestamp,
+    primary key (notice_number)
+);

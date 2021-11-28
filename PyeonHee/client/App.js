@@ -22,6 +22,7 @@ import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
 import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
 import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
 import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
+import PushNotification from 'react-native-push-notification';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -46,6 +47,24 @@ import {
     //foreground 메시지 받기
     messaging().onMessage(async message => {
       console.log('Message handled in the foreground!', message);
+      PushNotification.createChannel(
+        {
+          channelId: "com.pyeonhee",
+          channelName: "com.pyeonhee",
+          channelDescription: "편히가계 푸쉬알림",
+          playSound: false,
+          soundName: "default",
+          vibrate: true,
+        },
+        (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+      );
+      console.log('푸쉬알림 이벤트');
+      PushNotification.localNotification({
+        channelId: "com.pyeonhee",
+        title: message.notification.title,
+        message: message.notification.body,
+        ignoreInForeground: false,
+      });
     })
   }
 

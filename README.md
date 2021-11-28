@@ -241,6 +241,13 @@ npm i -s @react-native-firebase/app @react-native-firebase/messaging
 npm install firebase-admin
 ~~~
 
+#### 9.1.3. Local Push Notification (client/)
+~~~
+npm install --save react-native-push-notification
+~~~
+~~~
+npm install --save @react-native-community/push-notification-ios
+~~~
 <br>
 <br>
 <br>

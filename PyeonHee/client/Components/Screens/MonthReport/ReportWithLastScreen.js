@@ -140,8 +140,7 @@ const ReportWithLastScreen = (props) => {
             })
             .then(()=>{
               setLoading(true);
-            })
-            */
+            })*/
             //for test
             setLoading(true);
           })

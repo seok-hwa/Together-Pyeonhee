@@ -143,8 +143,8 @@ const SSHConnection = new Promise((resolve, reject) => {
             //                                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
             //                                                                 let message = {
             //                                                                     notification: {
-            //                                                                         title: '테스트 데이터 발송',
-            //                                                                         body: '[출금]' + tranAmt + '원 **하루권장소비량' + balanceMoney +'원 남았습니다.**'
+            //                                                                         title: '[출금]' + tranAmt + '원',
+            //                                                                         body: '**하루권장소비량' + balanceMoney +'원 남았습니다.**'
             //                                                                     },
             //                                                                     token: target_token,
             //                                                                 }
@@ -730,7 +730,69 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+            //예산계획 수정 
 
+            app.post('/editBudget', function(req,res){
+                console.log(req.body);
+                
+                var userID = req.body.userID;
+                var monthlyRent= req.body.monthlyRent;
+                var insurance = req.body.insurance;
+                var transportation = req.body.transportation;
+                var communication = req.body.communication;
+                var subscription = req.body.subscription;
+                var leisure = req.body.leisure;
+                var shopping = req.body.shopping;
+                var education = req.body.education;
+                var medical = req.body.medical;
+                var event = req.body.event;
+                var etc = req.body.etc;
+
+                db.query(`SELECT * FROM user WHERE user.user_id=?`, [userID], function(error,result){
+                    console.log(result);
+                    if(error) throw error;
+                    else {
+                        userMBTI = result[0].mbti;
+                        userAge = result[0].age;
+
+                        db.query(`UPDATE BudgetPlanning SET monthly_rent=?,insurance_expense=?,transportation_expense=?,communication_expense=?,
+                            leisure_expense=?, shopping_expense=?,education_expense=?, medical_expense=?,
+                            event_expense=?, etc_expense=?, subscribe_expense=? WHERE user_id =?`,[monthlyRent,insurance,transportation,communication,
+                                leisure,shopping,education,medical,event,etc,subscription,userID], function(error1,result1){
+                                    if (error1) throw error1;
+                                    else{
+                                        db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error2,result2){
+                                            if (error1) throw error1;
+                                            else {
+                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error3, result3){
+                                                    if (error) throw error;
+                        
+                                                    else if(result.length != 0){
+                                                        var dailyMoney = Calculate_Daily_Money(result3, result2);
+                                                        console.log(result[0]);
+                                                        db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
+                                                            if (error4) throw error4;
+                                                            else{
+                                                                const data = {
+                                                                    status : 'success',
+                                                                }
+                                                                console.log(data);
+                                                                res.send(data);
+                                                            }
+                                                        })
+                                                } 
+                                                else {
+                                                    res.send([]);
+                                                }
+                                            });
+                                        }
+                                        });                                        
+                                    }
+                                });
+                    }
+                })
+            })
+            
             //저축계획 작성
             app.post('/saveSavingPlan', function(req, res){
                 console.log(req.body);
@@ -1499,7 +1561,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 real_spend : [],
                                 last_spend : [],
                             };
-                            res.send(data);
+                            res.send([]);
                         }
                         else{
                             console.log(real_spend);
@@ -1534,6 +1596,21 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 한달리포트로 MBTI 제시
             app.get(`/monthReportMbti`, function(req, res){
                 var userID = req.query.userID;
+                var userMbti = '';
+                var description = '';
+                var user_income = 0;
+                var user_saving = 0;
+                var monthly_rent = 0;
+                var insurance_expense = 0;
+                var transportation_expense = 0;
+                var communication_expense = 0;
+                var leisure_expense = 0;
+                var shopping_expense = 0;
+                var education_expense = 0;
+                var medical_expense = 0;
+                var event_expense = 0;
+                var subscribe_expense = 0;
+                var etc_expense = 0;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
                 WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
                     if(error1) throw error1;
@@ -1543,10 +1620,108 @@ const SSHConnection = new Promise((resolve, reject) => {
                             data = {
                                 userMbti : '',
                             }
-                            res.send(data);
+                            res.send([]);
                         }
                         else{
-
+                            console.log(spend_money);
+                            db.query(`SELECT user_income, user_savings FROM BudgetPlanning WHERE user_id = ?`, [userID], function(error2, result){
+                                if(error2) throw error2;
+                                else{
+                                    console.log(result[0]);
+                                    user_income = result[0].user_income;
+                                    user_saving = result[0].user_saving;
+                                    spend_money.map(item => {
+                                        if(item.tran_type === '쇼핑'){
+                                            shopping_expense = item.daily_amount;
+                                        }else if(item.tran_type === '교통'){
+                                            transportation_expense = item.daily_amount;
+                                        }else if(item.tran_type === '구독'){
+                                            subscribe_expense = item.daily_amount;
+                                        }else if(item.tran_type === '통신'){
+                                            communication_expense = item.daily_amount;
+                                        }else if(item.tran_type === '여가'){
+                                            leisure_expense = item.daily_amount;
+                                        }else if(item.tran_type === '교육'){
+                                            education_expense = item.daily_amount;
+                                        }else if(item.tran_type === '선물'){
+                                            event_expense = item.daily_amount;
+                                        }else if(item.tran_type === '보험'){
+                                            insurance_expense = item.daily_amount;
+                                        }else if(item.tran_type === '의료'){
+                                            medical_expense = item.daily_amount;
+                                        }else if(item.tran_type === '월세'){
+                                            monthly_rent = item.daily_amount;
+                                        }else if(item.tran_type === '기타'){
+                                            etc_expense = item.daily_amount;
+                                        }
+                                    })
+                                    db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [userID], function(error3, daily_count){
+                                        if(error3) throw error3;
+                                        else{
+                                            var count_stand = new Date().getDate();
+                                            var portion = daily_count[0].daily_count / count_stand * 100;
+                                            // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
+                                            var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
+                                            // 즉흥 vs 계획
+                                            if(portion >= 70){
+                                                userMbti = userMbti + 'I';
+                                                description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
+                                            }
+                                            else{
+                                                userMbti = userMbti + 'P'; 
+                                                description = description + '당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. ';
+                                            }
+                                            // 절약 vs 소비
+                                            // 수입이 350만이 넘는경우
+                                            if(user_income >= 3500000){
+                                                if((user_saving*0.6) > life_expense){
+                                                    userMbti = userMbti + 'C';
+                                                    description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                                                }
+                                                else{
+                                                    userMbti = userMbti + 'H';
+                                                    description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                                                }
+                                            }
+                                            // 수입이 350만 아래인 경우
+                                            else{
+                                                if(user_saving >= life_expense){
+                                                    userMbti = userMbti + 'C';
+                                                    description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                                                }
+                                                else{
+                                                    userMbti = userMbti + 'H';
+                                                    description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                                                }
+                                            }
+                                            // 본인 vs 타인
+                                            if((shopping_expense + leisure_expense + education_expense)/3 >= event_expense*1.2){
+                                                userMbti = userMbti + 'S';
+                                                description = description + '종종 본인 스스로에게 선물을 해주기도 하고 가끔 좋아하는 음식을 먹으며 스트레스를 푸시네요. ';
+                                            }  
+                                            else {
+                                                userMbti = userMbti + 'O';
+                                                description = description + '종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. ';
+                                            }
+                                            // 경험 vs 물질
+                                            if(leisure_expense >= shopping_expense) {
+                                                userMbti = userMbti + 'E';
+                                                description = description + '소비를 크게 차지하는 부분은 쇼핑을 위주로 하기보다 취미나 사람들을 만나고 경험적인 일을 쌓는데 주로 사용하십니다. ';
+                                            }
+                                            else {
+                                                userMbti = userMbti + 'M';
+                                                description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
+                                            }
+                                            
+                                            console.log(userMbti);
+                                            data = {
+                                                userMbti : userMbti,
+                                            }
+                                            res.send(userMbti);
+                                        }
+                                    })
+                                }
+                            })
                         }
                     }    
                 })
@@ -1572,27 +1747,134 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var adminID = req.body.userID;
                 var adminPassword = req.body.userPassword;
                 db.query(`SELECT * FROM admin WHERE admin_id = ? AND password = ?`, [adminID, adminPassword], function (error, result) {
                     if (error) throw error;
                     else {
-                        console.log(result[0]);
                         if (result[0] != undefined) {
                             const data = {
                                 status: 'success',
                             }
                             res.send(data);
-                            console.log(data);
+                            //console.log(data);
                         }
                         else {
                             const data = {
                                 status: 'fail',
                             }
                             res.send(data);
-                            console.log(data);
+                            //console.log(data);
                         }
+                    }
+                });
+            });
+
+            //관리자 공지사항 등록
+            app.post('/notificationWrite', function (req, res) {
+                //console.log(req.body);
+                var boardTitle = req.body.boardTitle;
+                var boardContent = req.body.boardContent;
+                var boardCate = req.body.boardCate;
+                db.query(`INSERT INTO notice (category, title, content) VALUES (?, ?, ?)`, [boardCate, boardTitle, boardContent], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        //console.log(data);
+                        db.query(`alter table notice auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("공지사항 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            //관리자 공지사항 목록 확인
+            app.get('/adminGetNotificationList', function (req, res) {
+                db.query(`SELECT * FROM notice ORDER BY notice_date desc`,function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        //console.log(result);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 확인
+            app.post('/NotificationBoardInfo', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                db.query(`SELECT * FROM notice WHERE notice_number =?`, [noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        //console.log(result);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 수정
+            app.post('/notificationBoardUpdate', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                var boardTitle = req.body.boardTitle;
+                var boardContent = req.body.boardContent;
+                var boardCate = req.body.boardCate;
+                var now = new Date();
+                db.query(`UPDATE notice SET category = ?, title = ? , content = ? , modified_date = ? WHERE notice_number = ?`, [boardCate, boardTitle, boardContent, now, noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        //console.log(data);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 삭제
+            app.post('/notificationDelete', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        //console.log(data);
+
+                        db.query(`alter table notice auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("공지사항 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
