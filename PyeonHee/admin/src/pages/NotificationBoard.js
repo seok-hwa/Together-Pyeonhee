@@ -20,7 +20,7 @@ function NotificationBoard({ match }) {
         console.log(res.data[0]);
         setBoardTitle(res.data[0].title);
         setBoardContent(res.data[0].content);
-        setBoardDate(res.data[0].notice_date);
+        setBoardDate(res.data[0].notice_date.substring(0,16).replace('T', ' '));
         setBoardCate(res.data[0].category);
     }).catch(error=>{
         console.log(error);
