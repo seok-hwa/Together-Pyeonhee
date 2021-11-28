@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import '../App.css';
 
-function NotificationWrite(props) {
-  const [boardTitle, setBoardTitle] = useState('');
-  const [boardContent, setBoardContent] = useState('');
+function NotificationUpdate({ match }) {
+  const [boardTitle, setBoardTitle] = useState('이렇게 올까?');
+  const [boardContent, setBoardContent] = useState('저렇게?');
   const [boardCate, setBoardCate] = useState('티어');
+  const [loading,setLoading] = useState(true);
 
   const adminID = sessionStorage.getItem('userID');
 
@@ -18,21 +19,44 @@ function NotificationWrite(props) {
   const handleInputCate = (e) => {
     setBoardCate(e.target.value)
   }
+/*
+  useEffect(() => {
+    axios({
+        method:"POST",
+        url: `/notificationBoardInfo`,
+        data:{
+            boardID: match.params.boardID,
+        }
+    })
+    .then((res)=>{
+        setBoardTitle(res.data.boardTitle);
+        setBoardContent(res.data.boardContent);
+        setBoardCate(res.data.boardCate);
+    })
+    .then(()=>{
+        setLoading(true);
+    })
+    .catch(error=>{
+        console.log(error);
+        throw new Error(error);
+    });
+  },[])*/
 
   const submit=()=>{
     if(boardTitle ===''){
-      alert('제목을 입력하세요.');
-      return;
-    }
-    if(boardContent === ''){
-      alert('내용을 입력하세요.');
-    }
+        alert('제목을 입력하세요.');
+        return;
+      }
+      if(boardContent === ''){
+        alert('내용을 입력하세요.');
+      }
     console.log('제목:',boardTitle, '내용:',boardContent, '분류:', boardCate);
     /*
     axios({
         method:"POST",
-        url: `/notificationWrite`,
+        url: `/notificationBoardUpdate`,
         data:{
+          boardID: match.params.boardID,
           boardTitle: boardTitle,
           boardContent: boardContent,
           boardCate: boardCate,
@@ -40,20 +64,21 @@ function NotificationWrite(props) {
     })
     .then((res)=>{
         if(res.data.status === 'success'){
-            alert('등록 성공');
+            alert('수정 성공');
             document.location.href = '/notification';
         }else{
-            alert('등록 실패');
+            alert('수정 실패');
         }
     }).catch(error=>{
         console.log(error);
         throw new Error(error);
     });*/
     //for test
-    alert('등록 성공');
+    alert('수정 성공');
     document.location.href = '/notification';
   }
 
+  if(loading === true){
   return (
     <div className="NotificationBoardDiv">
       <p className="NotificationTitleText">공지글 작성</p>
@@ -97,12 +122,34 @@ function NotificationWrite(props) {
               ></textarea>
           </div>
           <div className="NotificationBoardButtonDiv">
-            <button className="NotificationUpdateButton" type='button' onClick={submit}>등록</button>
+            <button className="NotificationUpdateButton" type='button' onClick={submit}>수정</button>
           </div>
         </div>
       </div>
     </div>
   );
+  }
+  else{
+    return (
+        <div className="NotificationBoardDiv">
+          <p className="NotificationTitleText">공지글 작성</p>
+          <div className="NotificationWriteDiv">
+            <div className="NotificationWriteBodyDiv">
+              <div className="BoardWriteTitleDiv">
+                <p className="NotificationBoardTitleFont">제목:&nbsp;</p>
+              </div>
+              <div className="BoardCateInputDiv">
+                  <p className="NotificationBoardCateFont">분류</p>
+              </div>
+              <div className="NotificationBoardOuterContentDiv">
+              </div>
+              <div className="NotificationBoardButtonDiv">
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+  }
 }
 
-export default NotificationWrite;
+export default NotificationUpdate;

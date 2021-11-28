@@ -10,6 +10,7 @@ import Main from "./pages/Main";
 import NotificationWrite from "./pages/NotificationWrite";
 import NotificationBoard from "./pages/NotificationBoard";
 import QueryBoard from "./pages/QueryBoard";
+import NotificationUpdate from "./pages/NotificationUpdate";
 
 import './App.css';
 
@@ -51,6 +52,7 @@ function App() {
             <Route path="/notificationWrite" component={NotificationWrite} />
             <Route path="/notificationBoard/:boardID" component={NotificationBoard} />
             <Route path="/queryBoard/:boardID" component={QueryBoard} />
+            <Route path="/notificationUpdate/:boardID" component={NotificationUpdate} />
           </Switch>
         </div>
       </div>
