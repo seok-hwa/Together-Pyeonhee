@@ -21,7 +21,7 @@ function NotificationWrite(props) {
 
   const submit=()=>{
     console.log('제목:',boardTitle, '내용:',boardContent, '분류:', boardCate);
-    /*
+    
     axios({
         method:"POST",
         url: `/notificationWrite`,
@@ -29,6 +29,7 @@ function NotificationWrite(props) {
           boardTitle: boardTitle,
           boardContent: boardContent,
           adminID: adminID,
+          boardCate: boardCate,
         }
     })
     .then((res)=>{
@@ -41,10 +42,12 @@ function NotificationWrite(props) {
     }).catch(error=>{
         console.log(error);
         throw new Error(error);
-    });*/
+    });
+    /*
     //for test
     alert('등록 성공');
     document.location.href = '/notification';
+    */
   }
 
   return (
