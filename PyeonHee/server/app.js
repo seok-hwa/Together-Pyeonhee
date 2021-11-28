@@ -1772,6 +1772,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 공지사항 등록
+            app.post('/notificationWrite', function (req, res) {
+                console.log(req.body);
+                var boardTitle = req.body.boardTitle;
+                var boardContent = req.body.boardContent;
+                var boardCate = req.body.boardCate;
+                db.query(`INSERT INTO notice (category, title, content) VALUES (?, ?, ?)`, [boardCate, boardTitle, boardContent], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
