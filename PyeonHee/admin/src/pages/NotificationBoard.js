@@ -7,7 +7,7 @@ function NotificationBoard({ match }) {
   const [boardContent, setBoardContent] = useState('모두들 반갑습니다.');
   const [boardDate, setBoardDate] = useState('2021-11-27');
   const [boardCate, setBoardCate] = useState('티어');
-  /*
+  
   useEffect(() => {
     axios({
       method:"POST",
@@ -25,7 +25,8 @@ function NotificationBoard({ match }) {
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
+  
   const deleteNotificationBoard=()=>{
     axios({
         method:"POST",
@@ -51,7 +52,7 @@ function NotificationBoard({ match }) {
     sessionStorage.setItem('userID', userID);
     document.location.href = '/';
     */
-}
+  }
   return (
     <div className="NotificationBoardDiv">
       <p className="NotificationTitleText">공지사항 확인</p>
