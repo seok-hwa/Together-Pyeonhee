@@ -22,7 +22,7 @@ function Notifications(props) {
           <TableCell>
           <a href={`/notificationBoard/${props.id}`}>{props.title}</a>
           </TableCell>
-          <TableCell>{props.date}</TableCell>
+          <TableCell>{props.date.substring(0,10)}</TableCell>
       </TableRow>
     );
   }
