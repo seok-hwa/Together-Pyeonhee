@@ -19,39 +19,24 @@ import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import InputBudget from './InputBudget';
 import AddSavingPlan from './AddSavingPlan';
 import SavingPlanItem from './SavingsPlanItem';
+import CalcSumofSavings from './CalcSumofSaving';
+import CallMyBudgetCabinet from './myBudgetCabinet';
 
 const url = config.url;
-const SumOfSavings = (props) => {
-    let savings = props.saving;
-
-    if(savings.length > 0) {
-        let tempSum = 0;
-        console.log('여긴 온건가');
-
-        savings.map(item => {
-            tempSum = tempSum + item.savings_money;
-            // return tempSum;
-        })
-        console.log('저금계획 합계');
-        console.log(tempSum);
-        props.setSumOfSavings(tempSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        return (<Text style={{fontSize: 18, fontWeight:'bold'}}> 총 {tempSum} 원</Text>)
-    } else {
-        props.setSumOfSavings("0");
-        return (<Text style={{fontSize: 18, fontWeight:'bold'}}>총 0 원</Text>)
-    }
-
-}
 const WriteBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
     const [addSavingsPlan, setAddSavingsPlan] = useState(false);
 
     const [saving, setSaving] = useState([]);
     const [loading, setLoading] = useState(false);
+    // const [dataComplete, setDataComplete] = useState(true);
+
+    const [callMyButgetPlan, setCallMyButgetPlan] = useState(false);
+    const [callMyBudgetID, setCallMyBudgetID] = useState(0);
 
     const [income, setIncome] = useState("0");   //수입
     // const [savings, setSavings] = useState(0);   //저금계획 -> total 합계 받아오기
-    const [sumOfSavings, setSumOfSavings] = useState("0");    //저금계획 총합계
+    const [sumOfSavings, setSumOfSavings] = useState(0);    //저금계획 총합계
 
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
     const [plannedExpenditure, setPlannedExpenditure] = useState(0);    //계획지출
@@ -107,33 +92,25 @@ const WriteBudgetScreen = ({navigation}) => {
                 console.log(responseJson);
                 
                 setSaving(responseJson);
-                console.log(saving.length);
+                if(responseJson.length > 0) {
+                    let tempSum = 0;
 
-                setLoading(true);
+                    responseJson.map(item => {
+                        tempSum = tempSum + item.savings_money;
+                        // return tempSum;
+                    })
+                    console.log('저금계획 합계');
+                    console.log(tempSum);
+                    setSumOfSavings(tempSum);
+                }
+
+                // setLoading(true);
                 if(loading === true){
                     console.log('로딩 됐어');
                 }else{
                     console.log('로딩 안 됐어');
                 }
-
-                // if(saving.length > 0) {
-                //     let tempSum = 0;
-                //     console.log('여긴 온건가');
-            
-                //     saving.map(item => {
-                //         tempSum = tempSum + item.savings_money;
-                //         // return tempSum;
-                //     })
-                //     console.log('저금계획 합계');
-                //     console.log(tempSum);
-                //     setSumOfSavings(tempSum);
-                // }
-
-                // setLoading(true);
-                // console.log(loading);
-
-                
-                
+                setLoading(true);
 
             }) 
             .then(()=>{                
@@ -185,10 +162,6 @@ const WriteBudgetScreen = ({navigation}) => {
     }
 
     const handleSaveButton = () => {
-        // let tempFixed = monthlyRent + insurance + communication + subscription;
-        // // let tempFixed = parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription);
-        
-        // setFixedExpenditure(parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription));
 
         let tempFixed = parseInt(monthlyRent.split(",").join(""))+parseInt(insurance.split(",").join(""))+parseInt(communication.split(",").join(""))+parseInt(subscription.split(",").join(""));
         setFixedExpenditure(tempFixed);
@@ -293,13 +266,50 @@ const WriteBudgetScreen = ({navigation}) => {
         })
     })
 
+    if(callMyButgetPlan === true) {
+        console.log(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
+
+        // fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
+        // .then((response)=>response.json())
+        // .then((responseJson)=>{
+        //     console.log('response data');
+
+        //     console.log(responseJson);
+        //     setIncome(responseJson.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        //      /* 고정지출 */
+        //     setRent(responseJson.setMonthlyRent);
+        //     setInsurance(responseJson.insurance);
+        //     setCommunication(responseJson.communication);
+        //     setSubscription(responseJson.subscribe);
+
+        //     /* 계획지출 */
+        //     setTransportation(responseJson.traffic);
+        //     setLeisure(responseJson.hobby);
+        //     setShopping(responseJson.shopping);
+        //     setEducation(responseJson.education);
+        //     setMedical(responseJson.medical);
+        //     setEvent(responseJson.event);
+        //     setEct(responseJson.ect);
+
+        //     setCallMyButgetPlan(false);
+        // })
+        // .then(()=>{                
+        // })
+
+        setCallMyButgetPlan(false); //for test
+
+        
+    }
+
 
     if(loading === true ){
     return(     
         <Root>       
             <ScrollView style={styles.bodySize}>
-
-                <Text style={styles.monthText}>{todayMonth} 월</Text>
+                <View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between',  margin: 5,}}>
+                    <Text style={styles.monthText}>{todayMonth} 월</Text>
+                    <CallMyBudgetCabinet setCallMyButget={setCallMyButgetPlan} setCallMyBudgetPlanID={setCallMyBudgetID}/>
+                </View>
                 
                 <KeyboardAvoidingView>
                 <View style={styles.contentContainer}>
@@ -318,7 +328,8 @@ const WriteBudgetScreen = ({navigation}) => {
 
                             {saving.length === 0 ?
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>총 0 원</Text> :
-                                <SumOfSavings saving={saving} setSumOfSavings={setSumOfSavings}/>
+                                // <CalcSumofSavings saving={saving} setSumOfSavings={setSumOfSavings}/>
+                                <Text style={{fontSize: 18, fontWeight:'bold'}}>총 {sumOfSavings} 원</Text>
                             }
                         </View>
                       
@@ -338,117 +349,126 @@ const WriteBudgetScreen = ({navigation}) => {
                             <Text style={{fontSize: 20, fontWeight:'bold'}}>카테고리별 예산</Text>
                         </View>
 
-                    <View style={{marginTop: 10, }}>
-                        <View style={styles.bigCategoryContainer}>
-                            <Text style={{fontSize: 18, fontWeight:'bold'}}>고정지출</Text>
-                            <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                                    {parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription)} 원
-                                </Text> */}
-                                <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                                    {(parseInt(monthlyRent.split(",").join(""))+parseInt(insurance.split(",").join(""))+parseInt(communication.split(",").join(""))+parseInt(subscription.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
-                                </Text>
+                        <View style={{marginTop: 10, }}>
+                            <View style={styles.bigCategoryContainer}>
+                                <Text style={{fontSize: 18, fontWeight:'bold'}}>고정지출</Text>
+                                <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                                    {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                                        {parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription)} 원
+                                    </Text> */}
+                                    <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                                        {(parseInt(monthlyRent.split(",").join(""))+parseInt(insurance.split(",").join(""))+parseInt(communication.split(",").join(""))+parseInt(subscription.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+                                    </Text>
+                                </View>
                             </View>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Icon name={'log-out-outline'} size={20} color={'gray'}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'log-out-outline'} size={20} color={'gray'}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>월세</Text></View>
+                                <InputBudget num={monthlyRent} setBudget={setMonthlyRent}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>월세</Text></View>
-                            <InputBudget num={monthlyRent} setBudget={setMonthlyRent}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/health-insurance.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/health-insurance.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>보험료</Text></View>
+                                <InputBudget num={insurance} setBudget={setInsurance}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>보험료</Text></View>
-                            <InputBudget num={insurance} setBudget={setInsurance}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Icon name={'phone-portrait-outline'} size={20} color={'gray'} />
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'phone-portrait-outline'} size={20} color={'gray'} />
+                                </View>
+                                <View style={styles.categoryContainer}><Text>통신비</Text></View>
+                                <InputBudget num={communication} setBudget={setCommunication}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>통신비</Text></View>
-                            <InputBudget num={communication} setBudget={setCommunication}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/subscribe.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/subscribe.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>구독료</Text></View>
+                                <InputBudget num={subscription} setBudget={setSubscription}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>구독료</Text></View>
-                            <InputBudget num={subscription} setBudget={setSubscription}/>
                         </View>
 
-                    </View>
+                        <View style={{marginTop: 10, }}>
+                            <View style={styles.bigCategoryContainer}>
+                                <Text style={{fontSize: 18, fontWeight:'bold'}}>계획지출</Text>
+                                <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                                    {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                                        {parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc)} 원
+                                    </Text> */}
+                                    <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                                        {(parseInt(transportation.split(",").join(""))+parseInt(leisure.split(",").join(""))+parseInt(shopping.split(",").join(""))+
+                                        parseInt(education.split(",").join(""))+parseInt(medical.split(",").join(""))+parseInt(event.split(",").join(""))+
+                                        parseInt(ect.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+                                    </Text>
+                                </View>
+                            </View>
 
-                    <View style={{marginTop: 10, }}>
-                        <View style={styles.bigCategoryContainer}>
-                            <Text style={{fontSize: 18, fontWeight:'bold'}}>계획지출</Text>
-                            <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                                    {parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc)} 원
-                                </Text> */}
-                                <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                                    {(parseInt(transportation.split(",").join(""))+parseInt(leisure.split(",").join(""))+parseInt(shopping.split(",").join(""))+
-                                    parseInt(education.split(",").join(""))+parseInt(medical.split(",").join(""))+parseInt(event.split(",").join(""))+
-                                    parseInt(ect.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
-                                </Text>
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'bus-outline'} size={20} color={'gray'} />
+                                </View>
+                                <View style={styles.categoryContainer}><Text>교통비</Text></View>
+                                <InputBudget num={transportation} setBudget={setTransportation}/>
                             </View>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Icon name={'bus-outline'} size={20} color={'gray'} />
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/leisure.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>문화/취미/여행</Text></View>
+                                <InputBudget num={leisure} setBudget={setLeisure}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>교통비</Text></View>
-                            <InputBudget num={transportation} setBudget={setTransportation}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/leisure.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/shopping.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>뷰티/미용/쇼핑</Text></View>
+                                <InputBudget num={shopping} setBudget={setShopping}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>문화/취미/여행</Text></View>
-                            <InputBudget num={leisure} setBudget={setLeisure}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/shopping.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/education.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>교육</Text></View>
+                                <InputBudget num={education} setBudget={setEducation}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>뷰티/미용/쇼핑</Text></View>
-                            <InputBudget num={shopping} setBudget={setShopping}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/education.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'bandage-outline'} size={20} color={'gray'}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>의료비</Text></View>
+                                <InputBudget num={medical} setBudget={setMedical}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>교육</Text></View>
-                            <InputBudget num={education} setBudget={setEducation}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Icon name={'bandage-outline'} size={20} color={'gray'}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/envelope.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                </View>
+                                <View style={styles.categoryContainer}><Text>경조사/선물</Text></View>
+                                <InputBudget num={event} setBudget={setEvent}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>의료비</Text></View>
-                            <InputBudget num={medical} setBudget={setMedical}/>
-                        </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Image source={require('../assets/category/envelope.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+
+                            <View style={styles.category}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'ellipsis-horizontal-outline'} size={20} color={'gray'} />
+                                </View>
+                                <View style={styles.categoryContainer}><Text>기타</Text></View>
+                                <InputBudget num={ect} setBudget={setEct}/>
                             </View>
-                            <View style={styles.categoryContainer}><Text>경조사/선물</Text></View>
-                            <InputBudget num={event} setBudget={setEvent}/>
+                            
                         </View>
-                        <View style={styles.category}>
-                            <View style={styles.logoContainer}>
-                                <Icon name={'ellipsis-horizontal-outline'} size={20} color={'gray'} />
-                            </View>
-                            <View style={styles.categoryContainer}><Text>기타</Text></View>
-                            <InputBudget num={ect} setBudget={setEct}/>
-                        </View>
-                    </View>
                     </View>
                 </KeyboardAvoidingView>
-
-                {/* </View> */}
 
                 <View style={styles.appFooter}>
                     <BudgetSaveButton onPress={handleSaveButton}/>
@@ -460,9 +480,9 @@ const WriteBudgetScreen = ({navigation}) => {
     }else{
         return(
             <View >
-                <Text>로딩중..</Text>
+
             </View>
-        );
+        )
     }
 };
 const styles = StyleSheet.create({
