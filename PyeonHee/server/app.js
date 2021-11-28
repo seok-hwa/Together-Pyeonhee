@@ -1803,6 +1803,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 글 확인
             app.post('/NotificationBoardInfo', function (req, res) {
+                console.log('여기 들어와', req.body);
                 var noticeNumber = req.body.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [noticeNumber], function (error, result) {
                     if (error) throw error;

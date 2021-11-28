@@ -3,9 +3,9 @@ import axios from 'axios';
 import '../App.css';
 
 function NotificationBoard({ match }) {
-  const [boardTitle, setBoardTitle] = useState('안녕하세요');
-  const [boardContent, setBoardContent] = useState('모두들 반갑습니다.');
-  const [boardDate, setBoardDate] = useState('2021-11-27');
+  const [boardTitle, setBoardTitle] = useState('');
+  const [boardContent, setBoardContent] = useState('');
+  const [boardDate, setBoardDate] = useState('');
   const [boardCate, setBoardCate] = useState('티어');
   
   useEffect(() => {
@@ -17,11 +17,11 @@ function NotificationBoard({ match }) {
       }
     })
     .then((res)=>{
-        console.log(res.data);
-        setBoardTitle(res.data.boardTitle);
-        setBoardContent(res.data.boardContent);
-        setBoardDate(res.data.boardDate);
-        setBoardCate(res.data.boardCate);
+        console.log(res.data[0]);
+        setBoardTitle(res.data[0].title);
+        setBoardContent(res.data[0].content);
+        setBoardDate(res.data[0].notice_date);
+        setBoardCate(res.data[0].category);
     }).catch(error=>{
         console.log(error);
     });
