@@ -182,23 +182,33 @@
   font-size: 0.7cm;
   font-weight: bold;
 }
+.NotificationBoardCateFont{
+  font-size: 0.5cm;
+  font-weight: bold;
+}
 .NotificationBoardDateDiv{
   width: 100%;
-  height: 1cm;
+  height: 2cm;
   justify-content: flex-end;
   display: flex;
+}
+.NotificationBoardInnerDateDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .NotificationBoardDateFont{
   font-weight: bold;
   margin-right: 3cm;
 }
 .NotificationBoardOuterContentDiv{
+  margin-top: 1cm;
+  margin-bottom: 1cm;
   width: 100%;
   height: 10cm;
   align-items: center;
   justify-content: center;
   display: flex;
-  margin: 0.3cm;
 }
 .NotificationBoardInnerContentDiv{
   width: 80%;
@@ -236,6 +246,50 @@
   font-size: 0.4cm;
   font-weight: bold;
   margin: 0.3cm;
+}
+.NotificationWriteDiv{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.NotificationWriteBodyDiv{
+  background-color: #fff;
+  width: 90%;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.3cm;
+}
+.BoardWriteTitleDiv{
+  margin-top: 0.5cm;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.BoardTitleInput{
+  height: 0.9cm;
+  width: 80%;
+  margin-top: 0.7cm;
+  font-size: 0.5cm;
+}
+.BoardContentInput{
+  width: 80%;
+  height: 10cm;
+  font-size: 0.4cm;
+}
+.BoardCateInput{
+  width: 4cm;
+  height: 0.9cm;
+  font-size: 0.4cm;
+  margin-left: 1cm;
+  margin-top: 0.5cm;
+}
+.BoardCateInputDiv{
+  width: 100%;
+  display: flex;
+  justify-content:flex-start;
+  margin-left: 2.5cm;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
