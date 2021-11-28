@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import config from '../../../config';
 
@@ -193,7 +193,8 @@ const SavingPlan = (props) => {
                 {/* <View style={{backgroundColor: 'pink', justifyContent: 'flex-end',}}>
                     <Text style={styles.addButtonStyle}> 추가하기 </Text>
                 </View> */}
-                <Text style={styles.addButtonStyle}> 추가하기 </Text>
+                <Image source={require('../assets/add.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                {/* <Text style={styles.addButtonStyle}> 추가하기 </Text> */}
             </TouchableOpacity>  
         </View>
     )

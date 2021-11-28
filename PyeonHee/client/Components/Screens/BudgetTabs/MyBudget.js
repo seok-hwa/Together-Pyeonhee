@@ -445,7 +445,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                            <Image source={require('../assets/category/education.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                <Icon name={'bandage-outline'} size={20} color={'#8EB3EE'}/>
                             </View>
                             <Text>의료비</Text>
                         </View>
