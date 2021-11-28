@@ -30,7 +30,7 @@ function NotificationBoard({ match }) {
   const deleteNotificationBoard=()=>{
     axios({
         method:"POST",
-        url: `/adminLogin`,
+        url: `/notificationDelete`,
         data:{
             boardID: match.params.boardID,
         }
