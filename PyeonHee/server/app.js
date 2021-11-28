@@ -1819,7 +1819,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var boardTitle = req.body.boardTitle;
                 var boardContent = req.body.boardContent;
                 var boardCate = req.body.boardCate;
-                db.query(`UPDATE notice SET category = ?, title = ? , content = ? WHERE notice_number = ?`, [boardCate, boardTitle, boardContent, noticeNumber], function (error, result) {
+                var now = new Date();
+                db.query(`UPDATE notice SET category = ?, title = ? , content = ? , modified_date = ? WHERE notice_number = ?`, [boardCate, boardTitle, boardContent, now, noticeNumber], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
