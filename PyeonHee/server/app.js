@@ -1792,7 +1792,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 목록 확인
             app.get('/adminGetNotificationList', function (req, res) {
-                db.query(`SELECT * FROM notice`,function (error, result) {
+                db.query(`SELECT * FROM notice ORDER BY notice_date desc`,function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -1803,13 +1803,45 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 글 확인
             app.post('/NotificationBoardInfo', function (req, res) {
-                console.log('여기 들어와', req.body);
                 var noticeNumber = req.body.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [noticeNumber], function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
                         console.log(result);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 수정
+            app.post('/notificationBoardUpdate', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                var boardTitle = req.body.boardTitle;
+                var boardContent = req.body.boardContent;
+                var boardCate = req.body.boardCate;
+                db.query(`UPDATE notice SET category = ?, title = ? , content = ? WHERE notice_number = ?`, [boardCate, boardTitle, boardContent, noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 삭제
+            app.post('/adminLogin', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
                     }
                 });
             });
