@@ -1832,7 +1832,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //관리자 공지사항 글 삭제
-            app.post('/adminLogin', function (req, res) {
+            app.post('/notificationDelete', function (req, res) {
                 var noticeNumber = req.body.boardID;
                 db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
                     if (error) throw error;
@@ -1842,6 +1842,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         res.send(data);
                         console.log(data);
+
+                        db.query(`alter table notice auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                console.log("공지사항 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
