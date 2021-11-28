@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 import config from '../../config';
+
 import {
     StyleSheet,
     Text,
@@ -158,7 +159,7 @@ const MyPageScreen = ({navigation}) => {
                 </View>
                 <View style={styles.assetBudgetDiv}>
                     <Text style={styles.assetBudgetTitle}>자산</Text>
-                    <TouchableOpacity onPress={()=>alert('자산 관리 페이지 이동')}>
+                    <TouchableOpacity onPress={()=>alert('자산 연동 및 관리')}>
                         <Text style={styles.assetBudgetBoard} >자산 연동 및 관리</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>alert('자산 상담 페이지 이동')}>
