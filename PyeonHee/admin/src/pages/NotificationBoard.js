@@ -26,6 +26,33 @@ function NotificationBoard({ match }) {
         console.log(error);
     });
   },[])
+  
+  const deleteNotificationBoard=()=>{
+    axios({
+        method:"POST",
+        url: `/adminLogin`,
+        data:{
+            boardID: match.params.boardID,
+        }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('삭제 성공');
+            document.location.href = '/notification';
+        }else{
+            alert('삭제 실패');
+        }
+    }).catch(error=>{
+        console.log(error);
+        throw new Error(error);
+    });
+    /*
+    //for test
+    alert('로그인 성공');
+    sessionStorage.setItem('userID', userID);
+    document.location.href = '/';
+    */
+  }
   return (
     <div className="NotificationBoardDiv">
       <p className="NotificationTitleText">공지사항 확인</p>
@@ -46,8 +73,8 @@ function NotificationBoard({ match }) {
           </div>
         </div>
         <div className="NotificationBoardButtonDiv">
-          <button className="NotificationUpdateButton" type='button' >수정</button>
-          <button className="NotificationDeleteButton" type='button' >삭제</button>
+          <button className="NotificationUpdateButton" type='button' onClick={()=>{window.location.href=`/notificationUpdate/${match.params.boardID}`}}>수정</button>
+          <button className="NotificationDeleteButton" type='button' onClick={deleteNotificationBoard}>삭제</button>
         </div>
       </div>
     </div>
