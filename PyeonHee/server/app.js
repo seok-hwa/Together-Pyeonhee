@@ -1747,26 +1747,25 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var adminID = req.body.userID;
                 var adminPassword = req.body.userPassword;
                 db.query(`SELECT * FROM admin WHERE admin_id = ? AND password = ?`, [adminID, adminPassword], function (error, result) {
                     if (error) throw error;
                     else {
-                        console.log(result[0]);
                         if (result[0] != undefined) {
                             const data = {
                                 status: 'success',
                             }
                             res.send(data);
-                            console.log(data);
+                            //console.log(data);
                         }
                         else {
                             const data = {
                                 status: 'fail',
                             }
                             res.send(data);
-                            console.log(data);
+                            //console.log(data);
                         }
                     }
                 });
@@ -1774,7 +1773,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 등록
             app.post('/notificationWrite', function (req, res) {
-                console.log(req.body);
+                //console.log(req.body);
                 var boardTitle = req.body.boardTitle;
                 var boardContent = req.body.boardContent;
                 var boardCate = req.body.boardCate;
@@ -1785,7 +1784,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                             status: 'success',
                         }
                         res.send(data);
-                        console.log(data);
+                        //console.log(data);
+                        db.query(`alter table notice auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("공지사항 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
@@ -1796,7 +1811,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if (error) throw error;
                     else {
                         res.send(result);
-                        console.log(result);
+                        //console.log(result);
                     }
                 });
             });
@@ -1808,7 +1823,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if (error) throw error;
                     else {
                         res.send(result);
-                        console.log(result);
+                        //console.log(result);
                     }
                 });
             });
@@ -1827,7 +1842,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             status: 'success',
                         }
                         res.send(data);
-                        console.log(data);
+                        //console.log(data);
                     }
                 });
             });
@@ -1842,7 +1857,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             status: 'success',
                         }
                         res.send(data);
-                        console.log(data);
+                        //console.log(data);
 
                         db.query(`alter table notice auto_increment = 1;`, function (error, result) {
                             if (error) throw error;
@@ -1853,7 +1868,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
                                             if (error) throw error;
                                             else {
-                                                console.log("공지사항 글 번호 정렬 완료");
+                                                //console.log("공지사항 글 번호 정렬 완료");
                                             }
                                         });
                                     }
