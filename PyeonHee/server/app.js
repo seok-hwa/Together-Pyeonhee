@@ -83,7 +83,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             // 30분마다 일일소비량 업데이트
-            schedule.scheduleJob('*/30 * * * * *', async()=>{
+            schedule.scheduleJob('0 */30 * * * *', async () => {
                 db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
                     if(error1) throw error1;
                     else{
@@ -1812,8 +1812,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
                                         let message = {
                                             notification: {
-                                                title: '편히가계 공지사항',
-                                                body: '**' + boardTitle + '**'
+                                                title: '**편히가계 공지사항**',
+                                                body: '[' + boardCate + '] ' + boardTitle
                                             },
                                             token: target_token,
                                         }
