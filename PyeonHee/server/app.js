@@ -1831,6 +1831,21 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 공지사항 글 삭제
+            app.post('/adminLogin', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
