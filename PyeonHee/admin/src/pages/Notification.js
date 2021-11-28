@@ -58,7 +58,7 @@ function Notification(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {notifications.map(c => {return (<Notifications key={c.id} id={c.id} category={c.category} title={c.title} date={c.date}/>)})}
+              {notifications.map(c => {return (<Notifications key={c.notice_number} id={c.notice_number} category={c.category} title={c.title} date={c.notice_date}/>)})}
             </TableBody>
           </Table>
         </Paper>
