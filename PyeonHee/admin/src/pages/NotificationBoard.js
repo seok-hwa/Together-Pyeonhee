@@ -6,6 +6,7 @@ function NotificationBoard({ match }) {
   const [boardTitle, setBoardTitle] = useState('');
   const [boardContent, setBoardContent] = useState('');
   const [boardDate, setBoardDate] = useState('');
+  const [boardUpdateDate, setBoardUpdateDate] = useState('');
   const [boardCate, setBoardCate] = useState('티어');
   
   useEffect(() => {
@@ -21,6 +22,7 @@ function NotificationBoard({ match }) {
         setBoardTitle(res.data[0].title);
         setBoardContent(res.data[0].content);
         setBoardDate(res.data[0].notice_date);
+        setBoardUpdateDate(res.data[0].modified_date);
         setBoardCate(res.data[0].category);
     }).catch(error=>{
         console.log(error);
@@ -62,10 +64,18 @@ function NotificationBoard({ match }) {
           <p className="NotificationBoardTitleFont">{boardTitle}</p>
         </div>
         <div className="NotificationBoardDateDiv">
-          <div className="NotificationBoardInnerDateDiv">
-            <p className="NotificationBoardDateFont">작성일: {boardDate}</p>
-            <p className="NotificationBoardDateFont">분류: {boardCate}</p>
-          </div>
+            {boardDate === boardUpdateDate ? 
+              <div className="NotificationBoardInnerDateDiv">
+              <p className="NotificationBoardDateFont">작성일: {boardDate.substring(0,16).replace('T', ' ')}</p>
+              <p className="NotificationBoardDateFont">분류: {boardCate}</p>
+              </div>
+              :
+              <div className="NotificationBoardInnerDateDiv">
+              <p className="NotificationBoardDateFont">작성일: {boardDate.substring(0,16).replace('T', ' ')}</p>
+              <p className="NotificationBoardDateFont">수정일: {boardUpdateDate.substring(0,16).replace('T', ' ')}</p>
+              <p className="NotificationBoardDateFont">분류: {boardCate}</p>
+              </div>
+            }
         </div>
         <div className="NotificationBoardOuterContentDiv">
           <div className="NotificationBoardInnerContentDiv">

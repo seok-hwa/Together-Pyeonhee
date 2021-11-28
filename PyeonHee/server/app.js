@@ -83,11 +83,11 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             // 30분마다 일일소비량 업데이트
-            schedule.scheduleJob('0 */30 * * * *', async()=>{
+            schedule.scheduleJob('0 */30 * * * *', async () => {
                 db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
                     if(error1) throw error1;
                     else{
-                        if(result1.length === 0)
+                        if(result1.spend_money == null)
                             console.log('소비한 내역이 없습니다.');
                         else{
                             console.log(result1);
@@ -1799,6 +1799,33 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         });
                                     }
                                 });
+                            }
+                        });
+                        //관리자 공지사항 등록 시, 사용자에게 푸시알림
+                        db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                for (i in result) {
+                                    (function (i) {
+                                        var userID = result[i].user_id;
+                                        var deviceToken = result[i].deviceToken;
+                                        let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
+                                        let message = {
+                                            notification: {
+                                                title: '**편히가계 공지사항**',
+                                                body: '[' + boardCate + '] ' + boardTitle
+                                            },
+                                            token: target_token,
+                                        }
+                                        admin.messaging().send(message)
+                                            .then(function (response) {
+                                                console.log(userID,'푸시알림메시지 전송성공!', response)
+                                            })
+                                            .catch(function (error) {
+                                                console.log('푸시알림메시지 전송실패!', error)
+                                            })
+                                    })(i);
+                                }
                             }
                         });
                     }
