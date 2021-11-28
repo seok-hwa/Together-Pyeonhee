@@ -72,8 +72,6 @@ function NotificationUpdate({ match }) {
         throw new Error(error);
     });
     //for test
-    alert('수정 성공');
-    document.location.href = '/notification';
   }
 
   if(loading === true){

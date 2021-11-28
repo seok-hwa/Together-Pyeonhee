@@ -416,5 +416,6 @@ create table notice
     title varchar(50) not null,
     content text not null,
     notice_date timestamp default current_timestamp,
+    modified_date timestamp default current_timestamp,
     primary key (notice_number)
 );
