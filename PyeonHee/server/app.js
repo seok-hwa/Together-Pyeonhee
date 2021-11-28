@@ -1790,6 +1790,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 공지사항 확인
+            app.get('/adminGetNotificationList', function (req, res) {
+                db.query(`SELECT * FROM notice`,function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
