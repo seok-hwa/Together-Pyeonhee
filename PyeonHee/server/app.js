@@ -103,7 +103,6 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             
             //일일권장 소비금액 (잔액 푸시알림)
-            
             // schedule.scheduleJob('*/30 * * * * *', function (){
             //     db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
             //         if (error) throw error;
@@ -142,11 +141,10 @@ const SSHConnection = new Promise((resolve, reject) => {
             //                                                                 console.log('[출금]', tranAmt,'원 **하루권장소비량', balanceMoney +'원 남았습니다.**');
 
             //                                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
-            //                                                                 console.log('토큰값은: ', target_token);
             //                                                                 let message = {
             //                                                                     notification: {
-            //                                                                         title: '테스트 데이터 발송',
-            //                                                                         body: '[출금]' + tranAmt + '원 **하루권장소비량' + balanceMoney +'원 남았습니다.**'
+            //                                                                         title: '[출금]' + tranAmt + '원',
+            //                                                                         body: '**하루권장소비량' + balanceMoney +'원 남았습니다.**'
             //                                                                     },
             //                                                                     token: target_token,
             //                                                                 }
