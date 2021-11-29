@@ -177,32 +177,62 @@ const MyPageScreen = ({navigation}) => {
         .then((responseJson)=>{
             console.log(responseJson);
             if(responseJson.length != 0){
-                currentRent=responseJson.real_spend[4].daily_amount;
-                currentInsurance=responseJson.real_spend[2].daily_amount;
-                currentCommunication=responseJson.real_spend[10].daily_amount;
-                currentSubscribe=responseJson.real_spend[1].daily_amount;
-                currentTraffic=responseJson.real_spend[0].daily_amount;
-                currentMedical=responseJson.real_spend[5].daily_amount;
-                currentEducation=responseJson.real_spend[7].daily_amount;
-                currentEct=responseJson.real_spend[8].daily_amount;
-                currentShopping=responseJson.real_spend[5].daily_amount;
-                currentHobby=responseJson.real_spend[9].daily_amount;
-                currentEvent=responseJson.real_spend[3].daily_amount;
-                currentDinner=responseJson.real_spend[6].daily_amount;
+                responseJson.real_spend.map(item  => {
+                    if(item.tran_type === '쇼핑'){
+                        currentShopping=item.daily_amount;
+                    }else if(item.tran_type === '교통'){
+                        currentTraffic=item.daily_amount;
+                    }else if(item.tran_type === '구독'){
+                        currentSubscribe=item.daily_amount;
+                    }else if(item.tran_type === '통신'){
+                        currentCommunication=item.daily_amount;
+                    }else if(item.tran_type === '여가'){
+                        currentHobby=item.daily_amount;
+                    }else if(item.tran_type === '교육'){
+                        currentEducation=item.daily_amount;
+                    }else if(item.tran_type === '선물'){
+                        currentEvent=item.daily_amount;
+                    }else if(item.tran_type === '보험'){
+                        currentInsurance=item.daily_amount;
+                    }else if(item.tran_type === '의료'){
+                        currentMedical=item.daily_amount;
+                    }else if(item.tran_type === '월세'){
+                        currentRent=item.daily_amount;
+                    }else if(item.tran_type === '기타'){
+                        currentDinner=item.daily_amount;
+                    }else{
+                        currentEct=item.daily_amount;
+                    }
+                })
 
                 if(responseJson.last_spend.length !=0){
-                        lastRent=responseJson.last_spend[4].daily_amount;
-                        lastInsurance=responseJson.last_spend[2].daily_amount;
-                        lastCommunication=responseJson.last_spend[10].daily_amount;
-                        lastSubscribe=responseJson.last_spend[1].daily_amount;
-                        lastTraffic=responseJson.last_spend[0].daily_amount;
-                        lastMedical=responseJson.last_spend[5].daily_amount;
-                        lastEducation=responseJson.last_spend[7].daily_amount;
-                        lastEct=responseJson.last_spend[8].daily_amount;
-                        lastShopping=responseJson.last_spend[5].daily_amount;
-                        lastHobby=responseJson.last_spend[9].daily_amount;
-                        lastEvent=responseJson.last_spend[3].daily_amount;
-                        lastDinner=responseJson.last_spend[6].daily_amount;
+                    responseJson.last_spend.map(item  => {
+                        if(item.tran_type === '쇼핑'){
+                            lastShopping=item.daily_amount;
+                        }else if(item.tran_type === '교통'){
+                            lastTraffic=item.daily_amount;
+                        }else if(item.tran_type === '구독'){
+                            lastSubscribe=item.daily_amount;
+                        }else if(item.tran_type === '통신'){
+                            lastCommunication=item.daily_amount;
+                        }else if(item.tran_type === '여가'){
+                            lastHobby=item.daily_amount;
+                        }else if(item.tran_type === '교육'){
+                            lastEducation=item.daily_amount;
+                        }else if(item.tran_type === '선물'){
+                            lastEvent=item.daily_amount;
+                        }else if(item.tran_type === '보험'){
+                            lastInsurance=item.daily_amount;
+                        }else if(item.tran_type === '의료'){
+                            lastMedical=item.daily_amount;
+                        }else if(item.tran_type === '월세'){
+                            lastRent=item.daily_amount;
+                        }else if(item.tran_type === '기타'){
+                            lastDinner=item.daily_amount;
+                        }else{
+                            lastEct=item.daily_amount;
+                        }
+                    })
                 }
             }
         })
