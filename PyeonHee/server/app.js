@@ -864,7 +864,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
                                                             if (error4) throw error4;
                                                             else{
-                                                                db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id =?`,[result2[0],userID],function(error1, result1){
+                                                                db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id =? and state = 1`,[result2[0].total_savings_money,userID],function(error1, result1){
                                                                     if(error1) throw error1;
                                                                     else{
                                                                         
