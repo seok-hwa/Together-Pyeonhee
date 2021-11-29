@@ -54,16 +54,12 @@ const MonthReportScreen = ({navigation, route}) => {
           setUserName(responseJson.userName);
           setUserMbti(responseJson.userMbti);
           setMbtiDescription(responseJson.description);
-          setDidWrite(true);
+
         }
       })
       .then(()=>{
         setLoading(true);
       })
-
-      //for test
-      //setDidWrite(true);
-      //setLoading(true);
     })
   }, [])
 
