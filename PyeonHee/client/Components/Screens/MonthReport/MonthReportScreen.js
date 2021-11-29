@@ -22,19 +22,20 @@ import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 const url = config.url;
 
-const MonthReportScreen = ({navigation}) => {
+const MonthReportScreen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('테스트');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [userMbti, setUserMbti] = useState('PHOM');
   const [mbtiDescription, setMbtiDescription] = useState('당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. 수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. 종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. 소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다.');
   const [loading, setLoading] = useState(false);
-  const [didWrite, setDidWrite] = useState(false);
 
   var now = new Date();	// 현재 날짜 및 시간
   var month = now.getMonth();	// 이번달
   var preMonth =  now.getMonth() - 1 === 0 ? 12: now.getMonth() - 1;	// 지난달
   useEffect(()=>{
+    console.log('지난달과 비교', route.params.withLast);
+    console.log('계획과 비교', route.params.withPlan);
     let tempID;
     AsyncStorage.getItem('userID', (err, result) => {
       tempID = result;
@@ -47,21 +48,17 @@ const MonthReportScreen = ({navigation}) => {
       fetch(`${url}/monthReportMbti?userID=${tempID}`)   //get
       .then((response)=>response.json())
       .then((responseJson)=>{
-        console.log(responseJson);
+        console.log('응답: ',responseJson);
         if(responseJson.length != ''){
           setUserName(responseJson.userName);
           setUserMbti(responseJson.userMbti);
-          setMbtiDescription(responseJson.mbtiDescription);
-          setDidWrite(true);
+          setMbtiDescription(responseJson.description);
+
         }
       })
       .then(()=>{
         setLoading(true);
       })
-
-      //for test
-      //setDidWrite(true);
-      //setLoading(true);
     })
   }, [])
 
@@ -95,6 +92,7 @@ const MonthReportScreen = ({navigation}) => {
               console.log(responseJson);
               if(responseJson.status === true){
                   console.log('설정 완료');
+                  setUserMbti(userMbti);
                   Popup.show({
                       type: 'success',
                       textBody: `${userMbti}를 소비 성향 MBTI로 설정 했습니다.`,
@@ -115,7 +113,7 @@ const MonthReportScreen = ({navigation}) => {
     })
   }
 
-  if(loading === true && didWrite === true){
+  if(loading === true && route.params.isTransactionList === true){
   return (
     <Root>
     <SafeAreaView style={styles.container}>
@@ -134,8 +132,8 @@ const MonthReportScreen = ({navigation}) => {
                     borderRadius={20}
                 />
             </View>
-          {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation} month={month} preMonth={preMonth}/>}
-          {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} month={month} />}
+          {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation} route={route} month={month} preMonth={preMonth} withLast={route.params.withLast}/>}
+          {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} route={route} month={month} withPlan={route.params.withPlan}/>}
           <View style={styles.fixDiv}>
                 <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
                 <View style={styles.resultDiv}>
@@ -154,8 +152,7 @@ const MonthReportScreen = ({navigation}) => {
         </View>
       </SafeAreaView>
       </Root>
-  )
-  }else if(loading === true && didWrite === false){
+  )}else if(loading === true && route.params.isTransactionList === false){
     return(
       <Root>
       <SafeAreaView style={styles.container}>

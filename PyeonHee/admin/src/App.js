@@ -47,8 +47,8 @@ function App() {
         <div className="AppBody">
           <Switch>
             <Route exact path="/" component={Main} />
-            <Route path="/notification" component={Notification} />
-            <Route path="/service" component={ServiceCenter} />
+            <Route path="/notification/:pageNumber" component={Notification} />
+            <Route path="/service/:pageNumber" component={ServiceCenter} />
             <Route path="/notificationWrite" component={NotificationWrite} />
             <Route path="/notificationBoard/:boardID" component={NotificationBoard} />
             <Route path="/queryBoard/:boardID" component={QueryBoard} />

@@ -118,6 +118,244 @@ const MyPageScreen = ({navigation}) => {
           }
         })
       }
+      const toMonthReport = () => {
+        let currentRent=0;
+        let currentInsurance=0;
+        let currentCommunication=0;
+        let currentSubscribe=0;
+        let currentTraffic=0;
+        let currentMedical=0;
+        let currentEducation=0;
+        let currentEct=0;
+        let currentShopping=0;
+        let currentHobby=0;
+        let currentEvent=0;
+        let currentDinner=0;
+
+        let lastRent=0;
+        let lastInsurance=0;
+        let lastCommunication=0;
+        let lastSubscribe=0;
+        let lastTraffic=0;
+        let lastMedical=0;
+        let lastEducation=0;
+        let lastEct=0;
+        let lastShopping=0;
+        let lastHobby=0;
+        let lastEvent=0;
+        let lastDinner=0;
+
+        let realRent=0;
+        let realInsurance=0;
+        let realCommunication=0;
+        let realSubscribe=0;
+        let realTraffic=0;
+        let realMedical=0;
+        let realEducation=0;
+        let realEct=0;
+        let realShopping=0;
+        let realHobby=0;
+        let realEvent=0;
+        let realDinner=0;
+
+        let planRent=0;
+        let planInsurance=0;
+        let planCommunication=0;
+        let planSubscribe=0;
+        let planTraffic=0;
+        let planMedical=0;
+        let planEducation=0;
+        let planEct=0;
+        let planShopping=0;
+        let planHobby=0;
+        let planEvent=0;
+        let planDinner=0;
+
+        let isTransactionList = true;
+
+        console.log(`${url}/monthReportWithLast?userID=${userID}`);
+        fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
+            if(responseJson.length != 0){
+                responseJson.real_spend.map(item  => {
+                    if(item.tran_type === '쇼핑'){
+                        currentShopping=item.daily_amount;
+                    }else if(item.tran_type === '교통'){
+                        currentTraffic=item.daily_amount;
+                    }else if(item.tran_type === '구독'){
+                        currentSubscribe=item.daily_amount;
+                    }else if(item.tran_type === '통신'){
+                        currentCommunication=item.daily_amount;
+                    }else if(item.tran_type === '여가'){
+                        currentHobby=item.daily_amount;
+                    }else if(item.tran_type === '교육'){
+                        currentEducation=item.daily_amount;
+                    }else if(item.tran_type === '선물'){
+                        currentEvent=item.daily_amount;
+                    }else if(item.tran_type === '보험'){
+                        currentInsurance=item.daily_amount;
+                    }else if(item.tran_type === '의료'){
+                        currentMedical=item.daily_amount;
+                    }else if(item.tran_type === '월세'){
+                        currentRent=item.daily_amount;
+                    }else if(item.tran_type === '기타'){
+                        currentDinner=item.daily_amount;
+                    }else{
+                        currentEct=item.daily_amount;
+                    }
+                })
+
+                if(responseJson.last_spend.length !=0){
+                    responseJson.last_spend.map(item  => {
+                        if(item.tran_type === '쇼핑'){
+                            lastShopping=item.daily_amount;
+                        }else if(item.tran_type === '교통'){
+                            lastTraffic=item.daily_amount;
+                        }else if(item.tran_type === '구독'){
+                            lastSubscribe=item.daily_amount;
+                        }else if(item.tran_type === '통신'){
+                            lastCommunication=item.daily_amount;
+                        }else if(item.tran_type === '여가'){
+                            lastHobby=item.daily_amount;
+                        }else if(item.tran_type === '교육'){
+                            lastEducation=item.daily_amount;
+                        }else if(item.tran_type === '선물'){
+                            lastEvent=item.daily_amount;
+                        }else if(item.tran_type === '보험'){
+                            lastInsurance=item.daily_amount;
+                        }else if(item.tran_type === '의료'){
+                            lastMedical=item.daily_amount;
+                        }else if(item.tran_type === '월세'){
+                            lastRent=item.daily_amount;
+                        }else if(item.tran_type === '기타'){
+                            lastDinner=item.daily_amount;
+                        }else{
+                            lastEct=item.daily_amount;
+                        }
+                    })
+                }
+            }else{
+                isTransactionList = false;
+            }
+        })
+        .then(()=>{
+            console.log(`${url}/monthReportWithPlan?userID=${userID}`);
+            fetch(`${url}/monthReportWithPlan?userID=${userID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
+                if(responseJson.real.length != 0 && responseJson.plan.length != 0){
+                    responseJson.real.map(item  => {
+                        if(item.tran_type === '쇼핑'){
+                            realShopping=item.daily_amount;
+                        }else if(item.tran_type === '교통'){
+                            realTraffic=item.daily_amount;
+                        }else if(item.tran_type === '구독'){
+                            realSubscribe=item.daily_amount;
+                        }else if(item.tran_type === '통신'){
+                            realCommunication=item.daily_amount;
+                        }else if(item.tran_type === '여가'){
+                            realHobby=item.daily_amount;
+                        }else if(item.tran_type === '교육'){
+                            realEducation=item.daily_amount;
+                        }else if(item.tran_type === '선물'){
+                            realEvent=item.daily_amount;
+                        }else if(item.tran_type === '보험'){
+                            realInsurance=item.daily_amount;
+                        }else if(item.tran_type === '의료'){
+                            realMedical=item.daily_amount;
+                        }else if(item.tran_type === '월세'){
+                            realRent=item.daily_amount;
+                        }else if(item.tran_type === '기타'){
+                            realDinner=item.daily_amount;
+                        }else{
+                            lastEct=item.daily_amount;
+                        }
+                    })
+
+                    if(responseJson.plan.length !=0){
+                            planRent=responseJson.plan.monthly_rent;
+                            planInsurance=responseJson.plan.insurance_expense;
+                            planCommunication=responseJson.plan.communication_expense;
+                            planSubscribe=responseJson.plan.subscribe_expense;
+                            planTraffic=responseJson.plan.transportation_expense;
+                            planMedical=responseJson.plan.medical_expense;
+                            planEducation=responseJson.plan.education_expense;
+                            planEct=responseJson.plan.etc_expense;
+                            planShopping=responseJson.plan.shopping_expense;
+                            planHobby=responseJson.plan.leisure_expense;
+                            planEvent=responseJson.plan.event_expense;
+                            planDinner=responseJson.plan.rest_money;
+                    }
+                }
+            })
+            .then(()=>{
+                navigation.navigate('MonthReport', {
+                    withLast: {
+                        currentRent: currentRent,
+                        currentInsurance: currentInsurance,
+                        currentCommunication:currentCommunication,
+                        currentSubscribe:currentSubscribe,
+                        currentTraffic:currentTraffic,
+                        currentMedical:currentMedical,
+                        currentEducation:currentEducation,
+                        currentEct:currentEct,
+                        currentShopping:currentShopping,
+                        currentHobby:currentHobby,
+                        currentEvent:currentEvent,
+                        currentDinner:currentDinner,
+    
+                        lastRent:lastRent,
+                        lastInsurance:lastInsurance,
+                        lastCommunication:lastCommunication,
+                        lastSubscribe:lastSubscribe,
+                        lastTraffic:lastTraffic,
+                        lastMedical:lastMedical,
+                        lastEducation:lastEducation,
+                        lastEct:lastEct,
+                        lastShopping:lastShopping,
+                        lastHobby:lastHobby,
+                        lastEvent:lastEvent,
+                        lastDinner:lastDinner,
+                    },
+                    withPlan:{
+                        realRent: realRent,
+                        realInsurance: realInsurance,
+                        realCommunication:realCommunication,
+                        realSubscribe:realSubscribe,
+                        realTraffic:realTraffic,
+                        realMedical:realMedical,
+                        realEducation:realEducation,
+                        realEct:realEct,
+                        realShopping:realShopping,
+                        realHobby:realHobby,
+                        realEvent:realEvent,
+                        realDinner:realDinner,
+    
+                        planRent:planRent,
+                        planInsurance:planInsurance,
+                        planCommunication:planCommunication,
+                        planSubscribe:planSubscribe,
+                        planTraffic:planTraffic,
+                        planMedical:planMedical,
+                        planEducation:planEducation,
+                        planEct:planEct,
+                        planShopping:planShopping,
+                        planHobby:planHobby,
+                        planEvent:planEvent,
+                        planDinner:planDinner,
+                    },
+                    isTransactionList: isTransactionList,
+                }
+                )
+            })
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
     if(loading === true){
         return(
             <ScrollView style={styles.appSize}>
@@ -168,7 +406,7 @@ const MyPageScreen = ({navigation}) => {
                 </View>
                 <View style={styles.assetBudgetDiv}>
                     <Text style={styles.assetBudgetTitle}>예산</Text>
-                    <TouchableOpacity onPress={()=>{navigation.navigate('MonthReport')}}>
+                    <TouchableOpacity onPress={toMonthReport}>
                         <Text style={styles.assetBudgetBoard} >한달 리포트 보기</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('WriteBudget')}>

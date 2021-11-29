@@ -17,12 +17,16 @@ const styles = theme => ({
     fontWeight: 'bold'
   }
 })
+
 function Notification(props) {
   const {classes} = props;
   const [notifications, setNotifications] = useState([]);
+  const [totalPage, setTotalPage] = useState(17);
+  const [currentStartPage, setCurrentStartPage] = useState(0);
+  const [currentEndPage, setCurrentEndPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('들어왔다.');
     axios({
       method:"GET",
       url: '/adminGetNotificationList',
@@ -30,9 +34,62 @@ function Notification(props) {
     .then((res)=>{
         console.log(res.data);
         setNotifications(res.data);
-    }).catch(error=>{
+    })
+    .then(()=>{
+      // 테스트
+      let currentPage = props.match.params.pageNumber;
+
+      let startPage = parseInt(currentPage/10) * 10;
+      let EndPage;
+      if(totalPage - (startPage + 10) > 0){
+        EndPage = startPage + 10;
+      }else{
+        EndPage = totalPage;
+      }
+
+      console.log('현재 페이지: ', props.match.params.pageNumber);
+      console.log('시작 페이지: ', startPage+1);    
+      console.log('종료 페이지', EndPage);
+      
+      setCurrentStartPage(startPage+1);
+      setCurrentEndPage(EndPage);
+      /*
+      axios({
+        method:"GET",
+        url: '/notificationTotalPage',
+      })
+      .then((res)=>{
+        let currentPage = props.match.params.pageNumber;
+
+        console.log(res.data);
+        setTotalPage(res.data);
+
+        let startPage = parseInt(currentPage/10) * 10;
+        let EndPage;
+        if(totalPage - (startPage + 10) > 0){
+          EndPage = startPage + 10;
+        }else{
+          EndPage = totalPage;
+        }
+
+        console.log('현재 페이지: ', props.match.params.pageNumber);
+        console.log('시작 페이지: ', startPage+1);    
+        console.log('종료 페이지', EndPage);
+        
+        setCurrentStartPage(startPage+1);
+        setCurrentEndPage(EndPage);
+        
+      })
+      .then(()=>{
+        setLoading(true);
+      })
+      .catch(error=>{
         console.log(error);
-        throw new Error(error);
+      });
+      */
+    })
+    .catch(error=>{
+        console.log(error);
     });
   },[])
 
@@ -62,6 +119,7 @@ function Notification(props) {
             </TableBody>
           </Table>
         </Paper>
+        <a>하하 총페이지: {totalPage} 현재페이지:{props.match.params.pageNumber}</a>
       </div>
     </div>
   );

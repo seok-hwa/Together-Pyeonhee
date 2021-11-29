@@ -1689,6 +1689,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             plan : [],
                                             live_expense : 0,
                                         }
+                                        console.log('이거봐바', data);
                                         res.send(data);
                                     }
                                     else{
@@ -1702,7 +1703,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             plan : plan_spend[0],
                                             live_expense : live_expense, 
                                         }
-                                        console.log(data);
+
+                                        console.log('이거봐바',data);
                                         res.send(data);
                                     }
                                 }
@@ -1878,13 +1880,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                 description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
                                             }
                                             
-                                            console.log(userMbti);
                                             data = {
                                                 userID : userID,
                                                 userMbti : userMbti,
-                                                description : description,
+                                                description: description,
                                             }
-                                            res.send(userMbti);
+                                            console.log(data);
+                                            res.send(data);
                                         }
                                     })
                                 }
@@ -1914,25 +1916,26 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
-                //console.log(req.body);
+                console.log(req.body);
                 var adminID = req.body.userID;
                 var adminPassword = req.body.userPassword;
                 db.query(`SELECT * FROM admin WHERE admin_id = ? AND password = ?`, [adminID, adminPassword], function (error, result) {
                     if (error) throw error;
                     else {
+                        console.log(result[0]);
                         if (result[0] != undefined) {
                             const data = {
                                 status: 'success',
                             }
                             res.send(data);
-                            //console.log(data);
+                            console.log(data);
                         }
                         else {
                             const data = {
                                 status: 'fail',
                             }
                             res.send(data);
-                            //console.log(data);
+                            console.log(data);
                         }
                     }
                 });
@@ -1940,7 +1943,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 등록
             app.post('/notificationWrite', function (req, res) {
-                //console.log(req.body);
+                console.log(req.body);
                 var boardTitle = req.body.boardTitle;
                 var boardContent = req.body.boardContent;
                 var boardCate = req.body.boardCate;
@@ -1951,7 +1954,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             status: 'success',
                         }
                         res.send(data);
-                        //console.log(data);
+                        console.log(data);
                         db.query(`alter table notice auto_increment = 1;`, function (error, result) {
                             if (error) throw error;
                             else {
@@ -2001,11 +2004,11 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 목록 확인
             app.get('/adminGetNotificationList', function (req, res) {
-                db.query(`SELECT * FROM notice ORDER BY notice_date desc`,function (error, result) {
+                db.query(`SELECT * FROM notice`,function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
-                        //console.log(result);
+                        console.log(result);
                     }
                 });
             });
@@ -2017,58 +2020,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if (error) throw error;
                     else {
                         res.send(result);
-                        //console.log(result);
-                    }
-                });
-            });
-
-            //관리자 공지사항 글 수정
-            app.post('/notificationBoardUpdate', function (req, res) {
-                var noticeNumber = req.body.boardID;
-                var boardTitle = req.body.boardTitle;
-                var boardContent = req.body.boardContent;
-                var boardCate = req.body.boardCate;
-                var now = new Date();
-                db.query(`UPDATE notice SET category = ?, title = ? , content = ? , modified_date = ? WHERE notice_number = ?`, [boardCate, boardTitle, boardContent, now, noticeNumber], function (error, result) {
-                    if (error) throw error;
-                    else {
-                        const data = {
-                            status: 'success',
-                        }
-                        res.send(data);
-                        //console.log(data);
-                    }
-                });
-            });
-
-            //관리자 공지사항 글 삭제
-            app.post('/notificationDelete', function (req, res) {
-                var noticeNumber = req.body.boardID;
-                db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
-                    if (error) throw error;
-                    else {
-                        const data = {
-                            status: 'success',
-                        }
-                        res.send(data);
-                        //console.log(data);
-
-                        db.query(`alter table notice auto_increment = 1;`, function (error, result) {
-                            if (error) throw error;
-                            else {
-                                db.query(`SET @COUNT = 0;`, function (error, result) {
-                                    if (error) throw error;
-                                    else {
-                                        db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
-                                            if (error) throw error;
-                                            else {
-                                                //console.log("공지사항 글 번호 정렬 완료");
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
+                        console.log(result);
                     }
                 });
             });
