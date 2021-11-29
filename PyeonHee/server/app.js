@@ -980,7 +980,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error1,result1){
                     if (error1) throw error1;
                     else {
-                        db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
+                        db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error, result){
                             if (error) throw error;
 
                             else if(result.length != 0){
@@ -1515,7 +1515,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
                             BudgetPlanning.etc_expense, daily_data.rest_money FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                            WHERE daily_data.user_id = ? AND BudgetPlanning.planning_date = MONTH(now())-1`, [userID], function(error2, plan_spend){
+                            WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
                                     if(real_spend.length === 0){
@@ -1566,7 +1566,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         else{
                             console.log(real_spend);
                             db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-2 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error2, last_spend){
+                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-2 = SUBSTR(tran_date, 5,2)-2 GROUP BY tran_type`, [userID], function(error2, last_spend){
                                 if(error2) throw error2;
                                 else{
                                     if(last_spend.length === 0){
@@ -1625,7 +1625,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         else{
                             console.log(spend_money);
                             db.query(`SELECT user_income, user_savings FROM BudgetPlanning 
-                            WHERE user_id = ? AND BudgetPlanning.planning_date = MONTH(now())-1`, [userID], function(error2, result){
+                            WHERE user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1`, [userID], function(error2, result){
                                 if(error2) throw error2;
                                 else{
                                     console.log(result[0]);
