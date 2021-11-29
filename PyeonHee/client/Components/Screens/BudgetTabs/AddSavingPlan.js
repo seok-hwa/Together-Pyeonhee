@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import config from '../../../config';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 const url = config.url;
 
@@ -10,8 +11,8 @@ const SavingPlan = (props) => {
     const [userID, setUserId] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
-    const[savingName, setSavingName] = useState('');        //프로젝트 제목
-    const[savingMoney, setSavingMoney] = useState(0);       //저금금액
+    const[savingName, setSavingName] = useState("");        //프로젝트 제목
+    const[savingMoney, setSavingMoney] = useState("0");       //저금금액
     const[startDate, setStartDate] = useState(new Date());  //시작일
     const[savingsDay, setSavingsDay] = useState(0);         //매달 출금일
     const[period, setPeriod] = useState(0);                 //기간
@@ -22,13 +23,24 @@ const SavingPlan = (props) => {
     let today = now.getDate()+1;
     
     const saveHandler = () => {
+        let tempIncome = props.income;
+        console.log(tempIncome);
 
-        if(parseInt(props.income) < parseInt(savingMoney)) {
+        console.log('저축 제목: ', savingName.length);
+        if(parseInt(tempIncome.split(",").join("")) < parseInt(savingMoney)) {
             {
                 alert('수입보다 저축액이 더 큽니다.');
                 return;
             }
         }
+
+        if(savingName.length === 0) {
+            {
+                alert('제목을 작성해주세요.');
+                return;
+            }
+        }
+
         setModalVisible(!modalVisible);
         console.log(savingName);
         console.log(savingMoney);
@@ -41,7 +53,7 @@ const SavingPlan = (props) => {
             body: JSON.stringify({
                 userID: userID,
                 savingName: savingName,
-                savingMoney: savingMoney,
+                savingMoney: parseInt(savingMoney),
                 startDate: startDate,
                 savingsDay: savingsDay,
                 period: period,    //기간으로 변경함 
@@ -67,6 +79,17 @@ const SavingPlan = (props) => {
         props.setAddSavingsPlan(true);
 
     }
+
+    const cancleHandler = () => {
+        props.setAddSavingsPlan(false);
+        setSavingName("");
+        setSavingMoney("0");
+        setSavingsDay(0);
+        setPeriod(0);
+
+        setModalVisible(!modalVisible);
+    }
+
     useEffect(()=>{
         AsyncStorage.getItem('userID', (err, result) => {
           let tempID = result;
@@ -74,7 +97,18 @@ const SavingPlan = (props) => {
             setUserId(tempID);
           }
         })
-      })
+    }, [])
+
+    const handleSavingsDay = (text) => {
+        if(text > 0 && text < 32) {
+            setSavingsDay(text);
+        }
+        else {
+            alert('저금일을 1 ~ 31일 사이로 선택해주세요.');
+                return;
+        }
+    }
+
     
     return (
         <View>
@@ -102,6 +136,7 @@ const SavingPlan = (props) => {
                                 <TextInput
                                     style={styles.textInputDesign}
                                     onChangeText={text => setSavingName(text)}
+                                    value={savingName}
                                     maxLength = {20}
                                     textAlign="right"
                                 />
@@ -115,8 +150,9 @@ const SavingPlan = (props) => {
                             <View style={styles.inputContainer}>
                                 <TextInput
                                     style={styles.textInputDesign}
-                                    placeholder='0'
+                                    // placeholder='0'
                                     onChangeText={text => setSavingMoney(text)}
+                                    value={savingMoney}
                                     maxLength = {10}
                                     textAlign="right"
                                     keyboardType="numeric"
@@ -143,7 +179,7 @@ const SavingPlan = (props) => {
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <TextInput
                                         style={styles.textInputDesign}
-                                        onChangeText={text => setSavingsDay(text)}
+                                        onChangeText={text => handleSavingsDay(text)}
                                         maxLength = {2}
                                         textAlign="right"
                                         keyboardType="numeric"
@@ -161,6 +197,7 @@ const SavingPlan = (props) => {
                                 <TextInput
                                     style={styles.textInputDesign}
                                     onChangeText={text => setPeriod(text)}
+                                    value={period}
                                     maxLength = {3}
                                     textAlign="right"
                                     keyboardType="numeric"
@@ -177,7 +214,7 @@ const SavingPlan = (props) => {
                             </TouchableOpacity> 
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={() => setModalVisible(!modalVisible)}>
+                                onPress={cancleHandler}>
                                 <Text>취소</Text>
                             </TouchableOpacity> 
                         </View>
