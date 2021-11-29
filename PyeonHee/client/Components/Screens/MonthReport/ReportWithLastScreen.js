@@ -74,7 +74,7 @@ const ReportWithLastScreen = (props) => {
         backgroundColor: "#ffffff",
         backgroundGradientFrom: "#ffffff",
         backgroundGradientTo: "#ffffff",
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     };
     const variable1Data = {
         labels: [`${props.preMonth}월`, `${props.month}월`],
@@ -119,6 +119,7 @@ const ReportWithLastScreen = (props) => {
                     height={250}
                     chartConfig={fixConfig}
                     withHorizontalLabels={false}
+                    strokeWidth={20}
                 />
                 </View>
                 <View style={styles.monthRow}>

@@ -200,7 +200,7 @@ const MyPageScreen = ({navigation}) => {
                         currentMedical=item.daily_amount;
                     }else if(item.tran_type === '월세'){
                         currentRent=item.daily_amount;
-                    }else if(item.tran_type === '기타'){
+                    }else if(item.tran_type === '식비'){
                         currentDinner=item.daily_amount;
                     }else{
                         currentEct=item.daily_amount;
@@ -229,7 +229,7 @@ const MyPageScreen = ({navigation}) => {
                             lastMedical=item.daily_amount;
                         }else if(item.tran_type === '월세'){
                             lastRent=item.daily_amount;
-                        }else if(item.tran_type === '기타'){
+                        }else if(item.tran_type === '식비'){
                             lastDinner=item.daily_amount;
                         }else{
                             lastEct=item.daily_amount;
@@ -268,10 +268,10 @@ const MyPageScreen = ({navigation}) => {
                             realMedical=item.daily_amount;
                         }else if(item.tran_type === '월세'){
                             realRent=item.daily_amount;
-                        }else if(item.tran_type === '기타'){
+                        }else if(item.tran_type === '식비'){
                             realDinner=item.daily_amount;
                         }else{
-                            lastEct=item.daily_amount;
+                            realEct=item.daily_amount;
                         }
                     })
 
@@ -287,7 +287,7 @@ const MyPageScreen = ({navigation}) => {
                             planShopping=responseJson.plan.shopping_expense;
                             planHobby=responseJson.plan.leisure_expense;
                             planEvent=responseJson.plan.event_expense;
-                            planDinner=responseJson.plan.rest_money;
+                            planDinner=responseJson.live_expense;
                     }
                 }
             })
