@@ -1774,7 +1774,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             
                                             console.log(userMbti);
                                             data = {
+                                                userID : userID,
                                                 userMbti : userMbti,
+                                                description : description,
                                             }
                                             res.send(userMbti);
                                         }
