@@ -22,7 +22,7 @@ import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 const url = config.url;
 
-const MonthReportScreen = ({navigation}) => {
+const MonthReportScreen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
   const [userName, setUserName] = useState('테스트');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -35,6 +35,8 @@ const MonthReportScreen = ({navigation}) => {
   var month = now.getMonth();	// 이번달
   var preMonth =  now.getMonth() - 1 === 0 ? 12: now.getMonth() - 1;	// 지난달
   useEffect(()=>{
+    console.log('지난달과 비교', route.params.withLast);
+    console.log('계획과 비교', route.params.withPlan);
     let tempID;
     AsyncStorage.getItem('userID', (err, result) => {
       tempID = result;
@@ -47,11 +49,11 @@ const MonthReportScreen = ({navigation}) => {
       fetch(`${url}/monthReportMbti?userID=${tempID}`)   //get
       .then((response)=>response.json())
       .then((responseJson)=>{
-        console.log(responseJson);
+        console.log('응답: ',responseJson);
         if(responseJson.length != ''){
           setUserName(responseJson.userName);
           setUserMbti(responseJson.userMbti);
-          setMbtiDescription(responseJson.mbtiDescription);
+          setMbtiDescription(responseJson.description);
           setDidWrite(true);
         }
       })
@@ -134,8 +136,8 @@ const MonthReportScreen = ({navigation}) => {
                     borderRadius={20}
                 />
             </View>
-          {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation} month={month} preMonth={preMonth}/>}
-          {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} month={month} />}
+          {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation} route={route} month={month} preMonth={preMonth} withLast={route.params.withLast}/>}
+          {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} route={route} month={month} withPlan={route.params.withPlan}/>}
           <View style={styles.fixDiv}>
                 <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
                 <View style={styles.resultDiv}>

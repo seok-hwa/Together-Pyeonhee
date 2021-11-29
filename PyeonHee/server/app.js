@@ -1539,6 +1539,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             plan : [],
                                             live_expense : 0,
                                         }
+                                        console.log('이거봐바', data);
                                         res.send(data);
                                     }
                                     else{
@@ -1552,7 +1553,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             plan : plan_spend[0],
                                             live_expense : live_expense, 
                                         }
-                                        console.log(data);
+
+                                        console.log('이거봐바',data);
                                         res.send(data);
                                     }
                                 }
@@ -1728,11 +1730,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                 description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
                                             }
                                             
-                                            console.log(userMbti);
                                             data = {
                                                 userMbti : userMbti,
+                                                description: description,
                                             }
-                                            res.send(userMbti);
+                                            console.log(data);
+                                            res.send(data);
                                         }
                                     })
                                 }
