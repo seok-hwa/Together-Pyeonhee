@@ -92,6 +92,7 @@ const MonthReportScreen = ({navigation, route}) => {
               console.log(responseJson);
               if(responseJson.status === true){
                   console.log('설정 완료');
+                  setUserMbti(userMbti);
                   Popup.show({
                       type: 'success',
                       textBody: `${userMbti}를 소비 성향 MBTI로 설정 했습니다.`,
@@ -112,7 +113,7 @@ const MonthReportScreen = ({navigation, route}) => {
     })
   }
 
-  if(loading === true){
+  if(loading === true && route.params.isTransactionList === true){
   return (
     <Root>
     <SafeAreaView style={styles.container}>
@@ -151,7 +152,22 @@ const MonthReportScreen = ({navigation, route}) => {
         </View>
       </SafeAreaView>
       </Root>
-  )}else{
+  )}else if(loading === true && route.params.isTransactionList === false){
+    return(
+      <Root>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.notSmallContainer}>
+            <View style={styles.appTopBar}>
+                <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+            </View>
+            <View style={styles.notThere}>
+              <Text style={{fontSize: 18, fontWeight: 'bold',}}>{month}월 소비 내역이 없습니다.</Text>
+            </View>
+        </View>
+      </SafeAreaView>
+      </Root>
+    )
+  }else{
     return(
       <Root>
       <SafeAreaView style={styles.container}>

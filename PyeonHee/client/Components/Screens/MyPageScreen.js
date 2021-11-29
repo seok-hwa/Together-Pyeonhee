@@ -171,6 +171,8 @@ const MyPageScreen = ({navigation}) => {
         let planEvent=0;
         let planDinner=0;
 
+        let isTransactionList = true;
+
         console.log(`${url}/monthReportWithLast?userID=${userID}`);
         fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
         .then((response)=>response.json())
@@ -234,6 +236,8 @@ const MyPageScreen = ({navigation}) => {
                         }
                     })
                 }
+            }else{
+                isTransactionList = false;
             }
         })
         .then(()=>{
@@ -343,6 +347,7 @@ const MyPageScreen = ({navigation}) => {
                         planEvent:planEvent,
                         planDinner:planDinner,
                     },
+                    isTransactionList: isTransactionList,
                 }
                 )
             })
