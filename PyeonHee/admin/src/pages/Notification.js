@@ -30,25 +30,24 @@ function Notification(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/adminGetNotificationList',
+      url: '/notificationTotalPage',
     })
     .then((res)=>{
-        console.log(res.data);
-        setNotifications(res.data);
-    })
-    .then(()=>{
-      // 테스트
+      console.log(res.data);
+      let tempTotalPage = res.data;
+
       let currentPage = props.match.params.pageNumber;
 
       let startPage = (parseInt((currentPage-1)/10) * 10)+1;
       let EndPage;
-      if(totalPage - (startPage + 9) > 0){
+
+      if(tempTotalPage - (startPage + 9) > 0){
         EndPage = startPage + 9;
       }else{
-        EndPage = totalPage;
+        EndPage = tempTotalPage;
       }
 
-      console.log('현재 페이지: ', props.match.params.pageNumber);
+      console.log('현재 페이지: ', currentPage);
       console.log('시작 페이지: ', startPage);    
       console.log('종료 페이지', EndPage);
       
@@ -57,44 +56,23 @@ function Notification(props) {
         pageNumber.push(i);
       }
 
+      setTotalPage(res.data);
       setCurrentStartPage(startPage);
       setCurrentEndPage(EndPage);
       setPageNumbers(pageNumber);
-
-      /*
+    })
+    .then(()=>{
       axios({
-        method:"GET",
-        url: '/notificationTotalPage',
+        method:"POST",
+        url: `/adminGetNotificationList`,
+        data:{
+            pageNumber: props.match.params.pageNumber,
+        }
       })
       .then((res)=>{
-        let currentPage = props.match.params.pageNumber;
-
         console.log(res.data);
-        setTotalPage(res.data);
-
-        let startPage = parseInt(currentPage/10) * 10;
-        let EndPage;
-        if(totalPage - (startPage + 10) > 0){
-          EndPage = startPage + 10;
-        }else{
-          EndPage = totalPage;
-        }
-
-        console.log('현재 페이지: ', props.match.params.pageNumber);
-        console.log('시작 페이지: ', startPage+1);    
-        console.log('종료 페이지', EndPage);
-        
-        setCurrentStartPage(startPage+1);
-        setCurrentEndPage(EndPage);
-        
+        setNotifications(res.data);
       })
-      .then(()=>{
-        setLoading(true);
-      })
-      .catch(error=>{
-        console.log(error);
-      });
-      */
     })
     .catch(error=>{
         console.log(error);
