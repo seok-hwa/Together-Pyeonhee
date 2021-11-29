@@ -1612,7 +1612,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var subscribe_expense = 0;
                 var etc_expense = 0;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error1, spend_money){
                     if(error1) throw error1;
                     else{
                         if(spend_money.length === 0 ){
@@ -1624,7 +1624,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         else{
                             console.log(spend_money);
-                            db.query(`SELECT user_income, user_savings FROM BudgetPlanning WHERE user_id = ?`, [userID], function(error2, result){
+                            db.query(`SELECT user_income, user_savings FROM BudgetPlanning 
+                            WHERE user_id = ? AND BudgetPlanning.planning_date = MONTH(now())-1`, [userID], function(error2, result){
                                 if(error2) throw error2;
                                 else{
                                     console.log(result[0]);
