@@ -51,10 +51,7 @@ const ReportWithPlanScreen = (props) => {
     const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2;
     const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2;
 
-    const [realProgress, setRealProgress] = useState(26);
-    const [plannedProgress, setPlannedProgress] = useState(30);
-
-    const progressPercentage = realProgress/plannedProgress;
+    const progressPercentage = props.route.params.daily_count/props.date;
 
     const difRent = realRent - planRent < 0 ? " -"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difInsurance = realInsurance - planInsurance < 0? " -"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -142,9 +139,9 @@ const ReportWithPlanScreen = (props) => {
                 </View>
                 <View style={styles.progressDiv}>
                     <Text>총 </Text>
-                    <Text>{plannedProgress}</Text>
+                    <Text>{props.date}</Text>
                     <Text>일 중 </Text>
-                    <Text style={styles.realProgressFont}>{realProgress}</Text>
+                    <Text style={styles.realProgressFont}>{props.route.params.daily_count}</Text>
                     <Text>일 이행</Text>
                 </View>
             </View>

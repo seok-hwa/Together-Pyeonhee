@@ -170,6 +170,7 @@ const MyPageScreen = ({navigation}) => {
         let planHobby=0;
         let planEvent=0;
         let planDinner=0;
+        let daily_count=0;
 
         let isTransactionList = true;
 
@@ -288,6 +289,7 @@ const MyPageScreen = ({navigation}) => {
                             planHobby=responseJson.plan.leisure_expense;
                             planEvent=responseJson.plan.event_expense;
                             planDinner=responseJson.live_expense;
+                            daily_count=responseJson.plan.daily_count;
                     }
                 }
             })
@@ -350,6 +352,7 @@ const MyPageScreen = ({navigation}) => {
                     isTransactionList: isTransactionList,
                     userCurrentMbti: userMbti,
                     userName: userName,
+                    daily_count: daily_count,
                 }
                 )
             })
