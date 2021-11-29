@@ -293,5 +293,4 @@ values ('pyeonhee', '120211357588932329649396', '대구은행', 1100000, '202110
 
 -- pyeonhee 11월 한달리포트 생성용 데이터 (10월 계획)
 insert into BudgetPlanning(user_id, planning_date, user_mbti, user_age, user_income, user_savings, like_number, monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense, shopping_expense, education_expense, medical_expense, event_expense, subscribe_expense, etc_expense, state)
-values ('pyeonhee', '2021-10-01 11:13:49', 'PHOM', 26,  2500000, 500000, 0, 500000, 100000, 100000, 100000, 150000, 300000, 0, 0, 100000, 100000, 0, 1, 0);
-)
+values ('pyeonhee', '2021-10-01 11:13:49', 'PHOM', 26,  2500000, 500000, 0, 500000, 100000, 100000, 100000, 150000, 300000, 0, 0, 100000, 100000, 0, 1);

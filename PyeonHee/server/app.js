@@ -181,6 +181,45 @@ const SSHConnection = new Promise((resolve, reject) => {
             //         }
             //     });
             // });
+
+            //한달리포트 생성 푸시알림(매달 1일 00시)
+            schedule.scheduleJob('0 0 0 1 * *', function () {
+                db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        for (i in result) { (function (i) {
+                                var userID = result[i].user_id;
+                                var deviceToken = result[i].deviceToken;
+                                let target_token = deviceToken;
+                                var userName;
+
+                                db.query(`SELECT name FROM user WHERE user_id=?`, [userID], function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        console.log(result[0].name);
+                                        userName = result[0].name;
+
+                                        let message = {
+                                            notification: {
+                                                title: '**편히가계**',
+                                                body: userName + '님 한달리포트가 생성되었습니다.'
+                                            },
+                                            token: target_token,
+                                        }
+                                        admin.messaging().send(message)
+                                            .then(function (response) {
+                                                console.log(userID, '푸시알림메시지 전송성공!', response)
+                                            })
+                                            .catch(function (error) {
+                                                console.log('푸시알림메시지 전송실패!', error)
+                                        })
+                                    }   
+                                });
+                            })(i);
+                        }
+                    }
+                });
+            });
             
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
