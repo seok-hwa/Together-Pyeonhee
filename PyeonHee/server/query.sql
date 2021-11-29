@@ -12,6 +12,7 @@ create table user
     total_stamp int default 0,
     total_point int default 2000
     phone varchar(11) not null;
+    state int default 0,
 );
 
 create table stamp (
@@ -28,7 +29,6 @@ create table point (
     record_time timestamp default current_timestamp,
     diff int not null,
     description text,
-    state int default 0,
     primary key (user_id,record_time),
     foreign key (user_id) references user (user_id) on delete cascade
 );
