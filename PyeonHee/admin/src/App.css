@@ -291,6 +291,17 @@
   justify-content:flex-start;
   margin-left: 2.5cm;
 }
+.Page-link{
+  border: 1px solid #282c34;
+  font-size: 0.4cm;
+  width: 1cm;
+  height: 1cm;
+  border-radius: 0.2cm;
+  margin: 0.1cm;
+}
+.PageDiv{
+  margin-top: 0.5cm;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
