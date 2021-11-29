@@ -24,6 +24,7 @@ function Notification(props) {
   const [totalPage, setTotalPage] = useState(17);
   const [currentStartPage, setCurrentStartPage] = useState(0);
   const [currentEndPage, setCurrentEndPage] = useState(0);
+  const [pageNumbers, setPageNumbers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -39,20 +40,27 @@ function Notification(props) {
       // 테스트
       let currentPage = props.match.params.pageNumber;
 
-      let startPage = parseInt(currentPage/10) * 10;
+      let startPage = (parseInt((currentPage-1)/10) * 10)+1;
       let EndPage;
-      if(totalPage - (startPage + 10) > 0){
-        EndPage = startPage + 10;
+      if(totalPage - (startPage + 9) > 0){
+        EndPage = startPage + 9;
       }else{
         EndPage = totalPage;
       }
 
       console.log('현재 페이지: ', props.match.params.pageNumber);
-      console.log('시작 페이지: ', startPage+1);    
+      console.log('시작 페이지: ', startPage);    
       console.log('종료 페이지', EndPage);
       
-      setCurrentStartPage(startPage+1);
+      let pageNumber = [];
+      for (let i = startPage; i <= EndPage; i++) {
+        pageNumber.push(i);
+      }
+
+      setCurrentStartPage(startPage);
       setCurrentEndPage(EndPage);
+      setPageNumbers(pageNumber);
+
       /*
       axios({
         method:"GET",
@@ -97,6 +105,15 @@ function Notification(props) {
       document.location.href = '/notificationWrite';
   }
 
+  function paginateNext(number){
+    document.location.href = `/notification/${number}`;
+  }
+  function paginatePrev(number){
+    document.location.href = `/notification/${number}`;
+  }
+  function paginate(number){
+    document.location.href = `/notification/${number}`;
+  }
   return (
     <div className="NotificationDiv">
       <p className="NotificationTitleText">공지사항</p>
@@ -119,7 +136,25 @@ function Notification(props) {
             </TableBody>
           </Table>
         </Paper>
-        <a>하하 총페이지: {totalPage} 현재페이지:{props.match.params.pageNumber}</a>
+        <div className="PageDiv">
+          {
+            parseInt(currentStartPage) === 1 ?
+            <a className="Page-link">이전</a> :
+            <a className="Page-link" onClick={() => paginatePrev(parseInt(currentStartPage)-1)}>이전</a>
+          }
+          {
+              pageNumbers.map(number => (
+                <a key={number} className="Page-link" onClick={() => paginate(number)}>
+                  {number}
+                </a>
+            ))
+          }
+          {
+            totalPage === currentEndPage ?
+            <a className="Page-link">다음</a> :
+            <a className="Page-link" onClick={() => paginateNext(parseInt(props.match.params.pageNumber)+1)}>다음</a>
+          }
+        </div>
       </div>
     </div>
   );
