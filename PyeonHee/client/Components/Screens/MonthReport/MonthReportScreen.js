@@ -30,9 +30,13 @@ const MonthReportScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
 
   var now = new Date();	// 현재 날짜 및 시간
+  var year = now.getFullYear();
   var month = now.getMonth();	// 이번달
   var preMonth =  now.getMonth() - 1 === 0 ? 12: now.getMonth() - 1;	// 지난달
+  const date = new Date(year,month,0).getDate();
+
   useEffect(()=>{
+    console.log(date);
     console.log('지난달과 비교', route.params.withLast);
     console.log('계획과 비교', route.params.withPlan);
     let tempID;
@@ -143,7 +147,7 @@ const MonthReportScreen = ({navigation, route}) => {
                 />
             </View>
           {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation} route={route} month={month} preMonth={preMonth} withLast={route.params.withLast}/>}
-          {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} route={route} month={month} withPlan={route.params.withPlan}/>}
+          {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} route={route} month={month} withPlan={route.params.withPlan} daily_count={route.params.daily_count} date={date}/>}
           <View style={styles.fixDiv}>
                 <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
                 <View style={styles.resultDiv}>
