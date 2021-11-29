@@ -28,6 +28,7 @@ create table point (
     record_time timestamp default current_timestamp,
     diff int not null,
     description text,
+    state int default 0,
     primary key (user_id,record_time),
     foreign key (user_id) references user (user_id) on delete cascade
 );
