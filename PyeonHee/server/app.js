@@ -67,18 +67,117 @@ const SSHConnection = new Promise((resolve, reject) => {
                             daily_count = result1[0].daily_count + 1;
                             db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
                                 if(error2) throw error2;
+                                console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
                                 console.log(result2);
                             })
                         }
                     }
                 })
             });
-
-            //매달 1일 모든 예산계획서 state를 0으로 초기화
+            
+            // 매달 1일 모든 예산계획서 state를 0으로 초기화, 권장 금액 이행율 초기화, 티어 및 포인트 정산
             schedule.scheduleJob('0 0 0 1 * *', async()=>{
                 db.query(`UPDATE BudgetPlanning SET state = 0`, function(error, result){
                     if(error) throw error;
-                    console.log(result);
+                    console.log("예산계획서 적용이 초기화 되었습니다.");
+                });
+                db.query(`UPDATE daily_data SET daily_count = 0`, function(error1, result1){
+                    if(error1) throw error1;
+                    console.log("권장금액 이행률이 초기화 되었습니다.")
+                });
+                db.query(`SELECT tier, total_stamp, total_point, state FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
+                    if(error2) throw error2;
+                    else{
+                        var tier = result2[0].tier;
+                        var total_stamp = result2[0].total_stamp;
+                        var total_point = result2[0].total_point;
+                        var state = result[2].state;
+                        if(total_stamp >= 20){
+                            tier = 'SILVER';
+                            if(state === 0){
+                                state = 1;
+                                total_point = total_point + 5000;
+                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
+                                    if(err) throw err;
+                                    else console.log(res);
+                                })
+                            }
+                        }
+                        else if(total_stamp >= 40){
+                            tier = 'GOLD';
+                            if(state === 1){
+                                state = 2;
+                                total_point = total_point + 5000;
+                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
+                                    if(err) throw err;
+                                    else console.log(res);
+                                })
+                            }
+                        }
+                        else if(total_stamp >= 60){
+                            tier = 'PLATINUM';
+                            if(state === 2){
+                                state = 3;
+                                total_point = total_point + 5000;
+                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
+                                    if(err) throw err;
+                                    else console.log(res);
+                                })
+                            }
+                        }
+                        else if(total_stamp >= 80){
+                            tier = 'DIAMOND';
+                            if(state === 0){
+                                state = 4;
+                                total_point = total_point + 5000;
+                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
+                                    if(err) throw err;
+                                    else console.log(res);
+                                })
+                            }
+                        }
+                    }
+                });
+            });
+
+            // 매달 마지막날 이행률을 통해 스탬프 정산
+            schedule.scheduleJob('0 50 23 L * *', async()=>{
+                db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
+                    if(error1) throw error1
+                    else{
+                        var count_stand = new Date().getDate();
+                        var portion = result1[0].daily_count / count_stand * 100;
+                        var diff = 0;
+                        db.query(`SELECT total_stamp FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
+                            if(error2) throw error2;
+                            else{
+                                var total_stamp = result2[0].total_stamp;
+                                if(portion >= 75){
+                                    total_stamp = total_stamp + 4;
+                                    diff = 4;
+                                }else if(portion >= 50){
+                                    total_stamp = total_stamp + 3;
+                                    diff = 3;
+                                }else if(portion >= 25){
+                                    total_stamp = total_stamp + 2;
+                                    diff = 2;
+                                }else{
+                                    total_stamp = total_stamp + 1;
+                                    diff = 1;  
+                                }
+                                db.query(`UPDATE user SET total_stamp = ?`, [total_stamp], function(error3, result3){
+                                    if(error3) throw error3;
+                                    else{
+                                        db.query(`insert into stamp(user_id, diff, description) values(?, ?, '한달정산 스탬프 적용');`, [global_id, diff], function(err, res){
+                                            console.log("이번달 스탬프 적용이 완료되었습니다.");
+                                        });
+                                    }
+                                });
+                            }
+                        })
+                        
+                    }
+                    
                 })
             });
 
@@ -101,6 +200,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     
                 })
             });
+
             
             //일일권장 소비금액 (잔액 푸시알림)
             // schedule.scheduleJob('*/30 * * * * *', function (){
@@ -181,6 +281,45 @@ const SSHConnection = new Promise((resolve, reject) => {
             //         }
             //     });
             // });
+
+            //한달리포트 생성 푸시알림(매달 1일 00시)
+            schedule.scheduleJob('0 0 0 1 * *', function () {
+                db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        for (i in result) { (function (i) {
+                                var userID = result[i].user_id;
+                                var deviceToken = result[i].deviceToken;
+                                let target_token = deviceToken;
+                                var userName;
+
+                                db.query(`SELECT name FROM user WHERE user_id=?`, [userID], function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        console.log(result[0].name);
+                                        userName = result[0].name;
+
+                                        let message = {
+                                            notification: {
+                                                title: '**편히가계**',
+                                                body: userName + '님 한달리포트가 생성되었습니다.'
+                                            },
+                                            token: target_token,
+                                        }
+                                        admin.messaging().send(message)
+                                            .then(function (response) {
+                                                console.log(userID, '푸시알림메시지 전송성공!', response)
+                                            })
+                                            .catch(function (error) {
+                                                console.log('푸시알림메시지 전송실패!', error)
+                                        })
+                                    }   
+                                });
+                            })(i);
+                        }
+                    }
+                });
+            });
             
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
@@ -725,11 +864,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
                                                             if (error4) throw error4;
                                                             else{
-                                                                const data = {
-                                                                    status : 'success',
-                                                                }
-                                                                console.log(data);
-                                                                res.send(data);
+                                                                db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id =? and state = 1`,[result2[0].total_savings_money,userID],function(error1, result1){
+                                                                    if(error1) throw error1;
+                                                                    else{
+                                                                        
+                                                                        const data = {
+                                                                            status : 'success',
+                                                                        }
+                                                                        console.log(data);
+                                                                        res.send(data);
+                                                                    }
+                                                                });
                                                             }
                                                         })
                                                 } 
@@ -838,12 +983,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                 [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
                     if(error) throw error;
                     else{
+                        db.query(`UPDATE BudgetPlanning SET user_savings = sum(Savings.savings_money) WHERE user_id =?`,[userID],function(error1, result1){
+                            if(error1) throw error1;
+                            else{
+                                const data = {
+                                    status : 'success',
+                                }
+                                res.send(data);
+                                console.log(data);
+                            }
+                        })
                         
-                        const data = {
-                            status : 'success',
-                        }
-                        res.send(data);
-                        console.log(data);
                     }
                 });
             });    
@@ -1568,7 +1718,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get(`/monthReportWithLast`, function(req, res){
                 var userID = req.query.userID;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error1, real_spend){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
                     if(error1) throw error1;
                     else{
                         if(real_spend.length === 0){
@@ -1582,7 +1732,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         else{
                             console.log(real_spend);
                             db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-2 = SUBSTR(tran_date, 5,2)-2 GROUP BY tran_type`, [userID], function(error2, last_spend){
+                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-2 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error2, last_spend){
                                 if(error2) throw error2;
                                 else{
                                     if(last_spend.length === 0){
@@ -1731,6 +1881,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             }
                                             
                                             data = {
+                                                userID : userID,
                                                 userMbti : userMbti,
                                                 description: description,
                                             }

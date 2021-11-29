@@ -11,6 +11,8 @@ create table user
     deviceToken varchar(300),
     total_stamp int default 0,
     total_point int default 2000
+    phone varchar(11) not null;
+    state int default 0,
 );
 
 create table stamp (
@@ -395,16 +397,16 @@ create table board
     foreign key (user_id) references user (user_id) on delete cascade
 );
 
-/*게시판 댓글*/
+/*게시판 댓글 (관리자용)*/
 create table comment
 (
     comment_number int not null auto_increment,
     board_number int not null,
     content text not null,
-    user_id varchar(10) not null,
+    /*user_id varchar(10) not null,*/
     comment_date timestamp default current_timestamp,
     primary key (comment_number),
-    foreign key (user_id) references user (user_id) on delete cascade,
+    /*foreign key (user_id) references user (user_id) on delete cascade,*/
     foreign key (board_number) references board (board_number) on delete cascade
 );
 

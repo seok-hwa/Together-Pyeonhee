@@ -19,7 +19,7 @@ import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import InputBudget from './InputBudget';
 import AddSavingPlan from './AddSavingPlan';
 import SavingPlanItem from './SavingsPlanItem';
-import CalcSumofSavings from './CalcSumofSaving';
+// import CalcSumofSavings from './CalcSumofSaving';
 import CallMyBudgetCabinet from './myBudgetCabinet';
 
 const url = config.url;
@@ -181,7 +181,7 @@ const WriteBudgetScreen = ({navigation}) => {
 
         
         // var tempTotal = sumOfSavings + fixedExpenditure + plannedExpenditure;
-        let tempTotal = parseInt(sumOfSavings.split(",").join("")) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
+        let tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
 
         console.log('수입');
         console.log(parseInt(income.split(",").join("")))
@@ -219,7 +219,7 @@ const WriteBudgetScreen = ({navigation}) => {
             body: JSON.stringify({
                 userID: userID,
                 income: parseInt(income.split(",").join("")),
-                savings: parseInt(sumOfSavings.split(",").join("")),
+                savings: parseInt(sumOfSavings),
                 fixedExpenditure: fixedExpenditure,
                 plannedExpenditure: plannedExpenditure,
                 monthlyRent: parseInt(monthlyRent.split(",").join("")),
@@ -312,11 +312,11 @@ const WriteBudgetScreen = ({navigation}) => {
                 </View>
                 
                 <KeyboardAvoidingView>
-                <View style={styles.contentContainer}>
-                    <View style={styles.bigCategoryContainer}>
-                        <Text style={{fontSize: 20, fontWeight:'bold'}}>수입</Text>
-                        <InputBudget num={income} setBudget={setIncome} big={'true'}/>
-                    </View>
+                    <View style={styles.contentContainer}>
+                        <View style={styles.bigCategoryContainer}>
+                            <Text style={{fontSize: 20, fontWeight:'bold'}}>수입</Text>
+                            <InputBudget num={income} setBudget={setIncome} big={'true'}/>
+                        </View>
                     </View>
 
                     <View style={styles.contentContainer}>
@@ -329,7 +329,7 @@ const WriteBudgetScreen = ({navigation}) => {
                             {saving.length === 0 ?
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>총 0 원</Text> :
                                 // <CalcSumofSavings saving={saving} setSumOfSavings={setSumOfSavings}/>
-                                <Text style={{fontSize: 18, fontWeight:'bold'}}>총 {sumOfSavings} 원</Text>
+                                <Text style={{fontSize: 18, fontWeight:'bold'}}>총 {sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                             }
                         </View>
                       
@@ -536,14 +536,14 @@ const styles = StyleSheet.create({
         borderColor: '#BFBFBF',
         borderWidth: 1,
     },
-    textInputDesign: {
-        fontSize: 20,
-        borderRadius: 20,
-        paddingRight: 10,
-        width: 180,
-        fontWeight:'bold',
-        backgroundColor: '#D4E2F8',
-    },
+    // textInputDesign: {
+    //     fontSize: 20,
+    //     borderRadius: 20,
+    //     paddingRight: 10,
+    //     width: 180,
+    //     fontWeight:'bold',
+    //     backgroundColor: '#D4E2F8',
+    // },
 });
 
 export default WriteBudgetScreen;

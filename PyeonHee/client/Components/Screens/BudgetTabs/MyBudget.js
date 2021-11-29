@@ -482,7 +482,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                             </Text>
 
                             <View style={{marginLeft: 10, alignItems: 'center', justifyContent: 'center'}}>
-                                <AddSavingPlan income={myBudgetData.userIncome} setAddSavingsPlan={setAddSavingsPlan}/>
+                                <AddSavingPlan income={myBudgetData.userIncome.toString()} setAddSavingsPlan={setAddSavingsPlan}/>
                             </View>
                         </View>
                         <Text style={{fontSize: 18, fontWeight:'bold'}}>
