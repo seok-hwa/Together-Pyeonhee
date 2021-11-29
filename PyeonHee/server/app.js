@@ -1685,7 +1685,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     if(real_spend.length === 0){
                                         console.log("계획한 내역이 없습니다.");
                                         data = {
-                                            real : real_spend[0],
+                                            real : real_spend,
                                             plan : [],
                                             live_expense : 0,
                                         }
@@ -1698,7 +1698,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         live_expense = live_expense - plan_spend[0].shopping_expense - plan_spend[0].education_expense - plan_spend[0].medical_expense;
                                         live_expense = live_expense - plan_spend[0].event_expense - plan_spend[0].subscribe_expense - plan_spend[0].etc_expense; 
                                         data = {
-                                            real : real_spend[0],
+                                            real : real_spend,
                                             plan : plan_spend[0],
                                             live_expense : live_expense, 
                                         }
