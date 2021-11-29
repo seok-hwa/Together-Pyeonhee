@@ -1678,7 +1678,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             db.query(`SELECT BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
-                            BudgetPlanning.etc_expense, daily_data.rest_money FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
+                            BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.daily_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
                             WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
