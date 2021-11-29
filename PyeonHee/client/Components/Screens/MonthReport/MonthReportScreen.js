@@ -76,39 +76,51 @@ const MonthReportScreen = ({navigation, route}) => {
       okButtonStyle: {backgroundColor: '#0000CD'},
       iconEnabled: false,
       callback: () => {
-        fetch(`${url}/updateMbti`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: userID,
-            userMbti: userMbti,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
+        if(route.params.userCurrentMbti === userMbti){
+          Popup.show({
+            type: 'success',
+            textBody: `이미 해당 mbti로 설정되어있습니다.`,
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
           })
-          .then((response)=>response.json())
-          .then((responseJson)=>{
-              console.log(responseJson);
-              if(responseJson.status === true){
-                  console.log('설정 완료');
-                  setUserMbti(userMbti);
-                  Popup.show({
-                      type: 'success',
-                      textBody: `${userMbti}를 소비 성향 MBTI로 설정 했습니다.`,
-                      buttonText: '확인',
-                      okButtonStyle: {backgroundColor: '#0000CD'},
-                      iconEnabled: false,
-                      callback: () => Popup.hide()
-                  })
-              }else{
-                  alert('설정 실패');
-                  console.log('fail to save.');
-              }
-          })
-          .catch((error)=>{
-              console.error(error);
-          })
+        }
+        else{
+          fetch(`${url}/updateMbti`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userMbti: userMbti,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
+                if(responseJson.status === true){
+                    console.log('설정 완료');
+                    setUserMbti(userMbti);
+                    Popup.show({
+                        type: 'success',
+                        textBody: `${userMbti}를 소비 성향 MBTI로 설정 했습니다.`,
+                        buttonText: '확인',
+                        okButtonStyle: {backgroundColor: '#0000CD'},
+                        iconEnabled: false,
+                        callback: () => Popup.hide()
+                    })
+                }else{
+                    alert('설정 실패');
+                    console.log('fail to save.');
+                }
+            })
+            .catch((error)=>{
+                console.error(error);
+            })
+          }
       }
     })
   }
