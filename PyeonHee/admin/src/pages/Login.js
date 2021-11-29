@@ -33,14 +33,7 @@ function Login(props) {
             }
         }).catch(error=>{
             console.log(error);
-            throw new Error(error);
         });
-        /*
-        //for test
-        alert('로그인 성공');
-        sessionStorage.setItem('userID', userID);
-        document.location.href = '/';
-        */
     }
   return (
     <div className="LoginDiv">

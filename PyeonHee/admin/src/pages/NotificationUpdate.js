@@ -69,9 +69,7 @@ function NotificationUpdate({ match }) {
         }
     }).catch(error=>{
         console.log(error);
-        throw new Error(error);
     });
-    //for test
   }
 
   if(loading === true){

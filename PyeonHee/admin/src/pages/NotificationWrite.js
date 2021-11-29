@@ -47,13 +47,7 @@ function NotificationWrite(props) {
         }
     }).catch(error=>{
         console.log(error);
-        throw new Error(error);
     });
-    /*
-    //for test
-    alert('등록 성공');
-    document.location.href = '/notification';
-    */
   }
 
   return (

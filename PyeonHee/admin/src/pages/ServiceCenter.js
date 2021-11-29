@@ -47,7 +47,6 @@ function ServiceCenter(props) {
         setQueries(res.data);
     }).catch(error=>{
         console.log(error);
-        throw new Error(error);
     });
   },[])*/
 
