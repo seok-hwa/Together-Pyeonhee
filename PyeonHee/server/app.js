@@ -786,32 +786,45 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/BudgetPlanCabinet', function (req, res) {
                 //console.log(req.query.userID);
                 var userID = req.query.userID;
-
+                db.query(`SELECT DISTINCT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age,
+                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings,
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense,
+                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense,
+                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
+                FROM user LEFT JOIN BudgetPlanning ON user.user_id = BudgetPlanning.user_id 
+                LEFT JOIN Storage ON BudgetPlanning.planning_number = Storage.planning_number WHERE Storage.user_id = ?`, [userID],function (error, result) {
+                    if (error) throw error;
+                    //console.log(result);
+                    res.send(result);
+                });
             });
 
+            //지난 계획 불러오기 (요약정보) 
             app.get('/MyBudgetPlanCabinet', function (req,res){
                 var userID = req.query.userID;
 
-                db.query(`SELECT user_income,user_savings, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
+                db.query(`SELECT planning_number,user_income,user_savings, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
                 transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
                 AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [userID],function (error,result){
+                    if (error) throw error;
+                    else{
+                            console.log(result);
+                            res.send(result);
+                    }
+                });
+            });
+            //지난 내 계획 세부정보
+            app.get('/MyBudgetPlanDetail', function (req,res){
+                //var userID = req.query.userID;
+                var budgetPlanningID = req.query.budgetPlanningID;
+                db.query(`SELECT *, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
+                transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
+                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [budgetPlanningID],function (error,result){
                     if (error) throw error;
                     console.log(result);
                     res.send(result);
                 });
             });
-
-            app.get('/MyBudgetPlanDetail', function (req,res){
-                var userID = req.query.userID;
-                var budgetPlanningID = req.query.budgetPlanningID;
-                db.query(`SELECT *, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
-                transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
-                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [userID],function (error,result){
-                    if (error) throw error;
-                    console.log(result);
-                    res.send(result);
-                });
-            })
 
             // 예산계획 작성
             app.post('/submitBudgetPlan', function(req, res){
