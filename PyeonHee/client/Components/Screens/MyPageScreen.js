@@ -243,32 +243,47 @@ const MyPageScreen = ({navigation}) => {
             .then((responseJson)=>{
                 console.log(responseJson);
                 if(responseJson.real.length != 0 && responseJson.plan.length != 0){
-                    realRent=responseJson.plan.monthly_rent;
-                    realInsurance=responseJson.plan.insurance_expense;
-                    realCommunication=responseJson.plan.communication_expense;
-                    realSubscribe=responseJson.plan.subscribe_expense;
-                    realTraffic=responseJson.plan.transportation_expense;
-                    realMedical=responseJson.plan.medical_expense;
-                    realEducation=responseJson.plan.education_expense;
-                    realEct=responseJson.plan.etc_expense;
-                    realShopping=responseJson.plan.shopping_expense;
-                    realHobby=responseJson.plan.leisure_expense;
-                    realEvent=responseJson.plan.event_expense;
-                    realDinner=responseJson.plan.live_expense;
+                    responseJson.real.map(item  => {
+                        if(item.tran_type === '쇼핑'){
+                            realShopping=item.daily_amount;
+                        }else if(item.tran_type === '교통'){
+                            realTraffic=item.daily_amount;
+                        }else if(item.tran_type === '구독'){
+                            realSubscribe=item.daily_amount;
+                        }else if(item.tran_type === '통신'){
+                            realCommunication=item.daily_amount;
+                        }else if(item.tran_type === '여가'){
+                            realHobby=item.daily_amount;
+                        }else if(item.tran_type === '교육'){
+                            realEducation=item.daily_amount;
+                        }else if(item.tran_type === '선물'){
+                            realEvent=item.daily_amount;
+                        }else if(item.tran_type === '보험'){
+                            realInsurance=item.daily_amount;
+                        }else if(item.tran_type === '의료'){
+                            realMedical=item.daily_amount;
+                        }else if(item.tran_type === '월세'){
+                            realRent=item.daily_amount;
+                        }else if(item.tran_type === '기타'){
+                            realDinner=item.daily_amount;
+                        }else{
+                            lastEct=item.daily_amount;
+                        }
+                    })
 
-                    if(responseJson.plan_spend.length !=0){
-                            planRent=responseJson.plan_spend[4].daily_amount;
-                            planInsurance=responseJson.plan_spend[2].daily_amount;
-                            planCommunication=responseJson.plan_spend[10].daily_amount;
-                            planSubscribe=responseJson.plan_spend[1].daily_amount;
-                            planTraffic=responseJson.plan_spend[0].daily_amount;
-                            planMedical=responseJson.plan_spend[5].daily_amount;
-                            planEducation=responseJson.plan_spend[7].daily_amount;
-                            planEct=responseJson.plan_spend[8].daily_amount;
-                            planShopping=responseJson.plan_spend[5].daily_amount;
-                            planHobby=responseJson.plan_spend[9].daily_amount;
-                            planEvent=responseJson.plan_spend[3].daily_amount;
-                            planDinner=responseJson.plan_spend[6].daily_amount;
+                    if(responseJson.plan.length !=0){
+                            planRent=responseJson.plan.monthly_rent;
+                            planInsurance=responseJson.plan.insurance_expense;
+                            planCommunication=responseJson.plan.communication_expense;
+                            planSubscribe=responseJson.plan.subscribe_expense;
+                            planTraffic=responseJson.plan.transportation_expense;
+                            planMedical=responseJson.plan.medical_expense;
+                            planEducation=responseJson.plan.education_expense;
+                            planEct=responseJson.plan.etc_expense;
+                            planShopping=responseJson.plan.shopping_expense;
+                            planHobby=responseJson.plan.leisure_expense;
+                            planEvent=responseJson.plan.event_expense;
+                            planDinner=responseJson.plan.rest_money;
                     }
                 }
             })
