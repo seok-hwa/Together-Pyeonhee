@@ -349,6 +349,7 @@ const MyPageScreen = ({navigation}) => {
                     },
                     isTransactionList: isTransactionList,
                     userCurrentMbti: userMbti,
+                    userName: userName,
                 }
                 )
             })
