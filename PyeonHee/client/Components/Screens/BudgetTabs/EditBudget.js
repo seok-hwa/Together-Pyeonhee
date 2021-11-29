@@ -112,8 +112,8 @@ const EditBudgetScreen = (props) => {
 
                     // let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
 
-                    setFixedExpenditure(fixedTemp);
-                    setPlannedExpenditure(plannedTemp);
+                    // setFixedExpenditure(fixedTemp);
+                    // setPlannedExpenditure(plannedTemp);
                     // setMonthly(monthlyTemp);
 
                     setLoading(true);
@@ -139,7 +139,7 @@ const EditBudgetScreen = (props) => {
         console.log(plannedExpenditure);
 
         
-        let tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
+        let tempTotal = parseInt(sumOfSavings.split(",").join("")) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
 
         console.log('수입');
         console.log(parseInt(income.split(",").join("")));
@@ -162,7 +162,7 @@ const EditBudgetScreen = (props) => {
             body: JSON.stringify({
                 userID: userID,
                 income: parseInt(income.split(",").join("")),
-                savings: sumOfSavings,
+                savings: parseInt(sumOfSavings.split(",").join("")),
                 fixedExpenditure: fixedExpenditure,
                 plannedExpenditure: plannedExpenditure,
                 monthlyRent: parseInt(monthlyRent.split(",").join("")),
@@ -338,7 +338,7 @@ const EditBudgetScreen = (props) => {
                             <View style={styles.category}>
                                 <View style={{flexDirection: 'row', alignItems: 'center',}}>
                                     <View style={styles.logoContainer}>
-                                    <Image source={require('../assets/category/education.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                    <Icon name={'bandage-outline'} size={20} color={'#8EB3EE'}/>
                                     </View>
                                     <Text>의료비</Text>
                                 </View>
