@@ -11,6 +11,8 @@ create table user
     deviceToken varchar(300),
     total_stamp int default 0,
     total_point int default 2000
+    phone varchar(11) not null;
+    state int default 0,
 );
 
 create table stamp (

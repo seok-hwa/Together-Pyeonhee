@@ -181,6 +181,45 @@ const SSHConnection = new Promise((resolve, reject) => {
             //         }
             //     });
             // });
+
+            //한달리포트 생성 푸시알림(매달 1일 00시)
+            schedule.scheduleJob('0 0 0 1 * *', function () {
+                db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        for (i in result) { (function (i) {
+                                var userID = result[i].user_id;
+                                var deviceToken = result[i].deviceToken;
+                                let target_token = deviceToken;
+                                var userName;
+
+                                db.query(`SELECT name FROM user WHERE user_id=?`, [userID], function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        console.log(result[0].name);
+                                        userName = result[0].name;
+
+                                        let message = {
+                                            notification: {
+                                                title: '**편히가계**',
+                                                body: userName + '님 한달리포트가 생성되었습니다.'
+                                            },
+                                            token: target_token,
+                                        }
+                                        admin.messaging().send(message)
+                                            .then(function (response) {
+                                                console.log(userID, '푸시알림메시지 전송성공!', response)
+                                            })
+                                            .catch(function (error) {
+                                                console.log('푸시알림메시지 전송실패!', error)
+                                        })
+                                    }   
+                                });
+                            })(i);
+                        }
+                    }
+                });
+            });
             
             // 로그인 기능 (LoginScreen.js)
             app.post('/login', function(req, res){
@@ -647,18 +686,32 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/BudgetPlanCabinet', function (req, res) {
                 //console.log(req.query.userID);
                 var userID = req.query.userID;
-                db.query(`SELECT DISTINCT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age,
-                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings,
-                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense,
-                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense,
-                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
-                FROM user LEFT JOIN BudgetPlanning ON user.user_id = BudgetPlanning.user_id 
-                LEFT JOIN Storage ON BudgetPlanning.planning_number = Storage.planning_number WHERE Storage.user_id = ?`, [userID],function (error, result) {
+
+            });
+
+            app.get('/MyBudgetPlanCabinet', function (req,res){
+                var userID = req.query.userID;
+
+                db.query(`SELECT user_income,user_savings, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
+                transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
+                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [userID],function (error,result){
                     if (error) throw error;
-                    //console.log(result);
+                    console.log(result);
                     res.send(result);
                 });
             });
+
+            app.get('/MyBudgetPlanDetail', function (req,res){
+                var userID = req.query.userID;
+                var budgetPlanningID = req.query.budgetPlanningID;
+                db.query(`SELECT *, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
+                transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
+                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [userID],function (error,result){
+                    if (error) throw error;
+                    console.log(result);
+                    res.send(result);
+                });
+            })
 
             // 예산계획 작성
             app.post('/submitBudgetPlan', function(req, res){
@@ -711,11 +764,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
                                                             if (error4) throw error4;
                                                             else{
-                                                                const data = {
-                                                                    status : 'success',
-                                                                }
-                                                                console.log(data);
-                                                                res.send(data);
+                                                                db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id =?`,[result2[0],userID],function(error1, result1){
+                                                                    if(error1) throw error1;
+                                                                    else{
+                                                                        
+                                                                        const data = {
+                                                                            status : 'success',
+                                                                        }
+                                                                        console.log(data);
+                                                                        res.send(data);
+                                                                    }
+                                                                });
                                                             }
                                                         })
                                                 } 
@@ -824,12 +883,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                 [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
                     if(error) throw error;
                     else{
+                        db.query(`UPDATE BudgetPlanning SET user_savings = sum(Savings.savings_money) WHERE user_id =?`,[userID],function(error1, result1){
+                            if(error1) throw error1;
+                            else{
+                                const data = {
+                                    status : 'success',
+                                }
+                                res.send(data);
+                                console.log(data);
+                            }
+                        })
                         
-                        const data = {
-                            status : 'success',
-                        }
-                        res.send(data);
-                        console.log(data);
                     }
                 });
             });    
@@ -980,7 +1044,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error1,result1){
                     if (error1) throw error1;
                     else {
-                        db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error, result){
+                        db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error, result){
                             if (error) throw error;
 
                             else if(result.length != 0){
@@ -1497,7 +1561,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.query.userID;
                 var live_expense = 0;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
                     if(error1) throw error1;
                     else{
                         if(real_spend.length === 0){
@@ -1515,7 +1579,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
                             BudgetPlanning.etc_expense, daily_data.rest_money FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                            WHERE daily_data.user_id = ? AND BudgetPlanning.state = 1`, [userID], function(error2, plan_spend){
+                            WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
                                     if(real_spend.length === 0){
@@ -1552,7 +1616,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get(`/monthReportWithLast`, function(req, res){
                 var userID = req.query.userID;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, real_spend){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error1, real_spend){
                     if(error1) throw error1;
                     else{
                         if(real_spend.length === 0){
@@ -1566,7 +1630,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         else{
                             console.log(real_spend);
                             db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error2, last_spend){
+                            WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-2 = SUBSTR(tran_date, 5,2)-2 GROUP BY tran_type`, [userID], function(error2, last_spend){
                                 if(error2) throw error2;
                                 else{
                                     if(last_spend.length === 0){
@@ -1612,7 +1676,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var subscribe_expense = 0;
                 var etc_expense = 0;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error1, spend_money){
                     if(error1) throw error1;
                     else{
                         if(spend_money.length === 0 ){
@@ -1624,7 +1688,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         else{
                             console.log(spend_money);
-                            db.query(`SELECT user_income, user_savings FROM BudgetPlanning WHERE user_id = ?`, [userID], function(error2, result){
+                            db.query(`SELECT user_income, user_savings FROM BudgetPlanning 
+                            WHERE user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1`, [userID], function(error2, result){
                                 if(error2) throw error2;
                                 else{
                                     console.log(result[0]);
@@ -1715,7 +1780,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             
                                             console.log(userMbti);
                                             data = {
+                                                userID : userID,
                                                 userMbti : userMbti,
+                                                description : description,
                                             }
                                             res.send(userMbti);
                                         }
