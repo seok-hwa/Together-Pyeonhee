@@ -9,6 +9,11 @@ function Queries(props) {
           <TableCell><a href={`/queryBoard/${props.id}`}>{props.title}</a></TableCell>
           <TableCell>{props.userID}</TableCell>
           <TableCell>{props.date}</TableCell>
+          {
+            props.answer === true ?
+            <TableCell>O</TableCell>:
+            <TableCell>X</TableCell>
+          }
       </TableRow>
     );
   }
