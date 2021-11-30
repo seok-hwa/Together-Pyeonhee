@@ -309,19 +309,19 @@ insert into saving_product(bank_name, product_name, product_type, interest, max_
 values('한국저축은행', '스마트뱅킹정기적금', '자유적립식', 2.6, 2.6, 'https://sb.koreainvestment.com/ib20/mnu/hom00001', 'C');
 
 -- 펀드 즉흥(고위험)/계획(낮은위험) mbti 구분
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('VI자산운용', 'VI중소형주+증권자투자신탁', 17, 24, 49, 22, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=KR5104766708', 'I');
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('한국투자신탁운용', '한국투자중소성장증권투자신탁', 7, 10, 36, 60, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=KR5101AQ5090', 'I');
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('KB자산운용', 'KB코리아뉴딜증권투자신탁', 4.4, 13, 32.6, 294, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=K55223DB0898', 'I');
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('KTB자산운용', 'KTBVIP스타셀렉션증권투자신탁', 4.5, 21.9, 51.3, 414, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=KR5306945829', 'I');
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('삼성자산운용', '삼성MMF법인', 0.4, 0.9, 4.39, 60000, 'http://www.samsungfund.com/main.action', 'P');
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('신한자산운용', '신한베스트신종법인', 0.4, 0.9, 4.29, 16000, 'http://www.shbnppam.com/servlet/iteminfo.itemtype.itemtypeServlet?go=boardlist&fund_type=A&index=%27%27&sub_type=&pg=1&chkSale=&search_text=', 'P');
-insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
 values('현대자산운용', '현대클린개인MMF', 0.46, 0.92, 4.56, 407, 'http://www.hyundaiam.com/kor/HD-KP-FG/HD-KP-FG-02.html', 'P');
 
 -- 연금 즉흥/계획 mbti 구분
