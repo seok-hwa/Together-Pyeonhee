@@ -74,13 +74,13 @@ const MyBudgetScreen = ({navigation, route}) => {
             fetch(`${url}/saveBudgetPlan`, {
                 method: 'POST',
                 body: JSON.stringify({
-                userID: userID,
-                budgetPlanID: myBudgetData.budgetPlanID,
+                    userID: userID,
+                    budgetPlanID: myBudgetData.budgetPlanID,
                 }),
                 headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-                },
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json',
+                    },
                 })
                 .then((response)=>response.json())
                 .then((responseJson)=>{

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 import BudgetDetail from './RecommendedPlanningScreen';
 
 const TierImage = (props) => {
@@ -33,6 +34,94 @@ const TierImage = (props) => {
     }
 }
 const BudgetItem = (props) => {
+
+    {/*
+    const handlePressed = () => {
+        if(props.userRead === 1) {
+            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+        } else {
+            // 여기에서 사용자 읽기 횟수 차감하는거 POST 
+            fetch(`${url}/readTry`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    userID: userID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                // 몇회 남았는지
+                if(responseJson.status === 'success') {
+                    props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                } else {
+                    // 아니면 알림으로 '무료 열람 3회를 모두 사용했습니다. 추가 열람을 위해서는 50 포인트가 차감됩니다. 추가열람/취소'
+                    Popup.show({
+                        type: 'success',
+                        textBody: '무료 열람 3회를 모두 사용했습니다. 추가 열람을 위해서는 50 포인트가 차감됩니다.',
+                        buttonText: '추가열람',
+                        confirmText: '취소',
+                        okButtonStyle: {backgroundColor: 'gray'},
+                        iconEnabled: false,
+                        callback: () => {
+                            fetch(`${url}/usePoint`, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                  userID: userID,
+                                  usePoint: 50,
+                                }),
+                                headers: {
+                                  'Accept': 'application/json',
+                                  'Content-Type':'application/json',
+                                },
+                            })
+                            .then((response)=>response.json())
+                            .then((responseJson)=>{
+                                console.log(responseJson);
+                                if(responseJson.status === true){
+                                    console.log('포인트 차감 완료');
+                                    // console.log('잔여 포인트도 보내주면 좋을둣!!');
+                                    Popup.show({
+                                        type: 'success',
+                                        title: '포인트 차감 완료',
+                                        textBody: '잔여 포인트는 얼마 입니다.' ,
+                                        buttonText: '확인',
+                                        okButtonStyle: {backgroundColor: '#0000CD'},
+                                        iconEnabled: false,
+                                        callback: () => {
+                                            Popup.hide();
+                                            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                                        }
+                                    })
+                                } else{
+                                    console.log('포인트 부족');
+                                    Popup.show({
+                                        type: 'success',
+                                        title: '포인트 부족',
+                                        textBody: '사용자의 포인트는 얼마로, 얼마의 포인트가 부족합니다.',
+                                        buttonText: '확인',
+                                        okButtonStyle: {backgroundColor: '#0000CD'},
+                                        iconEnabled: false,
+                                        callback: () => Popup.hide()
+                                    })
+                                }
+                            })
+                            .catch((e)=>{
+                                console.error(e);
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    }
+    */}
+    
+
     return (
         <TouchableOpacity
             style={styles.container}
