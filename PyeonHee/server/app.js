@@ -996,21 +996,14 @@ const SSHConnection = new Promise((resolve, reject) => {
                 [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
                     if(error) throw error;
                     else{
-                        db.query(`UPDATE BudgetPlanning SET user_savings = sum(Savings.savings_money) WHERE user_id =?`,[userID],function(error1, result1){
-                            if(error1) throw error1;
-                            else{
-                                const data = {
-                                    status : 'success',
-                                }
-                                res.send(data);
-                                console.log(data);
-                            }
-                        })
-                        
+                        const data = {
+                            status : 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
                     }
                 });
-            });    
-            
+            }); 
             
             // 편히 메뉴의 데일리데이터의 저금계획
             app.post(`/daily/savings`, function(req, res){
