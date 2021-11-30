@@ -472,3 +472,14 @@ create table loan_product
     link varchar(200) not null,
     primary key (bank_name, product_name)
 );
+
+/*예산계획 추가열람*/
+create table OpenCount (
+    user_id varchar(10) not null,
+    planning_number int not null,
+    open_check int default 1,
+
+    primary key (user_id, planning_number),
+    foreign key (user_id) references user (user_id),
+    foreign key (planning_number) references BudgetPlanning (planning_number) on delete cascade
+);
