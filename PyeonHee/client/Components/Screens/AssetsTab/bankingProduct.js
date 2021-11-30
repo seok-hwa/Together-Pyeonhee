@@ -1,34 +1,102 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+  Image,
+  Button,
+  TouchableOpacity,
+  TextInput,
+  Linking,
+} from 'react-native';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import FundProduct from './BankingProductTabs/FundProduct';
+import LoanProduct from './BankingProductTabs/LoanProduct';
+import PensionProduct from './BankingProductTabs/PensionProduct';
+import SavingProduct from './BankingProductTabs/SavingProduct';
 import config from '../../../config';
-import { SafeAreaView, StyleSheet, Text, View, Button } from 'react-native';
+
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 
 const url = config.url;
-const BankingProduct = ({navigation}) => {
-    const [userID, setUserID] = useState('');
 
-    useEffect(()=>{
-        AsyncStorage.getItem('userID', (err, result) => {
-            const tempID = result;
-            if(tempID!= null){
-                setUserID(tempID);
-            }
-        })
+const bankingProduct = ({navigation}) => {
+  const [userID, setUserID] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(()=>{
+    let tempID;
+    AsyncStorage.getItem('userID', (err, result) => {
+      tempID = result;
+      if(tempID!= null){
+        setUserID(tempID);
+      }
     })
+  })
 
-    return (
-        <View style={styles.dailyText}>
-            <Text>Banking Product page</Text>
+  const handleSingleIndexSelect = (index) => {
+    setSelectedIndex(index);
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+        <View style={styles.smallcontainer}>
+            <View style={styles.tapContainer}>
+                <SegmentedControlTab
+                    values={['펀드', '주식' ,'대출', '연금']}
+                    selectedIndex={selectedIndex}
+                    onTabPress={handleSingleIndexSelect}
+                    tabStyle={styles.tabStyle}
+                    tabTextStyle={{color: '#595959', }}
+                    activeTabStyle={styles.activeTabStyle}
+                    borderRadius={20}
+                />
+            </View>
+          {selectedIndex === 0 && <FundProduct navigation={navigation}/>}
+          {selectedIndex === 1 && <SavingProduct navigation={navigation}/>}
+          {selectedIndex === 2 && <LoanProduct navigation={navigation}/>}
+          {selectedIndex === 3 && <PensionProduct navigation={navigation}/>}
+            
         </View>
-    )
+      </SafeAreaView>
+  )
 }
 
-export default BankingProduct;
+export default bankingProduct;
 
 const styles = StyleSheet.create({
-    dailyText: {
-      flex: 1,
-      padding: 8,
-      textAlign: 'center',
-    },
+  container: {
+    flex: 1,
+  },
+  smallcontainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  tapContainer: {
+      alignItems:'flex-end',
+      borderRadius: 20,
+      backgroundColor: 'white',
+      padding: 3,
+  },
+  headerText: {
+    flex: 1,
+    padding: 8,
+    fontSize: 14,
+    color: '#444444',
+    textAlign: 'center',
+    backgroundColor: 'white',
+  },
+  tabStyle: {
+    borderColor: 'white',
+    backgroundColor: 'white',
+  },
+  activeTabStyle: {
+    backgroundColor: '#8EB3EE',
+    borderRadius: 20,
+  },
 });
