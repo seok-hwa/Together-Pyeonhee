@@ -294,3 +294,60 @@ values ('pyeonhee', '120211357588932329649396', '대구은행', 1100000, '202110
 -- pyeonhee 11월 한달리포트 생성용 데이터 (10월 계획)
 insert into BudgetPlanning(user_id, planning_date, user_mbti, user_age, user_income, user_savings, like_number, monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense, shopping_expense, education_expense, medical_expense, event_expense, subscribe_expense, etc_expense, state)
 values ('pyeonhee', '2021-10-01 11:13:49', 'PHOM', 26,  2500000, 500000, 0, 500000, 100000, 100000, 100000, 150000, 300000, 0, 0, 100000, 100000, 0, 1);
+
+
+
+-- 금융상품 데이터 생성 
+-- 적금 저금/소비 mbti로 구분
+insert into saving_product(bank_name, product_name, product_type, interest, max_interest, link, mbti)
+values('스마트저축은행', '스마트정기적금', '정액적립식', 3.5, 4.0, 'https://www.smartbank.co.kr/HMA0001', 'H');
+insert into saving_product(bank_name, product_name, product_type, interest, max_interest, link, mbti)
+values('웰컴저축은행', '웰컴첫거래우대적금', '정액적립식', 3.5, 4.2, 'https://www.welcomebank.co.kr/ib20/mnu/IBN000000000', 'H');
+insert into saving_product(bank_name, product_name, product_type, interest, max_interest, link, mbti)
+values('웰컴저축은행', '웰컴잔돈모아적금', '자유적립식', 2.8, 2.8, 'https://www.smartbank.co.kr/HMA0001', 'C');
+insert into saving_product(bank_name, product_name, product_type, interest, max_interest, link, mbti)
+values('한국저축은행', '스마트뱅킹정기적금', '자유적립식', 2.6, 2.6, 'https://sb.koreainvestment.com/ib20/mnu/hom00001', 'C');
+
+-- 펀드 즉흥(고위험)/계획(낮은위험) mbti 구분
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('VI자산운용', 'VI중소형주+증권자투자신탁', 17, 24, 49, 22, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=KR5104766708', 'I');
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('한국투자신탁운용', '한국투자중소성장증권투자신탁', 7, 10, 36, 60, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=KR5101AQ5090', 'I');
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('KB자산운용', 'KB코리아뉴딜증권투자신탁', 4.4, 13, 32.6, 294, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=K55223DB0898', 'I');
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('KTB자산운용', 'KTBVIP스타셀렉션증권투자신탁', 4.5, 21.9, 51.3, 414, 'https://www.daishin.com/g.ds?p=1257&v=825&m=1697&ast_utlz_scty_fnd_cod=KR5306945829', 'I');
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('삼성자산운용', '삼성MMF법인', 0.4, 0.9, 4.39, 60000, 'http://www.samsungfund.com/main.action', 'P');
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('신한자산운용', '신한베스트신종법인', 0.4, 0.9, 4.29, 16000, 'http://www.shbnppam.com/servlet/iteminfo.itemtype.itemtypeServlet?go=boardlist&fund_type=A&index=%27%27&sub_type=&pg=1&chkSale=&search_text=', 'P');
+insert into fund_product(bank_name, product_name, interest_3, interest_6, interest_12, fun_sum, link, mbti)
+values('현대자산운용', '현대클린개인MMF', 0.46, 0.92, 4.56, 407, 'http://www.hyundaiam.com/kor/HD-KP-FG/HD-KP-FG-02.html', 'P');
+
+-- 연금 즉흥/계획 mbti 구분
+insert into pension_product(bank_name, product_name, product_type, disconnected, interest, link, mbti)
+values('신한은행', '연금저축신탁', '안정형', '가능', 1.14, 'https://bank.shinhan.com/index.jsp#020001000000', 'P');
+insert into pension_product(bank_name, product_name, product_type, disconnected, interest, link, mbti)
+values('우리은행', '연금신탁안정형', '안정형', '가능', 1.04, 'https://spot.wooribank.com/pot/Dream?withyou=PORMG0023', 'P');
+insert into pension_product(bank_name, product_name, product_type, disconnected, interest, link, mbti)
+values('NH농협은행', '웰빙라이프연금저축신탁', '채권형', '가능', 1.47, 'https://obank.kbstar.com/quics?page=C030037&QSL=F#loading', 'P');
+insert into pension_product(bank_name, product_name, product_type, disconnected, interest, link, mbti)
+values('KB국민은행', 'KB실버웰빙연금신탁', '채권형', '가능', 1.82, 'https://smartmarket.nonghyup.com/servlet/SFMN0001R.view', 'I');
+insert into pension_product(bank_name, product_name, product_type, disconnected, interest, link, mbti)
+values('삼성생명보험', '연금저축삼성골드연금보험', '금리연동형', '불가능', 2.96, 'https://direct.samsunglife.com/annuitySaving.eds', 'I');
+insert into pension_product(bank_name, product_name, product_type, disconnected, interest, link, mbti)
+values('교보생명보험', '연금저축교보연금보험', '금리연동형', '불가능', 1.76, 'https://www.lifeplanet.co.kr/products/pd/HPPD400S1.dev', 'I');
+
+-- 대출 mbti 구분 X
+insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
+values('케이뱅크', '아파트담보대출', '변동금리', '원리금분할상환', 2.61, 'https://ib.kbanknow.com/ib20/mnu/FPMDPT010000');
+insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
+values('한국씨티은행', '씨티주택담보대출', '변동금리', '원리금분할상환', 2.87, 'https://www.citibank.co.kr/ComMainCnts0100.act?ref=http://finlife.fss.or.kr/');
+insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
+values('진주저축은행', '주택담보대출', '변동금리', '원리금분할상환', 3.12, 'https://www.jinjubank.net/main.act');
+insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
+values('수협은행', '마이너스한도대출', '대출금리', '거치식상환', 3.35, 'https://www.suhyup-bank.com/');
+insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
+values('토스뱅크', '마이너스한도대출', '대출금리', '거치식상환', 3.63, 'https://www.tossbank.com/product-service/loans/minus-account');
+insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
+values('우리은행', '일반신용대출', '대출금리', '거치식상환', 3.69, 'https://spot.wooribank.com/pot/Dream?withyou=PORMG0023');
