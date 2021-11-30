@@ -9,35 +9,35 @@ const ReportWithPlanScreen = (props) => {
     const [userID, setUserID] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [realRent, setRealRent] = useState(200000);
-    const [realInsurance, setRealInsurance] = useState(100000);
-    const [realCommunication, setRealCommunication] = useState(100000);
-    const [realSubscribe, setRealSubscribe] = useState(50000);
+    const [realRent, setRealRent] = useState(parseInt(props.route.params.withPlan.realRent));
+    const [realInsurance, setRealInsurance] = useState(parseInt(props.route.params.withPlan.realInsurance));
+    const [realCommunication, setRealCommunication] = useState(parseInt(props.route.params.withPlan.realCommunication));
+    const [realSubscribe, setRealSubscribe] = useState(parseInt(props.route.params.withPlan.realSubscribe));
 
-    const [realTraffic, setRealTraffic] = useState(100000);
-    const [realMedical, setRealMedical] = useState(120000);
-    const [realEducation, setRealEducation] = useState(100000);
-    const [realEct, setRealEct] = useState(100000);
+    const [realTraffic, setRealTraffic] = useState(parseInt(props.route.params.withPlan.realTraffic));
+    const [realMedical, setRealMedical] = useState(parseInt(props.route.params.withPlan.realMedical));
+    const [realEducation, setRealEducation] = useState(parseInt(props.route.params.withPlan.realEducation));
+    const [realEct, setRealEct] = useState(parseInt(props.route.params.withPlan.realEct));
 
-    const [realShopping, setRealShopping] = useState(300000);
-    const [realHobby, setRealHobby] = useState(150000);
-    const [realEvent, setRealEvent] = useState(210000);
-    const [realDinner, setRealDinner] = useState(100000);
+    const [realShopping, setRealShopping] = useState(parseInt(props.route.params.withPlan.realShopping));
+    const [realHobby, setRealHobby] = useState(parseInt(props.route.params.withPlan.realHobby));
+    const [realEvent, setRealEvent] = useState(parseInt(props.route.params.withPlan.realEvent));
+    const [realDinner, setRealDinner] = useState(parseInt(props.route.params.withPlan.realDinner));
 
-    const [planRent, setPlanRent] = useState(200000);
-    const [planInsurance, setPlanInsurance] = useState(100000);
-    const [planCommunication, setPlanCommunication] = useState(120000);
-    const [planSubscribe, setPlanSubscribe] = useState(40000);
+    const [planRent, setPlanRent] = useState(parseInt(props.route.params.withPlan.planRent));
+    const [planInsurance, setPlanInsurance] = useState(parseInt(props.route.params.withPlan.planInsurance));
+    const [planCommunication, setPlanCommunication] = useState(parseInt(props.route.params.withPlan.planCommunication));
+    const [planSubscribe, setPlanSubscribe] = useState(parseInt(props.route.params.withPlan.planSubscribe));
 
-    const [planTraffic, setPlanTraffic] = useState(130000);
-    const [planMedical, setPlanMedical] = useState(150000);
-    const [planEducation, setPlanEducation] = useState(90000);
-    const [planEct, setPlanEct] = useState(60000);
+    const [planTraffic, setPlanTraffic] = useState(parseInt(props.route.params.withPlan.planTraffic));
+    const [planMedical, setPlanMedical] = useState(parseInt(props.route.params.withPlan.planMedical));
+    const [planEducation, setPlanEducation] = useState(parseInt(props.route.params.withPlan.planEducation));
+    const [planEct, setPlanEct] = useState(parseInt(props.route.params.withPlan.planEct));
 
-    const [planShopping, setPlanShopping] = useState(210000);
-    const [planHobby, setPlanHobby] = useState(150000);
-    const [planEvent, setPlanEvent] = useState(280000);
-    const [planDinner, setPlanDinner] = useState(60000);
+    const [planShopping, setPlanShopping] = useState(parseInt(props.route.params.withPlan.planShopping));
+    const [planHobby, setPlanHobby] = useState(parseInt(props.route.params.withPlan.planHobby));
+    const [planEvent, setPlanEvent] = useState(parseInt(props.route.params.withPlan.planEvent));
+    const [planDinner, setPlanDinner] = useState(parseInt(props.route.params.withPlan.planDinner));
 
     const realFixTotal = realRent+realInsurance+realCommunication+realSubscribe;
     const planFixTotal = planRent+planInsurance+planCommunication+planSubscribe;
@@ -51,10 +51,7 @@ const ReportWithPlanScreen = (props) => {
     const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2;
     const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2;
 
-    const [realProgress, setRealProgress] = useState(26);
-    const [plannedProgress, setPlannedProgress] = useState(30);
-
-    const progressPercentage = realProgress/plannedProgress;
+    const progressPercentage = props.route.params.daily_count/props.date;
 
     const difRent = realRent - planRent < 0 ? " -"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difInsurance = realInsurance - planInsurance < 0? " -"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -121,43 +118,6 @@ const ReportWithPlanScreen = (props) => {
             }
         })
         .then(()=>{
-            /*
-            fetch(`${url}/monthReportWithplan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                setRealRent(responseJson.realRent);
-                setRealInsurance(responseJson.realInsurance);
-                setRealCommunication(responseJson.realCommunication);
-                setRealSubscribe(responseJson.realSubscribe);
-                setRealTraffic(responseJson.realTraffic);
-                setRealMedical(responseJson.realMedical);
-                setRealEducation(responseJson.realEducation);
-                setRealEct(responseJson.realEct);
-                setRealShopping(responseJson.realShopping);
-                setRealHobby(responseJson.realHobby);
-                setRealEvent(responseJson.realEvent);
-                setRealDinner(responseJson.realDinner);
-
-                setPlanRent(responseJson.planRent);
-                setPlanInsurance(responseJson.planInsurance);
-                setPlanCommunication(responseJson.planCommunication);
-                setPlanSubscribe(responseJson.planSubscribe);
-                setPlanTraffic(responseJson.planTraffic);
-                setPlanMedical(responseJson.planMedical);
-                setPlanEducation(responseJson.planEducation);
-                setPlanEct(responseJson.planEct);
-                setPlanShopping(responseJson.planShopping);
-                setPlanHobby(responseJson.planHobby);
-                setPlanEvent(responseJson.planEvent);
-                setPlanDinner(responseJson.planDinner);
-
-                setRealProgress(responseJson.realProgress);
-                setPlannedProgress(responseJson.plannedProgress);
-            })
-            .then(()=>{
-                setLoading(true);
-            })*/
-
             //for test
             setLoading(true);
           })
@@ -179,9 +139,9 @@ const ReportWithPlanScreen = (props) => {
                 </View>
                 <View style={styles.progressDiv}>
                     <Text>총 </Text>
-                    <Text>{plannedProgress}</Text>
+                    <Text>{props.date}</Text>
                     <Text>일 중 </Text>
-                    <Text style={styles.realProgressFont}>{realProgress}</Text>
+                    <Text style={styles.realProgressFont}>{props.route.params.daily_count}</Text>
                     <Text>일 이행</Text>
                 </View>
             </View>

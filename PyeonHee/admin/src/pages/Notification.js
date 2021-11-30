@@ -17,22 +17,65 @@ const styles = theme => ({
     fontWeight: 'bold'
   }
 })
+
 function Notification(props) {
   const {classes} = props;
   const [notifications, setNotifications] = useState([]);
+  const [totalPage, setTotalPage] = useState(17);
+  const [currentStartPage, setCurrentStartPage] = useState(1);
+  const [currentEndPage, setCurrentEndPage] = useState(0);
+  const [pageNumbers, setPageNumbers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('들어왔다.');
     axios({
       method:"GET",
-      url: '/adminGetNotificationList',
+      url: '/notificationTotalPage',
     })
     .then((res)=>{
+      console.log(res.data);
+      let tempTotalPage = res.data;
+
+      let currentPage = props.match.params.pageNumber;
+
+      let startPage = (parseInt((currentPage-1)/10) * 10)+1;
+      let EndPage;
+
+      if(tempTotalPage - (startPage + 9) > 0){
+        EndPage = startPage + 9;
+      }else{
+        EndPage = tempTotalPage;
+      }
+
+      console.log('현재 페이지: ', currentPage);
+      console.log('시작 페이지: ', startPage);    
+      console.log('종료 페이지', EndPage);
+      
+      let pageNumber = [];
+      for (let i = startPage; i <= EndPage; i++) {
+        pageNumber.push(i);
+      }
+
+      setTotalPage(res.data);
+      setCurrentStartPage(startPage);
+      setCurrentEndPage(EndPage);
+      setPageNumbers(pageNumber);
+    })
+    .then(()=>{
+      axios({
+        method:"POST",
+        url: `/adminGetNotificationList`,
+        data:{
+            pageNumber: props.match.params.pageNumber,
+        }
+      })
+      .then((res)=>{
         console.log(res.data);
         setNotifications(res.data);
-    }).catch(error=>{
+      })
+    })
+    .catch(error=>{
         console.log(error);
-        throw new Error(error);
     });
   },[])
 
@@ -40,6 +83,15 @@ function Notification(props) {
       document.location.href = '/notificationWrite';
   }
 
+  function paginateNext(number){
+    document.location.href = `/notification/${number}`;
+  }
+  function paginatePrev(number){
+    document.location.href = `/notification/${number}`;
+  }
+  function paginate(number){
+    document.location.href = `/notification/${number}`;
+  }
   return (
     <div className="NotificationDiv">
       <p className="NotificationTitleText">공지사항</p>
@@ -62,6 +114,25 @@ function Notification(props) {
             </TableBody>
           </Table>
         </Paper>
+        <div className="PageDiv">
+          {
+            parseInt(currentStartPage) === 1 ?
+            <a className="Page-link">이전</a> :
+            <a className="Page-link" onClick={() => paginatePrev(parseInt(currentStartPage)-1)}>이전</a>
+          }
+          {
+              pageNumbers.map(number => (
+                <a key={number} className="Page-link" onClick={() => paginate(number)}>
+                  {number}
+                </a>
+            ))
+          }
+          {
+            totalPage === currentEndPage || currentEndPage === 0?
+            <a className="Page-link">다음</a> :
+            <a className="Page-link" onClick={() => paginateNext(parseInt(props.match.params.pageNumber)+1)}>다음</a>
+          }
+        </div>
       </div>
     </div>
   );

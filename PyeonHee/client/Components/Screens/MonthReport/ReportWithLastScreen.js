@@ -9,61 +9,61 @@ const ReportWithLastScreen = (props) => {
     const [userID, setUserID] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [currentRent, setCurrentRent] = useState(200000);
-    const [currentInsurance, setCurrentInsurance] = useState(100000);
-    const [currentCommunication, setCurrentCommunication] = useState(100000);
-    const [currentSubscribe, setCurrentSubscribe] = useState(50000);
+    const [currentRent, setCurrentRent] = useState(parseInt(props.route.params.withLast.currentRent));
+    const [currentInsurance, setCurrentInsurance] = useState(parseInt(props.route.params.withLast.currentInsurance));
+    const [currentCommunication, setCurrentCommunication] = useState(parseInt(props.route.params.withLast.currentCommunication));
+    const [currentSubscribe, setCurrentSubscribe] = useState(parseInt(props.route.params.withLast.currentSubscribe));
 
-    const [currentTraffic, setCurrentTraffic] = useState(100000);
-    const [currentMedical, setCurrentMedical] = useState(120000);
-    const [currentEducation, setCurrentEducation] = useState(100000);
-    const [currentEct, setCurrentEct] = useState(100000);
+    const [currentTraffic, setCurrentTraffic] = useState(parseInt(props.route.params.withLast.currentTraffic));
+    const [currentMedical, setCurrentMedical] = useState(parseInt(props.route.params.withLast.currentMedical));
+    const [currentEducation, setCurrentEducation] = useState(parseInt(props.route.params.withLast.currentEducation));
+    const [currentEct, setCurrentEct] = useState(parseInt(props.route.params.withLast.currentEct));
 
-    const [currentShopping, setCurrentShopping] = useState(300000);
-    const [currentHobby, setCurrentHobby] = useState(150000);
-    const [currentEvent, setCurrentEvent] = useState(210000);
-    const [currentDinner, setCurrentDinner] = useState(100000);
+    const [currentShopping, setCurrentShopping] = useState(parseInt(props.route.params.withLast.currentShopping));
+    const [currentHobby, setCurrentHobby] = useState(parseInt(props.route.params.withLast.currentHobby));
+    const [currentEvent, setCurrentEvent] = useState(parseInt(props.route.params.withLast.currentEvent));
+    const [currentDinner, setCurrentDinner] = useState(parseInt(props.route.params.withLast.currentDinner));
 
-    const [lastRent, setLastRent] = useState(200000);
-    const [lastInsurance, setLastInsurance] = useState(100000);
-    const [lastCommunication, setLastCommunication] = useState(120000);
-    const [lastSubscribe, setLastSubscribe] = useState(40000);
+    const [lastRent, setLastRent] = useState(parseInt(props.route.params.withLast.lastRent));
+    const [lastInsurance, setLastInsurance] = useState(parseInt(props.route.params.withLast.lastInsurance));
+    const [lastCommunication, setLastCommunication] = useState(parseInt(props.route.params.withLast.lastCommunication));
+    const [lastSubscribe, setLastSubscribe] = useState(parseInt(props.route.params.withLast.lastSubscribe));
 
-    const [lastTraffic, setLastTraffic] = useState(130000);
-    const [lastMedical, setLastMedical] = useState(150000);
-    const [lastEducation, setLastEducation] = useState(90000);
-    const [lastEct, setLastEct] = useState(60000);
+    const [lastTraffic, setLastTraffic] = useState(parseInt(props.route.params.withLast.lastTraffic));
+    const [lastMedical, setLastMedical] = useState(parseInt(props.route.params.withLast.lastMedical));
+    const [lastEducation, setLastEducation] = useState(parseInt(props.route.params.withLast.lastEducation));
+    const [lastEct, setLastEct] = useState(parseInt(props.route.params.withLast.lastEct));
 
-    const [lastShopping, setLastShopping] = useState(210000);
-    const [lastHobby, setLastHobby] = useState(150000);
-    const [lastEvent, setLastEvent] = useState(280000);
-    const [lastDinner, setLastDinner] = useState(60000);
+    const [lastShopping, setLastShopping] = useState(parseInt(props.route.params.withLast.lastShopping));
+    const [lastHobby, setLastHobby] = useState(parseInt(props.route.params.withLast.lastHobby));
+    const [lastEvent, setLastEvent] = useState(parseInt(props.route.params.withLast.lastEvent));
+    const [lastDinner, setLastDinner] = useState(parseInt(props.route.params.withLast.lastDinner));
 
-    const currentFixTotal = currentRent+currentInsurance+currentCommunication+currentSubscribe;
-    const lastFixTotal = lastRent+lastInsurance+lastCommunication+lastSubscribe;
+    const currentFixTotal=currentRent+currentInsurance+currentCommunication+currentSubscribe;
+    const lastFixTotal=lastRent+lastInsurance+lastCommunication+lastSubscribe;
 
-    const currentVariableTotal1 = currentTraffic+currentMedical+currentEducation+currentEct;
-    const lastVariableTotal1 = lastTraffic+lastMedical+lastEducation+lastEct;
+    const currentVariableTotal1=currentTraffic+currentMedical+currentEducation+currentEct;
+    const lastVariableTotal1=lastTraffic+lastMedical+lastEducation+lastEct;
 
-    const currentVariableTotal2 = currentShopping+currentHobby+currentEvent+currentDinner;
-    const lastVariableTotal2 = lastShopping+lastHobby+lastEvent+lastDinner;
-
-    const currentTotal = currentFixTotal+currentVariableTotal1+currentVariableTotal2;
-    const lastTotal = lastFixTotal+lastVariableTotal1+lastVariableTotal2;
-
-    const difRent = currentRent - lastRent < 0 ? " -"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difInsurance = currentInsurance - lastInsurance < 0? " -"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difCommunication = currentCommunication - lastCommunication < 0? " -"+ Math.abs(currentCommunication - lastCommunication).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentCommunication - lastCommunication).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difSubscribe = currentSubscribe - lastSubscribe < 0? " -"+ Math.abs(currentSubscribe - lastSubscribe).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentSubscribe - lastSubscribe).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difMedical = currentMedical - lastMedical < 0? " -"+ Math.abs(currentMedical - lastMedical).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentMedical - lastMedical).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difTraffic = currentTraffic - lastTraffic < 0? " -"+ Math.abs(currentTraffic - lastTraffic).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentTraffic - lastTraffic).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difEducation = currentEducation - lastEducation < 0? " -"+ Math.abs(currentEducation - lastEducation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEducation - lastEducation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difEvent = currentEvent - lastEvent < 0? " -"+ Math.abs(currentEvent - lastEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEvent - lastEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difHobby = currentHobby - lastHobby < 0? " -"+ Math.abs(currentHobby - lastHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentHobby - lastHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difShopping = currentShopping - lastShopping < 0? " -"+ Math.abs(currentShopping - lastShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentShopping - lastShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difDinner = currentDinner - lastDinner < 0? " -"+ Math.abs(currentDinner - lastDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentDinner - lastDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    const difEct = currentEct - lastEct < 0? " -"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const currentVariableTotal2=currentShopping+currentHobby+currentEvent+currentDinner;
+    const lastVariableTotal2=lastShopping+lastHobby+lastEvent+lastDinner;
     
+    const currentTotal=currentFixTotal+currentVariableTotal1+currentVariableTotal2;
+    const lastTotal=lastFixTotal+lastVariableTotal1+lastVariableTotal2;
+
+    const difRent=currentRent - lastRent < 0 ? " -"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difInsurance=currentInsurance - lastInsurance < 0? " -"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difCommunication=currentCommunication - lastCommunication < 0? " -"+ Math.abs(currentCommunication - lastCommunication).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentCommunication - lastCommunication).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difSubscribe=currentSubscribe - lastSubscribe < 0? " -"+ Math.abs(currentSubscribe - lastSubscribe).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentSubscribe - lastSubscribe).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difMedical=currentMedical - lastMedical < 0? " -"+ Math.abs(currentMedical - lastMedical).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentMedical - lastMedical).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difTraffic=currentTraffic - lastTraffic < 0? " -"+ Math.abs(currentTraffic - lastTraffic).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentTraffic - lastTraffic).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difEducation=currentEducation - lastEducation < 0? " -"+ Math.abs(currentEducation - lastEducation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEducation - lastEducation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difEvent=currentEvent - lastEvent < 0? " -"+ Math.abs(currentEvent - lastEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEvent - lastEvent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difHobby=currentHobby - lastHobby < 0? " -"+ Math.abs(currentHobby - lastHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentHobby - lastHobby).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difShopping=currentShopping - lastShopping < 0? " -"+ Math.abs(currentShopping - lastShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentShopping - lastShopping).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difDinner=currentDinner - lastDinner < 0? " -"+ Math.abs(currentDinner - lastDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentDinner - lastDinner).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    const difEct=currentEct - lastEct < 0? " -"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentEct - lastEct).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
     const fixData = {
         labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: [`월세${difRent}`, `보험${difInsurance}`, `통신${difCommunication}`, `구독${difSubscribe}`],
@@ -74,12 +74,12 @@ const ReportWithLastScreen = (props) => {
         backgroundColor: "#ffffff",
         backgroundGradientFrom: "#ffffff",
         backgroundGradientTo: "#ffffff",
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     };
     const variable1Data = {
         labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: [`기타${difEct}`, `의료${difMedical}`, `교통${difTraffic}`, `교육${difEducation}`],
-        data: [[lastEct,lastMedical, lastTraffic, lastEducation], [currentEct,currentMedical, currentTraffic, currentEducation]],
+        data: [[lastEct, lastMedical, lastTraffic, lastEducation], [currentEct,currentMedical, currentTraffic, currentEducation]],
         barColors: ["#dfe4ea", "#ced6e0", "#a4b0be", "#9494a4"]
     }
     const variable2Data = {
@@ -104,44 +104,6 @@ const ReportWithLastScreen = (props) => {
             }
         })
         .then(()=>{
-            /*
-            fetch(`${url}/monthReportWithLast?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                if(responseJson.length != 0){
-                    setCurrentRent(responseJson.currentRent);
-                    setCurrentInsurance(responseJson.currentInsurance);
-                    setCurrentCommunication(responseJson.currentCommunication);
-                    setCurrentSubscribe(responseJson.currentSubscribe);
-                    setCurrentTraffic(responseJson.currentTraffic);
-                    setCurrentMedical(responseJson.currentMedical);
-                    setCurrentEducation(responseJson.currentEducation);
-                    setCurrentEct(responseJson.currentEct);
-                    setCurrentShopping(responseJson.currentShopping);
-                    setCurrentHobby(responseJson.currentHobby);
-                    setCurrentEvent(responseJson.currentEvent);
-                    setCurrentDinner(responseJson.currentDinner);
-
-                    if(responseJson.last_spend.length !=0){
-                        setLastRent(responseJson.lastRent);
-                        setLastInsurance(responseJson.lastInsurance);
-                        setLastCommunication(responseJson.lastCommunication);
-                        setLastSubscribe(responseJson.lastSubscribe);
-                        setLastTraffic(responseJson.lastTraffic);
-                        setLastMedical(responseJson.lastMedical);
-                        setLastEducation(responseJson.lastEducation);
-                        setLastEct(responseJson.lastEct);
-                        setLastShopping(responseJson.lastShopping);
-                        setLastHobby(responseJson.lastHobby);
-                        setLastEvent(responseJson.lastEvent);
-                        setLastDinner(responseJson.lastDinner);
-                    }
-                }
-            })
-            .then(()=>{
-              setLoading(true);
-            })*/
-            //for test
             setLoading(true);
           })
     },[])
@@ -157,6 +119,7 @@ const ReportWithLastScreen = (props) => {
                     height={250}
                     chartConfig={fixConfig}
                     withHorizontalLabels={false}
+                    strokeWidth={20}
                 />
                 </View>
                 <View style={styles.monthRow}>
