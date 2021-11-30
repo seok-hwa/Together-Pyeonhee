@@ -22,7 +22,7 @@ function Notification(props) {
   const {classes} = props;
   const [notifications, setNotifications] = useState([]);
   const [totalPage, setTotalPage] = useState(17);
-  const [currentStartPage, setCurrentStartPage] = useState(0);
+  const [currentStartPage, setCurrentStartPage] = useState(1);
   const [currentEndPage, setCurrentEndPage] = useState(0);
   const [pageNumbers, setPageNumbers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -128,7 +128,7 @@ function Notification(props) {
             ))
           }
           {
-            totalPage === currentEndPage ?
+            totalPage === currentEndPage || currentEndPage === 0?
             <a className="Page-link">다음</a> :
             <a className="Page-link" onClick={() => paginateNext(parseInt(props.match.params.pageNumber)+1)}>다음</a>
           }
