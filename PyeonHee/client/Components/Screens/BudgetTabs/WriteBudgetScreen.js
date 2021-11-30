@@ -19,7 +19,6 @@ import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import InputBudget from './InputBudget';
 import AddSavingPlan from './AddSavingPlan';
 import SavingPlanItem from './SavingsPlanItem';
-// import CalcSumofSavings from './CalcSumofSaving';
 import CallMyBudgetCabinet from './myBudgetCabinet';
 
 const url = config.url;

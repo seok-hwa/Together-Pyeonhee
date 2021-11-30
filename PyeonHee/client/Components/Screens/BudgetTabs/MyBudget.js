@@ -69,77 +69,18 @@ const MyBudgetScreen = ({navigation, route}) => {
         console.log(isSelected);
     };
 
-    if(addSavingsPlan === true) {
-        fetch(`${url}/daily/savings`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: userID,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            console.log('response data');
-            console.log(responseJson);
-            
-            setSaving(responseJson);
-            setAddSavingsPlan(false);
-        }) 
-        .then(()=>{
-            fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                if(responseJson.length === 0){
-                    setIsCompleted(false);
-                } else{
-                    setMyBudgetData(responseJson);
-
-                    let total = responseJson.education + responseJson.transportation +
-                    responseJson.shopping + responseJson.leisure + responseJson.insurance +
-                    responseJson.medical + responseJson.rent + responseJson.communication +
-                    responseJson.etc + responseJson.event + responseJson.subscribe;
-
-                    let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
-                    parseInt(responseJson.communication) + responseJson.subscribe;
-                    console.log('고정지출 합:');
-                    console.log(fixedTemp);
-
-                    let plannedTemp = parseInt(responseJson.education) + parseInt(responseJson.traffic) +
-                    parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + 
-                    parseInt(responseJson.medical) + parseInt(responseJson.ect) + parseInt(responseJson.event) ;
-                    console.log('계획지출 합:');
-                    console.log(plannedTemp);
-
-                    let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
-
-                    setFixedExpenditure(fixedTemp);
-                    setPlannedExpenditure(plannedTemp);
-                    setMonthly(monthlyTemp);
-                }
-                // console.log(myBudgetData);
-            })
-            .then(()=>{
-            }) 
-        })
-    }
-
     const handleSubmitSaveButton = () => {
         if(userStore === false) {
             fetch(`${url}/saveBudgetPlan`, {
                 method: 'POST',
                 body: JSON.stringify({
-                userID: userID,
-                budgetPlanID: myBudgetData.budgetPlanID,
+                    userID: userID,
+                    budgetPlanID: myBudgetData.budgetPlanID,
                 }),
                 headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-                },
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json',
+                    },
                 })
                 .then((response)=>response.json())
                 .then((responseJson)=>{
@@ -155,7 +96,6 @@ const MyBudgetScreen = ({navigation, route}) => {
                     console.error(error);
                 })
         } else {
-
             fetch(`${url}/cancelBudgetPlan`, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -166,20 +106,20 @@ const MyBudgetScreen = ({navigation, route}) => {
                   'Accept': 'application/json',
                   'Content-Type':'application/json',
                 },
-                })
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('삭제 완료');
-                        setUserStore(false);
-                    }else{
-                        console.log('fail to save.');
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
+                if(responseJson.status === true){
+                    console.log('삭제 완료');
+                    setUserStore(false);
+                }else{
+                    console.log('fail to save.');
+                }
+            })
+            .catch((error)=>{
+                console.error(error);
+            })
         }
     }
 
@@ -217,14 +157,14 @@ const MyBudgetScreen = ({navigation, route}) => {
 
                     let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
                     parseInt(responseJson.communication) + responseJson.subscribe;
-                    console.log('고정지출 합:');
-                    console.log(fixedTemp);
+                    console.log('고정지출 합:', fixedTemp);
+                    // console.log(fixedTemp);
 
                     let plannedTemp = parseInt(responseJson.education) + parseInt(responseJson.traffic) +
                     parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + 
                     parseInt(responseJson.medical) + parseInt(responseJson.ect) + parseInt(responseJson.event) ;
-                    console.log('계획지출 합:');
-                    console.log(plannedTemp);
+                    console.log('계획지출 합:', plannedTemp);
+                    // console.log(plannedTemp);
 
                     let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
 
@@ -297,6 +237,65 @@ const MyBudgetScreen = ({navigation, route}) => {
             })
         })
     }, [isEdited])
+
+    if(addSavingsPlan === true) {
+        fetch(`${url}/daily/savings`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            
+            setSaving(responseJson);
+            setAddSavingsPlan(false);
+        }) 
+        .then(()=>{
+            fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                if(responseJson.length === 0){
+                    setIsCompleted(false);
+                } else{
+                    setMyBudgetData(responseJson);
+
+                    let total = responseJson.education + responseJson.transportation +
+                    responseJson.shopping + responseJson.leisure + responseJson.insurance +
+                    responseJson.medical + responseJson.rent + responseJson.communication +
+                    responseJson.etc + responseJson.event + responseJson.subscribe;
+
+                    let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
+                    parseInt(responseJson.communication) + responseJson.subscribe;
+                    console.log('고정지출 합:', fixedTemp);
+                    // console.log(fixedTemp);
+
+                    let plannedTemp = parseInt(responseJson.education) + parseInt(responseJson.traffic) +
+                    parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + 
+                    parseInt(responseJson.medical) + parseInt(responseJson.ect) + parseInt(responseJson.event) ;
+                    console.log('계획지출 합:', plannedTemp);
+                    // console.log(plannedTemp);
+
+                    let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
+
+                    setFixedExpenditure(fixedTemp);
+                    setPlannedExpenditure(plannedTemp);
+                    setMonthly(monthlyTemp);
+                }
+                // console.log(myBudgetData);
+            })
+            .then(()=>{
+            }) 
+        })
+    }
 
     if(loading === true && isCompleted === true){
         return(     

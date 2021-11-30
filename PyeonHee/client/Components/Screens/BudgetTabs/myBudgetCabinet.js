@@ -10,38 +10,39 @@ const url = config.url;
 const myBudgetCabinet = (props) => {
     const [userID, setUserID] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
+    const [loaing, setLoading] = useState(false);
 
-    // const [myBudgetData, setmyBudgetData] = useState([]);
+    const [myBudgetData, setmyBudgetData] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [isSelected, setIsSelected] = useState(false);
 
     //for test
-    let myBudgetData = [
-        {
-            planning_number: 1,
-            income: 20000000,
-            sumOfSavings: 3000,
-            fixedExpenditure: 20000,
-            plannedExpenditure: 10000,
-            dailyMoney: 1000,
-        },
-        {
-            planning_number: 2,
-            income: 20000000,
-            sumOfSavings: 4000,
-            fixedExpenditure: 30000,
-            plannedExpenditure: 20000,
-            dailyMoney: 2000,
-        },
-        {
-            planning_number: 3,
-            income: 20000000,
-            sumOfSavings: 6000,
-            fixedExpenditure: 50000,
-            plannedExpenditure: 30000,
-            dailyMoney: 3000,
-        }
-    ]
+    // let myBudgetData = [
+    //     {
+    //         planning_number: 1,
+    //         income: 20000000,
+    //         sumOfSavings: 3000,
+    //         fixedExpenditure: 20000,
+    //         plannedExpenditure: 10000,
+    //         dailyMoney: 1000,
+    //     },
+    //     {
+    //         planning_number: 2,
+    //         income: 20000000,
+    //         sumOfSavings: 4000,
+    //         fixedExpenditure: 30000,
+    //         plannedExpenditure: 20000,
+    //         dailyMoney: 2000,
+    //     },
+    //     {
+    //         planning_number: 3,
+    //         income: 20000000,
+    //         sumOfSavings: 6000,
+    //         fixedExpenditure: 50000,
+    //         plannedExpenditure: 30000,
+    //         dailyMoney: 3000,
+    //     }
+    // ]
 
 
 
@@ -59,16 +60,16 @@ const myBudgetCabinet = (props) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/MyBudgetPlanCabinet?userID=${tempID}`);
-            // fetch(`${url}/MyBudgetPlanCabinet?userID=${tempID}`)   //get
-            // .then((response)=>response.json())
-            // .then((responseJson)=>{
-            //     console.log('response data');
-            //     console.log(responseJson);
-            //     setmyBudgetData(responseJson);
-            // })
-            // .then(()=>{
-            //     setLoading(true);
-            // })  
+            fetch(`${url}/MyBudgetPlanCabinet?userID=${tempID}`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setmyBudgetData(responseJson);
+            })
+            .then(()=>{
+                setLoading(true);
+            })  
         })
     }, [])
 
@@ -109,7 +110,7 @@ const myBudgetCabinet = (props) => {
                         </View>
                             
                         {myBudgetData.map(item => {
-                            return <MyBudgetItem key={item.planning_number} income={item.income} sumOfSavings={item.sumOfSavings} 
+                            return <MyBudgetItem key={item.planning_number} income={item.user_income} sumOfSavings={item.user_savings} 
                             fixedExpenditure={item.fixedExpenditure} plannedExpenditure={item.plannedExpenditure} dailyMoney={item.dailyMoney}
                             planningID={item.planning_number} setSelectedIndex={setSelectedIndex} setIsSelected={setIsSelected} selectedIndex={selectedIndex}/>;
                         })}

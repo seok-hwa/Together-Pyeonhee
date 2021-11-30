@@ -12,9 +12,9 @@ const SavingPlan = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const[savingName, setSavingName] = useState("");        //프로젝트 제목
-    const[savingMoney, setSavingMoney] = useState("0");       //저금금액
+    const[savingMoney, setSavingMoney] = useState("");       //저금금액
     const[startDate, setStartDate] = useState(new Date());  //시작일
-    const[savingsDay, setSavingsDay] = useState(0);         //매달 출금일
+    const[savingsDay, setSavingsDay] = useState(0);         //매달 저금(출금)일
     const[period, setPeriod] = useState(0);                 //기간
     
     let now = new Date();
@@ -24,21 +24,32 @@ const SavingPlan = (props) => {
     
     const saveHandler = () => {
         let tempIncome = props.income;
-        console.log(tempIncome);
+        console.log('수입: ', tempIncome);
 
-        console.log('저축 제목: ', savingName.length);
-        if(parseInt(tempIncome.split(",").join("")) < parseInt(savingMoney)) {
-            {
-                alert('수입보다 저축액이 더 큽니다.');
-                return;
-            }
+        
+        if(parseInt(tempIncome.split(",").join("")) < parseInt(savingMoney.split(",").join(""))) {
+            alert('수입보다 저축액이 더 큽니다.');
+            return;
         }
 
+        console.log('저축 제목: ', savingName);
+        console.log('저축 제목 길이: ', savingName.length);
         if(savingName.length === 0) {
-            {
-                alert('제목을 작성해주세요.');
-                return;
-            }
+            alert('제목을 작성해주세요.');
+            return;
+            
+        }
+        
+        console.log('저금일: ', savingsDay);
+        if(savingsDay === 0 || savingsDay > 31) {
+            alert('저금일을 1 ~ 31일 사이로 선택해주세요.');
+            return;
+        }
+
+        console.log('기간: ', period);
+        if(period < 1) {
+            alert('기간은 최소 1개월 이상 설정해주세요.');
+            return;
         }
 
         setModalVisible(!modalVisible);
@@ -53,7 +64,7 @@ const SavingPlan = (props) => {
             body: JSON.stringify({
                 userID: userID,
                 savingName: savingName,
-                savingMoney: parseInt(savingMoney),
+                savingMoney: parseInt(savingMoney.split(",").join("")),
                 startDate: startDate,
                 savingsDay: savingsDay,
                 period: period,    //기간으로 변경함 
@@ -73,9 +84,9 @@ const SavingPlan = (props) => {
         //     console.log('fail to submit.');
         //   }
         })
-        .catch((error)=>{
-          console.error(error);
-        })
+        // .catch((error)=>{
+        //   console.error(error);
+        // })
         props.setAddSavingsPlan(true);
 
     }
@@ -83,7 +94,7 @@ const SavingPlan = (props) => {
     const cancleHandler = () => {
         props.setAddSavingsPlan(false);
         setSavingName("");
-        setSavingMoney("0");
+        setSavingMoney("");
         setSavingsDay(0);
         setPeriod(0);
 
@@ -99,17 +110,21 @@ const SavingPlan = (props) => {
         })
     }, [])
 
-    const handleSavingsDay = (text) => {
-        if(text > 0 && text < 32) {
-            setSavingsDay(text);
-        }
-        else {
-            alert('저금일을 1 ~ 31일 사이로 선택해주세요.');
-                return;
+    const handleSavingMoney = (text) => {
+        let tempText = text.split(",").join("");
+
+        if(parseInt(tempText) === 0){
+            setSavingMoney("");
+        } else if ( parseInt(tempText) > 0 && tempText.substring(0, 1) === "0") {
+            setSavingMoney(tempText.substring(1).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        } else if ( parseInt(tempText) > 0) {
+            setSavingMoney(tempText.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        } 
+        else{
+            setSavingMoney("");
         }
     }
 
-    
     return (
         <View>
             <Modal
@@ -151,7 +166,7 @@ const SavingPlan = (props) => {
                                 <TextInput
                                     style={styles.textInputDesign}
                                     // placeholder='0'
-                                    onChangeText={text => setSavingMoney(text)}
+                                    onChangeText={text => handleSavingMoney(text)}
                                     value={savingMoney}
                                     maxLength = {10}
                                     textAlign="right"
@@ -172,14 +187,15 @@ const SavingPlan = (props) => {
 
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text>출금일: </Text>
+                                <Text>저금일: </Text>
                             </View>
                             <View style={[styles.inputContainer, {justifyContent: 'space-between'}]}>
                                 <Text>매달</Text>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <TextInput
                                         style={styles.textInputDesign}
-                                        onChangeText={text => handleSavingsDay(text)}
+                                        // placeholder='1~31일 중 선택하세요'
+                                        onChangeText={text => setSavingsDay(text)}
                                         maxLength = {2}
                                         textAlign="right"
                                         keyboardType="numeric"
@@ -196,8 +212,9 @@ const SavingPlan = (props) => {
                             <View style={styles.inputContainer}>
                                 <TextInput
                                     style={styles.textInputDesign}
+                                    // placeholder='0'
                                     onChangeText={text => setPeriod(text)}
-                                    value={period}
+                                    // value={period}
                                     maxLength = {3}
                                     textAlign="right"
                                     keyboardType="numeric"
