@@ -423,50 +423,52 @@ create table notice
 );
 
 
+/*금융상품 테이블*/
 create table saving_product
-{
+(
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     product_type varchar(10) not null,
-    interest float(3,3) not null,
-    max_interest float(3,3) not null,
+    interest float(4,2) not null,
+    max_interest float(4,2) not null,
     link varchar(200) not null,
     mbti varchar(1) not null,
     primary key (product_name)
-};
+);
 
 create table fund_product
-{
+(
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
-    interest_3 float(3,3) not null,
-    interest_6 float(3,3) not null,
-    interest_12 float(3,3) not null,
+    interest_3 float(4,2) not null,
+    interest_6 float(4,2) not null,
+    interest_12 float(4,2) not null,
     fund_sum int not null,
     link varchar(200) not null,
     mbti varchar(1) not null,
     primary key (product_name)
-};
+);
 
 create table pension_product
-{
+(
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     product_type varchar(10) not null,
     disconnected varchar(3) not null,
-    interest float(3,3) not null,
+    interest float(4,2) not null,
     link varchar(200) not null,
     mbti varchar(1) not null,
     primary key (product_name)
-}
+);
 
+/*primary key(bank_name, product_name) 으로 변경*/
 create table loan_product
-{
+(
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     interest_type varchar(10) not null,
     repay_type varchar(10),
-    interest float(3,3) not null,
+    interest float(4,2) not null,
     link varchar(200) not null,
-    primary key (product_name)
-}
+    primary key (bank_name, product_name)
+);
