@@ -2006,22 +2006,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             })
-            // 내 대출상품 추천
-            app.get(`/myLoanList`, function(req, res){
-                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
-                    if(error1) throw error1;
-                    else{
-                        var userMbti = mbti[0].substr(1,1);
-                        db.query(`SELECT * FROM loan_product WHERE mbti = ?`,[userMbti], function(error2, result){
-                            if(error2) throw error2;
-                            else{
-                                console.log(result);
-                                res.send(result);
-                            }
-                        })
-                    }
-                })
-            })
 
 
             //관리자 로그인
