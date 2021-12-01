@@ -1949,6 +1949,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             })
             // 내 펀드상품 추천
             app.get(`/myFundList`, function(req, res){
+                global_id = req.query.userID;
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
