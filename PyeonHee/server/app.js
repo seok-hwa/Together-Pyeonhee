@@ -1921,6 +1921,68 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            // 금융상품 추천
+            // 주식상품 추천
+            app.get(`/savingproduct`, function(req, res){
+                db.query(`SELECT * FROM saving_product`, function(error1, result){
+                    if(error1) throw error1;
+                    else{
+                        if(result.length === 0) console.log("주식상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result)
+                        }
+                    }
+                })
+            })
+
+            // app.get(`/savingproduct/click`, function(req, res){
+            //     var userID = req.query.userID;
+            //     db.query(`SELECT mbti FROM user WHERE user_id = ?,`)
+            // })
+
+            // 펀드상품 추천
+            app.get(`/fundproduct`, function(req, res) {
+                db.query(`SELECT * FROM fund_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("펀드상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    }
+                })
+            })
+
+            // 연금상품 추천
+            app.get(`/pensionproduct`, function(req, res) {
+                db.query(`SELECT * FROM pension_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("연금상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    }
+                })
+            })
+
+            // 대출상품 추천
+            app.get(`/loanproduct`, function(req, res) {
+                db.query(`SELECT * FROM loan_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("대출상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    }
+                })
+            })
+
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
                 console.log(req.body);
