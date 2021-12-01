@@ -62,7 +62,7 @@ const LoanProduct = ({navigation}) => {
                 setAllLoanList(responseJson);
             })  
         })*/
-    })
+    }, [])
 
     const checkHandler = () => {
         setCheck(!check);
