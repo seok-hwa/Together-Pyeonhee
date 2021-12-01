@@ -1767,7 +1767,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var subscribe_expense = 0;
                 var etc_expense = 0;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error1, spend_money){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
                     if(error1) throw error1;
                     else{
                         if(spend_money.length === 0 ){
