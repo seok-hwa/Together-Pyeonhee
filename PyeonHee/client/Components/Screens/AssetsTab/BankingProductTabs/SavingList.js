@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
 import CheckBox from '@react-native-community/checkbox';
-import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity ,ScrollView} from 'react-native';
 import SavingItem from './SavingItem';
 const url = config.url;
 const SavingProduct = ({navigation}) => {
@@ -13,6 +13,7 @@ const SavingProduct = ({navigation}) => {
     const [mySavingList, setMySavingList] = useState([]);
 
     //for test
+    /*
     const tempAll = [
         {
             product_name: '스마트 정기적금',
@@ -40,7 +41,7 @@ const SavingProduct = ({navigation}) => {
             interest: '3.5%',
             link: 'https://www.smartbank.co.kr/HMA0001',
         },
-    ]
+    ]*/
 
     useEffect(()=>{
         let tempID;
@@ -50,7 +51,6 @@ const SavingProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allSavingList`);
@@ -61,12 +61,12 @@ const SavingProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllSavingList(responseJson);
             })  
-        })*/
+        })
     }, [])
 
     const checkHandler = () => {
         setCheck(!check);
-        /*
+
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/mySavingList?userID=${userID}`)   //get
@@ -76,11 +76,11 @@ const SavingProduct = ({navigation}) => {
                 console.log(responseJson);
                 setMySavingList(responseJson);
             })
-        }*/
+        }
     }
 
     return (
-        <View style={styles.appSize}>
+        <ScrollView style={styles.appSize}>
             <View style={styles.wrapper}>
                     <CheckBox value={check} onChange={checkHandler} />
                     <Text style={styles.text}>
@@ -89,19 +89,19 @@ const SavingProduct = ({navigation}) => {
             </View>
             {
                 check === false && 
-                    tempAll.map((item, index) => {
+                    allSavingList.map((item, index) => {
                     return <SavingItem key={index} product_name={item.product_name} bank_name={item.bank_name} product_type={item.product_type}
                     max_interest={item.max_interest} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })}
                 {check === true && 
-                    tempMy.map((item, index) => {
+                    mySavingList.map((item, index) => {
                     return <SavingItem key={index} product_name={item.product_name} bank_name={item.bank_name} product_type={item.product_type}
                     max_interest={item.max_interest} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })
             }
-        </View>
+        </ScrollView>
     )
 }
 
