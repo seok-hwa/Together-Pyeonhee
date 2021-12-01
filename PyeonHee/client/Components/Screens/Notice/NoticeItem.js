@@ -5,7 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 const NoticeItem = (props) => {
 //onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate, inoutType: props.inoutType, branchName: props.branchName})}
     return (
-        <TouchableOpacity >
+        <TouchableOpacity onPress={()=>props.navigation.navigate('NoticeBoard', {boardID: props.boardID})}>
             <View style={styles.boardBox}>
                 <View style={styles.boardNumberDiv}><Text style={styles.centerFont}>{props.boardID}</Text></View>
                 <View style={styles.cateDiv}><Text style={styles.centerFont}>{props.boardCate}</Text></View>
