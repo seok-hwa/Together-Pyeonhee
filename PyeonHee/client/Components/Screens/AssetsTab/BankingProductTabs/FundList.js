@@ -54,6 +54,7 @@ const FundProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
+        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allFundList`);
@@ -64,11 +65,12 @@ const FundProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllFundList(responseJson);
             })  
-        })
+        })*/
     })
 
     const checkHandler = () => {
         setCheck(!check);
+        /*
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/myFundList?userID=${userID}`)   //get
@@ -78,7 +80,7 @@ const FundProduct = ({navigation}) => {
                 console.log(responseJson);
                 setMyFundList(responseJson);
             })
-        }
+        }*/
     }
 
     return (

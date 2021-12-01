@@ -50,6 +50,7 @@ const LoanProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
+        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allLoanList`);
@@ -60,11 +61,12 @@ const LoanProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllLoanList(responseJson);
             })  
-        })
+        })*/
     })
 
     const checkHandler = () => {
         setCheck(!check);
+        /*
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/myLoanList?userID=${userID}`)   //get
@@ -75,6 +77,7 @@ const LoanProduct = ({navigation}) => {
                 setMyLoanList(responseJson);
             })
         }
+        */
     }
 
     return (

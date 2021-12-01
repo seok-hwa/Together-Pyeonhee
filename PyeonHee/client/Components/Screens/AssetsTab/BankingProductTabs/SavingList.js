@@ -50,6 +50,7 @@ const SavingProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
+        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allSavingList`);
@@ -60,11 +61,12 @@ const SavingProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllSavingList(responseJson);
             })  
-        })
+        })*/
     })
 
     const checkHandler = () => {
         setCheck(!check);
+        /*
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/mySavingList?userID=${userID}`)   //get
@@ -74,7 +76,7 @@ const SavingProduct = ({navigation}) => {
                 console.log(responseJson);
                 setMySavingList(responseJson);
             })
-        }
+        }*/
     }
 
     return (

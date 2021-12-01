@@ -51,6 +51,7 @@ const PensionProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
+        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allPensionList`);
@@ -61,11 +62,12 @@ const PensionProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllPensionList(responseJson);
             })  
-        })
+        })*/
     })
 
     const checkHandler = () => {
         setCheck(!check);
+        /*
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/myPensionList?userID=${userID}`)   //get
@@ -75,7 +77,7 @@ const PensionProduct = ({navigation}) => {
                 console.log(responseJson);
                 setMyPensionList(responseJson);
             })
-        }
+        }*/
     }
 
     return (
