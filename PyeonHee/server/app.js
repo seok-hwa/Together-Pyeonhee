@@ -841,9 +841,9 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/MyBudgetPlanCabinet', function (req,res){
                 var userID = req.query.userID;
 
-                db.query(`SELECT planning_number,user_income,user_savings, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
-                transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
-                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [userID],function (error,result){
+                db.query(`SELECT BudgetPlanning.planning_number,BudgetPlanning.user_income,BudgetPlanning.user_savings, BudgetPlanning.monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
+                BudgetPlanning.transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
+                AS plannedExpenditure, daily_data.available_money FROM BudgetPlanning JOIN daily_data ON BudgetPlanning.user_id = daily_data.user_id WHERE BudgetPlanning.user_id = ?`, [userID],function (error,result){
                     if (error) throw error;
                     else{
                             console.log(result);
@@ -857,7 +857,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var budgetPlanningID = req.query.budgetPlanningID;
                 db.query(`SELECT *, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
                 transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
-                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [budgetPlanningID],function (error,result){
+                AS plannedExpenditure FROM BudgetPlanning WHERE planning_number = ?`, [budgetPlanningID],function (error,result){
                     if (error) throw error;
                     console.log(result);
                     res.send(result);
