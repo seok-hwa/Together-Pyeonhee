@@ -1935,7 +1935,6 @@ const SSHConnection = new Promise((resolve, reject) => {
             })
             // 펀드상품 추천
             app.get(`/allFundList`, function(req, res) {
-                global_id = req.query.userID;
                 console.log("금융상품 글로벌아이디", global_id);
                 db.query(`SELECT * FROM fund_product`, function(error, result){
                     if(error) throw error;
