@@ -588,6 +588,46 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //예산계획 추가열람 및 포인트 차감
+            app.post('/BudgetPlanCabinet', function (req, res) {
+                var userID = req.body.userID;
+                var userTotalPoint;
+                var usePoint = req.body.usePoint;
+                usePoint *= -1;
+
+                db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        userTotalPoint = result[0].total_point;
+                        if (userTotalPoint >= 100) {//예산계획 열람할 포인트 존재
+                            var updatePoint = userTotalPoint + usePoint;
+                            db.query(`UPDATE user SET total_point = ? WHERE user_id = ?`, [updatePoint, userID], function (error, result) {
+                                if (error) throw error;
+                                else {
+                                    db.query(`INSERT INTO point(user_id, diff, description) VALUES (?, ? , '예산계획 추가열람')`, [userID, usePoint], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: true,
+                                                restPoint: updatePoint //잔여포인트
+                                            }
+                                            res.send(data);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else {//예산계획 열람할 수 있는 포인트 없음
+                            const data = {
+                                status: false,
+                                restPoint: userTotalPoint // 현재 잔여 포인트
+                            }
+                            res.send(data);
+                        }
+                    }
+                });
+            });
+
             // 선택한 예산계획 상세보기
             app.get('/recommendedBudgetPlan', function (req, res) {
                 //console.log(req.query.budgetPlanningID);
