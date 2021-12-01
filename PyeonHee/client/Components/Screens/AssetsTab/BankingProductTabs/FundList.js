@@ -62,7 +62,7 @@ const FundProduct = ({navigation}) => {
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
-                setMyFundList(responseJson);
+                setAllFundList(responseJson);
             })  
         })
     })
@@ -76,7 +76,7 @@ const FundProduct = ({navigation}) => {
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
-                setRecommendedBudgetData(responseJson);
+                setMyFundList(responseJson);
             })
         }
     }
