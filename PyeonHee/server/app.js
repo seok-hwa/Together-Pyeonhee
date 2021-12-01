@@ -1922,7 +1922,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
-                        var userMbti = mbti[0].mbti.substr(0,1);
+                        var userMbti = mbti[0].mbti.substr(1,1);
                         db.query(`SELECT * FROM saving_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
@@ -1935,7 +1935,6 @@ const SSHConnection = new Promise((resolve, reject) => {
             })
             // 펀드상품 추천
             app.get(`/allFundList`, function(req, res) {
-                global_id = req.query.userID;
                 console.log("금융상품 글로벌아이디", global_id);
                 db.query(`SELECT * FROM fund_product`, function(error, result){
                     if(error) throw error;
@@ -1950,6 +1949,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             })
             // 내 펀드상품 추천
             app.get(`/myFundList`, function(req, res){
+                global_id = req.query.userID;
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
@@ -2012,7 +2012,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
-                        var userMbti = mbti[0].mbti.substr(0,1);
+                        var userMbti = mbti[0].substr(1,1);
                         db.query(`SELECT * FROM loan_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{

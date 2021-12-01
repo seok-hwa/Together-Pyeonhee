@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
 import CheckBox from '@react-native-community/checkbox';
-import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import PensionItem from './PensionItem';
 
 const url = config.url;
@@ -14,6 +14,7 @@ const PensionProduct = ({navigation}) => {
     const [myPensionList, setMyPensionList] = useState([]);
 
      //for test
+     /*
      const tempAll = [
         {
             product_name: '연금저축신탁 안정형',
@@ -41,7 +42,7 @@ const PensionProduct = ({navigation}) => {
             interest: '1.04%',
             link: 'https://spot.wooribank.com/pot/Dream?withyou=PORMG0023',
         },
-    ]
+    ]*/
 
     useEffect(()=>{
         let tempID;
@@ -51,7 +52,6 @@ const PensionProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allPensionList`);
@@ -62,12 +62,11 @@ const PensionProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllPensionList(responseJson);
             })  
-        })*/
+        })
     }, [])
 
     const checkHandler = () => {
         setCheck(!check);
-        /*
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/myPensionList?userID=${userID}`)   //get
@@ -77,11 +76,11 @@ const PensionProduct = ({navigation}) => {
                 console.log(responseJson);
                 setMyPensionList(responseJson);
             })
-        }*/
+        }
     }
 
     return (
-        <View style={styles.appSize}>
+        <ScrollView style={styles.appSize}>
             <View style={styles.wrapper}>
                     <CheckBox value={check} onChange={checkHandler} />
                     <Text style={styles.text}>
@@ -90,19 +89,19 @@ const PensionProduct = ({navigation}) => {
             </View>
             {
                 check === false && 
-                    tempAll.map((item, index) => {
+                    allPensionList.map((item, index) => {
                     return <PensionItem key={index} product_name={item.product_name} bank_name={item.bank_name} product_type={item.product_type}
                     disconnected={item.disconnected} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })}
                 {check === true && 
-                    tempMy.map((item, index) => {
+                    myPensionList.map((item, index) => {
                     return <PensionItem key={index} product_name={item.product_name} bank_name={item.bank_name} product_type={item.product_type}
                     disconnected={item.disconnected} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })
             }
-        </View>
+        </ScrollView>
     )
 }
 

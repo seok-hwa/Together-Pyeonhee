@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
-import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import LoanItem from './LoanItem';
 const url = config.url;
 const LoanProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
-    const [check, setCheck] = useState(false);
-    const [read, setRead] = useState(false);
     const [allLoanList, setAllLoanList] = useState([]);
-    const [myLoanList, setMyLoanList] = useState([]);
 
     //for test
+    /*
     const tempAll = [
         {
             product_name: '아파트 담보대출',
@@ -40,7 +37,7 @@ const LoanProduct = ({navigation}) => {
             interest: '2.87%',
             link: 'https://www.citibank.co.kr/ComMainCnts0100.act?ref=http://finlife.fss.or.kr/',
         },
-    ]
+    ]*/
 
     useEffect(()=>{
         let tempID;
@@ -63,42 +60,14 @@ const LoanProduct = ({navigation}) => {
         })
     }, [])
 
-    const checkHandler = () => {
-        setCheck(!check);
-        if(check === false && read === false) {
-            setRead(true);
-            fetch(`${url}/myLoanList?userID=${userID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                setMyLoanList(responseJson);
-            })
-        }
-    }
-
     return (
         <ScrollView style={styles.appSize}>
-            <View style={styles.wrapper}>
-                    <CheckBox value={check} onChange={checkHandler} />
-                    <Text style={styles.text}>
-                        나에게 맞는 대출 찾기
-                    </Text>
-            </View>
             {
-                check === false && 
-                    allLoanList.map((item, index) => {
-                    return <LoanItem key={index} product_name={item.product_name} bank_name={item.bank_name} interest_type={item.interest_type}
-                    repay_type={item.repay_type} interest={item.interest} link={item.link} navigation={navigation}
-                    />;
-                })}
-                {check === true && 
-                    myLoanList.map((item, index) => {
-                    return <LoanItem key={index} product_name={item.product_name} bank_name={item.bank_name} interest_type={item.interest_type}
-                    repay_type={item.repay_type} interest={item.interest} link={item.link} navigation={navigation}
-                    />;
-                })
-            }
+                allLoanList.map((item, index) => {
+                return <LoanItem key={index} product_name={item.product_name} bank_name={item.bank_name} interest_type={item.interest_type}
+                repay_type={item.repay_type} interest={item.interest} link={item.link} navigation={navigation}
+                />;
+            })}
         </ScrollView>
     )
 }
