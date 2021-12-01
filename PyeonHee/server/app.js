@@ -1993,7 +1993,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             })
-            // 대출상품 추천
+            // 대출상품 추천 (나에게 맞는 상품 찾기 없음)
             app.get(`/allLoanList`, function(req, res) {
                 db.query(`SELECT * FROM loan_product`, function(error, result){
                     if(error) throw error;
