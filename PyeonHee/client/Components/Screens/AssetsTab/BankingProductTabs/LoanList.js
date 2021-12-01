@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
 import CheckBox from '@react-native-community/checkbox';
-import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import LoanItem from './LoanItem';
 const url = config.url;
 const LoanProduct = ({navigation}) => {
@@ -50,7 +50,6 @@ const LoanProduct = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        /*
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/allLoanList`);
@@ -61,12 +60,11 @@ const LoanProduct = ({navigation}) => {
                 console.log(responseJson);
                 setAllLoanList(responseJson);
             })  
-        })*/
+        })
     }, [])
 
     const checkHandler = () => {
         setCheck(!check);
-        /*
         if(check === false && read === false) {
             setRead(true);
             fetch(`${url}/myLoanList?userID=${userID}`)   //get
@@ -77,11 +75,10 @@ const LoanProduct = ({navigation}) => {
                 setMyLoanList(responseJson);
             })
         }
-        */
     }
 
     return (
-        <View style={styles.appSize}>
+        <ScrollView style={styles.appSize}>
             <View style={styles.wrapper}>
                     <CheckBox value={check} onChange={checkHandler} />
                     <Text style={styles.text}>
@@ -90,19 +87,19 @@ const LoanProduct = ({navigation}) => {
             </View>
             {
                 check === false && 
-                    tempAll.map((item, index) => {
+                    allLoanList.map((item, index) => {
                     return <LoanItem key={index} product_name={item.product_name} bank_name={item.bank_name} interest_type={item.interest_type}
                     repay_type={item.repay_type} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })}
                 {check === true && 
-                    tempMy.map((item, index) => {
+                    myLoanList.map((item, index) => {
                     return <LoanItem key={index} product_name={item.product_name} bank_name={item.bank_name} interest_type={item.interest_type}
                     repay_type={item.repay_type} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })
             }
-        </View>
+        </ScrollView>
     )
 }
 
