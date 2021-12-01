@@ -537,7 +537,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, 
                 BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, 
                 BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
-                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 5,10`, function (error, result) {
+                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 10`, function (error, result) {
                     if (error) throw error;
                     //console.log(result);
                     res.send(result);
@@ -561,12 +561,29 @@ const SSHConnection = new Promise((resolve, reject) => {
                         var age_minus = userAge - 5;
                         var age_plus = userAge + 5;
                         db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
-                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc`, 
+                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc limit 10`, 
                         [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
                             if (error) throw error;
                             //console.log(result);
                             res.send(result);
                         });
+                    }
+                });
+            });
+
+            //예산계획 열람여부 확인
+            app.get('/BudgetPlanCabinet', function (req, res) {
+                var userID = req.query.userID; 
+                var budgetPlanID = req.query.budgetPlanID;
+                db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if(result[0].open_check == 1){//열람 기록 O
+                            //console.log("열람한 기록이 있으면 팝업창 안뜸");
+                        }
+                        else{//열람 기록 X
+                            //console.log("열람한 기록이 없으므로 팝업창 떠야함");
+                        }
                     }
                 });
             });
