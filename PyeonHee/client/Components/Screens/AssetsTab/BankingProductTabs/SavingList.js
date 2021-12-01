@@ -62,7 +62,7 @@ const SavingProduct = ({navigation}) => {
                 setAllSavingList(responseJson);
             })  
         })*/
-    })
+    }, [])
 
     const checkHandler = () => {
         setCheck(!check);

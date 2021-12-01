@@ -63,7 +63,7 @@ const PensionProduct = ({navigation}) => {
                 setAllPensionList(responseJson);
             })  
         })*/
-    })
+    }, [])
 
     const checkHandler = () => {
         setCheck(!check);
