@@ -420,6 +420,12 @@ const MyPageScreen = ({navigation}) => {
                 </View>
                 <View style = {styles.ectDiv}>
                 <Text style={styles.assetBudgetTitle}>기타</Text>
+                    <TouchableOpacity onPress={()=>navigation.navigate('ServiceCenter')}>
+                        <Text style={styles.assetBudgetBoard} >고객센터</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>navigation.navigate('NoticeList')}>
+                        <Text style={styles.assetBudgetBoard} >공지사항</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={logout}>
                         <Text style={styles.assetBudgetBoard} >로그아웃</Text>
                     </TouchableOpacity>
@@ -549,7 +555,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 10,
         marginRight: 10,
-        height: 100,
+        height: 170,
         backgroundColor: 'white',
     },
     mbtiInnerContainer: {
