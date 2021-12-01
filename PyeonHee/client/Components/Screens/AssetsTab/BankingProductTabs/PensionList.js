@@ -89,13 +89,13 @@ const PensionProduct = ({navigation}) => {
             {
                 check === false && 
                     tempAll.map((item, index) => {
-                    return <PensionItem key={index} product_name={item.product_name} bank_name={item.bank_name} propduct_type={item.product_type}
+                    return <PensionItem key={index} product_name={item.product_name} bank_name={item.bank_name} product_type={item.product_type}
                     disconnected={item.disconnected} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })}
                 {check === true && 
                     tempMy.map((item, index) => {
-                    return <PensionItem key={index} product_name={item.product_name} bank_name={item.bank_name} propduct_type={item.product_type}
+                    return <PensionItem key={index} product_name={item.product_name} bank_name={item.bank_name} product_type={item.product_type}
                     disconnected={item.disconnected} interest={item.interest} link={item.link} navigation={navigation}
                     />;
                 })

@@ -48,7 +48,7 @@ const bankingProduct = ({navigation}) => {
         <View style={styles.smallcontainer}>
             <View style={styles.tapContainer}>
                 <SegmentedControlTab
-                    values={['펀드', '주식' ,'대출', '연금']}
+                    values={['펀드', '적금' ,'대출', '연금']}
                     selectedIndex={selectedIndex}
                     onTabPress={handleSingleIndexSelect}
                     tabStyle={styles.tabStyle}
