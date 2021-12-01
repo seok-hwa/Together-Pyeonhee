@@ -23,6 +23,7 @@ import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
 import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
 import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
 import PushNotification from 'react-native-push-notification';
+import ItemLink from './Components/Screens/AssetsTab/BankingProductTabs/ItemLink';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -199,6 +200,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="ItemLink"
+             component={ItemLink}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      ); 
@@ -290,6 +298,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="ItemLink"
+             component={ItemLink}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      );
@@ -377,6 +392,13 @@ import {
            <Stack.Screen
              name="MonthReport"
              component={MonthReportScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="ItemLink"
+             component={ItemLink}
              options={{
                headerShown: false,
            }} 

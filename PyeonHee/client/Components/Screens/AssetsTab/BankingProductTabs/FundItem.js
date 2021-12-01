@@ -5,36 +5,30 @@ import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 const FundItem = (props) => {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity 
+        style={styles.container}
+        onPress={() => props.navigation.navigate('ItemLink', {link: props.link})}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
-                    <Text style={styles.fundNameFont}>브이아이 중소형주플러스 증권자투자신탁1호</Text>
-                    <Text style={styles.fundBankFont}>브이아이자산운용</Text>
+                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
+                    <Text style={styles.fundBankFont}>{props.bank_name}</Text>
                 </View>
                 <View style={styles.item2}>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>3개월 수익률: </Text>
-                        <Text style={styles.highlightFont}>17%</Text>
+                        <Text style={styles.highlightFont}>{props.interest_3}</Text>
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>6개월 수익률: </Text>
-                        <Text style={styles.highlightFont}>24%</Text>
+                        <Text style={styles.highlightFont}>{props.interest_6}</Text>
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>1년 수익률: </Text>
-                        <Text style={styles.highlightFont}>49%</Text>
-                    </View>
-                    <View style={styles.infoRow}> 
-                        <Text style={styles.rowFontSize}>합성총보수비용(연): </Text>
-                        <Text style={styles.highlightFont}>1.5%</Text>
-                    </View>
-                    <View style={styles.infoRow}> 
-                        <Text style={styles.rowFontSize}>선취판매 수수료: </Text>
-                        <Text style={styles.highlightFont}>1%</Text>
+                        <Text style={styles.highlightFont}>{props.interest_12}</Text>
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>펀드 규모: </Text>
-                        <Text style={styles.realHighlightFont}>22억</Text>
+                        <Text style={styles.realHighlightFont}>{props.fund_sum}</Text>
                     </View>
                 </View>
                 <View style={styles.nextCotainer}>
@@ -47,7 +41,7 @@ const FundItem = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        height: 140,
+        height: 120,
         backgroundColor: 'white',
         margin: 10,
         borderRadius: 10,
@@ -56,7 +50,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: 140,
+        height: 120,
       },
       item1: {
         width: 160,
