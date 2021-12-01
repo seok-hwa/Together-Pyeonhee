@@ -85,57 +85,38 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error1) throw error1;
                     console.log("권장금액 이행률이 초기화 되었습니다.")
                 });
-                db.query(`SELECT tier, total_stamp, total_point, state FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
+                db.query(`SELECT tier, total_stamp, total_point FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
                     if(error2) throw error2;
                     else{
                         var tier = result2[0].tier;
                         var total_stamp = result2[0].total_stamp;
                         var total_point = result2[0].total_point;
-                        var state = result[2].state;
                         if(total_stamp >= 20){
                             tier = 'SILVER';
-                            if(state === 0){
-                                state = 1;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 1000;
                         }
                         else if(total_stamp >= 40){
                             tier = 'GOLD';
-                            if(state === 1){
-                                state = 2;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 1500;
                         }
                         else if(total_stamp >= 60){
                             tier = 'PLATINUM';
-                            if(state === 2){
-                                state = 3;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 2000;
                         }
                         else if(total_stamp >= 80){
                             tier = 'DIAMOND';
-                            if(state === 0){
-                                state = 4;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 2500;
                         }
+                        else if(total_stamp < 20){
+                            tier = 'BRONZE';
+                            total_point = total_point + 500;
+                        }
+                        db.query(`UPDATE user SET tier = ?, total_point =?`, [tier, total_point], function(error3, result3){
+                            if(error3) throw error3;
+                            else{
+                                console.log("티어와 포인트가 업데이트 되었습니다.");
+                            }
+                        })
                     }
                 });
             });
@@ -1954,6 +1935,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             })
             // 펀드상품 추천
             app.get(`/allFundList`, function(req, res) {
+                global_id = req.query.userID;
                 console.log("금융상품 글로벌아이디", global_id);
                 db.query(`SELECT * FROM fund_product`, function(error, result){
                     if(error) throw error;
