@@ -15,10 +15,10 @@ import {
   Linking,
 } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
-import FundProduct from './BankingProductTabs/FundProduct';
-import LoanProduct from './BankingProductTabs/LoanProduct';
-import PensionProduct from './BankingProductTabs/PensionProduct';
-import SavingProduct from './BankingProductTabs/SavingProduct';
+import FundList from './BankingProductTabs/FundList';
+import LoanList from './BankingProductTabs/LoanList';
+import PensionList from './BankingProductTabs/PensionList';
+import SavingList from './BankingProductTabs/SavingList';
 import config from '../../../config';
 
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
@@ -57,10 +57,10 @@ const bankingProduct = ({navigation}) => {
                     borderRadius={20}
                 />
             </View>
-          {selectedIndex === 0 && <FundProduct navigation={navigation}/>}
-          {selectedIndex === 1 && <SavingProduct navigation={navigation}/>}
-          {selectedIndex === 2 && <LoanProduct navigation={navigation}/>}
-          {selectedIndex === 3 && <PensionProduct navigation={navigation}/>}
+          {selectedIndex === 0 && <FundList navigation={navigation}/>}
+          {selectedIndex === 1 && <SavingList navigation={navigation}/>}
+          {selectedIndex === 2 && <LoanList navigation={navigation}/>}
+          {selectedIndex === 3 && <PensionList navigation={navigation}/>}
             
         </View>
       </SafeAreaView>

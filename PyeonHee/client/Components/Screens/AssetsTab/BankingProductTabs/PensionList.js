@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
+import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 
 const url = config.url;
 const PensionProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
+    const [check, setCheck] = useState(false);
 
     useEffect(()=>{
         AsyncStorage.getItem('userID', (err, result) => {
@@ -16,8 +18,18 @@ const PensionProduct = ({navigation}) => {
         })
     })
 
+    const checkHandler = () => {
+        setCheck(!check);
+    }
+
     return (
         <View style={styles.appSize}>
+            <View style={styles.wrapper}>
+                    <CheckBox value={check} onChange={checkHandler} />
+                    <Text style={styles.text}>
+                        나에게 맞는 연금 찾기
+                    </Text>
+            </View>
             <TouchableOpacity style={styles.container}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
@@ -25,9 +37,12 @@ const PensionProduct = ({navigation}) => {
                     <Text style={styles.fundBankFont}>신한은행</Text>
                 </View>
                 <View style={styles.item2}>
-                    <Text>유형: 안정형</Text>
                     <View style={styles.infoRow}> 
-                        <Text>중도해지가능여부 : </Text>
+                        <Text>유형: </Text>
+                        <Text style={styles.highlightFontAva}>안정형</Text>
+                    </View>
+                    <View style={styles.infoRow}> 
+                        <Text>중도해지가능여부: </Text>
                         <Text style={styles.highlightFont}>가능</Text>
                     </View>
                     <View style={styles.infoRow}> 
@@ -113,5 +128,19 @@ const styles = StyleSheet.create({
         highlightFont: {
           color: 'blue',
           fontWeight: 'bold',
+        },
+        highlightFontAva:{
+            fontWeight: 'bold',
+        },
+
+        wrapper: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignContent: 'center',
+            paddingVertical: 5,
+        },
+        text: {
+            lineHeight: 30,
+            marginLeft: 10,
         },
 });

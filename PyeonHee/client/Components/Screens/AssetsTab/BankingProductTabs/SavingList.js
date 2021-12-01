@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
+import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 
 const url = config.url;
 const SavingProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
+    const [check, setCheck] = useState(false);
 
     useEffect(()=>{
         AsyncStorage.getItem('userID', (err, result) => {
@@ -16,8 +18,18 @@ const SavingProduct = ({navigation}) => {
         })
     })
 
+    const checkHandler = () => {
+        setCheck(!check);
+    }
+
     return (
         <View style={styles.appSize}>
+            <View style={styles.wrapper}>
+                    <CheckBox value={check} onChange={checkHandler} />
+                    <Text style={styles.text}>
+                        나에게 맞는 주식 찾기
+                    </Text>
+            </View>
             <TouchableOpacity style={styles.container}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
@@ -25,7 +37,10 @@ const SavingProduct = ({navigation}) => {
                     <Text style={styles.fundBankFont}>스마트저축은행</Text>
                 </View>
                 <View style={styles.item2}>
-                    <Text>방식: 정액적립식</Text>
+                    <View style={styles.infoRow}> 
+                        <Text>방식: </Text>
+                        <Text style={styles.highlightFontAva}>정액적립식</Text>
+                    </View>
                     <View style={styles.infoRow}> 
                         <Text>이자율: </Text>
                         <Text style={styles.highlightFont}>3.5%</Text>
@@ -113,5 +128,19 @@ const styles = StyleSheet.create({
         highlightFont: {
           color: 'blue',
           fontWeight: 'bold',
+        },
+        highlightFontAva:{
+            fontWeight: 'bold',
+        },
+
+        wrapper: {
+            display: 'flex',
+            flexDirection: 'row',
+            alignContent: 'center',
+            paddingVertical: 5,
+        },
+        text: {
+            lineHeight: 30,
+            marginLeft: 10,
         },
 });

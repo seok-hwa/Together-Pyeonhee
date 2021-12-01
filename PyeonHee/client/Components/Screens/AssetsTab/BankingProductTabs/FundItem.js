@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
-import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
+import BudgetDetail from './RecommendedPlanningScreen';
 
-const url = config.url;
-const FundProduct = ({navigation}) => {
-    const [userID, setUserID] = useState('');
-
-    useEffect(()=>{
-        AsyncStorage.getItem('userID', (err, result) => {
-            const tempID = result;
-            if(tempID!= null){
-                setUserID(tempID);
-            }
-        })
-    })
-
+const FundItem = (props) => {
     return (
-        <View style={styles.appSize}>
-            <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
                     <Text style={styles.fundNameFont}>브이아이 중소형주플러스 증권자투자신탁1호</Text>
@@ -38,10 +26,6 @@ const FundProduct = ({navigation}) => {
                         <Text style={styles.highlightFont}>49%</Text>
                     </View>
                     <View style={styles.infoRow}> 
-                        <Text style={styles.rowFontSize}>펀드 규모: </Text>
-                        <Text style={styles.highlightFont}>22억</Text>
-                    </View>
-                    <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>합성총보수비용(연): </Text>
                         <Text style={styles.highlightFont}>1.5%</Text>
                     </View>
@@ -59,18 +43,12 @@ const FundProduct = ({navigation}) => {
                 </View>
             </View>
         </TouchableOpacity>
-        </View>
-    )
-}
-
-export default FundProduct;
+    );
+};
 
 const styles = StyleSheet.create({
-    appSize: {
-      flex: 1,
-    },
     container: {
-        height: 150,
+        height: 140,
         backgroundColor: 'white',
         margin: 10,
         borderRadius: 10,
@@ -79,7 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: 150,
+        height: 140,
       },
       item1: {
         width: 160,
@@ -125,6 +103,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
       },
       fundBankFont: {
+        marginTop: 5,
         fontSize: 12,
       },
       infoRow: {
@@ -143,4 +122,6 @@ const styles = StyleSheet.create({
       rowFontSize: {
         fontSize: 12.5,
       },
-});
+  });
+
+export default FundItem;
