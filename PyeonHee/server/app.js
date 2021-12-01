@@ -1023,6 +1023,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/daily`, function(req, res){
                 // console.log(req.body);
                 var userID = req.body.userID;
+                global_id = req.body.userID;
                 db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error, name){
                     if(error) throw error;
                     else {

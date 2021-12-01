@@ -25,8 +25,8 @@ const url = config.url;
 const MonthReportScreen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [userMbti, setUserMbti] = useState('PHOM');
-  const [mbtiDescription, setMbtiDescription] = useState('당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. 수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. 종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. 소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다.');
+  const [userMbti, setUserMbti] = useState('');
+  const [mbtiDescription, setMbtiDescription] = useState('');
   const [loading, setLoading] = useState(false);
 
   var now = new Date();	// 현재 날짜 및 시간
