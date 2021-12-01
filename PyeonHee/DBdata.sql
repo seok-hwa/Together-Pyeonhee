@@ -748,3 +748,185 @@ update BudgetPlanning set like_number = 9 where user_id = 'wwxx';
 update BudgetPlanning set like_number = 10 where user_id = 'wxwx';
 update BudgetPlanning set like_number = 5 where user_id = 'xxyx';
 update BudgetPlanning set like_number = 3 where user_id = 'yyzz';
+
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test1', 2222, 'park','ICOM',25, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test1',  'ICOM', 25,3500000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+        
+        
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test2', 2222, 'park','ICOM',24, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test2',  'ICOM', 24,3500000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+        
+        
+        
+        
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test3', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test3',  'ICOM', 26,3500000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test4', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test4',  'ICOM', 26,3500000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+        
+        
+        
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test5', 2222, 'park','ICOM',25, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test5',  'ICOM', 25,3500000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+        
+        
+        
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test6', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test6',  'ICOM', 26,3000000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+        
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test7', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test7',  'ICOM', 26,3000000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test8', 2222, 'park','ICOM',24, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test8',  'ICOM', 24,3000000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test9', 2222, 'park','ICOM',25, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test9',  'ICOM', 25,3200000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test10', 2222, 'park','ICOM',25, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test10',  'ICOM', 25,3200000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test11', 2222, 'park','ICOM',25, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test11',  'ICOM', 25,3100000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test12', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test12',  'ICOM', 26,3600000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test13', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test13',  'ICOM', 26,3700000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+insert into user(user_id, password, name, mbti, age, tier)
+values ('test14', 2222, 'park','ICOM',26, 'Bronze');
+
+insert into BudgetPlanning(user_id, 
+            user_mbti, user_age,user_income, user_savings, monthly_rent,
+            insurance_expense,transportation_expense,communication_expense,
+            leisure_expense, shopping_expense ,education_expense, medical_expense,
+            event_expense, etc_expense)
+values ('test14',  'ICOM', 26,3700000, 500000, 400000, 100000, 150000, 100000,
+        150000, 200000, 0, 0, 150000, 0);
+
+
+update BudgetPlanning set like_number = 25 where user_id = 'test1';
+update BudgetPlanning set like_number = 10 where user_id = 'test2';
+update BudgetPlanning set like_number = 53 where user_id = 'test3';
+update BudgetPlanning set like_number = 10 where user_id = 'test4';
+update BudgetPlanning set like_number = 10 where user_id = 'test5';
+update BudgetPlanning set like_number = 62 where user_id = 'test6';
+update BudgetPlanning set like_number = 10 where user_id = 'test7';
+update BudgetPlanning set like_number = 92 where user_id = 'test8';
+update BudgetPlanning set like_number = 10 where user_id = 'test9';
+update BudgetPlanning set like_number = 52 where user_id = 'test10';
+update BudgetPlanning set like_number = 31 where user_id = 'test11';
+update BudgetPlanning set like_number = 35 where user_id = 'test12';
+update BudgetPlanning set like_number = 32 where user_id = 'test13';
+update BudgetPlanning set like_number = 32 where user_id = 'test14';
