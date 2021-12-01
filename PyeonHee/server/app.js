@@ -1024,6 +1024,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 // console.log(req.body);
                 var userID = req.body.userID;
                 global_id = req.body.userID;
+                console.log("글로벌아이디", global_id);
                 db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error, name){
                     if(error) throw error;
                     else {
@@ -1940,7 +1941,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
-                        var userMbti = mbti[0].substr(1,1);
+                        var userMbti = mbti[0].mbti.substr(1,1);
                         db.query(`SELECT * FROM saving_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
@@ -1953,6 +1954,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             })
             // 펀드상품 추천
             app.get(`/allFundList`, function(req, res) {
+                console.log("금융상품 글로벌아이디", global_id);
                 db.query(`SELECT * FROM fund_product`, function(error, result){
                     if(error) throw error;
                     else{
@@ -1969,7 +1971,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
-                        var userMbti = mbti[0].substr(1,1);
+                        var userMbti = mbti[0].mbti.substr(0,1);
+                        console.log(userMbti);
                         db.query(`SELECT * FROM fund_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
@@ -1998,7 +2001,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
                     if(error1) throw error1;
                     else{
-                        var userMbti = mbti[0].substr(1,1);
+                        var userMbti = mbti[0].mbti.substr(0,1);
                         db.query(`SELECT * FROM pension_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
