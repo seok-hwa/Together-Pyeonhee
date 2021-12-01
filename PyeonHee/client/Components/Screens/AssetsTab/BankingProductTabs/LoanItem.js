@@ -15,15 +15,15 @@ const LoanItem = (props) => {
                 </View>
                 <View style={styles.item2}>
                     <View style={styles.infoRow}> 
-                        <Text>금리방식: </Text>
+                        <Text style={styles.rowFont}>금리방식: </Text>
                         <Text style={styles.highlightFontAva}>{props.interest_type}</Text>
                     </View>
                     <View style={styles.infoRow}> 
-                        <Text>상환방식: </Text>
+                        <Text style={styles.rowFont}>상환방식: </Text>
                         <Text style={styles.highlightFontAva}>{props.repay_type}</Text>
                     </View>
                     <View style={styles.infoRow}> 
-                        <Text>금리: </Text>
+                        <Text style={styles.rowFont}>금리: </Text>
                         <Text style={styles.highlightFont}>{props.interest}</Text>
                     </View>
                 </View>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         height: 100,
       },
       item1: {
-        width: 150,
+        width: 160,
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRightWidth: 1,
@@ -88,9 +88,10 @@ const styles = StyleSheet.create({
 
       fundNameFont: {
         fontWeight: 'bold',
+        fontSize: 12.5,
       },
       fundBankFont: {
-        fontSize: 12,
+        fontSize: 11,
       },
       infoRow: {
           flexDirection: 'row',
@@ -98,9 +99,14 @@ const styles = StyleSheet.create({
       highlightFont: {
         color: 'blue',
         fontWeight: 'bold',
+        fontSize: 12.5,
       },
       highlightFontAva:{
           fontWeight: 'bold',
+          fontSize: 12.5,
+      },
+      rowFont:{
+        fontSize: 12.5,
       },
   });
 

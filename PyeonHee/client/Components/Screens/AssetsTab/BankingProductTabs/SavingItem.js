@@ -15,15 +15,15 @@ const SavingItem = (props) => {
             </View>
             <View style={styles.item2}>
                 <View style={styles.infoRow}> 
-                    <Text>방식: </Text>
+                    <Text style={styles.rowFont}>방식: </Text>
                     <Text style={styles.highlightFontAva}>{props.product_type}</Text>
                 </View>
                 <View style={styles.infoRow}> 
-                    <Text>이자율: </Text>
+                    <Text style={styles.rowFont}>이자율: </Text>
                     <Text style={styles.highlightFont}>{props.interest}</Text>
                 </View>
                 <View style={styles.infoRow}> 
-                    <Text>최고 우대금리: </Text>
+                    <Text style={styles.rowFont}>최고 우대금리: </Text>
                     <Text style={styles.highlightFont}>{props.max_interest}</Text>
                 </View>
             </View>
@@ -49,14 +49,13 @@ const styles = StyleSheet.create({
         height: 100,
       },
       item1: {
-        width: 150,
+        width: 170,
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRightWidth: 1,
         borderRightColor: 'gray',
       },
       item2: {
-      marginRight: 20,
         justifyContent: 'space-between',
       },
       tierDesign: {
@@ -89,9 +88,10 @@ const styles = StyleSheet.create({
 
       fundNameFont: {
         fontWeight: 'bold',
+        fontSize: 12.5,
       },
       fundBankFont: {
-        fontSize: 12,
+        fontSize: 11,
       },
       infoRow: {
           flexDirection: 'row',
@@ -99,9 +99,14 @@ const styles = StyleSheet.create({
       highlightFont: {
         color: 'blue',
         fontWeight: 'bold',
+        fontSize: 12.5,
       },
       highlightFontAva:{
           fontWeight: 'bold',
+          fontSize: 12.5,
+      },
+      rowFont: {
+        fontSize: 12.5,
       },
   });
 

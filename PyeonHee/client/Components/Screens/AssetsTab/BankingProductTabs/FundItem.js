@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         height: 120,
       },
       item1: {
-        width: 160,
+        width: 170,
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRightWidth: 1,
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
 
       fundNameFont: {
         fontWeight: 'bold',
-        fontSize: 13,
+        fontSize: 12,
       },
       fundBankFont: {
         marginTop: 5,
-        fontSize: 12,
+        fontSize: 11,
       },
       infoRow: {
           flexDirection: 'row',

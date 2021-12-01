@@ -20,7 +20,11 @@ const PensionItem = (props) => {
                     </View>
                     <View style={styles.infoRow}> 
                         <Text>중도해지가능여부: </Text>
-                        <Text style={styles.highlightFont}>{props.disconnected}</Text>
+                        {
+                            props.disconnected === '가능'?
+                            <Text style={styles.highlightFont}>{props.disconnected}</Text>:
+                            <Text style={styles.highlightBadFont}>{props.disconnected}</Text>
+                        }
                     </View>
                     <View style={styles.infoRow}> 
                         <Text>수익률: </Text>
@@ -56,7 +60,6 @@ const styles = StyleSheet.create({
         borderRightColor: 'gray',
       },
       item2: {
-      marginRight: 20,
         justifyContent: 'space-between',
       },
       tierDesign: {
@@ -89,9 +92,10 @@ const styles = StyleSheet.create({
 
       fundNameFont: {
         fontWeight: 'bold',
+        fontSize: 12.5,
       },
       fundBankFont: {
-        fontSize: 12,
+        fontSize: 11,
       },
       infoRow: {
           flexDirection: 'row',
@@ -99,10 +103,20 @@ const styles = StyleSheet.create({
       highlightFont: {
         color: 'blue',
         fontWeight: 'bold',
+        fontSize: 12.5,
       },
       highlightFontAva:{
           fontWeight: 'bold',
+          fontSize: 12.5,
       },
+      highlightBadFont: {
+        color: 'red',
+        fontWeight: 'bold',
+        fontSize: 12.5,
+      },
+      rowFont:{
+          fontSize: 12.5,
+      }
   });
 
 export default PensionItem;
