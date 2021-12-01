@@ -1923,9 +1923,9 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             // 금융상품 추천
             // 주식상품 추천
-            app.get(`/savingproduct`, function(req, res){
-                db.query(`SELECT * FROM saving_product`, function(error1, result){
-                    if(error1) throw error1;
+            app.get(`/allSavingList`, function(req, res){
+                db.query(`SELECT * FROM saving_product`, function(error, result){
+                    if(error) throw error;
                     else{
                         if(result.length === 0) console.log("주식상품이 없습니다.");
                         else{
@@ -1935,14 +1935,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             })
-
-            // app.get(`/savingproduct/click`, function(req, res){
-            //     var userID = req.query.userID;
-            //     db.query(`SELECT mbti FROM user WHERE user_id = ?,`)
-            // })
-
+            // 내 주식상품 추천
+            app.get(`/mySavingList`, function(req, res){
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].substr(1,1);
+                        db.query(`SELECT * FROM saving_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
             // 펀드상품 추천
-            app.get(`/fundproduct`, function(req, res) {
+            app.get(`/allFundList`, function(req, res) {
                 db.query(`SELECT * FROM fund_product`, function(error, result){
                     if(error) throw error;
                     else{
@@ -1954,9 +1964,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             })
-
+            // 내 펀드상품 추천
+            app.get(`/myFundList`, function(req, res){
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].substr(1,1);
+                        db.query(`SELECT * FROM fund_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
             // 연금상품 추천
-            app.get(`/pensionproduct`, function(req, res) {
+            app.get(`/allPensionList`, function(req, res) {
                 db.query(`SELECT * FROM pension_product`, function(error, result){
                     if(error) throw error;
                     else{
@@ -1968,9 +1993,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             })
-
+            // 내 연금상품 추천
+            app.get(`/myPensionList`, function(req, res){
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].substr(1,1);
+                        db.query(`SELECT * FROM pension_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
             // 대출상품 추천
-            app.get(`/loanproduct`, function(req, res) {
+            app.get(`/allLoanList`, function(req, res) {
                 db.query(`SELECT * FROM loan_product`, function(error, result){
                     if(error) throw error;
                     else{
@@ -1982,6 +2022,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             })
+            // 내 대출상품 추천
+            app.get(`/myLoanList`, function(req, res){
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].substr(1,1);
+                        db.query(`SELECT * FROM loan_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
+
 
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
