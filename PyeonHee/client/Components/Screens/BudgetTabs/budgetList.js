@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 import BudgetItem from '../BudgetItem';
@@ -55,7 +55,7 @@ const BudgetList = ({navigation}) => {
     
     return (
         <View style={styles.appSize}>
-            <ScrollView>
+            {/* <ScrollView> */}
         
                 <View style={styles.wrapper}>
                     <CheckBox value={check} onChange={checkHandler} />
@@ -66,20 +66,31 @@ const BudgetList = ({navigation}) => {
 
                 <View>
                     {check === false && 
-                        otherBudgetData.map(item => {
-                        return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti}
-                        />;
-                    })}
+                        <FlatList
+                            keyExtractor={item => item.planning_number}
+                            data={otherBudgetData}
+                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} openCheck={item.open_check} budgetCabinet={false}
+                            />}
+                            // refreshing={refresh}
+                            // onRefresh={loadCabinet}
+                        />
+                    }
                     {check === true && 
-                        recommendedBudgetData.map(item => {
-                        return <BudgetItem userAge={item.user_age} key={item.planning_number} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti}
-                        />;
-                    })}
+                        <FlatList
+                            keyExtractor={item => item.planning_number}
+                            data={recommendedBudgetData}
+                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} openCheck={item.open_check} budgetCabinet={false}
+                            />}
+                            // refreshing={refresh}
+                            // onRefresh={loadCabinet}
+                        />
+                    
+                    }
                 </View>
 
-            </ScrollView>
+            {/* </ScrollView> */}
         </View>
     )
 }
