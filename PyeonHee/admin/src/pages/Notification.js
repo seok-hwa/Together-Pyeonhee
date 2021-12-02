@@ -34,7 +34,7 @@ function Notification(props) {
     })
     .then((res)=>{
       console.log(res.data);
-      let tempTotalPage = res.data;
+      let tempTotalPage = res.data.totalPage;
 
       let currentPage = props.match.params.pageNumber;
 
@@ -49,14 +49,15 @@ function Notification(props) {
 
       console.log('현재 페이지: ', currentPage);
       console.log('시작 페이지: ', startPage);    
-      console.log('종료 페이지', EndPage);
+      console.log('종료 페이지: ', EndPage);
+      console.log('총 페이지: ',tempTotalPage)
       
       let pageNumber = [];
       for (let i = startPage; i <= EndPage; i++) {
         pageNumber.push(i);
       }
 
-      setTotalPage(res.data);
+      setTotalPage(tempTotalPage);
       setCurrentStartPage(startPage);
       setCurrentEndPage(EndPage);
       setPageNumbers(pageNumber);
@@ -122,13 +123,17 @@ function Notification(props) {
           }
           {
               pageNumbers.map(number => (
+                number === parseInt(props.match.params.pageNumber) ?
+                <a key={number} className="Page-link-highlight" onClick={() => paginate(number)}>
+                  {number}
+                </a>:
                 <a key={number} className="Page-link" onClick={() => paginate(number)}>
                   {number}
                 </a>
             ))
           }
           {
-            totalPage === currentEndPage || currentEndPage === 0?
+            totalPage === currentEndPage || currentEndPage === 0 ?
             <a className="Page-link">다음</a> :
             <a className="Page-link" onClick={() => paginateNext(parseInt(props.match.params.pageNumber)+1)}>다음</a>
           }
