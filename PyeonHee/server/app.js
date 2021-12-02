@@ -570,26 +570,55 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-
+            
+            /*
             //예산계획 열람여부 확인
             app.get('/BudgetPlanCabinet', function (req, res) {
+                console.log("여기확인★");
                 var userID = req.query.userID; 
                 var budgetPlanID = req.query.budgetPlanID;
-                db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
+                var data;
+
+                db.query(`SELECT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age, 
+                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings, 
+                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, 
+                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, 
+                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
+                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id AND planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
-                    else {
-                        if(result[0].open_check == 1){//열람 기록 O
-                            //console.log("열람한 기록이 있으면 팝업창 안뜸");
+                    else{
+                        data = {
+                            result
                         }
-                        else{//열람 기록 X
-                            //console.log("열람한 기록이 없으므로 팝업창 떠야함");
-                        }
+                        console.log("값 확인입니다.");
+                        console.log(data);
+
+                        db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                if (result[0] != undefined) {//열람 기록 O
+                                    //console.log("열람한 기록이 있으면 팝업창 안뜸");
+                                    res.send(1);
+                                }
+                                else {//열람 기록 X
+                                    //console.log("열람한 기록이 없으므로 팝업창 떠야함");
+                                    db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            console.log("사용자 읽음 표시 DB저장완료");
+                                        }
+                                    });
+                                    res.send(0);
+                                }
+                            }
+                        });
                     }
                 });
             });
+            */
 
             //예산계획 추가열람 및 포인트 차감
-            app.post('/BudgetPlanCabinet', function (req, res) {
+            app.post('/usePoint', function (req, res) {
                 var userID = req.body.userID;
                 var userTotalPoint;
                 var usePoint = req.body.usePoint;
@@ -2233,9 +2262,39 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //사용자 고객센터 글 내용 확인
-            app.get('/queryBoard', function (req, res) {
-                var boardID = req.query.boardID;
+            //사용자 고객센터 글 작성
+            app.post('/queryRegister', function (req, res) {
+                var userID = req.body.userID;
+                var boardTitle = req.body.boardTitle;
+                var boardCate = req.body.boardCate;
+                var boardContent = req.body.boardContent;
+
+                db.query(`INSERT INTO board (title, content, user_id, category) VALUES (?, ?, ?, ?)`, [boardTitle, boardContent, userID, boardCate], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE notice SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("게시판 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             });
 
             const PORT = 8000;
