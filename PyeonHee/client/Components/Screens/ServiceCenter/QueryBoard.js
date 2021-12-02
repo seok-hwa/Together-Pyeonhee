@@ -8,10 +8,10 @@ const url = config.url;
 
 const QueryBoard = ({route}) => {
     const [userID, setUserID] = useState('');
-    const [boardTitle, setBoardTitle] = useState('티어가 안 오르는 것 같습니다..');
-    const [boardCate, setBoardCate] = useState('티어');
-    const [boardDate, setBoardDate] = useState('2021-12-02');
-    const [boardContent, setBoardContent] = useState('분명 스탬프 다 채웠는데 안 오르네요..');
+    const [boardTitle, setBoardTitle] = useState('');
+    const [boardCate, setBoardCate] = useState('');
+    const [boardDate, setBoardDate] = useState('');
+    const [boardContent, setBoardContent] = useState('');
     const [boardAnswer, setBoardAnswer] = useState(true);
 
     const [loading, setLoading] = useState(true);
