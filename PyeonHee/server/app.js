@@ -2183,7 +2183,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //관리자 공지사항 글 확인
+            //관리자 공지사항 글 내용 확인
             app.post('/NotificationBoardInfo', function (req, res) {
                 var noticeNumber = req.body.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [noticeNumber], function (error, result) {
@@ -2208,7 +2208,21 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //사용자 공지사항 글 내용 확인
             app.get('/noticeBoard', function (req, res) {
-                console.log("여기!!");
+                var boardID = req.query.boardID;
+                db.query(`SELECT * FROM notice WHERE notice_number =?`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            boardTitle: result[0].title,
+                            boardCate: result[0].category,
+                            boardDate: result[0].notice_date,
+                            boardModiDate: result[0].modified_date,
+                            boardContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
             });
 
             const PORT = 8000;
