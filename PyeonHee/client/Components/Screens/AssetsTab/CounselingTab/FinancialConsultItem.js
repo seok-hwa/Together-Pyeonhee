@@ -12,7 +12,7 @@ const FinancialConsultItem = (props) => {
             // onPress={() => props.navigation.navigate('FinancialConsult', {consultNumber: props.consultNumber})}
         >
             <View style={styles.itemContainer}>
-                <View style={styles.accountLogoContainer}>
+                <View style={styles.rankingLogoContainer}>
                     <RankingLogo rank={props.counselorRank}/>
                 </View>
 
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'white',
-      margin: 10,
+      margin: 5,
       borderRadius: 10,
     },
     itemContainer: {
@@ -49,19 +49,19 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       height: 90,
     },
-    accountLogoContainer: {
-      width: 50,
-      height: 50,
-      marginLeft: 15,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 15,
-      borderWidth: 1,
-      borderColor: 'gray',
-    },
+    rankingLogoContainer: {
+        width: 30,
+        height: 30,
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+      },
     item2: {
         marginRight: 20,
-        backgroundColor: 'pink',
+        // backgroundColor: 'pink',
         width: 150
         // justifyContent: 'space-between',
     },
