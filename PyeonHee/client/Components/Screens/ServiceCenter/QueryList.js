@@ -12,6 +12,7 @@ const QueryList = ({navigation}) => {
     const [queryList, setQueryList] = useState([]);
 
      //for test
+     /*
      const temp = [
         {
             boardID: 2,
@@ -27,7 +28,7 @@ const QueryList = ({navigation}) => {
             boardDate: '2021-11-28',
             boardAnswer: true,
         },
-    ]
+    ]*/
 
     useEffect(()=>{
         let tempID;
@@ -66,9 +67,9 @@ const QueryList = ({navigation}) => {
                 <View style={styles.answerDiv}><Text style={styles.graphFont}>답변</Text></View>
             </View>
             <ScrollView style={styles.appSize}>
-                {temp.map(item => {
-                    return <QueryItem key={item.boardID} boardID={item.boardID} boardCate={item.boardCate} boardTitle={item.boardTitle} 
-                    boardDate={item.boardDate} navigation={navigation} boardAnswer={item.boardAnswer}
+                {queryList.map(item => {
+                    return <QueryItem key={item.board_number} boardID={item.board_number} boardCate={item.boardCate} boardTitle={item.title} 
+                    boardDate={item.board_date} navigation={navigation} boardAnswer={item.boardAnswer}
                     />})
                 }
             </ScrollView>
