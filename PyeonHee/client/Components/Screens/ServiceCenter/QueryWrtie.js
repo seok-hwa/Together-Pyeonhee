@@ -10,10 +10,21 @@ import config from '../../../config';
 const url = config.url;
 
 const QueryWrite = () => {
+    const [userID, setUserID] = useState('');
     const [boardTitle, setBoardTitle] = useState('');
     const [boardCate, setBoardCate] = useState('');
     const [boardContent, setBoardContent] = useState('');
     
+    useEffect(()=>{
+        let tempID;
+        AsyncStorage.getItem('userID', (err, result) => {
+            tempID = result;
+            if(tempID!= null){
+                setUserID(tempID);
+            }
+        })
+    }, [])
+
     const handleSubmitButton = () => {
         if(!boardTitle){
           Popup.show({
@@ -54,6 +65,7 @@ const QueryWrite = () => {
                 boardTitle: boardTitle,
                 boardCate: boardCate,
                 boardContent: boardContent,
+                userID: userID,
             }),
             headers: {
                 'Accept': 'application/json',
