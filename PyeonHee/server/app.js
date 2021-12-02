@@ -2156,8 +2156,8 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 공지사항 목록 확인
             app.post('/adminGetNotificationList', function (req, res) {
-                var pageNumber = req.body.pageNumber;
-                db.query(`SELECT * FROM notice`,function (error, result) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM notice ORDER BY notice_number limit ?, 10`, [pageNumber], function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
