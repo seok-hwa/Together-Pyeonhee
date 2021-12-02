@@ -570,52 +570,32 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            
-            /*
+                 
             //예산계획 열람여부 확인
-            app.get('/BudgetPlanCabinet', function (req, res) {
-                console.log("여기확인★");
-                var userID = req.query.userID; 
+            app.get('/openCheck', function (req, res) {
+                console.log("열람여부확인");
+                var userID = req.query.userID;
                 var budgetPlanID = req.query.budgetPlanID;
-                var data;
-
-                db.query(`SELECT BudgetPlanning.user_id, user.tier, user.job, BudgetPlanning.user_mbti, BudgetPlanning.user_age, 
-                BudgetPlanning.planning_number, BudgetPlanning.planning_date, BudgetPlanning.user_income, BudgetPlanning.user_savings, 
-                BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, 
-                BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, 
-                BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
-                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id AND planning_number =?`, [budgetPlanID], function (error, result) {
+                db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
                     if (error) throw error;
-                    else{
-                        data = {
-                            result
+                    else {
+                        if (result[0].open_check == 1) {//열람 기록 O
+                            //console.log("열람한 기록이 있으면 팝업창 안뜸");
+                            res.send(1);
                         }
-                        console.log("값 확인입니다.");
-                        console.log(data);
-
-                        db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
-                            if (error) throw error;
-                            else {
-                                if (result[0] != undefined) {//열람 기록 O
-                                    //console.log("열람한 기록이 있으면 팝업창 안뜸");
-                                    res.send(1);
+                        else {//열람 기록 X
+                            //console.log("열람한 기록이 없으므로 팝업창 떠야함");
+                            db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
+                                if (error) throw error;
+                                else {
+                                    console.log("사용자 읽음 표시 DB저장완료");
                                 }
-                                else {//열람 기록 X
-                                    //console.log("열람한 기록이 없으므로 팝업창 떠야함");
-                                    db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
-                                        if (error) throw error;
-                                        else {
-                                            console.log("사용자 읽음 표시 DB저장완료");
-                                        }
-                                    });
-                                    res.send(0);
-                                }
-                            }
-                        });
+                            });
+                            res.send(0);
+                        }
                     }
                 });
             });
-            */
 
             //예산계획 추가열람 및 포인트 차감
             app.post('/usePoint', function (req, res) {
@@ -2183,7 +2163,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             //관리자 공지사항 목록 확인
             app.post('/adminGetNotificationList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
-                db.query(`SELECT * FROM notice ORDER BY notice_number limit ?, 10`, [pageNumber], function (error, result) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number desc limit ?, 10`, [pageNumber], function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2274,7 +2254,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             
             //사용자 공지사항 글 목록 확인
             app.get('/noticeList', function (req, res) {
-                db.query(`SELECT * FROM notice ORDER BY notice_number`, function (error, result) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number desc`, function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2304,7 +2284,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //사용자 고객센터 글 목록확인
             app.get('/queryList', function (req, res) {
-                db.query(`SELECT * FROM board ORDER BY board_number`, function (error, result) {
+                db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2334,7 +2314,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 db.query(`SET @COUNT = 0;`, function (error, result) {
                                     if (error) throw error;
                                     else {
-                                        db.query(`UPDATE notice SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
                                             if (error) throw error;
                                             else {
                                                 //console.log("게시판 글 번호 정렬 완료");
