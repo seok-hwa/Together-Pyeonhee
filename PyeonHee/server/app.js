@@ -2155,12 +2155,30 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //관리자 공지사항 목록 확인
-            app.get('/adminGetNotificationList', function (req, res) {
+            app.post('/adminGetNotificationList', function (req, res) {
+                var pageNumber = req.body.pageNumber;
                 db.query(`SELECT * FROM notice`,function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
                         console.log(result);
+                    }
+                });
+            });
+
+            //관리자 공지사항 전체페이지 수
+            app.get('/notificationTotalPage', function (req, res) {
+                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "notice"`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        //console.log(result[0].AUTO_INCREMENT);
+                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1)/10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
                     }
                 });
             });
