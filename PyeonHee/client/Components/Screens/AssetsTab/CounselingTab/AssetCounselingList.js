@@ -56,8 +56,8 @@ const AssetCounseling = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/Counseling/AssetManagement?userID=${tempID}`);
-            // fetch(`${url}/Counseling/AssetManagement?userID=${tempID}`)   //get
+            console.log(`${url}/Counseling/AssetManagement`);
+            // fetch(`${url}/Counseling/AssetManagement`)   //get
             // .then((response)=>response.json())
             // .then((responseJson)=>{
             //     console.log('response data');
@@ -81,7 +81,7 @@ const AssetCounseling = ({navigation}) => {
 
     const loadCounselor = () => {
         setRefresh(true);
-        // fetch(`${url}/Counseling/AssetManagement?userID=${userID}`)   //get
+        // fetch(`${url}/Counseling/AssetManagement`)   //get
         // .then((response)=>response.json())
         // .then((responseJson)=>{
         //     console.log('response data');

@@ -12,23 +12,24 @@ const AssetConsultItem = (props) => {
             // onPress={() => props.navigation.navigate('FinancialConsult', {consultNumber: props.consultNumber})}
         >
             <View style={styles.itemContainer}>
-                <View style={styles.accountLogoContainer}>
+                <View style={styles.rankingLogoContainer}>
                     <RankingLogo rank={props.counselorRank}/>
                 </View>
 
-
-                <View style={styles.item2}>
-                    <Text>소속: {props.counselorCorp}</Text>
-                    <Text>상담사: {props.counselorName}</Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                        <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
-                        <Text style={{marginLeft: 5, }}>{props.counselorLike}</Text>
+                <View style={styles.contentContainer}>
+                    <View style={styles.item2}>
+                        <Text>소속: {props.counselorCorp}</Text>
+                        <Text>상담사: {props.counselorName}</Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                            <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
+                            <Text style={{marginLeft: 5, }}>{props.counselorLike}</Text>
+                        </View>
+                        
                     </View>
-                    
-                </View>
 
-                <View style={styles.nextContainer}>
-                    <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
+                    <View style={styles.nextContainer}>
+                        <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
+                    </View>
                 </View>
 
             </View>
@@ -46,18 +47,22 @@ const styles = StyleSheet.create({
     itemContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center',
+    //   alignItems: 'center',
       height: 90,
     },
-    accountLogoContainer: {
-      width: 50,
-      height: 50,
-      marginLeft: 15,
+    rankingLogoContainer: {
+      width: 30,
+      height: 30,
+      margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 15,
       borderWidth: 1,
       borderColor: 'gray',
+    },
+    contentContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     item2: {
         marginRight: 20,

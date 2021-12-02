@@ -25,10 +25,10 @@ const RankingLogo = (props) => {
 
 const styles = StyleSheet.create({
     accountImage: {
-        height: 35,
-        width: 35,
-        borderWidth: 1,
-        borderRadius: 30,
+        height: 25,
+        width: 25,
+        // borderWidth: 1,
+        // borderRadius: 2,
     },
 });
 
