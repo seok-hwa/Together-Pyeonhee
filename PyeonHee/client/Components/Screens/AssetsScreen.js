@@ -51,7 +51,7 @@ const AssetsScreen = ({navigation}) => {
             
             <View style={styles.tapContainer}>
                 <SegmentedControlTab
-                    values={['계좌연동', '금융상품', '자산상담']}
+                    values={['계좌연동', '금융상품', '상담']}
                     selectedIndex={selectedIndex}
                     onTabPress={handleSingleIndexSelect}
                     tabStyle={styles.tabStyle}
