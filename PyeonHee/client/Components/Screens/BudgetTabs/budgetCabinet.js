@@ -38,6 +38,7 @@ const BudgetCabinet = ({navigation}) => {
             })  
         })
     }, [])
+
     const loadCabinet = () => {
         setRefresh(true);
         fetch(`${url}/BudgetPlanCabinet?userID=${userID}`)   //get
@@ -51,6 +52,7 @@ const BudgetCabinet = ({navigation}) => {
                 setRefresh(false);
             })  
     }
+    
     if(loading === true){
     return (
         <View style={styles.appSize}>

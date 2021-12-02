@@ -2,31 +2,32 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AccountLogo from '../../assets/AccountLogo';
+import RankingLogo from './RankingLogo';
 
-const ConsultItem = (props) => {
+const AssetConsultItem = (props) => {
 
     return (
         <TouchableOpacity
             style={styles.container}
-            // onPress={() => props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID})}
+            // onPress={() => props.navigation.navigate('FinancialConsult', {consultNumber: props.consultNumber})}
         >
             <View style={styles.itemContainer}>
                 <View style={styles.accountLogoContainer}>
-                    <AccountLogo accountCate={props.counselorCorp}/>
-                    <Text>{props.counselorCorp}</Text>
+                    <RankingLogo rank={props.counselorRank}/>
                 </View>
 
 
                 <View style={styles.item2}>
-                    <Text style={styles.title} >"{props.consultTitle}"</Text>
-                    <Text>상담 분야: {props.consultPart}</Text>
+                    <Text>소속: {props.counselorCorp}</Text>
                     <Text>상담사: {props.counselorName}</Text>
-                    <Text>좋아요: {props.counselorLike}</Text>
-                    {/* <Text>상담 가격: {props.consultPrice}</Text> */}
+                    <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                        <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
+                        <Text style={{marginLeft: 5, }}>{props.counselorLike}</Text>
+                    </View>
+                    
                 </View>
 
-                <View style={styles.nextCotainer}>
+                <View style={styles.nextContainer}>
                     <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
                 </View>
 
@@ -46,49 +47,32 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      height: 100,
+      height: 90,
     },
     accountLogoContainer: {
-      width: 90,
-      height: 90,
+      width: 50,
+      height: 50,
+      marginLeft: 15,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 30,
+      borderRadius: 15,
       borderWidth: 1,
       borderColor: 'gray',
     },
     item2: {
         marginRight: 20,
+        backgroundColor: 'pink',
+        width: 150
         // justifyContent: 'space-between',
     },
-    title: {
-        fontWeight: 'bold',
-        fontSize: 15,
-        color: 'black',
-
-    },
-    mbtiContainer: {
-        marginBottom: 10,
-        alignItems: 'center',
-        borderRadius: 10,
-    },
-    mbtiInnerContainer: {
-        backgroundColor: 'pink',
-        padding: 3,
-        borderRadius: 5,
-    },
-    mbtiText: {
-        fontWeight: 'bold',
-        fontSize: 15,
-        color: 'white',
-    },
-    nextCotainer: {
+    nextContainer: {
         marginRight: 15,
     },
-    nextText: {
-        fontSize: 20,
-        color: '#A7A3A3'
+    likeLogo: {
+        width: 15,
+        height: 15,
+
     },
   });
 
-export default ConsultItem;
+export default AssetConsultItem;
