@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Button, ScrollView} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
+import QuerySubmitButton from '../../Buttons/QuerySubmitButton';
 
-const url = config.url;
-
-const NoticeBoard = ({route}) => {
-    const [userID, setUserID] = useState('');
-    const [boardTitle, setBoardTitle] = useState('안녕하세요!!!');
-    const [boardCate, setBoardCate] = useState('티어');
+const QueryWrite = ({route}) => {
+    const [boardTitle, setBoardTitle] = useState('');
+    const [boardCate, setBoardCate] = useState('');
     const [boardDate, setBoardDate] = useState('2021-12-02');
-    const [boardContent, setBoardContent] = useState('안녕하세요 관리자입니다.ㄴㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ');
+    const [boardContent, setBoardContent] = useState('');
+
+    const [loading, setLoading] = useState(true);
     
-    
+    /*
     useEffect(()=>{
         let tempID;
+        let tempBoardAnswer;
         AsyncStorage.getItem('userID', (err, result) => {
             tempID = result;
             if(tempID!= null){
@@ -24,8 +23,8 @@ const NoticeBoard = ({route}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/noticeBoard?boardID=${route.params.boardID}`);
-            fetch(`${url}/noticeBoard?boardID=${route.params.boardID}`)   //get
+            console.log(`${url}/queryBoard`);
+            fetch(`${url}/queryBoard/boardID=${route.params.boardID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
@@ -34,14 +33,31 @@ const NoticeBoard = ({route}) => {
                 setBoardCate(responseJson.boardCate);
                 setBoardDate(responseJson.boardDate);
                 setBoardContent(responseJson.boardContent);
-            })  
+                setBoardAnswer(responseJson.boardAnswer);
+                tempBoardAnswer = responseJson.boardAnswer;
+            })
+            .then(()=>{
+                if(tempBoardAnswer === true){
+                    fetch(`${url}/queryReply/boardID=${route.params.boardID}`)   //get
+                    .then((response)=>response.json())
+                    .then((responseJson)=>{
+                        console.log('response data');
+                        console.log(responseJson);
+                        setAnswerDate(responseJson.answerDate);
+                        setAnswerContent(responseJson.answerContent);
+                    })
+                }
+            })
+            .then(()=>{
+                setLoading(true);
+            })
         })
-    }, [])
-    
+    }, [])*/
+
     return (
         <View style={styles.appSize}>
             <View style={styles.HeaderDiv}>
-                <Text style={styles.HeaderFont}>공지글 확인</Text>
+                <Text style={styles.HeaderFont}>문의게시판 등록</Text>
             </View>
             <View style={styles.TopDiv}>
                 <View style={styles.TitleDiv}>
@@ -52,10 +68,12 @@ const NoticeBoard = ({route}) => {
                     <Text style={styles.CateLeft}>분류: </Text>
                     <Text style={styles.CateRight}>{boardCate}</Text>
                 </View>
-                <Text>날짜: {boardDate}</Text>
             </View>
             <View style={styles.BodyDiv}>
                 <Text>{boardContent}</Text>
+            </View>
+            <View style={styles.ButtonDiv}>
+                <QuerySubmitButton />
             </View>
         </View>
     );
@@ -109,12 +127,16 @@ const styles = StyleSheet.create({
     },
     BodyDiv: {
         borderRadius: 10,
-        flex: 1,
+        flex: 5,
         margin: 10,
         marginBottom: 10,
         backgroundColor: 'white',
         padding: 5,
-    }
+    },
+    ButtonDiv : {
+        flex: 1,
+        alignItems: 'center',
+    },
 });
 
-export default NoticeBoard;
+export default QueryWrite;

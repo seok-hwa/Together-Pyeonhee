@@ -632,10 +632,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/recommendedBudgetPlan', function (req, res) {
                 //console.log(req.query.budgetPlanningID);
                 var budgetPlanID = req.query.budgetPlanningID;
-                var userMBTI; var userAge; var userIncome; var user_savings;
-                var userLikeCount; var rent; var insurance; var traffic;
-                var communication; var hobby; var shoppshoppinging_expense;
-                var education; var medical; var event; var ect; var subscribe; var data;
+                var data;
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
@@ -1968,7 +1965,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         if(result.length === 0) console.log("주식상품이 없습니다.");
                         else{
-                            console.log(result);
+                            //console.log(result);
                             res.send(result)
                         }
                     }
@@ -1983,7 +1980,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         db.query(`SELECT * FROM saving_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
-                                console.log(result);
+                                //console.log(result);
                                 res.send(result);
                             }
                         })
@@ -1998,7 +1995,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         if(result.length === 0) console.log("펀드상품이 없습니다.");
                         else{
-                            console.log(result);
+                            //console.log(result);
                             res.send(result);
                         }
                     }
@@ -2015,7 +2012,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         db.query(`SELECT * FROM fund_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
-                                console.log(result);
+                                //console.log(result);
                                 res.send(result);
                             }
                         })
@@ -2029,7 +2026,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         if(result.length === 0) console.log("연금상품이 없습니다.");
                         else{
-                            console.log(result);
+                            //console.log(result);
                             res.send(result);
                         }
                     }
@@ -2044,7 +2041,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         db.query(`SELECT * FROM pension_product WHERE mbti = ?`,[userMbti], function(error2, result){
                             if(error2) throw error2;
                             else{
-                                console.log(result);
+                                //console.log(result);
                                 res.send(result);
                             }
                         })
@@ -2058,7 +2055,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         if(result.length === 0) console.log("대출상품이 없습니다.");
                         else{
-                            console.log(result);
+                            //console.log(result);
                             res.send(result);
                         }
                     }
@@ -2155,8 +2152,9 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //관리자 공지사항 목록 확인
-            app.get('/adminGetNotificationList', function (req, res) {
-                db.query(`SELECT * FROM notice`,function (error, result) {
+            app.post('/adminGetNotificationList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM notice ORDER BY notice_number limit ?, 10`, [pageNumber], function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2165,7 +2163,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //관리자 공지사항 글 확인
+            //관리자 공지사항 전체페이지 수
+            app.get('/notificationTotalPage', function (req, res) {
+                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "notice"`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        //console.log(result[0].AUTO_INCREMENT);
+                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1)/10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 내용 확인
             app.post('/NotificationBoardInfo', function (req, res) {
                 var noticeNumber = req.body.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [noticeNumber], function (error, result) {
@@ -2175,6 +2190,52 @@ const SSHConnection = new Promise((resolve, reject) => {
                         console.log(result);
                     }
                 });
+            });
+
+            //사용자 공지사항 글 목록 확인
+            app.get('/noticeList', function (req, res) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //사용자 공지사항 글 내용 확인
+            app.get('/noticeBoard', function (req, res) {
+                var boardID = req.query.boardID;
+                db.query(`SELECT * FROM notice WHERE notice_number =?`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            boardTitle: result[0].title,
+                            boardCate: result[0].category,
+                            boardDate: result[0].notice_date,
+                            boardModiDate: result[0].modified_date,
+                            boardContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 목록확인
+            app.get('/queryList', function (req, res) {
+                db.query(`SELECT * FROM board ORDER BY board_number`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 내용 확인
+            app.get('/queryBoard', function (req, res) {
+                var boardID = req.query.boardID;
             });
 
             const PORT = 8000;

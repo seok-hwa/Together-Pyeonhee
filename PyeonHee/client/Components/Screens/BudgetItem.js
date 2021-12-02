@@ -58,7 +58,7 @@ const BudgetItem = (props) => {
 
             Popup.show({
                 type: 'success',
-                textBody: '열람을 위해서는 50포인트가 차감됩니다.',
+                textBody: '열람을 위해서는 100포인트가 차감됩니다.',
                 buttonText: '열람',
                 confirmText: '취소',
                 // okButtonStyle: {backgroundColor: 'gray'},
@@ -70,7 +70,7 @@ const BudgetItem = (props) => {
                         method: 'POST',
                         body: JSON.stringify({
                           userID: userID,
-                          usePoint: 50,
+                          usePoint: 100,
                         }),
                         headers: {
                           'Accept': 'application/json',

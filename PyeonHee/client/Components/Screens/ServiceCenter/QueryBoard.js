@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, ScrollView} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import config from '../../../config';
+
+const url = config.url;
 
 const QueryBoard = ({route}) => {
     const [boardTitle, setBoardTitle] = useState('티어가 안 오르는 것 같습니다..');
@@ -26,8 +30,8 @@ const QueryBoard = ({route}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/queryBoard`);
-            fetch(`${url}/queryBoard/boardID=${route.params.boardID}`)   //get
+            console.log(`${url}/queryBoard?boardID=${route.params.boardID}`);
+            fetch(`${url}/queryBoard?boardID=${route.params.boardID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');

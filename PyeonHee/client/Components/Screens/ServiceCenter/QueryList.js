@@ -37,7 +37,7 @@ const QueryList = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        /*
+        
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/queryList`);
@@ -48,7 +48,7 @@ const QueryList = ({navigation}) => {
                 console.log(responseJson);
                 setQueryList(responseJson);
             })  
-        })*/
+        })
     }, [])
 
     return (
@@ -57,7 +57,7 @@ const QueryList = ({navigation}) => {
                 <Text style={styles.HeaderFont}>고객센터</Text>
             </View>
             <View style={styles.ButtonDiv}>
-                <QueryWriteButton />
+                <QueryWriteButton onPress={()=>navigation.navigate('QueryWrite')}/>
             </View>
             <View style={styles.graphTitle}>
                 <View style={styles.cateDiv}><Text style={styles.graphFont}>분류</Text></View>
