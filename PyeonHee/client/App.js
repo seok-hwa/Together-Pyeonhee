@@ -23,6 +23,11 @@ import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
 import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
 import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
 import PushNotification from 'react-native-push-notification';
+import ItemLink from './Components/Screens/AssetsTab/BankingProductTabs/ItemLink';
+import NoticeList from './Components/Screens/Notice/NoticeList';
+import ServiceCenter from './Components/Screens/ServiceCenter/QueryList';
+import NoticeBoard from './Components/Screens/Notice/NoticeBoard';
+import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -199,6 +204,41 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="ItemLink"
+             component={ItemLink}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="NoticeList"
+             component={NoticeList}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="ServiceCenter"
+             component={ServiceCenter}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="NoticeBoard"
+             component={NoticeBoard}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="QueryBoard"
+             component={QueryBoard}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      ); 
@@ -290,6 +330,41 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="ItemLink"
+             component={ItemLink}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="NoticeList"
+             component={NoticeList}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="ServiceCenter"
+             component={ServiceCenter}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="NoticeBoard"
+             component={NoticeBoard}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="QueryBoard"
+             component={QueryBoard}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      );
@@ -377,6 +452,41 @@ import {
            <Stack.Screen
              name="MonthReport"
              component={MonthReportScreen}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="ItemLink"
+             component={ItemLink}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="NoticeList"
+             component={NoticeList}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="ServiceCenter"
+             component={ServiceCenter}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="NoticeBoard"
+             component={NoticeBoard}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="QueryBoard"
+             component={QueryBoard}
              options={{
                headerShown: false,
            }} 

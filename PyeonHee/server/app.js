@@ -85,57 +85,38 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error1) throw error1;
                     console.log("권장금액 이행률이 초기화 되었습니다.")
                 });
-                db.query(`SELECT tier, total_stamp, total_point, state FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
+                db.query(`SELECT tier, total_stamp, total_point FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
                     if(error2) throw error2;
                     else{
                         var tier = result2[0].tier;
                         var total_stamp = result2[0].total_stamp;
                         var total_point = result2[0].total_point;
-                        var state = result[2].state;
                         if(total_stamp >= 20){
                             tier = 'SILVER';
-                            if(state === 0){
-                                state = 1;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 1000;
                         }
                         else if(total_stamp >= 40){
                             tier = 'GOLD';
-                            if(state === 1){
-                                state = 2;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 1500;
                         }
                         else if(total_stamp >= 60){
                             tier = 'PLATINUM';
-                            if(state === 2){
-                                state = 3;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 2000;
                         }
                         else if(total_stamp >= 80){
                             tier = 'DIAMOND';
-                            if(state === 0){
-                                state = 4;
-                                total_point = total_point + 5000;
-                                db.query(`UPDATE user SET state = ?, total_point = ? WHERE user_id = ?;`,[state, total_point, global_id], function(err, res){
-                                    if(err) throw err;
-                                    else console.log(res);
-                                })
-                            }
+                            total_point = total_point + 2500;
                         }
+                        else if(total_stamp < 20){
+                            tier = 'BRONZE';
+                            total_point = total_point + 500;
+                        }
+                        db.query(`UPDATE user SET tier = ?, total_point =?`, [tier, total_point], function(error3, result3){
+                            if(error3) throw error3;
+                            else{
+                                console.log("티어와 포인트가 업데이트 되었습니다.");
+                            }
+                        })
                     }
                 });
             });
@@ -556,7 +537,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 BudgetPlanning.like_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense,BudgetPlanning.transportation_expense, 
                 BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, 
                 BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense
-                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 5,10`, function (error, result) {
+                from user, BudgetPlanning  WHERE user.user_id = BudgetPlanning.user_id order by like_number desc limit 10`, function (error, result) {
                     if (error) throw error;
                     //console.log(result);
                     res.send(result);
@@ -580,12 +561,69 @@ const SSHConnection = new Promise((resolve, reject) => {
                         var age_minus = userAge - 5;
                         var age_plus = userAge + 5;
                         db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
-                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc`, 
+                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc limit 10`, 
                         [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
                             if (error) throw error;
                             //console.log(result);
                             res.send(result);
                         });
+                    }
+                });
+            });
+
+            //예산계획 열람여부 확인
+            app.get('/BudgetPlanCabinet', function (req, res) {
+                var userID = req.query.userID; 
+                var budgetPlanID = req.query.budgetPlanID;
+                db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        if(result[0].open_check == 1){//열람 기록 O
+                            //console.log("열람한 기록이 있으면 팝업창 안뜸");
+                        }
+                        else{//열람 기록 X
+                            //console.log("열람한 기록이 없으므로 팝업창 떠야함");
+                        }
+                    }
+                });
+            });
+
+            //예산계획 추가열람 및 포인트 차감
+            app.post('/BudgetPlanCabinet', function (req, res) {
+                var userID = req.body.userID;
+                var userTotalPoint;
+                var usePoint = req.body.usePoint;
+                usePoint *= -1;
+
+                db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        userTotalPoint = result[0].total_point;
+                        if (userTotalPoint >= 100) {//예산계획 열람할 포인트 존재
+                            var updatePoint = userTotalPoint + usePoint;
+                            db.query(`UPDATE user SET total_point = ? WHERE user_id = ?`, [updatePoint, userID], function (error, result) {
+                                if (error) throw error;
+                                else {
+                                    db.query(`INSERT INTO point(user_id, diff, description) VALUES (?, ? , '예산계획 추가열람')`, [userID, usePoint], function (error, result) {
+                                        if (error) throw error;
+                                        else {
+                                            const data = {
+                                                status: true,
+                                                restPoint: updatePoint //잔여포인트
+                                            }
+                                            res.send(data);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else {//예산계획 열람할 수 있는 포인트 없음
+                            const data = {
+                                status: false,
+                                restPoint: userTotalPoint // 현재 잔여 포인트
+                            }
+                            res.send(data);
+                        }
                     }
                 });
             });
@@ -803,9 +841,9 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/MyBudgetPlanCabinet', function (req,res){
                 var userID = req.query.userID;
 
-                db.query(`SELECT planning_number,user_income,user_savings, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
-                transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
-                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [userID],function (error,result){
+                db.query(`SELECT BudgetPlanning.planning_number,BudgetPlanning.user_income,BudgetPlanning.user_savings, BudgetPlanning.monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
+                BudgetPlanning.transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
+                AS plannedExpenditure, daily_data.available_money FROM BudgetPlanning JOIN daily_data ON BudgetPlanning.user_id = daily_data.user_id WHERE BudgetPlanning.user_id = ?`, [userID],function (error,result){
                     if (error) throw error;
                     else{
                             console.log(result);
@@ -819,7 +857,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var budgetPlanningID = req.query.budgetPlanningID;
                 db.query(`SELECT *, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
                 transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
-                AS plannedExpenditure FROM BudgetPlanning WHERE user_id = ?`, [budgetPlanningID],function (error,result){
+                AS plannedExpenditure FROM BudgetPlanning WHERE planning_number = ?`, [budgetPlanningID],function (error,result){
                     if (error) throw error;
                     console.log(result);
                     res.send(result);
@@ -1024,6 +1062,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 // console.log(req.body);
                 var userID = req.body.userID;
                 global_id = req.body.userID;
+                console.log("글로벌아이디", global_id);
                 db.query(`SELECT name FROM user WHERE user_id = ?`, [userID], function(error, name){
                     if(error) throw error;
                     else {
@@ -1785,7 +1824,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var subscribe_expense = 0;
                 var etc_expense = 0;
                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
-                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2)-1 GROUP BY tran_type`, [userID], function(error1, spend_money){
+                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error1, spend_money){
                     if(error1) throw error1;
                     else{
                         if(spend_money.length === 0 ){
@@ -1920,6 +1959,112 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+
+            // 금융상품 추천
+            // 주식상품 추천
+            app.get(`/allSavingList`, function(req, res){
+                db.query(`SELECT * FROM saving_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("주식상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result)
+                        }
+                    }
+                })
+            })
+            // 내 주식상품 추천
+            app.get(`/mySavingList`, function(req, res){
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].mbti.substr(1,1);
+                        db.query(`SELECT * FROM saving_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
+            // 펀드상품 추천
+            app.get(`/allFundList`, function(req, res) {
+                console.log("금융상품 글로벌아이디", global_id);
+                db.query(`SELECT * FROM fund_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("펀드상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    }
+                })
+            })
+            // 내 펀드상품 추천
+            app.get(`/myFundList`, function(req, res){
+                global_id = req.query.userID;
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].mbti.substr(0,1);
+                        console.log(userMbti);
+                        db.query(`SELECT * FROM fund_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
+            // 연금상품 추천
+            app.get(`/allPensionList`, function(req, res) {
+                db.query(`SELECT * FROM pension_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("연금상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    }
+                })
+            })
+            // 내 연금상품 추천
+            app.get(`/myPensionList`, function(req, res){
+                db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function(error1, mbti){
+                    if(error1) throw error1;
+                    else{
+                        var userMbti = mbti[0].mbti.substr(0,1);
+                        db.query(`SELECT * FROM pension_product WHERE mbti = ?`,[userMbti], function(error2, result){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                res.send(result);
+                            }
+                        })
+                    }
+                })
+            })
+            // 대출상품 추천 (나에게 맞는 상품 찾기 없음)
+            app.get(`/allLoanList`, function(req, res) {
+                db.query(`SELECT * FROM loan_product`, function(error, result){
+                    if(error) throw error;
+                    else{
+                        if(result.length === 0) console.log("대출상품이 없습니다.");
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    }
+                })
+            })
+
 
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
