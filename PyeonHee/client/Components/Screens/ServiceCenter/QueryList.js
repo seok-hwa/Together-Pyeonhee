@@ -69,7 +69,7 @@ const QueryList = ({navigation}) => {
             <ScrollView style={styles.appSize}>
                 {queryList.map(item => {
                     return <QueryItem key={item.board_number} boardID={item.board_number} boardCate={item.category} boardTitle={item.title} 
-                    boardDate={item.board_date} navigation={navigation} boardAnswer={item.boardAnswer}
+                    boardDate={item.board_date} navigation={navigation} comment_check={item.comment_check}
                     />})
                 }
             </ScrollView>
