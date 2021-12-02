@@ -7,10 +7,11 @@ import config from '../../../config';
 const url = config.url;
 
 const QueryBoard = ({route}) => {
-    const [boardTitle, setBoardTitle] = useState('티어가 안 오르는 것 같습니다..');
-    const [boardCate, setBoardCate] = useState('티어');
-    const [boardDate, setBoardDate] = useState('2021-12-02');
-    const [boardContent, setBoardContent] = useState('분명 스탬프 다 채웠는데 안 오르네요..');
+    const [userID, setUserID] = useState('');
+    const [boardTitle, setBoardTitle] = useState('');
+    const [boardCate, setBoardCate] = useState('');
+    const [boardDate, setBoardDate] = useState('');
+    const [boardContent, setBoardContent] = useState('');
     const [boardAnswer, setBoardAnswer] = useState(true);
 
     const [loading, setLoading] = useState(true);
@@ -18,7 +19,7 @@ const QueryBoard = ({route}) => {
     const [answerDate, setAnswerDate] = useState('2021-12-02');
     const [answerContent, setAnswerContent] = useState('확인해보겠습니다.');
     
-    /*
+    
     useEffect(()=>{
         let tempID;
         let tempBoardAnswer;
@@ -59,7 +60,7 @@ const QueryBoard = ({route}) => {
                 setLoading(true);
             })
         })
-    }, [])*/
+    }, [])
 
    if(boardAnswer === true && loading === true){
     return (
@@ -77,17 +78,17 @@ const QueryBoard = ({route}) => {
                         <Text style={styles.CateLeft}>분류: </Text>
                         <Text style={styles.CateRight}>{boardCate}</Text>
                     </View>
-                    <Text>날짜: {boardDate}</Text>
+                    <Text>날짜: {boardDate.substring(0,16).replace('T', ' ')}</Text>
                     <Text style={{color: 'blue',}}>답변이 있습니다.</Text>
                 </View>
                 <View style={styles.BodyDiv}>
                     <Text>{boardContent}</Text>
                 </View>
                 <View style={styles.TopDiv}>
-                    <Text>답변 날짜: 2021-12-02</Text>
+                    <Text>답변 날짜: {answerDate.substring(0,16).replace('T', ' ')}</Text>
                 </View>
                 <View style={styles.BodyDiv}>
-                    <Text>확인해보겠습니다.</Text>
+                    <Text>{answerContent}</Text>
                 </View>
             </ScrollView>
         </View>
@@ -109,7 +110,7 @@ const QueryBoard = ({route}) => {
                         <Text style={styles.CateLeft}>분류: </Text>
                         <Text style={styles.CateRight}>{boardCate}</Text>
                     </View>
-                    <Text>날짜: {boardDate}</Text>
+                    <Text>날짜: {boardDate.substring(0,16).replace('T', ' ')}</Text>
                     <Text style={{color: 'red',}}>답변이 아직 없습니다.</Text>
                 </View>
                 <View style={styles.BodyDiv}>

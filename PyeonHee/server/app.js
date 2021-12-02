@@ -570,26 +570,35 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-
+                 
             //예산계획 열람여부 확인
-            app.get('/BudgetPlanCabinet', function (req, res) {
-                var userID = req.query.userID; 
+            app.get('/openCheck', function (req, res) {
+                console.log("열람여부확인");
+                var userID = req.query.userID;
                 var budgetPlanID = req.query.budgetPlanID;
                 db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
                     if (error) throw error;
                     else {
-                        if(result[0].open_check == 1){//열람 기록 O
+                        if (result[0].open_check == 1) {//열람 기록 O
                             //console.log("열람한 기록이 있으면 팝업창 안뜸");
+                            res.send(1);
                         }
-                        else{//열람 기록 X
+                        else {//열람 기록 X
                             //console.log("열람한 기록이 없으므로 팝업창 떠야함");
+                            db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
+                                if (error) throw error;
+                                else {
+                                    console.log("사용자 읽음 표시 DB저장완료");
+                                }
+                            });
+                            res.send(0);
                         }
                     }
                 });
             });
 
             //예산계획 추가열람 및 포인트 차감
-            app.post('/BudgetPlanCabinet', function (req, res) {
+            app.post('/usePoint', function (req, res) {
                 var userID = req.body.userID;
                 var userTotalPoint;
                 var usePoint = req.body.usePoint;
@@ -2154,7 +2163,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             //관리자 공지사항 목록 확인
             app.post('/adminGetNotificationList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
-                db.query(`SELECT * FROM notice ORDER BY notice_number limit ?, 10`, [pageNumber], function (error, result) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number desc limit ?, 10`, [pageNumber], function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2192,13 +2201,71 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //사용자 공지사항 글 목록 확인
-            app.get('/noticeList', function (req, res) {
-                db.query(`SELECT * FROM notice ORDER BY notice_number`, function (error, result) {
+            //관리자 공지사항 글 수정
+            app.post('/notificationBoardUpdate', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                var boardTitle = req.body.boardTitle;
+                var boardContent = req.body.boardContent;
+                var boardCate = req.body.boardCate;
+                var now = new Date();
+                db.query(`UPDATE notice SET category = ?, title = ? , content = ? , modified_date = ? WHERE notice_number = ?`, [boardCate, boardTitle, boardContent, now, noticeNumber], function (error, result) {
                     if (error) throw error;
                     else {
-                        res.send(result);
-                        console.log(result);
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        //console.log(data);
+                    }
+                });
+            });
+
+            //관리자 공지사항 글 삭제
+            app.post('/notificationDelete', function (req, res) {
+                var noticeNumber = req.body.boardID;
+                db.query(`DELETE FROM notice WHERE notice_number = ?`, [noticeNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        //console.log(data);
+
+                        db.query(`alter table notice auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE notice SET notice_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("공지사항 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+            
+            //사용자 공지사항 글 목록 확인
+            app.get('/noticeList', function (req, res) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number desc`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            boardID: result[0].board_number,
+                            boardTitle: result[0].title,
+                            boardCate: result[0].category,
+                            boardDate: result[0].notice_date,
+                            boardAnswer: result[0].comment_check
+                        }
+                        res.send(data);
+                        console.log(data);
                     }
                 });
             });
@@ -2224,7 +2291,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //사용자 고객센터 글 목록확인
             app.get('/queryList', function (req, res) {
-                db.query(`SELECT * FROM board ORDER BY board_number`, function (error, result) {
+                db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2236,6 +2303,91 @@ const SSHConnection = new Promise((resolve, reject) => {
             //사용자 고객센터 글 내용 확인
             app.get('/queryBoard', function (req, res) {
                 var boardID = req.query.boardID;
+                var data;
+                db.query(`SELECT * FROM board WHERE board_number =?`, [boardID], function (error, result2) {
+                    if (error) throw error;
+                    else {
+                        db.query(`SELECT count(board_number) as counts FROM comment WHERE board_number =?`, [boardID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                console.log(result[0].counts);
+                                var comments = result[0].counts;
+                                if(comments > 0){//답변 존재 O
+                                    data = {
+                                        status: true
+                                    }
+                                    console.log(data);
+                                }
+                                else{//답변 존재 X
+                                    data = {
+                                        status: false
+                                    }
+                                    console.log(data);
+                                }
+                                const data2 = {
+                                    boardTitle: result2[0].title,
+                                    boardCate: result2[0].category,
+                                    boardDate: result2[0].board_date,
+                                    boardContent: result2[0].content,
+                                    boardAnswer: data.status
+                                }
+                                res.send(data2);
+                                console.log(data2);
+                            }
+                        });
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 작성
+            app.post('/queryRegister', function (req, res) {
+                var userID = req.body.userID;
+                var boardTitle = req.body.boardTitle;
+                var boardCate = req.body.boardCate;
+                var boardContent = req.body.boardContent;
+
+                db.query(`INSERT INTO board (title, content, user_id, category) VALUES (?, ?, ?, ?)`, [boardTitle, boardContent, userID, boardCate], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("게시판 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            //사용자 고객센터 답변확인
+            app.get('/queryReply', function (req, res) {
+                var boardID = req.query.boardID;
+                db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            answerDate: result[0].comment_date,
+                            answerContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
             });
 
             const PORT = 8000;

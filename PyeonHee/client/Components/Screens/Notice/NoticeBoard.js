@@ -8,10 +8,11 @@ const url = config.url;
 
 const NoticeBoard = ({route}) => {
     const [userID, setUserID] = useState('');
-    const [boardTitle, setBoardTitle] = useState('안녕하세요!!!');
-    const [boardCate, setBoardCate] = useState('티어');
-    const [boardDate, setBoardDate] = useState('2021-12-02');
-    const [boardContent, setBoardContent] = useState('안녕하세요 관리자입니다.ㄴㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ');
+    const [boardTitle, setBoardTitle] = useState('');
+    const [boardCate, setBoardCate] = useState('');
+    const [boardDate, setBoardDate] = useState('');
+    const [boardModifiedDate, setBoardModifiedDate] = useState('');
+    const [boardContent, setBoardContent] = useState('');
     
     
     useEffect(()=>{
@@ -33,6 +34,7 @@ const NoticeBoard = ({route}) => {
                 setBoardTitle(responseJson.boardTitle);
                 setBoardCate(responseJson.boardCate);
                 setBoardDate(responseJson.boardDate);
+                setBoardModifiedDate(responseJson.boardModiDate);
                 setBoardContent(responseJson.boardContent);
             })  
         })
@@ -52,7 +54,14 @@ const NoticeBoard = ({route}) => {
                     <Text style={styles.CateLeft}>분류: </Text>
                     <Text style={styles.CateRight}>{boardCate}</Text>
                 </View>
-                <Text>날짜: {boardDate}</Text>
+                {
+                    boardDate === boardModifiedDate ?
+                    <Text>등록일: {boardDate.substring(0,16).replace('T', ' ')}</Text>:
+                    <View>
+                        <Text>등록일: {boardDate.substring(0,16).replace('T', ' ')}</Text>
+                        <Text>수정일: {boardModifiedDate.substring(0,16).replace('T', ' ')}</Text>
+                    </View>
+                }
             </View>
             <View style={styles.BodyDiv}>
                 <Text>{boardContent}</Text>

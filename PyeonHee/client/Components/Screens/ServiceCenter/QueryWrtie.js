@@ -5,15 +5,27 @@ import QuerySubmitButton from '../../Buttons/QuerySubmitButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { BOARDCATEGORY } from '../constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../config';
 
 const url = config.url;
 
-const QueryWrite = () => {
+const QueryWrite = ({navigation}) => {
+    const [userID, setUserID] = useState('');
     const [boardTitle, setBoardTitle] = useState('');
     const [boardCate, setBoardCate] = useState('');
     const [boardContent, setBoardContent] = useState('');
     
+    useEffect(()=>{
+        let tempID;
+        AsyncStorage.getItem('userID', (err, result) => {
+            tempID = result;
+            if(tempID!= null){
+                setUserID(tempID);
+            }
+        })
+    }, [])
+
     const handleSubmitButton = () => {
         if(!boardTitle){
           Popup.show({
@@ -54,6 +66,7 @@ const QueryWrite = () => {
                 boardTitle: boardTitle,
                 boardCate: boardCate,
                 boardContent: boardContent,
+                userID: userID,
             }),
             headers: {
                 'Accept': 'application/json',
@@ -72,7 +85,7 @@ const QueryWrite = () => {
                     iconEnabled: false,
                     callback: () => {
                         Popup.hide();
-                        navigation.replace('QueryList');
+                        navigation.replace('ServiceCenter');
                     }
                 })
             }else{
@@ -122,7 +135,7 @@ const QueryWrite = () => {
                         maxLength ={1024}
                     />
                 <View style={styles.ButtonDiv}>
-                    <QuerySubmitButton />
+                    <QuerySubmitButton onPress={handleSubmitButton}/>
                 </View>
             </View>
         </Root>
