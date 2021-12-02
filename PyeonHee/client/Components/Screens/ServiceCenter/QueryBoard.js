@@ -18,7 +18,7 @@ const QueryBoard = ({route}) => {
     const [answerDate, setAnswerDate] = useState('2021-12-02');
     const [answerContent, setAnswerContent] = useState('확인해보겠습니다.');
     
-    /*
+    
     useEffect(()=>{
         let tempID;
         let tempBoardAnswer;
@@ -59,7 +59,7 @@ const QueryBoard = ({route}) => {
                 setLoading(true);
             })
         })
-    }, [])*/
+    }, [])
 
    if(boardAnswer === true && loading === true){
     return (
