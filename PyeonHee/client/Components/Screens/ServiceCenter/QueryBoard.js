@@ -7,6 +7,7 @@ import config from '../../../config';
 const url = config.url;
 
 const QueryBoard = ({route}) => {
+    const [userID, setUserID] = useState('');
     const [boardTitle, setBoardTitle] = useState('티어가 안 오르는 것 같습니다..');
     const [boardCate, setBoardCate] = useState('티어');
     const [boardDate, setBoardDate] = useState('2021-12-02');
