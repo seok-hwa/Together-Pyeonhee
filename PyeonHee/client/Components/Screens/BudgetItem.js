@@ -50,7 +50,11 @@ const BudgetItem = (props) => {
     })
 
     const handlePressed = () => {
-        if(props.openCheck === 1) {
+        if(props.budgetCabinet === true){
+            console.log('보관함에 저장되어있음');
+            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+        }
+        else if(props.openCheck === 1) {
             console.log('읽은적있음');
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
         } else {
@@ -64,7 +68,7 @@ const BudgetItem = (props) => {
                 okButtonStyle: {backgroundColor: '#8EB3EE'},
                 iconEnabled: false,
                 callback: () => {
-                    Popup.hide()
+                    // Popup.hide()
 
                     fetch(`${url}/usePoint`, {
                         method: 'POST',
