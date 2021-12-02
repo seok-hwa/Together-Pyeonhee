@@ -394,6 +394,7 @@ create table board
     content text not null,
     user_id varchar(10) not null,
     board_date timestamp default current_timestamp,
+    comment_check int default 0,
     primary key (board_number),
     foreign key (user_id) references user (user_id) on delete cascade
 );
