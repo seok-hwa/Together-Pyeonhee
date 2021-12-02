@@ -389,6 +389,7 @@ create table admin
 create table board
 (
     board_number int not null auto_increment,
+    category varchar(10) not null,
     title varchar(50) not null,
     content text not null,
     user_id varchar(10) not null,
