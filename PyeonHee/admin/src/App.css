@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  min-width: 20cm;
+  min-width: 30cm;
 }
 .AppBody {
   background-color: #282c34;
@@ -341,6 +341,13 @@
 .QueryContentInput{
   width: 95%;
   height: 4cm;
+}
+.MainBodyDiv {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.3cm;
+  justify-content: center;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
