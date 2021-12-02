@@ -41,8 +41,8 @@ const QueryList = ({navigation}) => {
         
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/queryList`);
-            fetch(`${url}/queryList`)   //get
+            console.log(`${url}/queryList?userID=${tempID}`);
+            fetch(`${url}/queryList?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
