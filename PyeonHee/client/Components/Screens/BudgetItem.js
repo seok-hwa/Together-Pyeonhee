@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-import BudgetDetail from './RecommendedPlanningScreen';
+// import BudgetDetail from './RecommendedPlanningScreen';
+import config from '../../config';
 
+const url = config.url;
 const TierImage = (props) => {
   const userTier = props.userTier;
   if(userTier === 'BRONZE'){
@@ -34,12 +37,25 @@ const TierImage = (props) => {
     }
 }
 const BudgetItem = (props) => {
+    const [userID, setUserID] = useState('');
 
-    {/*
+    useEffect(()=>{
+        let tempID;
+        AsyncStorage.getItem('userID', (err, result) => {
+        tempID = result;
+        if(tempID!= null){
+            setUserID(tempID);
+        }
+        })
+    })
+
     const handlePressed = () => {
         if(props.userRead === 1) {
+            console.log('읽은적있음');
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
         } else {
+            console.log('읽은적없음');
+
             Popup.show({
                 type: 'success',
                 textBody: '열람을 위해서는 100포인트가 차감됩니다.',
@@ -97,14 +113,15 @@ const BudgetItem = (props) => {
             })
         }
     }
-    */}
     
     
 
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID})} //데이터 어떻게 넘길 지 정해야 함
+            // onPress={() => props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID})}
+            onPress={handlePressed}
+
         >
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
