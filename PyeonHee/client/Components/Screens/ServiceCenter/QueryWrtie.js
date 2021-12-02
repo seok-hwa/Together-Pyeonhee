@@ -135,7 +135,7 @@ const QueryWrite = () => {
                         maxLength ={1024}
                     />
                 <View style={styles.ButtonDiv}>
-                    <QuerySubmitButton />
+                    <QuerySubmitButton onPress={handleSubmitButton}/>
                 </View>
             </View>
         </Root>
