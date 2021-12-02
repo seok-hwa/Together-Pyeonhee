@@ -8,7 +8,7 @@ const NoticeBoard = ({route}) => {
     const [boardDate, setBoardDate] = useState('2021-12-02');
     const [boardContent, setBoardContent] = useState('안녕하세요 관리자입니다.ㄴㅇㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ');
     
-    /*
+    
     useEffect(()=>{
         let tempID;
         AsyncStorage.getItem('userID', (err, result) => {
@@ -32,7 +32,7 @@ const NoticeBoard = ({route}) => {
             })  
         })
     }, [])
-    */
+    
     return (
         <View style={styles.appSize}>
             <View style={styles.HeaderDiv}>
