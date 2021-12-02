@@ -40,7 +40,7 @@ function NotificationBoard({ match }) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('삭제 성공');
-            document.location.href = '/notification';
+            document.location.href = '/notification/1';
         }else{
             alert('삭제 실패');
         }

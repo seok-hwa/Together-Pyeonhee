@@ -5,6 +5,7 @@ import QuerySubmitButton from '../../Buttons/QuerySubmitButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { BOARDCATEGORY } from '../constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../config';
 
 const url = config.url;
