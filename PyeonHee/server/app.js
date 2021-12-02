@@ -2216,6 +2216,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             boardTitle: result[0].title,
                             boardCate: result[0].category,
                             boardDate: result[0].notice_date,
+                            boardModiDate: result[0].modified_date,
                             boardContent: result[0].content
                         }
                         res.send(data);
