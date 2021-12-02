@@ -133,8 +133,35 @@ const CATEGORY =[
         label: '기타',
     },
 ];
+const BOARDCATEGORY= [
+    {
+        value: '티어',
+        label: '티어',
+    },
+    {
+        value: '포인트',
+        label: '포인트',
+    },
+    {
+        value: '오류',
+        label: '오류',
+    },
+    {
+        value: '상담',
+        label: '상담',
+    },
+    {
+        value: '금융상품',
+        label: '금융상품',
+    },
+    {
+        value: '기타',
+        label: '기타',
+    },
+];
 export {
     JOBS,
     INCOMES,
     CATEGORY,
+    BOARDCATEGORY,
 };

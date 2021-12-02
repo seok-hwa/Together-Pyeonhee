@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 // import BudgetDetail from './RecommendedPlanningScreen';
 import config from '../../config';
@@ -57,11 +57,11 @@ const BudgetItem = (props) => {
             console.log('읽은적없음');
 
             Popup.show({
-                type: 'success',
+                type: 'confirm',
                 textBody: '열람을 위해서는 100포인트가 차감됩니다.',
                 buttonText: '열람',
                 confirmText: '취소',
-                // okButtonStyle: {backgroundColor: 'gray'},
+                okButtonStyle: {backgroundColor: '#8EB3EE'},
                 iconEnabled: false,
                 callback: () => {
                     Popup.hide()
@@ -91,7 +91,7 @@ const BudgetItem = (props) => {
                                 okButtonStyle: {backgroundColor: '#0000CD'},
                                 iconEnabled: false,
                                 callback: () => {
-                                    Popup.hide();
+                                    // Popup.hide();
                                     props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
                                 }
                             })
@@ -147,7 +147,7 @@ const BudgetItem = (props) => {
                 </View>
 
                 <View style={styles.nextCotainer}>
-                    <Text style={styles.nextText}> {'>'} </Text>
+                    <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
                 </View>
 
             </View>
