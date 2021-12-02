@@ -10,7 +10,7 @@ import config from '../../../config';
 
 const url = config.url;
 
-const QueryWrite = () => {
+const QueryWrite = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [boardTitle, setBoardTitle] = useState('');
     const [boardCate, setBoardCate] = useState('');
@@ -85,7 +85,7 @@ const QueryWrite = () => {
                     iconEnabled: false,
                     callback: () => {
                         Popup.hide();
-                        navigation.replace('QueryList');
+                        navigation.replace('ServiceCenter');
                     }
                 })
             }else{
