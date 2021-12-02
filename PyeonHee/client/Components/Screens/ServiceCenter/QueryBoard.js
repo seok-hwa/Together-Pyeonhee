@@ -45,7 +45,7 @@ const QueryBoard = ({route}) => {
             })
             .then(()=>{
                 if(tempBoardAnswer === true){
-                    fetch(`${url}/queryReply/boardID=${route.params.boardID}`)   //get
+                    fetch(`${url}/queryReply?boardID=${route.params.boardID}`)   //get
                     .then((response)=>response.json())
                     .then((responseJson)=>{
                         console.log('response data');
