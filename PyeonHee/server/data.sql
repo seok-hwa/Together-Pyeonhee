@@ -351,3 +351,39 @@ insert into loan_product(bank_name, product_name, interest_type, repay_type, int
 values('토스뱅크', '마이너스한도대출', '대출금리', '거치식상환', 3.63, 'https://www.tossbank.com/product-service/loans/minus-account');
 insert into loan_product(bank_name, product_name, interest_type, repay_type, interest, link)
 values('우리은행', '일반신용대출', '대출금리', '거치식상환', 3.69, 'https://spot.wooribank.com/pot/Dream?withyou=PORMG0023');
+
+-----금융 상담사------
+insert into FinancialCounselor(name, part, company)
+	values ('김상담', '펀드', '하나');
+insert into FinancialCounselor(name, part, company)
+	values ('이상담', '펀드', '신한');
+insert into FinancialCounselor(name, part, company)
+	values ('박상담', '펀드', '현대');
+insert into FinancialCounselor(name, part, company)
+	values ('정상담', '펀드', '한국투자');
+insert into FinancialCounselor(name, part, company)
+	values ('최상담', '펀드', '카카오');
+insert into FinancialCounselor(name, part, company)
+	values ('와신상담', '펀드', '새마을금고');
+
+
+-----자산 상담사------
+insert into AssetCounselor(name, company)
+	values ('김자산','새마을금고');
+insert into AssetCounselor(name, company)
+	values ('이자산','현대카드');
+insert into AssetCounselor(name, company)
+	values ('김덕수','하나');
+insert into AssetCounselor(name, company)
+	values ('오일남','신한');
+
+insert into AssetCounselor(name, company)
+	values ('김기훈','수협');
+insert into AssetCounselor(name, company)
+	values ('이자산','현대카드');
+
+insert into AssetCounselor(name, company)
+	values ('김자산','새마을금고');
+insert into AssetCounselor(name, company)
+	values ('이자산','현대카드');
+
