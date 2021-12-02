@@ -61,8 +61,8 @@ const BudgetCabinet = ({navigation}) => {
                     keyExtractor={item => item.planning_number}
                     data={otherBudgetData}
                     renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                    userTier={item.tier} userJob={item.job} userMbti={item.user_mbti}
-                    openCheck={item.open_check}  //->이거는 사용자가 읽었는지 아닌지 확인하려구~!
+                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti}
+                        openCheck={item.open_check}  //->이거는 사용자가 읽었는지 아닌지 확인하려구~!
                     />}
                     refreshing={refresh}
                     onRefresh={loadCabinet}
