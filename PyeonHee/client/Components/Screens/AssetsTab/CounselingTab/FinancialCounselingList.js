@@ -18,7 +18,7 @@ const FinancialCounseling = ({navigation}) => {
             counselor_name: '김아주',
             consult_title: '상담 제목1',    //상담사가 자기를 표현하는 한 줄로 했으면 좋겠음
             consult_part: '재무/회계',
-            counselor_corp: '우리은행',     //상담사 소속 회사 정보 필요
+            counselor_corp: '카카오뱅크',     //상담사 소속 회사 정보 필요
             counselor_like: 20,            //상담사 평점? 또는 좋아요 정보
             counselor_rank: 1,
         },
@@ -27,18 +27,27 @@ const FinancialCounseling = ({navigation}) => {
             counselor_name: '이아주',
             consult_title: '상담 제목2',
             consult_part: '편드',
-            counselor_corp: '신한은행',
-            counselor_like: 33,
+            counselor_corp: 'SBI저축은행',
+            counselor_like: 330,
             counselor_rank: 2,
         },
         {
             consult_number: 3,
-            counselor_name: '변아주',
+            counselor_name: '남궁아주',
             consult_title: '상담 제목3',
             consult_part: '연금',
-            counselor_corp: 'KB국민은행',
-            counselor_like: 5,
+            counselor_corp: 'IBK기업은행',
+            counselor_like: 7300,
             counselor_rank: 3,
+        },
+        {
+            consult_number: 4,
+            counselor_name: '홍아주',
+            consult_title: '상담 제목3',
+            consult_part: '연금',
+            counselor_corp: '새마을금고',
+            counselor_like: 2513,
+            counselor_rank: 4,
         },
     ]
 
@@ -89,6 +98,12 @@ const FinancialCounseling = ({navigation}) => {
     if(loading === true ){
         return (
             <View style={styles.appSize}>
+                <View style={styles.categoryContainer}>
+                    <View style={{width: 75, alignItems: 'center'}}><Text style={styles.categoryText}>상담분야</Text></View>
+                    <View style={{width: 105, alignItems: 'center'}}><Text style={styles.categoryText}>소속</Text></View>
+                    <View style={{width: 70, alignItems: 'center'}}><Text style={styles.categoryText}>상담사</Text></View>
+                    <View style={{width: 55, alignItems: 'center'}} ><Text style={styles.categoryText}>좋아요</Text></View>
+                </View>
                 <View>
                     <FlatList
                     keyExtractor={item => item.consult_number}
@@ -117,5 +132,16 @@ export default FinancialCounseling;
 const styles = StyleSheet.create({
     appSize: {
         flex: 1,
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        paddingLeft: 45, 
+        alignItems: 'center',
+        marginVertical: 5, 
+        height: 35, 
+        backgroundColor: '#203864',
+    },
+    categoryText: {
+        color: 'white',
     },
 });

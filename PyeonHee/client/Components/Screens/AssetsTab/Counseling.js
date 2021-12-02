@@ -39,24 +39,20 @@ const Counseling = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.smallcontainer}>
-        <View style={styles.tapContainer}>
-          <SegmentedControlTab
-            values={['금융', '자산']}
-            selectedIndex={selectedIndex}
-            onTabPress={handleSingleIndexSelect}
-            tabStyle={styles.tabStyle}
-            tabTextStyle={{color: '#595959', }}
-            activeTabStyle={styles.activeTabStyle}
-            borderRadius={20}
-          />
+        <View style={{alignItems:'center', justifyContent: 'center',}}>
+          <View style={styles.tapContainer}>
+            <SegmentedControlTab
+              values={['금융상품', '자산관리']}
+              selectedIndex={selectedIndex}
+              onTabPress={handleSingleIndexSelect}
+              tabStyle={styles.tabStyle}
+              tabTextStyle={{color: '#595959', }}
+              activeTabStyle={styles.activeTabStyle}
+              borderRadius={20}
+            />
+          </View>
         </View>
         
-        {/* <View style={styles.itemContainer}>
-          <Text>상담분야</Text>
-          <Text>소속</Text>
-          <Text>상담사</Text>
-        </View> */}
-
         {selectedIndex === 0 && <FinancialCounselingList navigation={navigation}/>}
         {selectedIndex === 1 && <AssetCounselingList navigation={navigation}/>}
             
@@ -73,34 +69,23 @@ const styles = StyleSheet.create({
   },
   smallcontainer: {
     flex: 1,
-    justifyContent: 'space-between',
   },
   tapContainer: {
-      alignItems:'flex-end',
+      alignItems:'center',
+      justifyContent: 'center',
       borderRadius: 20,
+      width: 250, 
       backgroundColor: 'white',
       padding: 3,
-  },
-  headerText: {
-    flex: 1,
-    padding: 8,
-    fontSize: 14,
-    color: '#444444',
-    textAlign: 'center',
-    backgroundColor: 'white',
   },
   tabStyle: {
     borderColor: 'white',
     backgroundColor: 'white',
+    alignItems:'center',
+    justifyContent: 'center',
   },
   activeTabStyle: {
-    backgroundColor: 'pink',
+    backgroundColor: '#203864',
     borderRadius: 20,
-  },
-  itemContainer: {
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 90,
   },
 });

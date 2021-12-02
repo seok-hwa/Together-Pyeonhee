@@ -15,33 +15,33 @@ const AssetCounseling = ({navigation}) => {
     let assetCounselingData = [
         {
             consult_number: 1,
-            counselor_name: '김아주',
-            //consult_title: '상담 제목1',    //상담사가 자기를 표현하는 한 줄로 했으면 좋겠음
-            //consult_part: '재무/회계',
-            //consult_price: 200,             //이건 detail에서 받아오는게 나을 것 같은뎅
+            counselor_name: '김아주',   
             counselor_corp: '우리은행',     //상담사 소속 회사 정보 필요
-            counselor_like: 20,            //상담사 평점? 또는 좋아요 정보
+            counselor_like: 8220,            //상담사 평점? 또는 좋아요 정보
             counselor_rank: 1,
         },
         {
             consult_number: 2,
             counselor_name: '이아주',
-            //consult_title: '상담 제목2',
-            //consult_part: '편드',
-            //consult_price: 200,
-            counselor_corp: '신한은행',
-            counselor_like: 33,
+            counselor_corp: '카카오뱅크',
+            counselor_like: 303,
             counselor_rank: 2,
         },
         {
             consult_number: 3,
             counselor_name: '변아주',
-            //consult_title: '상담 제목3',
-            //consult_part: '연금',
-            //consult_price: 200,
-            counselor_corp: 'KB국민은행',
-            counselor_like: 5,
-            counselor_rank: 2,
+            counselor_corp: 'IBK기업은행',
+            counselor_like: 55,
+            counselor_rank: 3,
+        },
+        
+        {
+            consult_number: 4,
+            counselor_name: '강한엔밝은빛',
+            consult_title: '상담 제목3',
+            counselor_corp: '새마을금고',
+            counselor_like: 55,
+            counselor_rank: 4,
         },
     ]
 
@@ -98,13 +98,17 @@ const AssetCounseling = ({navigation}) => {
     if(loading === true ){
         return (
             <View style={styles.appSize}>
+                <View style={styles.categoryContainer}>
+                    <View style={{width: 105, alignItems: 'center'}}><Text style={styles.categoryText}>소속</Text></View>
+                    <View style={{width: 80, alignItems: 'center'}}><Text style={styles.categoryText}>상담사</Text></View>
+                    <View style={{width: 55, alignItems: 'center'}} ><Text style={styles.categoryText}>좋아요</Text></View>
+                </View>
                 <View>
                     <FlatList
                     keyExtractor={item => item.consult_number}
                     data={assetCounselingData}
                     renderItem={({item}) => <AssetConsultItem consultNumber={item.consult_number} counselorName={item.counselor_name} 
-                        counselorCorp={item.counselor_corp} counselorLike={item.counselor_like} navigation={navigation}
-                        counselorRank={item.counselor_rank}
+                        counselorCorp={item.counselor_corp} counselorLike={item.counselor_like} navigation={navigation} counselorRank={item.counselor_rank} 
                     />}
                     refreshing={refresh}
                     onRefresh={loadCounselor}
@@ -126,5 +130,18 @@ export default AssetCounseling;
 const styles = StyleSheet.create({
     appSize: {
         flex: 1,
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        paddingLeft: 45, 
+        paddingRight: 40, 
+        alignItems: 'center',
+        marginVertical: 5, 
+        height: 35, 
+        backgroundColor: '#203864',
+        justifyContent: 'space-between',
+    },
+    categoryText: {
+        color: 'white',
     },
 });
