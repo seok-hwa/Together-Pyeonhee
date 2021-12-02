@@ -168,7 +168,7 @@ const WriteBudgetScreen = ({navigation}) => {
         console.log('고정지출');
         console.log(tempFixed);
 
-        // let tempPlanned = parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc);
+        // let tempPlanned = parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(ect);
         // setPlannedExpenditure(tempPlanned);
 
         let tempPlanned = parseInt(transportation.split(",").join(""))+parseInt(leisure.split(",").join(""))+parseInt(shopping.split(",").join(""))+
@@ -268,36 +268,34 @@ const WriteBudgetScreen = ({navigation}) => {
     if(callMyButgetPlan === true) {
         console.log(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
 
-        // fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
-        // .then((response)=>response.json())
-        // .then((responseJson)=>{
-        //     console.log('response data');
+        fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
 
-        //     console.log(responseJson);
-        //     setIncome(responseJson.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        //      /* 고정지출 */
-        //     setRent(responseJson.setMonthlyRent);
-        //     setInsurance(responseJson.insurance);
-        //     setCommunication(responseJson.communication);
-        //     setSubscription(responseJson.subscribe);
+            console.log(responseJson);
 
-        //     /* 계획지출 */
-        //     setTransportation(responseJson.traffic);
-        //     setLeisure(responseJson.hobby);
-        //     setShopping(responseJson.shopping);
-        //     setEducation(responseJson.education);
-        //     setMedical(responseJson.medical);
-        //     setEvent(responseJson.event);
-        //     setEct(responseJson.ect);
+            setIncome(responseJson[0].user_income.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            
+            /* 고정지출 */
+           setMonthlyRent(responseJson[0].monthly_rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setInsurance(responseJson[0].insurance_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setCommunication(responseJson[0].communication_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setSubscription(responseJson[0].subscribe_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
-        //     setCallMyButgetPlan(false);
-        // })
-        // .then(()=>{                
-        // })
+           /* 계획지출 */
+           setTransportation(responseJson[0].transportation_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setLeisure(responseJson[0].leisure_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setShopping(responseJson[0].shopping_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setEducation(responseJson[0].education_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setMedical(responseJson[0].medical_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setEvent(responseJson[0].event_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+           setEct(responseJson[0].etc_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        })
+        .then(()=>{     
+        })
 
         setCallMyButgetPlan(false); //for test
-
-        
     }
 
 

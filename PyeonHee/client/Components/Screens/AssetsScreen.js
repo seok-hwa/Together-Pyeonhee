@@ -17,7 +17,7 @@ import {
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import AccountLink from './AssetsTab/accountLinkedScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
-import AssetCounseling from './AssetsTab/assetCounseling';
+import Counseling from './AssetsTab/Counseling';
 import config from '../../config';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 
@@ -47,11 +47,11 @@ const AssetsScreen = ({navigation}) => {
 
           {selectedIndex === 0 && <AccountLink navigation={navigation}/>}
           {selectedIndex === 1 && <BankingProduct navigation={navigation}/>}
-          {selectedIndex === 2 && <AssetCounseling navigation={navigation}/>}
+          {selectedIndex === 2 && <Counseling navigation={navigation}/>}
             
             <View style={styles.tapContainer}>
                 <SegmentedControlTab
-                    values={['계좌연동', '금융상품', '자산상담']}
+                    values={['계좌연동', '금융상품', '상담']}
                     selectedIndex={selectedIndex}
                     onTabPress={handleSingleIndexSelect}
                     tabStyle={styles.tabStyle}

@@ -632,10 +632,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/recommendedBudgetPlan', function (req, res) {
                 //console.log(req.query.budgetPlanningID);
                 var budgetPlanID = req.query.budgetPlanningID;
-                var userMBTI; var userAge; var userIncome; var user_savings;
-                var userLikeCount; var rent; var insurance; var traffic;
-                var communication; var hobby; var shoppshoppinging_expense;
-                var education; var medical; var event; var ect; var subscribe; var data;
+                var data;
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
@@ -2183,7 +2180,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //관리자 공지사항 글 확인
+            //관리자 공지사항 글 내용 확인
             app.post('/NotificationBoardInfo', function (req, res) {
                 var noticeNumber = req.body.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [noticeNumber], function (error, result) {
@@ -2208,7 +2205,37 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //사용자 공지사항 글 내용 확인
             app.get('/noticeBoard', function (req, res) {
-                console.log("여기!!");
+                var boardID = req.query.boardID;
+                db.query(`SELECT * FROM notice WHERE notice_number =?`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            boardTitle: result[0].title,
+                            boardCate: result[0].category,
+                            boardDate: result[0].notice_date,
+                            boardModiDate: result[0].modified_date,
+                            boardContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 목록확인
+            app.get('/queryList', function (req, res) {
+                db.query(`SELECT * FROM board ORDER BY board_number`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 내용 확인
+            app.get('/queryBoard', function (req, res) {
+                var boardID = req.query.boardID;
             });
 
             const PORT = 8000;

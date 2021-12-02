@@ -111,7 +111,7 @@ const myBudgetCabinet = (props) => {
                             
                         {myBudgetData.map(item => {
                             return <MyBudgetItem key={item.planning_number} income={item.user_income} sumOfSavings={item.user_savings} 
-                            fixedExpenditure={item.fixedExpenditure} plannedExpenditure={item.plannedExpenditure} dailyMoney={item.dailyMoney}
+                            fixedExpenditure={item.fixedExpenditure} plannedExpenditure={item.plannedExpenditure} dailyMoney={item.available_money}
                             planningID={item.planning_number} setSelectedIndex={setSelectedIndex} setIsSelected={setIsSelected} selectedIndex={selectedIndex}/>;
                         })}
                     </View>

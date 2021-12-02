@@ -6,24 +6,19 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
-  Button,
   TouchableOpacity,
   TextInput,
   Linking,
 } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
-import FundList from './BankingProductTabs/FundList';
-import LoanList from './BankingProductTabs/LoanList';
-import PensionList from './BankingProductTabs/PensionList';
-import SavingList from './BankingProductTabs/SavingList';
+import FinancialCounselingList from './CounselingTab/FinancialCounselingList';
+import AssetCounselingList from './CounselingTab/AssetCounselingList';
 import config from '../../../config';
 
 const url = config.url;
 
-const bankingProduct = ({navigation}) => {
+const Counseling = ({navigation}) => {
   const [userID, setUserID] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -43,29 +38,27 @@ const bankingProduct = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.smallcontainer}>
-            <View style={styles.tapContainer}>
-                <SegmentedControlTab
-                    values={['펀드', '적금' ,'대출', '연금']}
-                    selectedIndex={selectedIndex}
-                    onTabPress={handleSingleIndexSelect}
-                    tabStyle={styles.tabStyle}
-                    tabTextStyle={{color: '#595959', }}
-                    activeTabStyle={styles.activeTabStyle}
-                    borderRadius={20}
-                />
-            </View>
-          {selectedIndex === 0 && <FundList navigation={navigation}/>}
-          {selectedIndex === 1 && <SavingList navigation={navigation}/>}
-          {selectedIndex === 2 && <LoanList navigation={navigation}/>}
-          {selectedIndex === 3 && <PensionList navigation={navigation}/>}
+      <View style={styles.smallcontainer}>
+          <View style={styles.tapContainer}>
+              <SegmentedControlTab
+                  values={['금융', '자산']}
+                  selectedIndex={selectedIndex}
+                  onTabPress={handleSingleIndexSelect}
+                  tabStyle={styles.tabStyle}
+                  tabTextStyle={{color: '#595959', }}
+                  activeTabStyle={styles.activeTabStyle}
+                  borderRadius={20}
+              />
+          </View>
+        {selectedIndex === 0 && <FinancialCounselingList navigation={navigation}/>}
+        {selectedIndex === 1 && <AssetCounselingList navigation={navigation}/>}
             
-        </View>
-      </SafeAreaView>
+      </View>
+    </SafeAreaView>
   )
 }
 
-export default bankingProduct;
+export default Counseling;
 
 const styles = StyleSheet.create({
   container: {
@@ -94,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   activeTabStyle: {
-    backgroundColor: '#8EB3EE',
+    backgroundColor: 'pink',
     borderRadius: 20,
   },
 });
