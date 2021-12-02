@@ -2206,6 +2206,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //사용자 공지사항 글 내용 확인
+            app.get('/noticeBoard', function (req, res) {
+                console.log("여기!!");
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
