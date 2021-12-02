@@ -632,10 +632,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/recommendedBudgetPlan', function (req, res) {
                 //console.log(req.query.budgetPlanningID);
                 var budgetPlanID = req.query.budgetPlanningID;
-                var userMBTI; var userAge; var userIncome; var user_savings;
-                var userLikeCount; var rent; var insurance; var traffic;
-                var communication; var hobby; var shoppshoppinging_expense;
-                var education; var medical; var event; var ect; var subscribe; var data;
+                var data;
 
                 db.query(`SELECT * FROM BudgetPlanning WHERE planning_number =?`, [budgetPlanID], function (error, result) {
                     if (error) throw error;
@@ -2223,6 +2220,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                         console.log(data);
                     }
                 });
+            });
+
+            //사용자 고객센터 글 목록확인
+            app.get('/queryList', function (req, res) {
+                db.query(`SELECT * FROM board ORDER BY board_number`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 내용 확인
+            app.get('/queryBoard', function (req, res) {
+                var boardID = req.query.boardID;
             });
 
             const PORT = 8000;

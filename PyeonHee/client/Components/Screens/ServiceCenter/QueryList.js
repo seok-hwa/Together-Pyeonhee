@@ -37,7 +37,7 @@ const QueryList = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        /*
+        
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/queryList`);
@@ -48,7 +48,7 @@ const QueryList = ({navigation}) => {
                 console.log(responseJson);
                 setQueryList(responseJson);
             })  
-        })*/
+        })
     }, [])
 
     return (
