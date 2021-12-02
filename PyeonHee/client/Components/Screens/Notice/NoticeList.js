@@ -33,7 +33,7 @@ const NoticeList = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        /*
+        
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/noticeList`);
@@ -44,7 +44,7 @@ const NoticeList = ({navigation}) => {
                 console.log(responseJson);
                 setNoticeList(responseJson);
             })  
-        })*/
+        })
     }, [])
 
     return (
