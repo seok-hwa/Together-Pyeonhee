@@ -2314,7 +2314,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 db.query(`SET @COUNT = 0;`, function (error, result) {
                                     if (error) throw error;
                                     else {
-                                        db.query(`UPDATE notice SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
                                             if (error) throw error;
                                             else {
                                                 //console.log("게시판 글 번호 정렬 완료");

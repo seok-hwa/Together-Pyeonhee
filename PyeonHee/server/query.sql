@@ -408,7 +408,7 @@ create table comment
     comment_date timestamp default current_timestamp,
     primary key (comment_number),
     /*foreign key (user_id) references user (user_id) on delete cascade,*/
-    foreign key (board_number) references board (board_number) on delete cascade
+    foreign key (board_number) references board (board_number) on delete cascade on update cascade
 );
 
 /*공지사항*/
