@@ -28,6 +28,7 @@ import NoticeList from './Components/Screens/Notice/NoticeList';
 import ServiceCenter from './Components/Screens/ServiceCenter/QueryList';
 import NoticeBoard from './Components/Screens/Notice/NoticeBoard';
 import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
+import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -239,6 +240,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="QueryWrite"
+             component={QueryWrite}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      ); 
@@ -365,6 +373,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="QueryWrite"
+             component={QueryWrite}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      );
@@ -487,6 +502,13 @@ import {
            <Stack.Screen
              name="QueryBoard"
              component={QueryBoard}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="QueryWrite"
+             component={QueryWrite}
              options={{
                headerShown: false,
            }} 
