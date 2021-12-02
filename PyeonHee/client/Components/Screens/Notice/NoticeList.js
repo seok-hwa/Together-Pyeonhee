@@ -10,6 +10,7 @@ const NoticeList = ({navigation}) => {
     const [noticeList, setNoticeList] = useState([]);
 
      //for test
+     /*
      const temp = [
         {
             boardID: 2,
@@ -24,7 +25,7 @@ const NoticeList = ({navigation}) => {
             boardDate: '2021-11-28',
         },
     ]
-
+    */
     useEffect(()=>{
         let tempID;
         AsyncStorage.getItem('userID', (err, result) => {
@@ -59,9 +60,9 @@ const NoticeList = ({navigation}) => {
                 <View style={styles.dateDiv}><Text style={styles.graphFont}>날짜</Text></View>
             </View>
             <ScrollView style={styles.appSize}>
-                {temp.map(item => {
-                    return <NoticeItem key={item.boardID} boardID={item.boardID} boardCate={item.boardCate} boardTitle={item.boardTitle} 
-                    boardDate={item.boardDate} navigation={navigation}
+                {noticeList.map(item => {
+                    return <NoticeItem key={item.notice_number} boardID={item.notice_number} boardCate={item.category} boardTitle={item.title} 
+                    boardDate={item.notice_date} navigation={navigation}
                     />})
                 }
             </ScrollView>
