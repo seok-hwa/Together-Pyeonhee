@@ -70,7 +70,7 @@ const BudgetList = ({navigation}) => {
                             keyExtractor={item => item.planning_number}
                             data={otherBudgetData}
                             renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} openCheck={item.open_check} budgetCabinet={false}
+                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
                             />}
                             // refreshing={refresh}
                             // onRefresh={loadCabinet}
@@ -81,7 +81,7 @@ const BudgetList = ({navigation}) => {
                             keyExtractor={item => item.planning_number}
                             data={recommendedBudgetData}
                             renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} openCheck={item.open_check} budgetCabinet={false}
+                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
                             />}
                             // refreshing={refresh}
                             // onRefresh={loadCabinet}
