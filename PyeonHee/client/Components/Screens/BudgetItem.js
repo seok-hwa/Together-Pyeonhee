@@ -50,7 +50,7 @@ const BudgetItem = (props) => {
     })
 
     const handlePressed = () => {
-        if(props.userRead === 1) {
+        if(props.openCheck === 1) {
             console.log('읽은적있음');
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
         } else {
@@ -61,9 +61,11 @@ const BudgetItem = (props) => {
                 textBody: '열람을 위해서는 50포인트가 차감됩니다.',
                 buttonText: '열람',
                 confirmText: '취소',
-                okButtonStyle: {backgroundColor: 'gray'},
+                // okButtonStyle: {backgroundColor: 'gray'},
                 iconEnabled: false,
                 callback: () => {
+                    Popup.hide()
+
                     fetch(`${url}/usePoint`, {
                         method: 'POST',
                         body: JSON.stringify({
