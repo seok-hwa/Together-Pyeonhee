@@ -23,7 +23,7 @@ export default class QueryWriteButton extends Component{
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#8EB3EE',
+    backgroundColor: '#778899',
     width: 90,
     height: 35,
     alignItems: 'center',

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 
     graphTitle:{
         height: 25,
-        backgroundColor: '#8EB3EE',
+        backgroundColor: '#778899',
         flexDirection: 'row',
         borderColor: 'gray',
         marginTop: 10,
@@ -109,37 +109,26 @@ const styles = StyleSheet.create({
         width: 50,
         alignContent: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
     },
     cateDiv: {
         width: 70,
         alignContent: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
     },
     titleDiv:{
         flex: 1,
         alignContent: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
-
     },
     dateDiv:{
         width: 100,
         alignContent: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
     },
     answerDiv: {
         width: 40,
         alignContent: 'center',
         justifyContent: 'center',
-        borderLeftWidth: 1,
-        borderLeftColor: 'gray',
     },
     graphFont:{
         fontSize: 13,
