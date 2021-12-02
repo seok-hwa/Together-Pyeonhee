@@ -39,17 +39,24 @@ const Counseling = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.smallcontainer}>
-          <View style={styles.tapContainer}>
-              <SegmentedControlTab
-                  values={['금융', '자산']}
-                  selectedIndex={selectedIndex}
-                  onTabPress={handleSingleIndexSelect}
-                  tabStyle={styles.tabStyle}
-                  tabTextStyle={{color: '#595959', }}
-                  activeTabStyle={styles.activeTabStyle}
-                  borderRadius={20}
-              />
-          </View>
+        <View style={styles.tapContainer}>
+          <SegmentedControlTab
+            values={['금융', '자산']}
+            selectedIndex={selectedIndex}
+            onTabPress={handleSingleIndexSelect}
+            tabStyle={styles.tabStyle}
+            tabTextStyle={{color: '#595959', }}
+            activeTabStyle={styles.activeTabStyle}
+            borderRadius={20}
+          />
+        </View>
+        
+        {/* <View style={styles.itemContainer}>
+          <Text>상담분야</Text>
+          <Text>소속</Text>
+          <Text>상담사</Text>
+        </View> */}
+
         {selectedIndex === 0 && <FinancialCounselingList navigation={navigation}/>}
         {selectedIndex === 1 && <AssetCounselingList navigation={navigation}/>}
             
@@ -89,5 +96,11 @@ const styles = StyleSheet.create({
   activeTabStyle: {
     backgroundColor: 'pink',
     borderRadius: 20,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 90,
   },
 });

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'white',
-      margin: 10,
+      margin: 5,
       borderRadius: 10,
     },
     itemContainer: {
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
       margin: 5,
       justifyContent: 'center',
       alignItems: 'center',
-      borderRadius: 15,
+      borderRadius: 10,
       borderWidth: 1,
       borderColor: 'gray',
     },

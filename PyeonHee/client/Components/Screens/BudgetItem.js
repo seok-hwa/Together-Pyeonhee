@@ -53,71 +53,95 @@ const BudgetItem = (props) => {
         if(props.budgetCabinet === true){
             console.log('보관함에 저장되어있음');
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
-        }
-        else if(props.openCheck === 1) {
-            console.log('읽은적있음');
-            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
         } else {
-            console.log('읽은적없음');
+            fetch(`${url}//openCheck`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: userID,
+                  budgetPlanningID: props.budgetPlanningID,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
+                
+                if(responseJson.status == true) {
+                    console.log('읽은적있음');
+                    props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                } 
+                else if (responseJson.status == false) {
+                    console.log('읽은적없음');
 
-            Popup.show({
-                type: 'confirm',
-                textBody: '열람을 위해서는 100포인트가 차감됩니다.',
-                buttonText: '열람',
-                confirmText: '취소',
-                okButtonStyle: {backgroundColor: '#8EB3EE'},
-                iconEnabled: false,
-                callback: () => {
-                    // Popup.hide()
+                    Popup.show({
+                        type: 'confirm',
+                        textBody: '열람을 위해서는 100포인트가 차감됩니다.',
+                        buttonText: '열람',
+                        confirmText: '취소',
+                        okButtonStyle: {backgroundColor: '#8EB3EE'},
+                        iconEnabled: false,
+                        callback: () => {
+                             // Popup.hide()
 
-                    fetch(`${url}/usePoint`, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                          userID: userID,
-                          usePoint: 100,
-                        }),
-                        headers: {
-                          'Accept': 'application/json',
-                          'Content-Type':'application/json',
-                        },
-                    })
-                    .then((response)=>response.json())
-                    .then((responseJson)=>{
-                        console.log(responseJson);
-                        if(responseJson.status === true){
-                            console.log('포인트 차감 완료');
-                            // console.log('잔여 포인트도 보내주면 좋을둣!!');
-                            Popup.show({
-                                type: 'success',
-                                title: '포인트 차감 완료',
-                                textBody: '잔여 포인트는 얼마 입니다.' ,
-                                buttonText: '확인',
-                                okButtonStyle: {backgroundColor: '#0000CD'},
-                                iconEnabled: false,
-                                callback: () => {
-                                    // Popup.hide();
-                                    props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                            fetch(`${url}/usePoint`, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                userID: userID,
+                                usePoint: 100,
+                                }),
+                                headers: {
+                                'Accept': 'application/json',
+                                'Content-Type':'application/json',
+                                },
+                            })
+                            .then((response)=>response.json())
+                            .then((responseJson)=>{
+                                console.log(responseJson);
+                                if(responseJson.status === true){
+                                    console.log('포인트 차감 완료');
+                                    // console.log('잔여 포인트도 보내주면 좋을둣!!');
+                                    Popup.show({
+                                        type: 'success',
+                                        title: '포인트 차감 완료',
+                                        textBody: '잔여 포인트는 얼마 입니다.' ,
+                                        buttonText: '확인',
+                                        okButtonStyle: {backgroundColor: '#0000CD'},
+                                        iconEnabled: false,
+                                        callback: () => {
+                                            // Popup.hide();
+                                            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                                        }
+                                    })
+                                } else{
+                                    console.log('포인트 부족');
+                                    Popup.show({
+                                        type: 'success',
+                                        title: '포인트 부족',
+                                        textBody: '사용자의 포인트는 얼마로, 얼마의 포인트가 부족합니다.',
+                                        buttonText: '확인',
+                                        okButtonStyle: {backgroundColor: '#0000CD'},
+                                        iconEnabled: false,
+                                        callback: () => Popup.hide()
+                                    })
                                 }
                             })
-                        } else{
-                            console.log('포인트 부족');
-                            Popup.show({
-                                type: 'success',
-                                title: '포인트 부족',
-                                textBody: '사용자의 포인트는 얼마로, 얼마의 포인트가 부족합니다.',
-                                buttonText: '확인',
-                                okButtonStyle: {backgroundColor: '#0000CD'},
-                                iconEnabled: false,
-                                callback: () => Popup.hide()
+                            .catch((e)=>{
+                                console.error(e);
                             })
                         }
                     })
-                    .catch((e)=>{
-                        console.error(e);
-                    })
+
+                }
+                else {
+                    console.log('fail to get status');
+                    return;
                 }
             })
-        }
+          
+        } 
     }
     
     
