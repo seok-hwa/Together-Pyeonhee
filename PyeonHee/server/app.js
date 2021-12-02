@@ -2307,13 +2307,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 var comments = result[0].counts;
                                 if(comments > 0){//답변 존재 O
                                     data = {
-                                        status: 'true'
+                                        status: true
                                     }
                                     console.log(data);
                                 }
                                 else{//답변 존재 X
                                     data = {
-                                        status: 'false'
+                                        status: false
                                     }
                                     console.log(data);
                                 }
