@@ -78,17 +78,17 @@ const QueryBoard = ({route}) => {
                         <Text style={styles.CateLeft}>분류: </Text>
                         <Text style={styles.CateRight}>{boardCate}</Text>
                     </View>
-                    <Text>날짜: {boardDate}</Text>
+                    <Text>날짜: {boardDate.substring(0,16).replace('T', ' ')}</Text>
                     <Text style={{color: 'blue',}}>답변이 있습니다.</Text>
                 </View>
                 <View style={styles.BodyDiv}>
                     <Text>{boardContent}</Text>
                 </View>
                 <View style={styles.TopDiv}>
-                    <Text>답변 날짜: 2021-12-02</Text>
+                    <Text>답변 날짜: {answerDate.substring(0,16).replace('T', ' ')}</Text>
                 </View>
                 <View style={styles.BodyDiv}>
-                    <Text>확인해보겠습니다.</Text>
+                    <Text>{answerContent}</Text>
                 </View>
             </ScrollView>
         </View>
@@ -110,7 +110,7 @@ const QueryBoard = ({route}) => {
                         <Text style={styles.CateLeft}>분류: </Text>
                         <Text style={styles.CateRight}>{boardCate}</Text>
                     </View>
-                    <Text>날짜: {boardDate}</Text>
+                    <Text>날짜: {boardDate.substring(0,16).replace('T', ' ')}</Text>
                     <Text style={{color: 'red',}}>답변이 아직 없습니다.</Text>
                 </View>
                 <View style={styles.BodyDiv}>
