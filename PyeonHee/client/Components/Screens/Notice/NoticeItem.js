@@ -10,7 +10,7 @@ const NoticeItem = (props) => {
                 <View style={styles.boardNumberDiv}><Text style={styles.centerFont}>{props.boardID}</Text></View>
                 <View style={styles.cateDiv}><Text style={styles.centerFont}>{props.boardCate}</Text></View>
                 <View style={styles.titleDiv}><Text numberOfLines={1} ellipsizeMode="tail">{props.boardTitle}</Text></View>
-                <View style={styles.dateDiv}><Text style={styles.centerFont}>{props.boardDate}</Text></View>
+                <View style={styles.dateDiv}><Text style={styles.centerFont}>{props.boardDate.substring(0,10)}</Text></View>
             </View>
         </TouchableOpacity>
     );
