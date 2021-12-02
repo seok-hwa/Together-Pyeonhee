@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const NoticeBoard = ({route}) => {
+    const [userID, setUserID] = useState('');
     const [boardTitle, setBoardTitle] = useState('안녕하세요!!!');
     const [boardCate, setBoardCate] = useState('티어');
     const [boardDate, setBoardDate] = useState('2021-12-02');
