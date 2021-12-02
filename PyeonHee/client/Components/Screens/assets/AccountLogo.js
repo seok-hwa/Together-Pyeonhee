@@ -111,8 +111,8 @@ const AccountLogo = (props) => {
 
 const styles = StyleSheet.create({
     accountImage: {
-        height: 60,
-        width: 60,
+        height: 50,
+        width: 50,
         borderWidth: 1,
         borderRadius: 30,
     },
