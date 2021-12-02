@@ -2366,6 +2366,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+
+            //사용자 고객센터 답변(관리자) 확인
+            app.get('/queryReply', function (req, res) {
+                var boardID = req.query.boardID;
+                db.query(`SELECT * FROM board WHERE board_number =?`, [boardID], function (error, result2) {
+                    if (error) throw error;
+                    else {
+                        db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                const data = {
+                                    answerDate : result[0].comment_date,
+                                    answerContent : result[0].content
+                                }
+                                res.send(data);
+                                console.log(data);
+                            }
+                        });
+                    }
+                });
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
