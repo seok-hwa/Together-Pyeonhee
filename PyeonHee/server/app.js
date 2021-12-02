@@ -2197,13 +2197,18 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //사용자 공지사항 글 목록 확인
             app.get('/noticeList', function (req, res) {
-                db.query(`SELECT * FROM notice`, function (error, result) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number`, function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
                         console.log(result);
                     }
                 });
+            });
+
+            //사용자 공지사항 글 내용 확인
+            app.get('/noticeBoard', function (req, res) {
+                console.log("여기!!");
             });
 
             const PORT = 8000;
