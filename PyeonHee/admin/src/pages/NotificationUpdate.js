@@ -63,7 +63,7 @@ function NotificationUpdate({ match }) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('수정 성공');
-            document.location.href = '/notification';
+            document.location.href = '/notification/1';
         }else{
             alert('수정 실패');
         }
