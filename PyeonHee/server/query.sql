@@ -484,3 +484,26 @@ create table OpenCount (
     foreign key (user_id) references user (user_id),
     foreign key (planning_number) references BudgetPlanning (planning_number) on delete cascade
 );
+
+/*상담사 테이블*/
+
+create table FinancialCounselor (
+    name varchar(12) not null,
+    counselor_id int not null primary key,
+    part varchar(12) not null,
+    company varchar(16) not null,
+    like_count int default 0
+);
+
+ALTER TABLE FinancialCounselor MODIFY counselor_id int not null auto_increment;
+ALTER TABLE FinancialCounselor auto_increment =10000;
+
+create table AssetCounselor (
+    name varchar(12) not null,
+    counselor_id int not null primary key,
+    company varchar(16) not null,
+    like_count int default 0
+);
+
+ALTER TABLE AssetCounselor MODIFY counselor_id int not null auto_increment;
+ALTER TABLE AssetCounselor auto_increment =20000;
