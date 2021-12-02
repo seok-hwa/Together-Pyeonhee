@@ -35,10 +35,10 @@ const NoticeBoard = ({route}) => {
     */
     return (
         <View style={styles.appSize}>
+            <View style={styles.HeaderDiv}>
+                <Text style={styles.HeaderFont}>공지글 확인</Text>
+            </View>
             <View style={styles.TopDiv}>
-                <View style={styles.HeaderDiv}>
-                    <Text style={styles.HeaderFont}>공지글 확인</Text>
-                </View>
                 <View style={styles.TitleDiv}>
                     <Text style={styles.TitleLeft}>제목: </Text>
                     <Text style={styles.TitleRight}>{boardTitle}</Text>
