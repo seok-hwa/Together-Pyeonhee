@@ -2293,6 +2293,45 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //사용자 고객센터 글 내용 확인
+            app.get('/queryBoard', function (req, res) {
+                var boardID = req.query.boardID;
+                var data;
+                db.query(`SELECT * FROM board WHERE board_number =?`, [boardID], function (error, result2) {
+                    if (error) throw error;
+                    else {
+                        db.query(`SELECT count(board_number) as counts FROM comment WHERE board_number =?`, [boardID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                console.log(result[0].counts);
+                                var comments = result[0].counts;
+                                if(comments > 0){//답변 존재 O
+                                    data = {
+                                        status: 'true'
+                                    }
+                                    console.log(data);
+                                }
+                                else{//답변 존재 X
+                                    data = {
+                                        status: 'false'
+                                    }
+                                    console.log(data);
+                                }
+                                const data2 = {
+                                    boardTitle: result2[0].title,
+                                    boardCate: result2[0].category,
+                                    boardDate: result2[0].board_date,
+                                    boardContent: result2[0].content,
+                                    boardAnswer: data.status
+                                }
+                                res.send(data2);
+                                console.log(data2);
+                            }
+                        });
+                    }
+                });
+            });
+
             //사용자 고객센터 글 작성
             app.post('/queryRegister', function (req, res) {
                 var userID = req.body.userID;
