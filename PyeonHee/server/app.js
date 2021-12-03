@@ -41,7 +41,7 @@ const SSHConnection = new Promise((resolve, reject) => {
         (err, stream) => {
              if (err) reject(err);
              const updatedDbServer = {
-                 ...config.dbServer,
+                 ...config.dbServer,    
                  stream
             };
 
@@ -973,14 +973,14 @@ const SSHConnection = new Promise((resolve, reject) => {
 
                         db.query(`UPDATE BudgetPlanning SET monthly_rent=?,insurance_expense=?,transportation_expense=?,communication_expense=?,
                             leisure_expense=?, shopping_expense=?,education_expense=?, medical_expense=?,
-                            event_expense=?, etc_expense=?, subscribe_expense=? WHERE user_id =?`,[monthlyRent,insurance,transportation,communication,
+                            event_expense=?, etc_expense=?, subscribe_expense=? WHERE user_id =? AND state = 1`,[monthlyRent,insurance,transportation,communication,
                                 leisure,shopping,education,medical,event,etc,subscription,userID], function(error1,result1){
                                     if (error1) throw error1;
                                     else{
                                         db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`,[userID], function(error2,result2){
                                             if (error1) throw error1;
                                             else {
-                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function(error3, result3){
+                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error3, result3){
                                                     if (error) throw error;
                         
                                                     else if(result.length != 0){
@@ -996,12 +996,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                                 res.send(data);
                                                             }
                                                         })
-                                                } 
-                                                else {
-                                                    res.send([]);
-                                                }
-                                            });
-                                        }
+                                                    } 
+                                                    else {
+                                                        res.send([]);
+                                                    }
+                                                });
+                                            }
                                         });                                        
                                     }
                                 });
@@ -1040,11 +1040,42 @@ const SSHConnection = new Promise((resolve, reject) => {
                 [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
                     if(error) throw error;
                     else{
-                        const data = {
-                            status : 'success',
-                        }
-                        res.send(data);
-                        console.log(data);
+                        db.query(`SELECT user_savings FROM BudgetPlanning WHERE user_id = ? AND state = 1`, [userID], function(error1, result1){
+                            if(error1) throw error1;
+                            else{
+                                sum_savings = result1[0].user_savings;
+                                sum_savings = sum_savings + savingMoney;
+                                db.query(`UPDATE BudgetPlanning SET user_savings = ?`, [sum_savings], function(error2, result2){
+                                    if(error2) throw error2;
+                                    else{
+                                        db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function(err, result5){
+                                            if(err) throw err;
+                                            else{
+                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error3, result3){
+                                                    if(error3) throw error3;
+                                                    else{
+                                                        var dailyMoney = Calculate_Daily_Money(result3, result5);
+                                                        db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
+                                                            if(error4) throw error4;
+                                                            else{
+                                                                const data = {
+                                                                    status : 'success',
+                                                                }
+                                                                res.send(data);
+                                                                console.log(data);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        
+                                    }
+                                })
+                            }
+                        })
+                        
+                        
                     }
                 });
             }); 
