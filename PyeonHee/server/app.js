@@ -376,6 +376,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 userID : '',
                                 status : 'failed',
                             }
+                            console.log(data);
                             res.send(data);
                         }
                         else{
@@ -385,6 +386,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 userID : userID,
                                 status : 'success',
                             }
+                            console.log(data);
                             res.send(data);
                         }
                     }
@@ -2487,7 +2489,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
             
-            const PORT = 8001;
+            const PORT = 8000;
 
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);

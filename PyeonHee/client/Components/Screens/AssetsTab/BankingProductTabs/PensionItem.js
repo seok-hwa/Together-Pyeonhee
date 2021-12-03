@@ -28,7 +28,7 @@ const PensionItem = (props) => {
                     </View>
                     <View style={styles.infoRow}> 
                         <Text>수익률: </Text>
-                        <Text style={styles.highlightFont}>{props.interest}</Text>
+                        <Text style={styles.highlightFont}>{props.interest}%</Text>
                     </View>
                 </View>
                 <View style={styles.nextCotainer}>

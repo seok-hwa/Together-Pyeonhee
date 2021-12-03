@@ -3,6 +3,44 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 
+const AccountLogo = (props) => {
+  const accountCate = props.bankName;
+  if(accountCate === 'KB자산운용'){
+      return(
+          <Image source={require('../../assets/accounts/kb.png')} style={styles.accountImage}/>
+      )
+  }else if(accountCate === 'KTB자산운용'){
+    return(
+        <Image source={require('../../assets/accounts/ktb.png')} style={styles.accountImage}/>
+    )
+  }else if(accountCate === 'VI자산운용'){
+    return(
+        <Image source={require('../../assets/accounts/vi.png')} style={styles.accountImage}/>
+    )
+  }else if(accountCate === '삼성자산운용'){
+    return(
+        <Image source={require('../../assets/accounts/samsung.png')} style={styles.accountImage}/>
+    )
+  }else if(accountCate === '신한자산운용'){
+    return(
+        <Image source={require('../../assets/accounts/shinhan.png')} style={styles.accountImage}/>
+    )
+  }else if(accountCate === '한국투자신탁운용'){
+    return(
+        <Image source={require('../../assets/accounts/han.png')} style={styles.accountImage}/>
+    )
+  }
+  else if(accountCate === '현대자산운용'){
+    return(
+        <Image source={require('../../assets/accounts/hyeondae.png')} style={styles.accountImage}/>
+    )
+  }
+  else{
+        return(
+            <View style={styles.accountImage} />
+        )
+    }
+}
 const FundItem = (props) => {
     return (
         <TouchableOpacity 
@@ -10,25 +48,26 @@ const FundItem = (props) => {
         onPress={() => props.navigation.navigate('ItemLink', {link: props.link})}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
-                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
+                    <AccountLogo bankName={props.bank_name}/>
                     <Text style={styles.fundBankFont}>{props.bank_name}</Text>
+                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
                 </View>
                 <View style={styles.item2}>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>3개월 수익률: </Text>
-                        <Text style={styles.highlightFont}>{props.interest_3}</Text>
+                        <Text style={styles.highlightFont}>{props.interest_3}%</Text>
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>6개월 수익률: </Text>
-                        <Text style={styles.highlightFont}>{props.interest_6}</Text>
+                        <Text style={styles.highlightFont}>{props.interest_6}%</Text>
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>1년 수익률: </Text>
-                        <Text style={styles.highlightFont}>{props.interest_12}</Text>
+                        <Text style={styles.highlightFont}>{props.interest_12}%</Text>
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFontSize}>펀드 규모: </Text>
-                        <Text style={styles.realHighlightFont}>{props.fund_sum}</Text>
+                        <Text style={styles.realHighlightFont}>{props.fund_sum}억</Text>
                     </View>
                 </View>
                 <View style={styles.nextCotainer}>
@@ -93,7 +132,7 @@ const styles = StyleSheet.create({
 
       fundNameFont: {
         fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 11,
       },
       fundBankFont: {
         marginTop: 5,
@@ -115,6 +154,13 @@ const styles = StyleSheet.create({
       rowFontSize: {
         fontSize: 12.5,
       },
+
+      accountImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderWidth: 1,
+    },
   });
 
 export default FundItem;
