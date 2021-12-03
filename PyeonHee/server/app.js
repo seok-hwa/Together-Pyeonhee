@@ -2612,6 +2612,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 고객센터 댓글 수정
+            app.post('/replyUpdate', function (req, res) {
+                var boardID = req.body.boardID;
+                var replyContent = req.body.replyContent;
+                db.query(`UPDATE comment SET content = ? WHERE board_number = ?`, [replyContent, boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
