@@ -62,7 +62,7 @@ const AssetCounseling = ({navigation}) => {
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
-                setConsultData(responseJson);
+                setAssetCounselingData(responseJson);
 
                 //consult_number: 상담 고유id
                 //counselor_name: 상담사 이름
@@ -86,7 +86,7 @@ const AssetCounseling = ({navigation}) => {
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);
-            setConsultData(responseJson);
+            setAssetCounselingData(responseJson);
         })
         .then(()=>{
             setRefresh(false);
@@ -107,8 +107,8 @@ const AssetCounseling = ({navigation}) => {
                     <FlatList
                     keyExtractor={item => item.counselor_id}
                     data={assetCounselingData}
-                    renderItem={({item}) => <AssetConsultItem consultNumber={item.counselor_id} counselorName={item.name} 
-                        counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} counselorRank={item.counselor_rank} 
+                    renderItem={({item, index}) => <AssetConsultItem consultNumber={item.counselor_id} counselorName={item.name} 
+                        counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} counselorRank={index+1} 
                     />}
                     refreshing={refresh}
                     onRefresh={loadCounselor}

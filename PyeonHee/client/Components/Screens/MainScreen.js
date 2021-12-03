@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './HomeScreen';
@@ -6,6 +6,7 @@ import BudgetScreen from './BudgetScreen';
 import AssetsScreen from './AssetsScreen';
 import MyPageScreen from './MyPageScreen';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
+
 const Tab = createBottomTabNavigator();
 
 const MainScreen = ({ navigation}) => {

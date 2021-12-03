@@ -2505,6 +2505,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 고객센터 내용확인(사용자가 작성한 내용)
             app.post('/queryBoardInfo', function (req, res) {
+                console.log('이거 확인', req.body.boardID);
                 var boardID = req.body.boardID;
                 db.query(`SELECT * FROM board WHERE board_number = ?`, [boardID], function (error, result) {
                     if (error) throw error;

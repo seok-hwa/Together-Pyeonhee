@@ -38,8 +38,8 @@ function QueryBoard({ match }) {
         console.log(error);
     });
   }
-  /*
   useEffect(() => {
+    console.log('이거 확인', match.params.boardID);
     let tempAnswer;
     axios({
       method:"POST",
@@ -76,8 +76,8 @@ function QueryBoard({ match }) {
     .catch(error=>{
         console.log(error);
     });
-  },[])*/
-/*
+  },[])
+
   if(answer === false){
     return (
       <div className="NotificationBoardDiv">
@@ -147,7 +147,8 @@ function QueryBoard({ match }) {
         </div>
       </div>
     );
-  }*/
+  }
+  /*
   return (
     <div className="NotificationBoardDiv">
       <p className="NotificationTitleText">문의게시판</p>
@@ -181,7 +182,7 @@ function QueryBoard({ match }) {
         </div>
       </div>
     </div>
-  );
+  );*/
 }
 
 export default QueryBoard;
