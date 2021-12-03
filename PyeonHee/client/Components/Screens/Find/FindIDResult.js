@@ -27,8 +27,8 @@ const FindIDResult = ({route, navigation }) => {
         fetch(`${url}/findID`, {
             method: 'POST',
             body: JSON.stringify({
-              userName: userName,
-              userPhone: userPhone,
+              userName: route.params.data.name,
+              userPhone: route.params.data.phone,
             }),
             headers: {
               'Accept': 'application/json',
@@ -53,7 +53,14 @@ const FindIDResult = ({route, navigation }) => {
             <View style={styles.appLogoHeaderDiv}>
                 <Text style={styles.logoJoin}>아이디 찾기 결과</Text>
             </View>
-            
+            <View style={styles.appBody}>
+                <View style={styles.appInnerBody}>
+                    <View style={styles.innerTextAlign}>
+                        <Text>아이디</Text>
+                    </View>
+                    <Text style={styles.idDiv}>{userID}</Text>
+                </View>
+            </View>
         </View>
     )}
     else if(loading === false && isUserID === false){
@@ -65,9 +72,8 @@ const FindIDResult = ({route, navigation }) => {
             <View style={styles.appBody}>
                 <View style={styles.appInnerBody}>
                     <View style={styles.innerTextAlign}>
-                        <Text>아이디</Text>
+                        <Text>등록된 아이디가 없습니다.</Text>
                     </View>
-                    <Text style={styles.idDiv}>아이디</Text>
                 </View>
             </View>
         </View>
@@ -79,11 +85,6 @@ const FindIDResult = ({route, navigation }) => {
                 <Text style={styles.logoJoin}>아이디 찾기 결과</Text>
             </View>  
             <View style={styles.appBody}>
-                <View style={styles.appInnerBody}>
-                    <View style={styles.innerTextAlign}>
-                        <Text>등록된 아이디가 없습니다.</Text>
-                    </View>
-                </View>
             </View>   
         </View>
         )

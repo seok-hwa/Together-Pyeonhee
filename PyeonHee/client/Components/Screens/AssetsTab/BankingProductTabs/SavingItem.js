@@ -2,7 +2,19 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-
+const AccountLogo = (props) => {
+  const accountCate = props.bankName;
+  if(accountCate === '한국저축은행'){
+      return(
+          <Image source={require('../../assets/accounts/han.png')} style={styles.accountImage}/>
+      )
+  }
+  else{
+        return(
+            <View style={styles.accountImage} />
+        )
+    }
+}
 const SavingItem = (props) => {
     return (
         <TouchableOpacity 
@@ -10,8 +22,9 @@ const SavingItem = (props) => {
         onPress={() => props.navigation.navigate('ItemLink', {link: props.link})}>
         <View style={styles.itemContainer}>
             <View style={styles.item1}>
-                <Text style={styles.fundNameFont}>{props.product_name}</Text>
+                <AccountLogo bankName={props.bank_name}/>
                 <Text style={styles.fundBankFont}>{props.bank_name}</Text>
+                <Text style={styles.fundNameFont}>{props.product_name}</Text>
             </View>
             <View style={styles.item2}>
                 <View style={styles.infoRow}> 
@@ -20,11 +33,11 @@ const SavingItem = (props) => {
                 </View>
                 <View style={styles.infoRow}> 
                     <Text style={styles.rowFont}>이자율: </Text>
-                    <Text style={styles.highlightFont}>{props.interest}</Text>
+                    <Text style={styles.highlightFont}>{props.interest}%</Text>
                 </View>
                 <View style={styles.infoRow}> 
                     <Text style={styles.rowFont}>최고 우대금리: </Text>
-                    <Text style={styles.highlightFont}>{props.max_interest}</Text>
+                    <Text style={styles.highlightFont}>{props.max_interest}%</Text>
                 </View>
             </View>
             <View style={styles.nextCotainer}>
@@ -108,6 +121,12 @@ const styles = StyleSheet.create({
       rowFont: {
         fontSize: 12.5,
       },
+      accountImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderWidth: 1,
+    },
   });
 
 export default SavingItem;

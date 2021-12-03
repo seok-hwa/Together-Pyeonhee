@@ -145,7 +145,7 @@ const FindPasswordResult = ({route, navigation }) => {
                     <View style={styles.innerTextAlign}>
                         <Text>아이디</Text>
                     </View>
-                    <Text style={styles.idDiv}>아이디</Text>
+                    <Text style={styles.idDiv}>{userID}</Text>
                     <View style={styles.innerTextAlign}>
                         <Text >비밀번호*</Text>
                     </View>
@@ -168,7 +168,7 @@ const FindPasswordResult = ({route, navigation }) => {
                 </View>
             </View>
             <View style={styles.appFooter}>
-                <UpdatePasswordButton />
+                <UpdatePasswordButton onPress={handleSubmitButton}/>
             </View>
         </View>
         </Root>

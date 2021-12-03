@@ -24,7 +24,7 @@ const LoanItem = (props) => {
                     </View>
                     <View style={styles.infoRow}> 
                         <Text style={styles.rowFont}>금리: </Text>
-                        <Text style={styles.highlightFont}>{props.interest}</Text>
+                        <Text style={styles.highlightFont}>{props.interest}%</Text>
                     </View>
                 </View>
                 <View style={styles.nextCotainer}>
