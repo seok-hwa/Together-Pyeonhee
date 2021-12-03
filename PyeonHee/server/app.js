@@ -2382,7 +2382,26 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+            app.get('/Counseling/FinancialProduct', function (req, res){
+                db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                })
+            });
 
+            app.get('/Counseling/AssetManagement', function (req, res){
+                db.query(`SELECT * FROM AssetCounselor ORDER BY like_count DESC`, function (error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                })
+            });
+            
             const PORT = 8000;
 
             app.listen(PORT, function(){
