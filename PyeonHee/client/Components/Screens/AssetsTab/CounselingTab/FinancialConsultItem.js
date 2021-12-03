@@ -12,6 +12,22 @@ const url = config.url;
 const FinancialConsultItem = (props) => {
 
     const sendMail = () =>{
+        fetch(`${url}/requestMatching`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: props.userID,
+              counselorName: props.counselorName,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
+        })
+        /*
         console.log('상담사 id: ',props.consultNumber);
         Popup.show({
             type: 'confirm',
@@ -60,7 +76,7 @@ const FinancialConsultItem = (props) => {
                     }
                 })
             }
-        })
+        })*/
     }
     return (
         <TouchableOpacity
