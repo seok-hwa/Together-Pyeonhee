@@ -54,7 +54,7 @@ const BudgetItem = (props) => {
             console.log('보관함에 저장되어있음');
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
         } else {
-            fetch(`${url}//openCheck`, {
+            fetch(`${url}/openCheck`, {
                 method: 'POST',
                 body: JSON.stringify({
                   userID: userID,
@@ -84,7 +84,7 @@ const BudgetItem = (props) => {
                         okButtonStyle: {backgroundColor: '#8EB3EE'},
                         iconEnabled: false,
                         callback: () => {
-                             // Popup.hide()
+                            Popup.hide()
 
                             fetch(`${url}/usePoint`, {
                                 method: 'POST',
@@ -111,7 +111,7 @@ const BudgetItem = (props) => {
                                         okButtonStyle: {backgroundColor: '#0000CD'},
                                         iconEnabled: false,
                                         callback: () => {
-                                            // Popup.hide();
+                                            Popup.hide()
                                             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
                                         }
                                     })
