@@ -2539,11 +2539,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`INSERT INTO comment (board_number, content) VALUES (?, ?)`, [boardID, replyContent], function (error, result) {
                     if (error) throw error;
                     else {
-                        const data = {
-                            status: 'success',
-                        }
-                        res.send(data);
-                        console.log(data);
+                        db.query(`UPDATE board SET comment_check = 1 WHERE board_number = ?`, [boardID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                const data = {
+                                    status: 'success',
+                                }
+                                res.send(data);
+                                console.log(data);
+                            }
+                        });
                     }
                 });
             });
