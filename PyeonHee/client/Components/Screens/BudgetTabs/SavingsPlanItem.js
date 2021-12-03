@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const SavingPlanItem = (props) => {
@@ -14,6 +15,19 @@ const SavingPlanItem = (props) => {
   // let temp = props.savingMoney + props.prevSum;
   // props.setUpdate(temp);
   // console.log(temp);
+
+  const [userID, setUserID] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(()=>{
+    let tempID;
+    AsyncStorage.getItem('userID', (err, result) => {
+      tempID = result;
+      if(tempID!= null){
+        setUserID(tempID);
+      }
+    })
+  })
 
 
   return (
