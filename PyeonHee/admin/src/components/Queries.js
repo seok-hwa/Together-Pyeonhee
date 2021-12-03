@@ -8,9 +8,9 @@ function Queries(props) {
           <TableCell>{props.category}</TableCell>
           <TableCell><a href={`/queryBoard/${props.id}`}>{props.title}</a></TableCell>
           <TableCell>{props.userID}</TableCell>
-          <TableCell>{props.date}</TableCell>
+          <TableCell>{props.date.substring(0,10)}</TableCell>
           {
-            props.answer === true ?
+            props.answer === 1 ?
             <TableCell>O</TableCell>:
             <TableCell>X</TableCell>
           }
