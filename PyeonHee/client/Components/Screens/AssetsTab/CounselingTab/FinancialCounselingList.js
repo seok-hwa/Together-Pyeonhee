@@ -68,7 +68,7 @@ const FinancialCounseling = ({navigation}) => {
             fetch(`${url}/Counseling/FinancialProduct`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data');
+                console.log('아아 response data');
                 console.log(responseJson);
                 setFinancialCounselingData(responseJson);
 
@@ -139,14 +139,14 @@ const FinancialCounseling = ({navigation}) => {
                     </View>
                     <View style={{width: 80, alignItems: 'center'}}><Text style={styles.categoryText}>소속</Text></View>
                     <View style={{width: 80, alignItems: 'center'}}><Text style={styles.categoryText}>상담사</Text></View>
-                    <View style={{width: 55, alignItems: 'center'}} ><Text style={styles.categoryText}>좋아요</Text></View>
+                    <View style={{width: 55, alignItems: 'center'}}><Text style={styles.categoryText}>좋아요</Text></View>
                 </View>
                 <View>
                     <FlatList
                         keyExtractor={item => item.consult_number}
                         data={financialCounselingData}
-                        renderItem={({item}) => <FinancialConsultItem consultNumber={item.consult_number} counselorName={item.counselor_name} consultPart={item.consult_part} 
-                            counselorCorp={item.counselor_corp} counselorLike={item.counselor_like} navigation={navigation}
+                        renderItem={item => <FinancialConsultItem key= {item.counselor_id} consultNumber={item.counselor_id} counselorName={item.name} consultPart={item.part} 
+                            counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation}
                             counselorRank={item.counselor_rank}
                         />}
                         refreshing={refresh}

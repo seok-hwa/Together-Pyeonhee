@@ -6,7 +6,7 @@ import RankingLogo from './RankingLogo';
 import { background, backgroundColor } from 'styled-system';
 
 const FinancialConsultItem = (props) => {
-
+    console.log('하하', props);
     return (
         <TouchableOpacity
             style={styles.container}
