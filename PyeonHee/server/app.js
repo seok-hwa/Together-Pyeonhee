@@ -2470,6 +2470,36 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 고객센터 목록 확인
+            app.post('/adminGetQueryList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM board ORDER BY board_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 고객센터 전체페이지 수
+            app.get('/serviceCenterTotalPage', function (req, res) {
+                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "board"`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        //console.log(result[0].AUTO_INCREMENT);
+                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+         
+
             //관리자 고객센터 내용확인(사용자가 작성한 내용)
             app.post('/queryBoardInfo', function (req, res) {
                 var boardID = req.body.boardID;
@@ -2497,7 +2527,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-
+          //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2507,7 +2537,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             });
-
+            //자산 상담사 정렬 
             app.get('/Counseling/AssetManagement', function (req, res){
                 db.query(`SELECT * FROM AssetCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2517,7 +2547,42 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             });
-            
+            //상담사 카테고리 별로
+            app.post('/Counseling/FinancialProduct/Category', function (req, res){
+                var category = req.body.categoryName;
+
+                db.query(`SELECT * FROM FinancialCounselor WHERE part =? ORDER BY like_count DESC`,[category], function(error, result){
+                    if (error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                })
+            });
+
+            //상담사 세부정보 받아오기 
+            app.get('/Counseling/FinancialProduct/Detail', function (req, res){
+                var consultNumber = req.query.consultNumber;
+                if(consultNumber >= 20000){
+                    db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`,[consultNumber], function (error, result){
+                        if(error) throw error;
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+                }
+                else {
+                    db.query(`SELECT * FROM FinancialCounselor WHERE counselor_id =?`,[consultNumber], function (error, result){
+                        if(error) throw error;
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+                }
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
