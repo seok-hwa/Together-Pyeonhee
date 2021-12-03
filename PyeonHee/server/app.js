@@ -2165,51 +2165,55 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var counselorName = req.body.counselorName;
                 
-                db.query(`SELECT phone FROM user WHERE user_id = ?`,[userID], function(error, result){
+                db.query(`SELECT phone, total_point FROM user WHERE user_id = ?`,[userID], function(error, result){
                     if(error) throw error;
                     else{
                         var phone = result[0].phone;
-                        var text = `편히가계 사용자가 당신에게 상담 매칭을 신청했습니다.\n\n 
-                        사용자의 연락처 : ${phone} \n\n
-                        빠른 시일내 연락 바랍니다. 감사합니다.\n
-                        편히가계 드림.`; 
-
-                        let transporter = nodemailer.createTransport({
-                            // 사용하고자 하는 서비스, gmail계정으로 전송할 예정이기에 'gmail'
-                            service: 'gmail',
-                            // host를 gmail로 설정
-                            host: 'smtp.gmail.com',
-                            port: 587,
-                            secure: false,
-                            auth: {
-                              // Gmail 주소 입력, 'testmail@gmail.com'
-                              user: config.email,
-                              // Gmail 패스워드 입력
-                              pass: config.password,
-                            },
-                        });
-                        let info = transporter.sendMail({
-                            // 보내는 곳의 이름과, 메일 주소를 입력
-                            from: `"Pyeonhee" <${config.email}>`,
-                            // 받는 곳의 메일 주소를 입력
-                            to: config.toemail,
-                            // 보내는 메일의 제목을 입력
-                            subject: 'Counselor Matching!',
-                            // 보내는 메일의 내용을 입력
-                            // text: 일반 text로 작성된 내용
-                            // html: html로 작성된 내용
-                            text: text,
-                            html: `<b>${text}</b>`,
-                        });
-        
-                        console.log('Message sent: %s', info.messageId);
-                        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-        
-                        res.status(200).json({
-                            status: 'Success',
-                            code: 200,
-                            message: 'Sent Auth Email',
-                        });
+                        var point = result[0].total_point;
+                        if(point > 500){
+                            var text = '편히가계 사용자가 '  + counselorName + ' 상담사님 에게 상담 매칭을 신청했습니다.' + '\n\n' + '사용자의 연락처 : ' + phone + '\n\n' + '빠른 시일내 연락 바랍니다. 감사합니다.' + '\n' + '편히가계 드림.';
+                            point = point - 500;
+                            db.query(`Update user SET total_point = ? WHERE user_id = ?`, [point, userID], function(error1, result1){
+                                if(error1) throw error1;
+                                else{
+                                    db.query(`insert into point(user_id, diff, description) values(?, 500, '상담사 매칭 결제')`, [userID], function(error2, result2){
+                                        if(error2) throw error2;
+                                        else{
+                                            let transporter = nodemailer.createTransport({
+                                                service: 'gmail',
+                                                host: 'smtp.gmail.com',
+                                                port: 587,
+                                                secure: false,
+                                                auth: {
+                                                user: config.email,
+                                                pass: config.password,
+                                                },
+                                            });
+                                            let info = transporter.sendMail({
+                                                from: `"Pyeonhee" <${config.email}>`,
+                                                to: config.toemail,
+                                                subject: 'Counselor Matching!',
+                                                text: text,
+                                                //html: `<b>${text}</b>`,
+                                            });
+                            
+                                            console.log('이메일 전송');                    
+                                            res.status(200).json({
+                                                status: 'success',
+                                                code: 200,
+                                                message: 'Sent Auth Email',
+                                            });
+                                        }
+                                    })  
+                                }
+                            })
+                        }
+                        else{
+                            data = {
+                                status : 'lowBalance'
+                            };
+                            res.send(data);
+                        }   
                     }
                 })
                 
