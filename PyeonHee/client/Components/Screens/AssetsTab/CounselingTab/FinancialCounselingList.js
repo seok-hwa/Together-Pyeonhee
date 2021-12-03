@@ -146,7 +146,7 @@ const FinancialCounseling = ({navigation}) => {
                         keyExtractor={item => item.counselor_id}
                         data={financialCounselingData}
                         renderItem={({item, index}) => <FinancialConsultItem key= {item.counselor_id} consultNumber={item.counselor_id} counselorName={item.name} consultPart={item.part} 
-                            counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation}
+                            counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} userID={userID}
                             counselorRank={index+1}
                         />}
                         refreshing={refresh}

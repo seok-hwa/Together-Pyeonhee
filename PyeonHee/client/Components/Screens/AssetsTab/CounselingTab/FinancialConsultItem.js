@@ -4,13 +4,84 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { background, backgroundColor } from 'styled-system';
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
+import config from '../../../../config';
+
+const url = config.url;
 
 const FinancialConsultItem = (props) => {
-    console.log('하하', props);
+
+    const sendMail = () =>{
+        fetch(`${url}/requestMatching`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: props.userID,
+              counselorName: props.counselorName,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
+        })
+        /*
+        console.log('상담사 id: ',props.consultNumber);
+        Popup.show({
+            type: 'confirm',
+            title: '상담매칭',
+            textBody: `500P를 사용하여 ${props.counselorName} 상담사에게 상담 매칭 요청을 하시겠습니까?`,
+            buttonText: 'yes',
+            confirmText: 'no',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => {
+                fetch(`${url}/requestMatching`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      userID: props.userID,
+                      counselorName: props.counselorName,
+                    }),
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    if(responseJson.status==='lowBalance'){
+                        Popup.show({
+                            type: 'success',
+                            textBody: '포인트가 부족합니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                    }
+                    else if(responseJson.status==='lowBalance'){
+                        Popup.show({
+                            type: 'success',
+                            textBody: '매칭 요청 메시지를 보냈습니다.',
+                            buttonText: '확인',
+                            okButtonStyle: {backgroundColor: '#0000CD'},
+                            iconEnabled: false,
+                            callback: () => Popup.hide()
+                        })
+                    }
+                    else{
+                        alert('요청 실패');
+                    }
+                })
+            }
+        })*/
+    }
     return (
         <TouchableOpacity
             style={styles.container}
-            onPress={() => props.navigation.navigate('FinancialCounselorDetail', {consultNumber: props.consultNumber})}
+            onPress={sendMail}
         >
             <View style={styles.itemContainer}>
                 <View style={styles.rankingLogoContainer}>
@@ -33,7 +104,7 @@ const FinancialConsultItem = (props) => {
 
                     <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 5,}}>
                         <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
-                        <Text style={{marginLeft: 5, fontSize: 10, }}>{props.counselorLike/*.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")*/}</Text>
+                        <Text style={{marginLeft: 5, fontSize: 10, }}>{props.counselorLike}</Text>
                     </View>
                 </View>
 
