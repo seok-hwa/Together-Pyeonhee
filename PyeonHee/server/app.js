@@ -400,7 +400,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`UPDATE user SET password WHERE user_id = ?`, [userID], function(error, result){
                     if(error) throw error;
                     else{
-                        console.log("비밀버호가 변경되었습니다.");
+                        console.log("비밀번호가 변경되었습니다.");
 
                     }
                 })
@@ -2464,6 +2464,35 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+
+            //관리자 고객센터 내용확인(사용자가 작성한 내용)
+            app.post('/queryBoardInfo', function (req, res) {
+                var boardID = req.body.boardID;
+                db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });  
+
+            //관리자 고객센터 댓글확인(사용자가 작성한 내용)
+            app.post('/queryReplyBoardInfo', function (req, res) {
+                var boardID = req.body.boardID;
+                db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            answerDate: result[0].comment_date,
+                            answerContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2484,7 +2513,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
             
-            const PORT = 8001;
+            const PORT = 8000;
 
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);
