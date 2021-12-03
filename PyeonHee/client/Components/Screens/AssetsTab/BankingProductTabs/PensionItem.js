@@ -2,6 +2,39 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+const AccountLogo = (props) => {
+    const accountCate = props.bankName;
+    if(accountCate === 'KB국민은행'){
+        return(
+            <Image source={require('../../assets/accounts/kb.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '우리은행'){
+      return(
+          <Image source={require('../../assets/accounts/uri.png')} style={styles.accountImage}/>
+      )
+    }else if(accountCate === 'NH농협은행'){
+      return(
+          <Image source={require('../../assets/accounts/nonghyeob.png')} style={styles.accountImage}/>
+      )
+    }else if(accountCate === '신한은행'){
+        return(
+            <Image source={require('../../assets/accounts/shinhan.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '교보생명보험'){
+        return(
+            <Image source={require('../../assets/accounts/kyobo.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '삼성생명보험'){
+        return(
+            <Image source={require('../../assets/accounts/samsung.png')} style={styles.accountImage}/>
+        )
+    }
+    else{
+          return(
+              <View style={styles.accountImage} />
+          )
+      }
+  }
 
 const PensionItem = (props) => {
     return (
@@ -10,8 +43,9 @@ const PensionItem = (props) => {
         onPress={() => props.navigation.navigate('ItemLink', {link: props.link})}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
-                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
+                    <AccountLogo bankName={props.bank_name}/>
                     <Text style={styles.fundBankFont}>{props.bank_name}</Text>
+                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
                 </View>
                 <View style={styles.item2}>
                     <View style={styles.infoRow}> 
@@ -116,7 +150,13 @@ const styles = StyleSheet.create({
       },
       rowFont:{
           fontSize: 12.5,
-      }
+      },
+      accountImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderWidth: 1,
+    },
   });
 
 export default PensionItem;
