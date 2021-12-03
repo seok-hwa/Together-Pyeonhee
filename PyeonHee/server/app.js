@@ -2469,6 +2469,35 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+
+            //관리자 고객센터 목록 확인
+            app.post('/adminGetQueryList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM board ORDER BY board_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 고객센터 전체페이지 수
+            app.get('/serviceCenterTotalPage', function (req, res) {
+                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "board"`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        //console.log(result[0].AUTO_INCREMENT);
+                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
          
 
             //관리자 고객센터 내용확인(사용자가 작성한 내용)
