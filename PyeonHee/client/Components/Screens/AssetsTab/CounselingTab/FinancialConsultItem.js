@@ -33,7 +33,7 @@ const FinancialConsultItem = (props) => {
 
                     <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 5,}}>
                         <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
-                        <Text style={{marginLeft: 5, fontSize: 10, }}>{props.counselorLike.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                        <Text style={{marginLeft: 5, fontSize: 10, }}>{props.counselorLike/*.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")*/}</Text>
                     </View>
                 </View>
 
