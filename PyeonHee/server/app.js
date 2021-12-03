@@ -404,7 +404,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         console.log("비밀버호가 변경되었습니다.");
                         data = {
-                            status : success,
+                            status : 'success',
                         }
                         res.send(data);
                     }
