@@ -10,9 +10,9 @@ create table user
     job varchar(20),
     deviceToken varchar(300),
     total_stamp int default 0,
-    total_point int default 2000
-    phone varchar(11) not null;
-    state int default 0,
+    total_point int default 2000,
+    phone varchar(11) default '01012345678',
+    state int default 0
 );
 
 create table stamp (
@@ -237,6 +237,7 @@ values ('abcd', 1, '1000000', '월급통장'),
        ('abcd', 2, '200000', '생활비 통장');
 */
 
+/*
 create table expense_type
 (
     seq         int  not null auto_increment primary key,
@@ -254,7 +255,7 @@ values ('저금'),
        ('교육'),
        ('경조사'),
        ('기타');
-/*
+
 insert into income_type(description)
 values ('월급'),
        ('용돈');

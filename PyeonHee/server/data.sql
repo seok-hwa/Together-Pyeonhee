@@ -246,8 +246,8 @@ monthly_rent, insurance_expense, transportation_expense, communication_expense, 
 shopping_expense, education_expense, medical_expense, event_expense, etc_expense, subscribe_expense)
 values ('user62', 'PHSE', 21, 7, 700000, 150000, 0, 0, 50000, 0, 50000, 30000, 0, 0, 30000, 0, 0);
 
-
-
+/*ncloudMySQL에 값 넣을 수 없음*/
+/*
 -- pyeonhee 11월 한달리포트 생성용 데이터 (거래내역)
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
 values ('pyeonhee', '120211357588932329649396', '대구은행', 500000, '20210910', '13:01:00', '입금', '송금', '생활비', 3000000, 3500000, '인터넷뱅킹', 1, 1);
@@ -295,7 +295,7 @@ values ('pyeonhee', '120211357588932329649396', '대구은행', 1100000, '202110
 insert into BudgetPlanning(user_id, planning_date, user_mbti, user_age, user_income, user_savings, like_number, monthly_rent, insurance_expense, transportation_expense, communication_expense, leisure_expense, shopping_expense, education_expense, medical_expense, event_expense, subscribe_expense, etc_expense, state)
 values ('pyeonhee', '2021-10-01 11:13:49', 'PHOM', 26,  2500000, 500000, 0, 500000, 100000, 100000, 100000, 150000, 300000, 0, 0, 100000, 100000, 0, 1);
 
-
+*/
 
 -- 금융상품 데이터 생성 
 -- 적금 저금/소비 mbti로 구분
