@@ -2257,15 +2257,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT * FROM notice ORDER BY notice_number desc`, function (error, result) {
                     if (error) throw error;
                     else {
-                        const data = {
-                            boardID: result[0].board_number,
-                            boardTitle: result[0].title,
-                            boardCate: result[0].category,
-                            boardDate: result[0].notice_date,
-                            boardAnswer: result[0].comment_check
-                        }
-                        res.send(data);
-                        console.log(data);
+                        res.send(result);
+                        console.log(result);
                     }
                 });
             });
