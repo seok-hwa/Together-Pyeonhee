@@ -126,7 +126,7 @@ const FinancialCounseling = ({navigation}) => {
                     <View style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center',}}>
                         <RNPickerSelect
                             onValueChange={(value) => hadlePressed(value)}
-                            placeholder={{ label: "상담분야", value: null }}
+                            placeholder={{ label: "선택", value: null }}
                             dropdownIconColor={'white'}
                             items={[
                                 { label: '펀드', value: '펀드' },
@@ -145,7 +145,8 @@ const FinancialCounseling = ({navigation}) => {
                     <FlatList
                         keyExtractor={item => item.consult_number}
                         data={financialCounselingData}
-                        renderItem={item => <FinancialConsultItem key= {item.counselor_id} consultNumber={item.counselor_id} counselorName={item.name} consultPart={item.part} 
+
+                        renderItem={({item}) => <FinancialConsultItem key= {item.counselor_id} consultNumber={item.counselor_id} counselorName={item.name} consultPart={item.part} 
                             counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation}
                             counselorRank={item.counselor_rank}
                         />}
