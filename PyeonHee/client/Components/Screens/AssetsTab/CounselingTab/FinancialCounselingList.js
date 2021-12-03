@@ -65,7 +65,7 @@ const FinancialCounseling = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/Counseling/FinancialProduct`);
-            fetch(`${url}//Counseling/FinancialProduct`)   //get
+            fetch(`${url}/Counseling/FinancialProduct`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
                 console.log('response data');
@@ -77,7 +77,7 @@ const FinancialCounseling = ({navigation}) => {
                 setLoading(true);
             })  
 
-            setLoading(true); //for test
+            // setLoading(true); //for test
         })
     }, [])
 
@@ -93,7 +93,7 @@ const FinancialCounseling = ({navigation}) => {
         .then(()=>{
             setRefresh(false);
         })  
-        setRefresh(false); //for test
+        // setRefresh(false); //for test
 
     }
 
