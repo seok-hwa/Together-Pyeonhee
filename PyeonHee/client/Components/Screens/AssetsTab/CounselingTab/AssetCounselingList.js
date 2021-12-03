@@ -57,41 +57,41 @@ const AssetCounseling = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/Counseling/AssetManagement`);
-            // fetch(`${url}/Counseling/AssetManagement`)   //get
-            // .then((response)=>response.json())
-            // .then((responseJson)=>{
-            //     console.log('response data');
-            //     console.log(responseJson);
-            //     setConsultData(responseJson);
+            fetch(`${url}/Counseling/AssetManagement`)   //get
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setConsultData(responseJson);
 
-            //     //consult_number: 상담 고유id
-            //     //counselor_name: 상담사 이름
-            //     //consult_title : 상담 제목
-            //     //consult_part  : 상담 분야
-            //     //consult_price : 상담 가격
+                //consult_number: 상담 고유id
+                //counselor_name: 상담사 이름
+                //consult_title : 상담 제목
+                //consult_part  : 상담 분야
+                //consult_price : 상담 가격
 
-            // })
-            // .then(()=>{
-            //     setLoading(true);
-            // })  
+            })
+            .then(()=>{
+                setLoading(true);
+            })  
 
-            setLoading(true); //for test
+            // setLoading(true); //for test
         })
     }, [])
 
     const loadCounselor = () => {
         setRefresh(true);
-        // fetch(`${url}/Counseling/AssetManagement`)   //get
-        // .then((response)=>response.json())
-        // .then((responseJson)=>{
-        //     console.log('response data');
-        //     console.log(responseJson);
-        //     setConsultData(responseJson);
-        // })
-        // .then(()=>{
-        //     setRefresh(false);
-        // })  
-        setRefresh(false); //for test
+        fetch(`${url}/Counseling/AssetManagement`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            setConsultData(responseJson);
+        })
+        .then(()=>{
+            setRefresh(false);
+        })  
+        // setRefresh(false); //for test
 
     }
 
