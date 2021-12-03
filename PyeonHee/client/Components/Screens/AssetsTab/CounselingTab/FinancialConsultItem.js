@@ -45,7 +45,7 @@ const FinancialConsultItem = (props) => {
                             callback: () => Popup.hide()
                         })
                     }
-                    else if(responseJson.status==='lowBalance'){
+                    else if(responseJson.status==='success'){
                         Popup.show({
                             type: 'success',
                             textBody: '매칭 요청 메시지를 보냈습니다.',
