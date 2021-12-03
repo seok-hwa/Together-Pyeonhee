@@ -25,6 +25,7 @@ function QueryBoard({ match }) {
         url: `/replyWrite`,
         data:{
           replyContent: replyContent,
+          boardID: match.params.boardID,
         }
     })
     .then((res)=>{
@@ -54,11 +55,13 @@ function QueryBoard({ match }) {
         setBoardContent(res.data[0].content);
         setBoardDate(res.data[0].notice_date);
         setBoardCate(res.data[0].category);
-        setAnswer(res.data[0].answer);
-        tempAnswer = res.data[0].answer;
+        if(res.data[0].comment_check===1){
+          setAnswer(true);
+        }
+        tempAnswer = res.data[0].comment_check;
     })
     .then(()=>{
-        if(tempAnswer=== true){
+        if(tempAnswer=== 1){
           axios({
             method:"POST",
             url: `/queryReplyBoardInfo`,
@@ -68,8 +71,8 @@ function QueryBoard({ match }) {
           })
           .then((res)=>{
             console.log(res.data[0]);
-            setReplyContent(res.data[0].content);
-            setReplyDate(res.data[0].date);
+            setReplyContent(res.data.answerContent);
+            setReplyDate(res.data.answerDate);
           })
         }
     })
@@ -139,7 +142,7 @@ function QueryBoard({ match }) {
             <div className="QueryBoardReplyTitleDiv">
               <p>답변</p>
             </div>
-            <div className="QueryContentInput">
+            <div className="ReplyContentDiv">
               {replyContent}
             </div>
             <button className="NotificationUpdateButton">수정</button>
