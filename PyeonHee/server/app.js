@@ -397,7 +397,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userPassword = req.body.userPassword;
                 const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
                 console.log(encryptedPassowrd);
-                db.query(`UPDATE user SET password WHERE user_id = ?`, [userID], function(error, result){
+                db.query(`UPDATE user SET password = ? WHERE user_id = ?`, [encryptedPassowrd, userID], function(error, result){
                     if(error) throw error;
                     else{
                         console.log("비밀버호가 변경되었습니다.");
