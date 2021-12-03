@@ -2469,7 +2469,36 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            //금융 상담사 정렬
+         
+
+            //관리자 고객센터 내용확인(사용자가 작성한 내용)
+            app.post('/queryBoardInfo', function (req, res) {
+                var boardID = req.body.boardID;
+                db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });  
+
+            //관리자 고객센터 댓글확인(사용자가 작성한 내용)
+            app.post('/queryReplyBoardInfo', function (req, res) {
+                var boardID = req.body.boardID;
+                db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            answerDate: result[0].comment_date,
+                            answerContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+          //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
