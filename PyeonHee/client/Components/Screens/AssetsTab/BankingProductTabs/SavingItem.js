@@ -20,11 +20,11 @@ const SavingItem = (props) => {
                 </View>
                 <View style={styles.infoRow}> 
                     <Text style={styles.rowFont}>이자율: </Text>
-                    <Text style={styles.highlightFont}>{props.interest}</Text>
+                    <Text style={styles.highlightFont}>{props.interest}%</Text>
                 </View>
                 <View style={styles.infoRow}> 
                     <Text style={styles.rowFont}>최고 우대금리: </Text>
-                    <Text style={styles.highlightFont}>{props.max_interest}</Text>
+                    <Text style={styles.highlightFont}>{props.max_interest}%</Text>
                 </View>
             </View>
             <View style={styles.nextCotainer}>
