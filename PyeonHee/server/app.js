@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 var request = require('request');
 const admin = require('firebase-admin');
 const schedule = require('node-schedule');
+const nodemailer = require('nodemailer');
+
 /*
 var Iamport = require("iamport");
 var iamport = new Iamport({
@@ -2156,6 +2158,63 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                     }
                 })
+            })
+
+            // 상담사 매칭 서비스
+            app.post(`/requestMatching`, function(req, res){
+                var userID = req.body.userID;
+                var counselorName = req.body.counselorName;
+                
+                db.query(`SELECT phone FROM user WHERE user_id = ?`,[userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        var phone = result[0].phone;
+                        var text = `편히가계 사용자가 당신에게 상담 매칭을 신청했습니다.\n\n 
+                        사용자의 연락처 : ${phone} \n\n
+                        빠른 시일내 연락 바랍니다. 감사합니다.\n
+                        편히가계 드림.`; 
+
+                        let transporter = nodemailer.createTransport({
+                            // 사용하고자 하는 서비스, gmail계정으로 전송할 예정이기에 'gmail'
+                            service: 'gmail',
+                            // host를 gmail로 설정
+                            host: 'smtp.gmail.com',
+                            port: 587,
+                            secure: false,
+                            auth: {
+                              // Gmail 주소 입력, 'testmail@gmail.com'
+                              user: config.email,
+                              // Gmail 패스워드 입력
+                              pass: config.password,
+                            },
+                        });
+                        let info = transporter.sendMail({
+                            // 보내는 곳의 이름과, 메일 주소를 입력
+                            from: `"Pyeonhee" <${config.email}>`,
+                            // 받는 곳의 메일 주소를 입력
+                            to: config.toemail,
+                            // 보내는 메일의 제목을 입력
+                            subject: 'Counselor Matching!',
+                            // 보내는 메일의 내용을 입력
+                            // text: 일반 text로 작성된 내용
+                            // html: html로 작성된 내용
+                            text: text,
+                            html: `<b>${text}</b>`,
+                        });
+        
+                        console.log('Message sent: %s', info.messageId);
+                        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+        
+                        res.status(200).json({
+                            status: 'Success',
+                            code: 200,
+                            message: 'Sent Auth Email',
+                        });
+                    }
+                })
+                
+                
+
             })
 
             /* 관리자 웹페이지 */
