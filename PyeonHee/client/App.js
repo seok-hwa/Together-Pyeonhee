@@ -33,6 +33,7 @@ import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
 import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
 import FindIDResult from './Components/Screens/Find/FindIDResult';
 import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
+import FinancialCounselorDetail from './Components/Screens/AssetsTab/CounselingTab/FinancialConsultDetail';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -279,6 +280,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="FinancialCounselorDetail"
+             component={FinancialCounselorDetail}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      ); 
@@ -440,6 +448,13 @@ import {
                headerShown: false,
            }} 
            />
+           <Stack.Screen
+             name="FinancialCounselorDetail"
+             component={FinancialCounselorDetail}
+             options={{
+               headerShown: false,
+           }} 
+           />
          </Stack.Navigator>
        </NavigationContainer>
      );
@@ -597,6 +612,13 @@ import {
            <Stack.Screen
              name="FindPasswordResult"
              component={FindPasswordResult}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FinancialCounselorDetail"
+             component={FinancialCounselorDetail}
              options={{
                headerShown: false,
            }} 
