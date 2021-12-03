@@ -31,7 +31,7 @@ function QueryBoard({ match }) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/service/1';
+            document.location.href = `/queryBoard/${match.params.boardID}`;
         }else{
             alert('등록 실패');
         }
@@ -39,6 +39,11 @@ function QueryBoard({ match }) {
         console.log(error);
     });
   }
+
+  const updateSubmit=()=>{
+    document.location.href = `/queryUpdate/${match.params.boardID}`;
+  }
+
   useEffect(() => {
     console.log('이거 확인', match.params.boardID);
     let tempAnswer;
@@ -145,7 +150,7 @@ function QueryBoard({ match }) {
             <div className="ReplyContentDiv">
               {replyContent}
             </div>
-            <button className="NotificationUpdateButton">수정</button>
+            <button className="NotificationUpdateButton" onClick={updateSubmit}>수정</button>
           </div>
         </div>
       </div>
