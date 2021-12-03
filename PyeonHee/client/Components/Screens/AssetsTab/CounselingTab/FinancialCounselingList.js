@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
-import { SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import FinancialConsultItem from './FinancialConsultItem';
+import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 
 const url = config.url;
 const FinancialCounseling = ({navigation}) => {
@@ -95,11 +96,45 @@ const FinancialCounseling = ({navigation}) => {
 
     }
 
+    // const hadlePressed = () => {
+
+    // }
+
+    const component = (props) => {
+        //hook or class 
+        return (<TouchableOpacity style={{width: 50, alignItems: 'center', backgroundColor: 'yellow'}}>
+                    <Text>1</Text>
+                </TouchableOpacity>);
+        
+        props.spSheet.hide();
+    };
+
     if(loading === true ){
         return (
             <View style={styles.appSize}>
                 <View style={styles.categoryContainer}>
-                    <View style={{width: 75, alignItems: 'center'}}><Text style={styles.categoryText}>상담분야</Text></View>
+                    <TouchableOpacity 
+                        style={{width: 75, alignItems: 'center', justifyContent: 'center'}}
+                        // onPress={hadlePressed}
+                        onPress={() => {
+                            const spSheet = SPSheet;
+                            spSheet.show({
+                                component: () => component({spSheet}),
+                                dragFromTopOnly: true,
+                                onCloseComplete: () => {
+                                    // alert('onCloseComplete');
+                                },
+                                onOpenComplete: () => {
+                                    // alert('onOpenComplete');
+                                },
+                                height:260
+                            });
+                        }
+                    }
+            
+                    >
+                        <Text style={styles.categoryText}>상담분야</Text>
+                    </TouchableOpacity>
                     <View style={{width: 105, alignItems: 'center'}}><Text style={styles.categoryText}>소속</Text></View>
                     <View style={{width: 70, alignItems: 'center'}}><Text style={styles.categoryText}>상담사</Text></View>
                     <View style={{width: 55, alignItems: 'center'}} ><Text style={styles.categoryText}>좋아요</Text></View>
