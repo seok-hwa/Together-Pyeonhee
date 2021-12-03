@@ -10,7 +10,7 @@ const FinancialConsultItem = (props) => {
     return (
         <TouchableOpacity
             style={styles.container}
-            // onPress={() => props.navigation.navigate('FinancialConsult', {consultNumber: props.consultNumber})}
+            onPress={() => props.navigation.navigate('FinancialCounselorDetail', {consultNumber: props.consultNumber})}
         >
             <View style={styles.itemContainer}>
                 <View style={styles.rankingLogoContainer}>

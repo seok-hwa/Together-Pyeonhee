@@ -403,7 +403,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     else{
                         console.log("비밀버호가 변경되었습니다.");
-
+                        data = {
+                            status : success,
+                        }
+                        res.send(data);
                     }
                 })
             })
@@ -617,16 +620,21 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
                  
             //예산계획 열람여부 확인
-            app.get('/openCheck', function (req, res) {
+            app.post('/openCheck', function (req, res) {
                 console.log("열람여부확인");
-                var userID = req.query.userID;
-                var budgetPlanID = req.query.budgetPlanID;
+                var userID = req.body.userID;
+                var budgetPlanID = req.body.budgetPlanningID;
+                console.log(userID);
+                console.log(budgetPlanID);
                 db.query(`SELECT * FROM OpenCount WHERE user_id = ? AND planning_number = ?`, [userID, budgetPlanID], function (error, result) {
                     if (error) throw error;
                     else {
-                        if (result[0].open_check == 1) {//열람 기록 O
+                        if (result[0] != undefined) {//열람 기록 O
                             //console.log("열람한 기록이 있으면 팝업창 안뜸");
-                            res.send(1);
+                            const data = {
+                                status: true
+                            }
+                            res.send(data);
                         }
                         else {//열람 기록 X
                             //console.log("열람한 기록이 없으므로 팝업창 떠야함");
@@ -636,7 +644,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     console.log("사용자 읽음 표시 DB저장완료");
                                 }
                             });
-                            res.send(0);
+                            const data = {
+                                status: false
+                            }
+                            res.send(data);
                         }
                     }
                 });
@@ -2478,7 +2489,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
             
-            const PORT = 8000;
+            const PORT = 8001;
 
             app.listen(PORT, function(){
                 console.log("Server is ready at "+ PORT);

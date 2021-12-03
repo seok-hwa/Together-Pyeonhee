@@ -12,6 +12,7 @@ const BudgetList = ({navigation}) => {
     const [otherBudgetData, setOtherBudgetData] = useState([]);
     const [recommendedBudgetData, setRecommendedBudgetData] = useState([]);
     const [check, setCheck] = useState(false);
+    const [refresh, setRefresh] = useState(false);
     const [read, setRead] = useState(false);
 
     useEffect(()=>{
