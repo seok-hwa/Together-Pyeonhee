@@ -2469,6 +2469,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+         
 
             //관리자 고객센터 내용확인(사용자가 작성한 내용)
             app.post('/queryBoardInfo', function (req, res) {
@@ -2497,7 +2498,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-
+          //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2507,7 +2508,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             });
-
+            //자산 상담사 정렬 
             app.get('/Counseling/AssetManagement', function (req, res){
                 db.query(`SELECT * FROM AssetCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2517,7 +2518,42 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             });
-            
+            //상담사 카테고리 별로
+            app.post('/Counseling/FinancialProduct/Category', function (req, res){
+                var category = req.body.categoryName;
+
+                db.query(`SELECT * FROM FinancialCounselor WHERE part =? ORDER BY like_count DESC`,[category], function(error, result){
+                    if (error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                })
+            });
+
+            //상담사 세부정보 받아오기 
+            app.get('/Counseling/FinancialProduct/Detail', function (req, res){
+                var consultNumber = req.query.consultNumber;
+                if(consultNumber >= 20000){
+                    db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`,[consultNumber], function (error, result){
+                        if(error) throw error;
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+                }
+                else {
+                    db.query(`SELECT * FROM FinancialCounselor WHERE counselor_id =?`,[consultNumber], function (error, result){
+                        if(error) throw error;
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+                }
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){
