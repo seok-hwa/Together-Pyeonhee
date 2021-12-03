@@ -52,6 +52,23 @@ const BudgetList = ({navigation}) => {
             })
         }
     }
+
+    const loadBudget = () => {
+        setRefresh(true);
+        setCheck(false);
+        setRead(false);
+
+        fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            setRecommendedBudgetData(responseJson);
+        })
+        .then(()=>{
+            setRefresh(false);
+        })  
+    }
     
     return (
         <View style={styles.appSize}>
@@ -72,8 +89,8 @@ const BudgetList = ({navigation}) => {
                             renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
                                 userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
                             />}
-                            // refreshing={refresh}
-                            // onRefresh={loadCabinet}
+                            refreshing={refresh}
+                            onRefresh={loadBudget}
                         />
                     }
                     {check === true && 
@@ -83,8 +100,8 @@ const BudgetList = ({navigation}) => {
                             renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
                                 userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
                             />}
-                            // refreshing={refresh}
-                            // onRefresh={loadCabinet}
+                            refreshing={refresh}
+                            onRefresh={loadBudget}
                         />
                     
                     }

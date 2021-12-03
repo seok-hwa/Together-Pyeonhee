@@ -392,7 +392,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                             </View>
                             <Text>구독료</Text>
                         </View>
-                        <Text style={styles.moneyText}>{myBudgetData.subscribe} 원</Text>
+                        <Text style={styles.moneyText}>{myBudgetData.subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
 
                     <View style={styles.smallContainer}>
