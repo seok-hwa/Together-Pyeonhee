@@ -11,6 +11,33 @@ function QueryBoard({ match }) {
 
   const [replyContent, setReplyContent] = useState('');
   const [replyDate, setReplyDate] = useState('');
+
+  const handleInputContent = (e) => {
+    setReplyContent(e.target.value)
+  }
+  const submit=()=>{
+    if(replyContent === ''){
+      alert('내용을 입력하세요.');
+      return;
+    }
+    axios({
+        method:"POST",
+        url: `/replyWrite`,
+        data:{
+          replyContent: replyContent,
+        }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('등록 성공');
+            document.location.href = '/service/1';
+        }else{
+            alert('등록 실패');
+        }
+    }).catch(error=>{
+        console.log(error);
+    });
+  }
   /*
   useEffect(() => {
     let tempAnswer;
@@ -80,8 +107,10 @@ function QueryBoard({ match }) {
             placeholder='내용'
             name='content_input'
             maxLength ={1024}
+            value={replyContent}
+            onChange={handleInputContent}
             ></textarea>
-            <button className="NotificationUpdateButton">등록</button>
+            <button className="NotificationUpdateButton" type='button' onClick={submit}>등록</button>
           </div>
         </div>
       </div>
