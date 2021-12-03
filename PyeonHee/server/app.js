@@ -363,6 +363,49 @@ const SSHConnection = new Promise((resolve, reject) => {
                     });
             });
 
+            // 아이디 찾기
+            app.post('/findID', function(req, res){
+                var userName = req.body.userName;
+                var userPhone = req.body.userPhone;
+                db.query(`SELECT user_id FROM user WHERE name = ? AND phone = ?`, [userName, userPhone], function(error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        if(result.length === 0){
+                            data = {
+                                userID : '',
+                                status : 'failed',
+                            }
+                            res.send(data);
+                        }
+                        else{
+                            console.log(result[0]);
+                            var userID = result[0].user_id;
+                            data = {
+                                userID : userID,
+                                status : 'success',
+                            }
+                            res.send(data);
+                        }
+                    }
+                })
+            });
+
+            // 비밀번호 찾기
+            app.post('/passwordUpdate', function(req, res){
+                var userID = req.body.userID;
+                var userPassword = req.body.userPassword;
+                const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
+                console.log(encryptedPassowrd);
+                db.query(`UPDATE user SET password WHERE user_id = ?`, [userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        console.log("비밀버호가 변경되었습니다.");
+
+                    }
+                })
+            })
+
             // mbti진행
             app.get('/getMbti', function (req, res) {
                 var userID = req.query.userID;

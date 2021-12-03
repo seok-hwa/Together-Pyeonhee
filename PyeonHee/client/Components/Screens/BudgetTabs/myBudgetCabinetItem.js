@@ -19,9 +19,9 @@ const MyBudgetCabinetItem = (props) => {
         }
     }
 
-    let savingRate = props.sumOfSavings/income*100;
-    let fixedRate = props.fixedExpenditure/income*100;
-    let plannedRate = props.plannedExpenditure/income*100;
+    let savingRate = (props.sumOfSavings/income*100).toFixed(1);
+    let fixedRate = (props.fixedExpenditure/income*100).toFixed(1);
+    let plannedRate = (props.plannedExpenditure/income*100).toFixed(1);
 
     return(
         <View >
