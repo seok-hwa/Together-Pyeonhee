@@ -8,6 +8,14 @@ const AccountLogo = (props) => {
       return(
           <Image source={require('../../assets/accounts/han.png')} style={styles.accountImage}/>
       )
+  }else if(accountCate === '스마트저축은행'){
+    return(
+        <Image source={require('../../assets/accounts/smart.png')} style={styles.accountImage}/>
+    )
+  }else if(accountCate === '웰컴저축은행'){
+    return(
+        <Image source={require('../../assets/accounts/welcome.png')} style={styles.accountImage}/>
+    )
   }
   else{
         return(
