@@ -2527,7 +2527,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-          //금융 상담사 정렬
+
+            //관리자 고객센터 댓글 작성
+            app.post('/replyWrite', function (req, res) {
+                var boardID = req.body.boardID;
+                var replyContent = req.body.replyContent;
+                db.query(`INSERT INTO comment (board_number, content) VALUES (?, ?)`, [boardID, replyContent], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
