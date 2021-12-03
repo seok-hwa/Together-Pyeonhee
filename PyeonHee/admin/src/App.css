@@ -342,6 +342,15 @@
   width: 95%;
   height: 4cm;
 }
+.ReplyContentDiv{
+  width: 100%;
+  height: 4cm;
+  display: flex;
+  align-items:flex-start;
+  border: 1px solid #282c34;
+  border-radius: 0.5cm;
+  margin-bottom: 0.5cm;
+}
 .MainBodyDiv {
   min-height: 85vh;
   display: flex;
