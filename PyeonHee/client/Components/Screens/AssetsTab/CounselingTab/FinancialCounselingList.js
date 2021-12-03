@@ -143,7 +143,7 @@ const FinancialCounseling = ({navigation}) => {
                 </View>
                 <View>
                     <FlatList
-                        keyExtractor={item => item.consult_number}
+                        keyExtractor={item => item.counselor_id}
                         data={financialCounselingData}
                         renderItem={({item}) => <FinancialConsultItem consultNumber={item.counselor_id} counselorName={item.name} consultPart={item.part} 
                             counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation}
