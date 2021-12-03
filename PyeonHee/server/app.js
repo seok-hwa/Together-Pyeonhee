@@ -2158,7 +2158,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             })
 
-
+            /* 관리자 웹페이지 */
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
                 console.log(req.body);
@@ -2339,6 +2339,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
             
+            /*사용자 공지사항(앱)_ 관리자가 작성한 글 확인 */
             //사용자 공지사항 글 목록 확인
             app.get('/noticeList', function (req, res) {
                 db.query(`SELECT * FROM notice ORDER BY notice_number desc`, function (error, result) {
@@ -2369,6 +2370,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            /*사용자 고객센터(앱)_ 사용자가 글 작성 및 관리자가 단 댓글 */
             //사용자 고객센터 글 목록확인
             app.get('/queryList', function (req, res) {
                 db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
@@ -2470,6 +2472,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            /*관리자 웹페이지_ 고객센터 사용자가 등록한 글 확인 및 답변 작성 */
             //관리자 고객센터 목록 확인
             app.post('/adminGetQueryList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -2503,7 +2506,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             //관리자 고객센터 내용확인(사용자가 작성한 내용)
             app.post('/queryBoardInfo', function (req, res) {
                 var boardID = req.body.boardID;
-                db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
+                db.query(`SELECT * FROM board WHERE board_number = ?`, [boardID], function (error, result) {
                     if (error) throw error;
                     else {
                         res.send(result);
@@ -2512,7 +2515,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });  
 
-            //관리자 고객센터 댓글확인(사용자가 작성한 내용)
+            //관리자 고객센터 댓글확인(관리자가 단 댓글)
             app.post('/queryReplyBoardInfo', function (req, res) {
                 var boardID = req.body.boardID;
                 db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
