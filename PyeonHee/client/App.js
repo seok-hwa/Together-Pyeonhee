@@ -14,6 +14,8 @@ import LoginScreen from './Components/Screens/LoginScreen';
 import JoinScreen from './Components/Screens/JoinScreen';
 import SurveyScreen from './Components/Screens/SurveyScreen';
 import Iamport from './IamportComponents/App';
+import IamportID from './IamportComponents/AppID';
+import IamportPassword from './IamportComponents/AppPassword';
 import AsyncStorage from '@react-native-community/async-storage';
 import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
 import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
@@ -29,6 +31,8 @@ import ServiceCenter from './Components/Screens/ServiceCenter/QueryList';
 import NoticeBoard from './Components/Screens/Notice/NoticeBoard';
 import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
 import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
+import FindIDResult from './Components/Screens/Find/FindIDResult';
+import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -150,6 +154,20 @@ import {
            }} 
            />
            <Stack.Screen
+             name="IamportID"
+             component={IamportID}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="IamportPassword"
+             component={IamportPassword}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
              name="Join"
              component={JoinScreen}
              options={{
@@ -243,6 +261,20 @@ import {
            <Stack.Screen
              name="QueryWrite"
              component={QueryWrite}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FindIDResult"
+             component={FindIDResult}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FindPasswordResult"
+             component={FindPasswordResult}
              options={{
                headerShown: false,
            }} 
@@ -283,6 +315,20 @@ import {
            }} 
            />
            <Stack.Screen
+             name="IamportID"
+             component={IamportID}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="IamportPassword"
+             component={IamportPassword}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
              name="Join"
              component={JoinScreen}
              options={{
@@ -376,6 +422,20 @@ import {
            <Stack.Screen
              name="QueryWrite"
              component={QueryWrite}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FindIDResult"
+             component={FindIDResult}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FindPasswordResult"
+             component={FindPasswordResult}
              options={{
                headerShown: false,
            }} 
@@ -416,6 +476,20 @@ import {
            }} 
            />
            <Stack.Screen
+             name="IamportID"
+             component={IamportID}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="IamportPassword"
+             component={IamportPassword}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
              name="Join"
              component={JoinScreen}
              options={{
@@ -509,6 +583,20 @@ import {
            <Stack.Screen
              name="QueryWrite"
              component={QueryWrite}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FindIDResult"
+             component={FindIDResult}
+             options={{
+               headerShown: false,
+           }} 
+           />
+           <Stack.Screen
+             name="FindPasswordResult"
+             component={FindPasswordResult}
              options={{
                headerShown: false,
            }} 

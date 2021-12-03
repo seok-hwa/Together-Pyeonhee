@@ -17,23 +17,9 @@ import {
 
 const url = config.url;
 
-const CheckRemember = (props) => {          //remember id component
-    const sendRememberCheck=()=>{
-        props.getRememberCheck(!(props.rememberCheck));
-    }
-    return(
-        <TouchableOpacity onPress={sendRememberCheck}>
-            <Text>{props.rememberCheck ? <Icon name="checkmark-circle-outline" size={20}></Icon> : <Icon name="ellipse-outline" size={20}></Icon>} 아이디 기억하기</Text>
-        </TouchableOpacity>
-    );
-};
-
 const LoginScreen = ({navigation}) => {
     //const [url, setUrl] = useState('');
     const [rememberCheck, setRememberCheck] = useState(false);
-    const getRememberCheck=(rememberCheck)=>{
-      setRememberCheck(rememberCheck);
-    }
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
     
@@ -132,14 +118,19 @@ const LoginScreen = ({navigation}) => {
               onChangeText={(userPassword) => setUserPassword(userPassword)}
               maxLength = {20}
             />
-            <View style={styles.checkPosition}>
-              <CheckRemember rememberCheck={rememberCheck} getRememberCheck={getRememberCheck}/>
-            </View>
           </View>
           <View style={styles.appFooter}>
             <View style={styles.appInnerFooter}>
               <LoginButton onPress={handleSubmitButton}/>
               <JoinButton onPress={()=>navigation.navigate('Iamport')}/>
+            </View>
+            <View style={styles.checkPosition}>
+              <TouchableOpacity onPress={()=>navigation.navigate('IamportID')}>
+                <Text>아이디/</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.navigate('IamportPassword')}>
+                <Text> 비밀번호 찾기</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -175,13 +166,14 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     checkPosition: {
+        marginTop: 5,
+        alignItems: 'center',
         flexDirection: 'row',
-        width: 240,
-        marginTop: 10,
+        justifyContent: 'center',
     },
     appFooter: {
-        marginTop: 30,
-        flex: 2,
+        marginTop: 10,
+        flex: 3,
         alignItems: 'center',
     },
     appInnerFooter: {
