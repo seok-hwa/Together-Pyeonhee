@@ -370,7 +370,7 @@ const MyPageScreen = ({navigation}) => {
         return(
             <ScrollView style={styles.appSize}>
                 <Modal
-                    animationType="slide"
+                    animationType="fade"
                     transparent={true} // 배경 투명 하게 
                     visible={tierModalVisible}
 
@@ -378,11 +378,44 @@ const MyPageScreen = ({navigation}) => {
                         setTierModalVisible(false);
                 }}>
                     <View style={styles.modalSize}>
+                        <View style={styles.modalTierBodySize}>
+                            <View style={styles.modalTopBar}>
+                                <Text>티어 정책</Text>
+                            </View>
+                            <View style={styles.modalContent}>
+                                <View style={userTier === 'DIAMOND' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Diamond_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Diamond</Text>
+                                    <Text style={styles.tierDescription}>스탬프 40개 이상</Text>
+                                </View>
+                                <View style={userTier === 'PLATINUM' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Platinum_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Platinum</Text>
+                                    <Text style={styles.tierDescription}>스탬프 30개 이상</Text>
+                                </View>
 
+                                <View style={userTier === 'GOLD' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Gold_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Gold</Text>
+                                    <Text style={styles.tierDescription}>스탬프 20개 이상</Text>
+                                </View>
+
+                                <View style={userTier === 'SILVER' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Silver_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Silver</Text>
+                                    <Text style={styles.tierDescription}>스탬프 10개 이상</Text>
+                                </View>
+                                <View style={userTier === 'BRONZE' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Bronze_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Bronze</Text>
+                                    <Text style={styles.tierDescription}>스탬프 10개 미만</Text>
+                                </View>
+                            </View>
+                        </View>
                     </View>
                 </Modal>
                 <Modal
-                    animationType="slide"
+                    animationType="fade"
                     transparent={true} // 배경 투명 하게 
                     visible={mbtiModalVisible}
 
@@ -390,11 +423,12 @@ const MyPageScreen = ({navigation}) => {
                         setMbtiModalVisible(false);
                 }}>
                     <View style={styles.modalSize}>
-
+                        <View style={styles.modalMbtiBodySize}>
+                        </View>
                     </View>
                 </Modal>
                 <Modal
-                    animationType="slide"
+                    animationType="fade"
                     transparent={true} // 배경 투명 하게 
                     visible={stampointModalVisible}
 
@@ -402,7 +436,8 @@ const MyPageScreen = ({navigation}) => {
                         setStampointModalVisible(false);
                 }}>
                     <View style={styles.modalSize}>
-
+                        <View style={styles.modalStampointBodySize}>
+                        </View>
                     </View>
                 </Modal>
                 <View style={styles.appTopDiv}>
@@ -549,6 +584,11 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
+    modalTierDesign: {
+        width: 30,
+        height: 30,
+        marginRight: 5,
+    },
     stampPointDesign: {
         width: 15,
         height: 15,
@@ -627,6 +667,60 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.50)',
+    },
+    modalTierBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    modalMbtiBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    modalStampointBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+
+    modalTopBar: {
+        flex: 1,
+        padding: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: 'gray',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalContent:{
+        flex: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tierRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        margin: 5,
+    },
+    myTierRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        borderWidth: 2,
+        borderColor: 'blue',
+        borderRadius: 5,
+        margin: 5,
+    },
+    tierText2: {
+        width: 70,
+        textAlign: 'right',
+    },
+    tierDescription: {
+        width: 150,
+        textAlign: 'right',
+        fontSize: 11,
     },
 })
 export default MyPageScreen;
