@@ -1839,6 +1839,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         else{
                             console.log(fintechUseNum, "의 계좌 내역이 없습니다.(연동만 O, 내역존재 X)");
+                            res.send([]);
                         }
                     }
                 });

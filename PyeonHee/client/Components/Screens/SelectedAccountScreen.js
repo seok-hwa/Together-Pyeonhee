@@ -273,7 +273,11 @@ const SelectedAccountScreen = ({navigation, route}) => {
                     </View>
                     <View style={styles.appTopRightBottom}>
                         <Text style={styles.aliasFont}>계좌 번호: {route.params.accountNum}</Text>
-                        <Text style={styles.aliasFont}>계좌 잔액: {accountHistory[0].after_balance_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        {
+                            accountHistory.length === 0 ?
+                            <Text style={styles.aliasFont}>계좌 잔액: 0원</Text>:
+                            <Text style={styles.aliasFont}>계좌 잔액: {accountHistory[0].after_balance_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        }
                     </View>
                 </View>
             </View>
@@ -289,7 +293,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
                 <ScrollView style={{flex: 1,}}>
                     {
                         accountHistory.length === 0 ?
-                        <View style={{alignItems: 'center',}}>
+                        <View style={{alignItems: 'center', marginTop: 10,}}>
                         <Text>거래 내역이 없습니다.</Text>
                         </View> :
                         accountHistory.map((item, index) => {
