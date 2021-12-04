@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     },
     graphTitle:{
         height: 25,
-        backgroundColor: '#8EB3EE',
+        backgroundColor: '#203864',
         flexDirection: 'row',
         borderColor: 'gray',
     },
