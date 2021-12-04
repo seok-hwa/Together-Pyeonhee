@@ -600,23 +600,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.query.userID;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
                     if (error) throw error;
-                    else{
+                    else {
                         //console.log(result[0]);
                         var userMBTI = result[0].mbti;
                         var userAge = result[0].age;
                         var userIncome = result[0].income;
                         //var userJob = result[0].job;
                         var income_minus = userIncome - 500000;
-                        var income_plus = userIncome + 1000000;
-                        var age_minus = userAge - 5;
-                        var age_plus = userAge + 5;
+                        var income_plus = userIncome + 500000;
+                        var age_minus = userAge - 3;
+                        var age_plus = userAge + 3;
                         db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
-                        WHERE user_mbti =? and (user_income between ? and ? or user_age between ? and ?) order by like_number desc limit 10`, 
-                        [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
-                            if (error) throw error;
-                            //console.log(result);
-                            res.send(result);
-                        });
+                        WHERE (user_income between ? and ?) AND user_age between ? and ? AND user_mbti = ? order by like_number desc limit 10`,
+                            [income_minus, income_plus, age_minus, age_plus, userMBTI], function (error, result) {
+                                if (error) throw error;
+                                //console.log(result);
+                                res.send(result);
+                            });
                     }
                 });
             });
@@ -979,7 +979,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                         db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
                                                             if (error4) throw error4;
                                                             else{
-                                                                db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id =? and state = 1`,[result2[0].total_savings_money,userID],function(error1, result1){
+                                                                db.query(`UPDATE user SET income = ? WHERE user_id =?`,[income,userID],function(error1, result1){
                                                                     if(error1) throw error1;
                                                                     else{
                                                                         
@@ -1166,7 +1166,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     else {
                         // console.log(name);
-                        db.query(`SELECT BudgetPlanning.planning_number, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
+                        db.query(`SELECT BudgetPlanning.planning_number, BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                         BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, 
                         BudgetPlanning.shopping_expense, BudgetPlanning.education_expense, BudgetPlanning.medical_expense,
                         BudgetPlanning.event_expense, BudgetPlanning.etc_expense, BudgetPlanning.subscribe_expense, 
@@ -1175,19 +1175,22 @@ const SSHConnection = new Promise((resolve, reject) => {
                         where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else{
+                                var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
+                                live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                 if(result1.length === 0) {
                                     data = {
                                         userName : name,
                                         planamt : [],
                                         realamt : [],
                                         daily_money : 0,
-                                        spend_money : 0
+                                        spend_money : 0,
+                                        live_money : live_money,
                                     };
-                                    //console.log('이거 계획조차 안한거야', data);
+                                    console.log('이거 계획조차 안한거야', data);
                                     res.send(data);
                                 }
                                 else{
-                                    console.log(result1[0])
+                                    console.log(result1)
                                     db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                         var daily_money = result2[0].available_money;
                                         var spend_money = result2[0].available_money - result2[0].daily_spent_money;
@@ -1200,12 +1203,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     realamt : [],
                                                     daily_money : daily_money,
                                                     spend_money : spend_money,
+                                                    live_money : live_money,
                                                 };
-                                                //console.log('이거 실제금액 없는거야', data);
+                                                console.log('이거 실제금액 없는거야', data);
                                                 res.send(data);
                                             }
                                             else{
-                                                console.log(result2[0]);
+                                                console.log(result2);
                                                 db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
                                                 WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function(error3, result3){
                                                     console.log(result3[0]);
@@ -1218,8 +1222,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                                 realamt : [],
                                                                 daily_money : daily_money,
                                                                 spend_money : spend_money,
+                                                                live_money : live_money,
                                                             };
-                                                            //console.log('이거 거래내역 없는거야', data);
+                                                            console.log('이거 거래내역 없는거야', data);
                                                             res.send(data);
                                                         }
                                                         else{
@@ -1229,9 +1234,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                                 planamt : result1[0],
                                                                 realamt : result3,
                                                                 daily_money : daily_money,
-                                                                spend_money : spend_money
+                                                                spend_money : spend_money,
+                                                                live_money : live_money,
                                                             };
-                                                            //console.log('이거 다 들어가있는거야', data);
+                                                            console.log('이거 다 들어가있는거야', data);
                                                             res.send(data);
                                                         }
                                                     }

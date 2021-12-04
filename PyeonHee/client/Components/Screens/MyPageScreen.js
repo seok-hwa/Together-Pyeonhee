@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    Modal, 
 } from 'react-native';
 const url=config.url;
 const MyPageScreen = ({navigation}) => {
@@ -20,6 +21,10 @@ const MyPageScreen = ({navigation}) => {
     const [userStamp, setUserStamp] = useState(0);
     const [userPoint, setUserPoint] = useState(0);
     const [userMbti, setUserMbti] = useState('');
+
+    const [tierModalVisible, setTierModalVisible] = useState(false);
+    const [mbtiModalVisible, setMbtiModalVisible] = useState(false);
+    const [stampointModalVisible, setStampointModalVisible] = useState(false);
 
     const [loading, setLoading] = useState(true);
 
@@ -364,6 +369,77 @@ const MyPageScreen = ({navigation}) => {
     if(loading === true){
         return(
             <ScrollView style={styles.appSize}>
+                <Modal
+                    animationType="fade"
+                    transparent={true} // 배경 투명 하게 
+                    visible={tierModalVisible}
+
+                    onRequestClose={() => {
+                        setTierModalVisible(false);
+                }}>
+                    <View style={styles.modalSize}>
+                        <View style={styles.modalTierBodySize}>
+                            <View style={styles.modalTopBar}>
+                                <Text>티어 정책</Text>
+                            </View>
+                            <View style={styles.modalContent}>
+                                <View style={userTier === 'DIAMOND' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Diamond_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Diamond</Text>
+                                    <Text style={styles.tierDescription}>스탬프 40개 이상</Text>
+                                </View>
+                                <View style={userTier === 'PLATINUM' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Platinum_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Platinum</Text>
+                                    <Text style={styles.tierDescription}>스탬프 30개 이상</Text>
+                                </View>
+
+                                <View style={userTier === 'GOLD' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Gold_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Gold</Text>
+                                    <Text style={styles.tierDescription}>스탬프 20개 이상</Text>
+                                </View>
+
+                                <View style={userTier === 'SILVER' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Silver_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Silver</Text>
+                                    <Text style={styles.tierDescription}>스탬프 10개 이상</Text>
+                                </View>
+                                <View style={userTier === 'BRONZE' ?  styles.myTierRow: styles.tierRow}>
+                                    <Image source={require('./assets/tier/Bronze_single.png')} style={styles.modalTierDesign}/>
+                                    <Text style={styles.tierText2}>Bronze</Text>
+                                    <Text style={styles.tierDescription}>스탬프 10개 미만</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="fade"
+                    transparent={true} // 배경 투명 하게 
+                    visible={mbtiModalVisible}
+
+                    onRequestClose={() => {
+                        setMbtiModalVisible(false);
+                }}>
+                    <View style={styles.modalSize}>
+                        <View style={styles.modalMbtiBodySize}>
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="fade"
+                    transparent={true} // 배경 투명 하게 
+                    visible={stampointModalVisible}
+
+                    onRequestClose={() => {
+                        setStampointModalVisible(false);
+                }}>
+                    <View style={styles.modalSize}>
+                        <View style={styles.modalStampointBodySize}>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={styles.appTopDiv}>
                     <View style={styles.titleDiv}>
                         <Text style={styles.NameStyle}>{userName}</Text>
@@ -371,31 +447,37 @@ const MyPageScreen = ({navigation}) => {
                     </View>
                     <View style={styles.TopInnerDiv}>
                         <View style={styles.innerTopLeft}>
-                            <View style={styles.tierDiv}>
-                                <TierImage />
-                                <Text style={styles.tierText}>{userTier}</Text>
-                            </View>
+                            <TouchableOpacity onPress={()=>{setTierModalVisible(true)}}>
+                                <View style={styles.tierDiv}>
+                                    <TierImage />
+                                    <Text style={styles.tierText}>{userTier}</Text> 
+                                </View>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.innerTopRight}>
                             <View style={styles.stampPointDiv}>
-                                <View style={styles.mbtiDiv}>
-                                    <Text>소비성향 MBTI</Text>
-                                    <View style={styles.mbtiInnerContainer}>
-                                        <Text style={styles.mbtiText}>{userMbti}</Text>
-                                    </View> 
-                                </View>
-                                <View style={styles.stampDiv}>
-                                    <Image source={require('./assets/stamp.png')} style={styles.stampPointDesign}/>
-                                    <Text style={styles.stampPointText}>스탬프</Text>
-                                    <Text style={styles.stampPointOutput}>{userStamp}</Text>
-                                    <Text> 개</Text>
-                                </View>
-                                <View style={styles.pointDiv}>
-                                    <Image source={require('./assets/point.png')} style={styles.stampPointDesign}/>
-                                    <Text style={styles.stampPointText}>포인트</Text>
-                                    <Text style={styles.stampPointOutput}>{userPoint}</Text>
-                                    <Text> P</Text>
-                                </View>
+                                    <TouchableOpacity onPress={()=>{setMbtiModalVisible(true)}} style={styles.mbtiDiv}>
+                                        <View style={styles.mbtiDiv}>
+                                            <Text>소비성향 MBTI</Text>
+                                                <View style={styles.mbtiInnerContainer}>
+                                                    <Text style={styles.mbtiText}>{userMbti}</Text>
+                                                </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={()=>{setStampointModalVisible(true)}} style={styles.stampPointAddDiv}>
+                                        <View style={styles.stampDiv}>
+                                            <Image source={require('./assets/stamp.png')} style={styles.stampPointDesign}/>
+                                            <Text style={styles.stampPointText}>스탬프</Text>
+                                            <Text style={styles.stampPointOutput}>{userStamp}</Text>
+                                            <Text> 개</Text>
+                                        </View>
+                                        <View style={styles.pointDiv}>
+                                            <Image source={require('./assets/point.png')} style={styles.stampPointDesign}/>
+                                            <Text style={styles.stampPointText}>포인트</Text>
+                                            <Text style={styles.stampPointOutput}>{userPoint}</Text>
+                                            <Text> P</Text>
+                                        </View>
+                                    </TouchableOpacity>
                             </View>
                         </View>
                     </View>
@@ -475,6 +557,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
     },
+    stampPointAddDiv:{
+        flex: 2,
+    },
     stampDiv: {
         padding: 5,
         flex: 1,
@@ -498,6 +583,11 @@ const styles = StyleSheet.create({
     tierDesign: {
         width: 50,
         height: 50,
+    },
+    modalTierDesign: {
+        width: 30,
+        height: 30,
+        marginRight: 5,
     },
     stampPointDesign: {
         width: 15,
@@ -569,6 +659,68 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         color: 'white',
+    },
+
+    modalSize: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.50)',
+    },
+    modalTierBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    modalMbtiBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    modalStampointBodySize: {
+        width: '75%',
+        height: '40%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+
+    modalTopBar: {
+        flex: 1,
+        padding: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: 'gray',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalContent:{
+        flex: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tierRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        margin: 5,
+    },
+    myTierRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        borderWidth: 2,
+        borderColor: 'blue',
+        borderRadius: 5,
+        margin: 5,
+    },
+    tierText2: {
+        width: 70,
+        textAlign: 'right',
+    },
+    tierDescription: {
+        width: 150,
+        textAlign: 'right',
+        fontSize: 11,
     },
 })
 export default MyPageScreen;
