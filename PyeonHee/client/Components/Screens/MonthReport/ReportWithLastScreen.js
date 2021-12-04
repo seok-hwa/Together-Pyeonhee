@@ -100,7 +100,7 @@ const ReportWithLastScreen = (props) => {
     }
     const totalSaving = {
         labels: [`${props.preMonth}월`, `${props.month}월`],
-        legend: ["총액"],
+        legend: ["저금"],
         data: [[lastSaving], [currentSaving]],
         barColors: ["#ced6e0"]
     }
