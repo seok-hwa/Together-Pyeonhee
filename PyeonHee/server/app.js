@@ -1515,13 +1515,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         var account_num_masked = requestResultJSON['res_list'][i]['account_num_masked']; //계좌번호
                                         var account_holder_name = requestResultJSON['res_list'][i]['account_holder_name']; //예금주성명
                                         db.query(`INSERT IGNORE INTO bank_account(user_id, fintech_use_num, account_alias, bank_code_std, bank_name, 
-                                            account_num_masked, account_holder_name) SELECT ?, ?, ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS 
-                                            (SELECT user_id, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name FROM bank_account 
-                                            WHERE user_id = ?  AND fintech_use_num =? AND account_alias=? AND bank_code_std =? AND bank_name =? AND account_num_masked=? AND account_holder_name =?)`,
-                                            [userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name, 
-                                            userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name], function (error, result) {
+                                            account_num_masked, account_holder_name) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                                            [userID, fintech_use_num, account_alias, bank_code_std, bank_name, account_num_masked, account_holder_name], function (error, result) {
                                                 if (error) throw error;
-                                                //console.log("등록된 계좌 DB저장완료");
+                                                console.log("등록된 계좌 DB저장완료");
                                         });
                                     }
                                     db.query(`SELECT * FROM bank_account WHERE user_id = ?`, [userID], function (error, result) {
@@ -1731,13 +1728,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                             var branch_name = requestResultJSON['res_list'][i]['branch_name']; //거래점명
 
                                                             db.query(`INSERT IGNORE INTO real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) SELECT ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?
-                                                                    FROM DUAL WHERE NOT EXISTS (SELECT user_id, fintech_use_num, bank_name, balance_amt, tran_date, 
-                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name 
-                                                                    FROM real_expense WHERE user_id = ?  AND fintech_use_num =? AND bank_name=? AND balance_amt =? AND tran_date =? 
-                                                                    AND tran_time =? AND inout_type=? AND tran_type =? AND print_content =? AND tran_amt =? AND after_balance_amt =? AND branch_name =?)`,
-                                                                [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
-                                                                    after_balance_amt, branch_name, userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
+                                                                    tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?)`,
+                                                                    [userID, fintechUseNum, bankName, balanceAmt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt,
                                                                     after_balance_amt, branch_name], function (error, result) {
                                                                         if (error) throw error;
                                                                         /*db.query(`SELECT * FROM real_expense WHERE user_id = ? AND fintech_use_num = ?`, [userID, fintechUseNum], function (error, result) {
@@ -1746,7 +1738,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                                             //console.log(result);
                                                                             console.log("거래내역 조회 완료 (거래내역 전송)");
                                                                         });*/
-                                                                    });
+                                                            });
                                                         }
                                                     }
                                                     /*else {
