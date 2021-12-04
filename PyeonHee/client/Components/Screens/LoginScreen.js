@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import Icon from 'react-native-vector-icons/Ionicons';
 import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
@@ -100,11 +99,12 @@ const LoginScreen = ({navigation}) => {
       <Root>
       <KeyboardAvoidingView style={styles.appSize}>
         <View style={styles.appLogoHeaderDiv}>
-          <Text style={styles.logoPyeon}>편히</Text>
-          <Text style={styles.logoKa}>가계</Text> 
+          <View style={styles.appLogoDiv}>
+            <Text style={styles.logoPyeon}>편히</Text>
+            <Text style={styles.logoKa}>가계</Text> 
+          </View>
         </View>
         <View style={styles.appBody}>
-          <View style={styles.appInnerBody}>
             <TextInput 
               style={styles.textInputDesign}
               placeholder='아이디'
@@ -118,8 +118,6 @@ const LoginScreen = ({navigation}) => {
               onChangeText={(userPassword) => setUserPassword(userPassword)}
               maxLength = {20}
             />
-          </View>
-          <View style={styles.appFooter}>
             <View style={styles.appInnerFooter}>
               <LoginButton onPress={handleSubmitButton}/>
               <JoinButton onPress={()=>navigation.navigate('Iamport')}/>
@@ -132,7 +130,6 @@ const LoginScreen = ({navigation}) => {
                 <Text> 비밀번호 찾기</Text>
               </TouchableOpacity>
             </View>
-          </View>
         </View>
       </KeyboardAvoidingView>
       </Root>
@@ -143,27 +140,30 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     appLogoHeaderDiv: {
-        flex: 1,
-        flexDirection: 'row',
+        flex: 6,
         justifyContent: 'center',
-        marginTop: 50,
+        alignContent: 'center',
     },
+    appLogoDiv: {
+      alignContent: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+  },
     logoPyeon:{
-        fontSize: 40,
+        fontSize: 55,
         fontWeight: 'bold',
         color: '#0000CD',
     },
     logoKa:{
-        fontSize: 40,
+        marginTop: 5,
+        fontSize: 50,
         fontWeight: 'bold',
         color: 'gray',
     },
-    appInnerBody: {
-        flex: 1,
-        alignItems: 'center',
-    },
     appBody: {
-        flex: 2,
+        flex: 7,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
     checkPosition: {
         marginTop: 5,
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flex: 3,
         alignItems: 'center',
+        borderWidth: 1,
     },
     appInnerFooter: {
         justifyContent: 'flex-start',
@@ -191,6 +192,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#DCDCDC',
     },
+    logoIcon: {
+        marginTop: 25,
+    }, 
 });
 
 export default LoginScreen;
