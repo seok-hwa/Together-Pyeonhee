@@ -273,7 +273,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
                     </View>
                     <View style={styles.appTopRightBottom}>
                         <Text style={styles.aliasFont}>계좌 번호: {route.params.accountNum}</Text>
-                        <Text style={styles.aliasFont}>계좌 잔액: {route.params.accountBalance}원</Text>
+                        <Text style={styles.aliasFont}>계좌 잔액: {accountHistory[0].after_balance_amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     </View>
                 </View>
             </View>
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     },
     graphTitle:{
         height: 25,
-        backgroundColor: '#8EB3EE',
+        backgroundColor: '#203864',
         flexDirection: 'row',
         borderColor: 'gray',
     },

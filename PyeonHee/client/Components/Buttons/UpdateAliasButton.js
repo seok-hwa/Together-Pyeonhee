@@ -23,7 +23,7 @@ export default class UpdateAccountButton extends Component{
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#8EB3EE',
+    backgroundColor: '#203864',
     width: 100,
     height: 40,
     alignItems: 'center',

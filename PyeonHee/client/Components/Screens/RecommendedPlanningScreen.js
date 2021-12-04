@@ -393,10 +393,10 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                         <Text style={styles.textStyle}>{userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
                                     </View>
                                     <View style={styles.textDiv} >
-                                        <Text style={{marginTop: 3,}}>소비 성향 MBTI: </Text>
+                                        <Text style={{marginTop: 3,}}>소비 성향: </Text>
                                         <View style={styles.mbtiInnerContainer}>
                                             <Text style={styles.mbtiText}>{userMBTI}</Text>
-                                        </View> 
+                                        </View>
                                     </View>
                                 </View>
                                 <View style={styles.rightDivInCard}>
@@ -698,7 +698,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     mbtiInnerContainer: {
-        backgroundColor: 'pink',
+        backgroundColor: '#203864',
         padding: 3,
         borderRadius: 5,
     },

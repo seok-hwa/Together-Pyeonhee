@@ -19,7 +19,7 @@ function NotificationInMain(props) {
       <TableRow>
           <TableCell>{props.category}</TableCell>
           <TableCell>
-          <a href={`/notificationBoard/${props.id}`}>{props.title}</a>
+          <a href={`/notificationBoard/${props.id}`} className="box">{props.title}</a>
           </TableCell>
           <TableCell>{props.date.substring(0,10)}</TableCell>
       </TableRow>

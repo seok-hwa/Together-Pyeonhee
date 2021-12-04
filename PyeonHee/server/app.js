@@ -62,16 +62,17 @@ const SSHConnection = new Promise((resolve, reject) => {
             // 12시가 되면 일일권장금액 이행 여부 확인
             schedule.scheduleJob('0 0 0 * * *', async()=>{
                 db.query(`SELECT * FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
-                    console.log(result[0]);
+                    console.log(result1[0]);
                     if(error1) throw error1;
                     else{
                         if(result1[0].daily_spent_money <= result1[0].available_money){
                             daily_count = result1[0].daily_count + 1;
-                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
-                                if(error2) throw error2;
-                                console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                                console.log(result2);
-                            })
+                            console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
+                            // db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                            //     if(error2) throw error2;
+                            //     console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
+                            //     console.log(result2);
+                            // })
                         }
                     }
                 })
@@ -165,105 +166,106 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             // 30분마다 일일소비량 업데이트
-            // schedule.scheduleJob('*/30 * * * * *', async () => {
-            //     db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
-            //         if(error1) throw error1;
-            //         else{
-            //             if(result1.spend_money == null)
-            //                 console.log('소비한 내역이 없습니다.');
-            //             else{
-            //                 console.log(result1);
-            //                 daily_spent_money = result1[0].spend_money
-            //                 db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
-            //                        if(error2) throw error2;
-            //                     console.log(result2);
-            //                 })
-            //             }
-            //         }
+            schedule.scheduleJob('*/30 * * * * *', async () => {
+                console.log(global_id);
+                db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
+                    if(error1) throw error1;
+                    else{
+                        if(result1.spend_money == null)
+                            console.log('소비한 내역이 없습니다.');
+                        else{
+                            console.log(result1);
+                            daily_spent_money = result1[0].spend_money
+                            db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
+                                   if(error2) throw error2;
+                                console.log(result2);
+                            })
+                        }
+                    }
                     
-            //     })
-            // });
+                })
+            });
 
             
-            //일일권장 소비금액 (잔액 푸시알림)
-            // schedule.scheduleJob('*/30 * * * * *', function (){
-            //     db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
-            //         if (error) throw error;
-            //         else{
-            //             for (i in result) {
-            //                 (function(i){
-            //                     var userID = result[i].user_id;
-            //                     var deviceToken = result[i].deviceToken;
-            //                     db.query(`SELECT EXISTS (SELECT * FROM bank_account WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
-            //                         if (error) throw error;
-            //                         else {
-            //                             var now = new Date();
-            //                             var year = now.getFullYear();
-            //                             var month = now.getMonth() + 1;
-            //                             var date = now.getDate();
-            //                             now = year + "" + month + "" + date;
-            //                             //console.log("오늘날짜 확인 : ", now);
-            //                             if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
-            //                                 db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND alarm = 0`, [userID, now], function (error, result) {
-            //                                     if (error) throw error;
-            //                                     else {
-            //                                         if (result[0]!= undefined) { //계좌연동 & 거래내역 존재
-            //                                             var tranAmt = result[0].tran_amt;
-            //                                             console.log('최근 거래내역 존재 푸시알림보내기 + ',userID);
-            //                                             var dailyMoney;
-            //                                             var balanceMoney;
-            //                                             db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function (error, result1) {
-            //                                                 if (error) throw error;
-            //                                                 else {
-            //                                                     db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function (error, result) {
-            //                                                         if (error) throw error;
-            //                                                         else{
-            //                                                             if (result[0] != undefined) {
-            //                                                                 dailyMoney = Calculate_Daily_Money(result, result1);
-            //                                                                 balanceMoney = dailyMoney - tranAmt;
-            //                                                                 console.log('[출금]', tranAmt,'원 **하루권장소비량', balanceMoney +'원 남았습니다.**');
+            // 일일권장 소비금액 (잔액 푸시알림)
+            schedule.scheduleJob('*/30 * * * * *', function (){
+                db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
+                    if (error) throw error;
+                    else{
+                        for (i in result) {
+                            (function(i){
+                                var userID = result[i].user_id;
+                                var deviceToken = result[i].deviceToken;
+                                db.query(`SELECT EXISTS (SELECT * FROM bank_account WHERE user_id = ? limit 1) as success`, [userID], function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        var now = new Date();
+                                        var year = now.getFullYear();
+                                        var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                                        var date = ('0' + now.getDate()).slice(-2);
+                                        now = year + "" + month + "" + date;
+                                        //console.log("오늘날짜 확인 : ", now);
+                                        if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
+                                            db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND alarm = 0`, [userID, now], function (error, result) {
+                                                if (error) throw error;
+                                                else {
+                                                    if (result[0]!= undefined) { //계좌연동 & 거래내역 존재
+                                                        var tranAmt = result[0].tran_amt;
+                                                        console.log('최근 거래내역 존재 푸시알림보내기 + ',userID);
+                                                        var dailyMoney;
+                                                        var balanceMoney;
+                                                        db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function (error, result1) {
+                                                            if (error) throw error;
+                                                            else {
+                                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? ORDER BY planning_number desc`, [userID], function (error, result) {
+                                                                    if (error) throw error;
+                                                                    else{
+                                                                        if (result[0] != undefined) {
+                                                                            dailyMoney = Calculate_Daily_Money(result, result1);
+                                                                            balanceMoney = dailyMoney - tranAmt;
+                                                                            console.log('[출금]', tranAmt,'원 **하루권장소비량', balanceMoney +'원 남았습니다.**');
 
-            //                                                                 let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
-            //                                                                 let message = {
-            //                                                                     notification: {
-            //                                                                         title: '[출금]' + tranAmt + '원',
-            //                                                                         body: '**하루권장소비량' + balanceMoney +'원 남았습니다.**'
-            //                                                                     },
-            //                                                                     token: target_token,
-            //                                                                 }
-            //                                                                 admin.messaging().send(message)
-            //                                                                     .then(function (response) {
-            //                                                                         console.log('푸시알림메시지 전송성공!', response)
-            //                                                                     })
-            //                                                                     .catch(function (error) {
-            //                                                                         console.log('푸시알림메시지 전송실패!', error)
-            //                                                                     })
-            //                                                             }
-            //                                                         }
-            //                                                     });
-            //                                                 }
-            //                                             });
-            //                                             db.query(`UPDATE real_expense SET alarm = 1 WHERE user_id = ? AND tran_date = ?`, [userID, now], function (error, result) {
-            //                                                 if (error) throw error;
-            //                                                 //console.log("알림완료 --> alarm = 1 로 변경");
-            //                                             });
-            //                                         }
-            //                                         else {//계좌연동 but.거래내역 존재X
-            //                                             console.log(userID, "계좌연동 O but.최근거래내역 X");
-            //                                         }
-            //                                     }
-            //                                 });
-            //                             }
-            //                             else {//계좌연동 X 사용자
-            //                                 console.log(userID, "계좌연동 X");
-            //                             }
-            //                         }
-            //                     });
-            //                 })(i);
-            //             }
-            //         }
-            //     });
-            // });
+                                                                            let target_token = deviceToken;//알림을 받을 디바이스의 토큰값
+                                                                            let message = {
+                                                                                notification: {
+                                                                                    title: '[출금]' + tranAmt + '원',
+                                                                                    body: '**하루권장소비량' + balanceMoney +'원 남았습니다.**'
+                                                                                },
+                                                                                token: target_token,
+                                                                            }
+                                                                            admin.messaging().send(message)
+                                                                                .then(function (response) {
+                                                                                    console.log('푸시알림메시지 전송성공!', response)
+                                                                                })
+                                                                                .catch(function (error) {
+                                                                                    console.log('푸시알림메시지 전송실패!', error)
+                                                                                })
+                                                                        }
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                        db.query(`UPDATE real_expense SET alarm = 1 WHERE user_id = ? AND tran_date = ?`, [userID, now], function (error, result) {
+                                                            if (error) throw error;
+                                                            //console.log("알림완료 --> alarm = 1 로 변경");
+                                                        });
+                                                    }
+                                                    else {//계좌연동 but.거래내역 존재X
+                                                        console.log(userID, "계좌연동 O but.최근거래내역 X");
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        else {//계좌연동 X 사용자
+                                            console.log(userID, "계좌연동 X");
+                                        }
+                                    }
+                                });
+                            })(i);
+                        }
+                    }
+                });
+            });
 
             //한달리포트 생성 푸시알림(매달 1일 00시)
             schedule.scheduleJob('0 0 0 1 * *', function () {
@@ -1175,8 +1177,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                         where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else{
-                                var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
-                                live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                 if(result1.length === 0) {
                                     data = {
                                         userName : name,
@@ -1191,6 +1191,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 }
                                 else{
                                     console.log(result1)
+                                    var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
+                                    live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                     db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                         var daily_money = result2[0].available_money;
                                         var spend_money = result2[0].available_money - result2[0].daily_spent_money;
@@ -1228,17 +1230,47 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                             res.send(data);
                                                         }
                                                         else{
-                                                            console.log(result3);
-                                                            data = {
-                                                                userName : name,
-                                                                planamt : result1[0],
-                                                                realamt : result3,
-                                                                daily_money : daily_money,
-                                                                spend_money : spend_money,
-                                                                live_money : live_money,
-                                                            };
-                                                            console.log('이거 다 들어가있는거야', data);
-                                                            res.send(data);
+                                                            db.query(`SELECT sum(tran_amt) as today_money FROM real_expense 
+                                                            WHERE user_id = ? AND inout_type = '출금' AND SUBSTR(NOW(),9,2) = SUBSTR(tran_date,7,2) AND tran_type = '식비'`, [userID], function(err, money){
+                                                                if(err) throw err;
+                                                                else{
+                                                                    if(money[0].today_money === null){
+                                                                        console.log(result3);
+                                                                        data = {
+                                                                            userName : name,
+                                                                            planamt : result1[0],
+                                                                            realamt : result3,
+                                                                            daily_money : daily_money,
+                                                                            spend_money : spend_money,
+                                                                            live_money : live_money,
+                                                                        };
+                                                                        console.log('이거 다 들어가있는거야', data);
+                                                                        res.send(data);
+                                                                    }
+                                                                    else{
+                                                                        console.log(money);
+                                                                        var today_money = money[0].today_money;
+                                                                        db.query(`UPDATE daily_data SET daily_spent_money = ? WHERE user_id = ?`, [today_money, userID], function(err2, result4){
+                                                                            if(err2) throw err2;
+                                                                            else {
+                                                                                console.log(result3);
+                                                                                data = {
+                                                                                    userName : name,
+                                                                                    planamt : result1[0],
+                                                                                    realamt : result3,
+                                                                                    daily_money : daily_money,
+                                                                                    spend_money : spend_money,
+                                                                                    live_money : live_money,
+                                                                                };
+                                                                                console.log('이거 다 들어가있는거야', data);
+                                                                                res.send(data);    
+                                                                            }
+                                                                    }) 
+                                                                    }
+                                                                    
+                                                                }
+                                                            })
+                                                            
                                                         }
                                                     }
                                                     
@@ -1741,8 +1773,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var now = new Date();
                 var year = now.getFullYear();
-                var month = now.getMonth() + 1;
-                var date = now.getDate();
+                var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                var date = ('0' + now.getDate()).slice(-2);
                 //now = year + '-' + month + '-' + date;
                 now = year + "" + month + "" + date;
                 //var fintechUseNum = req.body.fintechUseNum;
@@ -1761,7 +1793,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post('/tranList', function (req, res) {
                 var userID = req.body.userID;
                 //var fintechUseNum = req.body.fintechUseNum;
-                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND state = 1 ORDER BY tran_date desc`,
+                db.query(`SELECT * FROM real_expense WHERE user_id = ? ORDER BY tran_date desc`,
                     [userID], function (error, result) {
                         if (error) throw error;
                         else {
@@ -1802,7 +1834,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         res.send(result);
                         console.log(fintechUseNum,"의 계좌내역 조회 완료");
-                        console.log(result);
+                        console.log('이거', result);
                     }
                 });
             });
@@ -2451,6 +2483,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         res.send(result);
                         console.log(result);
+
+                        /* 임시 글 번호 정렬 */
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("고객센터 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
@@ -2554,6 +2604,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         res.send(result);
                         console.log(result);
+                        /* 임시 글 번호 정렬 */
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("고객센터 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
@@ -2638,6 +2705,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         res.send(data);
                         console.log(data);
+                    }
+                });
+            });
+
+            //관리자 웹페이지 메인화면 (공지사항 최신글 10개)
+            app.get('/notificationInMain', function (req, res) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number desc limit 10`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 웹페이지 메인화면 (고객센터 최신글 10개)
+            app.get('/queryInMain', function (req, res) {
+                db.query(`SELECT * FROM board ORDER BY board_number desc limit 10`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
                     }
                 });
             });

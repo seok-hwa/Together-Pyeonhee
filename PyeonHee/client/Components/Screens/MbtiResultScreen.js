@@ -62,14 +62,14 @@ const MbtiScreen = ({navigation, route}) => {
 
       <View style={styles.appTopBar}>
         <View style={styles.barTop}>
-          <Text style={styles.logoMbti}>소비 성향 MBTI 테스트 결과</Text>
+          <Text style={styles.logoMbti}>소비 성향 테스트 결과</Text>
         </View>
       </View>
 
       <ScrollView style={styles.appBody}>
         <View>
             <View style={styles.typeBox}>
-                <Text style={styles.typeText}>소비 성향 MBTI: {route.params.mbtiType} 형</Text>
+                <Text style={styles.typeText}>소비 성향: {route.params.mbtiType} 형</Text>
             </View>
 
             <View style={styles.resultBox}>
