@@ -1,62 +1,62 @@
 const JOBS = [
     {
-        value: 'profession',
+        value: '전문직',
         label: '전문직',
     },
     {
-        value: 'teacher',
+        value: '교직',
         label: '교직',
     },
     {
-        value: 'executive',
+        value: '관리직',
         label: '관리직',
     },
     {
-        value: 'office',
+        value: '사무직',
         label: '사무직',
     },
     {
-        value: 'selfEmployment',
+        value: '자영업',
         label: '자영업',
     },
     {
-        value: 'sales',
+        value: '판매직',
         label: '판매직',
     },
     {
-        value: 'service',
+        value: '서비스직',
         label: '서비스직',
     },
     {
-        value: 'production',
+        value: '생산/노무직',
         label: '생산/노무직',
     },
     {
-        value: 'craftsman',
+        value: '기능직',
         label: '기능직',
     },
     {
-        value: 'agriculture',
+        value: '농/축/광/수산업',
         label: '농/축/광/수산업',
     },
     {
-        value: 'student',
+        value: '학생',
         label: '학생',
     },
     {
-        value: 'housewife',
+        value: '주부',
         label: '주부',
     },
     {
-        value: 'inoccupation',
+        value: '무직',
         label: '무직',
     },
     {
-        value: 'retirement',
+        value: '퇴직/연금생활자',
         label: '퇴직/연금생활자',
     },
     {
-        value: 'etc',
+        value: '기타',
         label: '기타',
     },
 ];

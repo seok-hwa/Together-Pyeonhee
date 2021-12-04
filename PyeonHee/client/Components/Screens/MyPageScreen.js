@@ -21,6 +21,7 @@ const MyPageScreen = ({navigation}) => {
     const [userStamp, setUserStamp] = useState(0);
     const [userPoint, setUserPoint] = useState(0);
     const [userMbti, setUserMbti] = useState('');
+    const [userMbtiDescription, setUserMbtiDescription] = useState('');
 
     const [tierModalVisible, setTierModalVisible] = useState(false);
     const [mbtiModalVisible, setMbtiModalVisible] = useState(false);
@@ -56,6 +57,7 @@ const MyPageScreen = ({navigation}) => {
                 setUserStamp(responseJson.userStamp);
                 setUserPoint(responseJson.userPoint);
                 setUserMbti(responseJson.userMbti);
+                setUserMbtiDescription(responseJson.userMbtiDescription);
 
             })
             .then(()=>{
@@ -424,6 +426,18 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalMbtiBodySize}>
+                            <View style={styles.modalTopBar}>
+                                <Text>소비 성향 MBTI</Text>
+                            </View>
+                            <View style={styles.modalContent}>
+                            <View style={styles.resultDiv}>
+                                <Text style={styles.nameHighlight}>{userName}</Text>
+                                <Text>님의 소비 성향 MBTI는 </Text>
+                                <Text style={styles.mbtiHighlight}>{userMbti}</Text>
+                                <Text>입니다.</Text>
+                            </View>
+                            <Text>{userMbtiDescription}</Text>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -437,6 +451,11 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalStampointBodySize}>
+                            <View style={styles.modalTopBar}>
+                                <Text>스탬프 및 포인트 정책</Text>
+                            </View>
+                            <View style={styles.modalContent}>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -721,6 +740,17 @@ const styles = StyleSheet.create({
         width: 150,
         textAlign: 'right',
         fontSize: 11,
+    },
+    resultDiv: {
+        flexDirection: 'row',
+        padding: 5,
+    },
+    nameHighlight: {
+        fontWeight: 'bold',
+    },
+    mbtiHighlight:{
+        fontWeight: 'bold',
+        color: 'blue',
     },
 })
 export default MyPageScreen;
