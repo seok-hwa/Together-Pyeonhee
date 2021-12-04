@@ -160,7 +160,7 @@ const BudgetItem = (props) => {
                 </View>
 
                 <View style={styles.mbtiContainer}>
-                    <Text style={{fontSize: 10}}>소비성향 MBTI</Text>
+                    <Text style={{fontSize: 10}}>소비MBTI</Text>
                     <View style={styles.mbtiInnerContainer}>
                         <Text style={styles.mbtiText}>{props.userMbti}</Text>
                     </View>
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       alignItems: 'center',
       borderRightWidth: 1,
-      borderRightColor: 'gray',
+      borderRightColor: '#8EB3EE',
     },
     item2: {
     marginRight: 20,
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     mbtiInnerContainer: {
-        backgroundColor: 'pink',
+        backgroundColor: '#203864',
         padding: 3,
         borderRadius: 5,
     },

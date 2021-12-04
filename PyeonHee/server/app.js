@@ -1175,8 +1175,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                         where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else{
-                                var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
-                                live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                 if(result1.length === 0) {
                                     data = {
                                         userName : name,
@@ -1191,6 +1189,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 }
                                 else{
                                     console.log(result1)
+                                    var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
+                                    live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                     db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                         var daily_money = result2[0].available_money;
                                         var spend_money = result2[0].available_money - result2[0].daily_spent_money;
@@ -1981,7 +1981,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
                                             var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
                                             // 즉흥 vs 계획
-                                            if(portion >= 70){
+                                            if(portion < 70){
                                                 userMbti = userMbti + 'I';
                                                 description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
                                             }
@@ -2451,6 +2451,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         res.send(result);
                         console.log(result);
+
+                        /* 임시 글 번호 정렬 */
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("고객센터 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
@@ -2554,6 +2572,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         res.send(result);
                         console.log(result);
+                        /* 임시 글 번호 정렬 */
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("고객센터 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
