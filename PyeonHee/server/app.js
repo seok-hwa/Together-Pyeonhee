@@ -1741,8 +1741,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var now = new Date();
                 var year = now.getFullYear();
-                var month = now.getMonth() + 1;
-                var date = now.getDate();
+                var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                var date = ('0' + now.getDate()).slice(-2);
                 //now = year + '-' + month + '-' + date;
                 now = year + "" + month + "" + date;
                 //var fintechUseNum = req.body.fintechUseNum;

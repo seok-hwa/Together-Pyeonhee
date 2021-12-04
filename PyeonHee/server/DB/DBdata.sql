@@ -933,16 +933,16 @@ update BudgetPlanning set like_number = 32 where user_id = 'test14';
 
 
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, alarm)
-values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 1774150, '2021124', '092144', '출금', '식비', '스타벅스', 4100, 1770050, '트리플스트리트점', 1);
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 1774150, '20211204', '092144', '출금', '식비', '스타벅스', 4100, 1770050, '트리플스트리트점', 1);
 
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, alarm)
-values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 1755550, '2021124', '102234', '출금', '구독', '넷플릭스', 14500, 1755550, '넷플릭스', 1);
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 1755550, '20211204', '102234', '출금', '구독', '넷플릭스', 14500, 1755550, '넷플릭스', 1);
 
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, alarm)
-values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4255550, '2021124', '112434', '입금', '급여', '과외비', 2500000, 4255550, '개인', 1);
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4255550, '20211204', '112434', '입금', '급여', '과외비', 2500000, 4255550, '개인', 1);
 
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, alarm)
-values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4180250, '2021124', '130922', '출금', '식비', '매드포갈릭', 75300, 4180250, '송도점', 1);
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4180250, '20211204', '130922', '출금', '쇼핑', '나이키', 75300, 4180250, '커넬워크송도점', 1);
 
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, alarm)
-values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4177050, '2021124', '171154', '출금', '교통', '지하철교통비', 3200, 4177050, '교통안전공단', 1);
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4177050, '20211204', '171154', '출금', '교통', '지하철교통비', 3200, 4177050, '교통안전공단', 1);
