@@ -701,7 +701,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     mbtiInnerContainer: {
-        backgroundColor: '#203864',
+        backgroundColor: 'pink',
         padding: 3,
         borderRadius: 5,
     },
