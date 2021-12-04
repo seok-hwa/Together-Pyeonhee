@@ -1175,8 +1175,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                         where daily_data.user_id = ? AND BudgetPlanning.state = 1;`, [userID], function(error1, result1){
                             if(error1) throw error1;
                             else{
-                                var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
-                                live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                 if(result1.length === 0) {
                                     data = {
                                         userName : name,
@@ -1191,6 +1189,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 }
                                 else{
                                     console.log(result1)
+                                    var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
+                                    live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                                     db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function(error2, result2){
                                         var daily_money = result2[0].available_money;
                                         var spend_money = result2[0].available_money - result2[0].daily_spent_money;
