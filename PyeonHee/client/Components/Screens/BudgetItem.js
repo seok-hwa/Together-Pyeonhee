@@ -8,7 +8,7 @@ import config from '../../config';
 
 const url = config.url;
 const TierImage = (props) => {
-  const userTier = props.userTier;
+  const userTier = props.userTier.toUpperCase();
   if(userTier === 'BRONZE'){
       return(
           <Image source={require('./assets/tier/Bronze_single.png')} style={styles.tierDesign}/>
@@ -156,7 +156,7 @@ const BudgetItem = (props) => {
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
                     <TierImage userTier={props.userTier}/>
-                    <Text>{props.userTier}</Text>
+                    <Text>{props.userTier.toUpperCase()}</Text>
                 </View>
 
                 <View style={styles.mbtiContainer}>
