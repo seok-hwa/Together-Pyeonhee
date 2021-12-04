@@ -132,20 +132,26 @@ const SavingPlan = (props) => {
                 transparent={false}
                 visible={modalVisible}
                 onRequestClose={() => {
-                 alert('Modal has now been closed.');
+                //  alert('Modal has now been closed.');
                  setModalVisible(!modalVisible);
                 }}
             >
-                
                 <View style={styles.centeredView}>
+
+                    <View style={styles.titleContainer}>
+                            <Text style={styles.modalText}>저금 계획</Text>
+                        </View>
                 
                     <View style={styles.modalView}>
+                        {/* <View style={styles.titleContainer}>
+                            <Text style={styles.modalText}>저금 계획</Text>
+                        </View> */}
 
-                        <Text style={styles.modalText}>저금 계획</Text>
+                        {/* <Text style={styles.modalText}>저금 계획</Text> */}
                         
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text>제목: </Text>
+                                <Text style={styles.categoryText}>제목</Text>
                             </View>
                             <View style={styles.inputContainer}>
                                 <TextInput
@@ -160,7 +166,7 @@ const SavingPlan = (props) => {
 
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text>저금 금액: </Text>
+                                <Text style={styles.categoryText}>저금 금액</Text>
                             </View>
                             <View style={styles.inputContainer}>
                                 <TextInput
@@ -178,7 +184,7 @@ const SavingPlan = (props) => {
 
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text>시작 날짜: </Text>
+                                <Text style={styles.categoryText}>시작 날짜</Text>
                             </View>
                             <View style={styles.inputContainer}>
                                 <Text>{year}년 {todayMonth}월 {today}일</Text>
@@ -187,7 +193,7 @@ const SavingPlan = (props) => {
 
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text>저금일: </Text>
+                                <Text style={styles.categoryText}>저금일</Text>
                             </View>
                             <View style={[styles.inputContainer, {justifyContent: 'space-between'}]}>
                                 <Text>매달</Text>
@@ -207,7 +213,7 @@ const SavingPlan = (props) => {
 
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text>기간: </Text>
+                                <Text style={styles.categoryText}>기간</Text>
                             </View>
                             <View style={styles.inputContainer}>
                                 <TextInput
@@ -227,12 +233,12 @@ const SavingPlan = (props) => {
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={saveHandler}>
-                                <Text>추가</Text>
+                                <Text style={{color: 'white'}}>추가</Text>
                             </TouchableOpacity> 
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={cancleHandler}>
-                                <Text>취소</Text>
+                                <Text style={{color: 'white'}}>취소</Text>
                             </TouchableOpacity> 
                         </View>
                     </View>
@@ -256,56 +262,56 @@ const SavingPlan = (props) => {
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F0F4FA'
     },
     modalView: {
         margin: 10,
         width: 350,
         borderRadius: 10,
-        padding: 20,
-        alignItems: "center",
-        borderWidth: 0.5,
+        padding: 10,
+        alignItems: 'center',
+        // borderWidth: 0.5,
         justifyContent: 'space-between',
     },
     modalText: {
         fontSize: 20,
-        fontWeight: "bold",
-        textAlign: "center"
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: 'white'
     },
     rowContainer: {
         padding: 3,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        // backgroundColor: 'pink'
     },
     tagText: {
         width: 80,
         height: 40, 
-        // backgroundColor: 'pink',
-        // alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
+        paddingBottom: 5,
+        marginLeft: 7,
     },
     inputContainer: {
         paddingLeft: 5,
         paddingRight: 5,
-        width: 200, 
-        height: 35,
+        width: 300, 
+        height: 40,
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: 'flex-end',
         borderRadius: 10,
         borderColor: '#DCDCDC',
         borderWidth: 1,
-        // backgroundColor:'yellow'
+        backgroundColor:'white'
     },
     textInputDesign: {
-        height: 35,
+        height: 45,
         width: 100,
         marginRight: 5, 
         borderRadius: 10,
-        borderBottomColor: '#DCDCDC',
-        borderBottomWidth: 1,
+        // borderBottomColor: '#DCDCDC',
+        // borderBottomWidth: 1,
     },
     buttonContainer: {
         marginTop: 20, 
@@ -314,7 +320,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     button: {
-        backgroundColor: '#6090FA',
+        backgroundColor: '#203864',
         color: 'black',
         width: 100,
         height: 30,
@@ -325,6 +331,19 @@ const styles = StyleSheet.create({
       },
       addButtonStyle: {
         color: 'blue',
+      },
+      categoryText: {
+        fontSize: 15, 
+        fontWeight: 'bold',
+        color: '#203864'
+      },
+      titleContainer: {
+          backgroundColor: '#203864',
+          width: 200, 
+          height: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 10,
       }
 })
 export default SavingPlan;

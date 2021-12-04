@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 
@@ -63,7 +64,7 @@ const LoanItem = (props) => {
                     </View>
                 </View>
                 <View style={styles.nextCotainer}>
-                    <Text style={styles.nextText}> {'>'} </Text>
+                    <Icon name={'chevron-forward-outline'} size={20} color={'#203864'}/>
                 </View>
             </View>
         </TouchableOpacity>
