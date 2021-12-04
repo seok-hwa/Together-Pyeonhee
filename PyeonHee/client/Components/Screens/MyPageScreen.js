@@ -443,12 +443,12 @@ const MyPageScreen = ({navigation}) => {
                     <View style={styles.modalSize}>
                         <View style={styles.modalMbtiBodySize}>
                             <View style={styles.modalTopBar}>
-                                <Text>소비 성향 MBTI</Text>
+                                <Text>소비 성향</Text>
                             </View>
                             <View style={styles.modalContent}>
                             <View style={styles.resultDiv}>
                                 <Text style={styles.nameHighlight}>{userName}</Text>
-                                <Text>님의 소비 성향 MBTI는 </Text>
+                                <Text>님의 소비 성향은 </Text>
                                 <Text style={styles.mbtiHighlight}>{userMbti}</Text>
                                 <Text>입니다.</Text>
                             </View>
@@ -493,7 +493,7 @@ const MyPageScreen = ({navigation}) => {
                             <View style={styles.stampPointDiv}>
                                     <TouchableOpacity onPress={()=>{setMbtiModalVisible(true)}} style={styles.mbtiDiv}>
                                         <View style={styles.mbtiDiv}>
-                                            <Text>소비성향 MBTI</Text>
+                                            <Text>소비성향: </Text>
                                                 <View style={styles.mbtiInnerContainer}>
                                                     <Text style={styles.mbtiText}>{userMbti}</Text>
                                                 </View>
@@ -685,11 +685,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     mbtiInnerContainer: {
-        backgroundColor: 'pink',
+        backgroundColor: '#203864',
         padding: 3,
         borderRadius: 5,
-        marginLeft: 10,
-        height: 26,
     },
     mbtiText: {
         fontWeight: 'bold',

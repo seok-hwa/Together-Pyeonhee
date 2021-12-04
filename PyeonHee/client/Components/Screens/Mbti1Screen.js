@@ -381,7 +381,7 @@ const Mbti1Screen = ({navigation, route}) => {
     <View style={styles.appSize}>
       <View style={styles.appTopBar}>
         <View style={styles.barTop}>
-          <Text style={styles.logoBbti}>소비 성향 MBTI 테스트</Text>
+          <Text style={styles.logoBbti}>소비 성향 테스트</Text>
         </View>
         <View style={styles.barBottom}>
           <View style={styles.blueCircle}><Text style={styles.fontInCircle}>1</Text></View>
