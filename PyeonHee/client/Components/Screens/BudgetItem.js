@@ -160,7 +160,7 @@ const BudgetItem = (props) => {
                 </View>
 
                 <View style={styles.mbtiContainer}>
-                    <Text style={{fontSize: 10}}>소비MBTI</Text>
+                    <Text style={{fontSize: 10}}>소비 성향</Text>
                     <View style={styles.mbtiInnerContainer}>
                         <Text style={styles.mbtiText}>{props.userMbti}</Text>
                     </View>

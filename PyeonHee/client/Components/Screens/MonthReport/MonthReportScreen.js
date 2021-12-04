@@ -152,7 +152,7 @@ const MonthReportScreen = ({navigation, route}) => {
                 <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
                 <View style={styles.resultDiv}>
                     <Text style={styles.nameHighlight}> {route.params.userName}</Text>
-                    <Text>님의 소비 패턴 MBTI는 </Text>
+                    <Text>님의 소비 패턴 유형은 </Text>
                     <Text style={styles.mbtiHighlight}>{userMbti}</Text>
                     <Text>입니다.</Text>
                 </View>
