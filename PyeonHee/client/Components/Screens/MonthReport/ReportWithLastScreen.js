@@ -24,6 +24,8 @@ const ReportWithLastScreen = (props) => {
     const [currentEvent, setCurrentEvent] = useState(parseInt(props.route.params.withLast.currentEvent));
     const [currentDinner, setCurrentDinner] = useState(parseInt(props.route.params.withLast.currentDinner));
 
+    const [currentSaving, setCurrentSaving] = useState(parseInt(props.route.params.withLast.currentSaving));
+
     const [lastRent, setLastRent] = useState(parseInt(props.route.params.withLast.lastRent));
     const [lastInsurance, setLastInsurance] = useState(parseInt(props.route.params.withLast.lastInsurance));
     const [lastCommunication, setLastCommunication] = useState(parseInt(props.route.params.withLast.lastCommunication));
@@ -39,6 +41,8 @@ const ReportWithLastScreen = (props) => {
     const [lastEvent, setLastEvent] = useState(parseInt(props.route.params.withLast.lastEvent));
     const [lastDinner, setLastDinner] = useState(parseInt(props.route.params.withLast.lastDinner));
 
+    const [lastSaving, setLastSaving] = useState(parseInt(props.route.params.withLast.lastSaving));
+
     const currentFixTotal=currentRent+currentInsurance+currentCommunication+currentSubscribe;
     const lastFixTotal=lastRent+lastInsurance+lastCommunication+lastSubscribe;
 
@@ -48,8 +52,8 @@ const ReportWithLastScreen = (props) => {
     const currentVariableTotal2=currentShopping+currentHobby+currentEvent+currentDinner;
     const lastVariableTotal2=lastShopping+lastHobby+lastEvent+lastDinner;
     
-    const currentTotal=currentFixTotal+currentVariableTotal1+currentVariableTotal2;
-    const lastTotal=lastFixTotal+lastVariableTotal1+lastVariableTotal2;
+    const currentTotal=currentFixTotal+currentVariableTotal1+currentVariableTotal2+currentSaving;
+    const lastTotal=lastFixTotal+lastVariableTotal1+lastVariableTotal2+lastSaving;
 
     const difRent=currentRent - lastRent < 0 ? " -"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentRent - lastRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difInsurance=currentInsurance - lastInsurance < 0? " -"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(currentInsurance - lastInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -92,6 +96,12 @@ const ReportWithLastScreen = (props) => {
         labels: [`${props.preMonth}월`, `${props.month}월`],
         legend: ["총액"],
         data: [[lastTotal], [currentTotal]],
+        barColors: ["#ced6e0"]
+    }
+    const totalSaving = {
+        labels: [`${props.preMonth}월`, `${props.month}월`],
+        legend: ["총액"],
+        data: [[lastSaving], [currentSaving]],
         barColors: ["#ced6e0"]
     }
 
@@ -195,6 +205,35 @@ const ReportWithLastScreen = (props) => {
                     {currentVariableTotal1 - lastVariableTotal1 > 0 ?
                         <Text style={styles.upFont}>+{Math.abs(currentVariableTotal1 - lastVariableTotal1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> :
                         <Text style={styles.downFont}>-{Math.abs(currentVariableTotal1 - lastVariableTotal1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    }
+                </View>
+            </View>
+            <View style={styles.fixDiv}>
+                <Text style={styles.cateFont}>저금</Text>
+                <View style={styles.tempRow}>
+                    <StackedBarChart
+                    data={totalSaving}
+                    width={350}
+                    height={250}
+                    chartConfig={fixConfig}
+                    withHorizontalLabels={false}
+                />
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
+                    <Text style={styles.priceFont}>{currentSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
+                    <Text style={styles.priceFont}>{lastSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text>지난달 대비</Text>
+                    {currentSaving - lastSaving >= 0 ?
+                        <Text style={styles.upFont}>+{Math.abs(currentSaving - lastSaving).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> :
+                        <Text style={styles.downFont}>-{Math.abs(currentSaving - lastSaving).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     }
                 </View>
             </View>

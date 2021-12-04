@@ -24,6 +24,8 @@ const ReportWithPlanScreen = (props) => {
     const [realEvent, setRealEvent] = useState(parseInt(props.route.params.withPlan.realEvent));
     const [realDinner, setRealDinner] = useState(parseInt(props.route.params.withPlan.realDinner));
 
+    const [realSaving, setRealSaving] = useState(parseInt(props.route.params.withPlan.realSaving));
+
     const [planRent, setPlanRent] = useState(parseInt(props.route.params.withPlan.planRent));
     const [planInsurance, setPlanInsurance] = useState(parseInt(props.route.params.withPlan.planInsurance));
     const [planCommunication, setPlanCommunication] = useState(parseInt(props.route.params.withPlan.planCommunication));
@@ -39,6 +41,8 @@ const ReportWithPlanScreen = (props) => {
     const [planEvent, setPlanEvent] = useState(parseInt(props.route.params.withPlan.planEvent));
     const [planDinner, setPlanDinner] = useState(parseInt(props.route.params.withPlan.planDinner));
 
+    const [planSaving, setPlanSaving] = useState(parseInt(props.route.params.withPlan.planSaving));
+
     const realFixTotal = realRent+realInsurance+realCommunication+realSubscribe;
     const planFixTotal = planRent+planInsurance+planCommunication+planSubscribe;
 
@@ -48,8 +52,8 @@ const ReportWithPlanScreen = (props) => {
     const realVariableTotal2 = realShopping+realHobby+realEvent+realDinner;
     const planVariableTotal2 = planShopping+planHobby+planEvent+planDinner;
 
-    const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2;
-    const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2;
+    const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2+realSaving;
+    const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2+planSaving;
 
     const progressPercentage = props.route.params.daily_count/props.date;
 
@@ -107,6 +111,12 @@ const ReportWithPlanScreen = (props) => {
         labels: ["예산 계획", "실제 지출"],
         legend: ["총액"],
         data: [[planTotal], [realTotal]],
+        barColors: ["#ced6e0"]
+    }
+    const totalSaving = {
+        labels: ["예산 계획", "실제 지출"],
+        legend: ["저금"],
+        data: [[planSaving], [realSaving]],
         barColors: ["#ced6e0"]
     }
 
@@ -229,6 +239,35 @@ const ReportWithPlanScreen = (props) => {
                     {realVariableTotal1 - planVariableTotal1 > 0 ?
                         <Text style={styles.upFont}>+{Math.abs(realVariableTotal1 - planVariableTotal1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> :
                         <Text style={styles.downFont}>-{Math.abs(realVariableTotal1 - planVariableTotal1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    }
+                </View>
+            </View>
+            <View style={styles.fixDiv}>
+                <Text style={styles.cateFont}>저금</Text>
+                <View style={styles.tempRow}>
+                    <StackedBarChart
+                    data={totalSaving}
+                    width={350}
+                    height={250}
+                    chartConfig={fixConfig}
+                    withHorizontalLabels={false}
+                />
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>실제 지출</Text>
+                    <Text style={styles.priceFont}>{realSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>예산 계획</Text>
+                    <Text style={styles.priceFont}>{planSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text>계획 대비</Text>
+                    {realSaving - planSaving >= 0 ?
+                        <Text style={styles.upFont}>+{Math.abs(realSaving - planSaving).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> :
+                        <Text style={styles.downFont}>-{Math.abs(realSaving - planSaving).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     }
                 </View>
             </View>
