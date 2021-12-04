@@ -130,7 +130,6 @@ const accountLinkScreen = ({navigation}) => {
             }
         })
     }
-
     if(loading === true){
         return (
             <View style={styles.appSize}>
@@ -143,7 +142,9 @@ const accountLinkScreen = ({navigation}) => {
                 </View>
                 {
                     accountList.length === 0?
-                    <Text>아직 등록된 계좌가 없습니다.</Text> :
+                    <View style={styles.noDiv}>
+                        <Text style={styles.noText}>아직 등록된 계좌가 없습니다.</Text>
+                    </View> :
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={accountList}
@@ -193,5 +194,15 @@ const styles = StyleSheet.create({
     },
     appBody: {
         flex: 1,
+    },
+    noDiv :{
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    noText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: 10,
     },
 });

@@ -21,6 +21,7 @@ const MyPageScreen = ({navigation}) => {
     const [userStamp, setUserStamp] = useState(0);
     const [userPoint, setUserPoint] = useState(0);
     const [userMbti, setUserMbti] = useState('');
+    const [userMbtiDescription, setUserMbtiDescription] = useState('');
 
     const [tierModalVisible, setTierModalVisible] = useState(false);
     const [mbtiModalVisible, setMbtiModalVisible] = useState(false);
@@ -56,6 +57,7 @@ const MyPageScreen = ({navigation}) => {
                 setUserStamp(responseJson.userStamp);
                 setUserPoint(responseJson.userPoint);
                 setUserMbti(responseJson.userMbti);
+                setUserMbtiDescription(responseJson.userMbtiDescription);
 
             })
             .then(()=>{
@@ -136,6 +138,7 @@ const MyPageScreen = ({navigation}) => {
         let currentHobby=0;
         let currentEvent=0;
         let currentDinner=0;
+        let currentSaving=0;
 
         let lastRent=0;
         let lastInsurance=0;
@@ -149,6 +152,7 @@ const MyPageScreen = ({navigation}) => {
         let lastHobby=0;
         let lastEvent=0;
         let lastDinner=0;
+        let lastSaving=0;
 
         let realRent=0;
         let realInsurance=0;
@@ -162,6 +166,7 @@ const MyPageScreen = ({navigation}) => {
         let realHobby=0;
         let realEvent=0;
         let realDinner=0;
+        let realSaving=0;
 
         let planRent=0;
         let planInsurance=0;
@@ -175,6 +180,8 @@ const MyPageScreen = ({navigation}) => {
         let planHobby=0;
         let planEvent=0;
         let planDinner=0;
+        let planSaving=0;
+
         let daily_count=0;
 
         let isTransactionList = true;
@@ -187,58 +194,62 @@ const MyPageScreen = ({navigation}) => {
             if(responseJson.length != 0){
                 responseJson.real_spend.map(item  => {
                     if(item.tran_type === '쇼핑'){
-                        currentShopping=item.daily_amount;
+                        currentShopping+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '교통'){
-                        currentTraffic=item.daily_amount;
+                        currentTraffic+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '구독'){
-                        currentSubscribe=item.daily_amount;
+                        currentSubscribe+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '통신'){
-                        currentCommunication=item.daily_amount;
-                    }else if(item.tran_type === '여가'){
-                        currentHobby=item.daily_amount;
+                        currentCommunication+=parseInt(item.daily_amount);
+                    }else if(item.tran_type === '여가' || item.tran_type === '취미'){
+                        currentHobby+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '교육'){
-                        currentEducation=item.daily_amount;
+                        currentEducation+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '선물'){
-                        currentEvent=item.daily_amount;
+                        currentEvent+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '보험'){
-                        currentInsurance=item.daily_amount;
+                        currentInsurance+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '의료'){
-                        currentMedical=item.daily_amount;
+                        currentMedical+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '월세'){
-                        currentRent=item.daily_amount;
+                        currentRent+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '식비'){
-                        currentDinner=item.daily_amount;
+                        currentDinner+=parseInt(item.daily_amount);
+                    }else if(item.tran_type === '저금'){
+                        currentSaving+=parseInt(item.daily_amount);
                     }else{
-                        currentEct=item.daily_amount;
+                        currentEct+=parseInt(item.daily_amount);
                     }
                 })
 
                 if(responseJson.last_spend.length !=0){
                     responseJson.last_spend.map(item  => {
                         if(item.tran_type === '쇼핑'){
-                            lastShopping=item.daily_amount;
+                            lastShopping+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '교통'){
-                            lastTraffic=item.daily_amount;
+                            lastTraffic+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '구독'){
-                            lastSubscribe=item.daily_amount;
+                            lastSubscribe+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '통신'){
-                            lastCommunication=item.daily_amount;
-                        }else if(item.tran_type === '여가'){
-                            lastHobby=item.daily_amount;
+                            lastCommunication+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '여가' || item.tran_type === '취미'){
+                            lastHobby+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '교육'){
-                            lastEducation=item.daily_amount;
+                            lastEducation+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '선물'){
-                            lastEvent=item.daily_amount;
+                            lastEvent+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '보험'){
-                            lastInsurance=item.daily_amount;
+                            lastInsurance+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '의료'){
-                            lastMedical=item.daily_amount;
+                            lastMedical+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '월세'){
-                            lastRent=item.daily_amount;
+                            lastRent+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '식비'){
-                            lastDinner=item.daily_amount;
+                            lastDinner+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '저금'){
+                            lastSaving+=parseInt(item.daily_amount);
                         }else{
-                            lastEct=item.daily_amount;
+                            lastEct+=parseInt(item.daily_amount);
                         }
                     })
                 }
@@ -255,29 +266,31 @@ const MyPageScreen = ({navigation}) => {
                 if(responseJson.real.length != 0 && responseJson.plan.length != 0){
                     responseJson.real.map(item  => {
                         if(item.tran_type === '쇼핑'){
-                            realShopping=item.daily_amount;
+                            realShopping+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '교통'){
-                            realTraffic=item.daily_amount;
+                            realTraffic+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '구독'){
-                            realSubscribe=item.daily_amount;
+                            realSubscribe+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '통신'){
-                            realCommunication=item.daily_amount;
+                            realCommunication+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '여가'){
-                            realHobby=item.daily_amount;
+                            realHobby+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '교육'){
-                            realEducation=item.daily_amount;
+                            realEducation+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '선물'){
-                            realEvent=item.daily_amount;
+                            realEvent+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '보험'){
-                            realInsurance=item.daily_amount;
+                            realInsurance+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '의료'){
-                            realMedical=item.daily_amount;
+                            realMedical+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '월세'){
-                            realRent=item.daily_amount;
+                            realRent+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '식비'){
-                            realDinner=item.daily_amount;
+                            realDinner+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '저금'){
+                            realSaving+=parseInt(item.daily_amount);
                         }else{
-                            realEct=item.daily_amount;
+                            realEct+=parseInt(item.daily_amount);
                         }
                     })
 
@@ -294,6 +307,7 @@ const MyPageScreen = ({navigation}) => {
                             planHobby=responseJson.plan.leisure_expense;
                             planEvent=responseJson.plan.event_expense;
                             planDinner=responseJson.live_expense;
+                            planSaving=responseJson.plan.user_savings;
                             daily_count=responseJson.plan.daily_count;
                     }
                 }
@@ -313,6 +327,7 @@ const MyPageScreen = ({navigation}) => {
                         currentHobby:currentHobby,
                         currentEvent:currentEvent,
                         currentDinner:currentDinner,
+                        currentSaving:currentSaving,
     
                         lastRent:lastRent,
                         lastInsurance:lastInsurance,
@@ -326,6 +341,7 @@ const MyPageScreen = ({navigation}) => {
                         lastHobby:lastHobby,
                         lastEvent:lastEvent,
                         lastDinner:lastDinner,
+                        lastSaving:lastSaving,
                     },
                     withPlan:{
                         realRent: realRent,
@@ -340,6 +356,7 @@ const MyPageScreen = ({navigation}) => {
                         realHobby:realHobby,
                         realEvent:realEvent,
                         realDinner:realDinner,
+                        realSaving:realSaving,
     
                         planRent:planRent,
                         planInsurance:planInsurance,
@@ -353,6 +370,7 @@ const MyPageScreen = ({navigation}) => {
                         planHobby:planHobby,
                         planEvent:planEvent,
                         planDinner:planDinner,
+                        planSaving:planSaving,
                     },
                     isTransactionList: isTransactionList,
                     userCurrentMbti: userMbti,
@@ -424,6 +442,18 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalMbtiBodySize}>
+                            <View style={styles.modalTopBar}>
+                                <Text>소비 성향 MBTI</Text>
+                            </View>
+                            <View style={styles.modalContent}>
+                            <View style={styles.resultDiv}>
+                                <Text style={styles.nameHighlight}>{userName}</Text>
+                                <Text>님의 소비 성향 MBTI는 </Text>
+                                <Text style={styles.mbtiHighlight}>{userMbti}</Text>
+                                <Text>입니다.</Text>
+                            </View>
+                            <Text>{userMbtiDescription}</Text>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -437,6 +467,11 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalStampointBodySize}>
+                            <View style={styles.modalTopBar}>
+                                <Text>스탬프 및 포인트 정책</Text>
+                            </View>
+                            <View style={styles.modalContent}>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -722,6 +757,17 @@ const styles = StyleSheet.create({
         width: 150,
         textAlign: 'right',
         fontSize: 11,
+    },
+    resultDiv: {
+        flexDirection: 'row',
+        padding: 5,
+    },
+    nameHighlight: {
+        fontWeight: 'bold',
+    },
+    mbtiHighlight:{
+        fontWeight: 'bold',
+        color: 'blue',
     },
 })
 export default MyPageScreen;

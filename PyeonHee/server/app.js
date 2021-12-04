@@ -1825,12 +1825,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                             res.send(data);
                         }
                         else {
-                            console.log(real_spend[0]);
+                            // console.log('실제 거래내역', real_spend);
                             db.query(`SELECT BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
                             BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.daily_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                            WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1`, [userID], function(error2, plan_spend){
+                            WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1 AND BudgetPlanning.state = 1;`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
                                     if(real_spend.length === 0){
@@ -1840,11 +1840,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             plan : [],
                                             live_expense : 0,
                                         }
-                                        console.log('이거봐바', data);
+                                        // console.log('이거봐바', data);
                                         res.send(data);
                                     }
                                     else{
-                                        console.log(plan_spend[0]);
+                                        // console.log('계획한 내역', plan_spend);
                                         live_expense = plan_spend[0].user_income - plan_spend[0].user_savings - plan_spend[0].monthly_rent - plan_spend[0].insurance_expense;
                                         live_expense = live_expense - plan_spend[0].transportation_expense -plan_spend[0].communication_expense - plan_spend[0].leisure_expense;
                                         live_expense = live_expense - plan_spend[0].shopping_expense - plan_spend[0].education_expense - plan_spend[0].medical_expense;
@@ -1855,7 +1855,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             live_expense : live_expense, 
                                         }
 
-                                        console.log('이거봐바',data);
+                                        console.log('실제거래내역과 계획한 내역',data);
                                         res.send(data);
                                     }
                                 }
@@ -1881,7 +1881,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             res.send([]);
                         }
                         else{
-                            console.log(real_spend);
+                            //console.log(real_spend);
                             db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
                             WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-2 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function(error2, last_spend){
                                 if(error2) throw error2;
@@ -1895,12 +1895,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         res.send(data);
                                     }
                                     else{
-                                        console.log(last_spend);
+                                        //console.log(last_spend);
                                         data = {
                                             real_spend : real_spend,
                                             last_spend : last_spend,
                                         };
-                                        console.log(data);
+                                        console.log("이번달과 지난달 ", data);
                                         res.send(data);
                                     }
                                 }
@@ -1981,7 +1981,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
                                             var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
                                             // 즉흥 vs 계획
-                                            if(portion >= 70){
+                                            if(portion < 70){
                                                 userMbti = userMbti + 'I';
                                                 description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
                                             }
