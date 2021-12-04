@@ -2451,6 +2451,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         res.send(result);
                         console.log(result);
+
+                        /* 임시 글 번호 정렬 */
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("고객센터 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
@@ -2554,6 +2572,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         res.send(result);
                         console.log(result);
+                        /* 임시 글 번호 정렬 */
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("고객센터 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             });
