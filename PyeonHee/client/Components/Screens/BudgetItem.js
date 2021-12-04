@@ -175,7 +175,7 @@ const BudgetItem = (props) => {
                 </View>
 
                 <View style={styles.nextCotainer}>
-                    <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
+                    <Icon name={'chevron-forward-outline'} size={20} color={'#203864'}/>
                 </View>
 
             </View>
@@ -217,9 +217,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     mbtiInnerContainer: {
-        backgroundColor: '#203864',
+        backgroundColor: 'pink',
         padding: 3,
         borderRadius: 5,
+        width: 50,
+        alignItems: 'center',
     },
     mbtiText: {
         fontWeight: 'bold',
@@ -228,10 +230,6 @@ const styles = StyleSheet.create({
     },
     nextCotainer: {
         marginRight: 15,
-    },
-    nextText: {
-        fontSize: 20,
-        color: '#A7A3A3'
     },
   });
 
