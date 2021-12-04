@@ -15,7 +15,7 @@ export default class NextToMbtiButton extends Component{
   render(){
     return(
       <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
-          <Text style={styles.title}>소비성향 MBTI 테스트 진행하기</Text>
+          <Text style={styles.title}>소비성향 테스트 진행하기</Text>
       </TouchableOpacity>
     );
   }
