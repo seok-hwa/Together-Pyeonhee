@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
     flex: 1,
   //   justifyContent: 'center',
   //   alignItems:'center',
+  backgroundColor: '#F0F4FA',
+
     padding: 5,
   },
   smallcontainer: {
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
   tapContainer: {
       alignItems:'flex-end',
       borderRadius: 20,
-      backgroundColor: '#F2F2F2',
+      backgroundColor: 'white',
       padding: 3,
   },
   headerText: {

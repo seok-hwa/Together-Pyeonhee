@@ -348,7 +348,7 @@ const EditBudgetScreen = (props) => {
                             <View style={styles.category}>
                                 <View style={{flexDirection: 'row', alignItems: 'center',}}>
                                     <View style={styles.logoContainer}>
-                                    <Image source={require('../assets/category/envelope.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                    <Image source={require('../assets/category/event.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                                     </View>
                                     <Text>경조사/선물</Text>
                                 </View>

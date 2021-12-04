@@ -418,12 +418,12 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                         <Text style={styles.fixTitle}>고정</Text>
                         <View style={styles.fixBody}>
                             <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/rent.png')} style={styles.iconDiv}/>
+                                <Icon name={'log-out-outline'} size={20} color={'gray'}/>
                                 <Text style={styles.fixCate}>월세</Text>
                                 <Text style={styles.fixPlanMoneyText}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
                             <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/insurance.png')} style={styles.iconDiv}/>
+                                <Image source={require('./assets/category/health-insurance.png')} style={styles.iconDiv}/>
                                 <Text style={styles.fixCate}>보험</Text>
                                 <Text style={styles.fixPlanMoneyText}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>

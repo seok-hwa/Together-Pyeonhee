@@ -448,7 +448,7 @@ const WriteBudgetScreen = ({navigation}) => {
 
                             <View style={styles.category}>
                                 <View style={styles.logoContainer}>
-                                    <Image source={require('../assets/category/envelope.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
+                                    <Image source={require('../assets/category/event.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
                                 </View>
                                 <View style={styles.categoryContainer}><Text>경조사/선물</Text></View>
                                 <InputBudget num={event} setBudget={setEvent}/>
