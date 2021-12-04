@@ -47,33 +47,15 @@ const BudgetList = ({navigation}) => {
             fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data');
+                console.log('나와 유사한 계획서 찾기');
                 console.log(responseJson);
                 setRecommendedBudgetData(responseJson);
             })
         }
     }
 
-    const loadBudget = () => {
-        setRefresh(true);
-        setCheck(false);
-        setRead(false);
-
-        fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            console.log('response data');
-            console.log(responseJson);
-            setRecommendedBudgetData(responseJson);
-        })
-        .then(()=>{
-            setRefresh(false);
-        })  
-    }
-    
     return (
-        <View style={styles.appSize}>
-            {/* <ScrollView> */}
+            <ScrollView style={styles.appSize}>
         
                 <View style={styles.wrapper}>
                     <CheckBox value={check} onChange={checkHandler} />
@@ -82,34 +64,22 @@ const BudgetList = ({navigation}) => {
                     </Text>
                 </View>
 
-                <View>
-                    {check === false && 
-                        <FlatList
-                            keyExtractor={item => item.planning_number}
-                            data={otherBudgetData}
-                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
-                            />}
-                            refreshing={refresh}
-                            onRefresh={loadBudget}
-                        />
-                    }
-                    {check === true && 
-                        <FlatList
-                            keyExtractor={item => item.planning_number}
-                            data={recommendedBudgetData}
-                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
-                            />}
-                            refreshing={refresh}
-                            onRefresh={loadBudget}
-                        />
-                    
-                    }
-                </View>
+                {
+                check === false && 
+                otherBudgetData.map(item => {
+                    return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
+                    userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
+                    />;
+                })}
+                {check === true && 
+                    recommendedBudgetData.map(item => {
+                    return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
+                    userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
+                    />;
+                })
+            }
 
-            {/* </ScrollView> */}
-        </View>
+            </ScrollView>
     )
 }
 const styles = StyleSheet.create({
