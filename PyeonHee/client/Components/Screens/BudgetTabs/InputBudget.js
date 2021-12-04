@@ -18,7 +18,7 @@ const InputBudget = (props) => {
             props.setBudget("0");
         }
 
-        console.log(text);
+        // console.log(text);
     };
     
     return (
