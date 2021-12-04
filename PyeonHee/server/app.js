@@ -1802,7 +1802,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else{
                         res.send(result);
                         console.log(fintechUseNum,"의 계좌내역 조회 완료");
-                        console.log(result);
+                        console.log('이거', result);
                     }
                 });
             });
