@@ -444,7 +444,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                                <Icon name={'bandage-outline'} size={20} color={'#8EB3EE'}/>
+                                <Image source={require('../assets/category/medical.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                             </View>
                             <Text>의료비</Text>
                         </View>
@@ -454,7 +454,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                            <Image source={require('../assets/category/envelope.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                <Image source={require('../assets/category/event.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                             </View>
                             <Text>경조사/선물</Text>
                         </View>

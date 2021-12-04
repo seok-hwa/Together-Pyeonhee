@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView} from 'react-native';
 import config from'../../../config';
+import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
 import SavingItem from '../SavingItem';
 const url = config.url;
@@ -14,6 +15,7 @@ const DailyScreen = (props) => {
     const [day, setDay] = useState('');
     const [isCompleted, setIsCompleted] = useState(true);
 
+    // const [foodExpenses, setFoodExpenses] = useState(0);
     const [rent, setRent] = useState(0);
     const [education, setEducation] = useState(0);
     const [traffic, setTraffic] = useState(0);
@@ -26,6 +28,7 @@ const DailyScreen = (props) => {
     const [ect, setEct] = useState(0);
     const [subscribe, setSubscribe] = useState(0);
 
+    // const [realFoodExpenses, setRealFoodExpenses] = useState(0);
     const [realRent, setRealRent] = useState(0);
     const [realEducation, setRealEducation] = useState(0);
     const [realTraffic, setRealTraffic] = useState(0);
@@ -86,6 +89,7 @@ const DailyScreen = (props) => {
                         setDailyRestMoney(responseJson.planamt.available_money - responseJson.planamt.daily_spent_money);
                         setDailyAvailableMoney(responseJson.planamt.available_money);
 
+                        // setFoodExpenses(responseJson.planamt.live_money);
                         setEducation(responseJson.planamt.education_expense);
                         setTraffic(responseJson.planamt.transportation_expense);
                         setShopping(responseJson.planamt.shopping_expense);
@@ -127,6 +131,9 @@ const DailyScreen = (props) => {
                             }else if(item.tran_type === '기타'){
                                 setRealEct(item.daily_amount);
                             }
+                            // else if(item.tran_type === '식비'){
+                            //     setRealEct(item.live_money);
+                            // }
                         })
                         setMonthMoney(tempMonthMoney);
                     }
@@ -224,82 +231,129 @@ const DailyScreen = (props) => {
                     <View style={styles.categoryBody}>
                         <View style={styles.categoryInnerBody}>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>쇼핑</Text>
-                                <Text style={styles.realPriceTitle}>{realShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/spoon.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>식비</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    {/* <Text style={styles.realPriceTitle}>{realFoodExpenses.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{foodExpenses.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> */}
+                                    <Text style={styles.realPriceTitle}>{realTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/hobby.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>취미</Text>
-                                <Text style={styles.realPriceTitle}>{realHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>교통비</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>교통</Text>
-                                <Text style={styles.realPriceTitle}>{realTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/leisure.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>문화/취미/여행</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/communication.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>통신</Text>
-                                <Text style={styles.realPriceTitle}>{realCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                            <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>뷰티/미용/쇼핑</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/rent.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>월세</Text>
-                                <Text style={styles.realPriceTitle}>{realRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/insurance.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>보험</Text>
-                                <Text style={styles.realPriceTitle}>{realInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/medical.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>의료</Text>
-                                <Text style={styles.realPriceTitle}>{realMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/education.png')} style={styles.categoryIconDiv}/>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/education.png')} style={styles.categoryIconDiv}/>
+                                </View>
                                 <Text style={styles.itemTitle}>교육</Text>
+                                <View style={{alignItems: 'flex-end'}}>
                                 <Text style={styles.realPriceTitle}>{realEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
                                 <Text style={styles.priceTitle}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>경조사</Text>
-                                <Text style={styles.realPriceTitle}>{realEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/medical.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>의료비</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                <Text style={styles.realPriceTitle}>{realMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <Text style={styles.priceTitle}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
-                                <Text style={styles.itemTitle}>구독</Text>
-                                <Text style={styles.realPriceTitle}>{realSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/event.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>경조사/선물</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
                             <View style={styles.itemDiv}>
-                                <Image source={require('../assets/category/ect.png')} style={styles.categoryIconDiv}/>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'ellipsis-horizontal-outline'}  size={20} color={'gray'}/>
+                                </View>
                                 <Text style={styles.itemTitle}>기타</Text>
-                                <Text style={styles.realPriceTitle}>{realEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                <Text style={styles.slashFont}>/</Text>
-                                <Text style={styles.priceTitle}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
                             </View>
+
+                            <View style={styles.itemDiv}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'log-out-outline'} size={20} color={'gray'}/>
+                                </View>
+                                <Text style={styles.itemTitle}>월세</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/health-insurance.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>보험료</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <View style={styles.logoContainer}>
+                                    <Icon name={'phone-portrait-outline'} size={20}/>
+                                </View>
+                                <Text style={styles.itemTitle}>통신비</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
+                            </View>
+                            <View style={styles.itemDiv}>
+                                <View style={styles.logoContainer}>
+                                    <Image source={require('../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
+                                </View>
+                                <Text style={styles.itemTitle}>구독료</Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.realPriceTitle}>{realSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    <Text style={styles.priceTitle}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                </View>
+                            </View>
+                            
                         </View>
                     </View>
                     <Text style={styles.dailyText}>Saving</Text>
@@ -416,7 +470,7 @@ const styles = StyleSheet.create({
     },
     categoryBody:{
         borderRadius: 20,
-        height: 300,
+        height: 600,
         marginBottom: 20,
         marginLeft: 10,
         marginRight: 10,
@@ -470,26 +524,30 @@ const styles = StyleSheet.create({
         fontSize: 13,
     },
     categoryInnerBody: {
-        marginLeft: 30,
-        marginRight: 30,
+        marginHorizontal: 10,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        // backgroundColor: 'blue',
     },
     itemTitle: {
-        width: 50,
-        marginLeft: 5,
+        width: 110,
+        fontSize: 15,
+        // marginLeft: 5,
+        // backgroundColor: 'pink'
     },
     priceTitle: {
-        width: 80,
+        width: 150,
         textAlign: 'right',
         fontSize: 12,
         marginTop: 3,
+        // backgroundColor: 'yellow'
     },
     realPriceTitle: {
-        width: 130,
+        width: 150,
         textAlign: 'right',
         fontSize: 15,
+        // backgroundColor: 'yellow'
     },
     slashFont: {
         width: 30,
@@ -498,9 +556,18 @@ const styles = StyleSheet.create({
     },
     itemDiv: {
         flexDirection: 'row',
-        margin: 2,
+        margin: 5,
+        alignItems: 'center'
+    },
+    logoContainer: {
+        padding: 6,
+        borderRadius: 20,
+        marginRight: 10, 
+        borderColor: 'gray',
+        borderWidth: 1,
     },
     categoryIconDiv: {
+        margin: 3,
         width: 20,
         height: 20,
     },
