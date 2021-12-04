@@ -133,7 +133,7 @@ const DailyScreen = (props) => {
                                 setRealEct(item.daily_amount);
                             }
                             else if(item.tran_type === '식비'){
-                                setRealEct(item.live_money);
+                                setRealFoodExpenses(item.daily_amount);
                             }
                         })
                         setMonthMoney(tempMonthMoney);
