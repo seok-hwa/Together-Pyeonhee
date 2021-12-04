@@ -600,23 +600,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.query.userID;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
                     if (error) throw error;
-                    else{
+                    else {
                         //console.log(result[0]);
                         var userMBTI = result[0].mbti;
                         var userAge = result[0].age;
                         var userIncome = result[0].income;
                         //var userJob = result[0].job;
                         var income_minus = userIncome - 500000;
-                        var income_plus = userIncome + 1000000;
-                        var age_minus = userAge - 5;
-                        var age_plus = userAge + 5;
+                        var income_plus = userIncome + 500000;
+                        var age_minus = userAge - 3;
+                        var age_plus = userAge + 3;
                         db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
-                        WHERE user_mbti =? and (user_income between ? and ? or user_age between ? and ?) order by like_number desc limit 10`, 
-                        [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
-                            if (error) throw error;
-                            //console.log(result);
-                            res.send(result);
-                        });
+                        WHERE (user_income between ? and ?) AND user_age between ? and ? AND user_mbti = ? order by like_number desc limit 10`,
+                            [income_minus, income_plus, age_minus, age_plus, userMBTI], function (error, result) {
+                                if (error) throw error;
+                                //console.log(result);
+                                res.send(result);
+                            });
                     }
                 });
             });
