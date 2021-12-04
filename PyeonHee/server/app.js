@@ -1981,7 +1981,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
                                             var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
                                             // 즉흥 vs 계획
-                                            if(portion >= 70){
+                                            if(portion < 70){
                                                 userMbti = userMbti + 'I';
                                                 description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
                                             }
