@@ -130,7 +130,21 @@ const accountLinkScreen = ({navigation}) => {
             }
         })
     }
-
+    return(
+        <View style={styles.appSize}>
+                <View style={styles.appTop}>
+                    <LinkAccountButton onPress={()=>navigation.navigate('accountLink')} />
+                    <TerminateAccountButton onPress={terminateAccount}/>
+                </View>
+                <View style={styles.appListTitle}>
+                    <Text style={styles.appListTitleText}>등록된 계좌 목록</Text>
+                </View>
+                <View style={styles.noDiv}>
+                    <Text style={styles.noText}>아직 등록된 계좌가 없습니다.</Text>
+                </View>
+            </View>
+    )
+/*
     if(loading === true){
         return (
             <View style={styles.appSize}>
@@ -169,7 +183,7 @@ const accountLinkScreen = ({navigation}) => {
                 </ScrollView>
             </View>
         )
-        }
+        }*/
 }
 
 export default accountLinkScreen;
@@ -193,5 +207,15 @@ const styles = StyleSheet.create({
     },
     appBody: {
         flex: 1,
+    },
+    noDiv :{
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: 'white',
+    },
+    noText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginTop: 10,
     },
 });
