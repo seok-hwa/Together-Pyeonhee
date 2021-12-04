@@ -2677,6 +2677,28 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 웹페이지 메인화면 (고객센터 최신글 10개)
+            app.get('/notificationInMain', function (req, res) {
+                db.query(`SELECT * FROM notice ORDER BY notice_number desc limit 10`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 웹페이지 메인화면 (공지사항 최신글 10개)
+            app.get('/notificationInMain', function (req, res) {
+                db.query(`SELECT * FROM board ORDER BY board_number desc limit 10`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
