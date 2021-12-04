@@ -398,7 +398,11 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalTierBodySize}>
-                            <Icon name="close-outline" />
+                            <View style={styles.exDiv}>
+                                <TouchableOpacity onPress={()=>{setTierModalVisible(false)}}>
+                                    <Icon name="close-outline" size={25}/>
+                                </TouchableOpacity>
+                            </View>
                             <View style={styles.modalTopBar}>
                                 <Text>티어 정책</Text>
                             </View>
@@ -444,6 +448,11 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalMbtiBodySize}>
+                        <View style={styles.exDiv}>
+                                <TouchableOpacity onPress={()=>{setMbtiModalVisible(false)}}>
+                                    <Icon name="close-outline" size={25}/>
+                                </TouchableOpacity>
+                            </View>
                             <View style={styles.modalTopBar}>
                                 <Text>소비 성향</Text>
                             </View>
@@ -469,6 +478,11 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalStampointBodySize}>
+                            <View style={styles.exDiv}>
+                                <TouchableOpacity onPress={()=>{setStampointModalVisible(false)}}>
+                                    <Icon name="close-outline" size={25}/>
+                                </TouchableOpacity>
+                            </View>
                             <View style={styles.modalTopBar}>
                                 <Text>스탬프 및 포인트 정책</Text>
                             </View>
@@ -732,7 +746,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     modalContent:{
-        flex: 5,
+        flex: 12,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -769,5 +783,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'blue',
     },
+    exDiv: {
+        alignItems: 'flex-end',
+    }
 })
 export default MyPageScreen;
