@@ -1793,7 +1793,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post('/tranList', function (req, res) {
                 var userID = req.body.userID;
                 //var fintechUseNum = req.body.fintechUseNum;
-                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND state = 1 ORDER BY tran_date desc`,
+                db.query(`SELECT * FROM real_expense WHERE user_id = ? ORDER BY tran_date desc`,
                     [userID], function (error, result) {
                         if (error) throw error;
                         else {
