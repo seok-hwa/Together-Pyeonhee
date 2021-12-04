@@ -23,7 +23,7 @@ export default class LinkAccountButton extends Component{
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#FF4500',
+    backgroundColor: '#820000',
     width: 100,
     height: 40,
     alignItems: 'center',
