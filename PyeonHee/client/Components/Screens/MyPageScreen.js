@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 import config from '../../config';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
     StyleSheet,
@@ -397,6 +398,7 @@ const MyPageScreen = ({navigation}) => {
                 }}>
                     <View style={styles.modalSize}>
                         <View style={styles.modalTierBodySize}>
+                            <Icon name="close-outline" />
                             <View style={styles.modalTopBar}>
                                 <Text>티어 정책</Text>
                             </View>
