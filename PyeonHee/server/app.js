@@ -611,7 +611,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         var age_minus = userAge - 5;
                         var age_plus = userAge + 5;
                         db.query(`SELECT * FROM BudgetPlanning INNER JOIN user ON BudgetPlanning.user_id = user.user_id 
-                        WHERE user_mbti =? and user_income between ? and ? and user_age between ? and ? order by like_number desc limit 10`, 
+                        WHERE user_mbti =? and (user_income between ? and ? or user_age between ? and ?) order by like_number desc limit 10`, 
                         [userMBTI, income_minus, income_plus, age_minus, age_plus], function (error, result) {
                             if (error) throw error;
                             //console.log(result);
@@ -1098,40 +1098,44 @@ const SSHConnection = new Promise((resolve, reject) => {
                 [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
                     if(error) throw error;
                     else{
-                        db.query(`SELECT user_savings FROM BudgetPlanning WHERE user_id = ? AND state = 1`, [userID], function(error1, result1){
-                            if(error1) throw error1;
-                            else{
-                                sum_savings = result1[0].user_savings;
-                                sum_savings = sum_savings + savingMoney;
-                                db.query(`UPDATE BudgetPlanning SET user_savings = ?`, [sum_savings], function(error2, result2){
-                                    if(error2) throw error2;
-                                    else{
-                                        db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function(err, result5){
-                                            if(err) throw err;
-                                            else{
-                                                db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error3, result3){
-                                                    if(error3) throw error3;
-                                                    else{
-                                                        var dailyMoney = Calculate_Daily_Money(result3, result5);
-                                                        db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
-                                                            if(error4) throw error4;
-                                                            else{
-                                                                const data = {
-                                                                    status : 'success',
-                                                                }
-                                                                res.send(data);
-                                                                console.log(data);
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
+                        const data = {
+                            status : 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                        // db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function(error1, result1){
+                        //     if(error1) throw error1;
+                        //     else{
+                        //         sum_savings = result1[0].total_savings_money;
+                        //         db.query(`UPDATE BudgetPlanning SET user_savings = ?`, [sum_savings], function(error2, result2){
+                        //             if(error2) throw error2;
+                        //             else{
+                        //                 db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function(err, result5){
+                        //                     if(err) throw err;
+                        //                     else{
+                        //                         db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error3, result3){
+                        //                             if(error3) throw error3;
+                        //                             else{
+                        //                                 var dailyMoney = Calculate_Daily_Money(result3, result5);
+                        //                                 db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
+                        //                                     if(error4) throw error4;
+                        //                                     else{
+                        //                                         const data = {
+                        //                                             status : 'success',
+                        //                                         }
+                        //                                         res.send(data);
+                        //                                         console.log(data);
+                        //                                     }
+                        //                                 });
+                        //                             }
+                        //                         });
+                        //                     }
+                        //                 });
                                         
-                                    }
-                                })
-                            }
-                        })
+                        //             }
+                        //         })
+                        //     }
+                        // })
                         
                         
                     }
