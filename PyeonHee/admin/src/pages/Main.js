@@ -84,7 +84,7 @@ function Main(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {queries.map(c => {return (<QueryInMain key={c.notice_number} id={c.notice_number} category={c.category} title={c.title} date={c.board_date} userID={c.user_id}/>)})}
+                {queries.map(c => {return (<QueryInMain key={c.board_number} id={c.board_number} category={c.category} title={c.title} date={c.board_date} userID={c.user_id}/>)})}
               </TableBody>
             </Table>
           </Paper>
