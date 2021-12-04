@@ -138,6 +138,7 @@ const MyPageScreen = ({navigation}) => {
         let currentHobby=0;
         let currentEvent=0;
         let currentDinner=0;
+        let currentSaving=0;
 
         let lastRent=0;
         let lastInsurance=0;
@@ -151,6 +152,7 @@ const MyPageScreen = ({navigation}) => {
         let lastHobby=0;
         let lastEvent=0;
         let lastDinner=0;
+        let lastSaving=0;
 
         let realRent=0;
         let realInsurance=0;
@@ -164,6 +166,7 @@ const MyPageScreen = ({navigation}) => {
         let realHobby=0;
         let realEvent=0;
         let realDinner=0;
+        let realSaving=0;
 
         let planRent=0;
         let planInsurance=0;
@@ -177,6 +180,8 @@ const MyPageScreen = ({navigation}) => {
         let planHobby=0;
         let planEvent=0;
         let planDinner=0;
+        let planSaving=0;
+
         let daily_count=0;
 
         let isTransactionList = true;
@@ -210,6 +215,8 @@ const MyPageScreen = ({navigation}) => {
                         currentRent+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '식비'){
                         currentDinner+=parseInt(item.daily_amount);
+                    }else if(item.tran_type === '저금'){
+                        currentSaving+=parseInt(item.daily_amount);
                     }else{
                         currentEct+=parseInt(item.daily_amount);
                     }
@@ -239,6 +246,8 @@ const MyPageScreen = ({navigation}) => {
                             lastRent+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '식비'){
                             lastDinner+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '저금'){
+                            lastSaving+=parseInt(item.daily_amount);
                         }else{
                             lastEct+=parseInt(item.daily_amount);
                         }
@@ -278,6 +287,8 @@ const MyPageScreen = ({navigation}) => {
                             realRent+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '식비'){
                             realDinner+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '저금'){
+                            realSaving+=parseInt(item.daily_amount);
                         }else{
                             realEct+=parseInt(item.daily_amount);
                         }
@@ -296,6 +307,7 @@ const MyPageScreen = ({navigation}) => {
                             planHobby=responseJson.plan.leisure_expense;
                             planEvent=responseJson.plan.event_expense;
                             planDinner=responseJson.live_expense;
+                            planSaving=responseJson.plan.user_savings;
                             daily_count=responseJson.plan.daily_count;
                     }
                 }
@@ -315,6 +327,7 @@ const MyPageScreen = ({navigation}) => {
                         currentHobby:currentHobby,
                         currentEvent:currentEvent,
                         currentDinner:currentDinner,
+                        currentSaving:currentSaving,
     
                         lastRent:lastRent,
                         lastInsurance:lastInsurance,
@@ -328,6 +341,7 @@ const MyPageScreen = ({navigation}) => {
                         lastHobby:lastHobby,
                         lastEvent:lastEvent,
                         lastDinner:lastDinner,
+                        lastSaving:lastSaving,
                     },
                     withPlan:{
                         realRent: realRent,
@@ -342,6 +356,7 @@ const MyPageScreen = ({navigation}) => {
                         realHobby:realHobby,
                         realEvent:realEvent,
                         realDinner:realDinner,
+                        realSaving:realSaving,
     
                         planRent:planRent,
                         planInsurance:planInsurance,
@@ -355,6 +370,7 @@ const MyPageScreen = ({navigation}) => {
                         planHobby:planHobby,
                         planEvent:planEvent,
                         planDinner:planDinner,
+                        planSaving:planSaving,
                     },
                     isTransactionList: isTransactionList,
                     userCurrentMbti: userMbti,
