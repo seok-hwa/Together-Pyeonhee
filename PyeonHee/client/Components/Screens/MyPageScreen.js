@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    Modal, 
 } from 'react-native';
 const url=config.url;
 const MyPageScreen = ({navigation}) => {
@@ -20,6 +21,10 @@ const MyPageScreen = ({navigation}) => {
     const [userStamp, setUserStamp] = useState(0);
     const [userPoint, setUserPoint] = useState(0);
     const [userMbti, setUserMbti] = useState('');
+
+    const [tierModalVisible, setTierModalVisible] = useState(false);
+    const [mbtiModalVisible, setMbtiModalVisible] = useState(false);
+    const [stampointModalVisible, setStampointModalVisible] = useState(false);
 
     const [loading, setLoading] = useState(true);
 
@@ -364,6 +369,42 @@ const MyPageScreen = ({navigation}) => {
     if(loading === true){
         return(
             <ScrollView style={styles.appSize}>
+                <Modal
+                    animationType="slide"
+                    transparent={true} // 배경 투명 하게 
+                    visible={tierModalVisible}
+
+                    onRequestClose={() => {
+                        setTierModalVisible(false);
+                }}>
+                    <View style={styles.modalSize}>
+
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="slide"
+                    transparent={true} // 배경 투명 하게 
+                    visible={mbtiModalVisible}
+
+                    onRequestClose={() => {
+                        setMbtiModalVisible(false);
+                }}>
+                    <View style={styles.modalSize}>
+
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="slide"
+                    transparent={true} // 배경 투명 하게 
+                    visible={stampointModalVisible}
+
+                    onRequestClose={() => {
+                        setStampointModalVisible(false);
+                }}>
+                    <View style={styles.modalSize}>
+
+                    </View>
+                </Modal>
                 <View style={styles.appTopDiv}>
                     <View style={styles.titleDiv}>
                         <Text style={styles.NameStyle}>{userName}</Text>
@@ -371,31 +412,37 @@ const MyPageScreen = ({navigation}) => {
                     </View>
                     <View style={styles.TopInnerDiv}>
                         <View style={styles.innerTopLeft}>
-                            <View style={styles.tierDiv}>
-                                <TierImage />
-                                <Text style={styles.tierText}>{userTier}</Text>
-                            </View>
+                            <TouchableOpacity onPress={()=>{setTierModalVisible(true)}}>
+                                <View style={styles.tierDiv}>
+                                    <TierImage />
+                                    <Text style={styles.tierText}>{userTier}</Text> 
+                                </View>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.innerTopRight}>
                             <View style={styles.stampPointDiv}>
-                                <View style={styles.mbtiDiv}>
-                                    <Text>소비성향 MBTI</Text>
-                                    <View style={styles.mbtiInnerContainer}>
-                                        <Text style={styles.mbtiText}>{userMbti}</Text>
-                                    </View> 
-                                </View>
-                                <View style={styles.stampDiv}>
-                                    <Image source={require('./assets/stamp.png')} style={styles.stampPointDesign}/>
-                                    <Text style={styles.stampPointText}>스탬프</Text>
-                                    <Text style={styles.stampPointOutput}>{userStamp}</Text>
-                                    <Text> 개</Text>
-                                </View>
-                                <View style={styles.pointDiv}>
-                                    <Image source={require('./assets/point.png')} style={styles.stampPointDesign}/>
-                                    <Text style={styles.stampPointText}>포인트</Text>
-                                    <Text style={styles.stampPointOutput}>{userPoint}</Text>
-                                    <Text> P</Text>
-                                </View>
+                                    <TouchableOpacity onPress={()=>{setMbtiModalVisible(true)}} style={styles.mbtiDiv}>
+                                        <View style={styles.mbtiDiv}>
+                                            <Text>소비성향 MBTI</Text>
+                                                <View style={styles.mbtiInnerContainer}>
+                                                    <Text style={styles.mbtiText}>{userMbti}</Text>
+                                                </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={()=>{setStampointModalVisible(true)}} style={styles.stampPointAddDiv}>
+                                        <View style={styles.stampDiv}>
+                                            <Image source={require('./assets/stamp.png')} style={styles.stampPointDesign}/>
+                                            <Text style={styles.stampPointText}>스탬프</Text>
+                                            <Text style={styles.stampPointOutput}>{userStamp}</Text>
+                                            <Text> 개</Text>
+                                        </View>
+                                        <View style={styles.pointDiv}>
+                                            <Image source={require('./assets/point.png')} style={styles.stampPointDesign}/>
+                                            <Text style={styles.stampPointText}>포인트</Text>
+                                            <Text style={styles.stampPointOutput}>{userPoint}</Text>
+                                            <Text> P</Text>
+                                        </View>
+                                    </TouchableOpacity>
                             </View>
                         </View>
                     </View>
@@ -474,6 +521,9 @@ const styles = StyleSheet.create({
         padding: 5,
         flex: 1,
         flexDirection: 'row',
+    },
+    stampPointAddDiv:{
+        flex: 2,
     },
     stampDiv: {
         padding: 5,
@@ -569,6 +619,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         color: 'white',
+    },
+
+    modalSize: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.50)',
     },
 })
 export default MyPageScreen;
