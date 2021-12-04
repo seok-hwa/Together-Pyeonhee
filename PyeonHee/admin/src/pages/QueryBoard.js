@@ -58,7 +58,7 @@ function QueryBoard({ match }) {
         console.log(res.data[0]);
         setBoardTitle(res.data[0].title);
         setBoardContent(res.data[0].content);
-        setBoardDate(res.data[0].notice_date);
+        setBoardDate(res.data[0].board_date);
         setBoardCate(res.data[0].category);
         if(res.data[0].comment_check===1){
           setAnswer(true);
@@ -97,7 +97,7 @@ function QueryBoard({ match }) {
           </div>
           <div className="NotificationBoardDateDiv">
             <div className="NotificationBoardInnerDateDiv">
-            <p className="NotificationBoardDateFont">작성일: {boardDate}</p>
+            <p className="NotificationBoardDateFont">작성일: {boardDate.substring(0,16).replace('T', ' ')}</p>
             <p className="NotificationBoardDateFont">분류: {boardCate}</p>
             </div>
           </div>
