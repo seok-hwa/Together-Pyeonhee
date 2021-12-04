@@ -528,7 +528,7 @@ const styles = StyleSheet.create({
     },
     container: {
         paddingBottom: 10,
-        borderBottomColor: '#F2F2F2',
+        borderBottomColor: '#F0F4FA',
         borderBottomWidth: 5,
     },
     smallContainer: {
@@ -543,7 +543,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         padding: 10,
         justifyContent: 'space-between',
-        borderBottomColor: '#F2F2F2',
+        borderBottomColor: '#F0F4FA',
         borderBottomWidth: 5,
     },
     category: {

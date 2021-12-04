@@ -525,6 +525,7 @@ const MyPageScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     appSize: {
         flex: 1,
+        backgroundColor: '#F0F4FA',
     },
     appTopDiv: {
         height: 200,

@@ -53,6 +53,7 @@ export default BudgetScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F0F4FA',
   //   justifyContent: 'center',
   //   alignItems:'center',
     padding: 5,
@@ -60,10 +61,6 @@ const styles = StyleSheet.create({
   smallcontainer: {
     flex: 1,
     justifyContent: 'space-between',
-  },
-  pageContainer: {
-    flex: 1,
-    padding: 5,
   },
   tapContainer: {
       alignItems:'flex-end',
