@@ -2457,7 +2457,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //사용자 공지사항 글 내용 확인
-            app.get('/noticeBoard', function (req, res) {
+            app.get('/queryInMain', function (req, res) {
                 var boardID = req.query.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [boardID], function (error, result) {
                     if (error) throw error;
