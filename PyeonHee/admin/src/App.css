@@ -358,6 +358,13 @@
   border-radius: 0.3cm;
   justify-content: center;
 }
+.box{
+  display:block;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  width: 250px;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
