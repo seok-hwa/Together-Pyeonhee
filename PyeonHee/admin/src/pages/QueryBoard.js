@@ -11,8 +11,41 @@ function QueryBoard({ match }) {
 
   const [replyContent, setReplyContent] = useState('');
   const [replyDate, setReplyDate] = useState('');
-  /*
+
+  const handleInputContent = (e) => {
+    setReplyContent(e.target.value)
+  }
+  const submit=()=>{
+    if(replyContent === ''){
+      alert('내용을 입력하세요.');
+      return;
+    }
+    axios({
+        method:"POST",
+        url: `/replyWrite`,
+        data:{
+          replyContent: replyContent,
+          boardID: match.params.boardID,
+        }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('등록 성공');
+            document.location.href = `/queryBoard/${match.params.boardID}`;
+        }else{
+            alert('등록 실패');
+        }
+    }).catch(error=>{
+        console.log(error);
+    });
+  }
+
+  const updateSubmit=()=>{
+    document.location.href = `/queryUpdate/${match.params.boardID}`;
+  }
+
   useEffect(() => {
+    console.log('이거 확인', match.params.boardID);
     let tempAnswer;
     axios({
       method:"POST",
@@ -27,11 +60,13 @@ function QueryBoard({ match }) {
         setBoardContent(res.data[0].content);
         setBoardDate(res.data[0].notice_date);
         setBoardCate(res.data[0].category);
-        setAnswer(res.data[0].answer);
-        tempAnswer = res.data[0].answer;
+        if(res.data[0].comment_check===1){
+          setAnswer(true);
+        }
+        tempAnswer = res.data[0].comment_check;
     })
     .then(()=>{
-        if(tempAnswer=== true){
+        if(tempAnswer=== 1){
           axios({
             method:"POST",
             url: `/queryReplyBoardInfo`,
@@ -41,16 +76,16 @@ function QueryBoard({ match }) {
           })
           .then((res)=>{
             console.log(res.data[0]);
-            setReplyContent(res.data[0].content);
-            setReplyDate(res.data[0].date);
+            setReplyContent(res.data.answerContent);
+            setReplyDate(res.data.answerDate);
           })
         }
     })
     .catch(error=>{
         console.log(error);
     });
-  },[])*/
-/*
+  },[])
+
   if(answer === false){
     return (
       <div className="NotificationBoardDiv">
@@ -80,8 +115,10 @@ function QueryBoard({ match }) {
             placeholder='내용'
             name='content_input'
             maxLength ={1024}
+            value={replyContent}
+            onChange={handleInputContent}
             ></textarea>
-            <button className="NotificationUpdateButton">등록</button>
+            <button className="NotificationUpdateButton" type='button' onClick={submit}>등록</button>
           </div>
         </div>
       </div>
@@ -110,15 +147,16 @@ function QueryBoard({ match }) {
             <div className="QueryBoardReplyTitleDiv">
               <p>답변</p>
             </div>
-            <div className="QueryContentInput">
+            <div className="ReplyContentDiv">
               {replyContent}
             </div>
-            <button className="NotificationUpdateButton">수정</button>
+            <button className="NotificationUpdateButton" onClick={updateSubmit}>수정</button>
           </div>
         </div>
       </div>
     );
-  }*/
+  }
+  /*
   return (
     <div className="NotificationBoardDiv">
       <p className="NotificationTitleText">문의게시판</p>
@@ -152,7 +190,7 @@ function QueryBoard({ match }) {
         </div>
       </div>
     </div>
-  );
+  );*/
 }
 
 export default QueryBoard;

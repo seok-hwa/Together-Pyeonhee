@@ -3,6 +3,40 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 
+const AccountLogo = (props) => {
+    const accountCate = props.bankName;
+    if(accountCate === '수협은행'){
+        return(
+            <Image source={require('../../assets/accounts/suhyeob.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '우리은행'){
+        return(
+            <Image source={require('../../assets/accounts/uri.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '토스뱅크'){
+        return(
+            <Image source={require('../../assets/accounts/toss.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '진주저축은행'){
+        return(
+            <Image source={require('../../assets/accounts/jinju.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '케이뱅크'){
+        return(
+            <Image source={require('../../assets/accounts/kbank.png')} style={styles.accountImage}/>
+        )
+    }else if(accountCate === '한국씨티은행'){
+        return(
+            <Image source={require('../../assets/accounts/citi.png')} style={styles.accountImage}/>
+        )
+    }
+    else{
+          return(
+              <View style={styles.accountImage} />
+          )
+      }
+  }
+
 const LoanItem = (props) => {
     return (
         <TouchableOpacity 
@@ -10,8 +44,9 @@ const LoanItem = (props) => {
         onPress={() => props.navigation.navigate('ItemLink', {link: props.link})}>
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
-                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
+                    <AccountLogo bankName={props.bank_name}/>
                     <Text style={styles.fundBankFont}>{props.bank_name}</Text>
+                    <Text style={styles.fundNameFont}>{props.product_name}</Text>
                 </View>
                 <View style={styles.item2}>
                     <View style={styles.infoRow}> 
@@ -108,6 +143,12 @@ const styles = StyleSheet.create({
       rowFont:{
         fontSize: 12.5,
       },
+      accountImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderWidth: 1,
+    },
   });
 
 export default LoanItem;

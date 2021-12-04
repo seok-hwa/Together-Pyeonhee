@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 var request = require('request');
 const admin = require('firebase-admin');
 const schedule = require('node-schedule');
+const nodemailer = require('nodemailer');
+
 /*
 var Iamport = require("iamport");
 var iamport = new Iamport({
@@ -163,24 +165,24 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             // 30분마다 일일소비량 업데이트
-            schedule.scheduleJob('0 */30 * * * *', async () => {
-                db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
-                    if(error1) throw error1;
-                    else{
-                        if(result1.spend_money == null)
-                            console.log('소비한 내역이 없습니다.');
-                        else{
-                            console.log(result1);
-                            daily_spent_money = result1[0].spend_money
-                            db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
-                                   if(error2) throw error2;
-                                console.log(result2);
-                            })
-                        }
-                    }
+            // schedule.scheduleJob('*/30 * * * * *', async () => {
+            //     db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
+            //         if(error1) throw error1;
+            //         else{
+            //             if(result1.spend_money == null)
+            //                 console.log('소비한 내역이 없습니다.');
+            //             else{
+            //                 console.log(result1);
+            //                 daily_spent_money = result1[0].spend_money
+            //                 db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
+            //                        if(error2) throw error2;
+            //                     console.log(result2);
+            //                 })
+            //             }
+            //         }
                     
-                })
-            });
+            //     })
+            // });
 
             
             //일일권장 소비금액 (잔액 푸시알림)
@@ -2158,7 +2160,68 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             })
 
+            // 상담사 매칭 서비스
+            app.post(`/requestMatching`, function(req, res){
+                var userID = req.body.userID;
+                var counselorName = req.body.counselorName;
+                
+                db.query(`SELECT phone, total_point FROM user WHERE user_id = ?`,[userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        var phone = result[0].phone;
+                        var point = result[0].total_point;
+                        if(point > 500){
+                            var text = '편히가계 사용자가 '  + counselorName + ' 상담사님 에게 상담 매칭을 신청했습니다.' + '\n\n' + '사용자의 연락처 : ' + phone + '\n\n' + '빠른 시일내 연락 바랍니다. 감사합니다.' + '\n' + '편히가계 드림.';
+                            point = point - 500;
+                            db.query(`Update user SET total_point = ? WHERE user_id = ?`, [point, userID], function(error1, result1){
+                                if(error1) throw error1;
+                                else{
+                                    db.query(`insert into point(user_id, diff, description) values(?, 500, '상담사 매칭 결제')`, [userID], function(error2, result2){
+                                        if(error2) throw error2;
+                                        else{
+                                            let transporter = nodemailer.createTransport({
+                                                service: 'gmail',
+                                                host: 'smtp.gmail.com',
+                                                port: 587,
+                                                secure: false,
+                                                auth: {
+                                                user: config.email,
+                                                pass: config.password,
+                                                },
+                                            });
+                                            let info = transporter.sendMail({
+                                                from: `"Pyeonhee" <${config.email}>`,
+                                                to: config.toemail,
+                                                subject: 'Counselor Matching!',
+                                                text: text,
+                                                //html: `<b>${text}</b>`,
+                                            });
+                            
+                                            console.log('이메일 전송');                    
+                                            res.status(200).json({
+                                                status: 'success',
+                                                code: 200,
+                                                message: 'Sent Auth Email',
+                                            });
+                                        }
+                                    })  
+                                }
+                            })
+                        }
+                        else{
+                            data = {
+                                status : 'lowBalance'
+                            };
+                            res.send(data);
+                        }   
+                    }
+                })
+                
+                
 
+            })
+
+            /* 관리자 웹페이지 */
             //관리자 로그인
             app.post('/adminLogin', function (req, res) {
                 console.log(req.body);
@@ -2339,6 +2402,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
             
+            /*사용자 공지사항(앱)_ 관리자가 작성한 글 확인 */
             //사용자 공지사항 글 목록 확인
             app.get('/noticeList', function (req, res) {
                 db.query(`SELECT * FROM notice ORDER BY notice_number desc`, function (error, result) {
@@ -2369,6 +2433,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            /*사용자 고객센터(앱)_ 사용자가 글 작성 및 관리자가 단 댓글 */
             //사용자 고객센터 글 목록확인
             app.get('/queryList', function (req, res) {
                 db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
@@ -2469,6 +2534,105 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+
+            /*관리자 웹페이지_ 고객센터 사용자가 등록한 글 확인 및 답변 작성 */
+            //관리자 고객센터 목록 확인
+            app.post('/adminGetQueryList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM board ORDER BY board_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 고객센터 전체페이지 수
+            app.get('/serviceCenterTotalPage', function (req, res) {
+                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "board"`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        //console.log(result[0].AUTO_INCREMENT);
+                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+         
+
+            //관리자 고객센터 내용확인(사용자가 작성한 내용)
+            app.post('/queryBoardInfo', function (req, res) {
+                console.log('이거 확인', req.body.boardID);
+                var boardID = req.body.boardID;
+                db.query(`SELECT * FROM board WHERE board_number = ?`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });  
+
+            //관리자 고객센터 댓글확인(관리자가 단 댓글)
+            app.post('/queryReplyBoardInfo', function (req, res) {
+                var boardID = req.body.boardID;
+                db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            answerDate: result[0].comment_date,
+                            answerContent: result[0].content
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 고객센터 댓글 작성
+            app.post('/replyWrite', function (req, res) {
+                var boardID = req.body.boardID;
+                var replyContent = req.body.replyContent;
+                db.query(`INSERT INTO comment (board_number, content) VALUES (?, ?)`, [boardID, replyContent], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        db.query(`UPDATE board SET comment_check = 1 WHERE board_number = ?`, [boardID], function (error, result) {
+                            if (error) throw error;
+                            else {
+                                const data = {
+                                    status: 'success',
+                                }
+                                res.send(data);
+                                console.log(data);
+                            }
+                        });
+                    }
+                });
+            });
+
+            //관리자 고객센터 댓글 수정
+            app.post('/replyUpdate', function (req, res) {
+                var boardID = req.body.boardID;
+                var replyContent = req.body.replyContent;
+                db.query(`UPDATE comment SET content = ? WHERE board_number = ?`, [replyContent, boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2478,7 +2642,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             });
-
+            //자산 상담사 정렬 
             app.get('/Counseling/AssetManagement', function (req, res){
                 db.query(`SELECT * FROM AssetCounselor ORDER BY like_count DESC`, function (error, result){
                     if(error) throw error;
@@ -2488,7 +2652,42 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 })
             });
-            
+            //상담사 카테고리 별로
+            app.post('/Counseling/FinancialProduct/Category', function (req, res){
+                var category = req.body.categoryName;
+
+                db.query(`SELECT * FROM FinancialCounselor WHERE part =? ORDER BY like_count DESC`,[category], function(error, result){
+                    if (error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                })
+            });
+
+            //상담사 세부정보 받아오기 
+            app.get('/Counseling/FinancialProduct/Detail', function (req, res){
+                var consultNumber = req.query.consultNumber;
+                if(consultNumber >= 20000){
+                    db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`,[consultNumber], function (error, result){
+                        if(error) throw error;
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+                }
+                else {
+                    db.query(`SELECT * FROM FinancialCounselor WHERE counselor_id =?`,[consultNumber], function (error, result){
+                        if(error) throw error;
+                        else{
+                            console.log(result);
+                            res.send(result);
+                        }
+                    });
+                }
+            });
+
             const PORT = 8000;
 
             app.listen(PORT, function(){

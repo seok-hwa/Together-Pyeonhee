@@ -97,13 +97,13 @@ function ServiceCenter(props) {
   },[])
 
   function paginateNext(number){
-    document.location.href = `/notification/${number}`;
+    document.location.href = `/service/${number}`;
   }
   function paginatePrev(number){
-    document.location.href = `/notification/${number}`;
+    document.location.href = `/service/${number}`;
   }
   function paginate(number){
-    document.location.href = `/notification/${number}`;
+    document.location.href = `/service/${number}`;
   }
 
   return (
@@ -123,7 +123,7 @@ function ServiceCenter(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {queries.map(c => {return (<Queries key={c.id} id={c.id} category={c.category} title={c.title} userID={c.userID} date={c.date} answer={c.answer}/>)})}
+              {queries.map(c => {return (<Queries key={c.board_number} id={c.board_number} category={c.category} title={c.title} userID={c.user_id} date={c.board_date} answer={c.comment_check}/>)})}
             </TableBody>
           </Table>
         </Paper>
