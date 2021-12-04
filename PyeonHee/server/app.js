@@ -2457,7 +2457,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //사용자 공지사항 글 내용 확인
-            app.get('/queryInMain', function (req, res) {
+            app.get('/noticeBoard', function (req, res) {
                 var boardID = req.query.boardID;
                 db.query(`SELECT * FROM notice WHERE notice_number =?`, [boardID], function (error, result) {
                     if (error) throw error;
@@ -2709,7 +2709,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //관리자 웹페이지 메인화면 (고객센터 최신글 10개)
+            //관리자 웹페이지 메인화면 (공지사항 최신글 10개)
             app.get('/notificationInMain', function (req, res) {
                 db.query(`SELECT * FROM notice ORDER BY notice_number desc limit 10`, function (error, result) {
                     if (error) throw error;
@@ -2720,8 +2720,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
-            //관리자 웹페이지 메인화면 (공지사항 최신글 10개)
-            app.get('/notificationInMain', function (req, res) {
+            //관리자 웹페이지 메인화면 (고객센터 최신글 10개)
+            app.get('/queryInMain', function (req, res) {
                 db.query(`SELECT * FROM board ORDER BY board_number desc limit 10`, function (error, result) {
                     if (error) throw error;
                     else {
