@@ -201,8 +201,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     else {
                                         var now = new Date();
                                         var year = now.getFullYear();
-                                        var month = now.getMonth() + 1;
-                                        var date = now.getDate();
+                                        var month = ('0' + (now.getMonth() + 1)).slice(-2);
+                                        var date = ('0' + now.getDate()).slice(-2);
                                         now = year + "" + month + "" + date;
                                         //console.log("오늘날짜 확인 : ", now);
                                         if (result[0].success == 1) { //계좌를 연동한 사용자(푸시알림 가능)
