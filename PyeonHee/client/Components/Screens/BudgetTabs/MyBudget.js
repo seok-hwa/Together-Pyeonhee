@@ -143,7 +143,7 @@ const MyBudgetScreen = ({navigation, route}) => {
             fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data');
+                console.log('내 예산계획서가 있나?');
                 console.log(responseJson);
                 if(responseJson.length === 0){
                     setIsCompleted(false);

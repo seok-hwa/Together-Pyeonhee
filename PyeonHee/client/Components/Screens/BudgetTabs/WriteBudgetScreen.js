@@ -325,7 +325,6 @@ const WriteBudgetScreen = ({navigation}) => {
 
                             {saving.length === 0 ?
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>총 0 원</Text> :
-                                // <CalcSumofSavings saving={saving} setSumOfSavings={setSumOfSavings}/>
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>총 {sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                             }
                         </View>
