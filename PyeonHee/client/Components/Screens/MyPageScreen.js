@@ -59,7 +59,7 @@ const MyPageScreen = ({navigation, route}) => {
                 setUserStamp(responseJson.userStamp);
                 setUserPoint(responseJson.userPoint);
                 setUserMbti(responseJson.userMbti);
-                setUserMbtiDescription(responseJson.userMbtiDescription);
+                setUserMbtiDescription(responseJson.description);
 
             })
             .then(()=>{
@@ -470,7 +470,9 @@ const MyPageScreen = ({navigation, route}) => {
                                 <Text style={styles.mbtiHighlight}>{userMbti}</Text>
                                 <Text>입니다.</Text>
                             </View>
-                            <Text>{userMbtiDescription}</Text>
+                            <View style={styles.mbtiDescription}>
+                                <Text>{userMbtiDescription}</Text>
+                            </View>
                             </View>
                         </View>
                     </View>
@@ -494,6 +496,66 @@ const MyPageScreen = ({navigation, route}) => {
                                 <Text>스탬프 및 포인트 정책</Text>
                             </View>
                             <View style={styles.modalContent}>
+                                <Text style={styles.stampointHigh}>포인트</Text>
+                                <Text>포인트는 티어별로 월마다 차등적으로 지급됩니다.</Text>
+                                <View style={styles.pointPolicyDiv}>
+                                    <View style={styles.pointRow}>
+                                        <Text style={styles.colDiv}>DIAMOND:</Text>
+                                        <Text>2500 point</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text style={styles.colDiv}>PLATINUM:</Text>
+                                        <Text>2000 point</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text style={styles.colDiv}>GOLD:</Text>
+                                        <Text>1500 point</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text style={styles.colDiv}>SILVER:</Text>
+                                        <Text>1000 point</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text style={styles.colDiv}>DIAMOND:</Text>
+                                        <Text>500 point</Text>
+                                    </View>
+                                </View>
+                                <Text style={styles.stampointHigh}>스탬프</Text>
+                                <Text style={{marginBottom: 10,}}>스탬프는 일일소비권장금액에 대한 이행률에 따라 월마다 차등적으로 지급됩니다.</Text>
+                                <View stlye={styles.stampPolicyDiv}>
+                                    <View style={styles.pointRow}>
+                                        <Text>스탬프 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>4</Text>
+                                        <Text>개 지급:  이행률 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>75%</Text>
+                                        <Text>이상</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text>스탬프 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>3</Text>
+                                        <Text>개 지급:  이행률 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>75%</Text>
+                                        <Text>미만 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>50%</Text>
+                                        <Text>이상</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text>스탬프 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>2</Text>
+                                        <Text>개 지급:  이행률 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>50%</Text>
+                                        <Text>미만 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>25%</Text>
+                                        <Text>이상</Text>
+                                    </View>
+                                    <View style={styles.pointRow}>
+                                        <Text>스탬프 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>1</Text>
+                                        <Text>개 지급:  이행률 </Text>
+                                        <Text style={{fontWeight: 'bold',}}>25%</Text>
+                                        <Text>미만</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -541,30 +603,30 @@ const MyPageScreen = ({navigation, route}) => {
                     </View>
                 </View>
                 <View style={styles.assetBudgetDiv}>
-                    <Text style={styles.assetBudgetTitle}>자산</Text>
-                    <TouchableOpacity onPress={()=>alert('자산 연동 및 관리')}>
-                        <Text style={styles.assetBudgetBoard} >자산 연동 및 관리</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>alert('자산 상담 페이지 이동')}>
-                        <Text style={styles.assetBudgetBoard} >자산 상담 예약</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.assetBudgetDiv}>
                     <Text style={styles.assetBudgetTitle}>예산</Text>
                     <TouchableOpacity onPress={toMonthReport}>
                         <Text style={styles.assetBudgetBoard} >한달 리포트 보기</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>navigation.navigate('WriteBudget')}>
-                        <Text style={styles.assetBudgetBoard} >예산 계획서 작성</Text>
+                    <TouchableOpacity onPress={()=>alert('한달리포트 보관함')}>
+                        <Text style={styles.assetBudgetBoard} >한달 리포트 보관함</Text>
                     </TouchableOpacity>
                 </View>
-                <View style = {styles.ectDiv}>
-                <Text style={styles.assetBudgetTitle}>기타</Text>
+                <View style={styles.pyeonheeDiv}>
+                    <Text style={styles.assetBudgetTitle}>편히Info</Text>
+                    <TouchableOpacity onPress={()=>alert('사용 설명서')}>
+                        <Text style={styles.assetBudgetBoard} >사용 설명서</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('ServiceCenter')}>
                         <Text style={styles.assetBudgetBoard} >고객센터</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('NoticeList')}>
                         <Text style={styles.assetBudgetBoard} >공지사항</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style = {styles.ectDiv}>
+                <Text style={styles.assetBudgetTitle}>기타</Text>
+                    <TouchableOpacity onPress={()=>alert('개인 정보 수정')}>
+                        <Text style={styles.assetBudgetBoard} >개인 정보 수정</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={logout}>
                         <Text style={styles.assetBudgetBoard} >로그아웃</Text>
@@ -704,7 +766,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginLeft: 10,
         marginRight: 10,
-        height: 170,
+        height: 130,
         backgroundColor: 'white',
     },
     mbtiInnerContainer: {
@@ -738,8 +800,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     modalStampointBodySize: {
-        width: '75%',
-        height: '40%',
+        width: '80%',
+        height: '60%',
         backgroundColor: 'white',
         borderRadius: 10,
     },
@@ -754,8 +816,7 @@ const styles = StyleSheet.create({
     },
     modalContent:{
         flex: 12,
-        alignItems: 'center',
-        justifyContent: 'center',
+        padding: 5,
     },
     tierRow: {
         flexDirection: 'row',
@@ -792,6 +853,36 @@ const styles = StyleSheet.create({
     },
     exDiv: {
         alignItems: 'flex-end',
-    }
+    },
+    mbtiDescription:{
+        padding: 10,
+    },
+    stampointHigh: {
+        fontWeight: 'bold',
+        fontSize: 15,
+        marginTop: 10,
+    },
+    colDiv:{
+        width: 90,
+        fontWeight: 'bold',
+    },
+    pointRow: {
+        flexDirection: 'row',
+    },
+    pointPolicyDiv: {
+        padding: 10,
+    },
+    stampPolicyDiv:{
+        marginTop: 10,
+    },
+    pyeonheeDiv:{
+        borderWidth: 1,
+        borderRadius: 10,
+        marginTop: 20,
+        marginLeft: 10,
+        marginRight: 10,
+        height: 170,
+        backgroundColor: 'white',
+    },
 })
 export default MyPageScreen;
