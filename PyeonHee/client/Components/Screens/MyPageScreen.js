@@ -316,7 +316,7 @@ const MyPageScreen = ({navigation, route}) => {
                             planEvent=responseJson.plan.event_expense;
                             planDinner=responseJson.live_expense;
                             planSaving=responseJson.plan.user_savings;
-                            daily_count=responseJson.plan.daily_count;
+                            daily_count=responseJson.plan.last_count;
                     }
                 }
             })
@@ -612,7 +612,7 @@ const MyPageScreen = ({navigation, route}) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.pyeonheeDiv}>
-                    <Text style={styles.assetBudgetTitle}>편히Info</Text>
+                    <Text style={styles.assetBudgetTitle}>이용안내</Text>
                     <TouchableOpacity onPress={()=>alert('사용 설명서')}>
                         <Text style={styles.assetBudgetBoard} >사용 설명서</Text>
                     </TouchableOpacity>

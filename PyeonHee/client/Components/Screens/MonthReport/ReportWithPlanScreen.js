@@ -55,7 +55,7 @@ const ReportWithPlanScreen = (props) => {
     const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2+realSaving;
     const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2+planSaving;
 
-    const progressPercentage = props.route.params.daily_count/props.date;
+    const progressPercentage = parseInt(props.route.params.daily_count)/props.date;
 
     const difRent = realRent - planRent < 0 ? " -"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difInsurance = realInsurance - planInsurance < 0? " -"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
