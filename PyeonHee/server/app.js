@@ -1777,7 +1777,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                 //now = year + '-' + month + '-' + date;
                 now = year + "" + month + "" + date;
                 //var fintechUseNum = req.body.fintechUseNum;
-                db.query(`SELECT * FROM real_expense WHERE user_id = ? AND tran_date = ? AND state = 0`,
+                db.query(`SELECT real_expense.fintech_use_num, real_expense.bank_name, real_expense.balance_amt, real_expense.tran_date, real_expense.tran_time,
+                real_expense.inout_type, real_expense.print_content, real_expense.tran_amt,real_expense.after_balance_amt, real_expense.branch_name,
+                bank_account.account_num_masked FROM real_expense INNER JOIN bank_account ON real_expense.fintech_use_num = bank_account.fintech_use_num 
+                WHERE bank_account.user_id = ? AND tran_date = ? AND state = 0`,
                     [userID, now], function (error, result) {
                         if (error) throw error;
                         else {
@@ -1792,7 +1795,10 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post('/tranList', function (req, res) {
                 var userID = req.body.userID;
                 //var fintechUseNum = req.body.fintechUseNum;
-                db.query(`SELECT * FROM real_expense WHERE user_id = ? ORDER BY tran_date desc`,
+                db.query(`SELECT real_expense.fintech_use_num, real_expense.bank_name, real_expense.balance_amt, real_expense.tran_date, real_expense.tran_time,
+                real_expense.inout_type, real_expense.print_content, real_expense.tran_amt,real_expense.after_balance_amt, real_expense.branch_name, 
+                bank_account.account_num_masked FROM real_expense INNER JOIN bank_account ON real_expense.fintech_use_num = bank_account.fintech_use_num 
+                WHERE bank_account.user_id = ? ORDER BY real_expense.tran_date desc;`,
                     [userID], function (error, result) {
                         if (error) throw error;
                         else {
