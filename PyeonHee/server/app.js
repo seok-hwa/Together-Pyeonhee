@@ -1738,11 +1738,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                                             //console.log(result);
                                                                             console.log("거래내역 조회 완료 (거래내역 전송)");
                                                                         });*/
-                                                                        const data = {
-                                                                            status: 'success'
-                                                                        }
-                                                                        res.send(data);
-                                                                        console.log("거래내역 전송 완료");
                                                             });
                                                         }
                                                     }
@@ -1751,6 +1746,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                     }*/
                                                 });
                                             }
+                                            const data = {
+                                                status: 'success'
+                                            }
+                                            res.send(data);
+                                            console.log("거래내역 전송 완료");
                                         }
                                     });
                                 }
