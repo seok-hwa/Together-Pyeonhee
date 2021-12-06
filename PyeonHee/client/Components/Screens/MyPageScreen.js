@@ -51,7 +51,7 @@ const MyPageScreen = ({navigation, route}) => {
             fetch(`${url}/myInfo?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data');
+                console.log('마이페이지 response data');
                 console.log(responseJson);
 
                 setUserName(responseJson.userName);
@@ -65,6 +65,12 @@ const MyPageScreen = ({navigation, route}) => {
             .then(()=>{
                 setLoading(true);
             })
+            .catch((error)=>{
+                console.log(error);
+            })
+        })
+        .catch((error)=>{
+            console.log(error);
         })
     }, [route]) 
     function TierImage(){

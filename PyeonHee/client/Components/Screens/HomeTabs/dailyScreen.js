@@ -77,6 +77,7 @@ const DailyScreen = (props) => {
             })
             .then((response)=>response.json())
             .then((responseJson)=>{
+                console.log('데일리 response data');
                 console.log(responseJson);
                 setUserName(responseJson.userName[0].name);
                 setFoodExpenses(responseJson.live_money);
@@ -163,7 +164,7 @@ const DailyScreen = (props) => {
                 })
                 .then((response)=>response.json())
                 .then((responseJson)=>{
-                    console.log('response data');
+                    console.log('데일리 저금 response data');
                     console.log(responseJson);
                     
                     setSaving(responseJson);
@@ -172,19 +173,32 @@ const DailyScreen = (props) => {
                 }) 
                 .then(()=>{
                     console.log(`${url}/saveTranHistory?userID=${tempID}`);
-                        fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
-                        .then((response)=>response.json())
-                        .then((responseJson)=>{
-                            console.log(responseJson);
-                            if(responseJson.status === 'success'){
-                            console.log('거래내역 저장 성공');
-                            }else{
-                            console.log('거래내역 저장 실패');
-                            }
-                        })
-                        setLoading(true);
+                    /*
+                    fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
+                    .then((response)=>response.json())
+                    .then((responseJson)=>{
+                        console.log('데일리 거래내역 response data');
+                        console.log(responseJson);
+                        if(responseJson.status === 'success'){
+                        console.log('거래내역 저장 성공');
+                        }else{
+                        console.log('거래내역 저장 실패');
+                        }
+                    })*/
+                })
+                .then(()=>{
+                    setLoading(true);
+                })
+                .catch((error)=>{
+                    console.log(error);
                 })
             })
+            .catch((error)=>{
+                console.log(error);
+            })
+        })
+        .catch((error)=>{
+            console.log(error);
         })
     },[props])
     if(loading === true && isCompleted === true){
