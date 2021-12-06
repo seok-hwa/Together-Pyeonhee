@@ -168,26 +168,26 @@ const DailyScreen = (props) => {
                     console.log(responseJson);
                     
                     setSaving(responseJson);
-    
-                   // setLoading(true);   //test
                 }) 
                 .then(()=>{
                     console.log(`${url}/saveTranHistory?userID=${tempID}`);
-                    /*
                     fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
                     .then((response)=>response.json())
                     .then((responseJson)=>{
                         console.log('데일리 거래내역 response data');
                         console.log(responseJson);
                         if(responseJson.status === 'success'){
-                        console.log('거래내역 저장 성공');
+                            console.log('거래내역 저장 성공');
                         }else{
-                        console.log('거래내역 저장 실패');
+                            console.log('거래내역 저장 실패');
                         }
-                    })*/
-                })
-                .then(()=>{
-                    setLoading(true);
+                    })
+                    .then(()=>{
+                        setLoading(true);
+                    })
+                    .catch((error)=>{
+                        console.log(error);
+                    })
                 })
                 .catch((error)=>{
                     console.log(error);
@@ -217,11 +217,6 @@ const DailyScreen = (props) => {
                     
                 </View>
                 <View style={styles.appBody}>
-                    {/* <View style={styles.innerTopDiv}>
-                        <View style={styles.monthDiv}>
-                            <Text style={styles.monthText}>{year}년 {month}월 {day}일</Text>
-                        </View>
-                    </View> */}
                     <Text style={styles.dailyText}>Daily</Text>
                     <View style={styles.dailyBody}>
                         <View style={styles.savingDiv}>
@@ -230,9 +225,6 @@ const DailyScreen = (props) => {
                                 <Text style={styles.savingLockerText}>저금통</Text>
                                 <Text style={styles.savingPriceText}>+  {coinBank.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             </View>
-                            {/* <View style={styles.savingRightDiv}>
-                                <Text style={styles.savingPriceText}>+  {coinBank.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View> */}
                         </View>
                         <View style={styles.exDiv}>
                             <View style={styles.exTopDiv}>
@@ -260,8 +252,6 @@ const DailyScreen = (props) => {
                                 <View style={{alignItems: 'flex-end'}}>
                                     <Text style={styles.realPriceTitle}>{realFoodExpenses.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                                     <Text style={styles.priceTitle}>{foodExpenses.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                    {/* <Text style={styles.realPriceTitle}>{realTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                                    <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> */}
                                 </View>
                             </View>
                             <View style={styles.itemDiv}>
