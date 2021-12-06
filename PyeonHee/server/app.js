@@ -1738,6 +1738,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                                                                             //console.log(result);
                                                                             console.log("거래내역 조회 완료 (거래내역 전송)");
                                                                         });*/
+                                                                        const data = {
+                                                                            status: 'success'
+                                                                        }
+                                                                        res.send(data);
+                                                                        console.log("거래내역 전송 완료");
                                                             });
                                                         }
                                                     }
@@ -1751,13 +1756,15 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 }
                             });
                         }
-                        /*
                         else { // 신규 사용자(오픈뱅킹 연동 X)
+                            const data = {
+                                status: 'fail'
+                            }
+                            res.send(data);
                             console.log("연동내역이 없습니다.");
-                        }*/
+                        }
                     }
                 });
-
             });
 
             // 최근거래내역
