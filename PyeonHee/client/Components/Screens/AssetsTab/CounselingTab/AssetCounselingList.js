@@ -109,7 +109,7 @@ const AssetCounseling = ({navigation}) => {
                     data={assetCounselingData}
                     renderItem={({item, index}) => <AssetConsultItem consultNumber={item.counselor_id} counselorName={item.name} 
                         counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} counselorRank={index+1} 
-                        userID={userID}
+                        userID={userID} key = {item.counselor_id}
                     />}
                     refreshing={refresh}
                     onRefresh={loadCounselor}
