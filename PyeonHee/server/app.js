@@ -2602,6 +2602,56 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //사용자 고객센터 글 수정
+            app.post('/queryUpdate', function (req, res) {
+                var boardID = req.body.boardID;
+                var boardTitle = req.body.boardTitle;
+                var boardCate = req.body.boardCate;
+                var boardContent = req.body.boardContent;
+
+                db.query(`UPDATE board SET category = ?, title = ? , content = ? WHERE board_number = ?`, [boardCate, boardTitle, boardContent, boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success'
+                        }
+                        res.send(data);
+                        //console.log(data);
+                    }
+                });                
+            });
+
+            //사용자 고객센터 글 삭제
+            app.get('/deleteQueryBoard', function (req, res) {
+                var boardNumber = req.query.boardID;
+                db.query(`DELETE FROM board WHERE board_number = ?`, [boardNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: true
+                        }
+                        res.send(data);
+
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("게시판 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
             //사용자 고객센터 답변확인
             app.get('/queryReply', function (req, res) {
                 var boardID = req.query.boardID;
