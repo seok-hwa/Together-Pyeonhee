@@ -17,6 +17,7 @@ const HomeScreen = ({navigation}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(()=>{
+    console.log('편히 렌더링');
     AsyncStorage.getItem('userID', (err, result) => {
       const tempID = result;
       if(tempID!= null){

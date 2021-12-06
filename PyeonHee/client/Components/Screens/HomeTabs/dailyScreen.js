@@ -63,7 +63,7 @@ const DailyScreen = (props) => {
             }
         )
         .then(()=>{
-            console.log(tempID);
+            console.log(`${url}/daily`);
             //for test
             fetch(`${url}/daily`, {
                 method: 'POST',
@@ -77,8 +77,8 @@ const DailyScreen = (props) => {
             })
             .then((response)=>response.json())
             .then((responseJson)=>{
+                console.log('데일리 response data');
                 console.log(responseJson);
-                console.log('이름', responseJson.userName[0].name);
                 setUserName(responseJson.userName[0].name);
                 setFoodExpenses(responseJson.live_money);
                 if((responseJson.planamt.length === 0 && responseJson.realamt.length === 0) || responseJson.length === 0){
@@ -151,7 +151,7 @@ const DailyScreen = (props) => {
                 }
             }) 
             .then(()=>{
-                
+                console.log(`${url}/daily/savings`);
                 fetch(`${url}/daily/savings`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -164,7 +164,7 @@ const DailyScreen = (props) => {
                 })
                 .then((response)=>response.json())
                 .then((responseJson)=>{
-                    console.log('response data');
+                    console.log('데일리 저금 response data');
                     console.log(responseJson);
                     
                     setSaving(responseJson);
@@ -172,21 +172,35 @@ const DailyScreen = (props) => {
                    // setLoading(true);   //test
                 }) 
                 .then(()=>{
-                        fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
-                        .then((response)=>response.json())
-                        .then((responseJson)=>{
-                            console.log(responseJson);
-                            if(responseJson.status === 'success'){
-                            console.log('거래내역 저장 성공');
-                            }else{
-                            console.log('거래내역 저장 실패');
-                            }
-                        })
-                        setLoading(true);
+                    console.log(`${url}/saveTranHistory?userID=${tempID}`);
+                    /*
+                    fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
+                    .then((response)=>response.json())
+                    .then((responseJson)=>{
+                        console.log('데일리 거래내역 response data');
+                        console.log(responseJson);
+                        if(responseJson.status === 'success'){
+                        console.log('거래내역 저장 성공');
+                        }else{
+                        console.log('거래내역 저장 실패');
+                        }
+                    })*/
+                })
+                .then(()=>{
+                    setLoading(true);
+                })
+                .catch((error)=>{
+                    console.log(error);
                 })
             })
+            .catch((error)=>{
+                console.log(error);
+            })
         })
-    }, [])
+        .catch((error)=>{
+            console.log(error);
+        })
+    },[props])
     if(loading === true && isCompleted === true){
         return (
             <ScrollView style={styles.appSize}>

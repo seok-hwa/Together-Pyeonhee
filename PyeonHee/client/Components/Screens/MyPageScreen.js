@@ -14,7 +14,7 @@ import {
     Modal, 
 } from 'react-native';
 const url=config.url;
-const MyPageScreen = ({navigation}) => {
+const MyPageScreen = ({navigation, route}) => {
     //useState for test
     const [userID, setUserID] = useState('');
     const [userName, setUserName] = useState('');
@@ -33,6 +33,7 @@ const MyPageScreen = ({navigation}) => {
     //서버 구현 되면 사용
     
     useEffect(()=>{
+        console.log('마이페이지 렌더링');
         let tempID;
         console.log('asdfasdf');
         AsyncStorage.getItem("userID")
@@ -50,7 +51,7 @@ const MyPageScreen = ({navigation}) => {
             fetch(`${url}/myInfo?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('response data');
+                console.log('마이페이지 response data');
                 console.log(responseJson);
 
                 setUserName(responseJson.userName);
@@ -64,8 +65,14 @@ const MyPageScreen = ({navigation}) => {
             .then(()=>{
                 setLoading(true);
             })
+            .catch((error)=>{
+                console.log(error);
+            })
         })
-    }, []) 
+        .catch((error)=>{
+            console.log(error);
+        })
+    }, [route]) 
     function TierImage(){
         if(userTier === 'BRONZE'){
             return(
