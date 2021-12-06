@@ -68,11 +68,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(result1[0].daily_spent_money <= result1[0].available_money){
                             daily_count = result1[0].daily_count + 1;
                             console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                            // db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
-                            //     if(error2) throw error2;
-                            //     console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                            //     console.log(result2);
-                            // })
+                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                                if(error2) throw error2;
+                                console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
+                                console.log(result2);
+                            })
                         }
                     }
                 })
@@ -1884,7 +1884,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             db.query(`SELECT BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
-                            BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.daily_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
+                            BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.last_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
                             WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1 AND BudgetPlanning.state = 1;`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
@@ -2028,11 +2028,18 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             etc_expense = item.daily_amount;
                                         }
                                     })
-                                    db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [userID], function(error3, daily_count){
+                                    db.query(`SELECT last_count FROM daily_data WHERE user_id = ?`, [userID], function(error3, daily_count){
                                         if(error3) throw error3;
                                         else{
-                                            var count_stand = new Date().getDate();
-                                            var portion = daily_count[0].daily_count / count_stand * 100;
+                                            console.log("한달리포트로 MBTI 제시 부분");
+                                            console.log(daily_count[0])
+                                            var date    = new Date();
+                                            var year    = date.getFullYear();
+                                            var month = date.getMonth();
+                                            var last = new Date( year, month ); 
+                                            last = new Date(last - 1); 
+                                            var count_stand = last.getDate()
+                                            var portion = daily_count[0].last_count / count_stand * 100;
                                             // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
                                             var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
                                             // 즉흥 vs 계획
