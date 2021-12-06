@@ -80,7 +80,6 @@ const QueryBoard = ({navigation, route}) => {
                     console.log(responseJson);
                     if(responseJson.status === true){
                         console.log('삭제 완료');
-                        setUserStore(false);
                         Popup.show({
                             type: 'success',
                             textBody: '문의글이 삭제되었습니다.',

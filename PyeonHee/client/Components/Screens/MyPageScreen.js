@@ -521,8 +521,8 @@ const MyPageScreen = ({navigation, route}) => {
                                     </View>
                                 </View>
                                 <Text style={styles.stampointHigh}>스탬프</Text>
-                                <Text style={{marginBottom: 10,}}>스탬프는 일일소비권장금액에 대한 이행률에 따라 월마다 차등적으로 지급됩니다.</Text>
-                                <View stlye={styles.stampPolicyDiv}>
+                                <Text>스탬프는 일일소비권장금액에 대한 이행률에 따라 월마다 차등적으로 지급됩니다.</Text>
+                                <View style={styles.stampPolicyDiv}>
                                     <View style={styles.pointRow}>
                                         <Text>스탬프 </Text>
                                         <Text style={{fontWeight: 'bold',}}>4</Text>
@@ -873,7 +873,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     stampPolicyDiv:{
-        marginTop: 10,
+        padding: 10,
     },
     pyeonheeDiv:{
         borderWidth: 1,
