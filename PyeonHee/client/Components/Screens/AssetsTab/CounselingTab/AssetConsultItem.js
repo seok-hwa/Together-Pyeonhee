@@ -24,6 +24,7 @@ const AssetConsultItem = (props) => {
                     body: JSON.stringify({
                       userID: props.userID,
                       counselorName: props.counselorName,
+                      counselor_id: consultNumber,
                     }),
                     headers: {
                       'Accept': 'application/json',
