@@ -494,7 +494,8 @@ create table FinancialCounselor (
     counselor_id int not null primary key,
     part varchar(12) not null,
     company varchar(16) not null,
-    like_count int default 0
+    like_count int default 0,
+    email varchar(50) not null
 );
 
 ALTER TABLE FinancialCounselor MODIFY counselor_id int not null auto_increment;
@@ -504,7 +505,8 @@ create table AssetCounselor (
     name varchar(12) not null,
     counselor_id int not null primary key,
     company varchar(16) not null,
-    like_count int default 0
+    like_count int default 0,
+    email varchar(50) not null
 );
 
 ALTER TABLE AssetCounselor MODIFY counselor_id int not null auto_increment;
