@@ -284,6 +284,7 @@ create table daily_data
 
     rest_money int not null,
     daily_count int default 0,
+    last_count int default 0,
 
     primary key (user_id),
     foreign key (user_id) references user(user_id) on delete cascade
