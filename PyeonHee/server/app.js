@@ -443,6 +443,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 var userName = req.body.userName;
+                var userPhone = req.body.userPhone;
                 // user table null 값 여부 변경 후 수정 예정
                 const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
                 console.log(encryptedPassowrd);
@@ -451,8 +452,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error1) throw error1;
                     else{
                         if(check.length === 0) {
-                            db.query(`insert into user(user_id, password, name)
-                                values (?, ?, ?)`,[userID,encryptedPassowrd,userName], function(error2,result){
+                            db.query(`insert into user(user_id, password, name, phone)
+                                values (?, ?, ?, ?)`,[userID, encryptedPassowrd, userName, userPhone], function(error2,result){
                                 console.log(result);
                                 if(error2) throw error2;
                                 else {
