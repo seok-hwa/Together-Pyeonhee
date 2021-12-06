@@ -166,6 +166,33 @@ const ReportWithPlanScreen = (props) => {
                     withHorizontalLabels={false}
                 />
                 </View>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
+                        <Text style={styles.tableHead}>예산 계획</Text>
+                        <Text style={styles.tableHead}>실제 지출</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>구독</Text>
+                        <Text style={styles.tableCol}>{planSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difSubscribe) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>통신</Text>
+                        <Text style={styles.tableCol}>{planCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difCommunication) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>보험</Text>
+                        <Text style={styles.tableCol}>{planInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difInsurance) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>월세</Text>
+                        <Text style={styles.tableCol}>{planRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difRent) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                </View>
                 <View style={styles.monthRow}>
                     <Text style={styles.monthFont}>실제 지출</Text>
                     <Text style={styles.priceFont}>{realFixTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
@@ -195,6 +222,33 @@ const ReportWithPlanScreen = (props) => {
                     withHorizontalLabels={false}
                 />
                 </View>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
+                        <Text style={styles.tableHead}>예산 계획</Text>
+                        <Text style={styles.tableHead}>실제 지출</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>경조사</Text>
+                        <Text style={styles.tableCol}>{planEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difEvent) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>취미</Text>
+                        <Text style={styles.tableCol}>{planHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difHobby) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>쇼핑</Text>
+                        <Text style={styles.tableCol}>{planShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difShopping) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>식비</Text>
+                        <Text style={styles.tableCol}>{planDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difDinner) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                </View>
                 <View style={styles.monthRow}>
                     <Text style={styles.monthFont}>실제 지출</Text>
                     <Text style={styles.priceFont}>{realVariableTotal2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
@@ -223,6 +277,33 @@ const ReportWithPlanScreen = (props) => {
                     chartConfig={fixConfig}
                     withHorizontalLabels={false}
                 />
+                </View>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
+                        <Text style={styles.tableHead}>예산 계획</Text>
+                        <Text style={styles.tableHead}>실제 지출</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>교육</Text>
+                        <Text style={styles.tableCol}>{planEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difEducation) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>교통</Text>
+                        <Text style={styles.tableCol}>{planTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difCommunication) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>의료</Text>
+                        <Text style={styles.tableCol}>{planMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difMedical) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>기타</Text>
+                        <Text style={styles.tableCol}>{planEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difEct) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{realEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
                 </View>
                 <View style={styles.monthRow}>
                     <Text style={styles.monthFont}>실제 지출</Text>
@@ -386,5 +467,42 @@ const styles = StyleSheet.create({
     },
     descriptionDiv:{
         padding: 10,
+    },
+    tableHeadRow: {
+        flexDirection: 'row',
+        marginBottom: 5,
+    },
+    tableRow: {
+        flexDirection: 'row',
+    },
+    tableAtt: {
+        width: 50,
+    },
+    tableCol:{
+        width: 120,
+        textAlign: 'right',
+    },
+    tableHead: {
+        width: 120,
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    categoryDiv: {
+        marginTop: 5,
+        marginBottom: 10,
+        alignItems: 'center',
+    },
+    tableCurrentCol: {
+        width: 120,
+        textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'blue',
+    },
+    tableCurrentColPlus: {
+        width: 120,
+        textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'red',
     },
 });

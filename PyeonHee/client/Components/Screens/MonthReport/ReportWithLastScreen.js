@@ -129,17 +129,44 @@ const ReportWithLastScreen = (props) => {
                     height={250}
                     chartConfig={fixConfig}
                     withHorizontalLabels={false}
-                    strokeWidth={20}
+                    barPercentage={1}
                 />
                 </View>
-                <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
-                    <Text style={styles.priceFont}>{currentFixTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
-                    <Text>원</Text>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
+                        <Text style={styles.tableHead}>{props.preMonth}월</Text>
+                        <Text style={styles.tableHead}>{props.month}월</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>구독</Text>
+                        <Text style={styles.tableCol}>{lastSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difSubscribe) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>통신</Text>
+                        <Text style={styles.tableCol}>{lastCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difCommunication) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>보험</Text>
+                        <Text style={styles.tableCol}>{lastInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difInsurance) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>월세</Text>
+                        <Text style={styles.tableCol}>{lastRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difRent) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
                 </View>
                 <View style={styles.monthRow}>
                     <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastFixTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
+                    <Text style={styles.priceFont}>{currentFixTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
@@ -161,14 +188,41 @@ const ReportWithLastScreen = (props) => {
                     withHorizontalLabels={false}
                 />
                 </View>
-                <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
-                    <Text style={styles.priceFont}>{currentVariableTotal2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
-                    <Text>원</Text>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
+                        <Text style={styles.tableHead}>{props.preMonth}월</Text>
+                        <Text style={styles.tableHead}>{props.month}월</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>경조사</Text>
+                        <Text style={styles.tableCol}>{lastEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difEvent) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>취미</Text>
+                        <Text style={styles.tableCol}>{lastHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difHobby) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>쇼핑</Text>
+                        <Text style={styles.tableCol}>{lastShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difShopping) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>식비</Text>
+                        <Text style={styles.tableCol}>{lastDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difDinner) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
                 </View>
                 <View style={styles.monthRow}>
                     <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastVariableTotal2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
+                    <Text style={styles.priceFont}>{currentVariableTotal2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
@@ -190,14 +244,41 @@ const ReportWithLastScreen = (props) => {
                     withHorizontalLabels={false}
                 />
                 </View>
-                <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
-                    <Text style={styles.priceFont}>{currentVariableTotal1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
-                    <Text>원</Text>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
+                        <Text style={styles.tableHead}>{props.preMonth}월</Text>
+                        <Text style={styles.tableHead}>{props.month}월</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>교육</Text>
+                        <Text style={styles.tableCol}>{lastEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difEducation) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>교통</Text>
+                        <Text style={styles.tableCol}>{lastTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difTraffic) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>의료</Text>
+                        <Text style={styles.tableCol}>{lastMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difMedical) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableAtt}>기타</Text>
+                        <Text style={styles.tableCol}>{lastEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                        <Text style={parseInt(difEct) <= 0 ? styles.tableCurrentCol : styles.tableCurrentColPlus}>{currentEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    </View>
                 </View>
                 <View style={styles.monthRow}>
                     <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
                     <Text style={styles.priceFont}>{lastVariableTotal1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text>원</Text>
+                </View>
+                <View style={styles.monthRow}>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
+                    <Text style={styles.priceFont}>{currentVariableTotal1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
@@ -220,13 +301,13 @@ const ReportWithLastScreen = (props) => {
                 />
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
-                    <Text style={styles.priceFont}>{currentSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
+                    <Text style={styles.priceFont}>{lastSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
-                    <Text style={styles.priceFont}>{lastSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
+                    <Text style={styles.priceFont}>{currentSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
@@ -249,13 +330,13 @@ const ReportWithLastScreen = (props) => {
                 />
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
-                    <Text style={styles.priceFont}>{currentTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
+                    <Text style={styles.priceFont}>{lastTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
-                    <Text style={styles.monthFont}>저번달({props.preMonth}월)</Text>
-                    <Text style={styles.priceFont}>{lastTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                    <Text style={styles.monthFont}>이번달({props.month}월)</Text>
+                    <Text style={styles.priceFont}>{currentTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     <Text>원</Text>
                 </View>
                 <View style={styles.monthRow}>
@@ -352,5 +433,42 @@ const styles = StyleSheet.create({
     },
     descriptionDiv:{
         padding: 10,
+    },
+    tableHeadRow: {
+        flexDirection: 'row',
+        marginBottom: 5,
+    },
+    tableRow: {
+        flexDirection: 'row',
+    },
+    tableAtt: {
+        width: 50,
+    },
+    tableCol:{
+        width: 120,
+        textAlign: 'right',
+    },
+    tableHead: {
+        width: 120,
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    categoryDiv: {
+        marginTop: 5,
+        marginBottom: 10,
+        alignItems: 'center',
+    },
+    tableCurrentCol: {
+        width: 120,
+        textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'blue',
+    },
+    tableCurrentColPlus: {
+        width: 120,
+        textAlign: 'right',
+        fontWeight: 'bold',
+        color: 'red',
     },
 });
