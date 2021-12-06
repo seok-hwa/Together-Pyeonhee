@@ -2229,56 +2229,64 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/requestMatching`, function(req, res){
                 var userID = req.body.userID;
                 var counselorName = req.body.counselorName;
-                
+                var counselor_id = req.body.counselor_id;
                 db.query(`SELECT phone, total_point FROM user WHERE user_id = ?`,[userID], function(error, result){
                     if(error) throw error;
                     else{
-                        var phone = result[0].phone;
-                        var point = result[0].total_point;
-                        if(point > 500){
-                            var text = '편히가계 사용자가 '  + counselorName + ' 상담사님 에게 상담 매칭을 신청했습니다.' + '\n\n' + '사용자의 연락처 : ' + phone + '\n\n' + '빠른 시일내 연락 바랍니다. 감사합니다.' + '\n' + '편히가계 드림.';
-                            point = point - 500;
-                            db.query(`Update user SET total_point = ? WHERE user_id = ?`, [point, userID], function(error1, result1){
-                                if(error1) throw error1;
-                                else{
-                                    db.query(`insert into point(user_id, diff, description) values(?, 500, '상담사 매칭 결제')`, [userID], function(error2, result2){
-                                        if(error2) throw error2;
+                        db.query(`select email from AssetCounselor where counselor_id = ? 
+                        union select email from FinancialCounselor where counselor_id = ?`, [counselor_id, counselor_id], function(err, email){
+                            if(err) throw err;
+                            else {
+                                var toemail = email[0].email;
+                                var phone = result[0].phone;
+                                var point = result[0].total_point;
+                                if(point > 500){
+                                    var text = '편히가계 사용자가 '  + counselorName + ' 상담사님 에게 상담 매칭을 신청했습니다.' + '\n\n' + '사용자의 연락처 : ' + phone + '\n\n' + '빠른 시일내 연락 바랍니다. 감사합니다.' + '\n' + '편히가계 드림.';
+                                    point = point - 500;
+                                    db.query(`Update user SET total_point = ? WHERE user_id = ?`, [point, userID], function(error1, result1){
+                                        if(error1) throw error1;
                                         else{
-                                            let transporter = nodemailer.createTransport({
-                                                service: 'gmail',
-                                                host: 'smtp.gmail.com',
-                                                port: 587,
-                                                secure: false,
-                                                auth: {
-                                                user: config.email,
-                                                pass: config.password,
-                                                },
-                                            });
-                                            let info = transporter.sendMail({
-                                                from: `"Pyeonhee" <${config.email}>`,
-                                                to: config.toemail,
-                                                subject: 'Counselor Matching!',
-                                                text: text,
-                                                //html: `<b>${text}</b>`,
-                                            });
-                            
-                                            console.log('이메일 전송');                    
-                                            res.status(200).json({
-                                                status: 'success',
-                                                code: 200,
-                                                message: 'Sent Auth Email',
-                                            });
+                                            db.query(`insert into point(user_id, diff, description) values(?, 500, '상담사 매칭 결제')`, [userID], function(error2, result2){
+                                                if(error2) throw error2;
+                                                else{
+                                                    let transporter = nodemailer.createTransport({
+                                                        service: 'gmail',
+                                                        host: 'smtp.gmail.com',
+                                                        port: 587,
+                                                        secure: false,
+                                                        auth: {
+                                                        user: config.email,
+                                                        pass: config.password,
+                                                        },
+                                                    });
+                                                    let info = transporter.sendMail({
+                                                        from: `"Pyeonhee" <${config.email}>`,
+                                                        to: toemail,
+                                                        subject: 'Counselor Matching!',
+                                                        text: text,
+                                                        //html: `<b>${text}</b>`,
+                                                    });
+                                    
+                                                    console.log('이메일 전송');                    
+                                                    res.status(200).json({
+                                                        status: 'success',
+                                                        code: 200,
+                                                        message: 'Sent Auth Email',
+                                                    });
+                                                }
+                                            })  
                                         }
-                                    })  
+                                    })
                                 }
-                            })
-                        }
-                        else{
-                            data = {
-                                status : 'lowBalance'
-                            };
-                            res.send(data);
-                        }   
+                                else{
+                                    data = {
+                                        status : 'lowBalance'
+                                    };
+                                    res.send(data);
+                                }  
+                            }
+                        })
+                         
                     }
                 })
                 
