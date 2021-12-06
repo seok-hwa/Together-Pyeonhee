@@ -194,7 +194,7 @@ const SetCategoryScreen = ({navigation, route}) => {
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>거래 일자: </Text>
-                <Text style={styles.tranContent}>{route.params.tranDate.substring(0,10)}</Text>
+                <Text style={styles.tranContent}>{route.params.tranDate.substring(0,4)+'-'+route.params.tranDate.substring(4,6)+'-'+route.params.tranDate.substring(6,8)}</Text>
             </View>
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>거래 시간: </Text>
