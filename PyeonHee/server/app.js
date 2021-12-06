@@ -84,10 +84,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     console.log("예산계획서 적용이 초기화 되었습니다.");
                 });
-                db.query(`UPDATE daily_data SET daily_count = 0`, function(error1, result1){
-                    if(error1) throw error1;
-                    console.log("권장금액 이행률이 초기화 되었습니다.")
-                });
+                db.query(`UPDATE daily_data SET last_count = daily_count`, function(error3, result3){
+                    if(error3) throw error3;
+                    else{
+                        db.query(`UPDATE daily_data SET daily_count = 0`, function(error1, result1){
+                            if(error1) throw error1;
+                            else console.log("권장금액 이행률이 초기화 되었습니다.")
+                        });
+                    }
+                })
+                
                 db.query(`SELECT tier, total_stamp, total_point FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
                     if(error2) throw error2;
                     else{
@@ -129,9 +135,15 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
                     if(error1) throw error1
                     else{
-                        var count_stand = new Date().getDate();
-                        var portion = result1[0].daily_count / count_stand * 100;
                         var diff = 0;
+                        var date = new Date();
+                        var year = date.getFullYear();
+                        var month = date.getMonth() + 1;
+                        var last = new Date( year, month ); 
+                        last = new Date(last - 1); 
+                        var count_stand = last.getDate()
+                        var portion = result1[0].daily_count / count_stand * 100;
+
                         db.query(`SELECT total_stamp FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
                             if(error2) throw error2;
                             else{
@@ -2033,8 +2045,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                                         else{
                                             console.log("한달리포트로 MBTI 제시 부분");
                                             console.log(daily_count[0])
-                                            var date    = new Date();
-                                            var year    = date.getFullYear();
+                                            var date = new Date();
+                                            var year = date.getFullYear();
                                             var month = date.getMonth();
                                             var last = new Date( year, month ); 
                                             last = new Date(last - 1); 
