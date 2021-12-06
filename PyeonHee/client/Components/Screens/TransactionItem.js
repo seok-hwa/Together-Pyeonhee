@@ -114,7 +114,7 @@ const AccountLogo = (props) => {
 const TransactionItem = (props) => {
 
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate, inoutType: props.inoutType, branchName: props.branchName})}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate, inoutType: props.inoutType, branchName: props.branchName, account_num: props.account_num,})}>
         <View style={styles.TranContentBox}>
             <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
             <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text><Text style={styles.BankInFont}>{props.branchName}</Text></View>

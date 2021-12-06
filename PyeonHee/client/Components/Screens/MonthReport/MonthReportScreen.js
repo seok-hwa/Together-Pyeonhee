@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   TextInput,
   Linking,
+  Modal, 
 } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import ReportWithLastScreen from './ReportWithLastScreen';
@@ -20,6 +21,7 @@ import ReportWithPlanScreen from './ReportWithPlanScreen';
 import config from '../../../config';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
+import Icon from 'react-native-vector-icons/Ionicons';
 const url = config.url;
 
 const MonthReportScreen = ({navigation, route}) => {
@@ -28,6 +30,7 @@ const MonthReportScreen = ({navigation, route}) => {
   const [userMbti, setUserMbti] = useState('');
   const [mbtiDescription, setMbtiDescription] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mbtiModalVisible, setMbtiModalVisible] = useState(false);
 
   var now = new Date();	// 현재 날짜 및 시간
   var year = now.getFullYear();
@@ -131,6 +134,38 @@ const MonthReportScreen = ({navigation, route}) => {
   return (
     <Root>
     <SafeAreaView style={styles.container}>
+      <Modal
+          animationType="fade"
+          transparent={true} // 배경 투명 하게 
+          visible={mbtiModalVisible}
+
+          onRequestClose={() => {
+              setMbtiModalVisible(false);
+      }}>
+          <View style={styles.modalSize}>
+              <View style={styles.modalMbtiBodySize}>
+              <View style={styles.exDiv}>
+                      <TouchableOpacity onPress={()=>{setMbtiModalVisible(false)}}>
+                          <Icon name="close-outline" size={25}/>
+                      </TouchableOpacity>
+                  </View>
+                  <View style={styles.modalTopBar}>
+                      <Text>소비 성향</Text>
+                  </View>
+                  <View style={styles.modalContent}>
+                  <View style={styles.resultDiv}>
+                      <Text style={styles.nameHighlight}>{route.params.userName}</Text>
+                      <Text>님의 소비 패턴 유형은 </Text>
+                      <Text style={styles.mbtiHighlight}>{userMbti}</Text>
+                      <Text>입니다.</Text>
+                  </View>
+                  <View style={styles.modalMbtiDescription}>
+                    <Text>{mbtiDescription}</Text>
+                  </View>
+                  </View>
+              </View>
+          </View>
+      </Modal>
         <View style={styles.smallcontainer}>
             <View style={styles.appTopBar}>
                 <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
@@ -150,15 +185,19 @@ const MonthReportScreen = ({navigation, route}) => {
           {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} route={route} month={month} withPlan={route.params.withPlan} daily_count={route.params.daily_count} date={date}/>}
           <View style={styles.fixDiv}>
                 <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
-                <View style={styles.resultDiv}>
-                    <Text style={styles.nameHighlight}> {route.params.userName}</Text>
-                    <Text>님의 소비 패턴 유형은 </Text>
-                    <Text style={styles.mbtiHighlight}>{userMbti}</Text>
-                    <Text>입니다.</Text>
-                </View>
+                <TouchableOpacity onPress={()=>{setMbtiModalVisible(true)}}>
+                  <View style={styles.resultDiv}>
+                      <Text style={styles.nameHighlight}>{route.params.userName}</Text>
+                      <Text>님의 소비 패턴 유형은 </Text>
+                      <Text style={styles.mbtiHighlight}>{userMbti}</Text>
+                      <Text>입니다.</Text>
+                  </View>
+                </TouchableOpacity>
+                {/*
                 <View style={styles.descriptionDiv}>
                     <Text style={{fontSize: 13,}}>{mbtiDescription}</Text>
-                </View> 
+                </View>*/
+                } 
                 <View style={styles.buttonDiv}>
                     <MbtiSelectButton onPress={handleSubmitButton}/>
                 </View>
@@ -314,5 +353,84 @@ notThere: {
   alignItems: 'center',
   justifyContent: 'center',
   flex: 1,
+},
+
+modalSize: {
+  flex: 1,
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'rgba(0,0,0,0.50)',
+},
+modalTierBodySize: {
+  width: '75%',
+  height: '40%',
+  backgroundColor: 'white',
+  borderRadius: 10,
+},
+modalMbtiBodySize: {
+  width: '80%',
+  height: '45%',
+  backgroundColor: 'white',
+  borderRadius: 10,
+},
+modalStampointBodySize: {
+  width: '75%',
+  height: '40%',
+  backgroundColor: 'white',
+  borderRadius: 10,
+},
+
+modalTopBar: {
+  flex: 1,
+  padding: 5,
+  borderBottomWidth: 1,
+  borderBottomColor: 'gray',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+modalContent:{
+  flex: 12,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+tierRow: {
+  flexDirection: 'row',
+  alignItems: 'flex-end',
+  margin: 5,
+},
+myTierRow: {
+  flexDirection: 'row',
+  alignItems: 'flex-end',
+  borderWidth: 2,
+  borderColor: 'blue',
+  borderRadius: 5,
+  margin: 5,
+},
+tierText2: {
+  width: 70,
+  textAlign: 'right',
+},
+tierDescription: {
+  width: 150,
+  textAlign: 'right',
+  fontSize: 11,
+},
+resultDiv: {
+  flexDirection: 'row',
+  padding: 5,
+},
+nameHighlight: {
+  fontWeight: 'bold',
+},
+mbtiHighlight:{
+  fontWeight: 'bold',
+  color: 'blue',
+},
+exDiv: {
+  alignItems: 'flex-end',
+},
+modalMbtiDescription: {
+  padding: 10,
 },
 });
