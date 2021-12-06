@@ -186,7 +186,7 @@ const DailyScreen = (props) => {
                 })
             })
         })
-    }, [])
+    },[props])
     if(loading === true && isCompleted === true){
         return (
             <ScrollView style={styles.appSize}>

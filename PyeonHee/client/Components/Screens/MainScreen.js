@@ -5,11 +5,25 @@ import HomeScreen from './HomeScreen';
 import BudgetScreen from './BudgetScreen';
 import AssetsScreen from './AssetsScreen';
 import MyPageScreen from './MyPageScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 
 const Tab = createBottomTabNavigator();
 
 const MainScreen = ({ navigation}) => {
+
+  const [userID, setUserID] = useState('');
+
+  useEffect(()=>{
+    console.log('메인 렌더링');
+    AsyncStorage.getItem('userID', (err, result) => {
+      const tempID = result;
+      if(tempID!= null){
+        setUserID(tempID);
+      }
+    });
+  })
+
   return (
     <Root>
       <Tab.Navigator
@@ -32,10 +46,10 @@ const MainScreen = ({ navigation}) => {
         tabBarInactiveTintColor: 'gray',
       })}
       >
-        <Tab.Screen name="편히" component={HomeScreen} />
-        <Tab.Screen name="가계부" component={BudgetScreen} />
-        <Tab.Screen name="자산" component={AssetsScreen} />
-        <Tab.Screen name="마이페이지" component={MyPageScreen} />
+        <Tab.Screen name="편히" component={HomeScreen} initialParams={{ menuID: 0 }}/>
+        <Tab.Screen name="가계부" component={BudgetScreen} initialParams={{ menuID: 1 }}/>
+        <Tab.Screen name="자산" component={AssetsScreen} initialParams={{ menuID: 2 }}/>
+        <Tab.Screen name="마이페이지" component={MyPageScreen} initialParams={{ menuID: 3 }}/>
       </Tab.Navigator>
       </Root>
   );
