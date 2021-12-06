@@ -5,7 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 const QueryItem = (props) => {
 //onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate, inoutType: props.inoutType, branchName: props.branchName})}
     return (
-        <TouchableOpacity onPress={()=>props.navigation.navigate('QueryBoard', {boardID: props.boardID})}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('QueryBoard', {boardID: props.boardID, user_id: props.user_id})}>
             <View style={styles.boardBox}>
                 <View style={styles.cateDiv}><Text style={styles.centerFont}>{props.boardCate}</Text></View>
                 <View style={styles.titleDiv}><Text numberOfLines={1} ellipsizeMode="tail">{props.boardTitle}</Text></View>

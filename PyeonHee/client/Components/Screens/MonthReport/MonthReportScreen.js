@@ -207,7 +207,6 @@ const MonthReportScreen = ({navigation, route}) => {
       </Root>
   )}else if(loading === true && route.params.isTransactionList === false){
     return(
-      <Root>
       <SafeAreaView style={styles.container}>
         <View style={styles.notSmallContainer}>
             <View style={styles.appTopBar}>
@@ -218,16 +217,13 @@ const MonthReportScreen = ({navigation, route}) => {
             </View>
         </View>
       </SafeAreaView>
-      </Root>
     )
   }else{
     return(
-      <Root>
       <SafeAreaView style={styles.container}>
         <View style={styles.smallcontainer}>
         </View>
       </SafeAreaView>
-      </Root>
     )
   }
 }
