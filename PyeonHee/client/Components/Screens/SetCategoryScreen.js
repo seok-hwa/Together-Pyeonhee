@@ -218,14 +218,15 @@ const SetCategoryScreen = ({navigation, route}) => {
             <View style={styles.lowDiv}>
                 <Text style={styles.tranTitle}>종류: </Text>
                 <RNPickerSelect
-              placeholder={{
-                label: route.params.tranCate,
-                color: 'gray',
-              }}
-              style={pickerSelectStyles}
-              onValueChange={(value) => setCategory(value)}
+                    placeholder={{
+                        label: '선택',
+                        color: 'gray',
+                    }}
+                    style={pickerSelectStyles}
+                    onValueChange={(value) => setCategory(value)}
                     items={CATEGORY}
-            />
+                    value={route.params.tranCate}
+                />
             </View>
             </View>
             <SetCategoryButton onPress={handleSubmitButton}/>

@@ -55,7 +55,7 @@ const TotalTransactionScreen = ({navigation}) => {
                     <View style={styles.tranCate}><Text style={styles.graphFont}>종류</Text></View>
                 </View>
                 <ScrollView style={{flex: 1,}}>
-                    {tranList.map((item, index )=> {
+                    {tranList.map((item, index)=> {
                         return <TransactionItem key={index} bankName={item.bank_name} branchName={item.branch_name} tranDate={item.tran_date} 
                         tranPrice={item.tran_amt} tranTime={item.tran_time} tranCate={item.tran_type} tranID={item.tranID} navigation={navigation}
                         inoutType={item.inout_type} fintech={item.fintech_use_num} organizationName={item.print_content} account_num={item.account_num_masked}
