@@ -12,6 +12,7 @@ import {
     Image,
     ScrollView,
     Modal, 
+    DeviceEventEmitter,
 } from 'react-native';
 const url=config.url;
 const MyPageScreen = ({navigation, route}) => {
@@ -35,7 +36,44 @@ const MyPageScreen = ({navigation, route}) => {
     useEffect(()=>{
         console.log('마이페이지 렌더링');
         let tempID;
-        console.log('asdfasdf');
+        DeviceEventEmitter.addListener('MonthReport', () => {
+            let tempID;
+            AsyncStorage.getItem("userID")
+            .then(
+                (value) => {
+                    if (value !== null){
+                        tempID=value
+                        setUserID(tempID);
+                    }
+                }
+            )
+            .then(()=>{
+                console.log(`${url}/myInfo?userID=${tempID}`);
+                fetch(`${url}/myInfo?userID=${tempID}`)   //get
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log('마이페이지 response data');
+                    console.log(responseJson);
+
+                    setUserName(responseJson.userName);
+                    setUserTier(responseJson.userTier);
+                    setUserStamp(responseJson.userStamp);
+                    setUserPoint(responseJson.userPoint);
+                    setUserMbti(responseJson.userMbti);
+                    setUserMbtiDescription(responseJson.description);
+
+                })
+                .then(()=>{
+                    setLoading(true);
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        })
         AsyncStorage.getItem("userID")
         .then(
             (value) => {

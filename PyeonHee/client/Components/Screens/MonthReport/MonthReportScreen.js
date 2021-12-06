@@ -14,14 +14,16 @@ import {
   TextInput,
   Linking,
   Modal, 
+  DeviceEventEmitter, 
 } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import ReportWithLastScreen from './ReportWithLastScreen';
 import ReportWithPlanScreen from './ReportWithPlanScreen';
 import config from '../../../config';
-import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
+import MbtiDecideButton from '../../Buttons/MbtiDecideButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+
 const url = config.url;
 
 const MonthReportScreen = ({navigation, route}) => {
@@ -65,6 +67,9 @@ const MonthReportScreen = ({navigation, route}) => {
         setLoading(true);
       })
     })
+    return () => {
+      DeviceEventEmitter.emit('MonthReport');
+    }
   }, [])
 
   const handleSingleIndexSelect = (index) => {
@@ -72,68 +77,43 @@ const MonthReportScreen = ({navigation, route}) => {
   };
 
   const handleSubmitButton = () => {
-    Popup.show({
-      type: 'confirm',
-      title: 'MBTI 설정',
-      textBody: `${userMbti}를 소비 성향 MBTI로 설정 하시겠습니까?`,
-      buttonText: 'yes',
-      confirmText: 'no',
-      okButtonStyle: {backgroundColor: '#0000CD'},
-      iconEnabled: false,
-      callback: () => {
-        if(route.params.userCurrentMbti === userMbti){
-          Popup.show({
-            type: 'success',
-            textBody: `이미 해당 mbti로 설정되어있습니다.`,
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-          })
+    if(route.params.userCurrentMbti === userMbti){
+      alert('이미 해당 mbti로 설정되어있습니다.');
+    }else{
+      fetch(`${url}/updateMbti`, {
+        method: 'POST',
+        body: JSON.stringify({
+          userID: userID,
+          userMbti: userMbti,
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type':'application/json',
+        },
+      })
+      .then((response)=>response.json())
+      .then((responseJson)=>{
+        console.log(responseJson);
+        if(responseJson.status === true){
+          console.log('설정 완료');
+          alert(`${userMbti}를 소비 성향 MBTI로 설정 했습니다.`);
+          setUserMbti(userMbti);
+          setMbtiModalVisible(false);
+          navigation.goBack();      
+        }else{
+          alert('설정 실패');
+          console.log('fail to save.');
         }
-        else{
-          fetch(`${url}/updateMbti`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userID: userID,
-              userMbti: userMbti,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-            })
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log(responseJson);
-                if(responseJson.status === true){
-                    console.log('설정 완료');
-                    setUserMbti(userMbti);
-                    Popup.show({
-                        type: 'success',
-                        textBody: `${userMbti}를 소비 성향 MBTI로 설정 했습니다.`,
-                        buttonText: '확인',
-                        okButtonStyle: {backgroundColor: '#0000CD'},
-                        iconEnabled: false,
-                        callback: () => Popup.hide()
-                    })
-                }else{
-                    alert('설정 실패');
-                    console.log('fail to save.');
-                }
-            })
-            .catch((error)=>{
-                console.error(error);
-            })
-          }
-      }
-    })
+      })
+      .catch((error)=>{
+        console.error(error);
+      })
+    }
   }
 
   if(loading === true && route.params.isTransactionList === true){
   return (
-    <Root>
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Modal
           animationType="fade"
           transparent={true} // 배경 투명 하게 
@@ -162,6 +142,9 @@ const MonthReportScreen = ({navigation, route}) => {
                   <View style={styles.modalMbtiDescription}>
                     <Text>{mbtiDescription}</Text>
                   </View>
+                  <View style={styles.buttonDiv}>
+                    <MbtiDecideButton onPress={handleSubmitButton}/>
+                  </View>
                   </View>
               </View>
           </View>
@@ -184,30 +167,27 @@ const MonthReportScreen = ({navigation, route}) => {
           {selectedIndex === 0 && <ReportWithLastScreen navigation={navigation} route={route} month={month} preMonth={preMonth} withLast={route.params.withLast}/>}
           {selectedIndex === 1 && <ReportWithPlanScreen navigation={navigation} route={route} month={month} withPlan={route.params.withPlan} daily_count={route.params.daily_count} date={date}/>}
           <View style={styles.fixDiv}>
-                <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
-                <TouchableOpacity onPress={()=>{setMbtiModalVisible(true)}}>
+                <View style={{alignItems: 'center',}}>
+                  <Text style={styles.cateFont}>{month}월 소비 패턴 분석 결과</Text>
+                </View> 
+                  <View style={styles.resultDiv}>
+                    <Text>한달리포트 분석 결과,</Text>
+                  </View>
                   <View style={styles.resultDiv}>
                       <Text style={styles.nameHighlight}>{route.params.userName}</Text>
                       <Text>님의 소비 패턴 유형은 </Text>
                       <Text style={styles.mbtiHighlight}>{userMbti}</Text>
                       <Text>입니다.</Text>
                   </View>
-                </TouchableOpacity>
-                {/*
-                <View style={styles.descriptionDiv}>
-                    <Text style={{fontSize: 13,}}>{mbtiDescription}</Text>
-                </View>*/
-                } 
                 <View style={styles.buttonDiv}>
-                    <MbtiSelectButton onPress={handleSubmitButton}/>
+                    <MbtiSelectButton onPress={()=>{setMbtiModalVisible(true)}}/>
                 </View>
             </View>
         </View>
-      </SafeAreaView>
-      </Root>
+      </View>
   )}else if(loading === true && route.params.isTransactionList === false){
     return(
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.notSmallContainer}>
             <View style={styles.appTopBar}>
                 <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
@@ -216,14 +196,14 @@ const MonthReportScreen = ({navigation, route}) => {
               <Text style={{fontSize: 18, fontWeight: 'bold',}}>{month}월 소비 내역이 없습니다.</Text>
             </View>
         </View>
-      </SafeAreaView>
+      </View>
     )
   }else{
     return(
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.smallcontainer}>
         </View>
-      </SafeAreaView>
+      </View>
     )
   }
 }
@@ -275,7 +255,7 @@ topFont: {
     marginBottom: 5,
 },
 cateFont: {
-  fontSize: 17,
+  fontSize: 18,
   fontWeight: 'bold',
   margin: 10,
 },
@@ -319,7 +299,8 @@ downFont:{
 },
 resultDiv: {
   flexDirection: 'row',
-  padding: 5,
+  paddingLeft: 5,
+  paddingRight: 5,
 },
 nameHighlight: {
   fontWeight: 'bold',
@@ -358,21 +339,9 @@ modalSize: {
   alignItems: 'center',
   backgroundColor: 'rgba(0,0,0,0.50)',
 },
-modalTierBodySize: {
-  width: '75%',
-  height: '40%',
-  backgroundColor: 'white',
-  borderRadius: 10,
-},
 modalMbtiBodySize: {
   width: '80%',
-  height: '45%',
-  backgroundColor: 'white',
-  borderRadius: 10,
-},
-modalStampointBodySize: {
-  width: '75%',
-  height: '40%',
+  height: '50%',
   backgroundColor: 'white',
   borderRadius: 10,
 },
@@ -386,9 +355,8 @@ modalTopBar: {
   justifyContent: 'center',
 },
 modalContent:{
-  flex: 12,
+  flex: 16,
   alignItems: 'center',
-  justifyContent: 'center',
 },
 tierRow: {
   flexDirection: 'row',
@@ -415,6 +383,7 @@ tierDescription: {
 resultDiv: {
   flexDirection: 'row',
   padding: 5,
+  marginTop: 5,
 },
 nameHighlight: {
   fontWeight: 'bold',
@@ -427,6 +396,6 @@ exDiv: {
   alignItems: 'flex-end',
 },
 modalMbtiDescription: {
-  padding: 10,
+  padding: 15,
 },
 });
