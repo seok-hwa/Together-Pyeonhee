@@ -78,6 +78,7 @@ const BudgetItem = (props) => {
             body: JSON.stringify({
             userID: props.userID,
             usePoint: 100,
+            budgetPlanningID: props.budgetPlanningID,
             }),
             headers: {
             'Accept': 'application/json',
