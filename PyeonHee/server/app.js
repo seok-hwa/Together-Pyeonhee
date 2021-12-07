@@ -666,12 +666,12 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         else {//열람 기록 X
                             //console.log("열람한 기록이 없으므로 팝업창 떠야함");
-                            db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
+                            /*db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
                                 if (error) throw error;
                                 else {
                                     console.log("사용자 읽음 표시 DB저장완료");
                                 }
-                            });
+                            });*/
                             const data = {
                                 status: false
                             }
@@ -686,6 +686,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var userTotalPoint;
                 var usePoint = req.body.usePoint;
+                var budgetPlanID = req.body.budgetPlanningID;
                 usePoint *= -1;
 
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function (error, result) {
@@ -700,11 +701,18 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     db.query(`INSERT INTO point(user_id, diff, description) VALUES (?, ? , '예산계획 추가열람')`, [userID, usePoint], function (error, result) {
                                         if (error) throw error;
                                         else {
-                                            const data = {
-                                                status: true,
-                                                restPoint: updatePoint //잔여포인트
-                                            }
-                                            res.send(data);
+                                            db.query(`INSERT INTO OpenCount (user_id, planning_number) VALUES (?, ?)`, [userID, budgetPlanID], function (error, result) {
+                                                if (error) throw error;
+                                                else {
+                                                    console.log("사용자 읽음 표시 DB저장완료");
+                                                    const data = {
+                                                        status: true,
+                                                        restPoint: updatePoint //잔여포인트
+                                                    }
+                                                    res.send(data);
+                                                    console.log(data);
+                                                }
+                                            });
                                         }
                                     });
                                 }
@@ -716,6 +724,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 restPoint: userTotalPoint // 현재 잔여 포인트
                             }
                             res.send(data);
+                            console.log(data);
                         }
                     }
                 });
