@@ -23,6 +23,7 @@ import config from '../../../config';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 import MbtiDecideButton from '../../Buttons/MbtiDecideButton';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BackButton from '../../Buttons/BackButton';
 
 const url = config.url;
 
@@ -150,7 +151,11 @@ const MonthReportScreen = ({navigation, route}) => {
       </Modal>
         <View style={styles.smallcontainer}>
             <View style={styles.appTopBar}>
-                <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
             </View>
             <View style={styles.tapContainer}>
                 <SegmentedControlTab
@@ -242,17 +247,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#203864',
     borderRadius: 20,
   },
+
   appTopBar: {
     height: 50,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
     backgroundColor: 'white',
-},
-topFont: {
+  },
+  headerDiv: {
+      height: 40,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      flex: 1,
+  },
+  headerRightDiv:{
+    width: 30,
+  },
+  topFont: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
-},
+  },
+
+
 cateFont: {
   fontSize: 18,
   fontWeight: 'bold',
