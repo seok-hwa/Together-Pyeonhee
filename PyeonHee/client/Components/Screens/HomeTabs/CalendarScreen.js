@@ -10,6 +10,7 @@ import moment, { relativeTimeThreshold } from 'moment';
 import TransactionList from './calendarComponent/TransactionList';
 
 import config from '../../../config';
+import { ThemeProvider } from 'styled-components';
 
 const url = config.url;
 
@@ -40,6 +41,8 @@ class CalendarScreen extends React.Component {
       todayTransaction: [],
       monthlyData: {},
       loading: false,
+      plusSum: 0,
+      minusSum: 0,
     };
 
     this.onPressListView = this.onPressListView.bind(this);
@@ -78,14 +81,32 @@ class CalendarScreen extends React.Component {
     fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`)   //get 오늘 날짜도 보내주기
     .then((response)=>response.json())
     .then((responseJson)=>{
-        console.log('오늘의 거래 내역');
-        console.log(responseJson);
+      console.log('오늘의 거래 내역');
+      console.log(responseJson);
 
+      this.setState({
+        todayTransaction: responseJson,
+      })
+
+      console.log(this.state.todayTransaction);
+
+      if(responseJson.length > 0){
+        let tempPlusSum = 0;
+        let tempMinusSum = 0;
+        responseJson.map( item => {
+          if(item.inout_type === '출금'){
+              tempMinusSum = tempMinusSum + item.tran_amt;
+          } else if(item.inout_type === '입금') {
+              tempPlusSum = tempPlusSum + item.tran_amt;
+          }
+        })
         this.setState({
-          todayTransaction: responseJson,
+          plusSum: tempPlusSum,
+          minusSum: tempMinusSum,
         })
 
-        console.log(this.state.todayTransaction);
+      }
+      
     })
   }
 
@@ -130,6 +151,23 @@ class CalendarScreen extends React.Component {
               })
 
               console.log(this.state.todayTransaction);
+
+              if(responseJson.length > 0){
+                let tempPlusSum = 0;
+                let tempMinusSum = 0;
+                responseJson.map( item => {
+                  if(item.inout_type === '출금'){
+                      tempMinusSum = tempMinusSum + item.tran_amt;
+                  } else if(item.inout_type === '입금') {
+                      tempPlusSum = tempPlusSum + item.tran_amt;
+                  }
+                })
+                this.setState({
+                  plusSum: tempPlusSum,
+                  minusSum: tempMinusSum,
+                })
+        
+              }
           })
           .then(()=>{
             this.setState({loading: true,});
@@ -175,7 +213,9 @@ class CalendarScreen extends React.Component {
             />
             <View style={styles.transactionContainer}>
               <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
-              isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction}/>
+                isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction} 
+                plusSum={this.state.plusSum} minusSum={this.state.minusSum}
+              />
             </View>
         </ScrollView>
       );
@@ -231,9 +271,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     transactionContainer: {
-      // backgroundColor: 'pink',
       borderTopWidth: 5,
       borderTopColor: '#F2F2F2',
-
     }
   });
