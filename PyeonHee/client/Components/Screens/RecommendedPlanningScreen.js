@@ -373,11 +373,11 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             <Root>
             <ScrollView style={styles.appSize}>
                 <View style={styles.appTopBar}>
-                    <View style={styles.appTitlePosition}>
-                        <View>
-                            <Text style={styles.appTitle}>추천 예산 계획서</Text> 
-                        </View>
+                    <BackButton onPress={()=>{navigation.goBack()}}/>
+                    <View style={styles.headerDiv}>
+                    <Text style={styles.topFont}>추천 예산 계획서 확인</Text>
                     </View>
+                    <View style={styles.headerRightDiv}></View>
                 </View>
                 <View style={styles.appBody}>
                     <View style={styles.appInnerBody}>
@@ -508,14 +508,11 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             <Root>
             <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
-                    <View style={styles.backButtonPosition}>
-                        <BackButton />
+                    <BackButton onPress={()=>{navigation.goBack()}}/>
+                    <View style={styles.headerDiv}>
+                    <Text style={styles.topFont}>추천 예산 계획서 확인</Text>
                     </View>
-                    <View style={styles.appTitlePosition}>
-                        <View>
-                            <Text style={styles.appTitle}>추천 예산 계획서</Text> 
-                        </View>
-                    </View>
+                    <View style={styles.headerRightDiv}></View>
                 </View>
                 <View style={styles.appBody}>
                 </View>
@@ -530,20 +527,24 @@ const styles = StyleSheet.create({
     },
     appTopBar: {
         height: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
         backgroundColor: 'white',
-        justifyContent: 'center',
-    },
-    backButtonPosition: {
-        marginLeft: 10,
-        flex: 1,
-        flexDirection: 'column-reverse',
-    },
-    appTitlePosition: {
-        marginLeft: 20,
-    },
-    appTitle: {
-        fontSize: 15,
-    },
+      },
+      headerDiv: {
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: 1,
+      },
+      headerRightDiv:{
+        width: 30,
+      },
+      topFont: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
     infoDiv:{
         width: 100,
         borderWidth: 1,
