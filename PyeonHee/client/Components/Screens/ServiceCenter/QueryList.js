@@ -5,6 +5,7 @@ import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import QueryWriteButton from '../../Buttons/QueryWriteButton';
 import QueryItem from './QueryItem';
+import BackButton from '../../Buttons/BackButton';
 
 const url = config.url;
 const QueryList = ({navigation}) => {
@@ -54,8 +55,12 @@ const QueryList = ({navigation}) => {
 
     return (
         <View style={styles.appSize}>
-            <View style={styles.HeaderDiv}>
-                <Text style={styles.HeaderFont}>고객센터</Text>
+            <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>고객센터</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
             </View>
             <View style={styles.ButtonDiv}>
                 <QueryWriteButton onPress={()=>navigation.navigate('QueryWrite')}/>
@@ -83,17 +88,26 @@ const styles = StyleSheet.create({
     appSize: {
         flex: 1,
       },
-    HeaderDiv: {
-        backgroundColor: 'white',
+      appTopBar: {
         height: 50,
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 10,
-    },
-    HeaderFont: {
+        backgroundColor: 'white',
+      },
+      headerDiv: {
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: 1,
+      },
+      headerRightDiv:{
+        width: 30,
+      },
+      topFont: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
+        marginBottom: 5,
+      },
     ButtonDiv: {
         height: 40,
         alignItems: 'flex-end',

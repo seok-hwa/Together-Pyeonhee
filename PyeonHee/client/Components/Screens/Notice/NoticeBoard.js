@@ -3,10 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../config';
+import BackButton from '../../Buttons/BackButton';
 
 const url = config.url;
 
-const NoticeBoard = ({route}) => {
+const NoticeBoard = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     const [boardTitle, setBoardTitle] = useState('');
     const [boardCate, setBoardCate] = useState('');
@@ -42,8 +43,12 @@ const NoticeBoard = ({route}) => {
     
     return (
         <View style={styles.appSize}>
-            <View style={styles.HeaderDiv}>
-                <Text style={styles.HeaderFont}>공지글 확인</Text>
+            <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>공지글 확인</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
             </View>
             <View style={styles.TopDiv}>
                 <View style={styles.TitleDiv}>
@@ -74,18 +79,26 @@ const styles = StyleSheet.create({
     appSize: {
         flex: 1,
     },
-    HeaderDiv: {
-        backgroundColor: 'white',
+    appTopBar: {
         height: 50,
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 10,
-    },
-    HeaderFont: {
+        backgroundColor: 'white',
+      },
+      headerDiv: {
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: 1,
+      },
+      headerRightDiv:{
+        width: 30,
+      },
+      topFont: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
-
+        marginBottom: 5,
+      },
 
     TitleDiv:{
         height: 40,

@@ -7,6 +7,7 @@ import { BOARDCATEGORY } from '../constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../config';
+import BackButton from '../../Buttons/BackButton'
 
 const url = config.url;
 
@@ -101,8 +102,12 @@ const QueryUpdate = ({navigation, route}) => {
     return (
         <Root>
             <View style={styles.appSize}>
-                <View style={styles.HeaderDiv}>
-                    <Text style={styles.HeaderFont}>문의게시판 수정</Text>
+                <View style={styles.appTopBar}>
+                    <BackButton onPress={()=>{navigation.goBack()}}/>
+                    <View style={styles.headerDiv}>
+                    <Text style={styles.topFont}>문의게시판 수정</Text>
+                    </View>
+                    <View style={styles.headerRightDiv}></View>
                 </View>
                 <View style={styles.TopDiv}>
                     <View style={styles.TitleDiv}>
@@ -149,18 +154,26 @@ const styles = StyleSheet.create({
     appSize: {
         flex: 1,
     },
-    HeaderDiv: {
-        backgroundColor: 'white',
+    appTopBar: {
         height: 50,
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 10,
-    },
-    HeaderFont: {
+        backgroundColor: 'white',
+      },
+      headerDiv: {
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: 1,
+      },
+      headerRightDiv:{
+        width: 30,
+      },
+      topFont: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
-
+        marginBottom: 5,
+      },
 
     TitleDiv:{
         height: 50,
