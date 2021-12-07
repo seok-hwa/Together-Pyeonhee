@@ -98,8 +98,7 @@ const MonthReportScreen = ({navigation, route}) => {
           console.log('설정 완료');
           alert(`${userMbti}를 소비 성향 MBTI로 설정 했습니다.`);
           setUserMbti(userMbti);
-          setMbtiModalVisible(false);
-          navigation.goBack();      
+          setMbtiModalVisible(false);     
         }else{
           alert('설정 실패');
           console.log('fail to save.');
