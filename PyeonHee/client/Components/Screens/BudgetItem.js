@@ -139,17 +139,20 @@ const BudgetItem = (props) => {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>열람을 위해 100포인트가 차감됩니다.</Text>
-                        <TouchableOpacity
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3'}}
-                            onPress={handleOKButton}
-                        >
-                            <Text>열람</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {setModalVisible(!modalVisible)}}
-                        >
-                            <Text>취소</Text>
-                        </TouchableOpacity>
+                        <View style={{flexDirection: 'row', marginTop: 20,}}>
+                            <TouchableOpacity
+                                style={styles.closeButton}
+                                onPress={() => {setModalVisible(!modalVisible)}}
+                            >
+                                <Text style={{color: '#203864'}}>취소</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.openButton}
+                                onPress={handleOKButton}
+                            >
+                                <Text style={{color: '#203864'}}>열람</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
                 </View>
@@ -245,14 +248,25 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,
-        padding: 35,
+        paddingHorizontal: 35,
+        paddingTop: 50,
+        paddingBottom: 25,
         alignItems: 'center',
         borderWidth: 1,
         borderColor:'#203864',
     },
     openButton: {
-        backgroundColor: '#203864',
-        borderRadius: 20,
+        // backgroundColor: '#203864',
+        borderRadius: 10,
+        width: 100,
+        alignItems: 'center',
+        padding: 10,
+    },
+    closeButton: {
+        // backgroundColor: '#203864',
+        borderRadius: 10,
+        width: 100,
+        alignItems: 'center',
         padding: 10,
     },
     modalText: {
