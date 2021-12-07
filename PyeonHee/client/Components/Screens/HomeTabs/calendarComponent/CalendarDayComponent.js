@@ -37,17 +37,39 @@ class CalendarDayComponent extends React.Component {
   getSum() {
     const { marking = {} } = this.props;
     if (typeof marking === 'object') {
-      if (marking.sum > 0) {
-        let temp = marking.sum;
+      if(marking.inout_type === '입금') {
+      if (marking.daily_amt > 0) {
+        let temp = marking.daily_amt;
 
         return temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      } else if (marking.sum < 0) {
-        let temp = marking.sum;
+      } else if (marking.daily_amt < 0) {
+        let temp = marking.daily_amt;
 
         return temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
     }
     return '';
+  }
+  return;
+  }
+
+  minusSum() {
+    const { marking = {} } = this.props;
+    if (typeof marking === 'object') {
+      if(marking.inout_type === '출금') {
+      if (marking.daily_amt > 0) {
+        let temp = marking.daily_amt;
+
+        return temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else if (marking.daily_amt < 0) {
+        let temp = marking.daily_amt;
+
+        return temp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+    }
+    return '';
+  }
+  return;
   }
 
   onDayPress() {
@@ -70,6 +92,9 @@ class CalendarDayComponent extends React.Component {
           <View>
             <Text style={styles.sumText}>
               {this.getSum()}
+            </Text>
+            <Text style={styles.minusText}>
+              {this.minusSum()}
             </Text>
           </View>
         </TouchableOpacity>
@@ -108,6 +133,12 @@ const styles = StyleSheet.create({
   sumText: {
     marginTop: 5,
     fontSize: 10,
+    color: 'blue',
+  },
+  minusText: {
+    marginTop: 5,
+    fontSize: 10,
+    color: 'red',
   }
 });
 

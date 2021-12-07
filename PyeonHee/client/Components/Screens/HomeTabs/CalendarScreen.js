@@ -31,6 +31,7 @@ class CalendarScreen extends React.Component {
     this.state = {
       userID: '',
       calendarDate: calendarDate.format('YYYY-MM-DD'),
+
       horizontal: false,
       dateChanged: moment().format('DD'),
       dayChanged: moment().format('YYYYMMDD'),
@@ -155,14 +156,15 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                // markedDates={{
-                //   '2021-11-19': {sum: 2000},
-                //   '2021-11-20': {sum: -2125000},
-                //   '2021-11-25': {sum: 0},
-                //   '2021-11-26': {sum: 5000}
-                // }}
+                markedDates={{
+                  // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
+                  '20211219': {inout_type: '출금', daily_amt: -20000},
+                  '20211220': {inout_type: '출금', daily_amt: -2125000},
+                  '20211225': {inout_type: '입금', daily_amt: 0},
+                  '20211226': {inout_type: '입금', daily_amt: 5000}
+                }}
 
-                markedDates={this.state.monthlyData}
+                // markedDates={this.state.monthlyData}
 
 
 
@@ -190,14 +192,15 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                // markedDates={{
-                //   '2021-11-19': {sum: 2000},
-                //   '2021-11-20': {sum: -2125000},
-                //   '2021-11-25': {sum: 0},
-                //   '2021-11-26': {sum: 5000}
-                // }}
+                markedDates={{
+                  // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
+                  '20211219': {inout_type: '출금', daily_amt: -20000},
+                  '20211220': {inout_type: '출금', daily_amt: -2125000},
+                  '20211225': {inout_type: '입금', daily_amt: 0},
+                  '20211226': {inout_type: '입금', daily_amt: 5000}
+                }}
 
-                markedDates={this.state.monthlyData}
+                // markedDates={this.state.monthlyData}
 
 
 

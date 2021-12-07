@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, SegmentedControlIOSBase } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 import BudgetItem from '../BudgetItem';
 import config from '../../../config';
 
 const url = config.url;
-const BudgetList = ({navigation}) => {
+const BudgetList = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState([]);
     const [recommendedBudgetData, setRecommendedBudgetData] = useState([]);
     const [check, setCheck] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [read, setRead] = useState(false);
 
     useEffect(()=>{
@@ -36,8 +38,10 @@ const BudgetList = ({navigation}) => {
                 console.log(responseJson);
                 setOtherBudgetData(responseJson);
             })  
+
+            setLoading(true);
         })
-    }, [])
+    },[route])
     
     const checkHandler = () => {
         setCheck(!check);
@@ -54,8 +58,27 @@ const BudgetList = ({navigation}) => {
         }
     }
 
-    return (
-            <ScrollView style={styles.appSize}>
+    // const loadBudget = () => {
+    //     setRefresh(true);
+    //     setCheck(false);
+    //     setRead(false);
+
+    //     fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
+    //     .then((response)=>response.json())
+    //     .then((responseJson)=>{
+    //         console.log('response data');
+    //         console.log(responseJson);
+    //         setRecommendedBudgetData(responseJson);
+    //     })
+    //     .then(()=>{
+    //         setRefresh(false);
+    //     })  
+    // }
+
+    if(loading === true){
+        return (
+            <View style={styles.appSize}>
+                <ScrollView>
         
                 <View style={styles.wrapper}>
                     <CheckBox value={check} onChange={checkHandler} />
@@ -64,23 +87,58 @@ const BudgetList = ({navigation}) => {
                     </Text>
                 </View>
 
-                {
-                check === false && 
-                otherBudgetData.map(item => {
+                {/* <View>
+                    {check === false && 
+                        <FlatList
+                            keyExtractor={item => item.planning_number}
+                            data={otherBudgetData}
+                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
+                            />}
+                            refreshing={refresh}
+                            onRefresh={loadBudget}
+                            />
+                        }
+                    {check === true && 
+                        <FlatList
+                            keyExtractor={item => item.planning_number}
+                            data={recommendedBudgetData}
+                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
+                            />}
+                            refreshing={refresh}
+                            onRefresh={loadBudget}
+                        />
+                    }
+                </View> */}
+
+
+                { check === false && 
+                    otherBudgetData.map(item => {
                     return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
-                    userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
+                        userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
+      
                     />;
                 })}
-                {check === true && 
+                { check === true && 
                     recommendedBudgetData.map(item => {
                     return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
-                    userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={false}
+                        userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
+          
                     />;
-                })
-            }
-
+                })} 
+            
             </ScrollView>
-    )
+            </View>
+        )
+    }
+    else {
+        return(
+            <View style={styles.appSize}>
+
+            </View>
+        )
+    }
 }
 const styles = StyleSheet.create({
     appSize: {
