@@ -134,8 +134,10 @@ const ReportWithLastScreen = (props) => {
                 </View>
                 <View style={styles.categoryDiv}>
                     <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
                         <Text style={styles.tableHead}>{props.preMonth}월</Text>
                         <Text style={styles.tableHead}>{props.month}월</Text>
+                        <Text style={styles.tableCurrentCol}></Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableAtt}>구독</Text>
@@ -193,8 +195,10 @@ const ReportWithLastScreen = (props) => {
                 </View>
                 <View style={styles.categoryDiv}>
                     <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
                         <Text style={styles.tableHead}>{props.preMonth}월</Text>
                         <Text style={styles.tableHead}>{props.month}월</Text>
+                        <Text style={styles.tableCurrentCol}></Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableAtt}>경조사</Text>
@@ -252,8 +256,10 @@ const ReportWithLastScreen = (props) => {
                 </View>
                 <View style={styles.categoryDiv}>
                     <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
                         <Text style={styles.tableHead}>{props.preMonth}월</Text>
                         <Text style={styles.tableHead}>{props.month}월</Text>
+                        <Text style={styles.tableCurrentCol}></Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableAtt}>교육</Text>
@@ -461,9 +467,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     tableHead: {
-        width: 120,
-        textAlign: 'center',
-        fontSize: 16,
+        width: 100,
+        textAlign: 'right',
+        fontSize: 15,
         fontWeight: 'bold',
     },
     categoryDiv: {

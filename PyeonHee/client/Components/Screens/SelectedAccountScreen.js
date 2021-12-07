@@ -9,6 +9,7 @@ import { CATEGORY } from './constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import TransactionItemInAccount from './TransactionItemInAccount';
 import SubmitAliasButton from '../Buttons/SubmitAliasButton';
+import BackButton from '../Buttons/BackButton';
 const url = config.url;
 const AccountLogo = (props) => {
     const accountCate = props.accountCate;
@@ -261,6 +262,14 @@ const SelectedAccountScreen = ({navigation, route}) => {
                     </View>
                 </View>
             </Modal>
+            <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>계좌 정보</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
+            </View>
+            <View style={styles.appInnerSize}>
             <View style={styles.appTopDiv}>
                 <View style={styles.appTopLeftDiv}>
                     <AccountLogo accountCate={route.params.accountCate}/>
@@ -306,6 +315,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
             </View>
             </View>
         </View>
+        </View>
         </Root>
     )
                 }
@@ -341,6 +351,14 @@ const SelectedAccountScreen = ({navigation, route}) => {
                     </View>
                 </View>
             </Modal>
+            <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>계좌 정보</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
+            </View>
+            <View style={styles.appInnerSize}>
             <View style={styles.appTopDiv}>
                 <View style={styles.appTopLeftDiv}>
                     <AccountLogo accountCate={route.params.accountCate}/>
@@ -371,6 +389,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
             </View>
             </View>
         </View>
+        </View>
         </Root>
         )
     }
@@ -381,8 +400,32 @@ export default SelectedAccountScreen;
 const styles = StyleSheet.create({
     appSize: {
       flex: 1,
-      padding: 10,
     },
+    appInnerSize: {
+        flex: 1,
+        padding: 10,
+    },
+    appTopBar: {
+        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+      },
+      headerDiv: {
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: 1,
+      },
+      headerRightDiv:{
+        width: 30,
+      },
+      topFont: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+
     appTopDiv:{
         flexDirection: 'row',
         flex: 1,

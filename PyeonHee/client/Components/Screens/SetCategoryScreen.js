@@ -6,6 +6,7 @@ import SetCategoryButton from '../Buttons/SetCategoryButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { CATEGORY } from './constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import BackButton from '../Buttons/BackButton';
 
 const url = config.url;
 const AccountLogo = (props) => {
@@ -184,51 +185,60 @@ const SetCategoryScreen = ({navigation, route}) => {
     return (
         <Root>
         <View style={styles.appSize}>
-            <Text style={styles.titleDiv}>카테고리 설정</Text>
-            <View style={styles.appOutBody}>
-            <AccountLogo bankName={route.params.bankName}/>
-            <View style={styles.appBody}>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>계좌 번호: </Text>
-                <Text style={styles.tranContent}>{route.params.account_num}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 일자: </Text>
-                <Text style={styles.tranContent}>{route.params.tranDate.substring(0,10)}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 시간: </Text>
-                <Text style={styles.tranContent}>{route.params.tranTime}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 금액: </Text>
-                <Text style={styles.tranContent}>{route.params.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>거래 종류: </Text>
-                <Text style={styles.tranContent}>{route.params.inoutType}</Text>
-            </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle} >상호명: </Text>
-                <View style={styles.tranContent}>
-                    <Text >{route.params.organizationName}</Text>
-                    <Text style={styles.styleBranch}>({route.params.branchName})</Text>
+            <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>카테고리 설정</Text>
                 </View>
+                <View style={styles.headerRightDiv}></View>
             </View>
-            <View style={styles.lowDiv}>
-                <Text style={styles.tranTitle}>종류: </Text>
-                <RNPickerSelect
-              placeholder={{
-                label: route.params.tranCate,
-                color: 'gray',
-              }}
-              style={pickerSelectStyles}
-              onValueChange={(value) => setCategory(value)}
-                    items={CATEGORY}
-            />
-            </View>
-            </View>
-            <SetCategoryButton onPress={handleSubmitButton}/>
+            <View style={styles.appInnerSize}>
+                <View style={styles.appOutBody}>
+                <AccountLogo bankName={route.params.bankName}/>
+                <View style={styles.appBody}>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle}>계좌 번호: </Text>
+                    <Text style={styles.tranContent}>{route.params.account_num}</Text>
+                </View>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle}>거래 일자: </Text>
+                    <Text style={styles.tranContent}>{route.params.tranDate.substring(0,4)+'-'+route.params.tranDate.substring(4,6)+'-'+route.params.tranDate.substring(6,8)}</Text>
+                </View>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle}>거래 시간: </Text>
+                    <Text style={styles.tranContent}>{route.params.tranTime}</Text>
+                </View>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle}>거래 금액: </Text>
+                    <Text style={styles.tranContent}>{route.params.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                </View>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle}>거래 종류: </Text>
+                    <Text style={styles.tranContent}>{route.params.inoutType}</Text>
+                </View>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle} >상호명: </Text>
+                    <View style={styles.tranContent}>
+                        <Text >{route.params.organizationName}</Text>
+                        <Text style={styles.styleBranch}>({route.params.branchName})</Text>
+                    </View>
+                </View>
+                <View style={styles.lowDiv}>
+                    <Text style={styles.tranTitle}>종류: </Text>
+                    <RNPickerSelect
+                        placeholder={{
+                            label: '선택',
+                            color: 'gray',
+                        }}
+                        style={pickerSelectStyles}
+                        onValueChange={(value) => setCategory(value)}
+                        items={CATEGORY}
+                        value={route.params.tranCate}
+                    />
+                </View>
+                </View>
+                <SetCategoryButton onPress={handleSubmitButton}/>
+                </View>
             </View>
         </View>
         </Root>
@@ -240,9 +250,33 @@ export default SetCategoryScreen;
 const styles = StyleSheet.create({
     appSize: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
     },
+    appInnerSize: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    appTopBar: {
+        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+      },
+      headerDiv: {
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: 1,
+      },
+      headerRightDiv:{
+        width: 30,
+      },
+      topFont: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+
     appOutBody:{
         backgroundColor: 'white',
         padding: 10,

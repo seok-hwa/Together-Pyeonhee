@@ -55,7 +55,7 @@ const ReportWithPlanScreen = (props) => {
     const realTotal = realFixTotal+realVariableTotal1+realVariableTotal2+realSaving;
     const planTotal = planFixTotal+planVariableTotal1+planVariableTotal2+planSaving;
 
-    const progressPercentage = props.route.params.daily_count/props.date;
+    const progressPercentage = parseInt(props.route.params.daily_count)/props.date;
 
     const difRent = realRent - planRent < 0 ? " -"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realRent - planRent).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const difInsurance = realInsurance - planInsurance < 0? " -"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : " +"+ Math.abs(realInsurance - planInsurance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -168,8 +168,10 @@ const ReportWithPlanScreen = (props) => {
                 </View>
                 <View style={styles.categoryDiv}>
                     <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
                         <Text style={styles.tableHead}>예산 계획</Text>
                         <Text style={styles.tableHead}>실제 지출</Text>
+                        <Text style={styles.tableCurrentCol}></Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableAtt}>구독</Text>
@@ -227,8 +229,10 @@ const ReportWithPlanScreen = (props) => {
                 </View>
                 <View style={styles.categoryDiv}>
                     <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
                         <Text style={styles.tableHead}>예산 계획</Text>
                         <Text style={styles.tableHead}>실제 지출</Text>
+                        <Text style={styles.tableCurrentCol}></Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableAtt}>경조사</Text>
@@ -286,8 +290,10 @@ const ReportWithPlanScreen = (props) => {
                 </View>
                 <View style={styles.categoryDiv}>
                     <View style={styles.tableHeadRow}>
+                        <Text style={styles.tableAtt}></Text>
                         <Text style={styles.tableHead}>예산 계획</Text>
                         <Text style={styles.tableHead}>실제 지출</Text>
+                        <Text style={styles.tableCurrentCol}></Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableAtt}>교육</Text>
@@ -495,9 +501,9 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     tableHead: {
-        width: 120,
-        textAlign: 'center',
-        fontSize: 16,
+        width: 100,
+        textAlign: 'right',
+        fontSize: 14,
         fontWeight: 'bold',
     },
     categoryDiv: {

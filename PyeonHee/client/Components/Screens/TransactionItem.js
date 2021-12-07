@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import AccountItem from './AccountItem';
 import setCategoryScreen from './SetCategoryScreen';
+import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
 
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
@@ -112,13 +113,12 @@ const AccountLogo = (props) => {
       }
   }
 const TransactionItem = (props) => {
-
     return (
         <TouchableOpacity onPress={()=>props.navigation.navigate('SetCategory', {fintech: props.fintech, bankName: props.bankName, organizationName: props.organizationName, tranDate: props.tranDate, tranTime: props.tranTime, tranPrice: props.tranPrice, tranCate: props.tranCate, inoutType: props.inoutType, branchName: props.branchName, account_num: props.account_num,})}>
         <View style={styles.TranContentBox}>
             <View style={styles.BankNameDiv}><AccountLogo bankName={props.bankName}/></View>
             <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text><Text style={styles.BankInFont}>{props.branchName}</Text></View>
-            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate.substring(0,10)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
+            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate.substring(0,4)+'-'+props.tranDate.substring(4,6)+'-'+props.tranDate.substring(6,8)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
             <View style={styles.tranPrice}>
             {props.inoutType === '입금' ? <Text style={styles.tranInPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>:
             <Text style={styles.tranOutPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}

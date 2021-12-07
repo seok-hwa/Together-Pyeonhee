@@ -27,6 +27,7 @@ const FinancialConsultItem = (props) => {
                     body: JSON.stringify({
                       userID: props.userID,
                       counselorName: props.counselorName,
+                      counselor_id: props.consultNumber,
                     }),
                     headers: {
                       'Accept': 'application/json',

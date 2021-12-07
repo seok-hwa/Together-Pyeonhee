@@ -68,11 +68,11 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(result1[0].daily_spent_money <= result1[0].available_money){
                             daily_count = result1[0].daily_count + 1;
                             console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                            // db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
-                            //     if(error2) throw error2;
-                            //     console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                            //     console.log(result2);
-                            // })
+                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                                if(error2) throw error2;
+                                console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
+                                console.log(result2);
+                            })
                         }
                     }
                 })
@@ -84,10 +84,16 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     console.log("예산계획서 적용이 초기화 되었습니다.");
                 });
-                db.query(`UPDATE daily_data SET daily_count = 0`, function(error1, result1){
-                    if(error1) throw error1;
-                    console.log("권장금액 이행률이 초기화 되었습니다.")
-                });
+                db.query(`UPDATE daily_data SET last_count = daily_count`, function(error3, result3){
+                    if(error3) throw error3;
+                    else{
+                        db.query(`UPDATE daily_data SET daily_count = 0`, function(error1, result1){
+                            if(error1) throw error1;
+                            else console.log("권장금액 이행률이 초기화 되었습니다.")
+                        });
+                    }
+                })
+                
                 db.query(`SELECT tier, total_stamp, total_point FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
                     if(error2) throw error2;
                     else{
@@ -129,9 +135,15 @@ const SSHConnection = new Promise((resolve, reject) => {
                 db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
                     if(error1) throw error1
                     else{
-                        var count_stand = new Date().getDate();
-                        var portion = result1[0].daily_count / count_stand * 100;
                         var diff = 0;
+                        var date = new Date();
+                        var year = date.getFullYear();
+                        var month = date.getMonth() + 1;
+                        var last = new Date( year, month ); 
+                        last = new Date(last - 1); 
+                        var count_stand = last.getDate()
+                        var portion = result1[0].daily_count / count_stand * 100;
+
                         db.query(`SELECT total_stamp FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
                             if(error2) throw error2;
                             else{
@@ -443,6 +455,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var userPassword = req.body.userPassword;
                 var userName = req.body.userName;
+                var userPhone = req.body.userPhone;
                 // user table null 값 여부 변경 후 수정 예정
                 const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
                 console.log(encryptedPassowrd);
@@ -451,8 +464,8 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error1) throw error1;
                     else{
                         if(check.length === 0) {
-                            db.query(`insert into user(user_id, password, name)
-                                values (?, ?, ?)`,[userID,encryptedPassowrd,userName], function(error2,result){
+                            db.query(`insert into user(user_id, password, name, phone)
+                                values (?, ?, ?, ?)`,[userID, encryptedPassowrd, userName, userPhone], function(error2,result){
                                 console.log(result);
                                 if(error2) throw error2;
                                 else {
@@ -561,19 +574,30 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.get('/myInfo', function(req,res){
                 console.log(req.query.userID);
                 var userID = req.query.userID;
-                var userName;
-                var userTier;
-                var userStamp;
-                var userPoint;
                 db.query(`SELECT * FROM user WHERE user_id = ?`, [userID], function(error3, result3){
                     if(error3) throw error3;
                     else{
+                        var userMbti = result3[0].mbti;
+                        var description = '';
+                        if(userMbti[0] === 'I') description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
+                        else if(userMbti[0] === 'P') description = description + '당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. ';
+                        
+                        if(userMbti[1] === 'C') description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                        else if(userMbti[1] === 'H') description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                        
+                        if(userMbti[2] === 'S') description = description + '종종 본인 스스로에게 선물을 해주기도 하고 가끔 좋아하는 음식을 먹으며 스트레스를 푸시네요. ';
+                        else if(userMbti[2] === 'O') description = description + '종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. ';
+                        
+                        if(userMbti[3] === 'E') description = description + '소비를 크게 차지하는 부분은 쇼핑을 위주로 하기보다 취미나 사람들을 만나고 경험적인 일을 쌓는데 주로 사용하십니다. ';
+                        else if(userMbti[3] === 'H') description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
+
                         const data = {
                             userName: result3[0].name,
                             userTier: result3[0].tier,
                             userStamp: result3[0].total_stamp,
                             userPoint: result3[0].total_point,
                             userMbti : result3[0].mbti,
+                            description : description,
                         }
                         console.log(data);
                         res.send(data);
@@ -1778,7 +1802,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 now = year + "" + month + "" + date;
                 //var fintechUseNum = req.body.fintechUseNum;
                 db.query(`SELECT real_expense.fintech_use_num, real_expense.bank_name, real_expense.balance_amt, real_expense.tran_date, real_expense.tran_time,
-                real_expense.inout_type, real_expense.print_content, real_expense.tran_amt,real_expense.after_balance_amt, real_expense.branch_name,
+                real_expense.inout_type, real_expense.tran_type, real_expense.print_content, real_expense.tran_amt,real_expense.after_balance_amt, real_expense.branch_name,
                 bank_account.account_num_masked FROM real_expense INNER JOIN bank_account ON real_expense.fintech_use_num = bank_account.fintech_use_num 
                 WHERE bank_account.user_id = ? AND tran_date = ? AND state = 0`,
                     [userID, now], function (error, result) {
@@ -1796,7 +1820,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 //var fintechUseNum = req.body.fintechUseNum;
                 db.query(`SELECT real_expense.fintech_use_num, real_expense.bank_name, real_expense.balance_amt, real_expense.tran_date, real_expense.tran_time,
-                real_expense.inout_type, real_expense.print_content, real_expense.tran_amt,real_expense.after_balance_amt, real_expense.branch_name, 
+                real_expense.inout_type, real_expense.tran_type, real_expense.print_content, real_expense.tran_amt,real_expense.after_balance_amt, real_expense.branch_name,
                 bank_account.account_num_masked FROM real_expense INNER JOIN bank_account ON real_expense.fintech_use_num = bank_account.fintech_use_num 
                 WHERE bank_account.user_id = ? ORDER BY real_expense.tran_date desc;`,
                     [userID], function (error, result) {
@@ -1872,7 +1896,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             db.query(`SELECT BudgetPlanning.user_income, BudgetPlanning.user_savings, BudgetPlanning.monthly_rent, BudgetPlanning.insurance_expense, 
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
-                            BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.daily_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
+                            BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.last_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
                             WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1 AND BudgetPlanning.state = 1;`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
@@ -2016,11 +2040,18 @@ const SSHConnection = new Promise((resolve, reject) => {
                                             etc_expense = item.daily_amount;
                                         }
                                     })
-                                    db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [userID], function(error3, daily_count){
+                                    db.query(`SELECT last_count FROM daily_data WHERE user_id = ?`, [userID], function(error3, daily_count){
                                         if(error3) throw error3;
                                         else{
-                                            var count_stand = new Date().getDate();
-                                            var portion = daily_count[0].daily_count / count_stand * 100;
+                                            console.log("한달리포트로 MBTI 제시 부분");
+                                            console.log(daily_count[0])
+                                            var date = new Date();
+                                            var year = date.getFullYear();
+                                            var month = date.getMonth();
+                                            var last = new Date( year, month ); 
+                                            last = new Date(last - 1); 
+                                            var count_stand = last.getDate()
+                                            var portion = daily_count[0].last_count / count_stand * 100;
                                             // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
                                             var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
                                             // 즉흥 vs 계획
@@ -2217,56 +2248,64 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/requestMatching`, function(req, res){
                 var userID = req.body.userID;
                 var counselorName = req.body.counselorName;
-                
+                var counselor_id = req.body.counselor_id;
                 db.query(`SELECT phone, total_point FROM user WHERE user_id = ?`,[userID], function(error, result){
                     if(error) throw error;
                     else{
-                        var phone = result[0].phone;
-                        var point = result[0].total_point;
-                        if(point > 500){
-                            var text = '편히가계 사용자가 '  + counselorName + ' 상담사님 에게 상담 매칭을 신청했습니다.' + '\n\n' + '사용자의 연락처 : ' + phone + '\n\n' + '빠른 시일내 연락 바랍니다. 감사합니다.' + '\n' + '편히가계 드림.';
-                            point = point - 500;
-                            db.query(`Update user SET total_point = ? WHERE user_id = ?`, [point, userID], function(error1, result1){
-                                if(error1) throw error1;
-                                else{
-                                    db.query(`insert into point(user_id, diff, description) values(?, 500, '상담사 매칭 결제')`, [userID], function(error2, result2){
-                                        if(error2) throw error2;
+                        db.query(`select email from AssetCounselor where counselor_id = ? 
+                        union select email from FinancialCounselor where counselor_id = ?`, [counselor_id, counselor_id], function(err, email){
+                            if(err) throw err;
+                            else {
+                                var toemail = email[0].email;
+                                var phone = result[0].phone;
+                                var point = result[0].total_point;
+                                if(point > 500){
+                                    var text = '편히가계 사용자가 '  + counselorName + ' 상담사님 에게 상담 매칭을 신청했습니다.' + '\n\n' + '사용자의 연락처 : ' + phone + '\n\n' + '빠른 시일내 연락 바랍니다. 감사합니다.' + '\n' + '편히가계 드림.';
+                                    point = point - 500;
+                                    db.query(`Update user SET total_point = ? WHERE user_id = ?`, [point, userID], function(error1, result1){
+                                        if(error1) throw error1;
                                         else{
-                                            let transporter = nodemailer.createTransport({
-                                                service: 'gmail',
-                                                host: 'smtp.gmail.com',
-                                                port: 587,
-                                                secure: false,
-                                                auth: {
-                                                user: config.email,
-                                                pass: config.password,
-                                                },
-                                            });
-                                            let info = transporter.sendMail({
-                                                from: `"Pyeonhee" <${config.email}>`,
-                                                to: config.toemail,
-                                                subject: 'Counselor Matching!',
-                                                text: text,
-                                                //html: `<b>${text}</b>`,
-                                            });
-                            
-                                            console.log('이메일 전송');                    
-                                            res.status(200).json({
-                                                status: 'success',
-                                                code: 200,
-                                                message: 'Sent Auth Email',
-                                            });
+                                            db.query(`insert into point(user_id, diff, description) values(?, 500, '상담사 매칭 결제')`, [userID], function(error2, result2){
+                                                if(error2) throw error2;
+                                                else{
+                                                    let transporter = nodemailer.createTransport({
+                                                        service: 'gmail',
+                                                        host: 'smtp.gmail.com',
+                                                        port: 587,
+                                                        secure: false,
+                                                        auth: {
+                                                        user: config.email,
+                                                        pass: config.password,
+                                                        },
+                                                    });
+                                                    let info = transporter.sendMail({
+                                                        from: `"Pyeonhee" <${config.email}>`,
+                                                        to: toemail,
+                                                        subject: 'Counselor Matching!',
+                                                        text: text,
+                                                        //html: `<b>${text}</b>`,
+                                                    });
+                                    
+                                                    console.log('이메일 전송');                    
+                                                    res.status(200).json({
+                                                        status: 'success',
+                                                        code: 200,
+                                                        message: 'Sent Auth Email',
+                                                    });
+                                                }
+                                            })  
                                         }
-                                    })  
+                                    })
                                 }
-                            })
-                        }
-                        else{
-                            data = {
-                                status : 'lowBalance'
-                            };
-                            res.send(data);
-                        }   
+                                else{
+                                    data = {
+                                        status : 'lowBalance'
+                                    };
+                                    res.send(data);
+                                }  
+                            }
+                        })
+                         
                     }
                 })
                 
@@ -2570,6 +2609,56 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         res.send(data);
                         console.log(data);
+                        db.query(`alter table board auto_increment = 1;`, function (error, result) {
+                            if (error) throw error;
+                            else {
+                                db.query(`SET @COUNT = 0;`, function (error, result) {
+                                    if (error) throw error;
+                                    else {
+                                        db.query(`UPDATE board SET board_number = @COUNT:=@COUNT+1;`, function (error, result) {
+                                            if (error) throw error;
+                                            else {
+                                                //console.log("게시판 글 번호 정렬 완료");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            //사용자 고객센터 글 수정
+            app.post('/queryUpdate', function (req, res) {
+                var boardID = req.body.boardID;
+                var boardTitle = req.body.boardTitle;
+                var boardCate = req.body.boardCate;
+                var boardContent = req.body.boardContent;
+
+                db.query(`UPDATE board SET category = ?, title = ? , content = ? WHERE board_number = ?`, [boardCate, boardTitle, boardContent, boardID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success'
+                        }
+                        res.send(data);
+                        //console.log(data);
+                    }
+                });                
+            });
+
+            //사용자 고객센터 글 삭제
+            app.get('/deleteQueryBoard', function (req, res) {
+                var boardNumber = req.query.boardID;
+                db.query(`DELETE FROM board WHERE board_number = ?`, [boardNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: true
+                        }
+                        res.send(data);
+
                         db.query(`alter table board auto_increment = 1;`, function (error, result) {
                             if (error) throw error;
                             else {

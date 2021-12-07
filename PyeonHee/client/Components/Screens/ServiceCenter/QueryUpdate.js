@@ -11,11 +11,11 @@ import BackButton from '../../Buttons/BackButton'
 
 const url = config.url;
 
-const QueryWrite = ({navigation}) => {
+const QueryUpdate = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
-    const [boardTitle, setBoardTitle] = useState('');
-    const [boardCate, setBoardCate] = useState('');
-    const [boardContent, setBoardContent] = useState('');
+    const [boardTitle, setBoardTitle] = useState(route.params.boardTitle);
+    const [boardCate, setBoardCate] = useState(route.params.boardCate);
+    const [boardContent, setBoardContent] = useState(route.params.boardContent);
     
     useEffect(()=>{
         let tempID;
@@ -61,13 +61,14 @@ const QueryWrite = ({navigation}) => {
             })
             return;
         }
-        fetch(`${url}/queryRegister`, {
+        console.log(`${url}/queryUpdate`);
+        fetch(`${url}/queryUpdate`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,
                 boardCate: boardCate,
                 boardContent: boardContent,
-                userID: userID,
+                boardID: route.params.boardID,
             }),
             headers: {
                 'Accept': 'application/json',
@@ -80,7 +81,7 @@ const QueryWrite = ({navigation}) => {
             if(responseJson.status === 'success'){
                 Popup.show({
                     type: 'success',
-                    textBody: '등록이 완료되었습니다.',
+                    textBody: '수정이 완료되었습니다.',
                     buttonText: '확인',
                     okButtonStyle: {backgroundColor: '#0000CD'},
                     iconEnabled: false,
@@ -90,7 +91,7 @@ const QueryWrite = ({navigation}) => {
                     }
                 })
             }else{
-                console.log('등록 실패');
+                console.log('수정 실패');
             }
         })
         .catch((error)=>{
@@ -104,7 +105,7 @@ const QueryWrite = ({navigation}) => {
                 <View style={styles.appTopBar}>
                     <BackButton onPress={()=>{navigation.goBack()}}/>
                     <View style={styles.headerDiv}>
-                    <Text style={styles.topFont}>문의게시판 등록</Text>
+                    <Text style={styles.topFont}>문의게시판 수정</Text>
                     </View>
                     <View style={styles.headerRightDiv}></View>
                 </View>
@@ -113,9 +114,9 @@ const QueryWrite = ({navigation}) => {
                         <Text style={styles.TitleLeft}>제목: </Text>
                         <TextInput 
                             style={styles.textInputDesign}
-                            placeholder='제목'
                             onChangeText={(boardTitle) => setBoardTitle(boardTitle)}
                             maxLength ={45}
+                            value={boardTitle}
                         />
                     </View>
                     <View style={styles.CateDiv}>
@@ -127,8 +128,9 @@ const QueryWrite = ({navigation}) => {
                             color: 'gray',
                             }}
                             style={pickerSelectStyles}
-                                onValueChange={(value) => setBoardCate(value)}
-                                items={BOARDCATEGORY}
+                            onValueChange={(value) => setBoardCate(value)}
+                            items={BOARDCATEGORY}
+                            value={boardCate}
                         />
                         </View>
                     </View>
@@ -138,6 +140,7 @@ const QueryWrite = ({navigation}) => {
                         placeholder='내용'
                         onChangeText={(boardContent) => setBoardContent(boardContent)}
                         maxLength ={1024}
+                        value={boardContent}
                     />
                 <View style={styles.ButtonDiv}>
                     <QuerySubmitButton onPress={handleSubmitButton}/>
@@ -171,7 +174,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
       },
-
 
     TitleDiv:{
         height: 50,
@@ -245,4 +247,4 @@ const pickerSelectStyles = StyleSheet.create({
         fontSize: 10,
     },
 });
-export default QueryWrite;
+export default QueryUpdate;

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default class MbtiSelectButton extends Component{
+export default class QueryDeleteButton extends Component{
   static defaultProps = {
     onPress: () => null,
   }
@@ -15,7 +15,7 @@ export default class MbtiSelectButton extends Component{
   render(){
     return(
       <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
-          <Text style={styles.title}>소비 패턴 유형 설명 보기</Text>
+          <Text style={styles.title}>삭제</Text>
       </TouchableOpacity>
     );
   }
@@ -23,19 +23,18 @@ export default class MbtiSelectButton extends Component{
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#0000CD',
-    width: 190,
-    height: 40,
+    backgroundColor: '#778899',
+    width: 90,
+    height: 35,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: 'white',
-    marginTop: 5,
-    marginBottom: 5,
-    borderRadius: 5,
+    margin: 5,
+    borderRadius: 15,
   },
   title: {
-    fontSize: 15,
+    fontSize: 13,
     color: 'white',
     fontWeight: 'bold',
   },
