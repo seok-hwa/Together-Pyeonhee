@@ -18,6 +18,7 @@ import {
     ScrollView,
     Image,
 } from 'react-native';
+import { alignContent, alignItems, background, backgroundColor } from 'styled-system';
 const url = config.url;
 const LikeButton = (props) => {          //like
     const sendUserLike=()=>{
@@ -53,11 +54,11 @@ const LikeButton = (props) => {          //like
         <TouchableOpacity onPress={sendUserLike}>
             {props.userLike ?
                 <View style={{alignItems: 'center',}}> 
-                    <Icon name="thumbs-up-outline" size={40} color={'blue'}></Icon>
+                    <Icon name="thumbs-up-outline" size={30} color={'blue'}></Icon>
                     <Text style={{color: 'blue', fontWeight: 'bold', marginRight: 3,}}>{props.userLikeCount}</Text>
                 </View> : 
                 <View style={{alignItems: 'center',}}> 
-                    <Icon name="thumbs-up-outline" size={40} color={'gray'}></Icon>
+                    <Icon name="thumbs-up-outline" size={30} color={'gray'}></Icon>
                     <Text style={{color: 'gray', marginRight: 3,}}>{props.userLikeCount}</Text>
                 </View> 
             }
@@ -371,155 +372,231 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
     if(loading === true){
         return (
             <Root>
-            <ScrollView style={styles.appSize}>
-                <View style={styles.appTopBar}>
-                    <View style={styles.appTitlePosition}>
-                        <View>
-                            <Text style={styles.appTitle}>추천 예산 계획서</Text> 
+                <ScrollView style={styles.appSize}>
+
+                    <View style={styles.appTopBar}>
+                        <View style={styles.appTitlePosition}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <Icon name="arrow-back-outline" size={25} color={'gray'}></Icon>
+                            </TouchableOpacity>
+                            <View style={{ marginLeft: 20, justifyContent: 'center',}}>
+                                <Text style={styles.appTitle}>추천 예산 계획서</Text> 
+                            </View>
                         </View>
                     </View>
-                </View>
-                <View style={styles.appBody}>
-                    <View style={styles.appInnerBody}>
-                        <View style={styles.appTopInnderCard}>
-                            <View style={styles.topDivInCard}>
-                                <View style={styles.leftDivInCard}>
-                                    <View style={styles.textDiv} >
-                                        <Text>나이: </Text>
-                                        <Text style={styles.textStyle}>{userAge}세</Text> 
-                                    </View>
-                                    <View style={styles.textDiv} >
-                                        <Text>수입: </Text>
-                                        <Text style={styles.textStyle}>{userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
-                                    </View>
-                                    <View style={styles.textDiv} >
-                                        <Text style={{marginTop: 3,}}>소비 성향: </Text>
-                                        <View style={styles.mbtiInnerContainer}>
-                                            <Text style={styles.mbtiText}>{userMBTI}</Text>
-                                        </View>
-                                    </View>
+
+
+                    <View style={styles.appBody}>
+                        <View style={styles.infoBody}>
+                            <View style={styles.mbtiBody}>
+                                <View style={styles.mbtiInnerContainer}>
+                                    <Text style={styles.mbtiText}>{userMBTI}</Text>
                                 </View>
-                                <View style={styles.rightDivInCard}>
-                                    <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} userID = {userID} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
+                                <Text style={{fontSize: 13,}}>소비성향</Text>
+                            </View>
+                            <View style={styles.leftDivInCard}>
+                                <View style={styles.textDiv} >
+                                    <Text>나이: </Text>
+                                    <Text style={styles.textStyle}>{userAge}세</Text> 
+                                </View>
+                                <View style={styles.textDiv} >
+                                    <Text>수입: </Text>
+                                    <Text style={styles.textStyle}>{userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
                                 </View>
                             </View>
+                            <View style={styles.rightDivInCard}>
+                                <LikeButton budgetPlanID= {budgetPlanID} userLike={userLike} userLikeCount={userLikeCount} userID = {userID} getUserLike={getUserLike} getUserLikeCount={getUserLikeCount}/>
+                            </View>
+
+                        </View>
+
+                        <View style={styles.titleDiv}>
                             <Text style={styles.savingTitle}>이 사용자의 저금계획</Text>
+                        </View>
+
+                        <View style={styles.appInnerBody}>
                             <View style={styles.bottomDivInCard}>
                                 {saving.length === 0 ?
-                                <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
-                                saving.map(item => {
-                                return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
-                                startSavingDate={item.start_date} endSavingDate={item.finish_date} />;
+                                    <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                                        saving.map(item => {
+                                        return <SavingItem key={item.saving_number} savingName={item.saving_name} currentSavingMoney={item.all_savings_money} goalSavingMoney={item.savings_money}
+                                        startSavingDate={item.start_date} endSavingDate={item.finish_date} />;
                                 })}
                             </View>
                         </View>
-                    </View>
-                    <View style={styles.MoneyBody}>
-                        <Text style={styles.fixTitle}>고정</Text>
-                        <View style={styles.fixBody}>
-                            <View style={styles.fixInnerDiv}>
-                                <Icon name={'log-out-outline'} size={20} color={'gray'}/>
-                                <Text style={styles.fixCate}>월세</Text>
-                                <Text style={styles.fixPlanMoneyText}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+
+
+
+
+                        <View style={styles.titleDiv}>
+                            <Text style={styles.savingTitle}>카테고리별 예산계획</Text>
+                        </View>
+                        <View style={styles.categoryBody}>
+                            <View style={styles.categoryDiv}>
+                                <Text style={styles.categoryText}>고정지출</Text>
                             </View>
-                            <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/health-insurance.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>보험</Text>
-                                <Text style={styles.fixPlanMoneyText}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                            <View style={styles.categoryInnerBody}>
+                        
+                                
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Icon name={'log-out-outline'} size={20} color={'#203864'}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>월세</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/health-insurance.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>보험료</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Icon name={'phone-portrait-outline'} size={20} color={'#203864'}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>통신비</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>구독료</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
                             </View>
-                            <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/communication.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>통신</Text>
-                                <Text style={styles.fixPlanMoneyText}>{communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                            <View style={styles.categoryDiv}>
+                                <Text style={styles.categoryText}>계획지출</Text>
                             </View>
-                            <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/subscribe.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>구독</Text>
-                                <Text style={styles.fixPlanMoneyText}>{subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                            <View style={styles.categoryInnerBody}>
+
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/traffic.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>교통비</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/leisure.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>문화/취미/여행</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/shopping.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>뷰티/미용/쇼핑</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/education.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>교육</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.priceTitle}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/medical.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>의료비</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                    <Text style={styles.priceTitle}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Image source={require('./assets/category/event.png')} style={styles.categoryIconDiv}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>경조사/선물</Text>
+                                        <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.itemDiv}>
+                                    <View style={styles.logoContainer}>
+                                        <Icon name={'ellipsis-horizontal-outline'}  size={20} color={'#203864'}/>
+                                    </View>
+                                    <Text style={styles.itemTitle}>기타</Text>
+                                    <View style={{alignItems: 'flex-end'}}>
+                                        <Text style={styles.priceTitle}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                                    </View>
+                                </View>
+                                {/* </View> */}
                             </View>
                         </View>
-                        <Text style={styles.fixTitle}>계획</Text>
-                        <View style={styles.planBody}>
-                            <View style={styles.fixInnerDiv}>
-                            <Image source={require('./assets/category/traffic.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>교통</Text>
-                                <Text style={styles.fixPlanMoneyText}>{traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
-                            <Image source={require('./assets/category/medical.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>의료</Text>
-                                <Text style={styles.fixPlanMoneyText}>{medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
-                                <Image source={require('./assets/category/education.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>교육</Text>
-                                <Text style={styles.fixPlanMoneyText}>{education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
-                            <Image source={require('./assets/category/shopping.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>쇼핑</Text>
-                                <Text style={styles.fixPlanMoneyText}>{shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
-                            <Image source={require('./assets/category/hobby.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>취미</Text>
-                                <Text style={styles.fixPlanMoneyText}>{hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
-                            <Image source={require('./assets/category/event.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>경조사</Text>
-                                <Text style={styles.fixPlanMoneyText}>{event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
-                            <View style={styles.fixInnerDiv}>
-                            <Image source={require('./assets/category/ect.png')} style={styles.iconDiv}/>
-                                <Text style={styles.fixCate}>기타</Text>
-                                <Text style={styles.fixPlanMoneyText}>{ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
-                            </View>
+
+                        <View style={styles.titleDiv}>
+                            <Text style={styles.savingTitle}>카테고리별 예산계획 비율</Text>
                         </View>
-                    </View>
-                    <View style={styles.appBottomInnerBody}>
-                        <Text style={{fontSize: 15, fontWeight: '800', margin: 50,}}>카테고리별 예산</Text>
-                        <PieChart
-                            data={pieChartData}
-                            height={220}
-                            width={360}
-                            chartConfig={{
-                                backgroundColor: "#0091EA",
-                                backgroundGradientFrom: "#0091EA",
-                                backgroundGradientTo: "#0091EA",
-                                color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
-                            }}
-                            accessor="population"
-                            backgroundColor="transparent"
-                        />
+                        <View style={styles.appBottomInnerBody}>
+                            <PieChart
+                                data={pieChartData}
+                                height={220}
+                                width={360}
+                                chartConfig={{
+                                    backgroundColor: "#0091EA",
+                                    backgroundGradientFrom: "#0091EA",
+                                    backgroundGradientTo: "#0091EA",
+                                    color: (opacity = 1) => `rgba(${255}, ${255}, ${255}, ${opacity})`
+                                }}
+                                accessor="population"
+                                backgroundColor="transparent"
+                            />
+                            
+                        </View>
+                        <View style={{alignItems:'center'}}>
                         {userStore === false ?
-                            <PlanningSaveButton onPress={handleSubmitSaveButton}/>
-                            :
-                            <PlanningSaveCancelButton onPress={handleSubmitCancelButton}/>
-                        }
+                                <PlanningSaveButton onPress={handleSubmitSaveButton}/>
+                                :
+                                <PlanningSaveCancelButton onPress={handleSubmitCancelButton}/>
+                            }
+                            </View>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
             </Root>
         )
     }
     else{
         return(
             <Root>
-            <View style={styles.appSize}>
-                <View style={styles.appTopBar}>
-                    <View style={styles.backButtonPosition}>
-                        <BackButton />
-                    </View>
-                    <View style={styles.appTitlePosition}>
-                        <View>
-                            <Text style={styles.appTitle}>추천 예산 계획서</Text> 
+                <View style={styles.appSize}>
+                    <View style={styles.appTopBar}>
+                        <View style={styles.appTitlePosition}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <Icon name="arrow-back-outline" size={25} color={'gray'}></Icon>
+                            </TouchableOpacity>
+                            <View style={{ marginLeft: 20, justifyContent: 'center',}}>
+                                <Text style={styles.appTitle}>추천 예산 계획서</Text> 
+                            </View>
                         </View>
                     </View>
+
+                    <View style={styles.appBody}>
+
+                    </View>
                 </View>
-                <View style={styles.appBody}>
-                </View>
-            </View>
             </Root>
         );
     }
@@ -527,26 +604,20 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
     appSize: {
         flex: 1,
+        backgroundColor:'#F0F4FA',
     },
     appTopBar: {
         height: 50,
         backgroundColor: 'white',
-        justifyContent: 'center',
-    },
-    backButtonPosition: {
-        marginLeft: 10,
-        flex: 1,
-        flexDirection: 'column-reverse',
+        alignItems: 'center',
+        flexDirection: 'row'
     },
     appTitlePosition: {
         marginLeft: 20,
+        flexDirection: 'row',
     },
     appTitle: {
         fontSize: 15,
-    },
-    infoDiv:{
-        width: 100,
-        borderWidth: 1,
     },
     appBody: {
         flex: 10,
@@ -555,29 +626,15 @@ const styles = StyleSheet.create({
     },
     appInnerBody: {
         flex: 1,
-        borderRadius: 10,
-        marginTop: 30,
-        marginLeft: 20,
-        marginRight: 20,
-        marginBottom: 10,
+        borderRadius: 13,
+        marginVertical: 5,
+        marginHorizontal: 10,
         backgroundColor: 'white',
-    },
-    appTopInnderCard: {
-        flex: 1,
-        marginTop: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        marginBottom: 10,
-    },
-    topDivInCard: {
-        height: 80,
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderColor: 'gray',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     leftDivInCard:{
         flex: 2,
-        marginBottom: 5,
     },
     rightDivInCard: {
         flex: 1,
@@ -586,29 +643,22 @@ const styles = StyleSheet.create({
     },
     bottomDivInCard: {
         flex: 1,
-        marginTop: 10,
+        marginVertical: 10,
         borderRadius: 10,
         alignItems: 'center',
     },
     savingTitle:{
         marginTop: 10,
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: 'bold',
+        color: '#203864',
     },
     appBottomInnerBody: {
         flex: 3,
-        marginTop: 20,
+        margin: 10,
         alignItems: 'center',
-    },
-    appBottomInnerCard:{
-        width: 150,
-    },
-    appBottomLineInnerCard:{
-        flexDirection: 'row',
-    },
-    appBottomRightInnerCard:{
-        width: 115,
-        flexDirection: 'row-reverse',
+        borderRadius: 13,
+        backgroundColor: 'white',
     },
     textDiv: {
         flexDirection: 'row',
@@ -618,88 +668,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         width: 110,
     },
-    mbtiStyle: {
-        marginLeft: 10,
-        fontWeight: 'bold',
-        color: 'blue',
-        fontSize: 15,
-    },
-    savingText: {
-        color: '#191970',
-        marginLeft: 5,
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
-    savingDiv: {
-        marginTop: 10,
-        height: 100,
-        borderWidth: 1,
-        borderRadius: 5,
-    },
-    savingInnerDiv: {
-        flexDirection: 'row',
-    },
-    savingOuterDiv: {
-        marginTop: 10,
-    },
-    goalText: {
-        fontSize: 12,
-    },
-    savingBottomDiv: {
-        marginTop: 10,
-    },
-    progressText: {
-        color: 'blue',
-        fontWeight: 'bold',
-        fontSize: 17,
-    },
-    MoneyBody: {
-        height: 500,
-        borderRadius: 10,
-        marginTop: 30,
-        marginLeft: 20,
-        marginRight: 20,
-        marginBottom: 10,
-        backgroundColor: 'white',
-    },
-    fixTitle: {
-        margin: 30,
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    fixBody:{
-        marginLeft: 30,
-        marginRight: 30,
-        height: 110,
-        borderRadius: 3,
-        alignItems: 'center',
-    },
-    fixCate:{
-        width: 50,
-    },
-    fixInnerDiv:{
-        flexDirection: 'row',
-        margin: 5,
-    },
-    planBody:{
-        marginLeft: 30,
-        marginRight: 30,
-        height: 190,
-        borderRadius: 3,
-        alignItems: 'center',
-    },
-    fixPlanMoneyText:{
-        width: 120,
-        textAlign:'right',
-    },
     iconDiv:{
         width: 20,
         height: 20,
         marginRight: 15,
     },
     mbtiInnerContainer: {
-        backgroundColor: '#203864',
-        padding: 3,
+        backgroundColor: 'pink',
+        paddingVertical: 5,
+        paddingHorizontal: 8,
         borderRadius: 5,
     },
     mbtiText: {
@@ -707,5 +684,72 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'white',
     },
+    categoryBody:{
+        borderRadius: 13,
+        paddingVertical: 5,
+        marginBottom: 20,
+        marginHorizontal: 10,
+        backgroundColor: 'white',
+    },
+    categoryInnerBody: {
+        marginVertical:5, 
+        marginHorizontal: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    itemDiv: {
+        flexDirection: 'row',
+        margin: 5,
+        alignItems: 'center',
+    },
+    logoContainer: {
+        padding: 6,
+        borderRadius: 20,
+        marginRight: 10, 
+        borderColor: '#203864',
+        borderWidth: 1,
+    },
+    itemTitle: {
+        width: 110,
+    },
+    priceTitle: {
+        width: 150,
+        textAlign: 'right',
+        color: '#203864',
+    },
+    categoryIconDiv: {
+        margin: 3,
+        width: 18,
+        height: 18,
+        tintColor: '#203864',
+    },
+    infoBody: {
+        padding: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#F0F4FA',
+        borderBottomWidth: 5,
+        borderBottomColor: '#DCDCDC',
+    },
+    mbtiBody: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    titleDiv: {
+        marginTop: 15,
+        marginLeft: 10,
+    },
+    categoryDiv:{
+        width: 80,
+        marginTop: 10,
+        marginLeft:15, 
+        alignItems:'center',
+        backgroundColor: '#203864'
+    },
+    categoryText:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        color: 'white',
+    }
 })
 export default RecommendedPlanningScreen;
