@@ -211,7 +211,7 @@ const EditBudgetScreen = (props) => {
                 transparent={false}
                 visible={modalVisible}
                 onRequestClose={() => {
-                 alert('Modal has now been closed.');
+                //  alert('Modal has now been closed.');
                  setModalVisible(!modalVisible);
                 }}
             >       
