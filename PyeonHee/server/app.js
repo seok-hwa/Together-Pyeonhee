@@ -68,7 +68,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(result1[0].daily_spent_money <= result1[0].available_money){
                             daily_count = result1[0].daily_count + 1;
                             console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                            db.query(`UPDATE daily_data SET daily_count = ? WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
+                            db.query(`UPDATE daily_data SET daily_count = ? daily_spent_money = 0 WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
                                 if(error2) throw error2;
                                 console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
                                 console.log(result2);
