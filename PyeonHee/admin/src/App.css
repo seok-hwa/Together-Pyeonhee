@@ -319,6 +319,13 @@
   margin-top: 0.7cm;
   font-size: 0.5cm;
 }
+.BoardTitle{
+  height: 0.9cm;
+  width: 80%;
+  margin-top: 0.7cm;
+  font-size: 0.5cm;
+  text-align: left;
+}
 .CounselorTitleInput{
   height: 0.9cm;
   width: 60%;
@@ -330,6 +337,13 @@
   width: 80%;
   font-size: 0.3cm;
   margin-top: 0.5cm;
+}
+.LinkText{
+  height: 0.6cm;
+  width: 80%;
+  font-size: 0.4cm;
+  margin-top: 0.5cm;
+  text-align: left;
 }
 .counselorCompanyInput{
   height: 0.7cm;

@@ -109,7 +109,7 @@ function FinancialPensionList(props) {
   }
   return (
     <div className="NotificationDiv">
-      <p className="NotificationTitleText">금융상품</p>
+      <p className="NotificationTitleText">연금</p>
       <div className="NotificationWriteButtonDiv">
           <button className="NotificationWriteButton" type='button' onClick={writeNotification}>상품 등록</button>
       </div>

@@ -20,6 +20,7 @@ import CounselorListFinancial from "./pages/CounselorListFinancial";
 import CounselorListAsset from "./pages/CounselorListAsset";
 import FinancialItemWrite from "./pages/FinancialItemWrite";
 import CounselorWrite from "./pages/CounselorWrite";
+import FundBoard from "./pages/FundBoard";
 
 import './App.css';
 
@@ -71,6 +72,7 @@ function App() {
             <Route path="/queryBoard/:boardID" component={QueryBoard} />
             <Route path="/queryUpdate/:boardID" component={QueryUpdate} />
             <Route path="/notificationUpdate/:boardID" component={NotificationUpdate} />
+            <Route path="/fundBoard/:boardID" component={FundBoard} />
           </Switch>
         </div>
       </div>
