@@ -57,7 +57,7 @@ if(counselorCate === '금융상품'){
           <div className="NotificationWriteDiv">
             <div className="NotificationWriteBodyDiv">
               <div className="BoardWriteTitleDiv">
-                <p className="NotificationBoardTitleFont">이름:&nbsp;</p>
+                <p className="NotificationBoardTitleFont">상담사 이름:&nbsp;</p>
                 <input 
                 className="BoardTitleInput"
                 placeholder='제목'
