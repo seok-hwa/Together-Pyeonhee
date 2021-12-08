@@ -4,19 +4,72 @@ import '../App.css';
 
 function FinancialItemWrite(props) {
   const [productName, setProductName] = useState('');
-  const [boardContent, setBoardContent] = useState('');
   const [productCate, setProductCate] = useState('펀드');
+
+  //펀드
+  const [profit3, setProfit3] = useState(0.0);
+  const [profit6, setProfit6] = useState(0.0);
+  const [profit12, setProfit12] = useState(0.0);
+  const [fundSize, setFundSize] = useState(0);
+
+  //적금
+  const [type, setType] = useState(''); 
+  const [interest, setInterest] = useState(0.0);  //연금 공통, 대출 공통
+  const [maxInterest, setMaxInterest] = useState(0.0);
+
+  //연금
+  const [disconnected, setDisconnected] = useState('');
+  const [pensionType, setPensionType] = useState('');
+
+  //대출
+  const [interestType, setInterestType] = useState('');
+  const [repayType, setRepayType] = useState('');
+
+  const [link, setLink] = useState('');
 
   const adminID = sessionStorage.getItem('userID');
 
   const handleInputName = (e) => {
     setProductName(e.target.value)
   }
-  const handleInputContent = (e) => {
-    setBoardContent(e.target.value)
-  }
   const handleInputCate = (e) => {
     setProductCate(e.target.value)
+  }
+  const handleInputLink = (e) => {
+    setLink(e.target.value)
+  }
+  const handleProfit3Input = (e) => {
+    setProfit3(e.target.value)
+  }
+  const handleProfit6Input = (e) => {
+    setProfit6(e.target.value)
+  }
+  const handleProfit12Input = (e) => {
+    setProfit12(e.target.value)
+  }
+  const handleFundSizeInput = (e) => {
+    setFundSize(e.target.value)
+  }
+  const handleSavingTypeInput = (e) => {
+    setType(e.target.value)
+  }
+  const handleInterestInput = (e) => {
+    setInterest(e.target.value)
+  }
+  const handleMaxInterestInput = (e) => {
+    setMaxInterest(e.target.value)
+  }
+  const handleInterestTypeInput = (e) => {
+    setInterestType(e.target.value)
+  }
+  const handleRepayTypeInput = (e) => {
+    setRepayType(e.target.value)
+  }
+  const handlePensionTypeInput = (e) => {
+    setPensionType(e.target.value)
+  }
+  const handleDisconnectedInput = (e) => {
+    setDisconnected(e.target.value)
   }
 /*
   const submit=()=>{
@@ -60,12 +113,24 @@ function FinancialItemWrite(props) {
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
                 className="BoardTitleInput"
-                placeholder='제목'
+                placeholder='상품명'
                 type='text'
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
                 maxLength ={50}
+                ></input>
+              </div>
+              <div className="LinkDiv">
+                <p className="LinkFont">상품링크:&nbsp;</p>
+                <input 
+                className="LinkInput"
+                placeholder='상품링크'
+                type='text'
+                name='link_input'
+                value={link}
+                onChange={handleInputLink}
+                maxLength ={200}
                 ></input>
               </div>
               <div className="BoardCateInputDiv">
@@ -82,8 +147,57 @@ function FinancialItemWrite(props) {
                     <option value="연금">연금</option>
                   </select>
               </div>
-                  <div className="NotificationBoardOuterContentDiv">
-                    <p>펀드</p>
+                <div className="FinancialFundDiv">
+                    <div className="FinancialFundWriteDiv">
+                      <div className="FinancialRow">
+                        <p>3개월 수익률:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='profit3_input'
+                        onChange={handleProfit3Input}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                      <div className="FinancialRow">
+                        <p>6개월 수익률:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='profit6_input'
+                        onChange={handleProfit6Input}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                      <div className="FinancialRow">
+                        <p>1년 수익률:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='profit12_input'
+                        onChange={handleProfit12Input}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                      <div className="FinancialRow">
+                        <p>펀드 규모:&nbsp;</p>
+                        <input 
+                        className="FinancialFundSizeInput"
+                        placeholder='정수'
+                        type='text'
+                        name='fundSize_input'
+                        onChange={handleFundSizeInput}
+                        maxLength ={6}
+                        ></input>
+                        <p>억</p>
+                      </div>
+                  </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
                 <button className="NotificationUpdateButton" type='button'>등록</button>
@@ -102,12 +216,24 @@ function FinancialItemWrite(props) {
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
                 className="BoardTitleInput"
-                placeholder='제목'
+                placeholder='상품명'
                 type='text'
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
                 maxLength ={50}
+                ></input>
+              </div>
+              <div className="LinkDiv">
+                <p className="LinkFont">상품링크:&nbsp;</p>
+                <input 
+                className="LinkInput"
+                placeholder='상품링크'
+                type='text'
+                name='link_input'
+                value={link}
+                onChange={handleInputLink}
+                maxLength ={200}
                 ></input>
               </div>
               <div className="BoardCateInputDiv">
@@ -124,8 +250,45 @@ function FinancialItemWrite(props) {
                     <option value="연금">연금</option>
                   </select>
               </div>
-                  <div className="NotificationBoardOuterContentDiv">
-                    <p>적금</p>
+                <div className="FinancialFundDiv">
+                    <div className="FinancialFundWriteDiv">
+                      <div className="FinancialRow">
+                        <p>방식&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="type_input"
+                        onChange={handleSavingTypeInput}
+                        value={type}
+                        >
+                          <option value="정액적립식" selected>정액적립식</option>
+                          <option value="자유적립식">자유적립식</option>
+                        </select>
+                      </div>
+                      <div className="FinancialRow">
+                        <p>이자율:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='interest_Saving_input'
+                        onChange={handleInterestInput}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                      <div className="FinancialRow">
+                        <p>최고 우대금리:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='maxInterest_Saving_input'
+                        onChange={handleMaxInterestInput}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                    </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
                 <button className="NotificationUpdateButton" type='button'>등록</button>
@@ -144,12 +307,24 @@ function FinancialItemWrite(props) {
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
                 className="BoardTitleInput"
-                placeholder='제목'
+                placeholder='상품명'
                 type='text'
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
                 maxLength ={50}
+                ></input>
+              </div>
+              <div className="LinkDiv">
+                <p className="LinkFont">상품링크:&nbsp;</p>
+                <input 
+                className="LinkInput"
+                placeholder='상품링크'
+                type='text'
+                name='link_input'
+                value={link}
+                onChange={handleInputLink}
+                maxLength ={200}
                 ></input>
               </div>
               <div className="BoardCateInputDiv">
@@ -166,8 +341,48 @@ function FinancialItemWrite(props) {
                     <option value="연금">연금</option>
                   </select>
               </div>
-                  <div className="NotificationBoardOuterContentDiv">
-                    <p>대출</p>
+              <div className="FinancialFundDiv">
+                    <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                      <p>금리 방식&nbsp;</p>
+                      <select 
+                      className="SavingTypeInput" 
+                      name="interestType_input"
+                      onChange={handleInterestTypeInput}
+                      value={interestType}
+                      >
+                        <option value="변동금리" selected>변동금리</option>
+                        <option value="고정금리">고정금리</option>
+                        <option value="대출금리">대출금리</option>
+                      </select>
+                    </div>
+                    <div className="FinancialRow">
+                      <p>상환 방식&nbsp;</p>
+                      <select 
+                      className="SavingTypeInput" 
+                      name="repayType_input"
+                      onChange={handleRepayTypeInput}
+                      value={repayType}
+                      >
+                        <option value="원리금분할상환" selected>원리금분할상환</option>
+                        <option value="원금균등상환">원금균등상환</option>
+                        <option value="만기일시상환">만기일시상환</option>
+                        <option value="">없음</option>
+                      </select>
+                    </div>
+                    <div className="FinancialRow">
+                        <p>금리:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='interest_Loan_input'
+                        onChange={handleInterestInput}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
                 <button className="NotificationUpdateButton" type='button'>등록</button>
@@ -186,12 +401,24 @@ function FinancialItemWrite(props) {
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
                 className="BoardTitleInput"
-                placeholder='제목'
+                placeholder='상품명'
                 type='text'
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
                 maxLength ={50}
+                ></input>
+              </div>
+              <div className="LinkDiv">
+                <p className="LinkFont">상품링크:&nbsp;</p>
+                <input 
+                className="LinkInput"
+                placeholder='상품링크'
+                type='text'
+                name='link_input'
+                value={link}
+                onChange={handleInputLink}
+                maxLength ={200}
                 ></input>
               </div>
               <div className="BoardCateInputDiv">
@@ -208,8 +435,46 @@ function FinancialItemWrite(props) {
                     <option value="연금">연금</option>
                   </select>
               </div>
-                  <div className="NotificationBoardOuterContentDiv">
-                    <p>연금</p>
+              <div className="FinancialFundDiv">
+                    <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                      <p>유형&nbsp;</p>
+                      <select 
+                      className="SavingTypeInput" 
+                      name="pensionType_input"
+                      onChange={handlePensionTypeInput}
+                      value={pensionType}
+                      >
+                        <option value="안정형" selected>안정형</option>
+                        <option value="채권형">채권형</option>
+                        <option value="금리연동형">금리연동형</option>
+                      </select>
+                    </div>
+                    <div className="FinancialRow">
+                      <p>중도해지 가능여부&nbsp;</p>
+                      <select 
+                      className="SavingTypeInput" 
+                      name="disconnected_input"
+                      onChange={handleDisconnectedInput}
+                      value={disconnected}
+                      >
+                        <option value="가능" selected>가능</option>
+                        <option value="불가능">불가능</option>
+                      </select>
+                    </div>
+                    <div className="FinancialRow">
+                        <p>수익률:&nbsp;</p>
+                        <input 
+                        className="FinancialFundProfitInput"
+                        placeholder='실수'
+                        type='text'
+                        name='interest_Pension_input'
+                        onChange={handleInterestInput}
+                        maxLength ={6}
+                        ></input>
+                        <p>%</p>
+                      </div>
+                </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
                 <button className="NotificationUpdateButton" type='button'>등록</button>

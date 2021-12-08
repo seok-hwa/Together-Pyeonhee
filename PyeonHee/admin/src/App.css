@@ -182,6 +182,10 @@
   font-size: 0.7cm;
   font-weight: bold;
 }
+.LinkFont{
+  font-size: 0.5cm;
+  font-weight: bold;
+}
 .NotificationBoardCateFont{
   font-size: 0.5cm;
   font-weight: bold;
@@ -209,6 +213,12 @@
   align-items: center;
   justify-content: center;
   display: flex;
+}
+.FinancialItemWriteDiv{
+  margin-top: 1cm;
+  margin-bottom: 1cm;
+  width: 100%;
+  height: 10cm;
 }
 .NotificationBoardInnerContentDiv{
   width: 80%;
@@ -267,11 +277,22 @@
   display: flex;
   justify-content: center;
 }
+.LinkDiv{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .BoardTitleInput{
   height: 0.9cm;
   width: 80%;
   margin-top: 0.7cm;
   font-size: 0.5cm;
+}
+.LinkInput{
+  height: 0.6cm;
+  width: 80%;
+  font-size: 0.3cm;
+  margin-top: 0.5cm;
 }
 .BoardContentInput{
   width: 80%;
@@ -284,6 +305,13 @@
   font-size: 0.4cm;
   margin-left: 1cm;
   margin-top: 0.5cm;
+}
+.SavingTypeInput{
+  width: 3.5cm;
+  height: 0.9cm;
+  font-size: 0.4cm;
+  margin-left: 0.5cm;
+  margin-top: 0.3cm;
 }
 .BoardCateInputDiv{
   width: 100%;
@@ -364,6 +392,35 @@
   text-overflow: ellipsis;
   white-space: nowrap; 
   width: 250px;
+}
+.FinancialRow{
+  display: flex;
+  flex-direction: row;
+}
+.FinancialFundProfitInput{
+  height: 0.6cm;
+  width: 2cm;
+  font-size: 0.5cm;
+  margin-top: 0.3cm;
+}
+.FinancialFundSizeInput{
+  height: 0.6cm;
+  width: 2cm;
+  font-size: 0.5cm;
+  margin-top: 0.3cm;
+}
+.FinancialFundDiv{
+  margin-top: 1cm;
+  margin-bottom: 1cm;
+  width: 100%;
+  height: 5cm;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.FinancialFundWriteDiv{
+  width: 80%;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
