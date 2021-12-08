@@ -191,16 +191,18 @@ const MonthReportScreen = ({navigation, route}) => {
       </View>
   )}else if(loading === true && route.params.isTransactionList === false){
     return(
-      <View style={styles.container}>
         <View style={styles.notSmallContainer}>
-            <View style={styles.appTopBar}>
-                <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+          <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
             </View>
             <View style={styles.notThere}>
               <Text style={{fontSize: 18, fontWeight: 'bold',}}>{month}월 소비 내역이 없습니다.</Text>
             </View>
         </View>
-      </View>
     )
   }else{
     return(
