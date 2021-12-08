@@ -111,7 +111,7 @@ function FinancialItemList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {financialItems.map(c => {return (<FinancialItems key={c.notice_number} id={c.notice_number} category={c.category} title={c.title} date={c.notice_date}/>)})}
+              {financialItems.map(c => {return (<FinancialItems key={c.product_number} id={c.product_number} category={c.product_category} name={c.product_name} company_name={c.company_name}/>)})}
             </TableBody>
           </Table>
         </Paper>

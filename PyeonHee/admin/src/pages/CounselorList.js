@@ -111,7 +111,7 @@ function CounselorList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {counselors.map(c => {return (<Counselors key={c.notice_number} id={c.notice_number} category={c.category} title={c.title} date={c.notice_date}/>)})}
+              {counselors.map(c => {return (<Counselors key={c.counselor_number} id={c.counselor_number} category={c.category} name={c.counselor_name} company_name={c.company_name}/>)})}
             </TableBody>
           </Table>
         </Paper>

@@ -6,8 +6,8 @@ function Counselors(props) {
       <TableRow>
           <TableCell>{props.id}</TableCell>
           <TableCell>{props.category}</TableCell>
-          <TableCell><a href={`/queryBoard/${props.id}`}>{props.name}</a></TableCell>
-          <TableCell>{props.bankName}</TableCell>
+          <TableCell><a href={`/counselorBoard/${props.id}`}>{props.name}</a></TableCell>
+          <TableCell>{props.company_name}</TableCell>
       </TableRow>
     );
   }
