@@ -12,7 +12,10 @@ import NotificationBoard from "./pages/NotificationBoard";
 import QueryBoard from "./pages/QueryBoard";
 import NotificationUpdate from "./pages/NotificationUpdate";
 import QueryUpdate from "./pages/QueryUpdate";
-import FinancialItemList from "./pages/FinancialItemList";
+import FinancialFundList from "./pages/FinancialFundList";
+import FinancialLoanList from "./pages/FinancialLoanList";
+import FinancialPensionList from "./pages/FinancialPensionList";
+import FinancialSavingList from "./pages/FinancialSavingList";
 import CounselorList from "./pages/CounselorList";
 import FinancialItemWrite from "./pages/FinancialItemWrite";
 import CounselorWrite from "./pages/CounselorWrite";
@@ -55,7 +58,10 @@ function App() {
             <Route path="/notification/:pageNumber" component={Notification} />
             <Route path="/service/:pageNumber" component={ServiceCenter} />
             <Route path="/counselorList/:pageNumber" component={CounselorList} />
-            <Route path="/financialItemList/:pageNumber" component={FinancialItemList} />
+            <Route path="/financialFundList/:pageNumber" component={FinancialFundList} />
+            <Route path="/financialPensionList/:pageNumber" component={FinancialPensionList} />
+            <Route path="/financialSavingList/:pageNumber" component={FinancialSavingList} />
+            <Route path="/financialLoanList/:pageNumber" component={FinancialLoanList} />
             <Route path="/notificationWrite" component={NotificationWrite} />
             <Route path="/financialItemWrite" component={FinancialItemWrite} />
             <Route path="/counselorWrite" component={CounselorWrite} />

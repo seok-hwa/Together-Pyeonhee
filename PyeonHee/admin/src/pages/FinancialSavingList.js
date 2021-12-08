@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../App.css';
 import {Paper, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import {withStyles} from '@material-ui/core/styles';
-import FinancialItems from "../components/FinancialItems";
+import SavingItems from "../components/SavingItems";
 
 const styles = theme => ({
   root: {
@@ -18,7 +18,7 @@ const styles = theme => ({
   }
 })
 
-function FinancialItemList(props) {
+function FinancialSavingList(props) {
   const {classes} = props;
   const [financialItems, setFinancialItems] = useState([]);
   const [totalPage, setTotalPage] = useState(17);
@@ -27,10 +27,24 @@ function FinancialItemList(props) {
   const [pageNumbers, setPageNumbers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const handleInputCate = (e) => {
+    if(e.target.value === '펀드'){
+      document.location.href = `/financialFundList/1`;
+    }else if(e.target.value === '적금'){
+      document.location.href = `/financialSavingList/1`;
+    }
+    else if(e.target.value === '대출'){
+      document.location.href = `/financialLoanList/1`;
+    }
+    else if(e.target.value === '연금'){
+      document.location.href = `/financialPensionList/1`;
+    }
+  }
+
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/financialItemListTotalPage',
+      url: '/financialSavingListTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -65,7 +79,7 @@ function FinancialItemList(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetFinancialItemList`,
+        url: `/adminGetFinancialSavingList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }
@@ -85,19 +99,31 @@ function FinancialItemList(props) {
   }
 
   function paginateNext(number){
-    document.location.href = `/financialItemList/${number}`;
+    document.location.href = `/financialSavingList/${number}`;
   }
   function paginatePrev(number){
-    document.location.href = `/financialItemList/${number}`;
+    document.location.href = `/financialSavingList/${number}`;
   }
   function paginate(number){
-    document.location.href = `/financialItemList/${number}`;
+    document.location.href = `/financialSavingList/${number}`;
   }
   return (
     <div className="NotificationDiv">
       <p className="NotificationTitleText">금융상품</p>
       <div className="NotificationWriteButtonDiv">
           <button className="NotificationWriteButton" type='button' onClick={writeNotification}>상품 등록</button>
+      </div>
+      <div className="FinancialListSelectDiv">
+      <select 
+      className="BoardCateInput" 
+      name="cate_input"
+      onChange={handleInputCate}
+      >
+        <option value="펀드">펀드</option>
+        <option value="적금" selected>적금</option>
+        <option value="대출">대출</option>
+        <option value="연금">연금</option>
+      </select>
       </div>
       <div className="NotificationBodyDiv">
         <Paper className={classes.root}>
@@ -111,7 +137,7 @@ function FinancialItemList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {financialItems.map(c => {return (<FinancialItems key={c.product_number} id={c.product_number} category={c.product_category} name={c.product_name} company_name={c.company_name}/>)})}
+              {financialItems.map(c => {return (<SavingItems key={c.product_number} id={c.product_number} category={c.product_category} name={c.product_name} company_name={c.company_name}/>)})}
             </TableBody>
           </Table>
         </Paper>
@@ -143,4 +169,4 @@ function FinancialItemList(props) {
   );
 }
 
-export default withStyles(styles)(FinancialItemList);
+export default withStyles(styles)(FinancialSavingList);

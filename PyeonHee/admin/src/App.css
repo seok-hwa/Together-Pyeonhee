@@ -140,6 +140,12 @@
   justify-content: flex-end;
   margin-bottom: 0.5cm;
 }
+.FinancialListSelectDiv{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 0.5cm;
+}
 .NotificationWriteButton{
   height: 1.2cm;
   width: 3cm;
