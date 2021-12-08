@@ -214,6 +214,15 @@
   justify-content: center;
   display: flex;
 }
+.CounselorContentDiv{
+  margin-top: 1cm;
+  margin-bottom: 1cm;
+  width: 100%;
+  height: 2cm;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
 .FinancialItemWriteDiv{
   margin-top: 1cm;
   margin-bottom: 1cm;
@@ -271,6 +280,22 @@
   flex-direction: column;
   border-radius: 0.3cm;
 }
+.CounselorWriteBodyDiv{
+  background-color: #fff;
+  width: 70%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.3cm;
+}
+.FinancialWriteBodyDiv{
+  background-color: #fff;
+  width: 80%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.3cm;
+}
 .BoardWriteTitleDiv{
   margin-top: 0.5cm;
   width: 100%;
@@ -288,11 +313,23 @@
   margin-top: 0.7cm;
   font-size: 0.5cm;
 }
+.CounselorTitleInput{
+  height: 0.9cm;
+  width: 60%;
+  margin-top: 0.7cm;
+  font-size: 0.5cm;
+}
 .LinkInput{
   height: 0.6cm;
   width: 80%;
   font-size: 0.3cm;
   margin-top: 0.5cm;
+}
+.counselorCompanyInput{
+  height: 0.7cm;
+  width: 60%;
+  font-size: 0.4cm;
+  margin-top: 0.4cm;
 }
 .BoardContentInput{
   width: 80%;

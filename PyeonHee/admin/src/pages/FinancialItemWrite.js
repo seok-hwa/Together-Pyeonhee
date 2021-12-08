@@ -244,7 +244,7 @@ function FinancialItemWrite(props) {
         <div className="NotificationBoardDiv">
           <p className="NotificationTitleText">상품 등록</p>
           <div className="NotificationWriteDiv">
-            <div className="NotificationWriteBodyDiv">
+            <div className="FinancialWriteBodyDiv">
               <div className="BoardWriteTitleDiv">
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
@@ -347,7 +347,7 @@ function FinancialItemWrite(props) {
         <div className="NotificationBoardDiv">
           <p className="NotificationTitleText">상품 등록</p>
           <div className="NotificationWriteDiv">
-            <div className="NotificationWriteBodyDiv">
+            <div className="FinancialWriteBodyDiv">
               <div className="BoardWriteTitleDiv">
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
@@ -438,7 +438,7 @@ function FinancialItemWrite(props) {
         <div className="NotificationBoardDiv">
           <p className="NotificationTitleText">상품 등록</p>
           <div className="NotificationWriteDiv">
-            <div className="NotificationWriteBodyDiv">
+            <div className="FinancialWriteBodyDiv">
               <div className="BoardWriteTitleDiv">
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
@@ -532,7 +532,7 @@ function FinancialItemWrite(props) {
         <div className="NotificationBoardDiv">
           <p className="NotificationTitleText">상품 등록</p>
           <div className="NotificationWriteDiv">
-            <div className="NotificationWriteBodyDiv">
+            <div className="FinancialWriteBodyDiv">
               <div className="BoardWriteTitleDiv">
                 <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
                 <input 
