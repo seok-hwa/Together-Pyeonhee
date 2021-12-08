@@ -105,8 +105,8 @@ function CounselorList(props) {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableRow}>번호</TableCell>
-                <TableCell className={classes.tableRow}>분류</TableCell>
-                <TableCell className={classes.tableRow}>이름</TableCell>
+                <TableCell className={classes.tableRow}>상담분류</TableCell>
+                <TableCell className={classes.tableRow}>상담사이름</TableCell>
                 <TableCell className={classes.tableRow}>소속은행</TableCell>
               </TableRow>
             </TableHead>

@@ -14,6 +14,8 @@ import NotificationUpdate from "./pages/NotificationUpdate";
 import QueryUpdate from "./pages/QueryUpdate";
 import FinancialItemList from "./pages/FinancialItemList";
 import CounselorList from "./pages/CounselorList";
+import FinancialItemWrite from "./pages/FinancialItemWrite";
+import CounselorWrite from "./pages/CounselorWrite";
 
 import './App.css';
 
@@ -55,6 +57,8 @@ function App() {
             <Route path="/counselorList/:pageNumber" component={CounselorList} />
             <Route path="/financialItemList/:pageNumber" component={FinancialItemList} />
             <Route path="/notificationWrite" component={NotificationWrite} />
+            <Route path="/financialItemWrite" component={FinancialItemWrite} />
+            <Route path="/counselorWrite" component={CounselorWrite} />
             <Route path="/notificationBoard/:boardID" component={NotificationBoard} />
             <Route path="/queryBoard/:boardID" component={QueryBoard} />
             <Route path="/queryUpdate/:boardID" component={QueryUpdate} />

@@ -105,7 +105,7 @@ function FinancialItemList(props) {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableRow}>번호</TableCell>
-                <TableCell className={classes.tableRow}>분류</TableCell>
+                <TableCell className={classes.tableRow}>상품분류</TableCell>
                 <TableCell className={classes.tableRow}>상품명</TableCell>
                 <TableCell className={classes.tableRow}>회사명</TableCell>
               </TableRow>
