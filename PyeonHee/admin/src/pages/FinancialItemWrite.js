@@ -573,44 +573,44 @@ function FinancialItemWrite(props) {
               </div>
               <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
-                    <div className="FinancialRow">
-                      <p>유형&nbsp;</p>
-                      <select 
-                      className="SavingTypeInput" 
-                      name="pensionType_input"
-                      onChange={handlePensionTypeInput}
-                      value={pensionType}
-                      >
-                        <option value="안정형" selected>안정형</option>
-                        <option value="채권형">채권형</option>
-                        <option value="금리연동형">금리연동형</option>
-                      </select>
-                    </div>
-                    <div className="FinancialRow">
-                      <p>중도해지 가능여부&nbsp;</p>
-                      <select 
-                      className="SavingTypeInput" 
-                      name="disconnected_input"
-                      onChange={handleDisconnectedInput}
-                      value={disconnected}
-                      >
-                        <option value="가능" selected>가능</option>
-                        <option value="불가능">불가능</option>
-                      </select>
-                    </div>
-                    <div className="FinancialRow">
-                        <p>수익률:&nbsp;</p>
-                        <input 
-                        className="FinancialFundProfitInput"
-                        placeholder='실수'
-                        type='text'
-                        name='interest_Pension_input'
-                        onChange={handleInterestInput}
-                        maxLength ={6}
-                        ></input>
-                        <p>%</p>
+                      <div className="FinancialRow">
+                        <p>유형&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="pensionType_input"
+                        onChange={handlePensionTypeInput}
+                        value={pensionType}
+                        >
+                          <option value="안정형" selected>안정형</option>
+                          <option value="채권형">채권형</option>
+                          <option value="금리연동형">금리연동형</option>
+                        </select>
                       </div>
-                </div>
+                      <div className="FinancialRow">
+                        <p>중도해지 가능여부&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="disconnected_input"
+                        onChange={handleDisconnectedInput}
+                        value={disconnected}
+                        >
+                          <option value="가능" selected>가능</option>
+                          <option value="불가능">불가능</option>
+                        </select>
+                      </div>
+                      <div className="FinancialRow">
+                          <p>수익률:&nbsp;</p>
+                          <input 
+                          className="FinancialFundProfitInput"
+                          placeholder='실수'
+                          type='text'
+                          name='interest_Pension_input'
+                          onChange={handleInterestInput}
+                          maxLength ={6}
+                          ></input>
+                          <p>%</p>
+                      </div>
+                  </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
                 <button className="NotificationUpdateButton" type='button' onClick={submitPension}>등록</button>
