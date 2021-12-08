@@ -24,6 +24,12 @@ function HeaderInLogin(props) {
             <Link to='/notification/1'>
             <p className="HeaderLink">공지사항</p>
             </Link>
+            <Link to='/financialItemList/1'>
+            <p className="HeaderLink">금융상품</p>
+            </Link>
+            <Link to='/counselorList/1'>
+            <p className="HeaderLink">금융상담</p>
+            </Link>
         </div>
     </div>
   );
