@@ -7,15 +7,15 @@ function FinancialItemWrite(props) {
   const [productCate, setProductCate] = useState('펀드');
 
   //펀드
-  const [profit3, setProfit3] = useState(0.0);
-  const [profit6, setProfit6] = useState(0.0);
-  const [profit12, setProfit12] = useState(0.0);
-  const [fundSize, setFundSize] = useState(0);
+  const [profit3, setProfit3] = useState('');
+  const [profit6, setProfit6] = useState('');
+  const [profit12, setProfit12] = useState('');
+  const [fundSize, setFundSize] = useState('');
 
   //적금
   const [type, setType] = useState(''); 
-  const [interest, setInterest] = useState(0.0);  //연금 공통, 대출 공통
-  const [maxInterest, setMaxInterest] = useState(0.0);
+  const [interest, setInterest] = useState('');  //연금 공통, 대출 공통
+  const [maxInterest, setMaxInterest] = useState('');
 
   //연금
   const [disconnected, setDisconnected] = useState('');
@@ -71,37 +71,173 @@ function FinancialItemWrite(props) {
   const handleDisconnectedInput = (e) => {
     setDisconnected(e.target.value)
   }
-/*
-  const submit=()=>{
-    if(boardTitle ===''){
-      alert('제목을 입력하세요.');
+
+
+  const submitFund=()=>{
+    if(productName ===''){
+      alert('상품명을 입력하세요.');
       return;
     }
-    if(boardContent === ''){
-      alert('내용을 입력하세요.');
+    if(link === ''){
+      alert('상품 링크를 입력하세요.');
+      return;
     }
-    console.log('제목:',boardTitle, '내용:',boardContent, '분류:', boardCate);
-    
+    if(profit3 === ''){
+      alert('3개월 수익률을 입력하세요.');
+      return;
+    }
+    if(profit6 === ''){
+      alert('6개월 수익률을 입력하세요.');
+      return;
+    }
+    if(profit12 === ''){
+      alert('1년 수익률을 입력하세요.');
+      return;
+    }
+    if(fundSize === ''){
+      alert('펀드 규모를 입력하세요.');
+      return;
+    }
+
     axios({
         method:"POST",
-        url: `/notificationWrite`,
+        url: `/insertFund`,
         data:{
-          boardTitle: boardTitle,
-          boardContent: boardContent,
-          boardCate: boardCate,
+          productName: productName,
+          productCate: productCate,
+          link: link,
+          profit3: profit3,
+          profit6: profit6,
+          profit12: profit12,
+          fundSize: fundSize,
         }
     })
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/notification';
+            document.location.href = '/';
         }else{
-            alert('등록 실패');
+            alert('등록 실패 입력 사항을 다시 확인해주세요.');
         }
     }).catch(error=>{
         console.log(error);
     });
-  }*/
+  }
+
+  const submitSaving=()=>{
+    if(productName ===''){
+      alert('상품명을 입력하세요.');
+      return;
+    }
+    if(link === ''){
+      alert('상품 링크를 입력하세요.');
+      return;
+    }
+    if(interest === ''){
+      alert('이자율을 입력하세요.');
+      return;
+    }
+    if(maxInterest === ''){
+      alert('최고 우대금리를 입력하세요.');
+      return;
+    }
+    axios({
+      method:"POST",
+      url: `/insertSaving`,
+      data:{
+        productName: productName,
+        productCate: productCate,
+        link: link,
+        interest: interest,
+        maxInterest: maxInterest,
+        type: type,
+      }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('등록 성공');
+            document.location.href = '/';
+        }else{
+            alert('등록 실패 입력 사항을 다시 확인해주세요.');
+        }
+    }).catch(error=>{
+        console.log(error);
+    });
+  }
+
+  const submitLoan=()=>{
+    if(productName ===''){
+      alert('상품명을 입력하세요.');
+      return;
+    }
+    if(link === ''){
+      alert('상품 링크를 입력하세요.');
+      return;
+    }
+    if(interest === ''){
+      alert('금리를 입력하세요.');
+      return;
+    }
+    axios({
+      method:"POST",
+      url: `/insertLoan`,
+      data:{
+        productName: productName,
+        productCate: productCate,
+        link: link,
+        interest: interest,
+        interestType: interestType,
+        repayType: repayType,
+      }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('등록 성공');
+            document.location.href = '/';
+        }else{
+            alert('등록 실패 입력 사항을 다시 확인해주세요.');
+        }
+    }).catch(error=>{
+        console.log(error);
+    });
+  }
+
+  const submitPension=()=>{
+    if(productName ===''){
+      alert('상품명을 입력하세요.');
+      return;
+    }
+    if(link === ''){
+      alert('상품 링크를 입력하세요.');
+      return;
+    }
+    if(interest === ''){
+      alert('수익률을 입력하세요.');
+      return;
+    }
+    axios({
+      method:"POST",
+      url: `/insertPension`,
+      data:{
+        productName: productName,
+        productCate: productCate,
+        link: link,
+        interest: interest,
+        pensionType: pensionType,
+        disconnected: disconnected,
+      }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('등록 성공');
+            document.location.href = '/';
+        }else{
+            alert('등록 실패 입력 사항을 다시 확인해주세요.');
+        }
+    }).catch(error=>{
+        console.log(error);
+    });
+  }
 
   if(productCate === '펀드'){
     return (
@@ -200,7 +336,7 @@ function FinancialItemWrite(props) {
                   </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
-                <button className="NotificationUpdateButton" type='button'>등록</button>
+                <button className="NotificationUpdateButton" type='button' onClick={submitFund}>등록</button>
               </div>
             </div>
           </div>
@@ -291,7 +427,7 @@ function FinancialItemWrite(props) {
                     </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
-                <button className="NotificationUpdateButton" type='button'>등록</button>
+                <button className="NotificationUpdateButton" type='button' onClick={submitSaving}>등록</button>
               </div>
             </div>
           </div>
@@ -385,7 +521,7 @@ function FinancialItemWrite(props) {
                 </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
-                <button className="NotificationUpdateButton" type='button'>등록</button>
+                <button className="NotificationUpdateButton" type='button' onClick={submitLoan}>등록</button>
               </div>
             </div>
           </div>
@@ -477,7 +613,7 @@ function FinancialItemWrite(props) {
                 </div>
                 </div>
               <div className="NotificationBoardButtonDiv">
-                <button className="NotificationUpdateButton" type='button'>등록</button>
+                <button className="NotificationUpdateButton" type='button' onClick={submitPension}>등록</button>
               </div>
             </div>
           </div>
