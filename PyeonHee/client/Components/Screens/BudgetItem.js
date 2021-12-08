@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Button, Modal, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 // import BudgetDetail from './RecommendedPlanningScreen';
@@ -37,121 +37,131 @@ const TierImage = (props) => {
     }
 }
 const BudgetItem = (props) => {
-    const [userID, setUserID] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
 
-    useEffect(()=>{
-        let tempID;
-        AsyncStorage.getItem('userID', (err, result) => {
-        tempID = result;
-        if(tempID!= null){
-            setUserID(tempID);
-        }
+
+    const handlePress = () => {
+        console.log('${url}/openCheck');
+        fetch(`${url}/openCheck`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: props.userID,
+              budgetPlanningID: props.budgetPlanningID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
         })
-    })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
 
-    const handlePressed = () => {
-        if(props.budgetCabinet === true){
-            console.log('보관함에 저장되어있음');
-            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
-        } else {
-            fetch(`${url}/openCheck`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: userID,
-                  budgetPlanningID: props.budgetPlanningID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log(responseJson);
-                
-                if(responseJson.status == true) {
-                    console.log('읽은적있음');
-                    props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
-                } 
-                else if (responseJson.status == false) {
-                    console.log('읽은적없음');
+            if(responseJson.status === true) {
+                console.log('읽은적있음');
+                setModalVisible(false);
+                props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
 
-                    Popup.show({
-                        type: 'confirm',
-                        textBody: '열람을 위해서는 100포인트가 차감됩니다.',
-                        buttonText: '열람',
-                        confirmText: '취소',
-                        okButtonStyle: {backgroundColor: '#8EB3EE'},
-                        iconEnabled: false,
-                        callback: () => {
-                            Popup.hide()
+            } else {
+                console.log('읽은적없음');
+                setModalVisible(true);
+            }                 
+        })
+    }
 
-                            fetch(`${url}/usePoint`, {
-                                method: 'POST',
-                                body: JSON.stringify({
-                                userID: userID,
-                                usePoint: 100,
-                                }),
-                                headers: {
-                                'Accept': 'application/json',
-                                'Content-Type':'application/json',
-                                },
-                            })
-                            .then((response)=>response.json())
-                            .then((responseJson)=>{
-                                console.log(responseJson);
-                                if(responseJson.status === true){
-                                    console.log('포인트 차감 완료');
-                                    // console.log('잔여 포인트도 보내주면 좋을둣!!');
-                                    Popup.show({
-                                        type: 'success',
-                                        title: '포인트 차감 완료',
-                                        textBody: '잔여 포인트는 얼마 입니다.' ,
-                                        buttonText: '확인',
-                                        okButtonStyle: {backgroundColor: '#0000CD'},
-                                        iconEnabled: false,
-                                        callback: () => {
-                                            Popup.hide()
-                                            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
-                                        }
-                                    })
-                                } else{
-                                    console.log('포인트 부족');
-                                    Popup.show({
-                                        type: 'success',
-                                        title: '포인트 부족',
-                                        textBody: '사용자의 포인트는 얼마로, 얼마의 포인트가 부족합니다.',
-                                        buttonText: '확인',
-                                        okButtonStyle: {backgroundColor: '#0000CD'},
-                                        iconEnabled: false,
-                                        callback: () => Popup.hide()
-                                    })
-                                }
-                            })
-                            .catch((e)=>{
-                                console.error(e);
-                            })
-                        }
-                    })
+    const handleOKButton = () => {
+        setModalVisible(false);
+        console.log('OK 버튼 함수!')
 
-                }
-                else {
-                    console.log('fail to get status');
-                    return;
-                }
-            })
-          
-        } 
+        fetch(`${url}/usePoint`, {
+            method: 'POST',
+            body: JSON.stringify({
+            userID: props.userID,
+            usePoint: 100,
+            budgetPlanningID: props.budgetPlanningID,
+            }),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
+            if(responseJson.status === true){
+                console.log('포인트 차감 완료');
+                // console.log('잔여 포인트도 보내주면 좋을둣!!');
+                Popup.show({
+                    type: 'success',
+                    title: '포인트 차감 완료',
+                    textBody: '잔여 포인트는 얼마 입니다.' ,
+                    buttonText: '확인',
+                    okButtonStyle: {backgroundColor: '#0000CD'},
+                    iconEnabled: false,
+                    callback: () => {
+                        Popup.hide()
+                        props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                    }
+                })
+            } else{
+                console.log('포인트 부족');
+                Popup.show({
+                    type: 'success',
+                    title: '포인트 부족',
+                    textBody: '사용자의 포인트는 얼마로, 얼마의 포인트가 부족합니다.',
+                    buttonText: '확인',
+                    okButtonStyle: {backgroundColor: '#0000CD'},
+                    iconEnabled: false,
+                    callback: () => Popup.hide()
+                })
+            }
+        })
+        .catch((e)=>{
+            console.error(e);
+        })
+
+
+        props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
     }
     
     
 
     return (
+        <View>
+            <Modal
+                animationType = {"slide"}
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                //  alert('Modal has now been closed.');
+                 setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>열람을 위해 100포인트가 차감됩니다.</Text>
+                        <View style={{flexDirection: 'row', marginTop: 20,}}>
+                            <TouchableOpacity
+                                style={styles.closeButton}
+                                onPress={() => {setModalVisible(!modalVisible)}}
+                            >
+                                <Text style={{color: '#203864'}}>취소</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.openButton}
+                                onPress={handleOKButton}
+                            >
+                                <Text style={{color: '#203864'}}>열람</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                </View>
+            </Modal>
+
         <TouchableOpacity
             style={styles.container}
-            // onPress={() => props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID})}
-            onPress={handlePressed}
-
+            onPress={handlePress}
         >
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
@@ -170,8 +180,6 @@ const BudgetItem = (props) => {
                     <Text>나이: {props.userAge}세</Text>
                     <Text>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     <Text>직업: {props.userJob}</Text>
-                    {/* <Text>고정지출: {props.userFixedExpense}원</Text>
-                    <Text>변동지출: {props.userVariableExpense}원</Text> */}
                 </View>
 
                 <View style={styles.nextCotainer}>
@@ -180,6 +188,7 @@ const BudgetItem = (props) => {
 
             </View>
         </TouchableOpacity>
+        </View>
     );
 };
 
@@ -231,6 +240,41 @@ const styles = StyleSheet.create({
     nextCotainer: {
         marginRight: 15,
     },
-  });
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        paddingHorizontal: 35,
+        paddingTop: 50,
+        paddingBottom: 25,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor:'#203864',
+    },
+    openButton: {
+        // backgroundColor: '#203864',
+        borderRadius: 10,
+        width: 100,
+        alignItems: 'center',
+        padding: 10,
+    },
+    closeButton: {
+        // backgroundColor: '#203864',
+        borderRadius: 10,
+        width: 100,
+        alignItems: 'center',
+        padding: 10,
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+
+});
 
 export default BudgetItem;

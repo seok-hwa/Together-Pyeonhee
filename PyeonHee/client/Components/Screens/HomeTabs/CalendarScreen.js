@@ -10,6 +10,7 @@ import moment, { relativeTimeThreshold } from 'moment';
 import TransactionList from './calendarComponent/TransactionList';
 
 import config from '../../../config';
+import { ThemeProvider } from 'styled-components';
 
 const url = config.url;
 
@@ -31,6 +32,7 @@ class CalendarScreen extends React.Component {
     this.state = {
       userID: '',
       calendarDate: calendarDate.format('YYYY-MM-DD'),
+
       horizontal: false,
       dateChanged: moment().format('DD'),
       dayChanged: moment().format('YYYYMMDD'),
@@ -39,6 +41,8 @@ class CalendarScreen extends React.Component {
       todayTransaction: [],
       monthlyData: {},
       loading: false,
+      plusSum: 0,
+      minusSum: 0,
     };
 
     this.onPressListView = this.onPressListView.bind(this);
@@ -77,14 +81,32 @@ class CalendarScreen extends React.Component {
     fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`)   //get 오늘 날짜도 보내주기
     .then((response)=>response.json())
     .then((responseJson)=>{
-        console.log('오늘의 거래 내역');
-        console.log(responseJson);
+      console.log('오늘의 거래 내역');
+      console.log(responseJson);
 
+      this.setState({
+        todayTransaction: responseJson,
+      })
+
+      console.log(this.state.todayTransaction);
+
+      if(responseJson.length > 0){
+        let tempPlusSum = 0;
+        let tempMinusSum = 0;
+        responseJson.map( item => {
+          if(item.inout_type === '출금'){
+              tempMinusSum = tempMinusSum + item.tran_amt;
+          } else if(item.inout_type === '입금') {
+              tempPlusSum = tempPlusSum + item.tran_amt;
+          }
+        })
         this.setState({
-          todayTransaction: responseJson,
+          plusSum: tempPlusSum,
+          minusSum: tempMinusSum,
         })
 
-        console.log(this.state.todayTransaction);
+      }
+      
     })
   }
 
@@ -129,6 +151,23 @@ class CalendarScreen extends React.Component {
               })
 
               console.log(this.state.todayTransaction);
+
+              if(responseJson.length > 0){
+                let tempPlusSum = 0;
+                let tempMinusSum = 0;
+                responseJson.map( item => {
+                  if(item.inout_type === '출금'){
+                      tempMinusSum = tempMinusSum + item.tran_amt;
+                  } else if(item.inout_type === '입금') {
+                      tempPlusSum = tempPlusSum + item.tran_amt;
+                  }
+                })
+                this.setState({
+                  plusSum: tempPlusSum,
+                  minusSum: tempMinusSum,
+                })
+        
+              }
           })
           .then(()=>{
             this.setState({loading: true,});
@@ -155,14 +194,15 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                // markedDates={{
-                //   '2021-11-19': {sum: 2000},
-                //   '2021-11-20': {sum: -2125000},
-                //   '2021-11-25': {sum: 0},
-                //   '2021-11-26': {sum: 5000}
-                // }}
+                markedDates={{
+                  // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
+                  '20211219': {inout_type: '출금', daily_amt: -20000},
+                  '20211220': {inout_type: '출금', daily_amt: -2125000},
+                  '20211225': {inout_type: '입금', daily_amt: 0},
+                  '20211226': {inout_type: '입금', daily_amt: 5000}
+                }}
 
-                markedDates={this.state.monthlyData}
+                // markedDates={this.state.monthlyData}
 
 
 
@@ -173,7 +213,9 @@ class CalendarScreen extends React.Component {
             />
             <View style={styles.transactionContainer}>
               <TransactionList pressedDate={this.state.dateChanged} pressedDay={this.state.dayChanged} 
-              isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction}/>
+                isChanged={this.state.isPressed} todayTransaction={this.state.todayTransaction} 
+                plusSum={this.state.plusSum} minusSum={this.state.minusSum}
+              />
             </View>
         </ScrollView>
       );
@@ -190,14 +232,15 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                // markedDates={{
-                //   '2021-11-19': {sum: 2000},
-                //   '2021-11-20': {sum: -2125000},
-                //   '2021-11-25': {sum: 0},
-                //   '2021-11-26': {sum: 5000}
-                // }}
+                markedDates={{
+                  // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
+                  '20211219': {inout_type: '출금', daily_amt: -20000},
+                  '20211220': {inout_type: '출금', daily_amt: -2125000},
+                  '20211225': {inout_type: '입금', daily_amt: 0},
+                  '20211226': {inout_type: '입금', daily_amt: 5000}
+                }}
 
-                markedDates={this.state.monthlyData}
+                // markedDates={this.state.monthlyData}
 
 
 
@@ -228,9 +271,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     transactionContainer: {
-      // backgroundColor: 'pink',
       borderTopWidth: 5,
       borderTopColor: '#F2F2F2',
-
     }
   });
