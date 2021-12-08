@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../App.css';
 import {Paper, Table, TableHead, TableBody, TableRow, TableCell } from "@material-ui/core";
 import {withStyles} from '@material-ui/core/styles';
-import Counselors from "../components/Counselors";
+import CounselorsAsset from "../components/CounselorsAsset";
 
 const styles = theme => ({
   root: {
@@ -18,7 +18,7 @@ const styles = theme => ({
   }
 })
 
-function CounselorList(props) {
+function CounselorListAsset(props) {
   const {classes} = props;
   const [counselors, setCounselors] = useState([]);
   const [totalPage, setTotalPage] = useState(17);
@@ -27,10 +27,18 @@ function CounselorList(props) {
   const [pageNumbers, setPageNumbers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const handleInputCate = (e) => {
+    if(e.target.value === '금융상담'){
+        document.location.href = `/counselorListFinancial/1`;
+    }else if(e.target.value === '자산관리'){
+      document.location.href = `/counselorListAsset/1`;
+    }
+  }
+
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/counselorListTotalPage',
+      url: '/counselorAssetListTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -65,7 +73,7 @@ function CounselorList(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetCounselorList`,
+        url: `/adminGetCounselorAssetList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }
@@ -85,19 +93,29 @@ function CounselorList(props) {
   }
 
   function paginateNext(number){
-    document.location.href = `/counselorList/${number}`;
+    document.location.href = `/counselorListAsset/${number}`;
   }
   function paginatePrev(number){
-    document.location.href = `/counselorList/${number}`;
+    document.location.href = `/counselorListAsset/${number}`;
   }
   function paginate(number){
-    document.location.href = `/counselorList/${number}`;
+    document.location.href = `/counselorListAsset/${number}`;
   }
   return (
     <div className="NotificationDiv">
-      <p className="NotificationTitleText">금융상담</p>
+      <p className="NotificationTitleText">자산관리</p>
       <div className="NotificationWriteButtonDiv">
           <button className="NotificationWriteButton" type='button' onClick={writeNotification}>상담사 등록</button>
+      </div>
+      <div className="FinancialListSelectDiv">
+      <select 
+      className="BoardCateInput" 
+      name="cate_input"
+      onChange={handleInputCate}
+      >
+        <option value="금융상담">금융상담</option>
+        <option value="자산관리" selected>자산관리</option>
+      </select>
       </div>
       <div className="NotificationBodyDiv">
         <Paper className={classes.root}>
@@ -111,7 +129,7 @@ function CounselorList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {counselors.map(c => {return (<Counselors key={c.counselor_number} id={c.counselor_number} category={c.category} name={c.counselor_name} company_name={c.company_name}/>)})}
+              {counselors.map(c => {return (<CounselorsAsset key={c.counselor_number} id={c.counselor_number} category={c.category} name={c.counselor_name} company_name={c.company_name}/>)})}
             </TableBody>
           </Table>
         </Paper>
@@ -143,4 +161,4 @@ function CounselorList(props) {
   );
 }
 
-export default withStyles(styles)(CounselorList);
+export default withStyles(styles)(CounselorListAsset);

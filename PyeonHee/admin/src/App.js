@@ -16,7 +16,8 @@ import FinancialFundList from "./pages/FinancialFundList";
 import FinancialLoanList from "./pages/FinancialLoanList";
 import FinancialPensionList from "./pages/FinancialPensionList";
 import FinancialSavingList from "./pages/FinancialSavingList";
-import CounselorList from "./pages/CounselorList";
+import CounselorListFinancial from "./pages/CounselorListFinancial";
+import CounselorListAsset from "./pages/CounselorListAsset";
 import FinancialItemWrite from "./pages/FinancialItemWrite";
 import CounselorWrite from "./pages/CounselorWrite";
 
@@ -57,7 +58,8 @@ function App() {
             <Route exact path="/" component={Main} />
             <Route path="/notification/:pageNumber" component={Notification} />
             <Route path="/service/:pageNumber" component={ServiceCenter} />
-            <Route path="/counselorList/:pageNumber" component={CounselorList} />
+            <Route path="/counselorListFinancial/:pageNumber" component={CounselorListFinancial} />
+            <Route path="/counselorListAsset/:pageNumber" component={CounselorListAsset} />
             <Route path="/financialFundList/:pageNumber" component={FinancialFundList} />
             <Route path="/financialPensionList/:pageNumber" component={FinancialPensionList} />
             <Route path="/financialSavingList/:pageNumber" component={FinancialSavingList} />
