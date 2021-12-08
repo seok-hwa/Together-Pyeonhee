@@ -61,19 +61,23 @@ const SSHConnection = new Promise((resolve, reject) => {
             global_id = '';
             // 12시가 되면 일일권장금액 이행 여부 확인
             schedule.scheduleJob('0 0 0 * * *', async()=>{
-                db.query(`SELECT * FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
+                db.query(`SELECT * FROM daily_data`, function(error1, result1){
                     console.log(result1[0]);
                     if(error1) throw error1;
                     else{
-                        if(result1[0].daily_spent_money <= result1[0].available_money){
-                            daily_count = result1[0].daily_count + 1;
-                            console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                            db.query(`UPDATE daily_data SET daily_count = ? daily_spent_money = 0 WHERE user_id = ?`, [daily_count, global_id], function(error2, result2){
-                                if(error2) throw error2;
-                                console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
-                                console.log(result2);
-                            })
-                        }
+                        console.log("일일권장금액 이행 여부 엽데이트가 진행중입니다.");
+                        result1.map(user => {
+                            if(user.daily_spent_money <= user.available_money) {
+                                user.daily_count = user.daily_count + 1;
+                                console.log(user.user_id, "님의 일일권장금액 이행률이 업데이트 되었습니다.");
+                                console.log(user.user_id,"님의 이행 횟수 :",user.daily_count);
+                                db.query(`UPDATE daily_data SET daily_count = ?, daily_spent_money = 0 WHERE user_id = ?`, [user.daily_count, user.user_id], function(error2, result2){
+                                    if(error2) throw error2;
+                                    console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
+                                    // console.log(result2);
+                                })
+                            }
+                        })
                     }
                 })
             });
@@ -84,102 +88,98 @@ const SSHConnection = new Promise((resolve, reject) => {
                     if(error) throw error;
                     console.log("예산계획서 적용이 초기화 되었습니다.");
                 });
-                db.query(`UPDATE daily_data SET last_count = daily_count`, function(error3, result3){
-                    if(error3) throw error3;
+
+                db.query(`SELECT user_id, daily_count, last_count FROM daily_data`, function(error1, result1){
+                    if(error1) throw error1;
                     else{
-                        db.query(`UPDATE daily_data SET daily_count = 0`, function(error1, result1){
-                            if(error1) throw error1;
-                            else console.log("권장금액 이행률이 초기화 되었습니다.")
-                        });
+                        result1.map(user => {
+                            db.query(`UPDATE daily_data SET last_count = ?, daily_count = 0 WHERE user_id = ?`, [user.daily_count, user.userID], function(error2, result2){
+                                if(error2) throw error2;
+                                else{
+                                    console.log(user.user_id,"님의 권장금액 이행률이 초기화 되었습니다.")
+                                }
+                            })
+                        })
                     }
                 })
                 
-                db.query(`SELECT tier, total_stamp, total_point FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
-                    if(error2) throw error2;
+                db.query(`SELECT user_id, tier, total_stamp, total_point FROM user`, function(error3, result3){
+                    if(error3) throw error3;
                     else{
-                        var tier = result2[0].tier;
-                        var total_stamp = result2[0].total_stamp;
-                        var total_point = result2[0].total_point;
-                        if(total_stamp >= 20){
-                            tier = 'SILVER';
-                            total_point = total_point + 1000;
-                        }
-                        else if(total_stamp >= 40){
-                            tier = 'GOLD';
-                            total_point = total_point + 1500;
-                        }
-                        else if(total_stamp >= 60){
-                            tier = 'PLATINUM';
-                            total_point = total_point + 2000;
-                        }
-                        else if(total_stamp >= 80){
-                            tier = 'DIAMOND';
-                            total_point = total_point + 2500;
-                        }
-                        else if(total_stamp < 20){
-                            tier = 'BRONZE';
-                            total_point = total_point + 500;
-                        }
-                        db.query(`UPDATE user SET tier = ?, total_point =?`, [tier, total_point], function(error3, result3){
-                            if(error3) throw error3;
-                            else{
-                                console.log("티어와 포인트가 업데이트 되었습니다.");
+                        result3.map(user => {
+                            if(user.total_stamp >= 20){
+                                user.tier = 'SILVER';
+                                user.total_point = user.total_point + 1000;
                             }
+                            else if(user.total_stamp >= 40){
+                                user.tier = 'GOLD';
+                                user.total_point = user.total_point + 1500;
+                            }
+                            else if(user.total_stamp >= 60){
+                                user.tier = 'PLATINUM';
+                                user.total_point = user.total_point + 2000;
+                            }
+                            else if(user.total_stamp >= 80){
+                                user.tier = 'DIAMOND';
+                                user.total_point = user.total_point + 2500;
+                            }
+                            else if(user.total_stamp < 20){
+                                user.tier = 'BRONZE';
+                                user.total_point = user.total_point + 500;
+                            }
+                            db.query(`UPDATE user SET tier = ?, total_point =? WHERE user_id = ?`, [user.tier, user.total_point, user.userID], function(error4, result4){
+                                if(error4) throw error4;
+                                else{
+                                    console.log(user.userID, "님의 티어와 포인트가 업데이트 되었습니다.");
+                                }
+                            })
                         })
                     }
                 });
             });
 
             // 매달 마지막날 이행률을 통해 스탬프 정산
-            schedule.scheduleJob('0 50 23 L * *', async()=>{
-                db.query(`SELECT daily_count FROM daily_data WHERE user_id = ?`, [global_id], function(error1, result1){
-                    if(error1) throw error1
+            schedule.scheduleJob('0 59 23 L * *', async()=>{
+                db.query(`SELECT user.user_id, daily_count, total_stamp from user JOIN daily_data WHERE user.user_id = daily_data.user_id`, function(error1, result1){
+                    if(error1) throw error1;
                     else{
-                        var diff = 0;
-                        var date = new Date();
-                        var year = date.getFullYear();
-                        var month = date.getMonth() + 1;
-                        var last = new Date( year, month ); 
-                        last = new Date(last - 1); 
-                        var count_stand = last.getDate()
-                        var portion = result1[0].daily_count / count_stand * 100;
-
-                        db.query(`SELECT total_stamp FROM user WHERE user_id = ?`, [global_id], function(error2, result2){
-                            if(error2) throw error2;
-                            else{
-                                var total_stamp = result2[0].total_stamp;
-                                if(portion >= 75){
-                                    total_stamp = total_stamp + 4;
-                                    diff = 4;
-                                }else if(portion >= 50){
-                                    total_stamp = total_stamp + 3;
-                                    diff = 3;
-                                }else if(portion >= 25){
-                                    total_stamp = total_stamp + 2;
-                                    diff = 2;
-                                }else{
-                                    total_stamp = total_stamp + 1;
-                                    diff = 1;  
-                                }
-                                db.query(`UPDATE user SET total_stamp = ?`, [total_stamp], function(error3, result3){
-                                    if(error3) throw error3;
-                                    else{
-                                        db.query(`insert into stamp(user_id, diff, description) values(?, ?, '한달정산 스탬프 적용');`, [global_id, diff], function(err, res){
-                                            console.log("이번달 스탬프 적용이 완료되었습니다.");
-                                        });
-                                    }
-                                });
+                        result1.map(user => {
+                            var date = new Date();
+                            var year = date.getFullYear();
+                            var month = date.getMonth() + 1;
+                            var last = new Date( year, month ); 
+                            last = new Date(last - 1); 
+                            var count_stand = last.getDate()
+                            var portion = user.daily_count / count_stand * 100;
+                            if(portion >= 75){
+                                user.total_stamp = user.total_stamp + 4;
+                                diff = 4;
+                            }else if(portion >= 50){
+                                user.total_stamp = user.total_stamp + 3;
+                                diff = 3;
+                            }else if(portion >= 25){
+                                user.total_stamp = user.total_stamp + 2;
+                                diff = 2;
+                            }else{
+                                user.total_stamp = user.total_stamp + 1;
+                                diff = 1;  
                             }
+                            db.query(`UPDATE user SET total_stamp = ? WHERE user_id = ?`, [user.total_stamp, user.user_id], function(error2, result2){
+                                if(error2) throw error2;
+                                else{
+                                    db.query(`insert into stamp(user_id, diff, description) values(?, ?, '한달정산 스탬프 적용');`, [user.user_id, diff], function(error3, ressult3){
+                                        if(error3) throw error3;
+                                        else console.log(user.user_id, "님의 이번달 스탬프가", diff, "개 추가되었습니다.");
+                                    });
+                                }
+                            });
                         })
-                        
                     }
-                    
                 })
             });
 
-            // // 30분마다 일일소비량 업데이트
-            // schedule.scheduleJob('*/30 * * * * *', async () => {
-            //     console.log(global_id);
+            // // 30초마다 일일소비량 업데이트
+            // schedule.scheduleJob('* * */30 * * *', async () => {
             //     db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
             //         if(error1) throw error1;
             //         else{
