@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import MbtiNextButton from '../Buttons/MbtiNextButton';
-import MbtiPrevButton from '../Buttons/MbtiPrevButton';
+import MbtiSubmitButton from '../../Buttons/MbtiSubmitButton';
+import MbtiPrevButton from '../../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import config from '../../../config';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,7 +17,8 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-const Mbti3Screen = ({navigation, route}) => {
+const url = config.url;
+const Mbti4Screen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
 
   const [mbti1_1, setMbti1_1] = useState(false);
@@ -356,26 +358,85 @@ const Mbti3Screen = ({navigation, route}) => {
       totalScore=totalScore+5;
     }
 
-    
-    console.log('총합');
+    console.log('mbti 설문조사 끝');
+    console.log('아이디');
+    console.log(userID);
+    console.log('월수입');
+    console.log(route.params.userMonthlyIncome);
+    console.log('월 고정지출');
+    console.log(route.params.userFixedExpense);
+    console.log('저축액');
+    console.log(route.params.userSavings);
+    console.log('mbti1');
+    console.log(route.params.mbti1Score);
+    console.log('mbti2');
+    console.log(route.params.mbti2Score);
+    console.log('mbti3');
+    console.log(route.params.mbti3Score);
+    console.log('mbti4');
     console.log(totalScore);
-
-    navigation.navigate('Mbti4',{
-      userAge: route.params.userAge,
-      userMonthlyIncome: route.params.userMonthlyIncome,
-      userJob: route.params.userJob,
+    
+    /*
+    navigation.navigate('MbtiResult', {       //result test
       mbti1Score: route.params.mbti1Score,
       mbti2Score: route.params.mbti2Score,
-      mbti3Score: totalScore,
+      mbti3Score: route.params.mbti3Score,
+      mbti4Score: totalScore,
     });
+    */
+    fetch(`${url}/submitMbti`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userID: userID,
+        userAge: route.params.userAge,
+        userMonthlyIncome: route.params.userMonthlyIncome,
+        userJob: route.params.userJob,
+        mbti1Score: route.params.mbti1Score,
+        mbti2Score: route.params.mbti2Score,
+        mbti3Score: route.params.mbti3Score,
+        mbti4Score: totalScore,
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type':'application/json',
+      },
+    })
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+      console.log(responseJson);
+      if(responseJson.status === true){
+        console.log('제출 완료');
+        navigation.navigate('MbtiResult', {
+          mbti1Score: route.params.mbti1Score,
+          mbti2Score: route.params.mbti2Score,
+          mbti3Score: route.params.mbti3Score,
+          mbti4Score: totalScore,
+          mbtiType: responseJson.mbtiType,
+          description : responseJson.description,
+        });
+      }else{
+        console.log('fail to submit.');
+      }
+    })
+    .catch((error)=>{
+      console.error(error);
+    })
   }
   useEffect(()=>{
     AsyncStorage.getItem('userID', (err, result) => {
-      const tempID = result;
+      let tempID = result;
       if(tempID!= null){
         setUserID(tempID);
       }
-    });
+    })
+    /*.then(()=>{
+      AsyncStorage.getItem('url', (err, result) => {
+        let tempUrl = result;
+        if(tempUrl!= null){
+          setUrl(tempUrl);
+        }
+      })
+    })*/
   })
   return (
     <Root>
@@ -390,14 +451,14 @@ const Mbti3Screen = ({navigation, route}) => {
           <View style={styles.blueCircle}><Text style={styles.fontInCircle}>2</Text></View>
           <View style={styles.blueLine}></View>
           <View style={styles.blueCircle}><Text style={styles.fontInCircle}>3</Text></View>
-          <View style={styles.line}></View>
-          <View style={styles.grayCircle}><Text style={styles.fontInCircle}>4</Text></View>
+          <View style={styles.blueLine}></View>
+          <View style={styles.blueCircle}><Text style={styles.fontInCircle}>4</Text></View>
         </View>
       </View>
       <ScrollView style={styles.appBody}>
         <View style={styles.questionBox}>
           <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문1</Text></View>
-          <View><Text style={styles.questionTitleStyle}>술자리에서 종종 계산을 한다.</Text></View>
+          <View><Text style={styles.questionTitleStyle}>기억에 남는 여행을 하는 것이 명품을 사는 것보다 좋다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check1_1}>
@@ -453,7 +514,7 @@ const Mbti3Screen = ({navigation, route}) => {
         </View>
         <View style={styles.questionBox}>
           <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문2</Text></View>
-            <View><Text style={styles.questionTitleStyle}>나를 위한 선물을 종종 하는 편이다.</Text></View>
+            <View><Text style={styles.questionTitleStyle}>비싸더라도 사고 싶은 물건은 꼭 사고야 만다.</Text></View>
             <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check2_1}>
@@ -509,7 +570,7 @@ const Mbti3Screen = ({navigation, route}) => {
         </View>
         <View style={styles.questionBox}>
         <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문3</Text></View>
-          <View><Text style={styles.questionTitleStyle}>경조사로 지출되는 돈이 많다.</Text></View>
+          <View><Text style={styles.questionTitleStyle}>영화나 공연 관람에 드는 비용은 아깝지 않다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check3_1}>
@@ -565,7 +626,7 @@ const Mbti3Screen = ({navigation, route}) => {
         </View>
         <View style={styles.questionBox}>
         <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문4</Text></View>
-          <View><Text style={styles.questionTitleStyle}>나의 즐거움을 위해 사용하는 돈은 아끼지 않는다.</Text></View>
+          <View><Text style={styles.questionTitleStyle}>취미 생활보다는 무언가 구매하는 것에 돈을 더 투자한다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check4_1}>
@@ -621,7 +682,7 @@ const Mbti3Screen = ({navigation, route}) => {
         </View>
         <View style={styles.appFooter}>
           <MbtiPrevButton onPress={() => navigation.goBack()}/>
-          <MbtiNextButton onPress={handleSubmitButton}/>
+          <MbtiSubmitButton onPress={handleSubmitButton}/>
         </View>
       </ScrollView>
     </View>
@@ -805,4 +866,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default Mbti3Screen;
+export default Mbti4Screen;

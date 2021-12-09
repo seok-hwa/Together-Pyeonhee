@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../config';
+import config from '../../../../config';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView, Modal, TextInput,} from 'react-native';
-import UpdateAccountButton from '../Buttons/UpdateAliasButton';
-import SetCategoryButton from '../Buttons/SetCategoryButton';
-import RNPickerSelect from 'react-native-picker-select';
-import { CATEGORY } from './constants';
+import UpdateAccountButton from '../../../Buttons/UpdateAliasButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-import TransactionItemInAccount from './TransactionItemInAccount';
-import SubmitAliasButton from '../Buttons/SubmitAliasButton';
-import BackButton from '../Buttons/BackButton';
+import TransactionItemInAccount from '../../TransactionItemInAccount';
+import SubmitAliasButton from '../../../Buttons/SubmitAliasButton';
+import BackButton from '../../../Buttons/BackButton';
 const url = config.url;
 const AccountLogo = (props) => {
     const accountCate = props.accountCate;
