@@ -143,7 +143,7 @@ const MyBudgetScreen = ({navigation, route}) => {
             fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
             .then((response)=>response.json())
             .then((responseJson)=>{
-                console.log('내 예산계획서가 있나?');
+                // console.log('내 예산계획서가 있나?');
                 console.log(responseJson);
                 if(responseJson.length === 0){
                     setIsCompleted(false);
@@ -310,7 +310,6 @@ const MyBudgetScreen = ({navigation, route}) => {
                     >
                         { userStore === false && <Image source={require('../assets/emptyRibbon.png')} style={{width: 25, height: 30, tintColor: 'gray', marginRight: 20,}}/> }
                         { userStore === true && <Image source={require('../assets/filledRibbon.png')} style={{width: 25, height: 30, tintColor: '#8EB3EE', marginRight: 20,}}/> }
-                        {/* <Icon name={'bookmark-outline'} size={20} color={'#8EB3EE'}/> */}
                     </TouchableOpacity>
                 </View>
 
@@ -494,7 +493,9 @@ const MyBudgetScreen = ({navigation, route}) => {
                             saving.map(item => {
                                 return <SavingPlanItem key={item.saving_number} savingName={item.saving_name} 
                                     currentSavingMoney={item.all_savings_money} savingMoney={item.savings_money}
-                                    startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
+                                    startSavingDate={item.start_date} endSavingDate={item.finish_date} 
+                                    userID={userID} setAddSavingsPlan={setAddSavingsPlan} savingID={item.saving_number}
+                                    />;
                         })}
                     </View>
                 </View>            
