@@ -3,7 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Modal, 
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditInputBudget from './EditInputBudget';
+import config from '../../../config';
 
+const url = config.url;
 const SavingPlanItem = (props) => {
   let startYear = props.startSavingDate.substring(0, 4);
   let startMonth = props.startSavingDate.substring(5, 7);
