@@ -12,7 +12,7 @@
  import MainScreen from './Components/Screens/MainScreen';
  import LoginScreen from './Components/Screens/LoginScreen';
  import JoinScreen from './Components/Screens/JoinScreen';
- import SurveyScreen from './Components/Screens/SurveyScreen';
+ import SurveyScreen from './Components/Screens/Mbti/SurveyScreen';
  import Iamport from './IamportComponents/App';
  import IamportID from './IamportComponents/AppID';
  import IamportPassword from './IamportComponents/AppPassword';
