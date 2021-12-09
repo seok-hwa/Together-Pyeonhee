@@ -93,9 +93,8 @@
            }
        )
        .then(()=>{
-         /*
          if(tempID != ''){
-           fetch(`${url}/getMbti?userID=${tempID}`)   //get
+           fetch(`${url}/register/getMbti?userID=${tempID}`)   //get
            .then((response)=>response.json())
            .then((responseJson)=>{
              if(responseJson.hasMbti === 'true'){
@@ -109,11 +108,13 @@
            })
          }else{
            setLoading(true);
-         }*/
+         }
  
          //테스트
+         /*
          setHasMbti(true);
          setLoading(true);
+         */
        })
     }, []);
     

@@ -384,7 +384,7 @@ const Mbti4Screen = ({navigation, route}) => {
       mbti4Score: totalScore,
     });
     */
-    fetch(`${url}/submitMbti`, {
+    fetch(`${url}/register/submitMbti`, {
       method: 'POST',
       body: JSON.stringify({
         userID: userID,
