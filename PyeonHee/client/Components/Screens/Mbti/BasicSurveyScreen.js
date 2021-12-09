@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import NextToMbtiButton from '../Buttons/NextToMbtiButton';
-import { JOBS, INCOMES } from './constants';
+import NextToMbtiButton from '../../Buttons/NextToMbtiButton';
+import { JOBS, INCOMES } from '../constants';
 import RNPickerSelect from 'react-native-picker-select';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {

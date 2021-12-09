@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const AccountLogo = (props) => {
     const accountCate = props.accountCate;

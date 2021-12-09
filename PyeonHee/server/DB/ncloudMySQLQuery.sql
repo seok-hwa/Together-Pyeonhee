@@ -230,6 +230,7 @@ create table pyeonhee.notice
 /*금융상품 테이블*/
 create table pyeonhee.saving_product
 (
+    saving_number int not null auto_increment,
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     product_type varchar(10) not null,
@@ -237,11 +238,12 @@ create table pyeonhee.saving_product
     max_interest float(4,2) not null,
     link varchar(200) not null,
     mbti varchar(1) not null,
-    primary key (product_name)
+    primary key (saving_number)
 );
 
 create table pyeonhee.fund_product
 (
+    fund_number int not null auto_increment,
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     interest_3 float(4,2) not null,
@@ -250,11 +252,12 @@ create table pyeonhee.fund_product
     fund_sum int not null,
     link varchar(200) not null,
     mbti varchar(1) not null,
-    primary key (product_name)
+    primary key (fund_number)
 );
 
 create table pyeonhee.pension_product
 (
+    pension_number int not null auto_increment,
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     product_type varchar(10) not null,
@@ -262,20 +265,21 @@ create table pyeonhee.pension_product
     interest float(4,2) not null,
     link varchar(200) not null,
     mbti varchar(1) not null,
-    primary key (product_name)
+    primary key (pension_number)
 );
 
-/*primary key(bank_name, product_name) 으로 변경*/
 create table pyeonhee.loan_product
 (
+    loan_number int not null auto_increment,
     bank_name varchar(20) not null,
     product_name varchar(20) not null,
     interest_type varchar(10) not null,
     repay_type varchar(10),
     interest float(4,2) not null,
     link varchar(200) not null,
-    primary key (bank_name, product_name)
+    primary key (loan_number)
 );
+
 
 /*예산계획 추가열람*/
 create table pyeonhee.OpenCount (

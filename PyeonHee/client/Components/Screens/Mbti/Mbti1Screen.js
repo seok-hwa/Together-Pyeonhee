@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import MbtiNextButton from '../Buttons/MbtiNextButton';
-import MbtiPrevButton from '../Buttons/MbtiPrevButton';
+import MbtiNextButton from '../../Buttons/MbtiNextButton';
+import MbtiPrevButton from '../../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
   SafeAreaView,

@@ -5,7 +5,7 @@ function FundItems(props) {
     return (
       <TableRow>
           <TableCell>{props.id}</TableCell>
-          <TableCell>{props.category}</TableCell>
+          <TableCell>펀드</TableCell>
           <TableCell><a href={`/fundBoard/${props.id}`}>{props.name}</a></TableCell>
           <TableCell>{props.company_name}</TableCell>
       </TableRow>
