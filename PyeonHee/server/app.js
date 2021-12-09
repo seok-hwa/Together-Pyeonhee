@@ -3083,6 +3083,252 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
+            /*
+            //관리자 금융상품 목록 확인(펀드)
+            app.post('/adminGetFinancialFundList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM fund_product ORDER BY fund_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 금융상품 전체페이지 수(펀드)
+            app.get('/financialFundListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM fund_product`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 세부정보 확인(펀드)
+            app.post('/savingBoardInfo', function (req, res) {
+                var fundID = req.body.boardID;
+                db.query(`SELECT * FROM fund_product WHERE fund_number =?`, [fundID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            result
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 추가(펀드)
+            app.post('/insertFund', function (req, res) {
+                var productName = req.body.productName;
+                var productBankName = req.body.productBankName;
+                var profit3 = req.body.profit3;
+                var profit6 = req.body.profit6;
+                var profit12 = req.body.profit12;
+                var fundSize = req.body.fundSize;
+                var link = req.body.link;
+                var mbti = req.body.mbti;
+
+                db.query(`INSERT INTO fund_product (bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
+                VALUES VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, profit3, profit6, profit12, fundSize, link, mbti], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 삭제(펀드)
+            app.post('/savingDelete', function (req, res) {
+                var fundID = req.body.boardID;
+                db.query(`DELETE FROM fund_product WHERE fund_number = ?`, [fundID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+            */
+
+            /*
+            //관리자 금융상품 목록 확인(연금)
+            app.post('/adminGetFinancialPensionList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM pension_product ORDER BY pension_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 금융상품 전체페이지 수(연금)
+            app.get('/financialPensionListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM pension_product`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 세부정보 확인(연금)
+            app.post('/pensionBoardInfo', function (req, res) {
+                var pensionID = req.body.boardID;
+                db.query(`SELECT * FROM pension_product WHERE pension_number =?`, [pensionID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            result
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 추가(연금)
+            app.post('/insertPension', function (req, res) {
+                var productName = req.body.productName;
+                var productBankName = req.body.productBankName;
+                var interest = req.body.interest;
+                var pensionType = req.body.pensionType;
+                var disconnected = req.body.disconnected;
+                var link = req.body.link;
+                var mbti = req.body.mbti;
+
+                db.query(`INSERT INTO pension_product (bank_name, product_name, product_type, disconnected, interest, link, mbti)
+                VALUES VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, pensionType, disconnected, interest, link, mbti], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 삭제(연금)
+            app.post('/pensionDelete', function (req, res) {
+                var pensionID = req.body.boardID;
+                db.query(`DELETE FROM pension_product WHERE pension_number = ?`, [pensionID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+            */
+
+            /*
+            //관리자 금융상품 목록 확인(대출)
+            app.post('/adminGetFinancialLoanList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM loan_product ORDER BY loan_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 금융상품 전체페이지 수(대출)
+            app.get('/financialLoanListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM loan_product`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 세부정보 확인(대출)
+            app.post('/loanBoardInfo', function (req, res) {
+                var loanID = req.body.boardID;
+                db.query(`SELECT * FROM loan_product WHERE loan_number =?`, [loanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            result
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 추가(대출)
+            app.post('/insertLoan', function (req, res) {
+                var productName = req.body.productName;
+                var productBankName = req.body.productBankName;
+                var interest = req.body.interest;
+                var interestType = req.body.interestType;
+                var repayType = req.body.repayType;
+                var link = req.body.link;
+
+                db.query(`INSERT INTO loan_product (bank_name, product_name, interest_type, repay_type, interest, link)
+                VALUES VALUES (?, ?, ?, ?, ?, ?)`, [productBankName, productName, interestType, repayType, interest, link], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 삭제(대출)
+            app.post('/loanDelete', function (req, res) {
+                var loanID = req.body.boardID;
+                db.query(`DELETE FROM loan_product WHERE loan_number = ?`, [loanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+            */
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
