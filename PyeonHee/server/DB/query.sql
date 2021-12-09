@@ -428,6 +428,61 @@ create table notice
 
 
 /*금융상품 테이블*/
+
+create table saving_product
+(
+    saving_number int not null auto_increment,
+    bank_name varchar(20) not null,
+    product_name varchar(20) not null,
+    product_type varchar(10) not null,
+    interest float(4,2) not null,
+    max_interest float(4,2) not null,
+    link varchar(200) not null,
+    mbti varchar(1) not null,
+    primary key (saving_number)
+);
+
+create table fund_product
+(
+    fund_number int not null auto_increment,
+    bank_name varchar(20) not null,
+    product_name varchar(20) not null,
+    interest_3 float(4,2) not null,
+    interest_6 float(4,2) not null,
+    interest_12 float(4,2) not null,
+    fund_sum int not null,
+    link varchar(200) not null,
+    mbti varchar(1) not null,
+    primary key (fund_number)
+);
+
+create table pension_product
+(
+    pension_number int not null auto_increment,
+    bank_name varchar(20) not null,
+    product_name varchar(20) not null,
+    product_type varchar(10) not null,
+    disconnected varchar(3) not null,
+    interest float(4,2) not null,
+    link varchar(200) not null,
+    mbti varchar(1) not null,
+    primary key (pension_number)
+);
+
+create table loan_product
+(
+    loan_number int not null auto_increment,
+    bank_name varchar(20) not null,
+    product_name varchar(20) not null,
+    interest_type varchar(10) not null,
+    repay_type varchar(10),
+    interest float(4,2) not null,
+    link varchar(200) not null,
+    primary key (loan_number)
+);
+
+
+/*
 create table saving_product
 (
     bank_name varchar(20) not null,
@@ -465,7 +520,7 @@ create table pension_product
     primary key (product_name)
 );
 
-/*primary key(bank_name, product_name) 으로 변경*/
+//primary key(bank_name, product_name) 으로 변경
 create table loan_product
 (
     bank_name varchar(20) not null,
@@ -476,6 +531,7 @@ create table loan_product
     link varchar(200) not null,
     primary key (bank_name, product_name)
 );
+*/
 
 /*예산계획 추가열람*/
 create table OpenCount (
