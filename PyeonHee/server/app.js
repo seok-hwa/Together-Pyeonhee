@@ -1176,7 +1176,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             }); 
-            
+            //저금계획 삭제
+            app.post('/removeSavingPlan',function(req,res){
+                console.log(req.body);
+                var userID = req.body.userID;
+                var savingID = req.body.savingID;
+
+                db.query(`DELETE FROM Savings WHERE user_id = ? and saving_number = ?`,[userID, savingID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        data = {
+                            status : 'success'
+                        }
+                        res.send(data);
+                    }
+                });
+            });
+                        
             // 편히 메뉴의 데일리데이터의 저금계획
             app.post(`/daily/savings`, function(req, res){
                 console.log(req.body);
