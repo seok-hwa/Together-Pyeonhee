@@ -31,7 +31,7 @@ function CounselorFinancialBoard({match}) {
     });
   }
 
-  /*
+  
   useEffect(() => {
     axios({
       method:"POST",
@@ -52,7 +52,7 @@ function CounselorFinancialBoard({match}) {
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
   return (
     <div className="NotificationBoardDiv">
