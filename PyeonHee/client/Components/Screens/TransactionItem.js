@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import AccountItem from './AccountItem';
+import AccountItem from './AssetsTab/Account/AccountItem';
 import setCategoryScreen from './SetCategoryScreen';
 import { convertAbsoluteToRem } from 'native-base/lib/typescript/theme/tools';
 
