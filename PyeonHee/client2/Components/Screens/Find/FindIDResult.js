@@ -24,7 +24,7 @@ const FindIDResult = ({route, navigation }) => {
         setUserName(route.params.data.name);
         setUserPhone(route.params.data.phone);
 
-        fetch(`${url}/findID`, {
+        fetch(`${url}/access/findID`, {
             method: 'POST',
             body: JSON.stringify({
               userName: route.params.data.name,
