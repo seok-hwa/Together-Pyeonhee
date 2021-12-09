@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import LinkAccountButton from '../../Buttons/LinkAccountButton';
-import AccountItem from '../AccountItem';
+import AccountItem from './Account/AccountItem';
 import TerminateAccountButton from '../../Buttons/TerminateAccountButton';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 
