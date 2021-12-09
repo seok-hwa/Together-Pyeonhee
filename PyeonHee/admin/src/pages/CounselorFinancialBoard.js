@@ -38,12 +38,12 @@ function CounselorFinancialBoard({match}) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data);
 
-        setName(res.data[0].name);
-        setCounselorCate(res.data[0].counselorCate);
-        setCompany(res.data[0].company);
-        setEmail(res.data[0].email);
+        setName(res.data.name);
+        setCounselorCate(res.data.field);
+        setCompany(res.data.company);
+        setEmail(res.data.email);
 
     }).catch(error=>{
         console.log(error);

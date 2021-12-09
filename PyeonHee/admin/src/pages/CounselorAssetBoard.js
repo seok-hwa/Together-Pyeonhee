@@ -27,7 +27,6 @@ function CounselorAssetBoard({match}) {
     });
   }
 
-  /*
   useEffect(() => {
     axios({
       method:"POST",
@@ -37,16 +36,16 @@ function CounselorAssetBoard({match}) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data);
 
-        setName(res.data[0].name);
-        setCompany(res.data[0].company);
-        setEmail(res.data[0].email);
+        setName(res.data.name);
+        setCompany(res.data.company);
+        setEmail(res.data.email);
 
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
   return (
     <div className="NotificationBoardDiv">
