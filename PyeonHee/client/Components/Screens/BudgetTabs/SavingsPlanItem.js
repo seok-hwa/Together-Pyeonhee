@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Modal, 
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditInputBudget from './EditInputBudget';
-import RNPickerSelect from 'react-native-picker-select';
+import config from '../../../config';
 
-
+const url = config.url;
 const SavingPlanItem = (props) => {
   let startYear = props.startSavingDate.substring(0, 4);
   let startMonth = props.startSavingDate.substring(5, 7);
@@ -14,13 +14,12 @@ const SavingPlanItem = (props) => {
   let finishYear = props.endSavingDate.substring(0, 4);
   let finishMonth = props.endSavingDate.substring(5, 7);
   let finishDay = props.endSavingDate.substring(8, 10);
-  
-  // let temp = props.savingMoney + props.prevSum;
-  // props.setUpdate(temp);
-  // console.log(temp);
+
+  let userIncome = props.userIncome;
+  let availableSavings = props.userIncome - props.sumOfSavings + props.savingMoney - props.fixedExpenditure - props.plannedExpenditure;
 
   const [userID, setUserID] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  // const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [tempTitle, setTempTitle] = useState("");
@@ -57,6 +56,10 @@ const SavingPlanItem = (props) => {
     if(parseInt(tempSavingMoney.split(",").join("")) === 0) {
       Alert.alert(' ','저금 금액을 입력해주세요.');
       return;
+    } else if(availableSavings < parseInt(tempSavingMoney.split(",").join(""))) {
+      // let alertMessage = '저금액이 저금 가능 금액'+'을 초과했습니다.';
+      Alert.alert(' ', '저금액이 저금 가능 금액을 초과했습니다.');
+      return;
     }
 
     if(parseInt(tempEndMonth) > 12) {
@@ -74,29 +77,28 @@ const SavingPlanItem = (props) => {
       return;
     }
 
-    // fetch(`${url}/editSavingPlan`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //   userID: props.userID,
-    //   savingID: props.savingID
-    //   savingName: savingName,
-    //   savingMoney: parseInt(savingMoney.split(",").join("")),
-    //   // startDate: startDate,
-    //   savingsDay: savingsDay,
-    //   period: period,    //기간으로 변경함 
-    //   }),
-    //   headers: {
-    //   'Accept': 'application/json',
-    //   'Content-Type':'application/json',
-    //   },
-    // })
-    // .then((response)=>response.json())
-    // .then((responseJson)=>{
-    //   console.log(responseJson);
-    // })
-    // .catch((e)=>{
-    //     console.error(e);
-    // })
+    fetch(`${url}/editSavingPlan`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userID: props.userID,
+        savingID: props.savingID,
+        savingName: tempTitle,
+        savingMoney: parseInt(savingMoney.split(",").join("")),
+        endYear: parseInt(tempEndYear),
+        endMonth: parseInt(tempEndMonth),
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type':'application/json',
+      },
+    })
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+      console.log(responseJson);
+    })
+    .catch((e)=>{
+        console.error(e);
+    })
     setModalVisible(!modalVisible);
     props.setAddSavingsPlan(true);
   }
@@ -112,28 +114,27 @@ const SavingPlanItem = (props) => {
 
   const handleRemoveOKButton = () => {
     console.log('/removeSavingPlan');
-    // fetch(`${url}/removeSavingPlan`, {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //   userID: props.userID,
-    //   savingID: props.savingID
-    //   }),
-    //   headers: {
-    //   'Accept': 'application/json',
-    //   'Content-Type':'application/json',
-    //   },
-    // })
-    // .then((response)=>response.json())
-    // .then((responseJson)=>{
-    //   console.log(responseJson);
-    // })
-    // .catch((e)=>{
-    //     console.error(e);
-    // })
+    fetch(`${url}/removeSavingPlan`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userID: props.userID,
+        savingID: props.savingID
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type':'application/json',
+      },
+    })
+    .then((response)=>response.json())
+    .then((responseJson)=>{
+      console.log(responseJson);
+    })
+    .catch((e)=>{
+        console.error(e);
+    })
     setModalVisible(!modalVisible);
     props.setAddSavingsPlan(true);
   }
-
 
   return (
     <View>
@@ -157,7 +158,14 @@ const SavingPlanItem = (props) => {
               </TouchableOpacity>
             </View>
             <View style={styles.titleContainer}>
-              <Text style={styles.modalText}>저금 계획</Text>
+              <View style={styles.titleDiv}>
+                <Text style={styles.modalText}>저금 계획</Text>
+              </View>
+              <View style={styles.titleInfoDiv}>
+                <Text style={styles.titleInfoText}>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                <Text style={styles.titleInfoText}>저금가능금액: {availableSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                <Text style={[styles.titleInfoText, {fontSize: 8}]}>( 수입-(고정지출+계획지출+저금계획총합) )</Text>
+              </View>
             </View>
 
             <KeyboardAvoidingView style={styles.modalContent}>
@@ -200,7 +208,7 @@ const SavingPlanItem = (props) => {
                   <View style={{flexDirection: 'row'}}>
                     <View style={[styles.dateInputContainer, {width: 90, marginRight: 10,}]}>
                       <TextInput
-                        style={styles.textInputDesign}
+                        style={styles.yearInputDesign}
                         onChangeText={text => setTempEndYear(text)}
                         value={tempEndYear}
                         maxLength = {4}
@@ -211,7 +219,7 @@ const SavingPlanItem = (props) => {
                     </View>
                     <View style={[styles.dateInputContainer, {width: 60}]}>
                       <TextInput
-                        style={styles.textInputDesign}
+                        style={styles.monthInputDesign}
                         onChangeText={text => setTempEndMonth(text)}
                         value={tempEndMonth}
                         maxLength = {2}
@@ -258,8 +266,8 @@ const SavingPlanItem = (props) => {
             
             <View>
               <Text style={styles.topicText}>" {props.savingName} "</Text>
-              <Text>시작일: {startYear}년 {startMonth}월 {startDay}일</Text>
-              <Text>종료일: {finishYear}년 {finishMonth}월 {finishDay}일</Text>
+              <Text>시작일: {startYear}년 {startMonth}월 </Text>
+              <Text>종료일: {finishYear}년 {finishMonth}월 </Text>
               <Text>적금 금액:   {props.savingMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
               <Text>현재 누적액: {props.currentSavingMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
             </View>
@@ -328,9 +336,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  titleInfoDiv:{
+    marginLeft: 10,
+  },
+  titleInfoText: {
+    color: '#203864',
+  },
   titleContainer: {
+    width: 300, 
+    height: 70,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  titleDiv: {
     backgroundColor: '#203864',
-    width: 200, 
+    width: 115, 
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -384,10 +405,21 @@ const styles = StyleSheet.create({
   },
   textInputDesign: {
     height: 45,
-    width: 100,
+    width: 250,
     marginRight: 5, 
     borderRadius: 10,
   },
+  yearInputDesign: {
+    height: 45,
+    width: 50,
+    marginRight: 5, 
+  },
+  monthInputDesign: {
+    height: 45,
+    width: 35,
+    marginRight: 5, 
+}
+
 });
 
 export default SavingPlanItem;

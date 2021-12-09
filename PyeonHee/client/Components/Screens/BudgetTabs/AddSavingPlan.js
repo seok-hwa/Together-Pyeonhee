@@ -12,15 +12,18 @@ const SavingPlan = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const[savingName, setSavingName] = useState("");        //프로젝트 제목
-    const[savingMoney, setSavingMoney] = useState("");       //저금금액
+    const[savingMoney, setSavingMoney] = useState("");      //저금금액
     const[startDate, setStartDate] = useState(new Date());  //시작일
-    const[savingsDay, setSavingsDay] = useState(0);         //매달 저금(출금)일
-    const[period, setPeriod] = useState(0);                 //기간
+    const[endYear, setEndYear] = useState("");              //마감 연도
+    const[endMonth, setEndMonth] = useState("");            //마감 월
+
+    // const[savingsDay, setSavingsDay] = useState(0);         //매달 저금(출금)일
+    // const[period, setPeriod] = useState(0);                 //기간
     
     let now = new Date();
     let year = now.getFullYear();
     let todayMonth = now.getMonth()+1;
-    let today = now.getDate()+1;
+    // let today = now.getDate()+1;
     
     const saveHandler = () => {
         let tempIncome = props.income;
@@ -39,16 +42,19 @@ const SavingPlan = (props) => {
             return;
             
         }
-        
-        console.log('저금일: ', savingsDay);
-        if(savingsDay === 0 || savingsDay > 31) {
-            Alert.alert(' ','저금일을 1 ~ 31일 사이로 선택해주세요.');
+
+        if(parseInt(endMonth) > 12) {
+            Alert.alert(' ','기간은 1 ~ 12 월 중에 선택해주세요.');
+            return;      
+        }
+      
+        if(parseInt(endYear) < year) {
+            Alert.alert(' ','기간은 최소 1개월 이상이어야 합니다.');
             return;
         }
-
-        console.log('기간: ', period);
-        if(period < 1) {
-            Alert.alert(' ','기간은 최소 1개월 이상 설정해주세요.');
+      
+        if(parseInt(endYear) === year && parseInt(endMonth) < todayMonth) {
+            Alert.alert(' ','기간은 최소 1개월 이상이어야 합니다.');
             return;
         }
 
@@ -56,8 +62,6 @@ const SavingPlan = (props) => {
         console.log(savingName);
         console.log(savingMoney);
         console.log(startDate);
-        console.log(savingsDay);
-        console.log(period);
         
         fetch(`${url}/saveSavingPlan`, {
             method: 'POST',
@@ -66,8 +70,8 @@ const SavingPlan = (props) => {
                 savingName: savingName,
                 savingMoney: parseInt(savingMoney.split(",").join("")),
                 startDate: startDate,
-                savingsDay: savingsDay,
-                period: period,    //기간으로 변경함 
+                endYear: endYear,
+                endMonth: endMonth,
             }),
             headers: {
                 'Accept': 'application/json',
@@ -95,8 +99,8 @@ const SavingPlan = (props) => {
         props.setAddSavingsPlan(false);
         setSavingName("");
         setSavingMoney("");
-        setSavingsDay(0);
-        setPeriod(0);
+        setEndMonth("");
+        setEndYear("");
 
         setModalVisible(!modalVisible);
     }
@@ -129,7 +133,7 @@ const SavingPlan = (props) => {
         <View>
             <Modal
                 animationType = {"slide"}
-                transparent={false}
+                transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
                 //  alert('Modal has now been closed.');
@@ -138,11 +142,15 @@ const SavingPlan = (props) => {
             >
                 <View style={styles.centeredView}>
 
-                    <View style={styles.titleContainer}>
+                    {/* <View style={styles.titleContainer}>
                         <Text style={styles.modalText}>저금 계획</Text>
-                    </View>
+                    </View> */}
                 
                     <View style={styles.modalView}>
+
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.modalText}>저금 계획</Text>
+                        </View>
                         
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
@@ -161,34 +169,7 @@ const SavingPlan = (props) => {
 
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
-                                <Text style={styles.categoryText}>저금 금액</Text>
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <TextInput
-                                    style={styles.textInputDesign}
-                                    // placeholder='0'
-                                    onChangeText={text => handleSavingMoney(text)}
-                                    value={savingMoney}
-                                    maxLength = {10}
-                                    textAlign="right"
-                                    keyboardType="numeric"
-                                />
-                                <Text>원</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.rowContainer}>
-                            <View style={styles.tagText} >
-                                <Text style={styles.categoryText}>시작 날짜</Text>
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Text>{year}년 {todayMonth}월 {today}일</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.rowContainer}>
-                            <View style={styles.tagText} >
-                                <Text style={styles.categoryText}>저금일</Text>
+                                <Text style={styles.categoryText}>저금금액</Text>
                             </View>
                             <View style={[styles.inputContainer, {justifyContent: 'space-between'}]}>
                                 <Text>매달</Text>
@@ -196,8 +177,8 @@ const SavingPlan = (props) => {
                                 <TextInput
                                         style={styles.textInputDesign}
                                         // placeholder='1~31일 중 선택하세요'
-                                        onChangeText={text => setSavingsDay(text)}
-                                        maxLength = {2}
+                                        onChangeText={text => handleSavingMoney(text)}
+                                        maxLength = {10}
                                         textAlign="right"
                                         keyboardType="numeric"
                                     />
@@ -210,31 +191,47 @@ const SavingPlan = (props) => {
                             <View style={styles.tagText} >
                                 <Text style={styles.categoryText}>기간</Text>
                             </View>
-                            <View style={styles.inputContainer}>
-                                <TextInput
-                                    style={styles.textInputDesign}
-                                    // placeholder='0'
-                                    onChangeText={text => setPeriod(text)}
-                                    // value={period}
-                                    maxLength = {3}
-                                    textAlign="right"
-                                    keyboardType="numeric"
-                                />
-                                <Text>개월</Text>
-                            </View>
+                            <View style={styles.dateContainer}>
+                                <Text style={{fontSize: 14, color: 'black'}}>{year}년 {todayMonth}월 ~ </Text>
+                                <View style={{flexDirection: 'row'}}>
+                                    <View style={[styles.dateInputContainer, {width: 90, marginRight: 10,}]}>
+                                    <TextInput
+                                        style={styles.yearInputDesign}
+                                        onChangeText={text => setEndYear(text)}
+                                        value={endYear}
+                                        maxLength = {4}
+                                        keyboardType="numeric"
+                                        textAlign="right"
+                                    />
+                                    <Text>년</Text>
+                                    </View>
+                                    <View style={[styles.dateInputContainer, {width: 60}]}>
+                                    <TextInput
+                                        style={styles.monthInputDesign}
+                                        onChangeText={text => setEndMonth(text)}
+                                        value={endMonth}
+                                        maxLength = {2}
+                                        keyboardType="numeric"
+                                        textAlign="right"
+                                    />
+                                    <Text>월</Text>
+                                    </View>
+                                </View>
+                                </View>
                         </View> 
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={saveHandler}>
-                                <Text style={{color: 'white'}}>추가</Text>
+                                onPress={cancleHandler}>
+                                <Text style={{color: '#203864'}}>취소</Text>
                             </TouchableOpacity> 
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={cancleHandler}>
-                                <Text style={{color: 'white'}}>취소</Text>
+                                onPress={saveHandler}>
+                                <Text style={{color: '#203864'}}>추가</Text>
                             </TouchableOpacity> 
+                            
                         </View>
                     </View>
                 </View>
@@ -259,16 +256,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F0F4FA'
+        backgroundColor: 'white'
     },
     modalView: {
-        margin: 10,
-        width: 350,
-        borderRadius: 10,
-        padding: 10,
+        borderRadius: 20,
+        paddingVertical: 50,
+        paddingHorizontal: 37,
         alignItems: 'center',
-        // borderWidth: 0.5,
         justifyContent: 'space-between',
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor:'#203864',
     },
     modalText: {
         fontSize: 20,
@@ -309,13 +307,13 @@ const styles = StyleSheet.create({
         // borderBottomWidth: 1,
     },
     buttonContainer: {
-        marginTop: 20, 
+        marginTop: 50, 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: "center",
     },
     button: {
-        backgroundColor: '#203864',
+        // backgroundColor: '#203864',
         color: 'black',
         width: 100,
         height: 30,
@@ -340,5 +338,33 @@ const styles = StyleSheet.create({
           justifyContent: 'center',
           borderRadius: 10,
     },
+    dateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center', 
+        width: 295,
+        justifyContent: 'space-around',
+    },
+    dateInputContainer: {
+        paddingLeft: 5,
+        paddingRight: 5,
+        height: 40,
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'flex-end',
+        borderRadius: 10,
+        borderColor: '#DCDCDC',
+        borderWidth: 1,
+        backgroundColor:'white'
+    },
+    yearInputDesign: {
+        height: 45,
+        width: 50,
+        marginRight: 5, 
+    },
+    monthInputDesign: {
+        height: 45,
+        width: 35,
+        marginRight: 5, 
+    }
 })
 export default SavingPlan;

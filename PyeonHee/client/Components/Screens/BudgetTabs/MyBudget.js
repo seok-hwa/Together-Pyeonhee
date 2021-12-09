@@ -16,8 +16,8 @@ import SavingPlanItem from './SavingsPlanItem';
 import WriteBudget from './WriteBudgetScreen';
 import AddSavingPlan from './AddSavingPlan';
 import EditBudget from './EditBudget';
-import PlanningSaveButton from '../../Buttons/PlanningSaveButton';
-import PlanningSaveCancelButton from '../../Buttons/PlanningSaveCancelButton';
+// import PlanningSaveButton from '../../Buttons/PlanningSaveButton';
+// import PlanningSaveCancelButton from '../../Buttons/PlanningSaveCancelButton';
 
 import config from '../../../config';
 
@@ -494,7 +494,9 @@ const MyBudgetScreen = ({navigation, route}) => {
                                 return <SavingPlanItem key={item.saving_number} savingName={item.saving_name} 
                                     currentSavingMoney={item.all_savings_money} savingMoney={item.savings_money}
                                     startSavingDate={item.start_date} endSavingDate={item.finish_date} 
-                                    userID={userID} setAddSavingsPlan={setAddSavingsPlan} savingID={item.saving_number}
+                                    userID={userID} setAddSavingsPlan={setAddSavingsPlan} savingID={item.saving_number} 
+                                    userIncome={myBudgetData.userIncome} sumOfSavings={myBudgetData.sumOfSavings} 
+                                    plannedExpenditure={plannedExpenditure} fixedExpenditure={fixedExpenditure}
                                     />;
                         })}
                     </View>
