@@ -94,9 +94,11 @@
        )
        .then(()=>{
          if(tempID != ''){
+           console.log(`${url}/register/getMbti?userID=${tempID}`);
            fetch(`${url}/register/getMbti?userID=${tempID}`)   //get
            .then((response)=>response.json())
            .then((responseJson)=>{
+             console.log(responseJson);
              if(responseJson.hasMbti === 'true'){
                setHasMbti(true);
              }else{
