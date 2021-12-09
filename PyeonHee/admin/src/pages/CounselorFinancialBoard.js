@@ -4,12 +4,9 @@ import '../App.css';
 
 function CounselorFinancialBoard({match}) {
   const [name, setName] = useState('');
-  const [counselorCate, setCounselorCate] = useState('금융상품');
+  const [counselorCate, setCounselorCate] = useState('펀드');
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
-
-  //금융상품
-  const [field, setField] = useState('');
 
   const deleteNotificationBoard=()=>{
     axios({
@@ -47,7 +44,6 @@ function CounselorFinancialBoard({match}) {
         setCounselorCate(res.data[0].counselorCate);
         setCompany(res.data[0].company);
         setEmail(res.data[0].email);
-        setField(res.data[0].field);
 
     }).catch(error=>{
         console.log(error);
@@ -61,15 +57,15 @@ function CounselorFinancialBoard({match}) {
         <div className="CounselorWriteBodyDiv">
             <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상담사 이름:&nbsp;</p>
-            <p className="CounselorBoardTitle">김아주</p>
+            <p className="CounselorBoardTitle">{name}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상담사 이메일:&nbsp;</p>
-            <p className="CounselorBankNameTitle">sdfsdf@asdf.sdf</p>
+            <p className="CounselorBankNameTitle">{email}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상담사 소속회사:&nbsp;</p>
-            <p className="CounselorBankNameTitle">국민은행</p>
+            <p className="CounselorBankNameTitle">{company}</p>
             </div>
             <div className="BoardCateInputDiv">
                 <p className="NotificationBoardCateFont">상담 분류:&nbsp;</p>
@@ -78,7 +74,7 @@ function CounselorFinancialBoard({match}) {
             <div className="CounselorContentDiv">
             <div className="FinancialRow">
                 <p>상담분야:&nbsp;</p>
-                <p>펀드</p>
+                <p>{counselorCate}</p>
             </div>
             </div>
             <div className="NotificationBoardButtonDiv">
