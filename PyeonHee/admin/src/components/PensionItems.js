@@ -5,7 +5,7 @@ function PensionItems(props) {
     return (
       <TableRow>
           <TableCell>{props.id}</TableCell>
-          <TableCell>{props.category}</TableCell>
+          <TableCell>연금</TableCell>
           <TableCell><a href={`/pensionBoard/${props.id}`}>{props.name}</a></TableCell>
           <TableCell>{props.company_name}</TableCell>
       </TableRow>

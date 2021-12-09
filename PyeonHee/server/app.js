@@ -3017,7 +3017,6 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             /* 관리자 웹페이지 금융상품 */
-            /*
             //관리자 금융상품 목록 확인(적금)
             app.post('/adminGetFinancialSavingList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -3097,9 +3096,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            */
+            
 
-            /*
+            
             //관리자 금융상품 목록 확인(펀드)
             app.post('/adminGetFinancialFundList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -3180,9 +3179,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            */
+            
 
-            /*
+            
             //관리자 금융상품 목록 확인(연금)
             app.post('/adminGetFinancialPensionList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -3262,9 +3261,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            */
+            
 
-            /*
+            
             //관리자 금융상품 목록 확인(대출)
             app.post('/adminGetFinancialLoanList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -3343,7 +3342,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-            */
+            
 
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){

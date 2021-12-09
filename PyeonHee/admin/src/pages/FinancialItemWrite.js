@@ -26,7 +26,11 @@ function FinancialItemWrite(props) {
   const [interestType, setInterestType] = useState('');
   const [repayType, setRepayType] = useState('');
 
+  //공통
   const [link, setLink] = useState('');
+
+  //펀드, 적금, 연금 공통
+  const [mbti, setMbti] = useState('P');
 
   const adminID = sessionStorage.getItem('userID');
 
@@ -75,6 +79,9 @@ function FinancialItemWrite(props) {
   const handleDisconnectedInput = (e) => {
     setDisconnected(e.target.value)
   }
+  const handleMbtiInput = (e) => {
+    setMbti(e.target.value)
+  }
 
 
   const submitFund=()=>{
@@ -115,10 +122,11 @@ function FinancialItemWrite(props) {
           productBankName: productBankName,
           productCate: productCate,
           link: link,
-          profit3: profit3,
-          profit6: profit6,
-          profit12: profit12,
-          fundSize: fundSize,
+          profit3: parseFloat(profit3),
+          profit6: parseFloat(profit6),
+          profit12: parseFloat(profit12),
+          fundSize: parseInt(fundSize),
+          mbti: mbti,
         }
     })
     .then((res)=>{
@@ -162,9 +170,10 @@ function FinancialItemWrite(props) {
         productBankName: productBankName,
         productCate: productCate,
         link: link,
-        interest: interest,
-        maxInterest: maxInterest,
+        interest: parseFloat(interest),
+        maxInterest: parseFloat(maxInterest),
         type: type,
+        mbti: mbti,
       }
     })
     .then((res)=>{
@@ -204,7 +213,7 @@ function FinancialItemWrite(props) {
         productBankName: productBankName,
         productCate: productCate,
         link: link,
-        interest: interest,
+        interest: parseFloat(interest),
         interestType: interestType,
         repayType: repayType,
       }
@@ -246,9 +255,10 @@ function FinancialItemWrite(props) {
         productBankName: productBankName,
         productCate: productCate,
         link: link,
-        interest: interest,
+        interest: parseFloat(interest),
         pensionType: pensionType,
         disconnected: disconnected,
+        mbti: mbti,
       }
     })
     .then((res)=>{
@@ -321,6 +331,24 @@ function FinancialItemWrite(props) {
               </div>
                 <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
+                      <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비 성향&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="mbti_input"
+                        onChange={handleMbtiInput}
+                        value={mbti}
+                        >
+                          <option value="P" selected>P</option>
+                          <option value="I">I</option>
+                          <option value="H">H</option>
+                          <option value="C">C</option>
+                          <option value="O">O</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="E">E</option>
+                        </select>
+                      </div>
                       <div className="FinancialRow">
                         <p>3개월 수익률:&nbsp;</p>
                         <input 
@@ -436,6 +464,24 @@ function FinancialItemWrite(props) {
               </div>
                 <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비 성향&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="mbti_input"
+                        onChange={handleMbtiInput}
+                        value={mbti}
+                        >
+                          <option value="P" selected>P</option>
+                          <option value="I">I</option>
+                          <option value="H">H</option>
+                          <option value="C">C</option>
+                          <option value="O">O</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="E">E</option>
+                        </select>
+                      </div>
                       <div className="FinancialRow">
                         <p>방식&nbsp;</p>
                         <select 
@@ -645,6 +691,24 @@ function FinancialItemWrite(props) {
               </div>
               <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비 성향&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="mbti_input"
+                        onChange={handleMbtiInput}
+                        value={mbti}
+                        >
+                          <option value="P" selected>P</option>
+                          <option value="I">I</option>
+                          <option value="H">H</option>
+                          <option value="C">C</option>
+                          <option value="O">O</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="E">E</option>
+                        </select>
+                      </div>
                       <div className="FinancialRow">
                         <p>유형&nbsp;</p>
                         <select 

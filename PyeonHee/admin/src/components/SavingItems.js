@@ -5,7 +5,7 @@ function SavingItems(props) {
     return (
       <TableRow>
           <TableCell>{props.id}</TableCell>
-          <TableCell>{props.category}</TableCell>
+          <TableCell>적금</TableCell>
           <TableCell><a href={`/savingBoard/${props.id}`}>{props.name}</a></TableCell>
           <TableCell>{props.company_name}</TableCell>
       </TableRow>
