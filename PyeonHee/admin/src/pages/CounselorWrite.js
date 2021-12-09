@@ -9,7 +9,7 @@ function CounselorWrite(props) {
   const [email, setEmail] = useState('');
 
   //금융상품
-  const [field, setField] = useState('');
+  const [field, setField] = useState('펀드');
 
   const adminID = sessionStorage.getItem('userID');
 
@@ -59,7 +59,7 @@ function CounselorWrite(props) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/';
+            document.location.href = '/counselorListFinancial/1';
         }else{
             alert('등록 실패');
         }
@@ -95,7 +95,7 @@ function CounselorWrite(props) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/';
+            document.location.href = '/counselorListAsset/1';
         }else{
             alert('등록 실패');
         }
