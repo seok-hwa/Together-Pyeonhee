@@ -6,7 +6,6 @@ function CounselorFinancialBoard({match}) {
   const [name, setName] = useState('');
   const [counselorCate, setCounselorCate] = useState('금융상품');
   const [company, setCompany] = useState('');
-  const [email, setEmail] = useState('');
 
   //금융상품
   const [field, setField] = useState('');
@@ -31,7 +30,7 @@ function CounselorFinancialBoard({match}) {
     });
   }
 
-  /*
+  
   useEffect(() => {
     axios({
       method:"POST",
@@ -46,13 +45,12 @@ function CounselorFinancialBoard({match}) {
         setName(res.data[0].name);
         setCounselorCate(res.data[0].counselorCate);
         setCompany(res.data[0].company);
-        setEmail(res.data[0].email);
         setField(res.data[0].field);
 
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
   return (
     <div className="NotificationBoardDiv">
@@ -62,10 +60,6 @@ function CounselorFinancialBoard({match}) {
             <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상담사 이름:&nbsp;</p>
             <p className="CounselorBoardTitle">김아주</p>
-            </div>
-            <div className="LinkDiv">
-            <p className="LinkFont">상담사 이메일:&nbsp;</p>
-            <p className="CounselorBankNameTitle">sdfsdf@asdf.sdf</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상담사 소속회사:&nbsp;</p>
