@@ -1,6 +1,7 @@
 //회원가입 및 설문조사
 module.exports = function () {
-    var db = require('../config_db.js');
+    const bcrypt = require('bcrypt');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
