@@ -2892,7 +2892,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var company = req.body.company;
                 var email = req.body.email;
 
-                db.query(`INSERT INTO AssetCounselor(name, company, email) VALUES (? ? ?)`, [name, company, email], function (error, result) {
+                db.query(`INSERT INTO AssetCounselor(name, company, email) VALUES (?, ?, ?)`, [name, company, email], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 삭제(자산관리)
+            app.post('/counselorAssetDelete', function (req, res) {
+                var counselorID = req.body.boardID;
+
+                db.query(`DELETE FROM AssetCounselor WHERE counselor_id = ?`, [counselorID], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
@@ -2956,7 +2972,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var email = req.body.email;
                 var field = req.body.field;
 
-                db.query(`INSERT INTO FinancialCounselor(name, company, part ,email) VALUES (? ? ?)`, [name, company, field, email], function (error, result) {
+                db.query(`INSERT INTO FinancialCounselor(name, company, part, email) VALUES (?, ?, ?, ?)`, [name, company, field, email], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 삭제(금융상담)
+            app.post('/counselorFinancialDelete', function (req, res) {
+                var counselorID = req.body.boardID;
+
+                db.query(`DELETE FROM FinancialCounselor WHERE counselor_id = ?`, [counselorID], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
