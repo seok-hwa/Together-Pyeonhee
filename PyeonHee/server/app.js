@@ -2868,6 +2868,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 상담사 세부정보 확인(자산관리)
+            app.post('/counselorAssetInfo', function (req, res) {
+                var counselorID = req.body.boardID;
+                db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`, [counselorID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            name: result[0].name,
+                            //counselorCate: result[0].category,
+                            company: result[0].company,
+                            email: result[0].email
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             //관리자 상담사 목록 확인(금융상담)
             app.post('/adminGetCounselorFinancialList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -2888,6 +2906,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                         var totalPage = Math.ceil((result[0].count) / 10);
                         const data = {
                             totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 세부정보 확인(금융상담)
+            app.post('/counselorFinancialInfo', function (req, res) {
+                var counselorID = req.body.boardID;
+                db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`, [counselorID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            name: result[0].name,
+                            counselorCate: result[0].part,
+                            company: result[0].company,
+                            email: result[0].email
                         }
                         res.send(data);
                         console.log(data);
