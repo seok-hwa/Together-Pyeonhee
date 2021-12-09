@@ -132,7 +132,7 @@ function FinancialItemWrite(props) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/';
+            document.location.href = '/financialFundList/1';
         }else{
             alert('등록 실패 입력 사항을 다시 확인해주세요.');
         }
@@ -179,7 +179,7 @@ function FinancialItemWrite(props) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/';
+            document.location.href = '/financialSavingList/1';
         }else{
             alert('등록 실패 입력 사항을 다시 확인해주세요.');
         }
@@ -221,7 +221,7 @@ function FinancialItemWrite(props) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/';
+            document.location.href = '/financialLoanList/1';
         }else{
             alert('등록 실패 입력 사항을 다시 확인해주세요.');
         }
@@ -264,7 +264,7 @@ function FinancialItemWrite(props) {
     .then((res)=>{
         if(res.data.status === 'success'){
             alert('등록 성공');
-            document.location.href = '/';
+            document.location.href = '/financialPensionList/1';
         }else{
             alert('등록 실패 입력 사항을 다시 확인해주세요.');
         }
