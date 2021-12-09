@@ -3000,6 +3000,89 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            /* 관리자 웹페이지 금융상품 */
+            /*
+            //관리자 금융상품 목록 확인(적금)
+            app.post('/adminGetFinancialSavingList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM saving_product ORDER BY saving_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 금융상품 전체페이지 수(적금)
+            app.get('/financialSavingListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM saving_product`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 세부정보 확인(적금)
+            app.post('/savingBoardInfo', function (req, res) {
+                var savingID = req.body.boardID;
+                db.query(`SELECT * FROM saving_product WHERE saving_number =?`, [savingID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            result
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 추가(적금)
+            app.post('/insertSaving', function (req, res) {
+                var productName = req.body.productName;
+                var productBankName = req.body.productBankName;
+                var type = req.body.type;
+                var interest = req.body.interest;
+                var maxInterest = req.body.maxInterest;
+                var link = req.body.link;
+                var mbti = req.body.mbti;
+
+                db.query(`INSERT INTO saving_product (bank_name, product_name, product_type, interest, max_interest, link, mbti) 
+                VALUES VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, type, interest, maxInterest, link, mbti], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 삭제(적금)
+            app.post('/savingDelete', function (req, res) {
+                var savingID = req.body.boardID;
+                db.query(`DELETE FROM saving_product WHERE saving_number = ?`, [savingID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+            */
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
