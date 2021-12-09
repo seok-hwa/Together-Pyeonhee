@@ -3061,6 +3061,7 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 금융상품 추가(적금)
             app.post('/insertSaving', function (req, res) {
+                console.log("값 확인", req.body);
                 var productName = req.body.productName;
                 var productBankName = req.body.productBankName;
                 var type = req.body.type;
@@ -3070,7 +3071,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var mbti = req.body.mbti;
 
                 db.query(`INSERT INTO saving_product (bank_name, product_name, product_type, interest, max_interest, link, mbti) 
-                VALUES VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, type, interest, maxInterest, link, mbti], function (error, result) {
+                VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, type, interest, maxInterest, link, mbti], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
@@ -3153,7 +3154,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var mbti = req.body.mbti;
 
                 db.query(`INSERT INTO fund_product (bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
-                VALUES VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, profit3, profit6, profit12, fundSize, link, mbti], function (error, result) {
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, profit3, profit6, profit12, fundSize, link, mbti], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
@@ -3235,7 +3236,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var mbti = req.body.mbti;
 
                 db.query(`INSERT INTO pension_product (bank_name, product_name, product_type, disconnected, interest, link, mbti)
-                VALUES VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, pensionType, disconnected, interest, link, mbti], function (error, result) {
+                VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, pensionType, disconnected, interest, link, mbti], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
@@ -3316,7 +3317,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var link = req.body.link;
 
                 db.query(`INSERT INTO loan_product (bank_name, product_name, interest_type, repay_type, interest, link)
-                VALUES VALUES (?, ?, ?, ?, ?, ?)`, [productBankName, productName, interestType, repayType, interest, link], function (error, result) {
+                VALUES (?, ?, ?, ?, ?, ?)`, [productBankName, productName, interestType, repayType, interest, link], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
