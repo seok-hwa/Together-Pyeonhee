@@ -3083,6 +3083,91 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
             */
 
+            /*
+            //관리자 금융상품 목록 확인(펀드)
+            app.post('/adminGetFinancialFundList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM fund_product ORDER BY fund_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 금융상품 전체페이지 수(펀드)
+            app.get('/financialFundListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM fund_product`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 세부정보 확인(펀드)
+            app.post('/savingBoardInfo', function (req, res) {
+                var fundID = req.body.boardID;
+                db.query(`SELECT * FROM fund_product WHERE fund_number =?`, [fundID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            result
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 추가(펀드)
+            app.post('/insertFund', function (req, res) {
+                var productName = req.body.productName;
+                var productBankName = req.body.productBankName;
+                var profit3 = req.body.profit3;
+                var profit6 = req.body.profit6;
+                var profit12 = req.body.profit12;
+                var fundSize = req.body.fundSize;
+                var link = req.body.link;
+                var mbti = req.body.mbti;
+
+                db.query(`INSERT INTO fund_product (bank_name, product_name, interest_3, interest_6, interest_12, fund_sum, link, mbti)
+                VALUES VALUES (?, ?, ?, ?, ?, ?, ?)`, [productBankName, productName, profit3, profit6, profit12, fundSize, link, mbti], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 삭제(펀드)
+            app.post('/savingDelete', function (req, res) {
+                var fundID = req.body.boardID;
+                db.query(`DELETE FROM fund_product WHERE fund_number = ?`, [fundID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+            */
+           
+            
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
