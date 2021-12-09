@@ -2840,6 +2840,97 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            /* 관리자 웹페이지 금융상담 */
+            //관리자 상담사 목록 확인(자산관리)
+            app.post('/adminGetCounselorAssetList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM AssetCounselor ORDER BY counselor_id desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 상담사 전체페이지 수(자산관리)
+            app.get('/counselorAssetListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM AssetCounselor`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 세부정보 확인(자산관리)
+            app.post('/counselorAssetInfo', function (req, res) {
+                var counselorID = req.body.boardID;
+                db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`, [counselorID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            name: result[0].name,
+                            //counselorCate: result[0].category,
+                            company: result[0].company,
+                            email: result[0].email
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 목록 확인(금융상담)
+            app.post('/adminGetCounselorFinancialList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM FinancialCounselor ORDER BY counselor_id desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 상담사 전체페이지 수(금융상담)
+            app.get('/counselorFinancialListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM FinancialCounselor`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 세부정보 확인(금융상담)
+            app.post('/counselorFinancialInfo', function (req, res) {
+                var counselorID = req.body.boardID;
+                db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`, [counselorID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            name: result[0].name,
+                            counselorCate: result[0].part,
+                            company: result[0].company,
+                            email: result[0].email
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
