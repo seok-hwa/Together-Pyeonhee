@@ -26,7 +26,11 @@ function FinancialItemWrite(props) {
   const [interestType, setInterestType] = useState('');
   const [repayType, setRepayType] = useState('');
 
+  //공통
   const [link, setLink] = useState('');
+
+  //펀드, 적금, 연금 공통
+  const [mbti, setMbti] = useState('PHOM');
 
   const adminID = sessionStorage.getItem('userID');
 
@@ -75,6 +79,9 @@ function FinancialItemWrite(props) {
   const handleDisconnectedInput = (e) => {
     setDisconnected(e.target.value)
   }
+  const handleMbtiInput = (e) => {
+    setMbti(e.target.value)
+  }
 
 
   const submitFund=()=>{
@@ -119,6 +126,7 @@ function FinancialItemWrite(props) {
           profit6: profit6,
           profit12: profit12,
           fundSize: fundSize,
+          mbti: mbti,
         }
     })
     .then((res)=>{
@@ -165,6 +173,7 @@ function FinancialItemWrite(props) {
         interest: interest,
         maxInterest: maxInterest,
         type: type,
+        mbti: mbti,
       }
     })
     .then((res)=>{
@@ -249,6 +258,7 @@ function FinancialItemWrite(props) {
         interest: interest,
         pensionType: pensionType,
         disconnected: disconnected,
+        mbti: mbti,
       }
     })
     .then((res)=>{
@@ -321,6 +331,32 @@ function FinancialItemWrite(props) {
               </div>
                 <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
+                      <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비 성향&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="mbti_input"
+                        onChange={handleMbtiInput}
+                        value={mbti}
+                        >
+                          <option value="PHOM" selected>PHOM</option>
+                          <option value="PHOE">PHOE</option>
+                          <option value="PHSM">PHSM</option>
+                          <option value="PHSE">PHSE</option>
+                          <option value="PCOM">PCOM</option>
+                          <option value="PCOE">PCOE</option>
+                          <option value="PCSM">PCSM</option>
+                          <option value="PCSE">PCSE</option>
+                          <option value="IHOM">IHOM</option>
+                          <option value="IHOE">IHOE</option>
+                          <option value="IHSM">IHSM</option>
+                          <option value="IHSE">IHSE</option>
+                          <option value="ICOM">ICOM</option>
+                          <option value="ICOE">ICOE</option>
+                          <option value="ICSM">ICSM</option>
+                          <option value="ICSE">ICSE</option>
+                        </select>
+                      </div>
                       <div className="FinancialRow">
                         <p>3개월 수익률:&nbsp;</p>
                         <input 
@@ -436,6 +472,32 @@ function FinancialItemWrite(props) {
               </div>
                 <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비 성향&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="mbti_input"
+                        onChange={handleMbtiInput}
+                        value={mbti}
+                        >
+                          <option value="PHOM" selected>PHOM</option>
+                          <option value="PHOE">PHOE</option>
+                          <option value="PHSM">PHSM</option>
+                          <option value="PHSE">PHSE</option>
+                          <option value="PCOM">PCOM</option>
+                          <option value="PCOE">PCOE</option>
+                          <option value="PCSM">PCSM</option>
+                          <option value="PCSE">PCSE</option>
+                          <option value="IHOM">IHOM</option>
+                          <option value="IHOE">IHOE</option>
+                          <option value="IHSM">IHSM</option>
+                          <option value="IHSE">IHSE</option>
+                          <option value="ICOM">ICOM</option>
+                          <option value="ICOE">ICOE</option>
+                          <option value="ICSM">ICSM</option>
+                          <option value="ICSE">ICSE</option>
+                        </select>
+                      </div>
                       <div className="FinancialRow">
                         <p>방식&nbsp;</p>
                         <select 
@@ -645,6 +707,32 @@ function FinancialItemWrite(props) {
               </div>
               <div className="FinancialFundDiv">
                     <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비 성향&nbsp;</p>
+                        <select 
+                        className="SavingTypeInput" 
+                        name="mbti_input"
+                        onChange={handleMbtiInput}
+                        value={mbti}
+                        >
+                          <option value="PHOM" selected>PHOM</option>
+                          <option value="PHOE">PHOE</option>
+                          <option value="PHSM">PHSM</option>
+                          <option value="PHSE">PHSE</option>
+                          <option value="PCOM">PCOM</option>
+                          <option value="PCOE">PCOE</option>
+                          <option value="PCSM">PCSM</option>
+                          <option value="PCSE">PCSE</option>
+                          <option value="IHOM">IHOM</option>
+                          <option value="IHOE">IHOE</option>
+                          <option value="IHSM">IHSM</option>
+                          <option value="IHSE">IHSE</option>
+                          <option value="ICOM">ICOM</option>
+                          <option value="ICOE">ICOE</option>
+                          <option value="ICSM">ICSM</option>
+                          <option value="ICSE">ICSE</option>
+                        </select>
+                      </div>
                       <div className="FinancialRow">
                         <p>유형&nbsp;</p>
                         <select 
