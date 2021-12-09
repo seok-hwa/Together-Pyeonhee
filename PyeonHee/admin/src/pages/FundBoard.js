@@ -12,7 +12,7 @@ function FundBoard({ match }) {
   const [profit6, setProfit6] = useState('');
   const [profit12, setProfit12] = useState('');
   const [fundSize, setFundSize] = useState('');
-
+  const [mbti, setMbti] = useState('');
   const [link, setLink] = useState('');
 
   const deleteBoard =()=>{
@@ -35,7 +35,6 @@ function FundBoard({ match }) {
     });
   }
 
-  /*
   useEffect(() => {
     axios({
       method:"POST",
@@ -54,12 +53,13 @@ function FundBoard({ match }) {
         setProfit6(res.data[0].profit6);
         setProfit12(res.data[0].profit12);
         setFundSize(res.data[0].fundSize);
+        setMbti(res.data[0].mbti);
         setLink(res.data[0].link);
 
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
     return (
     <div className="NotificationBoardDiv">
@@ -68,15 +68,15 @@ function FundBoard({ match }) {
         <div className="FinancialWriteBodyDiv">
             <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
-            <p className="FinancialBoardTitle">하하하</p>
+            <p className="FinancialBoardTitle">{productName}</p>
             </div>
             <div className="BoardWriteTitleDiv">
                 <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
-                <p className="FinancialBankNameTitle">국민은행</p>
+                <p className="FinancialBankNameTitle">{productBankName}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상품링크:&nbsp;</p>
-            <p className="LinkTextInBoard">www.naver.com</p>
+            <p className="LinkTextInBoard">{link}</p>
             </div>
             <div className="BoardCateInputDiv">
                 <p className="NotificationBoardCateFont">상품 분류:&nbsp;</p>
@@ -85,23 +85,27 @@ function FundBoard({ match }) {
             <div className="FinancialFundDiv">
                 <div className="FinancialFundWriteDiv">
                     <div className="FinancialRow">
+                    <p>이 상품과 맞는 소비성향:&nbsp;</p>
+                    <p>{mbti}</p>
+                    </div>
+                    <div className="FinancialRow">
                     <p>3개월 수익률:&nbsp;</p>
-                    <p>12</p>
+                    <p>{profit3}</p>
                     <p>%</p>
                     </div>
                     <div className="FinancialRow">
                     <p>6개월 수익률:&nbsp;</p>
-                    <p>12</p>
+                    <p>{profit6}</p>
                     <p>%</p>
                     </div>
                     <div className="FinancialRow">
                     <p>1년 수익률:&nbsp;</p>
-                    <p>12</p>
+                    <p>{profit12}</p>
                     <p>%</p>
                     </div>
                     <div className="FinancialRow">
                     <p>펀드 규모:&nbsp;</p>
-                    <p>12</p>
+                    <p>{fundSize}</p>
                     <p>억</p>
                     </div>
                 </div>

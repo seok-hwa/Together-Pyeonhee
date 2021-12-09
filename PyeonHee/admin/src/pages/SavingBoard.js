@@ -13,6 +13,7 @@ function SavingBoard({match}) {
   const [maxInterest, setMaxInterest] = useState('');
 
   const [link, setLink] = useState('');
+  const [mbti, setMbti] = useState('');
 
   const deleteBoard =()=>{
     axios({
@@ -34,8 +35,6 @@ function SavingBoard({match}) {
     });
   }
 
-
-/*
   useEffect(() => {
     axios({
       method:"POST",
@@ -54,11 +53,12 @@ function SavingBoard({match}) {
         setInterest(res.data[0].interest);
         setMaxInterest(res.data[0].maxInterest);
         setLink(res.data[0].link);
+        setMbti(res.data[0].mbti);
 
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
     return (
     <div className="NotificationBoardDiv">
@@ -67,15 +67,15 @@ function SavingBoard({match}) {
         <div className="FinancialWriteBodyDiv">
         <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
-            <p className="FinancialBoardTitle">하하하</p>
+            <p className="FinancialBoardTitle">{productName}</p>
             </div>
             <div className="BoardWriteTitleDiv">
                 <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
-                <p className="FinancialBankNameTitle">국민은행</p>
+                <p className="FinancialBankNameTitle">{productBankName}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상품링크:&nbsp;</p>
-            <p className="LinkTextInBoard">www.naver.com</p>
+            <p className="LinkTextInBoard">{link}</p>
             </div>
             <div className="BoardCateInputDiv">
                 <p className="NotificationBoardCateFont">상품 분류:&nbsp;</p>
@@ -84,17 +84,21 @@ function SavingBoard({match}) {
             <div className="FinancialFundDiv">
             <div className="FinancialFundWriteDiv">
                       <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비성향:&nbsp;</p>
+                        <p>{mbti}</p>
+                      </div>
+                      <div className="FinancialRow">
                         <p>방식:&nbsp;</p>
-                        <p>자유적립식</p>
+                        <p>{type}</p>
                       </div>
                       <div className="FinancialRow">
                         <p>이자율:&nbsp;</p>
-                        <p>12</p>
+                        <p>{interest}</p>
                         <p>%</p>
                       </div>
                       <div className="FinancialRow">
                         <p>최고 우대금리:&nbsp;</p>
-                        <p>12</p>
+                        <p>{maxInterest}</p>
                         <p>%</p>
                       </div>
                     </div>

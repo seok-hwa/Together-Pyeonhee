@@ -5,7 +5,7 @@ function LoanItems(props) {
     return (
       <TableRow>
           <TableCell>{props.id}</TableCell>
-          <TableCell>{props.category}</TableCell>
+          <TableCell>대출</TableCell>
           <TableCell><a href={`/loanBoard/${props.id}`}>{props.name}</a></TableCell>
           <TableCell>{props.company_name}</TableCell>
       </TableRow>

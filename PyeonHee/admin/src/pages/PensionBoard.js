@@ -13,6 +13,7 @@ function PensionBoard({match}) {
   const [interest, setInterest] = useState('');  //연금 공통, 대출 공통
 
   const [link, setLink] = useState('');
+  const [mbti, setMbti] = useState('');
 
   const deleteBoard =()=>{
     axios({
@@ -34,7 +35,6 @@ function PensionBoard({match}) {
     });
   }
 
-/*
   useEffect(() => {
     axios({
       method:"POST",
@@ -53,11 +53,12 @@ function PensionBoard({match}) {
         setInterest(res.data[0].interest);
         setPensionType(res.data[0].pensionType);
         setLink(res.data[0].link);
+        setMbti(res.data[0].mbti);
 
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
     return (
     <div className="NotificationBoardDiv">
@@ -66,15 +67,15 @@ function PensionBoard({match}) {
         <div className="FinancialWriteBodyDiv">
             <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
-            <p className="FinancialBoardTitle">하하하</p>
+            <p className="FinancialBoardTitle">{productName}</p>
             </div>
             <div className="BoardWriteTitleDiv">
                 <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
-                <p className="FinancialBankNameTitle">국민은행</p>
+                <p className="FinancialBankNameTitle">{productBankName}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상품링크:&nbsp;</p>
-            <p className="LinkTextInBoard">www.naver.com</p>
+            <p className="LinkTextInBoard">{link}</p>
             </div>
             <div className="BoardCateInputDiv">
                 <p className="NotificationBoardCateFont">상품 분류:&nbsp;</p>
@@ -82,17 +83,21 @@ function PensionBoard({match}) {
             </div>
             <div className="FinancialFundDiv">
                 <div className="FinancialFundWriteDiv">
+                    <div className="FinancialRow">
+                        <p>이 상품과 맞는 소비성향:&nbsp;</p>
+                        <p>{mbti}</p>
+                    </div>
                       <div className="FinancialRow">
                         <p>유형:&nbsp;</p>
-                        <p>안정형</p>
+                        <p>{pensionType}</p>
                       </div>
                       <div className="FinancialRow">
                         <p>중도해지 가능여부:&nbsp;</p>
-                        <p>가능</p>
+                        <p>{disconnected}</p>
                       </div>
                       <div className="FinancialRow">
                           <p>수익률:&nbsp;</p>
-                          <p>12</p>
+                          <p>{interest}</p>
                           <p>%</p>
                       </div>
                   </div>

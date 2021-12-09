@@ -34,7 +34,6 @@ function LoanBoard({match}) {
         console.log(error);
     });
   }
-/*
   useEffect(() => {
     axios({
       method:"POST",
@@ -57,7 +56,7 @@ function LoanBoard({match}) {
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
     return (
     <div className="NotificationBoardDiv">
@@ -66,15 +65,15 @@ function LoanBoard({match}) {
         <div className="FinancialWriteBodyDiv">
         <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
-            <p className="FinancialBoardTitle">하하하</p>
+            <p className="FinancialBoardTitle">{productName}</p>
             </div>
             <div className="BoardWriteTitleDiv">
                 <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
-                <p className="FinancialBankNameTitle">국민은행</p>
+                <p className="FinancialBankNameTitle">{productBankName}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상품링크:&nbsp;</p>
-            <p className="LinkTextInBoard">www.naver.com</p>
+            <p className="LinkTextInBoard">{link}</p>
             </div>
             <div className="BoardCateInputDiv">
                 <p className="NotificationBoardCateFont">상품 분류:&nbsp;</p>
@@ -84,15 +83,15 @@ function LoanBoard({match}) {
             <div className="FinancialFundWriteDiv">
                     <div className="FinancialRow">
                       <p>금리 방식:&nbsp;</p>
-                      <p>변동금리</p>
+                      <p>{interestType}</p>
                     </div>
                     <div className="FinancialRow">
                       <p>상환 방식:&nbsp;</p>
-                      <p>원금균등상환</p>
+                      <p>{repayType}</p>
                     </div>
                     <div className="FinancialRow">
                         <p>금리:&nbsp;</p>
-                        <p>12</p>
+                        <p>{interest}</p>
                         <p>%</p>
                       </div>
                 </div>
