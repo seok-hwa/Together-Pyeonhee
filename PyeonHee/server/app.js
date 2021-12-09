@@ -2840,6 +2840,34 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 상담사 목록 확인(자산관리)
+            app.post('/adminGetCounselorAssetList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM FinancialCounselor ORDER BY counselor_id desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 상담사 전체페이지 수(자산관리)
+            app.get('/counselorAssetListTotalPage', function (req, res) {
+                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "FinancialCounselor"`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
                 db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result){
