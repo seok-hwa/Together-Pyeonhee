@@ -192,6 +192,10 @@
   font-size: 0.5cm;
   font-weight: bold;
 }
+.FinancialBankFont{
+  font-size: 0.5cm;
+  font-weight: bold;
+}
 .NotificationBoardCateFont{
   font-size: 0.5cm;
   font-weight: bold;
@@ -288,7 +292,7 @@
 }
 .CounselorWriteBodyDiv{
   background-color: #fff;
-  width: 70%;
+  width: 60%;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -296,7 +300,7 @@
 }
 .FinancialWriteBodyDiv{
   background-color: #fff;
-  width: 80%;
+  width: 70%;
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -348,6 +352,12 @@
 .counselorCompanyInput{
   height: 0.7cm;
   width: 60%;
+  font-size: 0.4cm;
+  margin-top: 0.4cm;
+}
+.FinancialInput{
+  height: 0.7cm;
+  width: 78%;
   font-size: 0.4cm;
   margin-top: 0.4cm;
 }
@@ -478,6 +488,49 @@
 }
 .FinancialFundWriteDiv{
   width: 80%;
+}
+.FinancialBoardTitle{
+  height: 0.9cm;
+  width: 80%;
+  margin-top: 0.8cm;
+  font-size: 0.6cm;
+  text-align: left;
+  border: 1px solid #282c34;
+}
+.FinancialBankNameTitle{
+  height: 0.8cm;
+  width: 76%;
+  font-size: 0.5cm;
+  text-align: left;
+  border: 1px solid #282c34;
+}
+.LinkTextInBoard{
+  height: 0.6cm;
+  width: 80%;
+  font-size: 0.4cm;
+  margin-top: 0.6cm;
+  text-align: left;
+}
+.FinancialCateInBoard{
+  margin-top: 0.6cm;
+}
+.CounselorBoardTitle{
+  height: 0.9cm;
+  width: 60%;
+  margin-top: 0.7cm;
+  font-size: 0.6cm;
+  text-align: left;
+  border: 1px solid #282c34;
+}
+.CounselorBankNameTitle{
+  height: 0.8cm;
+  width: 60%;
+  font-size: 0.5cm;
+  text-align: left;
+  border: 1px solid #282c34;
+}
+.CounselorCateInBoard{
+  margin-top: 0.6cm;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

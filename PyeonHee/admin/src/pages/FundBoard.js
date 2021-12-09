@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import '../App.css';
 
-function FundBoard(props) {
+function FundBoard({ match }) {
   const [productName, setProductName] = useState('');
   const [productCate, setProductCate] = useState('펀드');
+  const [productBankName, setProductBankName] = useState('');
 
   //펀드
   const [profit3, setProfit3] = useState('');
@@ -13,6 +14,26 @@ function FundBoard(props) {
   const [fundSize, setFundSize] = useState('');
 
   const [link, setLink] = useState('');
+
+  const deleteBoard =()=>{
+    axios({
+        method:"POST",
+        url: `/fundDelete`,
+        data:{
+            boardID: match.params.boardID,
+        }
+    })
+    .then((res)=>{
+        if(res.data.status === 'success'){
+            alert('삭제 성공');
+            document.location.href = '/financialFundList/1';
+        }else{
+            alert('삭제 실패');
+        }
+    }).catch(error=>{
+        console.log(error);
+    });
+  }
 
   /*
   useEffect(() => {
@@ -27,6 +48,7 @@ function FundBoard(props) {
         console.log(res.data[0]);
 
         setProductName(res.data[0].productName);
+        setProductBankName(res.data[0].productBankName);
         setProductCate(res.data[0].productCate);
         setProfit3(res.data[0].profit3);
         setProfit6(res.data[0].profit6);
@@ -46,15 +68,19 @@ function FundBoard(props) {
         <div className="FinancialWriteBodyDiv">
             <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상품명:&nbsp;</p>
-            <p className="BoardTitle">하하하</p>
+            <p className="FinancialBoardTitle">하하하</p>
+            </div>
+            <div className="BoardWriteTitleDiv">
+                <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
+                <p className="FinancialBankNameTitle">국민은행</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상품링크:&nbsp;</p>
-            <p className="LinkText">하하하</p>
+            <p className="LinkTextInBoard">www.naver.com</p>
             </div>
             <div className="BoardCateInputDiv">
-                <p className="NotificationBoardCateFont">상품 분류: </p>
-                <p>펀드</p>
+                <p className="NotificationBoardCateFont">상품 분류:&nbsp;</p>
+                <p className="FinancialCateInBoard">펀드</p>
             </div>
             <div className="FinancialFundDiv">
                 <div className="FinancialFundWriteDiv">
@@ -79,6 +105,9 @@ function FundBoard(props) {
                     <p>억</p>
                     </div>
                 </div>
+            </div>
+            <div className="NotificationBoardButtonDiv">
+            <button className="NotificationDeleteButton" type='button' onClick={deleteBoard}>삭제</button>
             </div>
         </div>
         </div>

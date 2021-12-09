@@ -24,6 +24,8 @@ import FundBoard from "./pages/FundBoard";
 import SavingBoard from "./pages/SavingBoard";
 import PensionBoard from "./pages/PensionBoard";
 import LoanBoard from "./pages/LoanBoard";
+import CounselorFinancialBoard from "./pages/CounselorFinancialBoard";
+import CounselorAssetBoard from "./pages/CounselorAssetBoard";
 
 import './App.css';
 
@@ -79,6 +81,8 @@ function App() {
             <Route path="/savingBoard/:boardID" component={SavingBoard} />
             <Route path="/pensionBoard/:boardID" component={PensionBoard} />
             <Route path="/loanBoard/:boardID" component={LoanBoard} />
+            <Route path="/counselorFinancialBoard/:boardID" component={CounselorFinancialBoard} />
+            <Route path="/counselorAssetBoard/:boardID" component={CounselorAssetBoard} />
           </Switch>
         </div>
       </div>
