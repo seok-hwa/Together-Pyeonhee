@@ -1,8 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import AccountItem from './AccountItem';
-import setCategoryScreen from './SetCategoryScreen';
 
 const AccountLogo = (props) => {
     const accountCate = props.bankName;

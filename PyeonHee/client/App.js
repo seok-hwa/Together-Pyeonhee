@@ -20,9 +20,9 @@
  import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
  import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
  import BudgetScreen from './Components/Screens/BudgetScreen';
- import AccountLinkScreen from './Components/Screens/AccountLinkScreen';
+ import AccountLinkScreen from './Components/Screens/AssetsTab/Account/AccountLinkScreen';
  import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
- import SelectedAccountScreen from './Components/Screens/SelectedAccountScreen';
+ import SelectedAccountScreen from './Components/Screens/AssetsTab/Account/SelectedAccountScreen';
  import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
  import PushNotification from 'react-native-push-notification';
  import ItemLink from './Components/Screens/AssetsTab/BankingProductTabs/ItemLink';
