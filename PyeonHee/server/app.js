@@ -2840,6 +2840,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            /* 관리자 웹페이지 금융상담 */
             //관리자 상담사 목록 확인(자산관리)
             app.post('/adminGetCounselorAssetList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -2854,11 +2855,10 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 상담사 전체페이지 수(자산관리)
             app.get('/counselorAssetListTotalPage', function (req, res) {
-                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
-                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "AssetCounselor"`, function (error, result) {
+                db.query(`SELECT count(*) as count FROM AssetCounselor`, function (error, result) {
                     if (error) throw error;
                     else {
-                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1) / 10);
+                        var totalPage = Math.ceil((result[0].count) / 10);
                         const data = {
                             totalPage
                         }
@@ -2882,11 +2882,10 @@ const SSHConnection = new Promise((resolve, reject) => {
 
             //관리자 상담사 전체페이지 수(금융상담)
             app.get('/counselorFinancialListTotalPage', function (req, res) {
-                db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
-                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "FinancialCounselor"`, function (error, result) {
+                db.query(`SELECT count(*) as count FROM FinancialCounselor`, function (error, result) {
                     if (error) throw error;
                     else {
-                        var totalPage = Math.ceil((result[0].AUTO_INCREMENT - 1) / 10);
+                        var totalPage = Math.ceil((result[0].count) / 10);
                         const data = {
                             totalPage
                         }
