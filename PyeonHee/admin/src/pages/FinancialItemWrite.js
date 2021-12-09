@@ -30,7 +30,7 @@ function FinancialItemWrite(props) {
   const [link, setLink] = useState('');
 
   //펀드, 적금, 연금 공통
-  const [mbti, setMbti] = useState('PHOM');
+  const [mbti, setMbti] = useState('P');
 
   const adminID = sessionStorage.getItem('userID');
 
@@ -122,10 +122,10 @@ function FinancialItemWrite(props) {
           productBankName: productBankName,
           productCate: productCate,
           link: link,
-          profit3: profit3,
-          profit6: profit6,
-          profit12: profit12,
-          fundSize: fundSize,
+          profit3: parseFloat(profit3),
+          profit6: parseFloat(profit6),
+          profit12: parseFloat(profit12),
+          fundSize: parseInt(fundSize),
           mbti: mbti,
         }
     })
@@ -170,8 +170,8 @@ function FinancialItemWrite(props) {
         productBankName: productBankName,
         productCate: productCate,
         link: link,
-        interest: interest,
-        maxInterest: maxInterest,
+        interest: parseFloat(interest),
+        maxInterest: parseFloat(maxInterest),
         type: type,
         mbti: mbti,
       }
@@ -213,7 +213,7 @@ function FinancialItemWrite(props) {
         productBankName: productBankName,
         productCate: productCate,
         link: link,
-        interest: interest,
+        interest: parseFloat(interest),
         interestType: interestType,
         repayType: repayType,
       }
@@ -255,7 +255,7 @@ function FinancialItemWrite(props) {
         productBankName: productBankName,
         productCate: productCate,
         link: link,
-        interest: interest,
+        interest: parseFloat(interest),
         pensionType: pensionType,
         disconnected: disconnected,
         mbti: mbti,
@@ -339,22 +339,14 @@ function FinancialItemWrite(props) {
                         onChange={handleMbtiInput}
                         value={mbti}
                         >
-                          <option value="PHOM" selected>PHOM</option>
-                          <option value="PHOE">PHOE</option>
-                          <option value="PHSM">PHSM</option>
-                          <option value="PHSE">PHSE</option>
-                          <option value="PCOM">PCOM</option>
-                          <option value="PCOE">PCOE</option>
-                          <option value="PCSM">PCSM</option>
-                          <option value="PCSE">PCSE</option>
-                          <option value="IHOM">IHOM</option>
-                          <option value="IHOE">IHOE</option>
-                          <option value="IHSM">IHSM</option>
-                          <option value="IHSE">IHSE</option>
-                          <option value="ICOM">ICOM</option>
-                          <option value="ICOE">ICOE</option>
-                          <option value="ICSM">ICSM</option>
-                          <option value="ICSE">ICSE</option>
+                          <option value="P" selected>P</option>
+                          <option value="I">I</option>
+                          <option value="H">H</option>
+                          <option value="C">C</option>
+                          <option value="O">O</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="E">E</option>
                         </select>
                       </div>
                       <div className="FinancialRow">
@@ -480,22 +472,14 @@ function FinancialItemWrite(props) {
                         onChange={handleMbtiInput}
                         value={mbti}
                         >
-                          <option value="PHOM" selected>PHOM</option>
-                          <option value="PHOE">PHOE</option>
-                          <option value="PHSM">PHSM</option>
-                          <option value="PHSE">PHSE</option>
-                          <option value="PCOM">PCOM</option>
-                          <option value="PCOE">PCOE</option>
-                          <option value="PCSM">PCSM</option>
-                          <option value="PCSE">PCSE</option>
-                          <option value="IHOM">IHOM</option>
-                          <option value="IHOE">IHOE</option>
-                          <option value="IHSM">IHSM</option>
-                          <option value="IHSE">IHSE</option>
-                          <option value="ICOM">ICOM</option>
-                          <option value="ICOE">ICOE</option>
-                          <option value="ICSM">ICSM</option>
-                          <option value="ICSE">ICSE</option>
+                          <option value="P" selected>P</option>
+                          <option value="I">I</option>
+                          <option value="H">H</option>
+                          <option value="C">C</option>
+                          <option value="O">O</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="E">E</option>
                         </select>
                       </div>
                       <div className="FinancialRow">
@@ -715,22 +699,14 @@ function FinancialItemWrite(props) {
                         onChange={handleMbtiInput}
                         value={mbti}
                         >
-                          <option value="PHOM" selected>PHOM</option>
-                          <option value="PHOE">PHOE</option>
-                          <option value="PHSM">PHSM</option>
-                          <option value="PHSE">PHSE</option>
-                          <option value="PCOM">PCOM</option>
-                          <option value="PCOE">PCOE</option>
-                          <option value="PCSM">PCSM</option>
-                          <option value="PCSE">PCSE</option>
-                          <option value="IHOM">IHOM</option>
-                          <option value="IHOE">IHOE</option>
-                          <option value="IHSM">IHSM</option>
-                          <option value="IHSE">IHSE</option>
-                          <option value="ICOM">ICOM</option>
-                          <option value="ICOE">ICOE</option>
-                          <option value="ICSM">ICSM</option>
-                          <option value="ICSE">ICSE</option>
+                          <option value="P" selected>P</option>
+                          <option value="I">I</option>
+                          <option value="H">H</option>
+                          <option value="C">C</option>
+                          <option value="O">O</option>
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="E">E</option>
                         </select>
                       </div>
                       <div className="FinancialRow">
