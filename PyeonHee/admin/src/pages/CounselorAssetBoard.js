@@ -4,7 +4,6 @@ import '../App.css';
 
 function CounselorAssetBoard({match}) {
   const [name, setName] = useState('');
-  const [counselorCate, setCounselorCate] = useState('금융상품');
   const [company, setCompany] = useState('');
   const [email, setEmail] = useState('');
 
@@ -28,7 +27,6 @@ function CounselorAssetBoard({match}) {
     });
   }
 
-  /*
   useEffect(() => {
     axios({
       method:"POST",
@@ -38,17 +36,16 @@ function CounselorAssetBoard({match}) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data);
 
-        setName(res.data[0].name);
-        setCounselorCate(res.data[0].counselorCate);
-        setCompany(res.data[0].company);
-        setEmail(res.data[0].email);
+        setName(res.data.name);
+        setCompany(res.data.company);
+        setEmail(res.data.email);
 
     }).catch(error=>{
         console.log(error);
     });
-  },[])*/
+  },[])
 
   return (
     <div className="NotificationBoardDiv">
@@ -57,19 +54,19 @@ function CounselorAssetBoard({match}) {
         <div className="CounselorWriteBodyDiv">
             <div className="BoardWriteTitleDiv">
             <p className="NotificationBoardTitleFont">상담사 이름:&nbsp;</p>
-            <p className="CounselorBoardTitle">김아주</p>
+            <p className="CounselorBoardTitle">{name}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상담사 이메일:&nbsp;</p>
-            <p className="CounselorBankNameTitle">sdfsdf@asdf.sdf</p>
+            <p className="CounselorBankNameTitle">{email}</p>
             </div>
             <div className="LinkDiv">
             <p className="LinkFont">상담사 소속회사:&nbsp;</p>
-            <p className="CounselorBankNameTitle">국민은행</p>
+            <p className="CounselorBankNameTitle">{company}</p>
             </div>
             <div className="BoardCateInputDiv">
                 <p className="NotificationBoardCateFont">상담 분류:&nbsp;</p>
-                <p className="CounselorCateInBoard">금융상품</p>
+                <p className="CounselorCateInBoard">자산관리</p>
             </div>
             <div className="CounselorContentDiv">
             <div className="FinancialRow">
