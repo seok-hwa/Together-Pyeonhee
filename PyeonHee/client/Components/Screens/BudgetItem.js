@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, Modal, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 // import BudgetDetail from './RecommendedPlanningScreen';
 import config from '../../config';
 
@@ -116,7 +115,7 @@ const BudgetItem = (props) => {
                 console.log('포인트 부족');
 
                 let alertMessage = '현재 보유 포인트는 ' + `${responseJson.restPoint}` + '포인트 입니다.';
-                alert('포인트 부족', alertMessage);
+                Alert.alert('포인트 부족', alertMessage);
                 // Popup.show({
                 //     type: 'success',
                 //     title: '포인트 부족',
