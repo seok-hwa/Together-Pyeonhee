@@ -117,14 +117,14 @@ const BudgetList = ({navigation, route}) => {
                     otherBudgetData.map(item => {
                     return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
                         userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
-      
+                        cabinet={false}
                     />;
                 })}
                 { check === true && 
                     recommendedBudgetData.map(item => {
                     return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
                         userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
-          
+                        cabinet={false}
                     />;
                 })} 
             

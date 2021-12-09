@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Image, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import config from '../../../config';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
@@ -28,27 +28,27 @@ const SavingPlan = (props) => {
 
         
         if(parseInt(tempIncome.split(",").join("")) < parseInt(savingMoney.split(",").join(""))) {
-            alert('수입보다 저축액이 더 큽니다.');
+            Alert.alert(' ','수입보다 저축액이 더 큽니다.');
             return;
         }
 
         console.log('저축 제목: ', savingName);
         console.log('저축 제목 길이: ', savingName.length);
         if(savingName.length === 0) {
-            alert('제목을 작성해주세요.');
+            Alert.alert(' ','제목을 작성해주세요.');
             return;
             
         }
         
         console.log('저금일: ', savingsDay);
         if(savingsDay === 0 || savingsDay > 31) {
-            alert('저금일을 1 ~ 31일 사이로 선택해주세요.');
+            Alert.alert(' ','저금일을 1 ~ 31일 사이로 선택해주세요.');
             return;
         }
 
         console.log('기간: ', period);
         if(period < 1) {
-            alert('기간은 최소 1개월 이상 설정해주세요.');
+            Alert.alert(' ','기간은 최소 1개월 이상 설정해주세요.');
             return;
         }
 
@@ -139,15 +139,10 @@ const SavingPlan = (props) => {
                 <View style={styles.centeredView}>
 
                     <View style={styles.titleContainer}>
-                            <Text style={styles.modalText}>저금 계획</Text>
-                        </View>
+                        <Text style={styles.modalText}>저금 계획</Text>
+                    </View>
                 
                     <View style={styles.modalView}>
-                        {/* <View style={styles.titleContainer}>
-                            <Text style={styles.modalText}>저금 계획</Text>
-                        </View> */}
-
-                        {/* <Text style={styles.modalText}>저금 계획</Text> */}
                         
                         <View style={styles.rowContainer}>
                             <View style={styles.tagText} >
@@ -328,22 +323,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 10,
         margin: 10
-      },
-      addButtonStyle: {
+    },
+    addButtonStyle: {
         color: 'blue',
-      },
-      categoryText: {
+    },
+    categoryText: {
         fontSize: 15, 
         fontWeight: 'bold',
         color: '#203864'
-      },
-      titleContainer: {
+    },
+    titleContainer: {
           backgroundColor: '#203864',
           width: 200, 
           height: 50,
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: 10,
-      }
+    },
 })
 export default SavingPlan;

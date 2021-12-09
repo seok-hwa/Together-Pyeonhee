@@ -61,7 +61,7 @@ const BudgetCabinet = ({navigation}) => {
                     keyExtractor={item => item.planning_number}
                     data={otherBudgetData}
                     renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} budgetCabinet={true}
+                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={'true'}
                     />}
                     refreshing={refresh}
                     onRefresh={loadCabinet}

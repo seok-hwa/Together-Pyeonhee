@@ -211,7 +211,7 @@ const EditBudgetScreen = (props) => {
                 transparent={false}
                 visible={modalVisible}
                 onRequestClose={() => {
-                 alert('Modal has now been closed.');
+                //  alert('Modal has now been closed.');
                  setModalVisible(!modalVisible);
                 }}
             >       
@@ -396,7 +396,8 @@ const EditBudgetScreen = (props) => {
     }else{
         return(
             <View >
-                <Text>로딩중..</Text>
+                <Icon name={'create-outline'} size={25}/>
+                {/* <Text>로딩중..</Text> */}
             </View>
         );
     }
