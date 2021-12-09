@@ -95,7 +95,7 @@ const JoinScreen = ({route, navigation }) => {
             })
             return;
         }
-        fetch(`${url}/signUp`, {
+        fetch(`${url}/register/signUp`, {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
