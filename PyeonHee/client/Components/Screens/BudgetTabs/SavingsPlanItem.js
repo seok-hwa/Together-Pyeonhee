@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Modal, 
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditInputBudget from './EditInputBudget';
-import RNPickerSelect from 'react-native-picker-select';
-
 
 const SavingPlanItem = (props) => {
   let startYear = props.startSavingDate.substring(0, 4);
@@ -14,13 +12,12 @@ const SavingPlanItem = (props) => {
   let finishYear = props.endSavingDate.substring(0, 4);
   let finishMonth = props.endSavingDate.substring(5, 7);
   let finishDay = props.endSavingDate.substring(8, 10);
-  
-  // let temp = props.savingMoney + props.prevSum;
-  // props.setUpdate(temp);
-  // console.log(temp);
+
+  let userIncome = props.userIncome;
+  let availableSavings = props.userIncome - props.sumOfSavings + props.savingMoney - props.fixedExpenditure - props.plannedExpenditure;
 
   const [userID, setUserID] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  // const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [tempTitle, setTempTitle] = useState("");
@@ -56,6 +53,10 @@ const SavingPlanItem = (props) => {
 
     if(parseInt(tempSavingMoney.split(",").join("")) === 0) {
       Alert.alert(' ','저금 금액을 입력해주세요.');
+      return;
+    } else if(availableSavings < parseInt(tempSavingMoney.split(",").join(""))) {
+      // let alertMessage = '저금액이 저금 가능 금액'+'을 초과했습니다.';
+      Alert.alert(' ', '저금액이 저금 가능 금액을 초과했습니다.');
       return;
     }
 
@@ -157,7 +158,14 @@ const SavingPlanItem = (props) => {
               </TouchableOpacity>
             </View>
             <View style={styles.titleContainer}>
-              <Text style={styles.modalText}>저금 계획</Text>
+              <View style={styles.titleDiv}>
+                <Text style={styles.modalText}>저금 계획</Text>
+              </View>
+              <View style={styles.titleInfoDiv}>
+                <Text style={styles.titleInfoText}>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                <Text style={styles.titleInfoText}>저금가능금액: {availableSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                <Text style={[styles.titleInfoText, {fontSize: 8}]}>( 수입-(고정지출+계획지출+저금계획총합) )</Text>
+              </View>
             </View>
 
             <KeyboardAvoidingView style={styles.modalContent}>
@@ -328,9 +336,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  titleInfoDiv:{
+    marginLeft: 10,
+  },
+  titleInfoText: {
+    color: '#203864',
+  },
   titleContainer: {
+    // backgroundColor: 'yellow',
+    width: 300, 
+    height: 70,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'space-between',
+    borderRadius: 10,
+  },
+  titleDiv: {
     backgroundColor: '#203864',
-    width: 200, 
+    width: 115, 
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
