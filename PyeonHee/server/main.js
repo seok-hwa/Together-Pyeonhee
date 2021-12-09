@@ -1,9 +1,9 @@
 const express = require("express");
-const mysql = require('mysql');
-var db = require('./db_config.js');
+//const mysql = require('mysql');
+//var db = require('./db_config.js');
+//const admin = require('firebase-admin');
+//let serviceAccount = require('./pyeonhee-AccountKey.json');
 var request = require('request');
-const admin = require('firebase-admin');
-let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
