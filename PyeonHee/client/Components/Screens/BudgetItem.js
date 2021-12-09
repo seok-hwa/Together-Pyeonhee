@@ -41,6 +41,14 @@ const BudgetItem = (props) => {
 
 
     const handlePress = () => {
+
+        if(props.cabinet === 'true') {
+            console.log('보관함')
+            props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+        }
+        else {
+
+        
         console.log('${url}/openCheck');
         fetch(`${url}/openCheck`, {
             method: 'POST',
@@ -61,21 +69,26 @@ const BudgetItem = (props) => {
                 console.log('읽은적있음');
                 setModalVisible(false);
 
-                // let alertMessage = '잔여포인트는 ' + '100포인트 입니다.';
-                // // console.log('잔여 포인트도 보내주면 좋을둣!!');
-                // Alert.alert(' ',alertMessage);
-
                 props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
 
             } else {
                 console.log('읽은적없음');
-                setModalVisible(true);
+
+                Alert.alert(' ','열람을 위해 100포인트가 차감됩니다.', [
+                    {text: '취소', onPress:() => console.log('Cancel Pressed!'), style: 'cancel'},
+                    {text: '열람', onPress:() => handleOKButton()}
+                ]
+                // ,{cancelable: false}
+                );
+                // setModalVisible(true);
             }                 
         })
+
+        }
     }
 
     const handleOKButton = () => {
-        setModalVisible(false);
+        // setModalVisible(false);
         console.log('OK 버튼 함수!')
 
         fetch(`${url}/usePoint`, {
@@ -97,8 +110,7 @@ const BudgetItem = (props) => {
                 console.log('포인트 차감 완료');
 
                 let alertMessage = '잔여포인트는 ' + `${responseJson.restPoint}` + '포인트 입니다.';
-                // console.log('잔여 포인트도 보내주면 좋을둣!!');
-                Alert.alert('포인트 차감완료',alertMessage);
+                Alert.alert('포인트 차감완료', alertMessage);
                 props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
             } else{
                 console.log('포인트 부족');
@@ -128,7 +140,7 @@ const BudgetItem = (props) => {
 
     return (
         <View>
-            <Modal
+            {/* <Modal
                 animationType = {"slide"}
                 transparent={true}
                 visible={modalVisible}
@@ -157,7 +169,7 @@ const BudgetItem = (props) => {
                     </View>
 
                 </View>
-            </Modal>
+            </Modal> */}
 
         <TouchableOpacity
             style={styles.container}
