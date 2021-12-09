@@ -93,12 +93,12 @@
            }
        )
        .then(()=>{
-         /*
          if(tempID != ''){
+           console.log(`${url}/getMbti?userID=${tempID}`);
            fetch(`${url}/getMbti?userID=${tempID}`)   //get
            .then((response)=>response.json())
            .then((responseJson)=>{
-             if(responseJson.hasMbti === 'true'){
+             if(responseJson.status === 'true'){
                setHasMbti(true);
              }else{
                setHasMbti(false);
@@ -109,11 +109,11 @@
            })
          }else{
            setLoading(true);
-         }*/
+         }
  
          //테스트
-         setHasMbti(true);
-         setLoading(true);
+         //setHasMbti(true);
+         //setLoading(true);
        })
     }, []);
     
