@@ -3235,7 +3235,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             //관리자 금융상품 삭제(연금)
             app.post('/pensionDelete', function (req, res) {
                 var pensionID = req.body.boardID;
-                db.query(`DELETE FROM pension_product WHERE fund_number = ?`, [pensionID], function (error, result) {
+                db.query(`DELETE FROM pension_product WHERE pension_number = ?`, [pensionID], function (error, result) {
                     if (error) throw error;
                     else {
                         const data = {
@@ -3247,7 +3247,87 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
             */
-           
+
+            /*
+            //관리자 금융상품 목록 확인(대출)
+            app.post('/adminGetFinancialLoanList', function (req, res) {
+                var pageNumber = (req.body.pageNumber - 1) * 10;
+                db.query(`SELECT * FROM loan_product ORDER BY loan_number desc limit ?, 10`, [pageNumber], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        res.send(result);
+                        console.log(result);
+                    }
+                });
+            });
+
+            //관리자 금융상품 전체페이지 수(대출)
+            app.get('/financialLoanListTotalPage', function (req, res) {
+                db.query(`SELECT count(*) as count FROM loan_product`, function (error, result) {
+                    if (error) throw error;
+                    else {
+                        var totalPage = Math.ceil((result[0].count) / 10);
+                        const data = {
+                            totalPage
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 세부정보 확인(대출)
+            app.post('/loanBoardInfo', function (req, res) {
+                var loanID = req.body.boardID;
+                db.query(`SELECT * FROM loan_product WHERE loan_number =?`, [loanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            result
+                        }
+                        res.send(data);
+                        console.log(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 추가(대출)
+            app.post('/insertLoan', function (req, res) {
+                var productName = req.body.productName;
+                var productBankName = req.body.productBankName;
+                var interest = req.body.interest;
+                var interestType = req.body.interestType;
+                var repayType = req.body.repayType;
+                var link = req.body.link;
+
+                db.query(`INSERT INTO loan_product (bank_name, product_name, interest_type, repay_type, interest, link)
+                VALUES VALUES (?, ?, ?, ?, ?, ?)`, [productBankName, productName, interestType, repayType, interest, link], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
+            //관리자 금융상품 삭제(대출)
+            app.post('/loanDelete', function (req, res) {
+                var loanID = req.body.boardID;
+                db.query(`DELETE FROM loan_product WHERE loan_number = ?`, [loanID], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+            */
 
             //금융 상담사 정렬
             app.get('/Counseling/FinancialProduct', function (req, res){
