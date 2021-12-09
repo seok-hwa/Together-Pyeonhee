@@ -54,7 +54,7 @@ const LoginScreen = ({navigation}) => {
       getFcmToken().then((fcmToken)=>{
         console.log('디바이스 토큰: ', fcmToken);
         console.log(`${url}/access/login`);
-        fetch(`${url}/login`, {
+        fetch(`${url}/access/login`, {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
