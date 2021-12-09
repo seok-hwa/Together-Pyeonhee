@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "830649436365",
+    "project_id": "pyeonhee-ac0dc",
+    "storage_bucket": "pyeonhee-ac0dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830649436365:android:7a5417f4300091824b8184",
+        "android_client_info": {
+          "package_name": "com.pyeonhee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830649436365-4ki7keokfavvdit4m0disqfttriv1gcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pyeonhee",
+            "certificate_hash": "fafe02843a9b7b9b33bf1ed318142379089bfc98"
+          }
+        },
+        {
+          "client_id": "830649436365-j2cc4dn1euuc1a6v4sc2rbv68hk7mf50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEtRMAdMEqN-eL-G002LGjwnFDQBnC6Gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830649436365-j2cc4dn1euuc1a6v4sc2rbv68hk7mf50.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
