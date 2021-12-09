@@ -44,17 +44,17 @@ function FundBoard({ match }) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data.result[0]);
 
-        setProductName(res.data[0].productName);
-        setProductBankName(res.data[0].productBankName);
-        setProductCate(res.data[0].productCate);
-        setProfit3(res.data[0].profit3);
-        setProfit6(res.data[0].profit6);
-        setProfit12(res.data[0].profit12);
-        setFundSize(res.data[0].fundSize);
-        setMbti(res.data[0].mbti);
-        setLink(res.data[0].link);
+        setProductName(res.data.result[0].product_name);
+        setProductBankName(res.data.result[0].bank_name);
+        setProductCate(res.data.result[0].productCate);
+        setProfit3(res.data.result[0].interest_3);
+        setProfit6(res.data.result[0].interest_6);
+        setProfit12(res.data.result[0].interest_12);
+        setFundSize(res.data.result[0].fund_sum);
+        setMbti(res.data.result[0].mbti);
+        setLink(res.data.result[0].link);
 
     }).catch(error=>{
         console.log(error);

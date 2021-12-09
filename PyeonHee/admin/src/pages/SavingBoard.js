@@ -44,16 +44,16 @@ function SavingBoard({match}) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data.result[0]);
 
-        setProductName(res.data[0].productName);
-        setProductBankName(res.data[0].productBankName);
-        setProductCate(res.data[0].productCate);
-        setType(res.data[0].type);
-        setInterest(res.data[0].interest);
-        setMaxInterest(res.data[0].maxInterest);
-        setLink(res.data[0].link);
-        setMbti(res.data[0].mbti);
+        setProductName(res.data.result[0].product_name);
+        setProductBankName(res.data.result[0].bank_name);
+        setProductCate(res.data.result[0].productCate);
+        setType(res.data.result[0].product_type);
+        setInterest(res.data.result[0].interest);
+        setMaxInterest(res.data.result[0].max_interest);
+        setLink(res.data.result[0].link);
+        setMbti(res.data.result[0].mbti);
 
     }).catch(error=>{
         console.log(error);

@@ -44,16 +44,16 @@ function PensionBoard({match}) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data.result[0]);
 
-        setProductName(res.data[0].productName);
-        setProductBankName(res.data[0].productBankName);
-        setProductCate(res.data[0].productCate);
-        setDisconnected(res.data[0].disconnected);
-        setInterest(res.data[0].interest);
-        setPensionType(res.data[0].pensionType);
-        setLink(res.data[0].link);
-        setMbti(res.data[0].mbti);
+        setProductName(res.data.result[0].product_name);
+        setProductBankName(res.data.result[0].bank_name);
+        setProductCate(res.data.result[0].productCate);
+        setDisconnected(res.data.result[0].disconnected);
+        setInterest(res.data.result[0].interest);
+        setPensionType(res.data.result[0].product_type);
+        setLink(res.data.result[0].link);
+        setMbti(res.data.result[0].mbti);
 
     }).catch(error=>{
         console.log(error);

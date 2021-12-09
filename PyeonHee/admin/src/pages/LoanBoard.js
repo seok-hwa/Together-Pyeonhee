@@ -43,15 +43,15 @@ function LoanBoard({match}) {
       }
     })
     .then((res)=>{
-        console.log(res.data[0]);
+        console.log(res.data.result[0]);
 
-        setProductName(res.data[0].productName);
-        setProductBankName(res.data[0].productBankName);
-        setProductCate(res.data[0].productCate);
-        setInterestType(res.data[0].interestType);
-        setInterest(res.data[0].interest);
-        setRepayType(res.data[0].repayType);
-        setLink(res.data[0].link);
+        setProductName(res.data.result[0].product_name);
+        setProductBankName(res.data.result[0].bank_name);
+        setProductCate(res.data.result[0].productCate);
+        setInterestType(res.data.result[0].interest_type);
+        setInterest(res.data.result[0].interest);
+        setRepayType(res.data.result[0].repay_type);
+        setLink(res.data.result[0].link);
 
     }).catch(error=>{
         console.log(error);

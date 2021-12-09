@@ -3111,7 +3111,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             });
 
             //관리자 금융상품 세부정보 확인(펀드)
-            app.post('/savingBoardInfo', function (req, res) {
+            app.post('/fundBoardInfo', function (req, res) {
                 var fundID = req.body.boardID;
                 db.query(`SELECT * FROM fund_product WHERE fund_number =?`, [fundID], function (error, result) {
                     if (error) throw error;
