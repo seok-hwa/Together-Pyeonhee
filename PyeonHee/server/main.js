@@ -2,9 +2,7 @@ const express = require("express");
 const mysql = require('mysql');
 var db = require('./db_config.js');
 var request = require('request');
-const bcrypt = require('bcrypt');
 const admin = require('firebase-admin');
-const schedule = require('node-schedule');
 let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -12,6 +10,10 @@ admin.initializeApp({
 
 var app = express();
 app.use(express.json());
+
+//schedule
+var scheduleRouter = require('./routes/schedule')();
+app.use('/', scheduleRouter);
 
 //회원가입 및 설문조사
 var joinRouter = require('./routes/join')();
