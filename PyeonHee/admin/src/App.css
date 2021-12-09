@@ -514,6 +514,24 @@
 .FinancialCateInBoard{
   margin-top: 0.6cm;
 }
+.CounselorBoardTitle{
+  height: 0.9cm;
+  width: 60%;
+  margin-top: 0.7cm;
+  font-size: 0.6cm;
+  text-align: left;
+  border: 1px solid #282c34;
+}
+.CounselorBankNameTitle{
+  height: 0.8cm;
+  width: 60%;
+  font-size: 0.5cm;
+  text-align: left;
+  border: 1px solid #282c34;
+}
+.CounselorCateInBoard{
+  margin-top: 0.6cm;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
