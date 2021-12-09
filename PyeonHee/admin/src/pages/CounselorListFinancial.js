@@ -122,14 +122,14 @@ function CounselorListFinancial(props) {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell className={classes.tableRow}>번호</TableCell>
+                <TableCell className={classes.tableRow}>아이디</TableCell>
                 <TableCell className={classes.tableRow}>상담분류</TableCell>
                 <TableCell className={classes.tableRow}>상담사이름</TableCell>
                 <TableCell className={classes.tableRow}>소속은행</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {counselors.map(c => {return (<CounselorsFinancial key={c.counselor_number} id={c.counselor_number} category={c.category} name={c.counselor_name} company_name={c.company_name}/>)})}
+              {counselors.map(c=> {return (<CounselorsFinancial key={c.counselor_id} id={c.counselor_id} category={c.part} name={c.name} company_name={c.company}/>)})}
             </TableBody>
           </Table>
         </Paper>

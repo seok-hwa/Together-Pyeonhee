@@ -5,7 +5,7 @@ function CounselorsAsset(props) {
     return (
       <TableRow>
           <TableCell>{props.id}</TableCell>
-          <TableCell>{props.category}</TableCell>
+          <TableCell>자산관리</TableCell>
           <TableCell><a href={`/counselorAssetBoard/${props.id}`}>{props.name}</a></TableCell>
           <TableCell>{props.company_name}</TableCell>
       </TableRow>
