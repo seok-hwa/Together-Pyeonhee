@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"; 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import logo from './logo.svg';
 import HeaderInLogin from './pages/HeaderInLogin';
 import HeaderInLogount from "./pages/HeaderInLogout";
 import Login from './pages/Login';

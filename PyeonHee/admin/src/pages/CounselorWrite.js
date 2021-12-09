@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import axios from 'axios';
 import '../App.css';
 
@@ -6,6 +6,7 @@ function CounselorWrite(props) {
   const [name, setName] = useState('');
   const [counselorCate, setCounselorCate] = useState('금융상품');
   const [company, setCompany] = useState('');
+  const [email, setEmail] = useState('');
 
   //금융상품
   const [field, setField] = useState('');
@@ -24,6 +25,10 @@ function CounselorWrite(props) {
   const handleInputField = (e) => {
     setField(e.target.value)
   }
+  const handleInputEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
 
 
   const submitFinancialItem=()=>{
@@ -35,6 +40,11 @@ function CounselorWrite(props) {
       alert('소속회사를 입력하세요.');
       return;
     }
+    if(email === ''){
+      alert('이메일을 입력하세요.');
+      return;
+    }
+
     axios({
         method:"POST",
         url: `/inputCounselorInFinancial`,
@@ -42,6 +52,7 @@ function CounselorWrite(props) {
           name: name,
           company: company,
           counselorCate: counselorCate,
+          email: email,
           field: field,
         }
     })
@@ -66,6 +77,11 @@ function CounselorWrite(props) {
       alert('소속회사를 입력하세요.');
       return;
     }
+    if(email === ''){
+      alert('이메일을 입력하세요.');
+      return;
+    }
+
     axios({
       method:"POST",
       url: `/inputCounselorInAsset`,
@@ -73,6 +89,7 @@ function CounselorWrite(props) {
         name: name,
         company: company,
         counselorCate: counselorCate,
+        email: email,
       }
     })
     .then((res)=>{
@@ -101,6 +118,18 @@ if(counselorCate === '금융상품'){
                 name='title_input'
                 value={name}
                 onChange={handleInputName}
+                maxLength ={50}
+                ></input>
+              </div>
+              <div className="LinkDiv">
+                <p className="LinkFont">상담사 이메일:&nbsp;</p>
+                <input 
+                className="counselorCompanyInput"
+                placeholder='상담사 이메일'
+                type='text'
+                name='email_input'
+                value={email}
+                onChange={handleInputEmail}
                 maxLength ={50}
                 ></input>
               </div>
@@ -166,6 +195,18 @@ if(counselorCate === '금융상품'){
                 name='title_input'
                 value={name}
                 onChange={handleInputName}
+                maxLength ={50}
+                ></input>
+              </div>
+              <div className="LinkDiv">
+                <p className="LinkFont">상담사 이메일:&nbsp;</p>
+                <input 
+                className="counselorCompanyInput"
+                placeholder='상담사 이메일'
+                type='text'
+                name='email_input'
+                value={email}
+                onChange={handleInputEmail}
                 maxLength ={50}
                 ></input>
               </div>
