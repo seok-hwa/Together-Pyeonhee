@@ -2886,6 +2886,24 @@ const SSHConnection = new Promise((resolve, reject) => {
                 });
             });
 
+            //관리자 상담사 추가(자산관리)
+            app.post('/inputCounselorInAsset', function (req, res) {
+                var name = req.body.name;
+                var company = req.body.company;
+                var email = req.body.email;
+
+                db.query(`INSERT INTO AssetCounselor(name, company, email) VALUES (? ? ?)`, [name, company, email], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                });
+            });
+
             //관리자 상담사 목록 확인(금융상담)
             app.post('/adminGetCounselorFinancialList', function (req, res) {
                 var pageNumber = (req.body.pageNumber - 1) * 10;
@@ -2927,6 +2945,25 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         res.send(data);
                         console.log(data);
+                    }
+                });
+            });
+
+            //관리자 상담사 추가(금융상담)
+            app.post('/inputCounselorInFinancial', function (req, res) {
+                var name = req.body.name;
+                var company = req.body.company;
+                var email = req.body.email;
+                var field = req.body.field;
+
+                db.query(`INSERT INTO FinancialCounselor(name, company, part ,email) VALUES (? ? ?)`, [name, company, field, email], function (error, result) {
+                    if (error) throw error;
+                    else {
+                        const data = {
+                            status: 'success',
+                        }
+                        console.log(data);
+                        res.send(data);
                     }
                 });
             });
