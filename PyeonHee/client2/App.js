@@ -99,7 +99,7 @@
            .then((response)=>response.json())
            .then((responseJson)=>{
              console.log(responseJson);
-             if(responseJson.hasMbti === 'true'){
+             if(responseJson.status === 'true'){
                setHasMbti(true);
              }else{
                setHasMbti(false);
