@@ -192,6 +192,10 @@
   font-size: 0.5cm;
   font-weight: bold;
 }
+.FinancialBankFont{
+  font-size: 0.5cm;
+  font-weight: bold;
+}
 .NotificationBoardCateFont{
   font-size: 0.5cm;
   font-weight: bold;
@@ -348,6 +352,12 @@
 .counselorCompanyInput{
   height: 0.7cm;
   width: 60%;
+  font-size: 0.4cm;
+  margin-top: 0.4cm;
+}
+.FinancialInput{
+  height: 0.7cm;
+  width: 78%;
   font-size: 0.4cm;
   margin-top: 0.4cm;
 }

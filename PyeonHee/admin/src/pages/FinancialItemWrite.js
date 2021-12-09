@@ -4,6 +4,7 @@ import '../App.css';
 
 function FinancialItemWrite(props) {
   const [productName, setProductName] = useState('');
+  const [productBankName, setProductBankName] = useState('');
   const [productCate, setProductCate] = useState('펀드');
 
   //펀드
@@ -31,6 +32,9 @@ function FinancialItemWrite(props) {
 
   const handleInputName = (e) => {
     setProductName(e.target.value)
+  }
+  const handleInputBankName = (e) => {
+    setProductBankName(e.target.value)
   }
   const handleInputCate = (e) => {
     setProductCate(e.target.value)
@@ -78,6 +82,10 @@ function FinancialItemWrite(props) {
       alert('상품명을 입력하세요.');
       return;
     }
+    if(productBankName ===''){
+      alert('상품 회사명을 입력하세요.');
+      return;
+    }
     if(link === ''){
       alert('상품 링크를 입력하세요.');
       return;
@@ -104,6 +112,7 @@ function FinancialItemWrite(props) {
         url: `/insertFund`,
         data:{
           productName: productName,
+          productBankName: productBankName,
           productCate: productCate,
           link: link,
           profit3: profit3,
@@ -129,6 +138,10 @@ function FinancialItemWrite(props) {
       alert('상품명을 입력하세요.');
       return;
     }
+    if(productBankName ===''){
+      alert('상품 회사명을 입력하세요.');
+      return;
+    }
     if(link === ''){
       alert('상품 링크를 입력하세요.');
       return;
@@ -146,6 +159,7 @@ function FinancialItemWrite(props) {
       url: `/insertSaving`,
       data:{
         productName: productName,
+        productBankName: productBankName,
         productCate: productCate,
         link: link,
         interest: interest,
@@ -170,6 +184,10 @@ function FinancialItemWrite(props) {
       alert('상품명을 입력하세요.');
       return;
     }
+    if(productBankName ===''){
+      alert('상품 회사명을 입력하세요.');
+      return;
+    }
     if(link === ''){
       alert('상품 링크를 입력하세요.');
       return;
@@ -183,6 +201,7 @@ function FinancialItemWrite(props) {
       url: `/insertLoan`,
       data:{
         productName: productName,
+        productBankName: productBankName,
         productCate: productCate,
         link: link,
         interest: interest,
@@ -207,6 +226,10 @@ function FinancialItemWrite(props) {
       alert('상품명을 입력하세요.');
       return;
     }
+    if(productBankName ===''){
+      alert('상품 회사명을 입력하세요.');
+      return;
+    }
     if(link === ''){
       alert('상품 링크를 입력하세요.');
       return;
@@ -220,6 +243,7 @@ function FinancialItemWrite(props) {
       url: `/insertPension`,
       data:{
         productName: productName,
+        productBankName: productBankName,
         productCate: productCate,
         link: link,
         interest: interest,
@@ -254,6 +278,18 @@ function FinancialItemWrite(props) {
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
+                maxLength ={50}
+                ></input>
+              </div>
+              <div className="BoardWriteTitleDiv">
+                <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
+                <input 
+                className="FinancialInput"
+                placeholder='상품 회사명'
+                type='text'
+                name='banktitle_input'
+                value={productBankName}
+                onChange={handleInputBankName}
                 maxLength ={50}
                 ></input>
               </div>
@@ -360,6 +396,18 @@ function FinancialItemWrite(props) {
                 maxLength ={50}
                 ></input>
               </div>
+              <div className="BoardWriteTitleDiv">
+                <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
+                <input 
+                className="FinancialInput"
+                placeholder='상품 회사명'
+                type='text'
+                name='banktitle_input'
+                value={productBankName}
+                onChange={handleInputBankName}
+                maxLength ={50}
+                ></input>
+              </div>
               <div className="LinkDiv">
                 <p className="LinkFont">상품링크:&nbsp;</p>
                 <input 
@@ -448,6 +496,18 @@ function FinancialItemWrite(props) {
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
+                maxLength ={50}
+                ></input>
+              </div>
+              <div className="BoardWriteTitleDiv">
+                <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
+                <input 
+                className="FinancialInput"
+                placeholder='상품 회사명'
+                type='text'
+                name='banktitle_input'
+                value={productBankName}
+                onChange={handleInputBankName}
                 maxLength ={50}
                 ></input>
               </div>
@@ -542,6 +602,18 @@ function FinancialItemWrite(props) {
                 name='title_input'
                 value={productName}
                 onChange={handleInputName}
+                maxLength ={50}
+                ></input>
+              </div>
+              <div className="BoardWriteTitleDiv">
+                <p className="FinancialBankFont">상품 회사명:&nbsp;</p>
+                <input 
+                className="FinancialInput"
+                placeholder='상품 회사명'
+                type='text'
+                name='banktitle_input'
+                value={productBankName}
+                onChange={handleInputBankName}
                 maxLength ={50}
                 ></input>
               </div>
