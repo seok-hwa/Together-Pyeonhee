@@ -1,10 +1,10 @@
 import 'react-native';
 import React from 'react';
-import SavingItem from '../Components/Screens/SavingItem';
+import FundItem from '../Components/Screens/AssetsTab/BankingProductTabs/FundItem';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
-it('SavingItem 렌더링', () => {
-  renderer.create(<SavingItem />);
+it('FundItem 렌더링', () => {
+  renderer.create(<FundItem />);
 });

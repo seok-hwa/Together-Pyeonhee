@@ -1,8 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 const AccountLogo = (props) => {
   const accountCate = props.bankName;
