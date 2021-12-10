@@ -946,3 +946,13 @@ values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4180250, '2021
 
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, alarm)
 values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4177050, '20211204', '171154', '출금', '교통', '지하철교통비', 3200, 4177050, '교통안전공단', 1);
+
+/*211205 - 211206 거래내역*/
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name)
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4170650, '20211205', '010135', '출금', '식비', '편의점', 2400, 4170650, 'GS25송도점');
+
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name)
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4162450, '20211206', '140635', '출금', '식비', '스타벅스', 4100, 4162450, '스타벅스송도점');
+
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name)
+values ('pyeonhee', '120211357588932329649483', 'KB국민은행', 4158850, '20211206', '145723', '출금', '식비', 'CU', 3600, 4158850, 'CU송도점');
