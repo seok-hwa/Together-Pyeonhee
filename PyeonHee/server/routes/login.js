@@ -1,6 +1,7 @@
 //로그인 및 아이디/비밀번호 찾기
 module.exports = function () {
-    var db = require('../config_db.js');
+    const bcrypt = require('bcrypt');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
@@ -92,7 +93,7 @@ module.exports = function () {
         db.query(`UPDATE user SET password = ? WHERE user_id = ?`, [encryptedPassowrd, userID], function (error, result) {
             if (error) throw error;
             else {
-                console.log("비밀버호가 변경되었습니다.");
+                console.log("비밀번호가 변경되었습니다.");
                 data = {
                     status: 'success',
                 }

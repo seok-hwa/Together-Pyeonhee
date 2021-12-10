@@ -109,7 +109,7 @@ module.exports = function () {
     //관리자 공지사항 전체페이지 수
     router.get('/notificationTotalPage', function (req, res) {
         db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
-                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "notice"`, function (error, result) {
+                WHERE TABLE_SCHEMA = "pyeonhee" AND TABLE_NAME = "notice"`, function (error, result) {
             if (error) throw error;
             else {
                 //console.log(result[0].AUTO_INCREMENT);
@@ -220,7 +220,7 @@ module.exports = function () {
     //관리자 고객센터 전체페이지 수
     router.get('/serviceCenterTotalPage', function (req, res) {
         db.query(`SELECT AUTO_INCREMENT FROM information_schema.TABLES 
-                WHERE TABLE_SCHEMA = "mysql-db" AND TABLE_NAME = "board"`, function (error, result) {
+                WHERE TABLE_SCHEMA = "pyeonhee" AND TABLE_NAME = "board"`, function (error, result) {
             if (error) throw error;
             else {
                 //console.log(result[0].AUTO_INCREMENT);
