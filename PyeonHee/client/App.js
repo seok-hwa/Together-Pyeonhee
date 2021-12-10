@@ -24,6 +24,7 @@
  import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
  import SelectedAccountScreen from './Components/Screens/AssetsTab/Account/SelectedAccountScreen';
  import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
+ import MonthReportCabinet from './Components/Screens/MonthReport/MonthReportCabinet';
  import PushNotification from 'react-native-push-notification';
  import ItemLink from './Components/Screens/AssetsTab/BankingProductTabs/ItemLink';
  import NoticeList from './Components/Screens/Notice/NoticeList';
@@ -226,6 +227,13 @@
             }} 
             />
             <Stack.Screen
+              name="MonthlyReportCabinet"
+              component={MonthReportCabinet}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
               name="ItemLink"
               component={ItemLink}
               options={{
@@ -401,6 +409,13 @@
             }} 
             />
             <Stack.Screen
+              name="MonthlyReportCabinet"
+              component={MonthReportCabinet}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
               name="ItemLink"
               component={ItemLink}
               options={{
@@ -571,6 +586,13 @@
             <Stack.Screen
               name="MonthReport"
               component={MonthReportScreen}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
+              name="MonthlyReportCabinet"
+              component={MonthReportCabinet}
               options={{
                 headerShown: false,
             }} 
