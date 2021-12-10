@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, Modal, Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 // import BudgetDetail from './RecommendedPlanningScreen';
 import config from '../../config';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const url = config.url;
 const TierImage = (props) => {
-  const userTier = props.userTier.toUpperCase();
+  const userTier = (props.userTier+'').toUpperCase();
   if(userTier === 'BRONZE'){
       return(
           <Image source={require('./assets/tier/Bronze_single.png')} style={styles.tierDesign}/>
@@ -177,7 +176,7 @@ const BudgetItem = (props) => {
             <View style={styles.itemContainer}>
                 <View style={styles.item1}>
                     <TierImage userTier={props.userTier}/>
-                    <Text>{props.userTier.toUpperCase()}</Text>
+                    <Text>{(props.userTier+'').toUpperCase()}</Text>
                 </View>
 
                 <View style={styles.mbtiContainer}>
@@ -189,7 +188,7 @@ const BudgetItem = (props) => {
 
                 <View style={styles.item2}>
                     <Text>나이: {props.userAge}세</Text>
-                    <Text>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                    <Text>수입: {(props.userIncome+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                     <Text>직업: {props.userJob}</Text>
                 </View>
 
