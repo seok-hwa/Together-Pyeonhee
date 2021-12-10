@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
@@ -84,7 +83,7 @@ const AssetConsultItem = (props) => {
 
                     <View style={{flexDirection: 'row', alignItems: 'center', width: 55, }}>
                         <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
-                        <Text style={{marginLeft: 5, fontSize: 10, }}>{props.counselorLike.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                        <Text style={{marginLeft: 5, fontSize: 10, }}>{(props.counselorLike+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     </View>
                 </View>
 
