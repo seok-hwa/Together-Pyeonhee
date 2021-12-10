@@ -1,14 +1,10 @@
-/**
- * @format
- */
-
 import 'react-native';
 import React from 'react';
-import App from '../App';
+import Loading from '../Components/Screens/Loading';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+it('로딩 렌더링 완료', () => {
+  renderer.create(<Loading />);
 });
