@@ -645,7 +645,10 @@ const MyPageScreen = ({navigation, route}) => {
                     <TouchableOpacity onPress={toMonthReport}>
                         <Text style={styles.assetBudgetBoard} >한달 리포트 보기</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>alert('한달리포트 보관함')}>
+                    <TouchableOpacity 
+                        // onPress={()=>alert('한달리포트 보관함')}
+                        onPress={() => navigation.navigate('MonthlyReportCabinet')}
+                    >
                         <Text style={styles.assetBudgetBoard} >한달 리포트 보관함</Text>
                     </TouchableOpacity>
                 </View>
