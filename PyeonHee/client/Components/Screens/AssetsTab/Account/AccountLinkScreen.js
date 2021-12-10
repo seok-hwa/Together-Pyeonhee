@@ -1,13 +1,13 @@
 import React, { useEffect, useState, Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../config';
+import config from '../../../../config';
 import { WebView } from 'react-native-webview';
 import axios from 'axios';
 import {
     SafeAreaView,
     Alert,
 } from 'react-native';
-import Loading from './Loading';
+import Loading from '../../Loading';
 
 const url = config.url;
 const openBankingURL = config.openBankingURL;

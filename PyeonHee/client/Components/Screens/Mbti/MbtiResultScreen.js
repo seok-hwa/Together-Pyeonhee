@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView, StyleSheet, Text, View, Button, } from 'react-native';
 import { StackedBarChart } from 'react-native-svg-charts';
-import MbtiToMain from '../Buttons/MbtiToMain';
+import MbtiToMain from '../../Buttons/MbtiToMain';
 
 const MbtiScreen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import MbtiNextButton from '../Buttons/MbtiNextButton';
-import MbtiPrevButton from '../Buttons/MbtiPrevButton';
+import MbtiNextButton from '../../Buttons/MbtiNextButton';
+import MbtiPrevButton from '../../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
   SafeAreaView,
@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-const Mbti2Screen = ({navigation, route}) => {
+const Mbti3Screen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
 
   const [mbti1_1, setMbti1_1] = useState(false);
@@ -360,12 +360,13 @@ const Mbti2Screen = ({navigation, route}) => {
     console.log('총합');
     console.log(totalScore);
 
-    navigation.navigate('Mbti3',{
+    navigation.navigate('Mbti4',{
       userAge: route.params.userAge,
       userMonthlyIncome: route.params.userMonthlyIncome,
       userJob: route.params.userJob,
       mbti1Score: route.params.mbti1Score,
-      mbti2Score: totalScore,
+      mbti2Score: route.params.mbti2Score,
+      mbti3Score: totalScore,
     });
   }
   useEffect(()=>{
@@ -387,8 +388,8 @@ const Mbti2Screen = ({navigation, route}) => {
           <View style={styles.blueCircle}><Text style={styles.fontInCircle}>1</Text></View>
           <View style={styles.blueLine}></View>
           <View style={styles.blueCircle}><Text style={styles.fontInCircle}>2</Text></View>
-          <View style={styles.line}></View>
-          <View style={styles.grayCircle}><Text style={styles.fontInCircle}>3</Text></View>
+          <View style={styles.blueLine}></View>
+          <View style={styles.blueCircle}><Text style={styles.fontInCircle}>3</Text></View>
           <View style={styles.line}></View>
           <View style={styles.grayCircle}><Text style={styles.fontInCircle}>4</Text></View>
         </View>
@@ -396,7 +397,7 @@ const Mbti2Screen = ({navigation, route}) => {
       <ScrollView style={styles.appBody}>
         <View style={styles.questionBox}>
           <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문1</Text></View>
-          <View><Text style={styles.questionTitleStyle}>지금 당장의 행복보다는 미래 준비가 중요하다.</Text></View>
+          <View><Text style={styles.questionTitleStyle}>술자리에서 종종 계산을 한다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check1_1}>
@@ -452,7 +453,7 @@ const Mbti2Screen = ({navigation, route}) => {
         </View>
         <View style={styles.questionBox}>
           <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문2</Text></View>
-            <View><Text style={styles.questionTitleStyle}>돈은 쓰기 위해 버는 것이라 생각한다.</Text></View>
+            <View><Text style={styles.questionTitleStyle}>나를 위한 선물을 종종 하는 편이다.</Text></View>
             <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check2_1}>
@@ -508,7 +509,7 @@ const Mbti2Screen = ({navigation, route}) => {
         </View>
         <View style={styles.questionBox}>
         <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문3</Text></View>
-          <View><Text style={styles.questionTitleStyle}>보험, 적금, 재테크는 필수적으로 해야한다.</Text></View>
+          <View><Text style={styles.questionTitleStyle}>경조사로 지출되는 돈이 많다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check3_1}>
@@ -564,7 +565,7 @@ const Mbti2Screen = ({navigation, route}) => {
         </View>
         <View style={styles.questionBox}>
         <View style={styles.questionName}><Text style={styles.questionNameStyle}>질문4</Text></View>
-          <View><Text style={styles.questionTitleStyle}>빚을 져서라도 꼭 사고 싶은 것은 산다.</Text></View>
+          <View><Text style={styles.questionTitleStyle}>나의 즐거움을 위해 사용하는 돈은 아끼지 않는다.</Text></View>
           <View style={styles.questionInnerBox}>
             <View>
               <TouchableOpacity style={styles.difDiv} onPress={check4_1}>
@@ -804,4 +805,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default Mbti2Screen;
+export default Mbti3Screen;

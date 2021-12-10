@@ -137,7 +137,7 @@ function FinancialPensionList(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {financialItems.map(c => {return (<PensionItems key={c.product_number} id={c.product_number} category={c.product_category} name={c.product_name} company_name={c.company_name}/>)})}
+              {financialItems.map(c => {return (<PensionItems key={c.pension_number} id={c.pension_number} category={c.bank_name} name={c.product_name} company_name={c.bank_name}/>)})}
             </TableBody>
           </Table>
         </Paper>
