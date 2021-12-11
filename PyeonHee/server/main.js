@@ -73,11 +73,9 @@ app.use('/notice', noticeRouter);
 var boardRouter = require('./routes/board')();
 app.use('/query', boardRouter);
 
-/*
 //관리자 웹페이지
 var adminRouter = require('./routes/admin')();
-app.use('/temporarily', adminRouter);
-*/
+app.use('/admin', adminRouter);
 
 const PORT = 8000;
 app.listen(PORT, function () {
