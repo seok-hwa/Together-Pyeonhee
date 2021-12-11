@@ -71,8 +71,8 @@ export const join = (userID, userName, userPhone, userPassword, userPasswordChec
 
 export const daily = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/daily`);
-        fetch(`${url}/daily`, {
+        console.log(`${url}/daily/history`);
+        fetch(`${url}/daily/history`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
