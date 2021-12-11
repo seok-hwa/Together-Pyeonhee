@@ -890,8 +890,8 @@ export const noticeListApi = () => {
 };
 export const queryBoardApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryBoard?boardID=${boardID}`);
-        fetch(`${url}/queryBoard?boardID=${boardID}`)   //get
+        console.log(`${url}/query/Board?boardID=${boardID}`);
+        fetch(`${url}/query/Board?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -900,8 +900,8 @@ export const queryBoardApi = (boardID) => {
 };
 export const queryReplyApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryReply?boardID=${boardID}`);
-        fetch(`${url}/queryReply?boardID=${boardID}`)   //get
+        console.log(`${url}/query/Reply?boardID=${boardID}`);
+        fetch(`${url}/query/Reply?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -910,8 +910,8 @@ export const queryReplyApi = (boardID) => {
 };
 export const deleteQueryBoardApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/deleteQueryBoard?boardID=${boardID}`);
-        fetch(`${url}/deleteQueryBoard?boardID=${boardID}`)
+        console.log(`${url}/query/deleteBoard?boardID=${boardID}`);
+        fetch(`${url}/query/deleteBoard?boardID=${boardID}`)
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -921,8 +921,8 @@ export const deleteQueryBoardApi = (boardID) => {
 
 export const queryListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryList?userID=${userID}`);
-        fetch(`${url}/queryList?userID=${userID}`)   //get
+        console.log(`${url}/query/List?userID=${userID}`);
+        fetch(`${url}/query/List?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -932,8 +932,8 @@ export const queryListApi = (userID) => {
 
 export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryUpdate`);
-        fetch(`${url}/queryUpdate`, {
+        console.log(`${url}/query/Update`);
+        fetch(`${url}/query/Update`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,
@@ -954,8 +954,8 @@ export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => 
 };
 export const queryRegisterApi = (boardTitle, boardCate, boardContent, userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryRegister`);
-        fetch(`${url}/queryRegister`, {
+        console.log(`${url}/query/Register`);
+        fetch(`${url}/query/Register`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,
