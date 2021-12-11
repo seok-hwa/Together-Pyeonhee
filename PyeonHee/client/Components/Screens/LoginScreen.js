@@ -4,7 +4,6 @@ import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import messaging from '@react-native-firebase/messaging';
-import config from '../../config';
 import { login } from '../api';
 import {
     StyleSheet,
