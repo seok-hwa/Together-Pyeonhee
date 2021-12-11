@@ -391,3 +391,35 @@ insert into AssetCounselor(name, company, like_count)
 insert into AssetCounselor(name, company, like_count)
 	values ('이자산','현대카드',4);
 
+/*공지사항/고객센터/댓글 백업*/
+
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (1,'안녕하세요','돈을 돌려주세요','jykim123','2021-12-03 16:38:57','상담',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (2,'문의사항','티어가 그대롭니다!','pyeonhee','2021-12-04 12:53:13','티어',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (3,'티어가 변경이 안되요','티어가 변경이 안됩니다!','pyeonhee','2021-12-04 12:54:39','티어',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (4,'포인트는 어디에 쓰는건가요?','포인트의 사용 용도를 알고 싶습니다. really','pyeonhee','2021-12-04 12:56:24','포인트',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (5,'상담예약 문의','상담일정 문의합니다.','pyeonhee','2021-12-04 22:33:09','상담',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (6,'한달리포트 문의','한달리포트 생성일이 언제인가요?','jykim123','2021-12-04 22:35:10','기타',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (7,'금융상품 관련 문의입니다.','금융상품 더 추천해주세요','jykim123','2021-12-05 00:14:31','금융상품',0);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (8,'포인트 차감 내역','포인트 차감 히스토리를 확인하고싶습니다.','jykim123','2021-12-05 00:15:23','포인트',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (9,'스탬프 적립 문의','스탬프는 언제 적립되는건가요?','jykim123','2021-12-05 00:16:01','기타',1);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (10,'상담 예약 취소 문의','상담 예약 취소해주세요','jykim123','2021-12-05 00:16:34','상담',0);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (11,'앱 다운로드 문의입니다.','다운로드 방법','jykim123','2021-12-05 00:23:45','기타',0);
+INSERT INTO board (`board_number`,`title`,`content`,`user_id`,`board_date`,`category`,`comment_check`) VALUES (12,'상담 내역','상담 내역','jykim123','2021-12-05 00:24:19','상담',0);
+
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (2,1,'돈 돌려드렸습니다.','2021-12-04 01:21:13');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (4,1,'돈 돌려드렸습니다.','2021-12-04 01:29:16');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (5,1,'돈 돌려드렸습니다.','2021-12-04 01:33:36');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (8,2,'티어 올려드렸습니다~','2021-12-04 22:27:07');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (9,3,'공지사항에 티어 정책에 관련된 글이 있으니 참고해주세요.','2021-12-04 22:33:17');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (10,4,'포인트 사용용도는 ~~ 입니다.','2021-12-05 00:24:47');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (12,5,'고객님의 상담일정은 ~~~ 입니다.','2021-12-05 00:25:30');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (13,6,'1일 입니다.','2021-12-05 00:43:04');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (14,8,'앱 -> 메인페이지 경로로 확인하시면 됩니다.','2021-12-05 00:43:30');
+INSERT INTO comment (`comment_number`,`board_number`,`content`,`comment_date`) VALUES (15,9,'일일잔여금액 이행 시 지급됩니다. ','2021-12-05 00:43:57');
+
+
+INSERT INTO notice (`notice_number`,`category`,`title`,`content`,`notice_date`,`modified_date`) VALUES (1,'포인트','[공지] 포인트 공지사항입니다.','포인트에 관한 공지사항입니다. 저희 편히가계에서는 매달 포인트를 지급하고 있습니다. 티어에 따라 지급되는 포인트가 다르므로 잘 확인 해주세요.','2021-11-29 01:39:27','2021-12-04 22:00:33');
+INSERT INTO notice (`notice_number`,`category`,`title`,`content`,`notice_date`,`modified_date`) VALUES (2,'티어','[공지] 티어 공지사항입니다.','포인트에 관한 공지사항입니다. 저희 편히가계에서는 티어에 따라 지급되는 포인트가 다르므로 잘 확인 해주세요.','2021-11-29 02:33:40','2021-12-04 22:00:42');
+INSERT INTO notice (`notice_number`,`category`,`title`,`content`,`notice_date`,`modified_date`) VALUES (3,'금융상담','[공지] 상담 공지사항입니다.','상담에 대한 공지사항입니다.','2021-12-04 21:53:17','2021-12-04 22:00:50');
+INSERT INTO notice (`notice_number`,`category`,`title`,`content`,`notice_date`,`modified_date`) VALUES (4,'기타','[자주 묻는 질문]  계좌 잔액이 업데이트되지 않습니다.','다음의 경우 계좌 잔액이 업데이트되지 않을 수 있습니다.\n\n1. 은행 연동이 해제되었을 경우\n\n2. 은행 연동 오류가 발생했을 경우\n\n3. 최근 시각으로 업데이트되지 않았을 경우','2021-12-04 21:57:40','2021-12-04 21:57:51');
+INSERT INTO notice (`notice_number`,`category`,`title`,`content`,`notice_date`,`modified_date`) VALUES (5,'기타','[공지] 12/3(금)~12/6(월) 일부 금융사 연동 제한 안내 (사유 : 금융사 점검)','금융사 홈페이지 점검으로 인해 12/3(금)~12/6(월) 간 일부 금융사 연동이 제한될 예정입니다.\n\n■ 은행\n제일은행 12/05(일)00:00 ~ 07:00 (7시간)\nsbi저축은행 12/04(토)00:00 ~ 06:00 (6시간)\n\n■ 보험\nKB생명 12/04(토)00:00 ~ 12/05(일)18:00 (42시간)\n\n■카드\n농협카드 12/04(토)00:00 ~ 09:00 (9시간)\n\n\n\n더 궁금하신 점이 있다면 앱 내 고객센터를 통해 말씀 부탁드립니다.\n감사합니다.','2021-12-05 01:32:20','2021-12-05 01:32:20');
