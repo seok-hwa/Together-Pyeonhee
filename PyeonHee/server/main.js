@@ -61,11 +61,11 @@ app.use('/myPage', myInfoRouter);
 var consultRouter = require('./routes/consult')();
 app.use('/Counseling', consultRouter);
 
-/*
 //금융상품
 var finalcialItemRouter = require('./routes/finalcialItem')();
-app.use('/temporarily', finalcialItemRouter);
+app.use('/finalcialItem', finalcialItemRouter);
 
+/*
 //관리자 웹페이지
 var adminRouter = require('./routes/admin')();
 app.use('/temporarily', adminRouter);
