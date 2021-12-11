@@ -55,23 +55,43 @@ const MonthReportCabinet = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/MonthReportCabinet?userID=${tempID}`);
-            // fetch(`${url}/MonthReportCabinet?userID=${tempID}`)   //get
-            // .then((response)=>response.json())
-            // .then((responseJson)=>{
-            //     console.log('response data');
-            //     console.log(responseJson);
-            //     setMonthReportData(responseJson);
-            // })
-            // .then(()=>{
-            //     setLoading(true);
-            // })  
+
+            fetch(`${url}/MonthReportCabinet`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                    userID: tempID,
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log('response data');
+                console.log(responseJson);
+                setMonthReportData(responseJson);
+            })
+            .then(()=>{
+                setLoading(true);
+            })  
         })
         setLoading(true); //for test
     }, [])
 
     const loadCabinet = () => {
         setRefresh(true);
-        // fetch(`${url}/MonthReportCabinet?userID=${userID}`)   //get
+
+        // fetch(`${url}/MonthReportCabinet`, {
+        //     method: 'POST',
+        //     body: JSON.stringify({
+        //         userID: tempID,
+        //     }),
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type':'application/json',
+        //     },
+        // })
         // .then((response)=>response.json())
         // .then((responseJson)=>{
         //     console.log('response data');
