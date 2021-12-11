@@ -308,9 +308,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
     if(loading === true){
         return (
             <Root>
-                <ScrollView style={styles.appSize}>
-
-                    <View style={styles.appTopBar}>
+                <View style={styles.appTopBar}>
                         <View style={styles.appTitlePosition}>
                             {/* <TouchableOpacity onPress={() => navigation.goBack()}>
                                 <Icon name="arrow-back-outline" size={25} color={'gray'}></Icon>
@@ -321,6 +319,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             </View>
                         </View>
                     </View>
+                <ScrollView style={styles.appSize}>
 
 
                     <View style={styles.appBody}>
