@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, ScrollView, TextInput} from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import QuerySubmitButton from '../../Buttons/QuerySubmitButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { BOARDCATEGORY } from '../constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import BackButton from '../../Buttons/BackButton'
-
-const url = config.url;
+import { queryRegisterApi } from '../../api';
 
 const QueryWrite = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -61,20 +58,7 @@ const QueryWrite = ({navigation}) => {
             })
             return;
         }
-        fetch(`${url}/queryRegister`, {
-            method: 'POST',
-            body: JSON.stringify({
-                boardTitle: boardTitle,
-                boardCate: boardCate,
-                boardContent: boardContent,
-                userID: userID,
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        queryRegisterApi(boardTitle, boardCate, boardContent, userID)
         .then((responseJson)=>{
         console.log(responseJson);
             if(responseJson.status === 'success'){

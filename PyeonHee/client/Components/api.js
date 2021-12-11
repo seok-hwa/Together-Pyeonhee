@@ -886,3 +886,89 @@ export const noticeListApi = () => {
         })
     })
 };
+export const queryBoardApi = (boardID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/queryBoard?boardID=${boardID}`);
+        fetch(`${url}/queryBoard?boardID=${boardID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const queryReplyApi = (boardID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/queryReply?boardID=${boardID}`);
+        fetch(`${url}/queryReply?boardID=${boardID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const deleteQueryBoardApi = (boardID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/deleteQueryBoard?boardID=${boardID}`);
+        fetch(`${url}/deleteQueryBoard?boardID=${boardID}`)
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const queryListApi = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/queryList?userID=${userID}`);
+        fetch(`${url}/queryList?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/queryUpdate`);
+        fetch(`${url}/queryUpdate`, {
+            method: 'POST',
+            body: JSON.stringify({
+                boardTitle: boardTitle,
+                boardCate: boardCate,
+                boardContent: boardContent,
+                boardID: boardID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const queryRegisterApi = (boardTitle, boardCate, boardContent, userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/queryRegister`);
+        fetch(`${url}/queryRegister`, {
+            method: 'POST',
+            body: JSON.stringify({
+                boardTitle: boardTitle,
+                boardCate: boardCate,
+                boardContent: boardContent,
+                userID: userID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
