@@ -168,8 +168,8 @@ export const calendarClick = (userID, tempDay) => {
 };
 export const calendarInfo = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/calendar?userID=${userID}`);
-        fetch(`${url}/calendar?userID=${userID}`)   //get
+        console.log(`${url}/calendar/info?userID=${userID}`);
+        fetch(`${url}/calendar/info?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
