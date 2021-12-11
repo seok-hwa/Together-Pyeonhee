@@ -12,7 +12,7 @@ function NotificationBoard({ match }) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/notificationBoardInfo`,
+      url: `/admin/notificationBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }
@@ -32,7 +32,7 @@ function NotificationBoard({ match }) {
   const deleteNotificationBoard=()=>{
     axios({
         method:"POST",
-        url: `/notificationDelete`,
+        url: `/admin/notificationDelete`,
         data:{
             boardID: match.params.boardID,
         }

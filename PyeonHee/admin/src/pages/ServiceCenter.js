@@ -46,7 +46,7 @@ function ServiceCenter(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/serviceCenterTotalPage',
+      url: '/admin/serviceCenterTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -81,7 +81,7 @@ function ServiceCenter(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetQueryList`,
+        url: `/admin/getQueryList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }

@@ -22,7 +22,7 @@ function NotificationUpdate({ match }) {
   useEffect(() => {
     axios({
         method:"POST",
-        url: `/notificationBoardInfo`,
+        url: `/admin/notificationBoardInfo`,
         data:{
             boardID: match.params.boardID,
         }
@@ -52,7 +52,7 @@ function NotificationUpdate({ match }) {
     console.log('제목:',boardTitle, '내용:',boardContent, '분류:', boardCate);
     axios({
         method:"POST",
-        url: `/notificationBoardUpdate`,
+        url: `/admin/notificationBoardUpdate`,
         data:{
           boardID: match.params.boardID,
           boardTitle: boardTitle,

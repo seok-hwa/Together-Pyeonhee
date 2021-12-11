@@ -22,7 +22,7 @@ function QueryBoard({ match }) {
     }
     axios({
         method:"POST",
-        url: `/replyWrite`,
+        url: `/admin/replyWrite`,
         data:{
           replyContent: replyContent,
           boardID: match.params.boardID,
@@ -49,7 +49,7 @@ function QueryBoard({ match }) {
     let tempAnswer;
     axios({
       method:"POST",
-      url: `/queryBoardInfo`,
+      url: `/admin/queryBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }
@@ -69,7 +69,7 @@ function QueryBoard({ match }) {
         if(tempAnswer=== 1){
           axios({
             method:"POST",
-            url: `/queryReplyBoardInfo`,
+            url: `/admin/queryReplyBoardInfo`,
             data:{
                 boardID: match.params.boardID,
             }

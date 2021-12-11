@@ -18,7 +18,7 @@ function LoanBoard({match}) {
   const deleteBoard =()=>{
     axios({
         method:"POST",
-        url: `/loanDelete`,
+        url: `/admin/loanDelete`,
         data:{
             boardID: match.params.boardID,
         }
@@ -37,7 +37,7 @@ function LoanBoard({match}) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/loanBoardInfo`,
+      url: `/admin/loanBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }

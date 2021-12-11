@@ -17,7 +17,7 @@ function Login(props) {
         
         axios({
             method:"POST",
-            url: `/adminLogin`,
+            url: `/admin/login`,
             data:{
                 userID: userID,
                 userPassword: userPassword,

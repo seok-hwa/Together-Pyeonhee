@@ -11,7 +11,7 @@ function CounselorFinancialBoard({match}) {
   const deleteNotificationBoard=()=>{
     axios({
         method:"POST",
-        url: `/counselorFinancialDelete`,
+        url: `/admin/counselorFinancialDelete`,
         data:{
             boardID: match.params.boardID,
         }
@@ -32,7 +32,7 @@ function CounselorFinancialBoard({match}) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/counselorFinancialInfo`,
+      url: `/admin/counselorFinancialInfo`,
       data:{
           boardID: match.params.boardID,
       }
