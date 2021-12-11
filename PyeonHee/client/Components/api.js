@@ -155,3 +155,191 @@ export const totalTranList = (userID) => {
         })
     })
 };
+
+export const calendarClick = (userID, tempDay) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/calendar/click?userID=${userID}&today=${tempDay}`);
+        fetch(`${url}/calendar/click?userID=${userID}&today=${tempDay}`)   //get 오늘 날짜도 보내주기
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const calendarInfo = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/calendar?userID=${userID}`);
+        fetch(`${url}/calendar?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const submitMbti = (userID, userAge, userMonthlyIncome, userJob, mbti1Score, mbti2Score, mbti3Score, mbti4Score) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/submitMbti`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userAge: userAge,
+              userMonthlyIncome: userMonthlyIncome,
+              userJob: userJob,
+              mbti1Score: mbti1Score,
+              mbti2Score: mbti2Score,
+              mbti3Score: mbti3Score,
+              mbti4Score: mbti4Score,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const removeDeviceToken = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/removeDeviceToken?userID=${userID}`);
+        fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const reportWithLast = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/monthReportWithLast?userID=${userID}`);
+        fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const reportWithPlan = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/monthReportWithPlan?userID=${userID}`);
+        fetch(`${url}/monthReportWithPlan?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const sendLike = (budgetPlanID, userLike, userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/likeBudgetPlan/`);
+        fetch(`${url}/likeBudgetPlan/`, {
+            method: 'POST',
+            body: JSON.stringify({
+                budgetPlanID: budgetPlanID,
+                userLike: userLike,
+                userID: userID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const recommendedBudgetPlan = (budgetPlanningID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`);
+        fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const didLike = (userID, budgetPlanID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/didLike`);
+        fetch(`${url}/didLike`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                budgetPlanID: budgetPlanID,
+            }),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const didStore = (userID, budgetPlanID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/didStore`);
+        fetch(`${url}/didStore`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                budgetPlanID: budgetPlanID,
+            }),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const saveBudgetPlan = (userID, budgetPlanID) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/saveBudgetPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              budgetPlanID: budgetPlanID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const cancelBudgetPlan = (userID, budgetPlanID) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/cancelBudgetPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              budgetPlanID: budgetPlanID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};

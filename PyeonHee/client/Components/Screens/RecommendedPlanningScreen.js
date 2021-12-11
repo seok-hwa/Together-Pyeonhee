@@ -5,10 +5,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import PlanningSaveButton from '../Buttons/PlanningSaveButton';
 import PlanningSaveCancelButton from '../Buttons/PlanningSaveCancelButton';
 import { PieChart } from 'react-native-chart-kit';
-import config from '../../config';
 import SavingItem from './SavingItem';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
-
+import { didLike, didStore, saveBudgetPlan, cancelBudgetPlan, recommendedBudgetPlan, sendLike } from '../api';
 
 import {
     StyleSheet,
@@ -19,22 +18,9 @@ import {
     Image,
 } from 'react-native';
 import { alignContent, alignItems, background, backgroundColor } from 'styled-system';
-const url = config.url;
 const LikeButton = (props) => {          //like
     const sendUserLike=()=>{
-        fetch(`${url}/likeBudgetPlan/`, {
-            method: 'POST',
-            body: JSON.stringify({
-                budgetPlanID: props.budgetPlanID,
-                userLike: props.userLike,
-                userID: props.userID,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        sendLike(props.budgetPlanID, props.userLike, props.userID)
         .then((responseJson)=>{
             if(props.userLike == true){
                 console.log('좋아요를 취소했습니다.');
@@ -183,11 +169,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             }
         )
         .then(()=>{
-            console.log(tempID);
-            //for test
-            console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`);
-            fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${route.params.budgetPlanningID}`)   //get
-            .then((response)=>response.json())
+            recommendedBudgetPlan(route.params.budgetPlanningID)
             .then((responseJson)=>{
                 console.log('response data');
 
@@ -215,39 +197,15 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                 //setLoading(true);//for test
             })
             .then(()=>{
-                fetch(`${url}/didLike`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                    userID: tempID,
-                    budgetPlanID: route.params.budgetPlanningID,
-                    }),
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
+                didLike(tempID, route.params.budgetPlanningID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === true){
                         setUserLike(true);
                     }
-                    console.log('좋아요 받았어?');
                 })
                 .then(()=>{
-                    console.log('보관함', `${url}/didStore`);
-                    fetch(`${url}/didStore`, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            userID: tempID,
-                            budgetPlanID: route.params.budgetPlanningID,
-                        }),
-                        headers: {
-                        'Accept': 'application/json',
-                        'Content-Type':'application/json',
-                        },
-                    })
-                    .then((response)=>response.json())
+                    didStore(tempID, route.params.budgetPlanningID)
                     .then((responseJson)=>{
                         console.log(responseJson);
                         if(responseJson.status === true){
@@ -272,18 +230,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             iconEnabled: false,
             callback: () => {
               //Popup.hide()
-              fetch(`${url}/saveBudgetPlan`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: userID,
-                  budgetPlanID: budgetPlanID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-                })
-                .then((response)=>response.json())
+                saveBudgetPlan(userID, budgetPlanID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === true){
@@ -313,7 +260,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                     console.error(error);
                 })
             }
-          })
+        })
     }
     const handleSubmitCancelButton = () => {
         Popup.show({
@@ -326,18 +273,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             iconEnabled: false,
             callback: () => {
               //Popup.hide()
-              fetch(`${url}/cancelBudgetPlan`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: userID,
-                  budgetPlanID: budgetPlanID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-                })
-                .then((response)=>response.json())
+                cancelBudgetPlan(userID, budgetPlanID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === true){
@@ -367,7 +303,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                     console.error(error);
                 })
             }
-          })
+        })
     }
     if(loading === true){
         return (

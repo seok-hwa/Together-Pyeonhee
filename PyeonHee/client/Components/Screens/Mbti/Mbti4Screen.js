@@ -3,7 +3,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import MbtiSubmitButton from '../../Buttons/MbtiSubmitButton';
 import MbtiPrevButton from '../../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-import config from '../../../config';
+import {submitMbti} from '../../api';
+
 import { Calculator1, Calculator2, Calculator3, Calculator4 } from './ScoreCalculator';
 import {
   ScrollView,
@@ -12,7 +13,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-const url = config.url;
+
 const Mbti4Screen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
 
@@ -343,24 +344,7 @@ const Mbti4Screen = ({navigation, route}) => {
       }
     })
     .then(()=>{
-      fetch(`${url}/submitMbti`, {
-        method: 'POST',
-        body: JSON.stringify({
-          userID: tempID,
-          userAge: route.params.userAge,
-          userMonthlyIncome: route.params.userMonthlyIncome,
-          userJob: route.params.userJob,
-          mbti1Score: route.params.mbti1Score,
-          mbti2Score: route.params.mbti2Score,
-          mbti3Score: route.params.mbti3Score,
-          mbti4Score: totalScore,
-        }),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type':'application/json',
-        },
-      })
-      .then((response)=>response.json())
+      submitMbti(tempID, route.params.userAge, route.params.userMonthlyIncome, route.params.userJob, route.params.mbti1Score, route.params.mbti2Score, route.params.mbti3Score, totalScore)
       .then((responseJson)=>{
         console.log(responseJson);
         if(responseJson.status === true){
