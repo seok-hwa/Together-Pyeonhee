@@ -1,10 +1,11 @@
 //관리자 웹페이지
 module.exports = function () {
+    /*
     const admin = require('firebase-admin');
     let serviceAccount = require('../pyeonhee-AccountKey.json');
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
-    });
+    });*/
     var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
