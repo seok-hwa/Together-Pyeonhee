@@ -1,14 +1,9 @@
 const express = require("express");
-//const mysql = require('mysql');
-//var db = require('./db_config.js');
-//var request = require('request');
-/*
 const admin = require('firebase-admin');
 let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
-*/
 
 var app = express();
 app.use(express.json());
@@ -79,5 +74,5 @@ app.use('/admin', adminRouter);
 
 const PORT = 8000;
 app.listen(PORT, function () {
-    console.log("Server is ready at " + PORT);
+    console.log("Ncloud Server is ready at " + PORT);
 });
