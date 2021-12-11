@@ -62,8 +62,8 @@ var consultRouter = require('./routes/consult')();
 app.use('/Counseling', consultRouter);
 
 //금융상품
-var finalcialItemRouter = require('./routes/finalcialItem')();
-app.use('/finalcialItem', finalcialItemRouter);
+var financialItemRouter = require('./routes/financialItem')();
+app.use('/financialItem', financialItemRouter);
 
 //사용자 공지사항 확인
 var noticeRouter = require('./routes/notice')();
