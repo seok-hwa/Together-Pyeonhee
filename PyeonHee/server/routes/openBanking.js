@@ -1,6 +1,8 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
+    var config = require('../bank_config.js');
     var express = require('express');
+    var request = require('request');
     var router = express.Router();
     router.use(express.json());
 
