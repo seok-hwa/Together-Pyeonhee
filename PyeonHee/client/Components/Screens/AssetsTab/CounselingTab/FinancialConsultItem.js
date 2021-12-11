@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
-import { background, backgroundColor } from 'styled-system';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import config from '../../../../config';
 
