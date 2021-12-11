@@ -109,8 +109,8 @@ export const dailySaving = (userID) => {
 };
 export const saveTranHistory = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/saveTranHistory?userID=${userID}`);
-        fetch(`${url}/saveTranHistory?userID=${userID}`)   //get
+        console.log(`${url}/account/saveTranHistory?userID=${userID}`);
+        fetch(`${url}/account/saveTranHistory?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -119,8 +119,8 @@ export const saveTranHistory = (userID) => {
 };
 export const latestTranList = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/latestTranList`);
-        fetch(`${url}/latestTranList`, {
+        console.log(`${url}/account/latestTranList`);
+        fetch(`${url}/account/latestTranList`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -138,8 +138,8 @@ export const latestTranList = (userID) => {
 };
 export const totalTranList = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/tranList`);
-        fetch(`${url}/tranList`, {
+        console.log(`${url}/account/tranList`);
+        fetch(`${url}/account/tranList`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -345,8 +345,8 @@ export const cancelBudgetPlan = (userID, budgetPlanID) => {
 };
 export const updateCategory = (userID, fintech, tranCate, tranDate, tranTime) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/update_category`);
-        fetch(`${url}/update_category`, {
+        console.log(`${url}/account/update_category`);
+        fetch(`${url}/account/update_category`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -620,8 +620,8 @@ export const MyBudgetPlanDetail = (callMyBudgetID) => {
 
 export const accountListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/accountList?userID=${userID}`);
-        fetch(`${url}/accountList?userID=${userID}`)   //get
+        console.log(`${url}/account/accountList?userID=${userID}`);
+        fetch(`${url}/account/accountList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -631,8 +631,8 @@ export const accountListApi = (userID) => {
 
 export const close = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/close?userID=${userID}`);
-        fetch(`${url}/close?userID=${userID}`)   //get
+        console.log(`${url}/account/close?userID=${userID}`);
+        fetch(`${url}/account/close?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -778,8 +778,8 @@ export const myPensionListApi = (userID) => {
 
 export const selectedAccountHistory = (userID, fintech_use_num) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/selectedAccountHistory`);
-        fetch(`${url}/selectedAccountHistory`, {
+        console.log(`${url}/account/selectedAccountHistory`);
+        fetch(`${url}/account/selectedAccountHistory`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -798,8 +798,8 @@ export const selectedAccountHistory = (userID, fintech_use_num) => {
 };
 export const update_info = (userID, fintech_use_num, newAlias) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/update_info`);
-        fetch(`${url}/update_info`, {
+        console.log(`${url}/account/update_info`);
+        fetch(`${url}/account/update_info`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,

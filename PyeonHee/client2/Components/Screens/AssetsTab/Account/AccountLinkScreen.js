@@ -64,7 +64,7 @@ class testScreen extends Component {
               grant_type: 'authorization_code',
               client_id: client_id,
               client_secret: client_secret,
-              redirect_uri: `${url}/Together`,
+              redirect_uri: `${url}/account/Together`,
               code: request_code,
           },
       }).then(function (response) {
@@ -75,7 +75,7 @@ class testScreen extends Component {
       }).then(()=>{
         //api 구현 되면 테스트
         
-        fetch(`${url}/saveAccount`, {
+        fetch(`${url}/account/saveAccount`, {
           method: 'POST',
           body: JSON.stringify({
             userID: this.state.userID,
