@@ -5,20 +5,12 @@ import { JOBS, INCOMES } from '../constants';
 import RNPickerSelect from 'react-native-picker-select';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
-  Button,
-  TouchableOpacity,
   TextInput,
 } from 'react-native';
 const BasicSurveyScreen = ({navigation}) => {
-  const [userID, setUserID] = useState('');
   const [userMonthlyIncome, setUserMonthlyIncome] = useState('');
   const [userAge, setUserAge] = useState(0);
   const [userJob, setUserJob] = useState('');
@@ -76,14 +68,6 @@ const BasicSurveyScreen = ({navigation}) => {
       userJob: userJob,
     });
   }
-  useEffect(()=>{
-    AsyncStorage.getItem('userID', (err, result) => {
-      const tempID = result;
-      if(tempID!= null){
-        setUserID(tempID);
-      }
-    });
-  })
   return (
     <Root>
     <View style={styles.appSize}>

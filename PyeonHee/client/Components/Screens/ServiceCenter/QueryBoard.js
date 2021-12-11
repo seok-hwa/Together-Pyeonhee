@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, ScrollView} from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import QueryDeleteButton from '../../Buttons/QueryDeleteButton';
 import QueryUpdateButton from '../../Buttons/QueryUpdateButton';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import BackButton from '../../Buttons/BackButton';
-
-const url = config.url;
+import { queryBoardApi, queryReplyApi, deleteQueryBoardApi } from '../../api';
 
 const QueryBoard = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
@@ -20,8 +17,8 @@ const QueryBoard = ({navigation, route}) => {
 
     const [loading, setLoading] = useState(true);
 
-    const [answerDate, setAnswerDate] = useState('2021-12-02');
-    const [answerContent, setAnswerContent] = useState('확인해보겠습니다.');
+    const [answerDate, setAnswerDate] = useState('');
+    const [answerContent, setAnswerContent] = useState('');
     
     
     useEffect(()=>{
@@ -35,9 +32,7 @@ const QueryBoard = ({navigation, route}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/queryBoard?boardID=${route.params.boardID}`);
-            fetch(`${url}/queryBoard?boardID=${route.params.boardID}`)   //get
-            .then((response)=>response.json())
+            queryBoardApi(route.params.boardID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -50,8 +45,7 @@ const QueryBoard = ({navigation, route}) => {
             })
             .then(()=>{
                 if(tempBoardAnswer === true){
-                    fetch(`${url}/queryReply?boardID=${route.params.boardID}`)   //get
-                    .then((response)=>response.json())
+                    queryReplyApi(route.params.boardID)
                     .then((responseJson)=>{
                         console.log('response data');
                         console.log(responseJson);
@@ -75,8 +69,7 @@ const QueryBoard = ({navigation, route}) => {
             okButtonStyle: {backgroundColor: '#0000CD'},
             iconEnabled: false,
             callback: () => {
-              fetch(`${url}/deleteQueryBoard?boardID=${route.params.boardID}`)  
-                .then((response)=>response.json())
+                deleteQueryBoardApi(route.params.boardID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === true){

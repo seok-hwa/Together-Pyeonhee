@@ -14,9 +14,6 @@ import {
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import FinancialCounselingList from './CounselingTab/FinancialCounselingList';
 import AssetCounselingList from './CounselingTab/AssetCounselingList';
-import config from '../../../config';
-
-const url = config.url;
 
 const Counseling = ({navigation}) => {
   const [userID, setUserID] = useState('');

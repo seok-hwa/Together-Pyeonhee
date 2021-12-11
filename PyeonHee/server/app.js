@@ -2189,6 +2189,78 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+            //한달 리포트 보관함 목록 불러오기
+            app.post('/MonthReportCabinet', function(req,res){
+                var userID = req.body.userID;
+                db.query(`SELECT report_month, mbti, progress_days, income, savings FROM Monthly_Report WHERE user_id =?`,[userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                });
+            });
+
+            //한달 리포트 불러오기 : 예산계획과 비교
+
+            app.post('/monthReport/Cabinet/WithPlan', function(req,res){
+                var userID = req.body.userID;
+                var month = req.body.month;
+                var year = req.body.year;
+                var YY_MM = year + '-' + month;
+                var YYMM = year + month;
+
+
+                db.query(`SELECT * FROM BudgetPlanning WHERE user_id = ? and DATE_FORMAT(planning_date ,'%Y-%m') = ?`,[userID,YY_MM], function(error1, result1){
+                    if(error1) throw error1;
+                    else{
+                        console.log(result1[0]);
+                        db.query(`SELECT * FROM Monthly_Report WHERE user_id =? and report_month = ?`,[userID, YYMM],function(error2, result2){
+                            if(error2) throw error2;
+                            else{
+                                
+                                var planDinner = result1[0].user_income - result1[0].user_savings-result1[0].monthly_rent - result1[0].insurance_expense - result1[0].communication_expense - result1[0].subscribe_expense;
+                                planDinner = planDinner - result1[0].transportation_expense -result1[0].leisure_expense-result1[0].shopping_expense - result1[0].education_expense -result1[0].medical_expense -result1[0].event_expense-result1[0].etc_expense;
+                               
+                                data = {
+                                    planSavings : result1[0].user_savings,
+                                    planRent : result1[0].monthly_rent,
+                                    planInsurance : result1[0].insurance_expense,
+                                    planCommunication : result1[0].communication_expense,
+                                    planSubscribe : result1[0].subscribe_expense,
+
+                                    planTraffic : result1[0].transportation_expense,
+                                    planHobby : result1[0].leisure_expense,
+                                    planShopping : result1[0].shopping_expense,
+                                    planEducation : result1[0].education_expense,
+                                    planMedical : result1[0].medical_expense,
+                                    planEvent : result1[0].event_expense,
+                                    planEct : result1[0].etc_expense,
+                                    planDinner : planDinner,
+
+                                    realSavings : result2[0].savings,
+                                    realRent : result2[0].realRent,
+                                    realInsurance : result2[0].realInsurance,
+                                    realCommunication : result2[0].realCommunication,
+                                    realSubscribe : result2[0].realSubscribe,
+
+                                    realTraffic : result2[0].realTraffic,
+                                    realHobby : result2[0].realHobby,
+                                    realShopping : result2[0].realShopping,
+                                    realEducation : result2[0].realEducation,
+                                    realMedical : result2[0].realMedical,
+                                    realEvent : result2[0].realEvent,
+                                    realEct : result2[0].realEct,
+                                    realDinner : result2[0].realDinner,
+                                }
+
+                                console.log(data);
+                                res.send(data);
+                            }
+                        })
+                    }
+                });
+            });
 
             // 금융상품 추천
             // 주식상품 추천
@@ -2199,7 +2271,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(result.length === 0) console.log("주식상품이 없습니다.");
                         else{
                             //console.log(result);
-                            res.send(result)
+                            res.send(result);
                         }
                     }
                 })

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView} from 'react-native';
-import config from'../../../config';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
 import SavingItem from '../SavingItem';
-const url = config.url;
+import { daily, dailySaving, saveTranHistory, } from '../../api';
 
 const DailyScreen = (props) => {
     const [userID, setUserID] = useState('');
@@ -67,19 +66,8 @@ const DailyScreen = (props) => {
             }
         )
         .then(()=>{
-            console.log(`${url}/daily`);
             //for test
-            fetch(`${url}/daily`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: tempID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
+            daily(tempID)
             .then((responseJson)=>{
                 console.log('데일리 response data');
                 console.log(responseJson);
@@ -155,18 +143,7 @@ const DailyScreen = (props) => {
                 }
             }) 
             .then(()=>{
-                console.log(`${url}/daily/savings`);
-                fetch(`${url}/daily/savings`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        userID: tempID,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
+                dailySaving(tempID)
                 .then((responseJson)=>{
                     console.log('데일리 저금 response data');
                     console.log(responseJson);
@@ -174,9 +151,7 @@ const DailyScreen = (props) => {
                     setSaving(responseJson);
                 }) 
                 .then(()=>{
-                    console.log(`${url}/saveTranHistory?userID=${tempID}`);
-                    fetch(`${url}/saveTranHistory?userID=${tempID}`)   //get
-                    .then((response)=>response.json())
+                    saveTranHistory(tempID)
                     .then((responseJson)=>{
                         console.log('데일리 거래내역 response data');
                         console.log(responseJson);

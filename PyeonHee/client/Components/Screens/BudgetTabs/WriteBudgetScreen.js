@@ -14,14 +14,13 @@ import {
     Button,
     Alert,
 } from 'react-native';
-import config from '../../../config';
 import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import InputBudget from './InputBudget';
 import AddSavingPlan from './AddSavingPlan';
 import SavingPlanItem from './SavingsPlanItem';
 import CallMyBudgetCabinet from './myBudgetCabinet';
+import { dailySaving, submitBudgetPlan, MyBudgetPlanDetail } from '../../api';
 
-const url = config.url;
 const WriteBudgetScreen = ({navigation}) => {
     const [userID, setUserId] = useState('');
     const [addSavingsPlan, setAddSavingsPlan] = useState(false);
@@ -73,19 +72,8 @@ const WriteBudgetScreen = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/daily/savings`);
 
-            fetch(`${url}/daily/savings`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    userID: tempID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
+            dailySaving(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -118,17 +106,7 @@ const WriteBudgetScreen = ({navigation}) => {
     }, []);
 
     if(addSavingsPlan === true) {
-        fetch(`${url}/daily/savings`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: userID,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        dailySaving(userID)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);
@@ -213,32 +191,12 @@ const WriteBudgetScreen = ({navigation}) => {
           
         // return;
 
-        fetch(`${url}/submitBudgetPlan`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: userID,
-                income: parseInt(income.split(",").join("")),
-                savings: parseInt(sumOfSavings),
-                fixedExpenditure: fixedExpenditure,
-                plannedExpenditure: plannedExpenditure,
-                monthlyRent: parseInt(monthlyRent.split(",").join("")),
-                insurance: parseInt(insurance.split(",").join("")),
-                transportation: parseInt(transportation.split(",").join("")),
-                communication: parseInt(communication.split(",").join("")),
-                subscription: parseInt(subscription.split(",").join("")),
-                leisure: parseInt(leisure.split(",").join("")),
-                shopping: parseInt(shopping.split(",").join("")),
-                education: parseInt(education.split(",").join("")),
-                medical: parseInt(medical.split(",").join("")),
-                event: parseInt(event.split(",").join("")),
-                etc: parseInt(ect.split(",").join("")),
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        submitBudgetPlan(userID, parseInt(income.split(",").join("")), parseInt(sumOfSavings), fixedExpenditure, plannedExpenditure,
+            parseInt(monthlyRent.split(",").join("")), parseInt(insurance.split(",").join("")), parseInt(transportation.split(",").join("")), 
+            parseInt(communication.split(",").join("")), parseInt(subscription.split(",").join("")), parseInt(leisure.split(",").join("")),
+            parseInt(shopping.split(",").join("")), parseInt(education.split(",").join("")), parseInt(medical.split(",").join("")),
+            parseInt(event.split(",").join("")), parseInt(ect.split(",").join(""))
+        )
         .then((responseJson)=>{
             console.log('제출 완료');
             console.log(responseJson);
@@ -266,10 +224,7 @@ const WriteBudgetScreen = ({navigation}) => {
     })
 
     if(callMyButgetPlan === true) {
-        console.log(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
-
-        fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
-        .then((response)=>response.json())
+        MyBudgetPlanDetail(callMyBudgetID)
         .then((responseJson)=>{
             console.log('response data');
 

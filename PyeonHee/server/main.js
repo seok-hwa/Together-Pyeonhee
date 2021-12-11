@@ -1,7 +1,7 @@
 const express = require("express");
 //const mysql = require('mysql');
 //var db = require('./db_config.js');
-var request = require('request');
+//var request = require('request');
 /*
 const admin = require('firebase-admin');
 let serviceAccount = require('./pyeonhee-AccountKey.json');
@@ -25,22 +25,22 @@ app.use('/register', joinRouter);
 var loginRouter = require('./routes/login')();
 app.use('/access', loginRouter);
 
-/*
+//데일리
+var dailyRouter = require('./routes/daily')();
+app.use('/daily', dailyRouter);
+
 //오픈뱅킹 계좌연동 및 거래내역
 var openBankingRouter = require('./routes/openBanking')();
-app.use('/temporarily', openBankingRouter);
-
-//상담사
-var consultRouter = require('./routes/consult')();
-app.use('/temporarily', consultRouter);
+app.use('/account', openBankingRouter);
 
 //캘린더
 var calendarRouter = require('./routes/calendar')();
-app.use('/temporarily', calendarRouter);
+app.use('/calendar', calendarRouter);
 
-//데일리
-var dailyRouter = require('./routes/daily')();
-app.use('/temporarily', dailyRouter);
+/*
+//상담사
+var consultRouter = require('./routes/consult')();
+app.use('/temporarily', consultRouter);
 
 //가계부 탭_예산계획작성 및 확인
 var budgetPlanRouter = require('./routes/budgetPlan')();

@@ -1,32 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import NoticeItem from './NoticeItem';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import BackButton from '../../Buttons/BackButton';
+import { noticeListApi } from '../../api';
 
-const url = config.url;
 const NoticeList = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [noticeList, setNoticeList] = useState([]);
 
-     //for test
-     /*
-     const temp = [
-        {
-            boardID: 2,
-            boardCate: '티어',
-            boardTitle: '안녕하세요 관리자입니다. 다들 잘 지내시나요?',
-            boardDate: '2021-12-01',
-        },
-        {
-            boardID: 1,
-            boardCate: '포인트',
-            boardTitle: '포인트 관련 공지사항입니다.',
-            boardDate: '2021-11-28',
-        },
-    ]
-    */
     useEffect(()=>{
         let tempID;
         AsyncStorage.getItem('userID', (err, result) => {
@@ -35,17 +17,20 @@ const NoticeList = ({navigation}) => {
                 setUserID(tempID);
             }
         })
-        
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/noticeList`);
-            fetch(`${url}/noticeList`)   //get
-            .then((response)=>response.json())
+            noticeListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
                 setNoticeList(responseJson);
             })  
+            .catch((e)=>{
+                console.log(e);
+            })
+        })
+        .catch((e)=>{
+            console.log(e);
         })
     }, [])
 

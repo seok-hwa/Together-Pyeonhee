@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../config';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image } from 'react-native';
 import SetCategoryButton from '../Buttons/SetCategoryButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { CATEGORY } from './constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import BackButton from '../Buttons/BackButton';
-
-const url = config.url;
+import { updateCategory } from '../api';
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
     if(accountCate === 'NH농협은행'){
@@ -141,22 +139,7 @@ const SetCategoryScreen = ({navigation, route}) => {
           })
           return;
         }
-        console.log(`${url}/login`);
-        fetch(`${url}/update_category`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: userID,
-            fintech: route.params.fintech,
-            tranCate: category,
-            tranDate: route.params.tranDate,
-            tranTime: route.params.tranTime,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
+        updateCategory(userID, route.params.fintech, category, route.params.tranDate, route.params.tranTime)
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){

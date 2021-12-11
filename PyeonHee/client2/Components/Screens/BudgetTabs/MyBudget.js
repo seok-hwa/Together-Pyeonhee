@@ -19,9 +19,8 @@ import EditBudget from './EditBudget';
 // import PlanningSaveButton from '../../Buttons/PlanningSaveButton';
 // import PlanningSaveCancelButton from '../../Buttons/PlanningSaveCancelButton';
 
-import config from '../../../config';
+import { saveBudgetPlan, cancelBudgetPlan, myBudgetPlan, dailySaving, didStore } from '../../api';
 
-const url = config.url;
 const MyBudgetScreen = ({navigation, route}) => {
     const [userID, setUserId] = useState('');
     const [loading, setLoading] = useState(false);
@@ -71,43 +70,21 @@ const MyBudgetScreen = ({navigation, route}) => {
 
     const handleSubmitSaveButton = () => {
         if(userStore === false) {
-            fetch(`${url}/saveBudgetPlan`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    userID: userID,
-                    budgetPlanID: myBudgetData.budgetPlanID,
-                }),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('추가 완료');
-                        setUserStore(true);
-                    }else{
-                        console.log('fail to save.');
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
-        } else {
-            fetch(`${url}/cancelBudgetPlan`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: userID,
-                  budgetPlanID: myBudgetData.budgetPlanID,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
+            saveBudgetPlan(userID, myBudgetData.budgetPlanID)
+            .then((responseJson)=>{
+                console.log(responseJson);
+                if(responseJson.status === true){
+                    console.log('추가 완료');
+                    setUserStore(true);
+                }else{
+                    console.log('fail to save.');
+                }
             })
-            .then((response)=>response.json())
+            .catch((error)=>{
+                console.error(error);
+            })
+        } else {
+            cancelBudgetPlan(userID, myBudgetData.budgetPlanID)
             .then((responseJson)=>{
                 console.log(responseJson);
                 if(responseJson.status === true){
@@ -138,10 +115,7 @@ const MyBudgetScreen = ({navigation, route}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/myBudgetPlan?userID=${tempID}`);
-
-            fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            myBudgetPlan(tempID)
             .then((responseJson)=>{
                 // console.log('내 예산계획서가 있나?');
                 console.log(responseJson);
@@ -177,18 +151,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                 // console.log(myBudgetData);
             }) 
             .then(()=>{
-                
-                fetch(`${url}/daily/savings`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        userID: tempID,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
+                dailySaving(tempID)
                 .then((responseJson)=>{
                     console.log('response data');
                     console.log(responseJson);
@@ -210,19 +173,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                 }) 
             })
             .then(()=>{
-                console.log('보관함', `${url}/didStore`);
-                fetch(`${url}/didStore`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        userID: tempID,
-                        budgetPlanID: tempBudgetID,
-                    }),
-                    headers: {
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
+                didStore(tempID, tempBudgetID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === true){
@@ -239,17 +190,7 @@ const MyBudgetScreen = ({navigation, route}) => {
     }, [isEdited])
 
     if(addSavingsPlan === true) {
-        fetch(`${url}/daily/savings`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: userID,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        dailySaving(userID)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);
@@ -258,8 +199,7 @@ const MyBudgetScreen = ({navigation, route}) => {
             setAddSavingsPlan(false);
         }) 
         .then(()=>{
-            fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
+            myBudgetPlan(userID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -368,7 +308,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                            <Image source={require('../assets/category/health-insurance.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                <Image source={require('../assets/category/health-insurance.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                             </View>
                             <Text>보험료</Text>
                         </View>
@@ -387,7 +327,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                            <Image source={require('../assets/category/subscribe.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                <Image source={require('../assets/category/subscribe.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                             </View>
                             <Text>구독료</Text>
                         </View>

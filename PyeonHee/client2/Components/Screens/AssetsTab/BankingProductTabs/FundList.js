@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import FundItem from './FundItem';
+import { allFundListApi, myFundListApi } from '../../../api';
 
-const url = config.url;
 const FundProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [check, setCheck] = useState(false);
@@ -57,9 +56,7 @@ const FundProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/allFundList`);
-            fetch(`${url}/allFundList`)   //get
-            .then((response)=>response.json())
+            allFundListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -72,8 +69,7 @@ const FundProduct = ({navigation}) => {
         setCheck(!check);
         if(check === false && read === false) {
             setRead(true);
-            fetch(`${url}/myFundList?userID=${userID}`)   //get
-            .then((response)=>response.json())
+            myFundListApi(userID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

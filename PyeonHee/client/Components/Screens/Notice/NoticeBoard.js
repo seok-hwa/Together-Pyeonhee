@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import BackButton from '../../Buttons/BackButton';
-
-const url = config.url;
+import { noticeBoard } from '../../api';
 
 const NoticeBoard = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
@@ -26,9 +24,7 @@ const NoticeBoard = ({navigation, route}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/noticeBoard?boardID=${route.params.boardID}`);
-            fetch(`${url}/noticeBoard?boardID=${route.params.boardID}`)   //get
-            .then((response)=>response.json())
+            noticeBoard(route.params.boardID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

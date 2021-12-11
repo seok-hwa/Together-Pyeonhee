@@ -4,9 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Modal} from 'reac
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 import MyBudgetItem from './myBudgetCabinetItem';
-import config from '../../../config';
-
-const url = config.url;
+import { MyBudgetPlanCabinet } from '../../api';
 const myBudgetCabinet = (props) => {
     const [userID, setUserID] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
@@ -59,9 +57,7 @@ const myBudgetCabinet = (props) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/MyBudgetPlanCabinet?userID=${tempID}`);
-            fetch(`${url}/MyBudgetPlanCabinet?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            MyBudgetPlanCabinet(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

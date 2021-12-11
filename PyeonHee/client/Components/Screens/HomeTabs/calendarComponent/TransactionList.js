@@ -3,10 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, ScrollView} from 'react-native';
 
 import TransactionItem from './TransactionItem';
-import config from '../../../../config';
-import { marginBottom } from 'styled-system';
 
-const url = config.url;
 const TransactionList = (props) => {
     const [userID, setUserID] = useState('');
     //const [todayTransaction, setTodayTransaction] = useState([]);
@@ -14,7 +11,6 @@ const TransactionList = (props) => {
 
 
     let tempDay = props.pressedDay;
-    console.log(`${url}/calendar/click?userID=${userID}&today=${tempDay}`);
 
     useEffect(()=>{
         let tempID;

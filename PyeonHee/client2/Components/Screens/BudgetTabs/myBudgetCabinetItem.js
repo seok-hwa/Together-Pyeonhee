@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { background, backgroundColor, flexDirection } from 'styled-system';
 
 const MyBudgetCabinetItem = (props) => {
     let index = props.selectedIndex;
@@ -30,32 +29,32 @@ const MyBudgetCabinetItem = (props) => {
                 <TouchableOpacity onPress={handleSelected}>
                     <View style={styles.rowContent}>
                         <Text style={styles.text}>수입</Text>
-                        <Text style={styles.text}>{props.income.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.income+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={styles.text}>월 저금액 </Text>
                             <Text style={styles.rateText}>({savingRate}%)</Text>
                         </View>
-                        <Text style={styles.text}>{props.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.sumOfSavings+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={styles.text}>고정지출 </Text>
                             <Text style={styles.rateText}>({fixedRate}%)</Text>
                         </View>
-                        <Text style={styles.text}>{props.fixedExpenditure.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.fixedExpenditure+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={styles.text}>계획지출 </Text>
                             <Text style={styles.rateText}>({plannedRate}%)</Text>
                         </View>
-                        <Text style={styles.text}>{props.plannedExpenditure.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.plannedExpenditure+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <Text style={styles.text}>하루 권장 금액</Text>
-                        <Text style={styles.text}>{props.dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.dailyMoney+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -64,32 +63,32 @@ const MyBudgetCabinetItem = (props) => {
                 <TouchableOpacity onPress={handleSelected}>
                     <View style={styles.rowContent}>
                         <Text style={styles.text}>수입</Text>
-                        <Text style={styles.text}>{props.income.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.income+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={styles.text}>월 저금액 </Text>
                             <Text style={styles.rateText}>({savingRate}%)</Text>
                         </View>
-                        <Text style={styles.text}>{props.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.sumOfSavings+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={styles.text}>고정지출 </Text>
                             <Text style={styles.rateText}>({fixedRate}%)</Text>
                         </View>
-                        <Text style={styles.text}>{props.fixedExpenditure.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.fixedExpenditure+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={styles.text}>계획지출 </Text>
                             <Text style={styles.rateText}>({plannedRate}%)</Text>
                         </View>
-                        <Text style={styles.text}>{props.plannedExpenditure.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.plannedExpenditure+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                     <View style={styles.rowContent}>
                         <Text style={styles.text}>하루 권장 금액</Text>
-                        <Text style={styles.text}>{props.dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
+                        <Text style={styles.text}>{(props.dailyMoney+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</Text>
                     </View>
                 </TouchableOpacity>
             </View>
