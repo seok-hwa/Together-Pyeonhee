@@ -3,8 +3,8 @@ const url = config.url;
 
 export const getMyInfo = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myInfo?userID=${userID}`);
-        fetch(`${url}/myInfo?userID=${userID}`)   //get
+        console.log(`${url}/myPage/myInfo?userID=${userID}`);
+        fetch(`${url}/myPage/myInfo?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -203,8 +203,8 @@ export const submitMbti = (userID, userAge, userMonthlyIncome, userJob, mbti1Sco
 };
 export const removeDeviceToken = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/removeDeviceToken?userID=${userID}`);
-        fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
+        console.log(`${url}/myPage/removeDeviceToken?userID=${userID}`);
+        fetch(`${url}/myPage/removeDeviceToken?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
