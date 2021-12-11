@@ -3,9 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
-import config from '../../../../config';
-
-const url = config.url;
+import { requestMatching } from '../../../api';
 
 const FinancialConsultItem = (props) => {
 
@@ -20,19 +18,7 @@ const FinancialConsultItem = (props) => {
             okButtonStyle: {backgroundColor: '#0000CD'},
             iconEnabled: false,
             callback: () => {
-                fetch(`${url}/requestMatching`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      userID: props.userID,
-                      counselorName: props.counselorName,
-                      counselor_id: props.consultNumber,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
+                requestMatching(props.userID, props.counselorName, props.consultNumber)
                 .then((responseJson)=>{
                     if(responseJson.status==='lowBalance'){
                         Popup.show({

@@ -617,3 +617,89 @@ export const MyBudgetPlanDetail = (callMyBudgetID) => {
         })
     })
 };
+
+export const accountList = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/accountList?userID=${userID}`);
+        fetch(`${url}/accountList?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const close = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/close?userID=${userID}`);
+        fetch(`${url}/close?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const counselingFinancialProduct = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/Counseling/FinancialProduct`);
+        fetch(`${url}/Counseling/FinancialProduct`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const counselingFinancialProductCategory = (categoryName) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/Counseling/FinancialProduct/Category`);
+        fetch(`${url}/Counseling/FinancialProduct/Category`, {
+            method: 'POST',
+            body: JSON.stringify({
+                categoryName: categoryName,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const requestMatching = (userID, counselorName, counselor_id) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/requestMatching`);
+        fetch(`${url}/requestMatching`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              counselorName: counselorName,
+              counselor_id: counselor_id,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const counselingAssetManagement = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/Counseling/AssetManagement`);
+        fetch(`${url}/Counseling/AssetManagement`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};

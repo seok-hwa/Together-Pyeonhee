@@ -4,8 +4,8 @@ import LinkAccountButton from '../../Buttons/LinkAccountButton';
 import AccountItem from './Account/AccountItem';
 import TerminateAccountButton from '../../Buttons/TerminateAccountButton';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
+import { accountList, close } from '../../api';
 
-import config from '../../../config';
 import {
     SafeAreaView,
     ScrollView,
@@ -21,34 +21,12 @@ import {
     FlatList,
 } from 'react-native';
 
-const url = config.url;
 const accountLinkScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [accountList, setAccountList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
-    //for test
-    /*
-    let tempData = [
-        {
-            accountCate: '농협',
-            accountNum: 2123232,
-            accountBalance: 200000,
-            accountId: 1,
-        },
-        {
-            accountCate: 'IBK',
-            accountNum: 212312332232,
-            accountBalance: 20000000,
-            accountId: 2,
-        },
-        {
-            accountCate: '우리',
-            accountNum: 2123222222,
-            accountBalance: 1000000,
-            accountId: 3,
-        },
-    ]*/
+
     useEffect(()=>{
         let tempID;
 
@@ -61,10 +39,7 @@ const accountLinkScreen = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             //for test
-            console.log(`${url}/accountList?userID=${tempID}`);
-            
-            fetch(`${url}/accountList?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            accountList(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -76,8 +51,7 @@ const accountLinkScreen = ({navigation}) => {
     },[])
     const loadAccount = () => {
         setRefresh(true);
-        fetch(`${url}/accountList?userID=${userID}`)   //get
-        .then((response)=>response.json())
+        accountList(userID)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);
@@ -98,8 +72,7 @@ const accountLinkScreen = ({navigation}) => {
             okButtonStyle: {backgroundColor: '#0000CD'},
             iconEnabled: false,
             callback: () => {
-                fetch(`${url}/close?userID=${userID}`)   //get
-                .then((response)=>response.json())
+                close(userID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === true){
