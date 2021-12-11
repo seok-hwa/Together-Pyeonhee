@@ -47,7 +47,7 @@ function CounselorWrite(props) {
 
     axios({
         method:"POST",
-        url: `/inputCounselorInFinancial`,
+        url: `/admin/inputCounselorInFinancial`,
         data:{
           name: name,
           company: company,
@@ -84,7 +84,7 @@ function CounselorWrite(props) {
 
     axios({
       method:"POST",
-      url: `/inputCounselorInAsset`,
+      url: `/admin/inputCounselorInAsset`,
       data:{
         name: name,
         company: company,

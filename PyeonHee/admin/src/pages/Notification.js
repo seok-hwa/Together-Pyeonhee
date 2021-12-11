@@ -30,7 +30,7 @@ function Notification(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/notificationTotalPage',
+      url: '/admin/notificationTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -65,7 +65,7 @@ function Notification(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetNotificationList`,
+        url: `/admin/getNotificationList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }

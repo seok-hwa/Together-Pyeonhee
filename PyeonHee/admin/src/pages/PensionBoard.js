@@ -18,7 +18,7 @@ function PensionBoard({match}) {
   const deleteBoard =()=>{
     axios({
         method:"POST",
-        url: `/pensionDelete`,
+        url: `/admin/pensionDelete`,
         data:{
             boardID: match.params.boardID,
         }
@@ -38,7 +38,7 @@ function PensionBoard({match}) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/pensionBoardInfo`,
+      url: `/admin/pensionBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }

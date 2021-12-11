@@ -1,13 +1,19 @@
 //관리자 웹페이지
 module.exports = function () {
-    var db = require('../config_db.js');
+    /*
+    const admin = require('firebase-admin');
+    let serviceAccount = require('../pyeonhee-AccountKey.json');
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+    });*/
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
     /* 관리자 웹페이지 */
     //관리자 로그인
-    router.post('/adminLogin', function (req, res) {
+    router.post('/Login', function (req, res) {
         console.log(req.body);
         var adminID = req.body.userID;
         var adminPassword = req.body.userPassword;
@@ -95,7 +101,7 @@ module.exports = function () {
     });
 
     //관리자 공지사항 목록 확인
-    router.post('/adminGetNotificationList', function (req, res) {
+    router.post('/getNotificationList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM notice ORDER BY notice_number desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -189,7 +195,7 @@ module.exports = function () {
 
     /*관리자 웹페이지_ 고객센터 사용자가 등록한 글 확인 및 답변 작성 */
     //관리자 고객센터 목록 확인
-    router.post('/adminGetQueryList', function (req, res) {
+    router.post('/getQueryList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM board ORDER BY board_number desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -328,7 +334,7 @@ module.exports = function () {
 
     /* 관리자 웹페이지 금융상담 */
     //관리자 상담사 목록 확인(자산관리)
-    router.post('/adminGetCounselorAssetList', function (req, res) {
+    router.post('/getCounselorAssetList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM AssetCounselor ORDER BY counselor_id desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -407,7 +413,7 @@ module.exports = function () {
     });
 
     //관리자 상담사 목록 확인(금융상담)
-    router.post('/adminGetCounselorFinancialList', function (req, res) {
+    router.post('/getCounselorFinancialList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM FinancialCounselor ORDER BY counselor_id desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -488,7 +494,7 @@ module.exports = function () {
 
     /* 관리자 웹페이지 금융상품 */
     //관리자 금융상품 목록 확인(적금)
-    router.post('/adminGetFinancialSavingList', function (req, res) {
+    router.post('/getFinancialSavingList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM saving_product ORDER BY saving_number desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -571,7 +577,7 @@ module.exports = function () {
 
 
     //관리자 금융상품 목록 확인(펀드)
-    router.post('/adminGetFinancialFundList', function (req, res) {
+    router.post('/getFinancialFundList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM fund_product ORDER BY fund_number desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -654,7 +660,7 @@ module.exports = function () {
 
 
     //관리자 금융상품 목록 확인(연금)
-    router.post('/adminGetFinancialPensionList', function (req, res) {
+    router.post('/getFinancialPensionList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM pension_product ORDER BY pension_number desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -736,7 +742,7 @@ module.exports = function () {
 
 
     //관리자 금융상품 목록 확인(대출)
-    router.post('/adminGetFinancialLoanList', function (req, res) {
+    router.post('/getFinancialLoanList', function (req, res) {
         var pageNumber = (req.body.pageNumber - 1) * 10;
         db.query(`SELECT * FROM loan_product ORDER BY loan_number desc limit ?, 10`, [pageNumber], function (error, result) {
             if (error) throw error;
@@ -813,9 +819,6 @@ module.exports = function () {
             }
         });
     });
-
-
-
 
     return router;
 }

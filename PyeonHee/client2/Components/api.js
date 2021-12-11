@@ -3,8 +3,8 @@ const url = config.url;
 
 export const getMyInfo = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myInfo?userID=${userID}`);
-        fetch(`${url}/myInfo?userID=${userID}`)   //get
+        console.log(`${url}/myPage/myInfo?userID=${userID}`);
+        fetch(`${url}/myPage/myInfo?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -203,8 +203,8 @@ export const submitMbti = (userID, userAge, userMonthlyIncome, userJob, mbti1Sco
 };
 export const removeDeviceToken = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/removeDeviceToken?userID=${userID}`);
-        fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
+        console.log(`${url}/myPage/removeDeviceToken?userID=${userID}`);
+        fetch(`${url}/myPage/removeDeviceToken?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -214,8 +214,8 @@ export const removeDeviceToken = (userID) => {
 
 export const reportWithLast = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReportWithLast?userID=${userID}`);
-        fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
+        console.log(`${url}/monthReport/WithLast?userID=${userID}`);
+        fetch(`${url}/monthReport/WithLast?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -225,8 +225,8 @@ export const reportWithLast = (userID) => {
 
 export const reportWithPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReportWithPlan?userID=${userID}`);
-        fetch(`${url}/monthReportWithPlan?userID=${userID}`)   //get
+        console.log(`${url}/monthReport/WithPlan?userID=${userID}`);
+        fetch(`${url}/monthReport/WithPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -236,8 +236,8 @@ export const reportWithPlan = (userID) => {
 
 export const sendLike = (budgetPlanID, userLike, userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/likeBudgetPlan/`);
-        fetch(`${url}/likeBudgetPlan/`, {
+        console.log(`${url}/plan/likeBudgetPlan`);
+        fetch(`${url}/plan/likeBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 budgetPlanID: budgetPlanID,
@@ -257,8 +257,8 @@ export const sendLike = (budgetPlanID, userLike, userID) => {
 };
 export const recommendedBudgetPlan = (budgetPlanningID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`);
-        fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`)   //get
+        console.log(`${url}/plan/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`);
+        fetch(`${url}/plan/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -267,8 +267,8 @@ export const recommendedBudgetPlan = (budgetPlanningID) => {
 };
 export const didLike = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/didLike`);
-        fetch(`${url}/didLike`, {
+        console.log(`${url}/plan/didLike`);
+        fetch(`${url}/plan/didLike`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -287,8 +287,8 @@ export const didLike = (userID, budgetPlanID) => {
 };
 export const didStore = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/didStore`);
-        fetch(`${url}/didStore`, {
+        console.log(`${url}/plan/didStore`);
+        fetch(`${url}/plan/didStore`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -307,7 +307,8 @@ export const didStore = (userID, budgetPlanID) => {
 };
 export const saveBudgetPlan = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        fetch(`${url}/saveBudgetPlan`, {
+        console.log(`${url}/plan/saveBudgetPlan`);
+        fetch(`${url}/plan/saveBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -326,7 +327,8 @@ export const saveBudgetPlan = (userID, budgetPlanID) => {
 };
 export const cancelBudgetPlan = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        fetch(`${url}/cancelBudgetPlan`, {
+        console.log(`${url}/plan/cancelBudgetPlan`);
+        fetch(`${url}/plan/cancelBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -369,8 +371,8 @@ export const updateCategory = (userID, fintech, tranCate, tranDate, tranTime) =>
 
 export const openCheck = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/openCheck`);
-        fetch(`${url}/openCheck`, {
+        console.log(`${url}/plan/openCheck`);
+        fetch(`${url}/plan/openCheck`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -390,8 +392,8 @@ export const openCheck = (userID, budgetPlanID) => {
 
 export const usePoint = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/usePoint`);
-        fetch(`${url}/usePoint`, {
+        console.log(`${url}/plan/usePoint`);
+        fetch(`${url}/plan/usePoint`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -411,8 +413,8 @@ export const usePoint = (userID, budgetPlanID) => {
 };
 export const saveSavingPlan = (userID, savingName, savingMoney, startDate, endYear, endMonth) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/saveSavingPlan`);
-        fetch(`${url}/saveSavingPlan`, {
+        console.log(`${url}/SavingPlan/save`);
+        fetch(`${url}/SavingPlan/save`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -436,8 +438,8 @@ export const saveSavingPlan = (userID, savingName, savingMoney, startDate, endYe
 
 export const budgetPlanCabinet = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/BudgetPlanCabinet?userID=${userID}`);
-        fetch(`${url}/BudgetPlanCabinet?userID=${userID}`)   //get
+        console.log(`${url}/plan/BudgetPlanCabinet?userID=${userID}`);
+        fetch(`${url}/plan/BudgetPlanCabinet?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -447,8 +449,8 @@ export const budgetPlanCabinet = (userID) => {
 
 export const saveSelectBudgetPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/saveSelectBudgetPlan?userID=${userID}`);
-        fetch(`${url}/saveSelectBudgetPlan?userID=${userID}`)   //get
+        console.log(`${url}/plan/saveSelectBudgetPlan?userID=${userID}`);
+        fetch(`${url}/plan/saveSelectBudgetPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -458,8 +460,8 @@ export const saveSelectBudgetPlan = (userID) => {
 
 export const viewBudgetPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/viewBudgetPlan?userID=${userID}`);
-        fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
+        console.log(`${url}/plan/viewBudgetPlan?userID=${userID}`);
+        fetch(`${url}/plan/viewBudgetPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -552,8 +554,8 @@ export const editSavingPlan = (userID, savingID, savingName, savingMoney, endYea
 
 export const removeSavingPlan = (userID, savingID) => {
     return new Promise(function(resolve, reject) {
-        console.log('/removeSavingPlan');
-        fetch(`${url}/removeSavingPlan`, {
+        console.log('/SavingPlan/remove');
+        fetch(`${url}/SavingPlan/remove`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -642,8 +644,8 @@ export const close = (userID) => {
 
 export const counselingFinancialProduct = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/Counseling/FinancialProduct`);
-        fetch(`${url}/Counseling/FinancialProduct`)   //get
+        console.log(`${url}/Counseling/FinancialProduct/Detail`);
+        fetch(`${url}/Counseling/FinancialProduct/Detail`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -673,8 +675,8 @@ export const counselingFinancialProductCategory = (categoryName) => {
 
 export const requestMatching = (userID, counselorName, counselor_id) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/requestMatching`);
-        fetch(`${url}/requestMatching`, {
+        console.log(`${url}/Counseling/requestMatching`);
+        fetch(`${url}/Counseling/requestMatching`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -707,8 +709,8 @@ export const counselingAssetManagement = () => {
 
 export const allFundListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allFundList`);
-        fetch(`${url}/allFundList`)   //get
+        console.log(`${url}/financialItem/allFundList`);
+        fetch(`${url}/financialItem/allFundList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -717,8 +719,8 @@ export const allFundListApi = () => {
 };
 export const myFundListApi= (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myFundList?userID=${userID}`)
-        fetch(`${url}/myFundList?userID=${userID}`)   //get
+        console.log(`${url}/financialItem/myFundList?userID=${userID}`)
+        fetch(`${url}/financialItem/myFundList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -727,8 +729,8 @@ export const myFundListApi= (userID) => {
 };
 export const allLoanListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allLoanList`);
-        fetch(`${url}/allLoanList`)   //get
+        console.log(`${url}/financialItem/allLoanList`);
+        fetch(`${url}/financialItem/allLoanList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -737,8 +739,8 @@ export const allLoanListApi = () => {
 };
 export const allSavingListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allSavingList`);
-        fetch(`${url}/allSavingList`)   //get
+        console.log(`${url}/financialItem/allSavingList`);
+        fetch(`${url}/financialItem/allSavingList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -747,8 +749,8 @@ export const allSavingListApi = () => {
 };
 export const mySavingListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/mySavingList?userID=${userID}`);
-        fetch(`${url}/mySavingList?userID=${userID}`)   //get
+        console.log(`${url}/financialItem/mySavingList?userID=${userID}`);
+        fetch(`${url}/financialItem/mySavingList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -757,8 +759,8 @@ export const mySavingListApi = (userID) => {
 };
 export const allPensionListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allPensionList`);
-        fetch(`${url}/allPensionList`)   //get
+        console.log(`${url}/financialItem/allPensionList`);
+        fetch(`${url}/financialItem/allPensionList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -767,8 +769,8 @@ export const allPensionListApi = () => {
 };
 export const myPensionListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myPensionList?userID=${userID}`);
-        fetch(`${url}/myPensionList?userID=${userID}`)   //get
+        console.log(`${url}/financialItem/myPensionList?userID=${userID}`);
+        fetch(`${url}/financialItem/myPensionList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -838,8 +840,8 @@ export const MonthReportCabinetApi = (userID) => {
 };
 export const monthReportMbti = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReportMbti?userID=${userID}`);
-        fetch(`${url}/monthReportMbti?userID=${userID}`)   //get
+        console.log(`${url}/monthReport/Mbti?userID=${userID}`);
+        fetch(`${url}/monthReport/Mbti?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -848,8 +850,8 @@ export const monthReportMbti = (userID) => {
 };
 export const updateMbti = (userID, userMbti) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/updateMbti`);
-        fetch(`${url}/updateMbti`, {
+        console.log(`${url}/monthReport/updateMbti`);
+        fetch(`${url}/monthReport/updateMbti`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -868,8 +870,8 @@ export const updateMbti = (userID, userMbti) => {
 };
 export const noticeBoard = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/noticeBoard?boardID=${boardID}`);
-        fetch(`${url}/noticeBoard?boardID=${boardID}`)   //get
+        console.log(`${url}/notice/Board?boardID=${boardID}`);
+        fetch(`${url}/notice/Board?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -878,8 +880,8 @@ export const noticeBoard = (boardID) => {
 };
 export const noticeListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/noticeList`);
-        fetch(`${url}/noticeList`)   //get
+        console.log(`${url}/notice/List`);
+        fetch(`${url}/notice/List`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -888,8 +890,8 @@ export const noticeListApi = () => {
 };
 export const queryBoardApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryBoard?boardID=${boardID}`);
-        fetch(`${url}/queryBoard?boardID=${boardID}`)   //get
+        console.log(`${url}/query/Board?boardID=${boardID}`);
+        fetch(`${url}/query/Board?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -898,8 +900,8 @@ export const queryBoardApi = (boardID) => {
 };
 export const queryReplyApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryReply?boardID=${boardID}`);
-        fetch(`${url}/queryReply?boardID=${boardID}`)   //get
+        console.log(`${url}/query/Reply?boardID=${boardID}`);
+        fetch(`${url}/query/Reply?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -908,8 +910,8 @@ export const queryReplyApi = (boardID) => {
 };
 export const deleteQueryBoardApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/deleteQueryBoard?boardID=${boardID}`);
-        fetch(`${url}/deleteQueryBoard?boardID=${boardID}`)
+        console.log(`${url}/query/deleteBoard?boardID=${boardID}`);
+        fetch(`${url}/query/deleteBoard?boardID=${boardID}`)
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -919,8 +921,8 @@ export const deleteQueryBoardApi = (boardID) => {
 
 export const queryListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryList?userID=${userID}`);
-        fetch(`${url}/queryList?userID=${userID}`)   //get
+        console.log(`${url}/query/List?userID=${userID}`);
+        fetch(`${url}/query/List?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -930,8 +932,8 @@ export const queryListApi = (userID) => {
 
 export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryUpdate`);
-        fetch(`${url}/queryUpdate`, {
+        console.log(`${url}/query/Update`);
+        fetch(`${url}/query/Update`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,
@@ -952,8 +954,8 @@ export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => 
 };
 export const queryRegisterApi = (boardTitle, boardCate, boardContent, userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/queryRegister`);
-        fetch(`${url}/queryRegister`, {
+        console.log(`${url}/query/Register`);
+        fetch(`${url}/query/Register`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,

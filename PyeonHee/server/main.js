@@ -1,14 +1,9 @@
 const express = require("express");
-//const mysql = require('mysql');
-//var db = require('./db_config.js');
-//var request = require('request');
-/*
 const admin = require('firebase-admin');
 let serviceAccount = require('./pyeonhee-AccountKey.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
-*/
 
 var app = express();
 app.use(express.json());
@@ -37,49 +32,47 @@ app.use('/account', openBankingRouter);
 var calendarRouter = require('./routes/calendar')();
 app.use('/calendar', calendarRouter);
 
-/*
-//상담사
-var consultRouter = require('./routes/consult')();
-app.use('/temporarily', consultRouter);
-
 //가계부 탭_예산계획작성 및 확인
 var budgetPlanRouter = require('./routes/budgetPlan')();
-app.use('/temporarily', budgetPlanRouter);
+app.use('/budget', budgetPlanRouter);
 
-//예산계획추천
+//예산계획추천 및 좋아요&보관함
 var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
-app.use('/temporarily', recommendBudgetplanRouter);
+app.use('/plan', recommendBudgetplanRouter);
 
 //저축
 var savingPlanRouter = require('./routes/savingPlan')();
-app.use('/temporarily', savingPlanRouter);
+app.use('/SavingPlan', savingPlanRouter);
 
-//리포트
+//한달리포트 & mbti재설정
 var reportRouter = require('./routes/report')();
-app.use('/temporarily', reportRouter);
-
-//금융상품
-var finalcialItemRouter = require('./routes/finalcialItem')();
-app.use('/temporarily', finalcialItemRouter);
+app.use('/monthReport', reportRouter);
 
 //마이페이지 (로그아웃 포함)
-var myInfoRouter = require('./routes/myInfo')();
-app.use('/temporarily', myInfoRouter);
+var myInfoRouter = require('./routes/myPage')();
+app.use('/myPage', myInfoRouter);
 
-//관리자 웹페이지
-var adminRouter = require('./routes/admin')();
-app.use('/temporarily', adminRouter);
+//상담사
+var consultRouter = require('./routes/consult')();
+app.use('/Counseling', consultRouter);
 
-//사용자 고객센터 확인 및 글 작성
-var boardRouter = require('./routes/board')();
-app.use('/temporarily', boardRouter);
+//금융상품
+var financialItemRouter = require('./routes/financialItem')();
+app.use('/financialItem', financialItemRouter);
 
 //사용자 공지사항 확인
 var noticeRouter = require('./routes/notice')();
-app.use('/temporarily', noticeRouter);
-*/
+app.use('/notice', noticeRouter);
+
+//사용자 고객센터 확인 및 글 작성
+var boardRouter = require('./routes/board')();
+app.use('/query', boardRouter);
+
+//관리자 웹페이지
+var adminRouter = require('./routes/admin')();
+app.use('/admin', adminRouter);
 
 const PORT = 8000;
 app.listen(PORT, function () {
-    console.log("Server is ready at " + PORT);
+    console.log("Ncloud Server is ready at " + PORT);
 });

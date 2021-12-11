@@ -1,13 +1,13 @@
 //사용자 고객센터 확인 및 글 작성
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
     /*사용자 고객센터(앱)_ 사용자가 글 작성 및 관리자가 단 댓글 */
     //사용자 고객센터 글 목록확인
-    router.get('/queryList', function (req, res) {
+    router.get('/List', function (req, res) {
         db.query(`SELECT * FROM board ORDER BY board_number desc`, function (error, result) {
             if (error) throw error;
             else {
@@ -36,7 +36,7 @@ module.exports = function () {
     });
 
     //사용자 고객센터 글 내용 확인
-    router.get('/queryBoard', function (req, res) {
+    router.get('/Board', function (req, res) {
         var boardID = req.query.boardID;
         var data;
         db.query(`SELECT * FROM board WHERE board_number =?`, [boardID], function (error, result2) {
@@ -75,7 +75,7 @@ module.exports = function () {
     });
 
     //사용자 고객센터 글 작성
-    router.post('/queryRegister', function (req, res) {
+    router.post('/Register', function (req, res) {
         var userID = req.body.userID;
         var boardTitle = req.body.boardTitle;
         var boardCate = req.body.boardCate;
@@ -110,7 +110,7 @@ module.exports = function () {
     });
 
     //사용자 고객센터 글 수정
-    router.post('/queryUpdate', function (req, res) {
+    router.post('/Update', function (req, res) {
         var boardID = req.body.boardID;
         var boardTitle = req.body.boardTitle;
         var boardCate = req.body.boardCate;
@@ -129,7 +129,7 @@ module.exports = function () {
     });
 
     //사용자 고객센터 글 삭제
-    router.get('/deleteQueryBoard', function (req, res) {
+    router.get('/deleteBoard', function (req, res) {
         var boardNumber = req.query.boardID;
         db.query(`DELETE FROM board WHERE board_number = ?`, [boardNumber], function (error, result) {
             if (error) throw error;
@@ -160,7 +160,7 @@ module.exports = function () {
     });
 
     //사용자 고객센터 답변확인
-    router.get('/queryReply', function (req, res) {
+    router.get('/Reply', function (req, res) {
         var boardID = req.query.boardID;
         db.query(`SELECT * FROM comment WHERE board_number = ?;`, [boardID], function (error, result) {
             if (error) throw error;

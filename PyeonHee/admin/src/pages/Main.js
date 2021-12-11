@@ -28,7 +28,7 @@ function Main(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/notificationInMain',
+      url: '/admin/notificationInMain',
     })
     .then((res)=>{
       console.log('공지사항: ',res.data);
@@ -37,7 +37,7 @@ function Main(props) {
     .then(()=>{
       axios({
         method:"GET",
-        url: '/queryInMain',
+        url: '/admin/queryInMain',
       })
       .then((res)=>{
         console.log('고객센터: ',res.data);
