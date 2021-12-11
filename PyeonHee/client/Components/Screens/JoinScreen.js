@@ -18,8 +18,6 @@ const JoinScreen = ({route, navigation }) => {
 
     const [userName, setUserName] = useState('');
     const [userPhone, setUserPhone] = useState('');
-    
-    console.log('회원가입 데이터', route.params);
 
     useEffect(()=>{
         setUserName(route.params.data.name);

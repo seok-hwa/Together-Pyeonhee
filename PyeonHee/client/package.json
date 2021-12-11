@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --runInBand --detectOpenHandles",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -50,6 +50,8 @@
     "@babel/core": "^7.15.8",
     "@babel/runtime": "^7.15.4",
     "@react-native-community/eslint-config": "^3.0.1",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/react-native": "^9.0.0",
     "@types/styled-components": "^5.1.15",
     "@types/styled-components-react-native": "^5.1.2",
     "babel-jest": "^27.3.1",
