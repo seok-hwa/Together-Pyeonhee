@@ -4,18 +4,13 @@ import MbtiSubmitButton from '../../Buttons/MbtiSubmitButton';
 import MbtiPrevButton from '../../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import config from '../../../config';
+import { Calculator1, Calculator2, Calculator3, Calculator4 } from './ScoreCalculator';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
-  Button,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
 const url = config.url;
 const Mbti4Screen = ({navigation, route}) => {
@@ -317,46 +312,10 @@ const Mbti4Screen = ({navigation, route}) => {
     }
 
     let totalScore = 0;
-
-    if(mbti1_2 === true){
-      totalScore=totalScore+5;
-    }else if(mbti1_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti1_4 === true){
-      totalScore=totalScore+20;
-    }else if(mbti1_5 === true){
-      totalScore=totalScore+25;
-    }
-
-    if(mbti2_1 === true){
-      totalScore=totalScore+25;
-    }else if(mbti2_2 === true){
-      totalScore=totalScore+20;
-    }else if(mbti2_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti2_4 === true){
-      totalScore=totalScore+5;
-    }
-
-    if(mbti3_2 === true){
-      totalScore=totalScore+5;
-    }else if(mbti3_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti3_4 === true){
-      totalScore=totalScore+20;
-    }else if(mbti3_5 === true){
-      totalScore=totalScore+25;
-    }
-
-    if(mbti4_1 === true){
-      totalScore=totalScore+25;
-    }else if(mbti4_2 === true){
-      totalScore=totalScore+20;
-    }else if(mbti4_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti4_4 === true){
-      totalScore=totalScore+5;
-    }
+    totalScore+=Calculator1(mbti1_2, mbti1_3, mbti1_4, mbti1_5);
+    totalScore+=Calculator2(mbti2_1, mbti2_2, mbti2_3, mbti2_4);
+    totalScore+=Calculator3(mbti3_2, mbti3_3, mbti3_4, mbti3_5);
+    totalScore+=Calculator4(mbti4_1, mbti4_2, mbti4_3, mbti4_4);
 
     console.log('mbti 설문조사 끝');
     console.log('아이디');
@@ -376,68 +335,53 @@ const Mbti4Screen = ({navigation, route}) => {
     console.log('mbti4');
     console.log(totalScore);
     
-    /*
-    navigation.navigate('MbtiResult', {       //result test
-      mbti1Score: route.params.mbti1Score,
-      mbti2Score: route.params.mbti2Score,
-      mbti3Score: route.params.mbti3Score,
-      mbti4Score: totalScore,
-    });
-    */
-    fetch(`${url}/submitMbti`, {
-      method: 'POST',
-      body: JSON.stringify({
-        userID: userID,
-        userAge: route.params.userAge,
-        userMonthlyIncome: route.params.userMonthlyIncome,
-        userJob: route.params.userJob,
-        mbti1Score: route.params.mbti1Score,
-        mbti2Score: route.params.mbti2Score,
-        mbti3Score: route.params.mbti3Score,
-        mbti4Score: totalScore,
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type':'application/json',
-      },
-    })
-    .then((response)=>response.json())
-    .then((responseJson)=>{
-      console.log(responseJson);
-      if(responseJson.status === true){
-        console.log('제출 완료');
-        navigation.navigate('MbtiResult', {
-          mbti1Score: route.params.mbti1Score,
-          mbti2Score: route.params.mbti2Score,
-          mbti3Score: route.params.mbti3Score,
-          mbti4Score: totalScore,
-          mbtiType: responseJson.mbtiType,
-          description : responseJson.description,
-        });
-      }else{
-        console.log('fail to submit.');
-      }
-    })
-    .catch((error)=>{
-      console.error(error);
-    })
-  }
-  useEffect(()=>{
+    let tempID;
     AsyncStorage.getItem('userID', (err, result) => {
-      let tempID = result;
+      tempID = result;
       if(tempID!= null){
         setUserID(tempID);
       }
     })
-    /*.then(()=>{
-      AsyncStorage.getItem('url', (err, result) => {
-        let tempUrl = result;
-        if(tempUrl!= null){
-          setUrl(tempUrl);
+    .then(()=>{
+      fetch(`${url}/submitMbti`, {
+        method: 'POST',
+        body: JSON.stringify({
+          userID: tempID,
+          userAge: route.params.userAge,
+          userMonthlyIncome: route.params.userMonthlyIncome,
+          userJob: route.params.userJob,
+          mbti1Score: route.params.mbti1Score,
+          mbti2Score: route.params.mbti2Score,
+          mbti3Score: route.params.mbti3Score,
+          mbti4Score: totalScore,
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type':'application/json',
+        },
+      })
+      .then((response)=>response.json())
+      .then((responseJson)=>{
+        console.log(responseJson);
+        if(responseJson.status === true){
+          console.log('제출 완료');
+          navigation.navigate('MbtiResult', {
+            mbti1Score: route.params.mbti1Score,
+            mbti2Score: route.params.mbti2Score,
+            mbti3Score: route.params.mbti3Score,
+            mbti4Score: totalScore,
+            mbtiType: responseJson.mbtiType,
+            description : responseJson.description,
+          });
+        }else{
+          console.log('fail to submit.');
         }
       })
-    })*/
-  })
+      .catch((error)=>{
+        console.error(error);
+      })
+    })
+  }
   return (
     <Root>
     <View style={styles.appSize}>

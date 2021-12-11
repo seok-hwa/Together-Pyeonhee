@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
+import {Popup} from 'react-native-popup-confirm-toast'
 import config from '../../config';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { getMyInfo } from '../api';
 
 import {
     StyleSheet,
@@ -15,6 +16,7 @@ import {
     DeviceEventEmitter,
 } from 'react-native';
 const url=config.url;
+
 const MyPageScreen = ({navigation, route}) => {
     //useState for test
     const [userID, setUserID] = useState('');
@@ -31,8 +33,27 @@ const MyPageScreen = ({navigation, route}) => {
 
     const [loading, setLoading] = useState(true);
 
-    //서버 구현 되면 사용
-    
+    const fetchMyInfo = (userID) => {
+        getMyInfo(userID)
+        .then((responseJson)=>{
+            console.log('마이페이지 response data');
+            console.log(responseJson);
+
+            setUserName(responseJson.userName);
+            setUserTier(responseJson.userTier);
+            setUserStamp(responseJson.userStamp);
+            setUserPoint(responseJson.userPoint);
+            setUserMbti(responseJson.userMbti);
+            setUserMbtiDescription(responseJson.description);
+        })
+        .then(()=>{
+            setLoading(true);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+
     useEffect(()=>{
         console.log('마이페이지 렌더링');
         let tempID;
@@ -49,26 +70,7 @@ const MyPageScreen = ({navigation, route}) => {
             )
             .then(()=>{
                 console.log(`${url}/myInfo?userID=${tempID}`);
-                fetch(`${url}/myInfo?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('마이페이지 response data');
-                    console.log(responseJson);
-
-                    setUserName(responseJson.userName);
-                    setUserTier(responseJson.userTier);
-                    setUserStamp(responseJson.userStamp);
-                    setUserPoint(responseJson.userPoint);
-                    setUserMbti(responseJson.userMbti);
-                    setUserMbtiDescription(responseJson.description);
-
-                })
-                .then(()=>{
-                    setLoading(true);
-                })
-                .catch((error)=>{
-                    console.log(error);
-                })
+                fetchMyInfo(tempID);
             })
             .catch((error)=>{
                 console.log(error);
@@ -86,31 +88,13 @@ const MyPageScreen = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             console.log(`${url}/myInfo?userID=${tempID}`);
-            fetch(`${url}/myInfo?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('마이페이지 response data');
-                console.log(responseJson);
-
-                setUserName(responseJson.userName);
-                setUserTier(responseJson.userTier);
-                setUserStamp(responseJson.userStamp);
-                setUserPoint(responseJson.userPoint);
-                setUserMbti(responseJson.userMbti);
-                setUserMbtiDescription(responseJson.description);
-
-            })
-            .then(()=>{
-                setLoading(true);
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
+            fetchMyInfo(tempID);
         })
         .catch((error)=>{
             console.log(error);
         })
-    }, [route]) 
+    }, [route]);
+    
     function TierImage(){
         if(userTier === 'BRONZE'){
             return(

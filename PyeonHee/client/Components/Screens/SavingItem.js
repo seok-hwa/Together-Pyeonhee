@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet} from 'react-native';
 
 const SavingItem = (props) => {
     let current = props.currentSavingMoney;
@@ -14,12 +13,12 @@ const SavingItem = (props) => {
                 <View style={styles.savingBottomDiv}>
                     <View style={styles.savingInnerDiv} >
                         {/* <Text style={styles.goalText}> 시작일: </Text> */}
-                        <Text style={styles.goalText}>{props.startSavingDate.substring(0,10)}</Text> 
+                        <Text style={styles.goalText}>{(props.startSavingDate+'').substring(0,10)}</Text> 
                     </View>
                     <View style={styles.savingInnerDiv} >
                         {/* <Text style={styles.goalText}> ~종료일: </Text> */}
                         <Text style={styles.goalText}> ~ </Text>
-                        <Text style={styles.goalText}>{props.endSavingDate.substring(0,10)}</Text> 
+                        <Text style={styles.goalText}>{(props.endSavingDate+'').substring(0,10)}</Text> 
                     </View>
                 </View>
             </View>
@@ -28,14 +27,14 @@ const SavingItem = (props) => {
                     <View style={styles.savingInnerDiv} >
                             <Text style={{fontSize: 13, color: 'black',}}>모인금액:</Text>
                             <View style={{alignItems: 'flex-end'}}>
-                                <Text style={styles.textStyle}>{props.currentSavingMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
+                                <Text style={styles.textStyle}>{(props.currentSavingMoney+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
                                 <Text style={{fontSize: 11,}}>({rate}%)</Text> 
                             </View>
 
                     </View>
                     <View style={styles.savingInnerDiv}>
                         <Text style={{fontSize: 13, color: 'black',}}>목표금액:</Text>
-                        <Text style={{color: '#191970', fontWeight: 'bold',}}>{props.goalSavingMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
+                        <Text style={{color: '#191970', fontWeight: 'bold',}}>{(props.goalSavingMoney+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text> 
                         {/* <Text style={{fontSize: 12, color: '#191970',}}>원</Text> */}
                     </View>
                 </View>
