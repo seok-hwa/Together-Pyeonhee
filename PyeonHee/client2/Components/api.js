@@ -469,8 +469,8 @@ export const viewBudgetPlan = (userID) => {
 
 export const myBudgetPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myBudgetPlan?userID=${userID}`);
-        fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
+        console.log(`${url}/budget/myBudgetPlan?userID=${userID}`);
+        fetch(`${url}/budget/myBudgetPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -481,8 +481,8 @@ export const myBudgetPlan = (userID) => {
 export const  editBudget = (userID, income, savings, fixedExpenditure, plannedExpenditure, monthlyRent, insurance, transportation, 
     communication, subscription, leisure, shopping, education, medical, event, etc) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/editBudget`);
-        fetch(`${url}/editBudget`, {
+        console.log(`${url}/budget/editBudget`);
+        fetch(`${url}/budget/editBudget`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -516,8 +516,8 @@ export const  editBudget = (userID, income, savings, fixedExpenditure, plannedEx
 
 export const MyBudgetPlanCabinet = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/MyBudgetPlanCabinet?userID=${userID}`);
-        fetch(`${url}/MyBudgetPlanCabinet?userID=${userID}`)   //get
+        console.log(`${url}/budget/MyBudgetPlanCabinet?userID=${userID}`);
+        fetch(`${url}/budget/MyBudgetPlanCabinet?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -574,8 +574,8 @@ export const removeSavingPlan = (userID, savingID) => {
 export const  submitBudgetPlan = (userID, income, savings, fixedExpenditure, plannedExpenditure, monthlyRent, insurance, transportation, 
     communication, subscription, leisure, shopping, education, medical, event, etc) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/submitBudgetPlan`);
-        fetch(`${url}/submitBudgetPlan`, {
+        console.log(`${url}/budget/submitBudgetPlan`);
+        fetch(`${url}/budget/submitBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -609,8 +609,8 @@ export const  submitBudgetPlan = (userID, income, savings, fixedExpenditure, pla
 
 export const MyBudgetPlanDetail = (callMyBudgetID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
-        fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
+        console.log(`${url}/budget/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
+        fetch(`${url}/budget/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
