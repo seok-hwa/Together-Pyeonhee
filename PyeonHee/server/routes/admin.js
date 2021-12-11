@@ -1,6 +1,6 @@
 //관리자 웹페이지
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
