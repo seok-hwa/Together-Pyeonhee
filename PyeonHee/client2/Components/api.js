@@ -870,8 +870,8 @@ export const updateMbti = (userID, userMbti) => {
 };
 export const noticeBoard = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/noticeBoard?boardID=${boardID}`);
-        fetch(`${url}/noticeBoard?boardID=${boardID}`)   //get
+        console.log(`${url}/notice/Board?boardID=${boardID}`);
+        fetch(`${url}/notice/Board?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -880,8 +880,8 @@ export const noticeBoard = (boardID) => {
 };
 export const noticeListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/noticeList`);
-        fetch(`${url}/noticeList`)   //get
+        console.log(`${url}/notice/List`);
+        fetch(`${url}/notice/List`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
