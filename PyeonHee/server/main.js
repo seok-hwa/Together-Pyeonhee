@@ -37,14 +37,14 @@ app.use('/account', openBankingRouter);
 var calendarRouter = require('./routes/calendar')();
 app.use('/calendar', calendarRouter);
 
+//가계부 탭_예산계획작성 및 확인
+var budgetPlanRouter = require('./routes/budgetPlan')();
+app.use('/budget', budgetPlanRouter);
+
 /*
 //상담사
 var consultRouter = require('./routes/consult')();
 app.use('/temporarily', consultRouter);
-
-//가계부 탭_예산계획작성 및 확인
-var budgetPlanRouter = require('./routes/budgetPlan')();
-app.use('/temporarily', budgetPlanRouter);
 
 //예산계획추천
 var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
