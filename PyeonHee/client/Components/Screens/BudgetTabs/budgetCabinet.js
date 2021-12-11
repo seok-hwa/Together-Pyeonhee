@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
-
+import { budgetPlanCabinet } from '../../api';
 import BudgetItem from '../BudgetItem';
-import config from '../../../config';
 
-const url = config.url;
 const BudgetCabinet = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState([]);
@@ -25,9 +23,7 @@ const BudgetCabinet = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/BudgetPlanCabinet?userID=${tempID}`);
-            fetch(`${url}/BudgetPlanCabinet?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            budgetPlanCabinet(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -41,8 +37,7 @@ const BudgetCabinet = ({navigation}) => {
 
     const loadCabinet = () => {
         setRefresh(true);
-        fetch(`${url}/BudgetPlanCabinet?userID=${userID}`)   //get
-        .then((response)=>response.json())
+        budgetPlanCabinet(userID)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);

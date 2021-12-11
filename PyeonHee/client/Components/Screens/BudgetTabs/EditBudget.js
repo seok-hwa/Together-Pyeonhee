@@ -15,11 +15,10 @@ import {
     Alert,
     Modal,
 } from 'react-native';
-import config from '../../../config';
 import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import EditInputBudget from './EditInputBudget';
+import { myBudgetPlan, editBudget } from '../../api';
 
-const url = config.url;
 const EditBudgetScreen = (props) => {
 
     const [userID, setUserId] = useState('');
@@ -69,10 +68,7 @@ const EditBudgetScreen = (props) => {
         .then(()=>{
             console.log(userID);
             console.log(tempID);
-            console.log(`${url}/myBudgetPlan?userID=${tempID}`);
-
-            fetch(`${url}/myBudgetPlan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            myBudgetPlan(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -157,32 +153,12 @@ const EditBudgetScreen = (props) => {
             return;
         }
 
-        fetch(`${url}/editBudget`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: userID,
-                income: parseInt(income.split(",").join("")),
-                savings: parseInt(sumOfSavings.split(",").join("")),
-                fixedExpenditure: fixedExpenditure,
-                plannedExpenditure: plannedExpenditure,
-                monthlyRent: parseInt(monthlyRent.split(",").join("")),
-                insurance: parseInt(insurance.split(",").join("")),
-                transportation: parseInt(transportation.split(",").join("")),
-                communication: parseInt(communication.split(",").join("")),
-                subscription: parseInt(subscription.split(",").join("")),
-                leisure: parseInt(leisure.split(",").join("")),
-                shopping: parseInt(shopping.split(",").join("")),
-                education: parseInt(education.split(",").join("")),
-                medical: parseInt(medical.split(",").join("")),
-                event: parseInt(event.split(",").join("")),
-                etc: parseInt(ect.split(",").join("")),
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        editBudget(userID, parseInt(income.split(",").join("")), parseInt(sumOfSavings.split(",").join("")), fixedExpenditure, plannedExpenditure,
+            parseInt(monthlyRent.split(",").join("")), parseInt(insurance.split(",").join("")), parseInt(transportation.split(",").join("")), 
+            parseInt(communication.split(",").join("")), parseInt(subscription.split(",").join("")), parseInt(leisure.split(",").join("")),
+            parseInt(shopping.split(",").join("")), parseInt(education.split(",").join("")), parseInt(medical.split(",").join("")),
+            parseInt(event.split(",").join("")), parseInt(ect.split(",").join(""))
+        )
         .then((responseJson)=>{
             console.log('제출 완료');
             console.log(responseJson);

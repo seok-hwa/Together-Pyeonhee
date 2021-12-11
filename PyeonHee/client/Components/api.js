@@ -409,4 +409,211 @@ export const usePoint = (userID, budgetPlanID) => {
         })
     })
 };
+export const saveSavingPlan = (userID, savingName, savingMoney, startDate, endYear, endMonth) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/saveSavingPlan`);
+        fetch(`${url}/saveSavingPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                savingName: savingName,
+                savingMoney: savingMoney,
+                startDate: startDate,
+                endYear: endYear,
+                endMonth: endMonth,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
 
+export const budgetPlanCabinet = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/BudgetPlanCabinet?userID=${userID}`);
+        fetch(`${url}/BudgetPlanCabinet?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const saveSelectBudgetPlan = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/saveSelectBudgetPlan?userID=${userID}`);
+        fetch(`${url}/saveSelectBudgetPlan?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const viewBudgetPlan = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/viewBudgetPlan?userID=${userID}`);
+        fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const myBudgetPlan = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/myBudgetPlan?userID=${userID}`);
+        fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const  editBudget = (userID, income, savings, fixedExpenditure, plannedExpenditure, monthlyRent, insurance, transportation, 
+    communication, subscription, leisure, shopping, education, medical, event, etc) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/editBudget`);
+        fetch(`${url}/editBudget`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                income: income,
+                savings: savings,
+                fixedExpenditure: fixedExpenditure,
+                plannedExpenditure: plannedExpenditure,
+                monthlyRent: monthlyRent,
+                insurance: insurance,
+                transportation: transportation,
+                communication: communication,
+                subscription: subscription,
+                leisure: leisure,
+                shopping: shopping,
+                education: education,
+                medical: medical,
+                event: event,
+                etc: etc,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const MyBudgetPlanCabinet = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/MyBudgetPlanCabinet?userID=${userID}`);
+        fetch(`${url}/MyBudgetPlanCabinet?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const editSavingPlan = (userID, savingID, savingName, savingMoney, endYear, endMonth) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/editSavingPlan`);
+        fetch(`${url}/editSavingPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              savingID: savingID,
+              savingName: savingName,
+              savingMoney: savingMoney,
+              endYear: endYear,
+              endMonth: endMonth,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const removeSavingPlan = (userID, savingID) => {
+    return new Promise(function(resolve, reject) {
+        console.log('/removeSavingPlan');
+        fetch(`${url}/removeSavingPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                savingID: savingID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const  submitBudgetPlan = (userID, income, savings, fixedExpenditure, plannedExpenditure, monthlyRent, insurance, transportation, 
+    communication, subscription, leisure, shopping, education, medical, event, etc) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/submitBudgetPlan`);
+        fetch(`${url}/submitBudgetPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                income: income,
+                savings: savings,
+                fixedExpenditure: fixedExpenditure,
+                plannedExpenditure: plannedExpenditure,
+                monthlyRent: monthlyRent,
+                insurance: insurance,
+                transportation: transportation,
+                communication: communication,
+                subscription: subscription,
+                leisure: leisure,
+                shopping: shopping,
+                education: education,
+                medical: medical,
+                event: event,
+                etc: etc,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const MyBudgetPlanDetail = (callMyBudgetID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
+        fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
