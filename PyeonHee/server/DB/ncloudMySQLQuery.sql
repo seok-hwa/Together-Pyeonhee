@@ -314,3 +314,28 @@ create table pyeonhee.AssetCounselor (
 
 ALTER TABLE pyeonhee.AssetCounselor MODIFY counselor_id int not null auto_increment;
 ALTER TABLE pyeonhee.AssetCounselor auto_increment =20000;
+
+CREATE TABLE Monthly_Report (
+	user_id varchar(10) not null,
+	report_month varchar(11) not null,
+	mbti varchar(4),
+
+	progress_days int default 0,
+
+	realCommunication int default 0,
+	realDinner int default 0, 
+	realEducation int default 0, 
+	realEvent int default 0, 
+	realHobby int default 0,
+	realInsurance int default 0, 
+	realMedical int default 0, 
+	realRent int default 0, 
+	realSaving int default 0, 
+	realShopping int default 0, 
+	realSubscribe int default 0, 
+	realTraffic int default 0, 
+	realEct int default 0,
+
+	primary key (user_id, report_month),
+	foreign key (user_id) references user (user_id) on delete cascade
+	);
