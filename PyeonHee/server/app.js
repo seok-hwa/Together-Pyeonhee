@@ -2207,21 +2207,21 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var userID = req.body.userID;
                 var month = req.body.month;
                 var year = req.body.year;
+                var YY_MM = year + '-' + month;
+                var YYMM = year + month;
 
 
-                db.query(`SELECT * FROM BudgetPlanning WHERE user_id = ? and DATE_FORMAT(planning_date ,'%Y-%m') = ?-?`,[userID,year,month], function(error1, result1){
+                db.query(`SELECT * FROM BudgetPlanning WHERE user_id = ? and DATE_FORMAT(planning_date ,'%Y-%m') = ?`,[userID,YY_MM], function(error1, result1){
                     if(error1) throw error1;
                     else{
-                        db.query(`SELECT savings,realRent,realInsurance,realCommunication,realSubscribe,realTraffic,realHobby,realShopping,realEducation,realMedical,realEvent,realEct
-                        FROM Monthly_Report WHERE user_id =? and report_month = ?`,[userID, year+month],function(error2,result2){
+                        console.log(result1[0]);
+                        db.query(`SELECT * FROM Monthly_Report WHERE user_id =? and report_month = ?`,[userID, YYMM],function(error2, result2){
                             if(error2) throw error2;
                             else{
+                                
                                 var planDinner = result1[0].user_income - result1[0].user_savings-result1[0].monthly_rent - result1[0].insurance_expense - result1[0].communication_expense - result1[0].subscribe_expense;
                                 planDinner = planDinner - result1[0].transportation_expense -result1[0].leisure_expense-result1[0].shopping_expense - result1[0].education_expense -result1[0].medical_expense -result1[0].event_expense-result1[0].etc_expense;
-
-                                var realDinner = result1[0].user_income - result2[0].user_savings-result2[0].monthly_rent - result2[0].insurance_expense - result2[0].communication_expense - result2[0].subscribe_expense;
-                                realDinner = realDinner - result2[0].transportation_expense -result2[0].leisure_expense-result2[0].shopping_expense - result2[0].education_expense -result2[0].medical_expense -result2[0].event_expense-result2[0].etc_expense;
-                                
+                               
                                 data = {
                                     planSavings : result1[0].user_savings,
                                     planRent : result1[0].monthly_rent,
@@ -2238,20 +2238,20 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     planEct : result1[0].etc_expense,
                                     planDinner : planDinner,
 
-                                    realSavings : result2[0].user_savings,
-                                    realRent : result2[0].monthly_rent,
-                                    realInsurance : result2[0].insurance_expense,
-                                    realCommunication : result2[0].communication_expense,
-                                    realSubscribe : result2[0].subscribe_expense,
+                                    realSavings : result2[0].savings,
+                                    realRent : result2[0].realRent,
+                                    realInsurance : result2[0].realInsurance,
+                                    realCommunication : result2[0].realCommunication,
+                                    realSubscribe : result2[0].realSubscribe,
 
-                                    realTraffic : result2[0].transportation_expense,
-                                    realHobby : result2[0].leisure_expense,
-                                    realShopping : result2[0].shopping_expense,
-                                    realEducation : result2[0].education_expense,
-                                    realMedical : result2[0].medical_expense,
-                                    realEvent : result2[0].event_expense,
-                                    realEct : result2[0].etc_expense,
-                                    realDinner : realDinner,
+                                    realTraffic : result2[0].realTraffic,
+                                    realHobby : result2[0].realHobby,
+                                    realShopping : result2[0].realShopping,
+                                    realEducation : result2[0].realEducation,
+                                    realMedical : result2[0].realMedical,
+                                    realEvent : result2[0].realEvent,
+                                    realEct : result2[0].realEct,
+                                    realDinner : result2[0].realDinner,
                                 }
 
                                 console.log(data);
