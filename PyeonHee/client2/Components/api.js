@@ -413,8 +413,8 @@ export const usePoint = (userID, budgetPlanID) => {
 };
 export const saveSavingPlan = (userID, savingName, savingMoney, startDate, endYear, endMonth) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/saveSavingPlan`);
-        fetch(`${url}/saveSavingPlan`, {
+        console.log(`${url}/SavingPlan/save`);
+        fetch(`${url}/SavingPlan/save`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -554,8 +554,8 @@ export const editSavingPlan = (userID, savingID, savingName, savingMoney, endYea
 
 export const removeSavingPlan = (userID, savingID) => {
     return new Promise(function(resolve, reject) {
-        console.log('/removeSavingPlan');
-        fetch(`${url}/removeSavingPlan`, {
+        console.log('/SavingPlan/remove');
+        fetch(`${url}/SavingPlan/remove`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
