@@ -1176,6 +1176,32 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             }); 
+
+            //저금계획 수정
+            
+            app.post('/editSavingPlan', function(req,res){
+                console.log('예산계획 수정');
+
+                var userID = req.body.userID;
+                var savingID = req.body.savingID;
+
+                var savingName = req.body.savingName;
+                var savingMoney = req.body.savingMoney;
+                var endYear = req.body.endYear;
+                var endMonth = req.body.endMonth;
+
+                db.query(`UPDATE Savings SET saving_name = ? , savings_money = ? , finish_date = DATE_FORMAT('?-?-01','%Y-%m-%d')  WHERE saving_number = ? and user_id = ?`,
+                [savingName,savingMoney,endYear,endMonth,savingID,userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        data = {
+                            status : 'success'
+                        }
+                        res.send(data);
+                    }
+                });
+            });
+                        
             //저금계획 삭제
             app.post('/removeSavingPlan',function(req,res){
                 console.log(req.body);
