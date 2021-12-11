@@ -61,3 +61,9 @@ buck-out/
 
 # config.js
 config.js
+
+# db_config.js
+db_config.js
+
+# bank_config.js
+bank_config.js

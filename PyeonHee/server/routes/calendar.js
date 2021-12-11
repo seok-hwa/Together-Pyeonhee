@@ -1,11 +1,11 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
     // 캘린더 데이터
-    router.get(`/calendar`, function (req, res) {
+    router.get(`/info`, function (req, res) {
         console.log(req.query.userID)
         var userID = req.query.userID;
         db.query(`SELECT tran_date, inout_type,  sum(tran_amt) as daily_amount FROM real_expense 
@@ -30,7 +30,7 @@ module.exports = function () {
 
 
     // 캘린더 클릭시
-    router.get(`/calendar/click`, function (req, res) {
+    router.get(`/click`, function (req, res) {
         console.log(req.query.userID);
         console.log(req.query.today);
         var userID = req.query.userID;
