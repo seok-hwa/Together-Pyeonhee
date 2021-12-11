@@ -4,7 +4,7 @@ import config from '../../../../config';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity ,ScrollView} from 'react-native';
 import SavingItem from './SavingItem';
-import { allSavingList, mySavingList } from '../../../api';
+import { allSavingListApi, mySavingListApi } from '../../../api';
 const url = config.url;
 const SavingProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -54,7 +54,7 @@ const SavingProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            allSavingList()
+            allSavingListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -68,7 +68,7 @@ const SavingProduct = ({navigation}) => {
 
         if(check === false && read === false) {
             setRead(true);
-            mySavingList(userID)
+            mySavingListApi(userID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

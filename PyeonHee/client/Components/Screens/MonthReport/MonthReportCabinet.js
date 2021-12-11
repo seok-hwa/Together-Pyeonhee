@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
 
 import BackButton from '../../Buttons/BackButton';
 import MonthReportItem from './MonthReportItem';
-import { MonthReportCabinet } from '../../api';
+import { MonthReportCabinetApi } from '../../api';
 
 const MonthReportCabinet = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -53,7 +53,7 @@ const MonthReportCabinet = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            MonthReportCabinet(tempID)
+            MonthReportCabinetApi(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -69,7 +69,7 @@ const MonthReportCabinet = ({navigation}) => {
     const loadCabinet = () => {
         setRefresh(true);
 
-        // fetch(`${url}/MonthReportCabinet`, {
+        // fetch(`${url}/MonthReportCabinetApi`, {
         //     method: 'POST',
         //     body: JSON.stringify({
         //         userID: tempID,

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StackedBarChart} from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, } from 'react-native';
-import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 const ReportWithLastScreen = (props) => {
     const [userID, setUserID] = useState('');
     const [loading, setLoading] = useState(false);

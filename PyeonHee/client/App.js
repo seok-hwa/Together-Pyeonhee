@@ -34,7 +34,6 @@ import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
 import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
 import FindIDResult from './Components/Screens/Find/FindIDResult';
 import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
-import FinancialCounselorDetail from './Components/Screens/AssetsTab/CounselingTab/FinancialConsultDetail';
 import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
 
 import messaging from '@react-native-firebase/messaging';
@@ -288,13 +287,6 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
-              name="FinancialCounselorDetail"
-              component={FinancialCounselorDetail}
-              options={{
-                headerShown: false,
-            }} 
-            />
-            <Stack.Screen
               name="QueryUpdate"
               component={QueryUpdate}
               options={{
@@ -470,13 +462,6 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
-              name="FinancialCounselorDetail"
-              component={FinancialCounselorDetail}
-              options={{
-                headerShown: false,
-            }} 
-            />
-            <Stack.Screen
               name="QueryUpdate"
               component={QueryUpdate}
               options={{
@@ -647,13 +632,6 @@ function App(){         //navigation
             <Stack.Screen
               name="FindPasswordResult"
               component={FindPasswordResult}
-              options={{
-                headerShown: false,
-            }} 
-            />
-            <Stack.Screen
-              name="FinancialCounselorDetail"
-              component={FinancialCounselorDetail}
               options={{
                 headerShown: false,
             }} 

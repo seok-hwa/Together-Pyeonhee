@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import LoanItem from './LoanItem';
-import { allLoanList } from '../../../api';
+import { allLoanListApi } from '../../../api';
 const LoanProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [allLoanList, setAllLoanList] = useState([]);
@@ -48,7 +48,7 @@ const LoanProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            allLoanList()
+            allLoanListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

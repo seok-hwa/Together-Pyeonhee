@@ -4,7 +4,7 @@ import LinkAccountButton from '../../Buttons/LinkAccountButton';
 import AccountItem from './Account/AccountItem';
 import TerminateAccountButton from '../../Buttons/TerminateAccountButton';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
-import { accountList, close } from '../../api';
+import { accountListApi, close } from '../../api';
 
 import {
     SafeAreaView,
@@ -39,7 +39,7 @@ const accountLinkScreen = ({navigation}) => {
         .then(()=>{
             console.log(tempID);
             //for test
-            accountList(tempID)
+            accountListApi(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -51,7 +51,7 @@ const accountLinkScreen = ({navigation}) => {
     },[])
     const loadAccount = () => {
         setRefresh(true);
-        accountList(userID)
+        accountListApi(userID)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);

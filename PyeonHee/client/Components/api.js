@@ -618,7 +618,7 @@ export const MyBudgetPlanDetail = (callMyBudgetID) => {
     })
 };
 
-export const accountList = (userID) => {
+export const accountListApi = (userID) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/accountList?userID=${userID}`);
         fetch(`${url}/accountList?userID=${userID}`)   //get
@@ -705,7 +705,7 @@ export const counselingAssetManagement = () => {
 };
 
 
-export const allFundList = () => {
+export const allFundListApi = () => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/allFundList`);
         fetch(`${url}/allFundList`)   //get
@@ -715,7 +715,7 @@ export const allFundList = () => {
         })
     })
 };
-export const myFundList= (userID) => {
+export const myFundListApi= (userID) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/myFundList?userID=${userID}`)
         fetch(`${url}/myFundList?userID=${userID}`)   //get
@@ -725,7 +725,7 @@ export const myFundList= (userID) => {
         })
     })
 };
-export const allLoanList = () => {
+export const allLoanListApi = () => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/allLoanList`);
         fetch(`${url}/allLoanList`)   //get
@@ -735,7 +735,7 @@ export const allLoanList = () => {
         })
     })
 };
-export const allSavingList = () => {
+export const allSavingListApi = () => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/allSavingList`);
         fetch(`${url}/allSavingList`)   //get
@@ -745,7 +745,7 @@ export const allSavingList = () => {
         })
     })
 };
-export const mySavingList = (userID) => {
+export const mySavingListApi = (userID) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/mySavingList?userID=${userID}`);
         fetch(`${url}/mySavingList?userID=${userID}`)   //get
@@ -755,7 +755,7 @@ export const mySavingList = (userID) => {
         })
     })
 };
-export const allPensionList = () => {
+export const allPensionListApi = () => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/allPensionList`);
         fetch(`${url}/allPensionList`)   //get
@@ -765,7 +765,7 @@ export const allPensionList = () => {
         })
     })
 };
-export const myPensionList = (userID) => {
+export const myPensionListApi = (userID) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/myPensionList?userID=${userID}`);
         fetch(`${url}/myPensionList?userID=${userID}`)   //get
@@ -817,7 +817,7 @@ export const update_info = (userID, fintech_use_num, newAlias) => {
         })
     })
 };
-export const MonthReportCabinet = (userID) => {
+export const MonthReportCabinetApi = (userID) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/MonthReportCabinet`);
         fetch(`${url}/MonthReportCabinet`, {
@@ -860,6 +860,26 @@ export const updateMbti = (userID, userMbti) => {
               'Content-Type':'application/json',
             },
         })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const noticeBoard = (boardID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/noticeBoard?boardID=${boardID}`);
+        fetch(`${url}/noticeBoard?boardID=${boardID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const noticeListApi = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/noticeList`);
+        fetch(`${url}/noticeList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);

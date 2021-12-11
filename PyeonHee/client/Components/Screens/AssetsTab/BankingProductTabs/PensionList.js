@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import PensionItem from './PensionItem';
-import { allPensionList, myPensionList } from '../../../api';
+import { allPensionListApi, myPensionListApi } from '../../../api';
 
 const PensionProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -53,7 +53,7 @@ const PensionProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            allPensionList()
+            allPensionListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -66,7 +66,7 @@ const PensionProduct = ({navigation}) => {
         setCheck(!check);
         if(check === false && read === false) {
             setRead(true);
-            myPensionList(userID)
+            myPensionListApi(userID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import FundItem from './FundItem';
-import { allFundList, myFundList } from '../../../api';
+import { allFundListApi, myFundListApi } from '../../../api';
 
 const FundProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
@@ -56,7 +56,7 @@ const FundProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            allFundList()
+            allFundListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -69,7 +69,7 @@ const FundProduct = ({navigation}) => {
         setCheck(!check);
         if(check === false && read === false) {
             setRead(true);
-            myFundList(userID)
+            myFundListApi(userID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
