@@ -69,15 +69,14 @@ app.use('/finalcialItem', finalcialItemRouter);
 var noticeRouter = require('./routes/notice')();
 app.use('/notice', noticeRouter);
 
+//사용자 고객센터 확인 및 글 작성
+var boardRouter = require('./routes/board')();
+app.use('/query', boardRouter);
+
 /*
 //관리자 웹페이지
 var adminRouter = require('./routes/admin')();
 app.use('/temporarily', adminRouter);
-
-//사용자 고객센터 확인 및 글 작성
-var boardRouter = require('./routes/board')();
-app.use('/temporarily', boardRouter);
-
 */
 
 const PORT = 8000;
