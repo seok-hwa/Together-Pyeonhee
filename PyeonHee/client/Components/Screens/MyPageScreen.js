@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Popup} from 'react-native-popup-confirm-toast'
-import config from '../../config';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
 

@@ -343,3 +343,70 @@ export const cancelBudgetPlan = (userID, budgetPlanID) => {
         })
     })
 };
+export const updateCategory = (userID, fintech, tranCate, tranDate, tranTime) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/update_category`);
+        fetch(`${url}/update_category`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              fintech: fintech,
+              tranCate: tranCate,
+              tranDate: tranDate,
+              tranTime: tranTime,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const openCheck = (userID, budgetPlanID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/openCheck`);
+        fetch(`${url}/openCheck`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              budgetPlanningID: budgetPlanID,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const usePoint = (userID, budgetPlanID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/usePoint`);
+        fetch(`${url}/usePoint`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                usePoint: 100,
+                budgetPlanningID: budgetPlanID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
