@@ -88,54 +88,37 @@ const MonthReportItem = (props) => {
         .then((responseJson)=>{
             console.log(responseJson);
 
-            if(responseJson.real.length != 0 && responseJson.plan.length != 0){
-                responseJson.real.map(item  => {
-                    if(item.tran_type === '월세'){
-                        setRealRent(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '보험'){
-                        setRealInsurance(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '통신'){
-                        setRealCommunication(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '구독'){
-                        setRealSubscribe(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '교통'){
-                        setRealTraffic(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '여가'){
-                        setRealHobby(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '쇼핑'){
-                        setRealShopping(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '교육'){
-                        setRealEducation(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '의료'){
-                        setRealMedical(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '선물'){
-                        setRealEvent(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '식비'){
-                        setRealDinner(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '저금'){
-                        setRealSaving(parseInt(item.daily_amount));
-                    }else{
-                        setRealEct(parseInt(item.daily_amount));
-                    }
-                })
+            if(responseJson.length > 0){
 
-                if(responseJson.plan.length !=0){
-                    setPlanRent(responseJson.plan.monthly_rent);
-                    setPlanInsurance(responseJson.plan.insurance_expense);
-                    setPlanCommunication(responseJson.plan.communication_expense);
-                    setPlanSubscribe(responseJson.plan.subscribe_expense);
+                setPlanRent(responseJson.planRent);
+                setPlanInsurance(responseJson.planInsurance);
+                setPlanCommunication(responseJson.planCommunication);
+                setPlanSubscribe(responseJson.planSubscribe);
 
-                    setPlanTraffic(responseJson.plan.transportation_expense);
-                    setPlanHobby(responseJson.plan.leisure_expense);
-                    setPlanShopping(responseJson.plan.shopping_expense);
-                    setPlanEducation(responseJson.plan.education_expense);
-                    setPlanMedical(responseJson.plan.medical_expense);
-                    setPlanEvent(responseJson.plan.event_expense);
-                    setPlanEct(responseJson.plan.etc_expense);
-                    setPlanDinner(responseJson.live_expense);
-                    setPlanSaving(responseJson.plan.user_savings);
+                setPlanTraffic(responseJson.planTraffic);
+                setPlanHobby(responseJson.PlanHobby);
+                setPlanShopping(responseJson.PlanShopping);
+                setPlanEducation(responseJson.planEducation);
+                setPlanMedical(responseJson.planMedical);
+                setPlanEvent(responseJson.planEvent);
+                setPlanEct(responseJson.planEct);
+                setPlanDinner(responseJson.PlanDinner);
+                setPlanSaving(responseJson.planSavings);
 
-                }
+                setRealRent(responseJson.realRent);
+                setRealInsurance(responseJson.realInsurance);
+                setRealCommunication(responseJson.realCommunication);
+                setRealSubscribe(responseJson.realSubscribe);
+
+                setRealTraffic(responseJson.realTraffic);
+                setRealHobby(responseJson.realHobby);
+                setRealShopping(responseJson.realShopping);
+                setRealEducation(responseJson.realEducation);
+                setRealMedical(responseJson.realMedical);
+                setRealEvent(responseJson.realEvents);
+                setRealDinner(responseJson.realSDinner);
+                setRealSaving(responseJson.realSavings);
+                setRealEct(responseJson.realEct);
             }
         })
         .then(()=> {

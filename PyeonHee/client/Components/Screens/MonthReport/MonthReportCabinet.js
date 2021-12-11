@@ -57,8 +57,7 @@ const MonthReportCabinet = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/MonthReportCabinet?userID=${tempID}`);
-
+            console.log(`${url}/MonthReportCabinet`);
             fetch(`${url}/MonthReportCabinet`, {
                     method: 'POST',
                     body: JSON.stringify({

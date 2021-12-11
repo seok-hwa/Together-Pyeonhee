@@ -715,8 +715,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     mbtiDiv: {
-        padding: 5,
         flex: 1,
+        alignItems: 'center',
         flexDirection: 'row',
     },
     stampPointAddDiv:{
@@ -812,8 +812,9 @@ const styles = StyleSheet.create({
     },
     mbtiInnerContainer: {
         backgroundColor: 'pink',
-        padding: 3,
-        borderRadius: 5,
+        // justifyContent:'center',
+        padding: 2,
+        borderRadius: 3,
     },
     mbtiText: {
         fontWeight: 'bold',
