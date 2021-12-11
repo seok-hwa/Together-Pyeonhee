@@ -1,5 +1,5 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
@@ -18,6 +18,7 @@ module.exports = function () {
             }
         })
     })
+
     // 내 주식상품 추천
     router.get(`/mySavingList`, function (req, res) {
         db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function (error1, mbti) {
@@ -34,6 +35,7 @@ module.exports = function () {
             }
         })
     })
+
     // 펀드상품 추천
     router.get(`/allFundList`, function (req, res) {
         console.log("금융상품 글로벌아이디", global_id);
@@ -48,6 +50,7 @@ module.exports = function () {
             }
         })
     })
+
     // 내 펀드상품 추천
     router.get(`/myFundList`, function (req, res) {
         global_id = req.query.userID;
@@ -66,6 +69,7 @@ module.exports = function () {
             }
         })
     })
+
     // 연금상품 추천
     router.get(`/allPensionList`, function (req, res) {
         db.query(`SELECT * FROM pension_product`, function (error, result) {
@@ -79,6 +83,7 @@ module.exports = function () {
             }
         })
     })
+
     // 내 연금상품 추천
     router.get(`/myPensionList`, function (req, res) {
         db.query(`SELECT mbti FROM user WHERE user_id = ?`, [global_id], function (error1, mbti) {
@@ -95,6 +100,7 @@ module.exports = function () {
             }
         })
     })
+    
     // 대출상품 추천 (나에게 맞는 상품 찾기 없음)
     router.get(`/allLoanList`, function (req, res) {
         db.query(`SELECT * FROM loan_product`, function (error, result) {
@@ -108,7 +114,6 @@ module.exports = function () {
             }
         })
     })
-
 
     return router;
 }
