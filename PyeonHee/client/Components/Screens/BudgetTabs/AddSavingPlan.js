@@ -70,8 +70,8 @@ const SavingPlan = (props) => {
                 savingName: savingName,
                 savingMoney: parseInt(savingMoney.split(",").join("")),
                 startDate: startDate,
-                endYear: endYear,
-                endMonth: endMonth,
+                endYear: parseInt(endYear),
+                endMonth: parseInt(endMonth),
             }),
             headers: {
                 'Accept': 'application/json',

@@ -11,35 +11,38 @@ const MonthReportCabinet = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
-    // const [monthReportData, setMonthReportData] = useState([]);
+    const [monthReportData, setMonthReportData] = useState([]);
 
-    let monthReportData = [
-        {
-            reportID: 1,
-            month: 6,
-            user_mbti: 'PHSE',
-            income: 3000000,
-            totalSavings: 1800000,
-            rate: 96,
+    // let monthReportData = [
+    //     {
+    //         reportID: 1,
+    //         year: 2021,
+    //         month: 6,
+    //         user_mbti: 'PHSE',
+    //         income: 3000000,
+    //         totalSavings: 1800000,
+    //         daily_count: 20,
 
-        },
-        {
-            reportID: 2,
-            month: 7,
-            user_mbti: 'PHSE',
-            income: 4000000,
-            totalSavings: 1900000,
-            rate: 97,
-        },
-        {
-            reportID: 3,
-            month: 8,
-            user_mbti: 'PHSE',
-            income: 5000000,
-            totalSavings: 1950000,
-            rate: 98,
-        },
-    ]
+    //     },
+    //     {
+    //         reportID: 2,
+    //         year: 2021,
+    //         month: 7,
+    //         user_mbti: 'PHSE',
+    //         income: 4000000,
+    //         totalSavings: 1900000,
+    //         daily_count: 15,
+    //     },
+    //     {
+    //         reportID: 3,
+    //         year: 2021,
+    //         month: 8,
+    //         user_mbti: 'PHSE',
+    //         income: 5000000,
+    //         totalSavings: 1950000,
+    //         daily_count: 11,
+    //     },
+    // ]
 
     useEffect(()=>{
         let tempID;
@@ -76,32 +79,32 @@ const MonthReportCabinet = ({navigation}) => {
                 setLoading(true);
             })  
         })
-        setLoading(true); //for test
+        // setLoading(true); //for test
     }, [])
 
     const loadCabinet = () => {
         setRefresh(true);
 
-        // fetch(`${url}/MonthReportCabinet`, {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         userID: tempID,
-        //     }),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type':'application/json',
-        //     },
-        // })
-        // .then((response)=>response.json())
-        // .then((responseJson)=>{
-        //     console.log('response data');
-        //     console.log(responseJson);
-        //     setMonthReportData(responseJson);
-        // })
-        // .then(()=>{
-        //     setRefresh(false);
-        // }) 
-        setRefresh(false);  //for test
+        fetch(`${url}/MonthReportCabinet`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: tempID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            setMonthReportData(responseJson);
+        })
+        .then(()=>{
+            setRefresh(false);
+        }) 
+        // setRefresh(false);  //for test
     }
 
     if(loading === true){
@@ -115,9 +118,9 @@ const MonthReportCabinet = ({navigation}) => {
                     <FlatList
                         keyExtractor={item => item.reportID}
                         data={monthReportData}
-                        renderItem={({item}) => <MonthReportItem userID={userID} reportID={item.reportID} month={item.month} 
+                        renderItem={({item}) => <MonthReportItem userID={userID} reportID={item.reportID} month={item.month} year={props.year}
                             navigation={navigation} userMbti={item.user_mbti} userIncome={item.income} totalSavings={item.totalSavings} 
-                            rate={item.rate}
+                            daily_count={item.daily_count} year={item.year}
                         />}
                         refreshing={refresh}
                         onRefresh={loadCabinet}
