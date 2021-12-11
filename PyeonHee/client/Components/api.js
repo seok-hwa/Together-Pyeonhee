@@ -703,3 +703,117 @@ export const counselingAssetManagement = () => {
         })
     })
 };
+
+
+export const allFundList = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/allFundList`);
+        fetch(`${url}/allFundList`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const myFundList= (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/myFundList?userID=${userID}`)
+        fetch(`${url}/myFundList?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const allLoanList = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/allLoanList`);
+        fetch(`${url}/allLoanList`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const allSavingList = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/allSavingList`);
+        fetch(`${url}/allSavingList`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const mySavingList = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/mySavingList?userID=${userID}`);
+        fetch(`${url}/mySavingList?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const allPensionList = () => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/allPensionList`);
+        fetch(`${url}/allPensionList`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const myPensionList = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/myPensionList?userID=${userID}`);
+        fetch(`${url}/myPensionList?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+export const selectedAccountHistory = (userID, fintech_use_num) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/selectedAccountHistory`);
+        fetch(`${url}/selectedAccountHistory`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                fintech_use_num: fintech_use_num,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const update_info = (userID, fintech_use_num, newAlias) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/update_info`);
+        fetch(`${url}/update_info`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                fintech_use_num: fintech_use_num,
+                newAlias: newAlias,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};

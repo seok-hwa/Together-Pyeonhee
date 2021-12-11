@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView} from 'react-native';
 import LoanItem from './LoanItem';
-const url = config.url;
+import { allLoanList } from '../../../api';
 const LoanProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [allLoanList, setAllLoanList] = useState([]);
@@ -49,9 +48,7 @@ const LoanProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/allLoanList`);
-            fetch(`${url}/allLoanList`)   //get
-            .then((response)=>response.json())
+            allLoanList()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

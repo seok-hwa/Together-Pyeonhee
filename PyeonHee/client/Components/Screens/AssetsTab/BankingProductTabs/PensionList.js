@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
 import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import PensionItem from './PensionItem';
+import { allPensionList, myPensionList } from '../../../api';
 
-const url = config.url;
 const PensionProduct = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [check, setCheck] = useState(false);
@@ -54,9 +53,7 @@ const PensionProduct = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/allPensionList`);
-            fetch(`${url}/allPensionList`)   //get
-            .then((response)=>response.json())
+            allPensionList()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -69,8 +66,7 @@ const PensionProduct = ({navigation}) => {
         setCheck(!check);
         if(check === false && read === false) {
             setRead(true);
-            fetch(`${url}/myPensionList?userID=${userID}`)   //get
-            .then((response)=>response.json())
+            myPensionList(userID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
