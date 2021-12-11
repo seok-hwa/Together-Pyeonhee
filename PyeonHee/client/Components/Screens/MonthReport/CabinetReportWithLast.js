@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import config from '../../../config'
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, } from 'react-native';
 
 const CabinetReportWithLast = (props) => {

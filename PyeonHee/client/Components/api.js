@@ -817,3 +817,52 @@ export const update_info = (userID, fintech_use_num, newAlias) => {
         })
     })
 };
+export const MonthReportCabinet = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/MonthReportCabinet`);
+        fetch(`${url}/MonthReportCabinet`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const monthReportMbti = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/monthReportMbti?userID=${userID}`);
+        fetch(`${url}/monthReportMbti?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const updateMbti = (userID, userMbti) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/updateMbti`);
+        fetch(`${url}/updateMbti`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userMbti: userMbti,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};

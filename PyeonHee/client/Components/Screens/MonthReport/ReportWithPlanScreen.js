@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import { StackedBarChart, ProgressChart } from 'react-native-chart-kit';
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
-const url = config.url;
 const ReportWithPlanScreen = (props) => {
     const [userID, setUserID] = useState('');
     const [loading, setLoading] = useState(false);
