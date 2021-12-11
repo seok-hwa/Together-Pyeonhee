@@ -709,8 +709,8 @@ export const counselingAssetManagement = () => {
 
 export const allFundListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allFundList`);
-        fetch(`${url}/allFundList`)   //get
+        console.log(`${url}/financialItem/allFundList`);
+        fetch(`${url}/financialItem/allFundList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -719,8 +719,8 @@ export const allFundListApi = () => {
 };
 export const myFundListApi= (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myFundList?userID=${userID}`)
-        fetch(`${url}/myFundList?userID=${userID}`)   //get
+        console.log(`${url}/financialItem/myFundList?userID=${userID}`)
+        fetch(`${url}/financialItem/myFundList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -729,8 +729,8 @@ export const myFundListApi= (userID) => {
 };
 export const allLoanListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allLoanList`);
-        fetch(`${url}/allLoanList`)   //get
+        console.log(`${url}/financialItem/allLoanList`);
+        fetch(`${url}/financialItem/allLoanList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -739,8 +739,8 @@ export const allLoanListApi = () => {
 };
 export const allSavingListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allSavingList`);
-        fetch(`${url}/allSavingList`)   //get
+        console.log(`${url}/financialItem/allSavingList`);
+        fetch(`${url}/financialItem/allSavingList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -749,8 +749,8 @@ export const allSavingListApi = () => {
 };
 export const mySavingListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/mySavingList?userID=${userID}`);
-        fetch(`${url}/mySavingList?userID=${userID}`)   //get
+        console.log(`${url}/financialItem/mySavingList?userID=${userID}`);
+        fetch(`${url}/financialItem/mySavingList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -759,8 +759,8 @@ export const mySavingListApi = (userID) => {
 };
 export const allPensionListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/allPensionList`);
-        fetch(`${url}/allPensionList`)   //get
+        console.log(`${url}/financialItem/allPensionList`);
+        fetch(`${url}/financialItem/allPensionList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -769,8 +769,8 @@ export const allPensionListApi = () => {
 };
 export const myPensionListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myPensionList?userID=${userID}`);
-        fetch(`${url}/myPensionList?userID=${userID}`)   //get
+        console.log(`${url}/financialItem/myPensionList?userID=${userID}`);
+        fetch(`${url}/financialItem/myPensionList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
