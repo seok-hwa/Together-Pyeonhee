@@ -57,11 +57,11 @@ app.use('/monthReport', reportRouter);
 var myInfoRouter = require('./routes/myPage')();
 app.use('/myPage', myInfoRouter);
 
-/*
 //상담사
 var consultRouter = require('./routes/consult')();
-app.use('/temporarily', consultRouter);
+app.use('/Counseling', consultRouter);
 
+/*
 //금융상품
 var finalcialItemRouter = require('./routes/finalcialItem')();
 app.use('/temporarily', finalcialItemRouter);

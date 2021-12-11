@@ -1,5 +1,5 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
@@ -71,7 +71,7 @@ module.exports = function () {
     })
 
     //금융 상담사 정렬
-    router.get('/Counseling/FinancialProduct', function (req, res) {
+    router.get('/FinancialProduct', function (req, res) {
         db.query(`SELECT * FROM FinancialCounselor ORDER BY like_count DESC`, function (error, result) {
             if (error) throw error;
             else {
@@ -82,7 +82,7 @@ module.exports = function () {
     });
 
     //자산 상담사 정렬 
-    router.get('/Counseling/AssetManagement', function (req, res) {
+    router.get('/AssetManagement', function (req, res) {
         db.query(`SELECT * FROM AssetCounselor ORDER BY like_count DESC`, function (error, result) {
             if (error) throw error;
             else {
@@ -93,7 +93,7 @@ module.exports = function () {
     });
 
     //상담사 카테고리 별로
-    router.post('/Counseling/FinancialProduct/Category', function (req, res) {
+    router.post('/FinancialProduct/Category', function (req, res) {
         var category = req.body.categoryName;
 
         db.query(`SELECT * FROM FinancialCounselor WHERE part =? ORDER BY like_count DESC`, [category], function (error, result) {
@@ -106,7 +106,7 @@ module.exports = function () {
     });
 
     //상담사 세부정보 받아오기 
-    router.get('/Counseling/FinancialProduct/Detail', function (req, res) {
+    router.get('/FinancialProduct/Detail', function (req, res) {
         var consultNumber = req.query.consultNumber;
         if (consultNumber >= 20000) {
             db.query(`SELECT * FROM AssetCounselor WHERE counselor_id =?`, [consultNumber], function (error, result) {
