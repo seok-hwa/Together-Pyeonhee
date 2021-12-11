@@ -25,6 +25,10 @@ app.use('/register', joinRouter);
 var loginRouter = require('./routes/login')();
 app.use('/access', loginRouter);
 
+//데일리
+var dailyRouter = require('./routes/daily')();
+app.use('/daily', dailyRouter);
+
 /*
 //오픈뱅킹 계좌연동 및 거래내역
 var openBankingRouter = require('./routes/openBanking')();
@@ -38,9 +42,6 @@ app.use('/temporarily', consultRouter);
 var calendarRouter = require('./routes/calendar')();
 app.use('/temporarily', calendarRouter);
 
-//데일리
-var dailyRouter = require('./routes/daily')();
-app.use('/temporarily', dailyRouter);
 
 //가계부 탭_예산계획작성 및 확인
 var budgetPlanRouter = require('./routes/budgetPlan')();

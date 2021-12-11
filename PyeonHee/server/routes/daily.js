@@ -1,11 +1,11 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
     // 편히 메뉴의 데일리데이터의 저금계획
-    router.post(`/daily/savings`, function (req, res) {
+    router.post(`/savings`, function (req, res) {
         console.log(req.body);
         var userID = req.body.userID;
         db.query(`select saving_name, savings_money, start_date,finish_date, 
@@ -20,7 +20,7 @@ module.exports = function () {
 
 
     // 편히 메뉴의 데일리데이터의 권장소비금액과 카테고리별 금액
-    router.post(`/daily`, function (req, res) {
+    router.post(`/history`, function (req, res) {
         // console.log(req.body);
         var userID = req.body.userID;
         global_id = req.body.userID;
