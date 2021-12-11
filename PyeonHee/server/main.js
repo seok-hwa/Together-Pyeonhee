@@ -65,6 +65,10 @@ app.use('/Counseling', consultRouter);
 var finalcialItemRouter = require('./routes/finalcialItem')();
 app.use('/finalcialItem', finalcialItemRouter);
 
+//사용자 공지사항 확인
+var noticeRouter = require('./routes/notice')();
+app.use('/notice', noticeRouter);
+
 /*
 //관리자 웹페이지
 var adminRouter = require('./routes/admin')();
@@ -74,9 +78,6 @@ app.use('/temporarily', adminRouter);
 var boardRouter = require('./routes/board')();
 app.use('/temporarily', boardRouter);
 
-//사용자 공지사항 확인
-var noticeRouter = require('./routes/notice')();
-app.use('/temporarily', noticeRouter);
 */
 
 const PORT = 8000;
