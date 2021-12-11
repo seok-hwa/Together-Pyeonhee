@@ -38,7 +38,7 @@ function CounselorListAsset(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/counselorAssetListTotalPage',
+      url: '/admin/counselorAssetListTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -73,7 +73,7 @@ function CounselorListAsset(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetCounselorAssetList`,
+        url: `/admin/getCounselorAssetList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }

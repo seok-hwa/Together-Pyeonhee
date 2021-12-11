@@ -116,7 +116,7 @@ function FinancialItemWrite(props) {
 
     axios({
         method:"POST",
-        url: `/insertFund`,
+        url: `/admin/insertFund`,
         data:{
           productName: productName,
           productBankName: productBankName,
@@ -164,7 +164,7 @@ function FinancialItemWrite(props) {
     }
     axios({
       method:"POST",
-      url: `/insertSaving`,
+      url: `/admin/insertSaving`,
       data:{
         productName: productName,
         productBankName: productBankName,
@@ -207,7 +207,7 @@ function FinancialItemWrite(props) {
     }
     axios({
       method:"POST",
-      url: `/insertLoan`,
+      url: `/admin/insertLoan`,
       data:{
         productName: productName,
         productBankName: productBankName,
@@ -249,7 +249,7 @@ function FinancialItemWrite(props) {
     }
     axios({
       method:"POST",
-      url: `/insertPension`,
+      url: `/admin/insertPension`,
       data:{
         productName: productName,
         productBankName: productBankName,

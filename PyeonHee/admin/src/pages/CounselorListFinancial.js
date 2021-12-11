@@ -38,7 +38,7 @@ function CounselorListFinancial(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/counselorFinancialListTotalPage',
+      url: '/admin/counselorFinancialListTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -73,7 +73,7 @@ function CounselorListFinancial(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetCounselorFinancialList`,
+        url: `/admin/getCounselorFinancialList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }

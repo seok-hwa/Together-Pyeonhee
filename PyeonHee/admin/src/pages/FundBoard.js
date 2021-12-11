@@ -18,7 +18,7 @@ function FundBoard({ match }) {
   const deleteBoard =()=>{
     axios({
         method:"POST",
-        url: `/fundDelete`,
+        url: `/admin/fundDelete`,
         data:{
             boardID: match.params.boardID,
         }
@@ -38,7 +38,7 @@ function FundBoard({ match }) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/fundBoardInfo`,
+      url: `/admin/fundBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }

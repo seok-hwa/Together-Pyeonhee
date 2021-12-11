@@ -23,7 +23,7 @@ function QueryUpdate({ match }) {
       }
       axios({
           method:"POST",
-          url: `/replyUpdate`,
+          url: `/admin/replyUpdate`,
           data:{
             replyContent: replyContent,
             boardID: match.params.boardID,
@@ -46,7 +46,7 @@ function QueryUpdate({ match }) {
     let tempAnswer;
     axios({
       method:"POST",
-      url: `/queryBoardInfo`,
+      url: `/admin/queryBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }
@@ -66,7 +66,7 @@ function QueryUpdate({ match }) {
         if(tempAnswer=== 1){
           axios({
             method:"POST",
-            url: `/queryReplyBoardInfo`,
+            url: `/admin/queryReplyBoardInfo`,
             data:{
                 boardID: match.params.boardID,
             }
