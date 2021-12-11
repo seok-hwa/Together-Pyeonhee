@@ -3,9 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
-import config from '../../../../config';
+import { requestMatching } from '../../../api';
 
-const url = config.url;
 const AssetConsultItem = (props) => {
     const sendMail = () =>{
         console.log('상담사 id: ',props.consultNumber);
@@ -18,18 +17,7 @@ const AssetConsultItem = (props) => {
             okButtonStyle: {backgroundColor: '#0000CD'},
             iconEnabled: false,
             callback: () => {
-                fetch(`${url}/requestMatching`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      userID: props.userID,
-                      counselorName: props.counselorName,
-                      counselor_id: props.consultNumber,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
+                requestMatching(props.userID, props.counselorName, props.consultNumber)
                 .then((response)=>response.json())
                 .then((responseJson)=>{
                     if(responseJson.status==='lowBalance'){

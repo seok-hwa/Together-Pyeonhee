@@ -19,9 +19,6 @@ import FundList from './BankingProductTabs/FundList';
 import LoanList from './BankingProductTabs/LoanList';
 import PensionList from './BankingProductTabs/PensionList';
 import SavingList from './BankingProductTabs/SavingList';
-import config from '../../../config';
-
-const url = config.url;
 
 const bankingProduct = ({navigation}) => {
   const [userID, setUserID] = useState('');

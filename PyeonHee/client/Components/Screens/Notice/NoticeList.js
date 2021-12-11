@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import NoticeItem from './NoticeItem';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import BackButton from '../../Buttons/BackButton';
+import { noticeListApi } from '../../api';
 
-const url = config.url;
 const NoticeList = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [noticeList, setNoticeList] = useState([]);
@@ -20,9 +19,7 @@ const NoticeList = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/noticeList`);
-            fetch(`${url}/noticeList`)   //get
-            .then((response)=>response.json())
+            noticeListApi()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

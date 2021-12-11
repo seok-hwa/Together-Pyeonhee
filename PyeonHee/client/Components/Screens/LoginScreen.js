@@ -4,7 +4,7 @@ import LoginButton from '../Buttons/LoginButton';
 import JoinButton from '../Buttons/JoinButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import messaging from '@react-native-firebase/messaging';
-import config from '../../config';
+import { login } from '../api';
 import {
     StyleSheet,
     Text,
@@ -14,11 +14,7 @@ import {
     KeyboardAvoidingView,
 } from 'react-native';
 
-const url = config.url;
-
 const LoginScreen = ({navigation}) => {
-    //const [url, setUrl] = useState('');
-    const [rememberCheck, setRememberCheck] = useState(false);
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
     
@@ -52,22 +48,7 @@ const LoginScreen = ({navigation}) => {
         return;
       }
       getFcmToken().then((fcmToken)=>{
-        console.log('디바이스 토큰: ', fcmToken);
-        console.log(`${url}/login`);
-        fetch(`${url}/login`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: userID,
-            userPassword: userPassword,
-            rememberCheck: rememberCheck,
-            deviceToken: fcmToken,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
+        login(userID, userPassword, fcmToken)
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){

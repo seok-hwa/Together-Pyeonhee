@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
 import { SafeAreaView, StyleSheet, Text, View, Button, Image, ScrollView, Modal, TextInput,} from 'react-native';
 import UpdateAccountButton from '../../../Buttons/UpdateAliasButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import TransactionItemInAccount from '../../TransactionItemInAccount';
 import SubmitAliasButton from '../../../Buttons/SubmitAliasButton';
 import BackButton from '../../../Buttons/BackButton';
-const url = config.url;
+import { selectedAccountHistory, update_info } from '../../../api';
+
 const AccountLogo = (props) => {
     const accountCate = props.accountCate;
     if(accountCate === 'NH농협은행'){
@@ -150,20 +150,7 @@ const SelectedAccountScreen = ({navigation, route}) => {
               })
           return;
         }
-        
-        fetch(`${url}/update_info`, {
-          method: 'POST',
-          body: JSON.stringify({
-              userID: userID,
-              fintech_use_num: route.params.fintech_use_num,
-              newAlias: tempAccountAlias,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
+        update_info(userID, route.params.fintech_use_num, tempAccountAlias)
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){
@@ -201,20 +188,8 @@ const SelectedAccountScreen = ({navigation, route}) => {
         })
         .then(()=>{
             setAccountAlias(route.params.accountAlias);
-            console.log(`${url}/selectedAccountHistory`);
-            
-            fetch(`${url}/selectedAccountHistory`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    userID: tempID,
-                    fintech_use_num: route.params.fintech_use_num,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
+
+            selectedAccountHistory(tempID, route.params.fintech_use_num)
             .then((responseJson)=>{
                 console.log(responseJson);
                 setAccountHistory(responseJson);

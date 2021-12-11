@@ -5,9 +5,8 @@ import CheckBox from '@react-native-community/checkbox';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 import BudgetItem from '../BudgetItem';
-import config from '../../../config';
 
-const url = config.url;
+import { saveSelectBudgetPlan, viewBudgetPlan } from '../../api';
 const BudgetList = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState([]);
@@ -30,9 +29,7 @@ const BudgetList = ({navigation, route}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/saveSelectBudgetPlan?userID=${tempID}`);
-            fetch(`${url}/saveSelectBudgetPlan?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            saveSelectBudgetPlan(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -48,8 +45,7 @@ const BudgetList = ({navigation, route}) => {
         
         if(check === false && read === false) {
             setRead(true);
-            fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
+            viewBudgetPlan(userID)
             .then((responseJson)=>{
                 console.log('나와 유사한 계획서 찾기');
                 console.log(responseJson);

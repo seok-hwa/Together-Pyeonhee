@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Popup} from 'react-native-popup-confirm-toast'
-import config from '../../config';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getMyInfo } from '../api';
+import { getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
 
 import {
     StyleSheet,
@@ -15,7 +14,6 @@ import {
     Modal, 
     DeviceEventEmitter,
 } from 'react-native';
-const url=config.url;
 
 const MyPageScreen = ({navigation, route}) => {
     //useState for test
@@ -69,7 +67,6 @@ const MyPageScreen = ({navigation, route}) => {
                 }
             )
             .then(()=>{
-                console.log(`${url}/myInfo?userID=${tempID}`);
                 fetchMyInfo(tempID);
             })
             .catch((error)=>{
@@ -87,7 +84,6 @@ const MyPageScreen = ({navigation, route}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/myInfo?userID=${tempID}`);
             fetchMyInfo(tempID);
         })
         .catch((error)=>{
@@ -136,9 +132,7 @@ const MyPageScreen = ({navigation, route}) => {
             AsyncStorage.removeItem('userID')
             .then(()=>{
                 //디바이스 토큰 삭제
-                
-                fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
-                .then((response)=>response.json())
+                removeDeviceToken(userID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === 'success'){
@@ -216,9 +210,7 @@ const MyPageScreen = ({navigation, route}) => {
 
         let isTransactionList = true;
 
-        console.log(`${url}/monthReportWithLast?userID=${userID}`);
-        fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
-        .then((response)=>response.json())
+        reportWithLast(userID)
         .then((responseJson)=>{
             console.log(responseJson);
             if(responseJson.length != 0){
@@ -288,9 +280,7 @@ const MyPageScreen = ({navigation, route}) => {
             }
         })
         .then(()=>{
-            console.log(`${url}/monthReportWithPlan?userID=${userID}`);
-            fetch(`${url}/monthReportWithPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
+            reportWithPlan(userID)
             .then((responseJson)=>{
                 console.log(responseJson);
                 if(responseJson.real.length != 0 && responseJson.plan.length != 0){

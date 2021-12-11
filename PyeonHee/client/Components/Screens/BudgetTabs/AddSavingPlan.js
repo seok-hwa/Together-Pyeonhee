@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Image, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import config from '../../../config';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-
-const url = config.url;
+import { saveSavingPlan } from '../../api';
 
 const SavingPlan = (props) => {
     const [userID, setUserId] = useState('');
@@ -63,22 +61,7 @@ const SavingPlan = (props) => {
         console.log(savingMoney);
         console.log(startDate);
         
-        fetch(`${url}/saveSavingPlan`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: userID,
-                savingName: savingName,
-                savingMoney: parseInt(savingMoney.split(",").join("")),
-                startDate: startDate,
-                endYear: parseInt(endYear),
-                endMonth: parseInt(endMonth),
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        saveSavingPlan(userID, savingName, parseInt(savingMoney.split(",").join("")), startDate, parseInt(endYear), parseInt(endMonth))
         .then((responseJson)=>{
           console.log(responseJson);
         //   if(responseJson.status === true){
