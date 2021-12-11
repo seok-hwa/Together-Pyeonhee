@@ -41,14 +41,14 @@ app.use('/calendar', calendarRouter);
 var budgetPlanRouter = require('./routes/budgetPlan')();
 app.use('/budget', budgetPlanRouter);
 
+//예산계획추천 및 좋아요&보관함
+var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
+app.use('/plan', recommendBudgetplanRouter);
+
 /*
 //상담사
 var consultRouter = require('./routes/consult')();
 app.use('/temporarily', consultRouter);
-
-//예산계획추천
-var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
-app.use('/temporarily', recommendBudgetplanRouter);
 
 //저축
 var savingPlanRouter = require('./routes/savingPlan')();
