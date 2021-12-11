@@ -6,13 +6,10 @@ import { LocaleConfig } from 'react-native-calendars';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CalendarDayComponent from './calendarComponent/CalendarDayComponent';
 import moment, { relativeTimeThreshold } from 'moment';
-
+import { calendarClick, calendarInfo } from '../../api';
 import TransactionList from './calendarComponent/TransactionList';
 
-import config from '../../../config';
 import { ThemeProvider } from 'styled-components';
-
-const url = config.url;
 
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -77,9 +74,7 @@ class CalendarScreen extends React.Component {
       isPressed: true,
      });
 
-    console.log(`야야 ${url}/calendar/click?userID=${this.state.userID}&today=${temp}`);
-    fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${temp}`)   //get 오늘 날짜도 보내주기
-    .then((response)=>response.json())
+    calendarClick(this.state.userID, temp)
     .then((responseJson)=>{
       console.log('오늘의 거래 내역');
       console.log(responseJson);
@@ -127,10 +122,7 @@ class CalendarScreen extends React.Component {
     })
     .then(()=>{
         console.log(this.state.userID);
-        console.log(`${url}/calendar?userID=${this.state.userID}`);
-
-        fetch(`${url}/calendar?userID=${this.state.userID}`)   //get
-        .then((response)=>response.json())
+        calendarInfo(this.state.userID)
         .then((responseJson)=>{
           console.log('캘린더 정보 받아오기!');
           console.log(responseJson);
@@ -140,8 +132,7 @@ class CalendarScreen extends React.Component {
         })
         .then(()=>{
           let dayChanged = moment().format('YYYYMMDD');
-          fetch(`${url}/calendar/click?userID=${this.state.userID}&today=${dayChanged}`)   //get 오늘 날짜도 보내주기
-          .then((response)=>response.json())
+          calendarClick(this.state.userID, dayChanged)
           .then((responseJson)=>{
                     console.log('오늘의 거래 내역');
                     console.log(responseJson);

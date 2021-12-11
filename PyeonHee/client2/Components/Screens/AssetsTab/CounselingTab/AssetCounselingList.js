@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
 import { SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
 import AssetConsultItem from './AssetConsultItem';
+import { counselingAssetManagement } from '../../../api';
 
-const url = config.url;
 const AssetCounseling = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [assetCounselingData, setAssetCounselingData] = useState([]);
@@ -56,9 +55,7 @@ const AssetCounseling = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/Counseling/AssetManagement`);
-            fetch(`${url}/Counseling/AssetManagement`)   //get
-            .then((response)=>response.json())
+            counselingAssetManagement()
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);
@@ -81,8 +78,7 @@ const AssetCounseling = ({navigation}) => {
 
     const loadCounselor = () => {
         setRefresh(true);
-        fetch(`${url}/Counseling/AssetManagement`)   //get
-        .then((response)=>response.json())
+        counselingAssetManagement()
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);

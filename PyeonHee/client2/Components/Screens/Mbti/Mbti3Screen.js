@@ -3,21 +3,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import MbtiNextButton from '../../Buttons/MbtiNextButton';
 import MbtiPrevButton from '../../Buttons/MbtiPrevButton';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
+import { Calculator1, Calculator2, Calculator3, Calculator4 } from './ScoreCalculator';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
-  Button,
   TouchableOpacity,
-  TextInput,
 } from 'react-native';
 const Mbti3Screen = ({navigation, route}) => {
-  const [userID, setUserID] = useState('');
 
   const [mbti1_1, setMbti1_1] = useState(false);
   const [mbti1_2, setMbti1_2] = useState(false);
@@ -315,48 +309,11 @@ const Mbti3Screen = ({navigation, route}) => {
     }
 
     let totalScore = 0;
+    totalScore+=Calculator1(mbti1_2, mbti1_3, mbti1_4, mbti1_5);
+    totalScore+=Calculator2(mbti2_1, mbti2_2, mbti2_3, mbti2_4);
+    totalScore+=Calculator3(mbti3_2, mbti3_3, mbti3_4, mbti3_5);
+    totalScore+=Calculator4(mbti4_1, mbti4_2, mbti4_3, mbti4_4);
 
-    if(mbti1_2 === true){
-      totalScore=totalScore+5;
-    }else if(mbti1_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti1_4 === true){
-      totalScore=totalScore+20;
-    }else if(mbti1_5 === true){
-      totalScore=totalScore+25;
-    }
-
-    if(mbti2_1 === true){
-      totalScore=totalScore+25;
-    }else if(mbti2_2 === true){
-      totalScore=totalScore+20;
-    }else if(mbti2_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti2_4 === true){
-      totalScore=totalScore+5;
-    }
-
-    if(mbti3_2 === true){
-      totalScore=totalScore+5;
-    }else if(mbti3_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti3_4 === true){
-      totalScore=totalScore+20;
-    }else if(mbti3_5 === true){
-      totalScore=totalScore+25;
-    }
-
-    if(mbti4_1 === true){
-      totalScore=totalScore+25;
-    }else if(mbti4_2 === true){
-      totalScore=totalScore+20;
-    }else if(mbti4_3 === true){
-      totalScore=totalScore+13;
-    }else if(mbti4_4 === true){
-      totalScore=totalScore+5;
-    }
-
-    
     console.log('총합');
     console.log(totalScore);
 
@@ -369,14 +326,6 @@ const Mbti3Screen = ({navigation, route}) => {
       mbti3Score: totalScore,
     });
   }
-  useEffect(()=>{
-    AsyncStorage.getItem('userID', (err, result) => {
-      const tempID = result;
-      if(tempID!= null){
-        setUserID(tempID);
-      }
-    });
-  })
   return (
     <Root>
     <View style={styles.appSize}>

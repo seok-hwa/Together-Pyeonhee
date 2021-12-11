@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import JoinRequestButton from '../Buttons/JoinRequestButton';
-import BackButton from '../Buttons/BackButton';
-import AsyncStorage from '@react-native-community/async-storage'
 import { Root, Popup } from 'react-native-popup-confirm-toast';
-import config from '../../config';
+import { join } from '../api';
 import {
     StyleSheet,
     Text,
     View,
     TextInput,
 } from 'react-native';
-const url=config.url;
 const JoinScreen = ({route, navigation }) => {
     const [userID, setUserId] = useState('');
     const [userPassword, setUserPassword] = useState('');
@@ -18,8 +15,6 @@ const JoinScreen = ({route, navigation }) => {
 
     const [userName, setUserName] = useState('');
     const [userPhone, setUserPhone] = useState('');
-    
-    console.log('회원가입 데이터', route.params);
 
     useEffect(()=>{
         setUserName(route.params.data.name);
@@ -95,21 +90,7 @@ const JoinScreen = ({route, navigation }) => {
             })
             return;
         }
-        fetch(`${url}/register/signUp`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: userID,
-            userName: userName,
-            userPhone: userPhone,
-            userPassword: userPassword,
-            userPasswordCheck: userPasswordCheck,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
+        join(userID, userName, userPhone, userPassword, userPasswordCheck)
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){

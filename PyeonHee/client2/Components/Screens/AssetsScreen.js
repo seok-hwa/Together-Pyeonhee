@@ -18,10 +18,7 @@ import SegmentedControlTab from 'react-native-segmented-control-tab';
 import AccountLink from './AssetsTab/accountLinkedScreen';
 import BankingProduct from './AssetsTab/bankingProduct';
 import Counseling from './AssetsTab/Counseling';
-import config from '../../config';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
-
-const url = config.url;
 
 const AssetsScreen = ({navigation}) => {
   const [userID, setUserID] = useState('');

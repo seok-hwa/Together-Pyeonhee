@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
-import config from '../../config';
+import {Popup} from 'react-native-popup-confirm-toast'
 import Icon from 'react-native-vector-icons/Ionicons';
+import { getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
 
 import {
     StyleSheet,
@@ -14,7 +14,7 @@ import {
     Modal, 
     DeviceEventEmitter,
 } from 'react-native';
-const url=config.url;
+
 const MyPageScreen = ({navigation, route}) => {
     //useState for test
     const [userID, setUserID] = useState('');
@@ -31,8 +31,27 @@ const MyPageScreen = ({navigation, route}) => {
 
     const [loading, setLoading] = useState(true);
 
-    //서버 구현 되면 사용
-    
+    const fetchMyInfo = (userID) => {
+        getMyInfo(userID)
+        .then((responseJson)=>{
+            console.log('마이페이지 response data');
+            console.log(responseJson);
+
+            setUserName(responseJson.userName);
+            setUserTier(responseJson.userTier);
+            setUserStamp(responseJson.userStamp);
+            setUserPoint(responseJson.userPoint);
+            setUserMbti(responseJson.userMbti);
+            setUserMbtiDescription(responseJson.description);
+        })
+        .then(()=>{
+            setLoading(true);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+
     useEffect(()=>{
         console.log('마이페이지 렌더링');
         let tempID;
@@ -48,27 +67,7 @@ const MyPageScreen = ({navigation, route}) => {
                 }
             )
             .then(()=>{
-                console.log(`${url}/myInfo?userID=${tempID}`);
-                fetch(`${url}/myInfo?userID=${tempID}`)   //get
-                .then((response)=>response.json())
-                .then((responseJson)=>{
-                    console.log('마이페이지 response data');
-                    console.log(responseJson);
-
-                    setUserName(responseJson.userName);
-                    setUserTier(responseJson.userTier);
-                    setUserStamp(responseJson.userStamp);
-                    setUserPoint(responseJson.userPoint);
-                    setUserMbti(responseJson.userMbti);
-                    setUserMbtiDescription(responseJson.description);
-
-                })
-                .then(()=>{
-                    setLoading(true);
-                })
-                .catch((error)=>{
-                    console.log(error);
-                })
+                fetchMyInfo(tempID);
             })
             .catch((error)=>{
                 console.log(error);
@@ -85,32 +84,13 @@ const MyPageScreen = ({navigation, route}) => {
         )
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/myInfo?userID=${tempID}`);
-            fetch(`${url}/myInfo?userID=${tempID}`)   //get
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log('마이페이지 response data');
-                console.log(responseJson);
-
-                setUserName(responseJson.userName);
-                setUserTier(responseJson.userTier);
-                setUserStamp(responseJson.userStamp);
-                setUserPoint(responseJson.userPoint);
-                setUserMbti(responseJson.userMbti);
-                setUserMbtiDescription(responseJson.description);
-
-            })
-            .then(()=>{
-                setLoading(true);
-            })
-            .catch((error)=>{
-                console.log(error);
-            })
+            fetchMyInfo(tempID);
         })
         .catch((error)=>{
             console.log(error);
         })
-    }, [route]) 
+    }, [route]);
+    
     function TierImage(){
         if(userTier === 'BRONZE'){
             return(
@@ -152,9 +132,7 @@ const MyPageScreen = ({navigation, route}) => {
             AsyncStorage.removeItem('userID')
             .then(()=>{
                 //디바이스 토큰 삭제
-                
-                fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
-                .then((response)=>response.json())
+                removeDeviceToken(userID)
                 .then((responseJson)=>{
                     console.log(responseJson);
                     if(responseJson.status === 'success'){
@@ -232,9 +210,7 @@ const MyPageScreen = ({navigation, route}) => {
 
         let isTransactionList = true;
 
-        console.log(`${url}/monthReportWithLast?userID=${userID}`);
-        fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
-        .then((response)=>response.json())
+        reportWithLast(userID)
         .then((responseJson)=>{
             console.log(responseJson);
             if(responseJson.length != 0){
@@ -304,9 +280,7 @@ const MyPageScreen = ({navigation, route}) => {
             }
         })
         .then(()=>{
-            console.log(`${url}/monthReportWithPlan?userID=${userID}`);
-            fetch(`${url}/monthReportWithPlan?userID=${userID}`)   //get
-            .then((response)=>response.json())
+            reportWithPlan(userID)
             .then((responseJson)=>{
                 console.log(responseJson);
                 if(responseJson.real.length != 0 && responseJson.plan.length != 0){
@@ -645,7 +619,10 @@ const MyPageScreen = ({navigation, route}) => {
                     <TouchableOpacity onPress={toMonthReport}>
                         <Text style={styles.assetBudgetBoard} >한달 리포트 보기</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>alert('한달리포트 보관함')}>
+                    <TouchableOpacity 
+                        // onPress={()=>alert('한달리포트 보관함')}
+                        onPress={() => navigation.navigate('MonthlyReportCabinet')}
+                    >
                         <Text style={styles.assetBudgetBoard} >한달 리포트 보관함</Text>
                     </TouchableOpacity>
                 </View>

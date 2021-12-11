@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
-import CheckBox from '@react-native-community/checkbox';
 import { SafeAreaView, StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 import QueryWriteButton from '../../Buttons/QueryWriteButton';
 import QueryItem from './QueryItem';
 import BackButton from '../../Buttons/BackButton';
+import { queryListApi } from '../../api';
 
-const url = config.url;
 const QueryList = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [queryList, setQueryList] = useState([]);
@@ -42,9 +40,7 @@ const QueryList = ({navigation}) => {
         
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/queryList?userID=${tempID}`);
-            fetch(`${url}/queryList?userID=${tempID}`)   //get
-            .then((response)=>response.json())
+            queryListApi(tempID)
             .then((responseJson)=>{
                 console.log('response data');
                 console.log(responseJson);

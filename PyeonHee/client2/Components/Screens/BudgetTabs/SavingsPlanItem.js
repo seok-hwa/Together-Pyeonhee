@@ -3,9 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Modal, 
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EditInputBudget from './EditInputBudget';
-import config from '../../../config';
+import { editSavingPlan, removeSavingPlan } from '../../api';
 
-const url = config.url;
 const SavingPlanItem = (props) => {
   let startYear = props.startSavingDate.substring(0, 4);
   let startMonth = props.startSavingDate.substring(5, 7);
@@ -46,7 +45,6 @@ const SavingPlanItem = (props) => {
   }
 
   const handleOKButton = () => {
-    console.log('/editSavingPlan');
 
     if(tempTitle.length === 0) {
       Alert.alert(' ','제목을 입력해주세요');
@@ -77,22 +75,7 @@ const SavingPlanItem = (props) => {
       return;
     }
 
-    fetch(`${url}/editSavingPlan`, {
-      method: 'POST',
-      body: JSON.stringify({
-        userID: props.userID,
-        savingID: props.savingID,
-        savingName: tempTitle,
-        savingMoney: parseInt(savingMoney.split(",").join("")),
-        endYear: parseInt(tempEndYear),
-        endMonth: parseInt(tempEndMonth),
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type':'application/json',
-      },
-    })
-    .then((response)=>response.json())
+    editSavingPlan(props.userID, props.savingID, tempTitle, parseInt(savingMoney.split(",").join("")), parseInt(tempEndYear), parseInt(tempEndMonth))
     .then((responseJson)=>{
       console.log(responseJson);
     })
@@ -113,19 +96,7 @@ const SavingPlanItem = (props) => {
   }
 
   const handleRemoveOKButton = () => {
-    console.log('/removeSavingPlan');
-    fetch(`${url}/removeSavingPlan`, {
-      method: 'POST',
-      body: JSON.stringify({
-        userID: props.userID,
-        savingID: props.savingID
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type':'application/json',
-      },
-    })
-    .then((response)=>response.json())
+    removeSavingPlan(props.userID, props.savingID)
     .then((responseJson)=>{
       console.log(responseJson);
     })
