@@ -6,116 +6,115 @@
  * @flow strict-local
  */
 
- import React, { useState, useEffect } from 'react';
- import { NavigationContainer } from '@react-navigation/native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
- import MainScreen from './Components/Screens/MainScreen';
- import LoginScreen from './Components/Screens/LoginScreen';
- import JoinScreen from './Components/Screens/JoinScreen';
- import SurveyScreen from './Components/Screens/Mbti/SurveyScreen';
- import Iamport from './IamportComponents/App';
- import IamportID from './IamportComponents/AppID';
- import IamportPassword from './IamportComponents/AppPassword';
- import AsyncStorage from '@react-native-community/async-storage';
- import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
- import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
- import BudgetScreen from './Components/Screens/BudgetScreen';
- import AccountLinkScreen from './Components/Screens/AssetsTab/Account/AccountLinkScreen';
- import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
- import SelectedAccountScreen from './Components/Screens/AssetsTab/Account/SelectedAccountScreen';
- import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
- import MonthReportCabinet from './Components/Screens/MonthReport/MonthReportCabinet';
- import PushNotification from 'react-native-push-notification';
- import ItemLink from './Components/Screens/AssetsTab/BankingProductTabs/ItemLink';
- import NoticeList from './Components/Screens/Notice/NoticeList';
- import ServiceCenter from './Components/Screens/ServiceCenter/QueryList';
- import NoticeBoard from './Components/Screens/Notice/NoticeBoard';
- import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
- import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
- import FindIDResult from './Components/Screens/Find/FindIDResult';
- import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
- import FinancialCounselorDetail from './Components/Screens/AssetsTab/CounselingTab/FinancialConsultDetail';
- import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MainScreen from './Components/Screens/MainScreen';
+import LoginScreen from './Components/Screens/LoginScreen';
+import JoinScreen from './Components/Screens/JoinScreen';
+import SurveyScreen from './Components/Screens/Mbti/SurveyScreen';
+import Iamport from './IamportComponents/App';
+import IamportID from './IamportComponents/AppID';
+import IamportPassword from './IamportComponents/AppPassword';
+import AsyncStorage from '@react-native-community/async-storage';
+import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
+import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
+import BudgetScreen from './Components/Screens/BudgetScreen';
+import AccountLinkScreen from './Components/Screens/AssetsTab/Account/AccountLinkScreen';
+import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
+import SelectedAccountScreen from './Components/Screens/AssetsTab/Account/SelectedAccountScreen';
+import MonthReportScreen from './Components/Screens/MonthReport/MonthReportScreen';
+import MonthReportCabinet from './Components/Screens/MonthReport/MonthReportCabinet';
+import PushNotification from 'react-native-push-notification';
+import ItemLink from './Components/Screens/AssetsTab/BankingProductTabs/ItemLink';
+import NoticeList from './Components/Screens/Notice/NoticeList';
+import ServiceCenter from './Components/Screens/ServiceCenter/QueryList';
+import NoticeBoard from './Components/Screens/Notice/NoticeBoard';
+import QueryBoard from './Components/Screens/ServiceCenter/QueryBoard';
+import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
+import FindIDResult from './Components/Screens/Find/FindIDResult';
+import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
+import FinancialCounselorDetail from './Components/Screens/AssetsTab/CounselingTab/FinancialConsultDetail';
+import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
+
+import messaging from '@react-native-firebase/messaging';
+
+import config from './config';
+import {getMbti} from './Components/api'
+import {
+  View,
+  StyleSheet,
+} from 'react-native';
  
- import messaging from '@react-native-firebase/messaging';
+const Stack = createNativeStackNavigator();
+
+function App(){         //navigation
+  const [userID, setUserID] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [hasMbti, setHasMbti] = useState(false);
  
- import config from './config';
+  const foregroundListener = () => {
+    //foreground 메시지 받기
+    messaging().onMessage(async message => {
+      console.log('Message handled in the foreground!', message);
+      PushNotification.createChannel(
+        {
+          channelId: "com.pyeonhee",
+          channelName: "com.pyeonhee",
+          channelDescription: "편히가계 푸쉬알림",
+          playSound: false,
+          soundName: "default",
+          vibrate: true,
+        },
+        (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+      );
+      console.log('푸쉬알림 이벤트');
+      PushNotification.localNotification({
+        channelId: "com.pyeonhee",
+        title: message.notification.title,
+        message: message.notification.body,
+        ignoreInForeground: false,
+      });
+    })
+  }
  
-  
- import {
-    View,
-    StyleSheet,
-  } from 'react-native';
- 
-  const Stack = createNativeStackNavigator();
-  const url = config.url; //로컬서버 접속 url
-  
-  function App(){         //navigation
-    const [userID, setUserID] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [hasMbti, setHasMbti] = useState(false);
- 
-   const foregroundListener = () => {
-     //foreground 메시지 받기
-     messaging().onMessage(async message => {
-       console.log('Message handled in the foreground!', message);
-       PushNotification.createChannel(
-         {
-           channelId: "com.pyeonhee",
-           channelName: "com.pyeonhee",
-           channelDescription: "편히가계 푸쉬알림",
-           playSound: false,
-           soundName: "default",
-           vibrate: true,
-         },
-         (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
-       );
-       console.log('푸쉬알림 이벤트');
-       PushNotification.localNotification({
-         channelId: "com.pyeonhee",
-         title: message.notification.title,
-         message: message.notification.body,
-         ignoreInForeground: false,
-       });
-     })
-   }
- 
-    useEffect(()=>{
-       foregroundListener();
-       let tempID='';
-       AsyncStorage.getItem("userID")
-       .then(
-           (value) => {
-               if (value !== null){
-                   tempID=value
-                   setUserID(tempID);
-               }
-           }
-       )
-       .then(()=>{
-         if(tempID != ''){
-           console.log(`${url}/getMbti?userID=${tempID}`);
-           fetch(`${url}/getMbti?userID=${tempID}`)   //get
-           .then((response)=>response.json())
-           .then((responseJson)=>{
-             if(responseJson.status === 'true'){
-               setHasMbti(true);
-             }else{
-               setHasMbti(false);
-             }
-           })
-           .then(()=>{
-             setLoading(true);
-           })
-         }else{
-           setLoading(true);
-         }
- 
-         //테스트
-         //setHasMbti(true);
-         //setLoading(true);
-       })
-    }, []);
+  const fetchMbti = (userID) => {
+    getMbti(userID)
+    .then((responseJson)=>{
+      if(responseJson.status === 'true'){
+        setHasMbti(true);
+      }else{
+        setHasMbti(false);
+      }
+    })
+    .then(()=>{
+      setLoading(true);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  };
+
+  useEffect(()=>{
+    foregroundListener();
+    let tempID='';
+    AsyncStorage.getItem("userID")
+    .then(
+        (value) => {
+            if (value !== null){
+                tempID=value
+                setUserID(tempID);
+            }
+        }
+    )
+    .then(()=>{
+      if(tempID != ''){
+        fetchMbti(tempID);
+      }else{
+        setLoading(true);
+      }
+    })
+  }, []);
     
     if(loading === false){
       return(

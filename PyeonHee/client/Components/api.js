@@ -11,3 +11,13 @@ export const getMyInfo = (userID) => {
         })
     })
 };
+
+export const getMbti = (userID) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/getMbti?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
