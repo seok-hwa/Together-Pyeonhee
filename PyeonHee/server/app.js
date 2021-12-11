@@ -2200,6 +2200,65 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+
+            //한달 리포트 불러오기 : 예산계획과 비교
+
+            app.post('/monthReport/Cabinet/WithPlan', function(req,res){
+                var userID = req.body.userID;
+                var month = req.body.month;
+                var year = req.body.year;
+
+
+                db.query(`SELECT * FROM BudgetPlanning WHERE user_id = ? and DATE_FORMAT(planning_date ,'%Y-%m') = ?-?`,[userID,year,month], function(error1, result1){
+                    if(error1) throw error1;
+                    else{
+                        db.query(`SELECT savings,realRent,realInsurance,realCommunication,realSubscribe,realTraffic,realHobby,realShopping,realEducation,realMedical,realEvent,realEct
+                        FROM Monthly_Report WHERE user_id =? and report_month = ?`,[userID, year+month],function(error2,result2){
+                            if(error2) throw error2;
+                            else{
+                                var planDinner = result1[0].user_income - result1[0].user_savings-result1[0].monthly_rent - result1[0].insurance_expense - result1[0].communication_expense - result1[0].subscribe_expense;
+                                planDinner = planDinner - result1[0].transportation_expense -result1[0].leisure_expense-result1[0].shopping_expense - result1[0].education_expense -result1[0].medical_expense -result1[0].event_expense-result1[0].etc_expense;
+
+                                var realDinner = result1[0].user_income - result2[0].user_savings-result2[0].monthly_rent - result2[0].insurance_expense - result2[0].communication_expense - result2[0].subscribe_expense;
+                                realDinner = realDinner - result2[0].transportation_expense -result2[0].leisure_expense-result2[0].shopping_expense - result2[0].education_expense -result2[0].medical_expense -result2[0].event_expense-result2[0].etc_expense;
+                                
+                                data = {
+                                    planSavings : result1[0].user_savings,
+                                    planRent : result1[0].monthly_rent,
+                                    planInsurance : result1[0].insurance_expense,
+                                    planCommunication : result1[0].communication_expense,
+                                    planSubscribe : result1[0].subscribe_expense,
+
+                                    planTraffic : result1[0].transportation_expense,
+                                    planHobby : result1[0].leisure_expense,
+                                    planShopping : result1[0].shopping_expense,
+                                    planEducation : result1[0].education_expense,
+                                    planMedical : result1[0].medical_expense,
+                                    planEvent : result1[0].event_expense,
+                                    planEct : result1[0].etc_expense,
+                                    planDinner : planDinner,
+
+                                    realSavings : result2[0].user_savings,
+                                    realRent : result2[0].monthly_rent,
+                                    realInsurance : result2[0].insurance_expense,
+                                    realCommunication : result2[0].communication_expense,
+                                    realSubscribe : result2[0].subscribe_expense,
+
+                                    realTraffic : result2[0].transportation_expense,
+                                    realHobby : result2[0].leisure_expense,
+                                    realShopping : result2[0].shopping_expense,
+                                    realEducation : result2[0].education_expense,
+                                    realMedical : result2[0].medical_expense,
+                                    realEvent : result2[0].event_expense,
+                                    realEct : result2[0].etc_expense,
+                                    realDinner : realDinner,
+                                }
+                            }
+                        })
+                    }
+                });
+            });
+
             // 금융상품 추천
             // 주식상품 추천
             app.get(`/allSavingList`, function(req, res){
