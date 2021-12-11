@@ -2189,7 +2189,17 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
-
+            //한달 리포트 보관함 목록 불러오기
+            app.post('/MonthReportCabinet', function(req,res){
+                var userID = req.body.userID;
+                db.query(`SELECT report_month, mbti, progress_days, income, savings FROM Monthly_Report WHERE user_id =?`,[userID], function(error, result){
+                    if(error) throw error;
+                    else{
+                        console.log(result);
+                        res.send(result);
+                    }
+                });
+            });
             // 금융상품 추천
             // 주식상품 추천
             app.get(`/allSavingList`, function(req, res){
@@ -2199,7 +2209,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                         if(result.length === 0) console.log("주식상품이 없습니다.");
                         else{
                             //console.log(result);
-                            res.send(result)
+                            res.send(result);
                         }
                     }
                 })
