@@ -20,35 +20,13 @@ const CabinetReportWithPlan = (props) => {
     let eventDif = props.event - props.planEvent;
     let ectDif = props.ect - props.planEct;
 
-    let planFixedSum = props.planRent + props.planInsurance + props.planCommunication + props.plantSubscribe;
+    let planFixedSum = props.planRent + props.planInsurance + props.planCommunication + props.planSubscribe;
     let fixedSum =  props.rent + props.insurance + props.communication + props.subscribe;
 
     let planPlannedSum = props.planDinner + props.planTraffic + props.planHobby + props.planShopping + 
-    props.planEducation + props.planMedical + props.planEvent + props.plantEct;
+    props.planEducation + props.planMedical + props.planEvent + props.planEct;
     let plannedSum = props.dinner + props.traffic + props.hobby + props.shopping + 
     props.education + props.medical + props.event + props.ect;
-
-    // let savingDif = 0;
-
-    // let rentDif = 1000;
-    // let insuranceDif = 30000;
-    // let communicationDif = 5000;
-    // let subscribeDif = 9;
-
-    // let dinnerDif = -200000;
-    // let trafficDif = -40000;
-    // let hobbyDif = -800;
-    // let shoppingDif = -800000;
-    // let educationDif = 0;
-    // let medicalDif = 0;
-    // let eventDif = 15000;
-    // let ectDif = 2400000;
-
-    // let planFixedSum = 10000000;
-    // let fixedSum = 13000000;
-
-    // let planPlannedSum = 10000000;
-    // let plannedSum = 13000000;
 
     let fixedDif = fixedSum - planFixedSum;
     let plannedDif = plannedSum - planPlannedSum;
@@ -68,10 +46,8 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>저금 총합</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.saving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.saving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { savingDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -96,17 +72,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>월세</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { rentDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { rentDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { rentDif === 0 && <Icon name={'remove-outline'} size={12}/> }
 
-                { rentDif != 0 && <Text style={styles.divText}> {Math.abs(rentDif)}</Text>}
+                { rentDif != 0 && <Text style={styles.divText}> {Math.abs(rentDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -115,17 +89,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>보험료</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { insuranceDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { insuranceDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { insuranceDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { insuranceDif != 0 && <Text style={styles.divText}> {Math.abs(insuranceDif)}</Text>}
+                { insuranceDif != 0 && <Text style={styles.divText}> {Math.abs(insuranceDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -134,17 +106,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>통신비</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { communicationDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { communicationDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { communicationDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { communicationDif != 0 && <Text style={styles.divText}> {Math.abs(communicationDif)}</Text>}
+                { communicationDif != 0 && <Text style={styles.divText}> {Math.abs(communicationDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -153,17 +123,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>구독료</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { subscribeDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { subscribeDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { subscribeDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { subscribeDif != 0 && <Text style={styles.divText}> {Math.abs(subscribeDif)}</Text>}
+                { subscribeDif != 0 && <Text style={styles.divText}> {Math.abs(subscribeDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.sumContainer}>
                 <View style={styles.categoryDiv}>
@@ -175,8 +143,6 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{planFixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                     <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{fixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                    {/* <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View>
-                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View> */}
                 </View>
                 <View style={styles.difDiv}>
                     { fixedDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -203,17 +169,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>식비</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.dinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.dinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { dinnerDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { dinnerDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { dinnerDif === 0 && <Icon name={'remove-outline'} size={12}/> }
 
-                { dinnerDif != 0 && <Text style={styles.divText}> {Math.abs(dinnerDif)}</Text>}
+                { dinnerDif != 0 && <Text style={styles.divText}> {Math.abs(dinnerDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -222,17 +186,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>교통비</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { trafficDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { trafficDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { trafficDif === 0 && <Icon name={'remove-outline'} size={12}/> }
 
-                { trafficDif != 0 && <Text style={styles.divText}> {Math.abs(trafficDif)}</Text>}
+                { trafficDif != 0 && <Text style={styles.divText}> {Math.abs(trafficDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
 
             <View style={styles.categoryDiv}>
@@ -242,17 +204,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>문화/취미/여행</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { hobbyDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { hobbyDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { hobbyDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { hobbyDif != 0 && <Text style={styles.divText}> {Math.abs(hobbyDif)}</Text>}
+                { hobbyDif != 0 && <Text style={styles.divText}> {Math.abs(hobbyDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -261,36 +221,32 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>뷰티/미용/쇼핑</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { shoppingDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { shoppingDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { shoppingDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { shoppingDif != 0 && <Text style={styles.divText}> {Math.abs(shoppingDif)}</Text>}
+                { shoppingDif != 0 && <Text style={styles.divText}> {Math.abs(shoppingDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
-            <View style={styles.categoryDiv}>
+           <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
                     <View style={styles.logoContainer}>
                         <Image source={require('../assets/category/education.png')} style={{width: 15, height: 15, tintColor: '#8EB3EE'}}/>
                     </View>
                     <Text>교육</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { educationDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { educationDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { educationDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { educationDif != 0 && <Text style={styles.divText}> {Math.abs(educationDif)}</Text>}
+                { educationDif != 0 && <Text style={styles.divText}> {Math.abs(educationDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -299,17 +255,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>의료비</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.planMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { medicalDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { medicalDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { medicalDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { medicalDif != 0 && <Text style={styles.divText}> {Math.abs(medicalDif)}</Text>}
+                { medicalDif != 0 && <Text style={styles.divText}> {Math.abs(medicalDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -318,17 +272,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>경조사/선물</Text>
                 </View>
-                <View style={styles.moneyDiv}>{props.planEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</View>
-                <View style={styles.moneyDiv}>{props.event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { eventDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { eventDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { eventDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { eventDif != 0 && <Text style={styles.divText}> {Math.abs(eventDif)}</Text>}
+                { eventDif != 0 && <Text style={styles.divText}> {Math.abs(eventDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
 
             <View style={styles.categoryDiv}>
@@ -338,17 +290,15 @@ const CabinetReportWithPlan = (props) => {
                     </View>
                     <Text>기타</Text>
                 </View>
-                <View style={styles.moneyDiv}>{props.planEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</View>
-                <View style={styles.moneyDiv}>{props.ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.planEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { ectDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { ectDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
                 { ectDif === 0 && <Icon name={'remove-outline'} size={12}/> }
                 
-                { ectDif != 0 && <Text style={styles.divText}> {Math.abs(ectDif)}</Text>}
+                { ectDif != 0 && <Text style={styles.divText}> {Math.abs(ectDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
 
             <View style={styles.sumContainer}>
@@ -359,10 +309,8 @@ const CabinetReportWithPlan = (props) => {
                         </View>
                         <Text style={{color: '#203864'}}>총합</Text>
                     </View>
-                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{planFixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{fixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                    {/* <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View>
-                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View> */}
+                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{planPlannedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{plannedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 </View>
                 <View style={styles.difDiv}>
                     { plannedDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -372,7 +320,6 @@ const CabinetReportWithPlan = (props) => {
                     { plannedDif != 0 && <Text style={[styles.sumMoneyText, {fontWeight: 'bold'}]}> {Math.abs(plannedDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
                 </View>
             </View>
-
         </ScrollView>
     );
 }
