@@ -1,11 +1,5 @@
 //관리자 웹페이지
-module.exports = function () {
-    /*
-    const admin = require('firebase-admin');
-    let serviceAccount = require('../pyeonhee-AccountKey.json');
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-    });*/
+module.exports = function (admin) {
     var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
@@ -13,7 +7,7 @@ module.exports = function () {
 
     /* 관리자 웹페이지 */
     //관리자 로그인
-    router.post('/Login', function (req, res) {
+    router.post('/login', function (req, res) {
         console.log(req.body);
         var adminID = req.body.userID;
         var adminPassword = req.body.userPassword;
@@ -69,6 +63,7 @@ module.exports = function () {
                         });
                     }
                 });
+                
                 //관리자 공지사항 등록 시, 사용자에게 푸시알림
                 db.query(`SELECT * FROM user WHERE deviceToken IS NOT NULL`, function (error, result) {
                     if (error) throw error;

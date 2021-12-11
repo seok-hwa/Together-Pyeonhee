@@ -1,12 +1,6 @@
 //node-schedule
-module.exports = function () {
+module.exports = function (admin) {
     const schedule = require('node-schedule');
-    /*
-    const admin = require('firebase-admin');
-    let serviceAccount = require('../pyeonhee-AccountKey.json');
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-    });*/
     var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
