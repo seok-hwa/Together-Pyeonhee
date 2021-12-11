@@ -68,8 +68,8 @@ const CabinetReportWithLast = (props) => {
                     </View>
                     <Text>저금 총합</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{props.lastSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.saving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{(props.lastSaving+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{(props.saving+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 {/* <View style={styles.moneyDiv}><Text>1,000,000원</Text></View>
                 <View style={styles.moneyDiv}><Text>1,000,000원</Text></View> */}
             </View>
