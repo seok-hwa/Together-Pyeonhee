@@ -31,7 +31,7 @@ function NotificationWrite(props) {
     
     axios({
         method:"POST",
-        url: `/notificationWrite`,
+        url: `/admin/notificationWrite`,
         data:{
           boardTitle: boardTitle,
           boardContent: boardContent,

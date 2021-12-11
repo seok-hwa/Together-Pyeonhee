@@ -18,7 +18,7 @@ function SavingBoard({match}) {
   const deleteBoard =()=>{
     axios({
         method:"POST",
-        url: `/savingDelete`,
+        url: `/admin/savingDelete`,
         data:{
             boardID: match.params.boardID,
         }
@@ -38,7 +38,7 @@ function SavingBoard({match}) {
   useEffect(() => {
     axios({
       method:"POST",
-      url: `/savingBoardInfo`,
+      url: `/admin/savingBoardInfo`,
       data:{
           boardID: match.params.boardID,
       }

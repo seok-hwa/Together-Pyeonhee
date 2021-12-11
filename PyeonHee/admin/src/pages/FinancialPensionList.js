@@ -44,7 +44,7 @@ function FinancialPensionList(props) {
   useEffect(() => {
     axios({
       method:"GET",
-      url: '/financialPensionListTotalPage',
+      url: '/admin/financialPensionListTotalPage',
     })
     .then((res)=>{
       console.log(res.data);
@@ -79,7 +79,7 @@ function FinancialPensionList(props) {
     .then(()=>{
       axios({
         method:"POST",
-        url: `/adminGetFinancialPensionList`,
+        url: `/admin/getFinancialPensionList`,
         data:{
             pageNumber: props.match.params.pageNumber,
         }
