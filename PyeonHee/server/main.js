@@ -9,7 +9,7 @@ var app = express();
 app.use(express.json());
 
 //schedule
-var scheduleRouter = require('./routes/schedule')();
+var scheduleRouter = require('./routes/schedule')(admin);
 app.use('/', scheduleRouter);
 
 //회원가입 및 설문조사

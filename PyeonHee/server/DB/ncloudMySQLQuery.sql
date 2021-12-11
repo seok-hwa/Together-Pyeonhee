@@ -288,7 +288,7 @@ create table pyeonhee.OpenCount (
     open_check int default 1,
 
     primary key (user_id, planning_number),
-    foreign key (user_id) references user (user_id) on delete cascade,
+    foreign key (user_id) references pyeonhee.user (user_id) on delete cascade,
     foreign key (planning_number) references pyeonhee.BudgetPlanning (planning_number) on delete cascade
 );
 
@@ -315,7 +315,7 @@ create table pyeonhee.AssetCounselor (
 ALTER TABLE pyeonhee.AssetCounselor MODIFY counselor_id int not null auto_increment;
 ALTER TABLE pyeonhee.AssetCounselor auto_increment =20000;
 
-CREATE TABLE Monthly_Report (
+CREATE TABLE pyeonhee.Monthly_Report (
 	user_id varchar(10) not null,
 	report_month varchar(11) not null,
 	mbti varchar(4),
@@ -337,5 +337,5 @@ CREATE TABLE Monthly_Report (
 	realEct int default 0,
 
 	primary key (user_id, report_month),
-	foreign key (user_id) references user (user_id) on delete cascade
+	foreign key (user_id) references pyeonhee.user (user_id) on delete cascade
 	);
