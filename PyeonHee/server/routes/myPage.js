@@ -1,6 +1,6 @@
 //마이페이지 (로그아웃 포함)
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
@@ -52,8 +52,6 @@ module.exports = function () {
                 res.send(data);
             });
     });
-
-
 
     return router;
 }
