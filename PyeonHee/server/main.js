@@ -45,18 +45,18 @@ app.use('/budget', budgetPlanRouter);
 var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
 app.use('/plan', recommendBudgetplanRouter);
 
+//저축
+var savingPlanRouter = require('./routes/savingPlan')();
+app.use('/SavingPlan', savingPlanRouter);
+
+//한달리포트 & mbti재설정
+var reportRouter = require('./routes/report')();
+app.use('/monthReport', reportRouter);
+
 /*
 //상담사
 var consultRouter = require('./routes/consult')();
 app.use('/temporarily', consultRouter);
-
-//저축
-var savingPlanRouter = require('./routes/savingPlan')();
-app.use('/temporarily', savingPlanRouter);
-
-//리포트
-var reportRouter = require('./routes/report')();
-app.use('/temporarily', reportRouter);
 
 //금융상품
 var finalcialItemRouter = require('./routes/finalcialItem')();

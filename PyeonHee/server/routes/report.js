@@ -1,12 +1,12 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
 
     // 계획한 내역과 실제 사용 내역 제공
-    router.get(`/monthReportWithplan`, function (req, res) {
+    router.get(`/Withplan`, function (req, res) {
         var userID = req.query.userID;
         var live_expense = 0;
         db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
@@ -64,7 +64,7 @@ module.exports = function () {
     });
 
     // 지난달과 이번달 사용 내역 제공
-    router.get(`/monthReportWithLast`, function (req, res) {
+    router.get(`/WithLast`, function (req, res) {
         var userID = req.query.userID;
         db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense 
                 WHERE user_id = ? AND inout_type = '출금' AND MONTH(now())-1 = SUBSTR(tran_date, 5,2) GROUP BY tran_type`, [userID], function (error1, real_spend) {
@@ -109,7 +109,7 @@ module.exports = function () {
     });
 
     // 한달리포트로 MBTI 제시
-    router.get(`/monthReportMbti`, function (req, res) {
+    router.get(`/Mbti`, function (req, res) {
         var userID = req.query.userID;
         var userMbti = '';
         var description = '';
@@ -250,7 +250,6 @@ module.exports = function () {
                 }
             }
         })
-
     });
 
     // 한달리포트 MBTI 설정
