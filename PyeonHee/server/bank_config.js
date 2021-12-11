@@ -4,5 +4,4 @@ const bank_config = {
     redirect_uri: '',
     client_use_code: '',
 };
-
 module.exports = bank_config;
