@@ -368,7 +368,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                            <Image source={require('../assets/category/health-insurance.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                <Image source={require('../assets/category/health-insurance.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                             </View>
                             <Text>보험료</Text>
                         </View>
@@ -387,7 +387,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                     <View style={styles.category}>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <View style={styles.logoContainer}>
-                            <Image source={require('../assets/category/subscribe.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
+                                <Image source={require('../assets/category/subscribe.png')} style={{width: 18, height: 18, tintColor: '#8EB3EE'}}/>
                             </View>
                             <Text>구독료</Text>
                         </View>

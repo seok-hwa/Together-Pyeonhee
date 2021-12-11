@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 
 import CabinetReportWithLast from './CabinetReportWithLast';
+import CabinetReportWithPlan from './CabinetReportWithPlan';
 
 import config from '../../../config';
 
@@ -62,127 +63,128 @@ const MonthReportItem = (props) => {
 
     const [lastDinner, setLastDinner] = useState(0);    //계획 식비
     const [lastSaving, setLastSaving] = useState(0);    //계획 저금금액
-    
+
     const handleSingleIndexSelect = (index) => {
         setSelectedIndex(index);
     };
+    
+    const date = new Date(props.year, props.month, 0).getDate();
+    const progressPercentage = parseInt(props.daily_count)/date*100;
 
     const handlePress = () => {
-        // fetch(`${url}/monthReport/Cabinet/WithPlan`, {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //       userID: props.userID,
-        //       month: props.month,
-        //     //   year: props.year,
-        //     }),
-        //     headers: {
-        //       'Accept': 'application/json',
-        //       'Content-Type':'application/json',
-        //     },
-        // })
-        // .then((response)=>response.json())
-        // .then((responseJson)=>{
-        //     console.log(responseJson);
+        fetch(`${url}/monthReport/Cabinet/WithPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: props.userID,
+              month: props.month,
+              year: props.year,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log(responseJson);
 
-        //     if(responseJson.real.length != 0 && responseJson.plan.length != 0){
-        //         responseJson.real.map(item  => {
-        //             if(item.tran_type === '월세'){
-        //                 setRealRent(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '보험'){
-        //                 setRealInsurance(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '통신'){
-        //                 setRealCommunication(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '구독'){
-        //                 setRealSubscribe(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '교통'){
-        //                 setRealTraffic(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '여가'){
-        //                 setRealHobby(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '쇼핑'){
-        //                 setRealShopping(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '교육'){
-        //                 setRealEducation(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '의료'){
-        //                 setRealMedical(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '선물'){
-        //                 setRealEvent(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '식비'){
-        //                 setRealDinner(parseInt(item.daily_amount));
-        //             }else if(item.tran_type === '저금'){
-        //                 setRealSaving(parseInt(item.daily_amount));
-        //             }else{
-        //                 setRealEct(parseInt(item.daily_amount));
-        //             }
-        //         })
+            if(responseJson.real.length != 0 && responseJson.plan.length != 0){
+                responseJson.real.map(item  => {
+                    if(item.tran_type === '월세'){
+                        setRealRent(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '보험'){
+                        setRealInsurance(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '통신'){
+                        setRealCommunication(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '구독'){
+                        setRealSubscribe(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '교통'){
+                        setRealTraffic(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '여가'){
+                        setRealHobby(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '쇼핑'){
+                        setRealShopping(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '교육'){
+                        setRealEducation(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '의료'){
+                        setRealMedical(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '선물'){
+                        setRealEvent(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '식비'){
+                        setRealDinner(parseInt(item.daily_amount));
+                    }else if(item.tran_type === '저금'){
+                        setRealSaving(parseInt(item.daily_amount));
+                    }else{
+                        setRealEct(parseInt(item.daily_amount));
+                    }
+                })
 
-        //         if(responseJson.plan.length !=0){
-        //             setPlanRent(responseJson.plan.monthly_rent);
-        //             setPlanInsurance(responseJson.plan.insurance_expense);
-        //             setPlanCommunication(responseJson.plan.communication_expense);
-        //             setPlanSubscribe(responseJson.plan.subscribe_expense);
+                if(responseJson.plan.length !=0){
+                    setPlanRent(responseJson.plan.monthly_rent);
+                    setPlanInsurance(responseJson.plan.insurance_expense);
+                    setPlanCommunication(responseJson.plan.communication_expense);
+                    setPlanSubscribe(responseJson.plan.subscribe_expense);
 
-        //             setPlanTraffic(responseJson.plan.transportation_expense);
-        //             setPlanHobby(responseJson.plan.leisure_expense);
-        //             setPlanShopping(responseJson.plan.shopping_expense);
-        //             setPlanEducation(responseJson.plan.education_expense);
-        //             setPlanMedical(responseJson.plan.medical_expense);
-        //             setPlanEvent(responseJson.plan.event_expense);
-        //             setPlanEct(responseJson.plan.etc_expense);
-        //             setPlanDinner(responseJson.live_expense);
-        //             setPlanSaving(responseJson.plan.user_savings);
+                    setPlanTraffic(responseJson.plan.transportation_expense);
+                    setPlanHobby(responseJson.plan.leisure_expense);
+                    setPlanShopping(responseJson.plan.shopping_expense);
+                    setPlanEducation(responseJson.plan.education_expense);
+                    setPlanMedical(responseJson.plan.medical_expense);
+                    setPlanEvent(responseJson.plan.event_expense);
+                    setPlanEct(responseJson.plan.etc_expense);
+                    setPlanDinner(responseJson.live_expense);
+                    setPlanSaving(responseJson.plan.user_savings);
 
-        //             // daily_count=responseJson.plan.last_count;
-        //         }
-        //     }
-        // })
-        // .then(()=> {
-        //     let prevMonth = props.month - 1;
-        //     // let prevYear = props.year;
-        //     if(prevMonth === 0) {
-        //         prevMonth = 12;
-        //         // prevYear = prevYear - 1;
-        //     }
-        //     fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
-        //         method: 'POST',
-        //         body: JSON.stringify({
-        //           userID: props.userID,
-        //           month: prevMonth,
-        //         //   year: prevYear,
-        //         }),
-        //         headers: {
-        //           'Accept': 'application/json',
-        //           'Content-Type':'application/json',
-        //         },
-        //     })
-        //     .then((response)=>response.json())
-        //     .then((responseJson)=>{
-        //         console.log(responseJson);
+                }
+            }
+        })
+        .then(()=> {
+            let prevMonth = props.month - 1;
+            // let prevYear = props.year;
+            if(prevMonth === 0) {
+                prevMonth = 12;
+                // prevYear = prevYear - 1;
+            }
+            fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: props.userID,
+                  month: prevMonth,
+                  year: prevYear,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
 
-        //         if(responseJson.length !=0){
-        //             setLastRent(responseJson.monthly_rent);
-        //             setLastInsurance(responseJson.insurance_expense);
-        //             setLastCommunication(responseJson.communication_expense);
-        //             setLastSubscribe(responseJson.subscribe_expense);
+                if(responseJson.length !=0){
+                    setLastRent(responseJson.monthly_rent);
+                    setLastInsurance(responseJson.insurance_expense);
+                    setLastCommunication(responseJson.communication_expense);
+                    setLastSubscribe(responseJson.subscribe_expense);
 
-        //             setLastTraffic(responseJson.transportation_expense);
-        //             setLastHobby(responseJson.leisure_expense);
-        //             setLastShopping(responseJson.shopping_expense);
-        //             setLastEducation(responseJson.education_expense);
-        //             setLastMedical(responseJson.medical_expense);
-        //             setLastEvent(responseJson.event_expense);
-        //             setLastEct(responseJson.etc_expense);
+                    setLastTraffic(responseJson.transportation_expense);
+                    setLastHobby(responseJson.leisure_expense);
+                    setLastShopping(responseJson.shopping_expense);
+                    setLastEducation(responseJson.education_expense);
+                    setLastMedical(responseJson.medical_expense);
+                    setLastEvent(responseJson.event_expense);
+                    setLastEct(responseJson.etc_expense);
 
-        //             setLastDinner(responseJson.live_expense);
-        //             setLastSaving(responseJson.user_savings);
+                    setLastDinner(responseJson.live_expense);
+                    setLastSaving(responseJson.user_savings);
 
-        //             // daily_count=responseJson.plan.last_count;
-        //         }
-        //     })
+                }
+            })
 
-        // })
-        // .catch((e)=>{
-        //     console.error(e);
-        // })
+        })
+        .catch((e)=>{
+            console.error(e);
+        })
 
 
 
@@ -212,34 +214,47 @@ const MonthReportItem = (props) => {
                 </View>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-
-                    <View style={styles.tapContainer}>
-                        <SegmentedControlTab
-                            values={['지난달 소비 내역과 비교', '예산 계획서와 비교']}
-                            selectedIndex={selectedIndex}
-                            onTabPress={handleSingleIndexSelect}
-                            tabStyle={styles.tabStyle}
-                            tabTextStyle={{color: '#595959', }}
-                            activeTabStyle={styles.activeTabStyle}
-                            borderRadius={20}
-                        />
-                    </View>
-                    {/* <View style={styles.contentContainer}> */}
-
-                    
+                        
+                        <View style={styles.tapContainer}>
+                            <SegmentedControlTab
+                                values={['지난달 소비 내역과 비교', '예산 계획서와 비교']}
+                                selectedIndex={selectedIndex}
+                                onTabPress={handleSingleIndexSelect}
+                                tabStyle={styles.tabStyle}
+                                tabTextStyle={{color: '#595959', }}
+                                activeTabStyle={styles.activeTabStyle}
+                                borderRadius={20}
+                            />
+                        </View>
+                        <View style={styles.topDiv}>
+                            <View style={styles.mbtiDiv}>
+                                <View style={styles.mbtiInnerContainer}>
+                                    <Text style={styles.mbtiText}>{props.userMbti}</Text>
+                                </View>
+                            </View>
+                            <Text style={styles.topInfoText}>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
+                            <Text style={styles.topInfoText}>이행률: {Math.floor(progressPercentage)}%</Text>
+                        </View>
 
                         {selectedIndex === 0 && 
-                            // <CabinetReportWithLast month={props.month} prevMonth={props.month - 1} />
-                            <Text>지난달과 비교할게요.</Text>
-                            // <ReportWithLastScreen navigation={navigation} route={route} 
-                            // month={month} preMonth={preMonth} withLast={route.params.withLast}/>
+                            <CabinetReportWithLast month={props.month} prevMonth={(props.month - 1)} lastSaving={lastSaving} lastRent={lastRent}
+                                lastInsurance={lastInsurance}  lastCommunication={lastCommunication} lastSubscribe={lastSubscribe} lastDinner={lastDinner}
+                                lastTraffic={lastTraffic} lastHobby={lastHobby} lastShopping={lastShopping} lastEducation={lastEducation} lastMedical={lastMedical}
+                                lastEvent={lastEvent} lastEct={lastEct}
+                                rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
+                                hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct}
+                            />
+                            // <CabinetReportWithLast  month={props.month} prevMonth={(props.month - 1)}/>
                         }
                         {selectedIndex === 1 && 
-                            <Text>계획과 비교할게요.</Text>
-                            // <ReportWithPlanScreen navigation={navigation} route={route} 
-                            // month={month} withPlan={route.params.withPlan} daily_count={route.params.daily_count} date={date}/>
+                            <CabinetReportWithPlan planSaving={planSaving} planRent={planRent} planInsurance={planInsurance}  planCommunication={planCommunication} 
+                                planSubscribe={planSubscribe} planDinner={planDinner} planTraffic={planTraffic} planHobby={planHobby} planShopping={planShopping} 
+                                planEducation={planEducation} planMedical={planMedical} planEvent={planEvent} planEct={planEct}
+                                rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
+                                hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct}
+                            />
+                            // <CabinetReportWithPlan />
                         }
-                    {/* </View> */}
                     </View>
                 </View>
 
@@ -247,15 +262,10 @@ const MonthReportItem = (props) => {
 
             <TouchableOpacity
                 style={styles.container}
-                // onPress={props.navigation.navigate('monthReportDetail', {monthReportID: props.monthReportID})}
-                // onPress={() => console.log(props.monthReportID)}
                 onPress={handlePress}
             >
                 <View style={styles.itemContainer}>
                     <View style={styles.monthDiv}>
-                        {/* <View style={styles.logoContainer}>
-                            <Image source={require('../assets/budget.png')} style={styles.iconDiv}/>
-                        </View> */}
                         <View style={{flexDirection: 'row', alignItems: 'flex-end', marginLeft: 10,}}>
                             <Text style={styles.monthText}>{props.month}</Text>
                             <Text style={{fontSize: 12}}>월</Text>
@@ -275,7 +285,8 @@ const MonthReportItem = (props) => {
                     </View>
 
                     <View style={styles.percentageDiv}>
-                        <Text>{props.rate}%</Text>
+                        <Text style={{fontSize: 10,}}>이행률</Text>
+                        <Text>{Math.floor(progressPercentage)}%</Text>
                     </View>
 
                     <View>
@@ -313,6 +324,14 @@ const styles = StyleSheet.create({
       margin: 5,
       paddingHorizontal: 10,
       borderRadius: 7,
+    },
+    topDiv: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTopWidth: 5,
+        borderTopColor: '#F0F4FA',          
+        padding: 10,
     },
     itemContainer: {
       flexDirection: 'row',
@@ -377,7 +396,8 @@ const styles = StyleSheet.create({
     modalView: {
         flex: 1,
         margin: 5,
-        backgroundColor: '#F0F4FA',
+        // backgroundColor: '#F0F4FA',
+        backgroundColor: 'white',
         borderRadius: 5,
         paddingHorizontal: 5,
     },
@@ -407,6 +427,12 @@ const styles = StyleSheet.create({
         height: 20,
         tintColor: 'white'
     },
+    topInfoText: {
+        fontSize: 15, 
+        fontWeight: 'bold', 
+        color: '#203864',
+        marginLeft: 20,
+    }
 });
 
 export default MonthReportItem;
