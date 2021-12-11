@@ -2261,6 +2261,64 @@ const SSHConnection = new Promise((resolve, reject) => {
                     }
                 });
             });
+            
+            //한달 리포트 불러오기 : 지난 달과 비교
+            app.post('/monthReport/Cabinet/WithLastMonth', function(req,res){
+                var userID = req.body.userID;
+                var month = req.body.month + 1;
+                var prevMonth = req.body.month;
+                var year = req.body.year;
+
+                var YYMM = year + month;
+                var prevYYMM = year + prevMonth;
+
+
+                db.query(`SELECT * FROM Monthly_Report WHERE user_id = ? and report_month = ?`,[userID,YYMM], function(error1, result1){
+                    if(error1) throw error1;
+                    else{
+                        console.log("지난달과 데이터 비교");
+                        db.query(`SELECT * FROM Monthly_Report WHERE user_id =? and report_month = ?`,[userID, prevYYMM],function(error2, result2){
+                            if(error2) throw error2;
+                            else{
+                                data = {
+                                    realSavings : result1[0].savings,
+                                    realRent : result1[0].realRent,
+                                    realInsurance : result1[0].realInsurance,
+                                    realCommunication : result1[0].realCommunication,
+                                    realSubscribe : result1[0].realSubscribe,
+
+                                    realTraffic : result1[0].realTraffic,
+                                    realHobby : result1[0].realHobby,
+                                    realShopping : result1[0].realShopping,
+                                    realEducation : result1[0].realEducation,
+                                    realMedical : result1[0].realMedical,
+                                    realEvent : result1[0].realEvent,
+                                    realEct : result1[0].realEct,
+                                    realDinner : result1[0].realDinner,
+
+                                    prevSavings : result2[0].savings,
+                                    prevRent : result2[0].realRent,
+                                    prevInsurance : result2[0].realInsurance,
+                                    prevCommunication : result2[0].realCommunication,
+                                    prevSubscribe : result2[0].realSubscribe,
+
+                                    prevTraffic : result2[0].realTraffic,
+                                    prevHobby : result2[0].realHobby,
+                                    prevShopping : result2[0].realShopping,
+                                    prevEducation : result2[0].realEducation,
+                                    prevMedical : result2[0].realMedical,
+                                    prevEvent : result2[0].realEvent,
+                                    prevEct : result2[0].realEct,
+                                    prevDinner : result2[0].realDinner,
+                                }
+
+                                console.log(data);
+                                res.send(data);
+                            }
+                        })
+                    }
+                });
+            });
 
             // 금융상품 추천
             // 주식상품 추천
