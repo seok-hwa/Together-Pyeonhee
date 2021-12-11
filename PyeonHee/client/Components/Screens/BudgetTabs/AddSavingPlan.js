@@ -61,7 +61,7 @@ const SavingPlan = (props) => {
         console.log(savingMoney);
         console.log(startDate);
         
-        saveSavingPlan(userID, savingName, parseInt(savingMoney.split(",").join("")), startDate, endYear, endMonth)
+        saveSavingPlan(userID, savingName, parseInt(savingMoney.split(",").join("")), startDate, parseInt(endYear), parseInt(endMonth))
         .then((responseJson)=>{
           console.log(responseJson);
         //   if(responseJson.status === true){
