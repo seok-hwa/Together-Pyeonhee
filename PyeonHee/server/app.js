@@ -2253,6 +2253,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     realEct : result2[0].etc_expense,
                                     realDinner : realDinner,
                                 }
+
+                                console.log(data);
+                                res.send(data);
                             }
                         })
                     }
