@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
 import TransactionItem from '../../TransactionItem';
-import config from '../../../../config';
+import { totalTranList } from '../../../api';
 
-const url = config.url;
 const TotalTransactionScreen = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [tranList, setTranList] = useState([]);
@@ -20,18 +19,7 @@ const TotalTransactionScreen = ({navigation}) => {
             }
         })
         .then(()=>{
-            console.log(`${url}/tranList`);
-            fetch(`${url}/tranList`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    userID: tempID,
-                }),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
+            totalTranList(tempID)
             .then((responseJson)=>{
                 console.log('거래 내역');
                 console.log(responseJson);

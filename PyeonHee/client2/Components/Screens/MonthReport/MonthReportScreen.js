@@ -19,13 +19,11 @@ import {
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import ReportWithLastScreen from './ReportWithLastScreen';
 import ReportWithPlanScreen from './ReportWithPlanScreen';
-import config from '../../../config';
 import MbtiSelectButton from '../../Buttons/MbtiSelectButton';
 import MbtiDecideButton from '../../Buttons/MbtiDecideButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BackButton from '../../Buttons/BackButton';
-
-const url = config.url;
+import { monthReportMbti, updateMbti } from '../../api';
 
 const MonthReportScreen = ({navigation, route}) => {
   const [userID, setUserID] = useState('');
@@ -54,8 +52,7 @@ const MonthReportScreen = ({navigation, route}) => {
     })
 
     .then(()=>{
-      fetch(`${url}/monthReportMbti?userID=${tempID}`)   //get
-      .then((response)=>response.json())
+      monthReportMbti(tempID)
       .then((responseJson)=>{
         console.log('응답: ',responseJson);
         if(responseJson.length != ''){
@@ -81,18 +78,7 @@ const MonthReportScreen = ({navigation, route}) => {
     if(route.params.userCurrentMbti === userMbti){
       alert('이미 해당 mbti로 설정되어있습니다.');
     }else{
-      fetch(`${url}/updateMbti`, {
-        method: 'POST',
-        body: JSON.stringify({
-          userID: userID,
-          userMbti: userMbti,
-        }),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type':'application/json',
-        },
-      })
-      .then((response)=>response.json())
+      updateMbti(userID, userMbti)
       .then((responseJson)=>{
         console.log(responseJson);
         if(responseJson.status === true){

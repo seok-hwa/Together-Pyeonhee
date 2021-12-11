@@ -6,10 +6,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import { BOARDCATEGORY } from '../constants';
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../config';
 import BackButton from '../../Buttons/BackButton'
-
-const url = config.url;
+import { queryUpdateApi } from '../../api';
 
 const QueryUpdate = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
@@ -61,21 +59,7 @@ const QueryUpdate = ({navigation, route}) => {
             })
             return;
         }
-        console.log(`${url}/queryUpdate`);
-        fetch(`${url}/queryUpdate`, {
-            method: 'POST',
-            body: JSON.stringify({
-                boardTitle: boardTitle,
-                boardCate: boardCate,
-                boardContent: boardContent,
-                boardID: route.params.boardID,
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        queryUpdateApi(boardTitle, boardCate, boardContent, route.params.boardID)
         .then((responseJson)=>{
         console.log(responseJson);
             if(responseJson.status === 'success'){

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import config from '../../../../config';
 import { SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import FinancialConsultItem from './FinancialConsultItem';
 import RNPickerSelect from 'react-native-picker-select';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
+import { counselingFinancialProductCategory, counselingFinancialProduct } from '../../../api';
 
-const url = config.url;
 const FinancialCounseling = ({navigation}) => {
     const [userID, setUserID] = useState('');
     const [financialCounselingData, setFinancialCounselingData] = useState([]);
@@ -64,11 +63,9 @@ const FinancialCounseling = ({navigation}) => {
         })
         .then(()=>{
             console.log(tempID);
-            console.log(`${url}/Counseling/FinancialProduct`);
-            fetch(`${url}/Counseling/FinancialProduct`)   //get
-            .then((response)=>response.json())
+            counselingFinancialProduct()
             .then((responseJson)=>{
-                console.log('아아 response data');
+                console.log('response data');
                 console.log(responseJson);
                 setFinancialCounselingData(responseJson);
 
@@ -83,8 +80,7 @@ const FinancialCounseling = ({navigation}) => {
 
     const loadCounselor = () => {
         setRefresh(true);
-        fetch(`${url}/Counseling/FinancialProduct`)   //get
-        .then((response)=>response.json())
+        counselingFinancialProduct()
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);
@@ -99,18 +95,7 @@ const FinancialCounseling = ({navigation}) => {
 
     const hadlePressed = (value) => {
         console.log(`Pressed!`);
-        console.log(`${url}/Counseling/FinancialProduct/Category`);
-        fetch(`${url}/Counseling/FinancialProduct/Category`, {
-            method: 'POST',
-            body: JSON.stringify({
-                categoryName: value,
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        counselingFinancialProductCategory(value)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);

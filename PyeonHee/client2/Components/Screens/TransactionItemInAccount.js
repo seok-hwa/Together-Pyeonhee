@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import { View, Text, StyleSheet, Image} from 'react-native';
 
 const AccountLogo = (props) => {
     const accountCate = props.bankName;
@@ -108,15 +108,15 @@ const AccountLogo = (props) => {
           )
       }
   }
-const TransactionItem = (props) => {
+const TransactionItemInAccount = (props) => {
 
     return (
         <View style={styles.TranContentBox}>
             <View style={styles.OrganizationNameDiv}><Text style={styles.BankFont}>{props.organizationName}</Text><Text style={styles.BankInFont}>{props.branchName}</Text></View>
-            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{props.tranDate.substring(0,4)+'-'+props.tranDate.substring(4,6)+'-'+props.tranDate.substring(6,8)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
+            <View style={styles.tranDate}><Text style={styles.tranDateFont}>{(props.tranDate+'').substring(0,4)+'-'+(props.tranDate+'').substring(4,6)+'-'+(props.tranDate+'').substring(6,8)}</Text><Text style={styles.tranDateFont}>{props.tranTime}</Text></View>
             <View style={styles.tranPrice}>
-            {props.inoutType === '입금' ? <Text style={styles.tranInPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>:
-            <Text style={styles.tranOutPriceFont}>{props.tranPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
+            {props.inoutType === '입금' ? <Text style={styles.tranInPriceFont}>{(props.tranPrice+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>:
+            <Text style={styles.tranOutPriceFont}>{(props.tranPrice+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
             </View>
             <View style={styles.tranCate}><Text style={styles.cateFont}>{props.tranCate}</Text></View>
         </View>
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TransactionItem;
+export default TransactionItemInAccount;
