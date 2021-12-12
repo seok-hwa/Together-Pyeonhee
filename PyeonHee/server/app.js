@@ -1904,7 +1904,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1 AND BudgetPlanning.state = 1;`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
-                                    if(real_spend.length === 0){
+                                    if(plan_spend.length === 0){
                                         console.log("계획한 내역이 없습니다.");
                                         data = {
                                             real : real_spend,
