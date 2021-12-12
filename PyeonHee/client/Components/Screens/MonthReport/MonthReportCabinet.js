@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
+        marginTop :40
     }, 
     appTopBarText: {
         fontSize: 18,

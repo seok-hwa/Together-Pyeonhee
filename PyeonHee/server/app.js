@@ -2265,9 +2265,12 @@ const SSHConnection = new Promise((resolve, reject) => {
             //한달 리포트 불러오기 : 지난 달과 비교
             app.post('/monthReport/Cabinet/WithLastMonth', function(req,res){
                 var userID = req.body.userID;
-                var month = req.body.month + 1;
-                var prevMonth = req.body.month;
+                var month = (req.body.month + 1).toString();
+                var prevMonth = (req.body.month).toString();
                 var year = req.body.year;
+
+                if(month.length == 1) month = '0'+month;
+                if(prevMonth.length == 1) prevMonth = '0'+prevMonth;
 
                 var YYMM = year + month;
                 var prevYYMM = year + prevMonth;

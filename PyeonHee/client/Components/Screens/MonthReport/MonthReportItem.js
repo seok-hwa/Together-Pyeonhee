@@ -130,45 +130,45 @@ const MonthReportItem = (props) => {
                 prevYear = prevYear - 1;
             }
             console.log('/monthReport/Cabinet/WithLastMonth',  prevMonth);
-            // fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
-            //     method: 'POST',
-            //     body: JSON.stringify({
-            //       userID: props.userID,
-            //       month: prevMonth,
-            //       year: prevYear,
-            //     }),
-            //     headers: {
-            //       'Accept': 'application/json',
-            //       'Content-Type':'application/json',
-            //     },
-            // })
-            // .then((response)=>response.json())
-            // .then((responseJson)=>{
-            //     console.log(responseJson);
+            fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  userID: props.userID,
+                  month: prevMonth,
+                  year: prevYear,
+                }),
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type':'application/json',
+                },
+            })
+            .then((response)=>response.json())
+            .then((responseJson)=>{
+                console.log(responseJson);
 
-            //     if(responseJson.length > 0){
-            //         setLastRent(responseJson.monthly_rent);
-            //         setLastInsurance(responseJson.insurance_expense);
-            //         setLastCommunication(responseJson.communication_expense);
-            //         setLastSubscribe(responseJson.subscribe_expense);
+                if(responseJson.length > 0){
+                    setLastRent(responseJson.monthly_rent);
+                    setLastInsurance(responseJson.insurance_expense);
+                    setLastCommunication(responseJson.communication_expense);
+                    setLastSubscribe(responseJson.subscribe_expense);
 
-            //         setLastTraffic(responseJson.transportation_expense);
-            //         setLastHobby(responseJson.leisure_expense);
-            //         setLastShopping(responseJson.shopping_expense);
-            //         setLastEducation(responseJson.education_expense);
-            //         setLastMedical(responseJson.medical_expense);
-            //         setLastEvent(responseJson.event_expense);
-            //         setLastEct(responseJson.etc_expense);
+                    setLastTraffic(responseJson.transportation_expense);
+                    setLastHobby(responseJson.leisure_expense);
+                    setLastShopping(responseJson.shopping_expense);
+                    setLastEducation(responseJson.education_expense);
+                    setLastMedical(responseJson.medical_expense);
+                    setLastEvent(responseJson.event_expense);
+                    setLastEct(responseJson.etc_expense);
 
-            //         setLastDinner(responseJson.live_expense);
-            //         setLastSaving(responseJson.user_savings);
+                    setLastDinner(responseJson.live_expense);
+                    setLastSaving(responseJson.user_savings);
 
-            //     }
-            // })
-            // .then(()=>{
-            //     // setLoading(true);
-            //     setModalVisible(true);
-            // })
+                }
+            })
+            .then(()=>{
+                // setLoading(true);
+                setModalVisible(true);
+            })
 
             setLoading(true);
 
@@ -336,6 +336,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
+        marginTop : 30
     }, 
     appTopBarText: {
         fontSize: 18,
@@ -423,6 +424,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold', 
         color: '#203864',
         marginLeft: 20,
+
     }
 });
 
