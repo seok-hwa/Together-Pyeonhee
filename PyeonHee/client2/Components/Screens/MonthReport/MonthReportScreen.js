@@ -43,6 +43,16 @@ const MonthReportScreen = ({navigation, route}) => {
     console.log(date);
     console.log('지난달과 비교', route.params.withLast);
     console.log('계획과 비교', route.params.withPlan);
+    if(route.params.isTransactionList === true){
+      console.log('거래 내역 있음');
+    }else{
+      console.log('거래 내역 없음');
+    }
+    if(route.params.isPlan === true){
+      console.log('계획서 있음');
+    }else{
+      console.log('계획서 없음');
+    }
     let tempID;
     AsyncStorage.getItem('userID', (err, result) => {
       tempID = result;
