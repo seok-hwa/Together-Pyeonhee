@@ -115,6 +115,7 @@ const MyBudgetScreen = ({navigation, route}) => {
         )
         .then(()=>{
             console.log(tempID);
+            console.log('내 예산계획서가 있나?');
             myBudgetPlan(tempID)
             .then((responseJson)=>{
                 // console.log('내 예산계획서가 있나?');

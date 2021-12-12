@@ -247,7 +247,7 @@ const MonthReportItem = (props) => {
                                         hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct} saving={realSaving}
                                     />
                                 }
-                            </View>:
+                            </View> :
                             <View style={{alignItems: 'center', justifyContent: 'center'}}><Text>...</Text></View>
                             
                         }
