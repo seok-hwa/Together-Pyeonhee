@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 import {
     StyleSheet,
     Text,
@@ -16,8 +15,6 @@ import SavingPlanItem from './SavingsPlanItem';
 import WriteBudget from './WriteBudgetScreen';
 import AddSavingPlan from './AddSavingPlan';
 import EditBudget from './EditBudget';
-// import PlanningSaveButton from '../../Buttons/PlanningSaveButton';
-// import PlanningSaveCancelButton from '../../Buttons/PlanningSaveCancelButton';
 
 import { saveBudgetPlan, cancelBudgetPlan, myBudgetPlan, dailySaving, didStore } from '../../api';
 
@@ -117,7 +114,6 @@ const MyBudgetScreen = ({navigation, route}) => {
             console.log(tempID);
             myBudgetPlan(tempID)
             .then((responseJson)=>{
-                // console.log('내 예산계획서가 있나?');
                 console.log(responseJson);
                 if(responseJson.length === 0){
                     console.log('예산계획서 작성필요');
@@ -202,13 +198,11 @@ const MyBudgetScreen = ({navigation, route}) => {
                     let fixedTemp = parseInt(responseJson.rent) + parseInt(responseJson.insurance) + 
                     parseInt(responseJson.communication) + responseJson.subscribe;
                     console.log('고정지출 합:', fixedTemp);
-                    // console.log(fixedTemp);
 
                     let plannedTemp = parseInt(responseJson.education) + parseInt(responseJson.traffic) +
                     parseInt(responseJson.shopping) + parseInt(responseJson.hobby) + 
                     parseInt(responseJson.medical) + parseInt(responseJson.ect) + parseInt(responseJson.event) ;
                     console.log('계획지출 합:', plannedTemp);
-                    // console.log(plannedTemp);
 
                     let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
 
@@ -216,7 +210,6 @@ const MyBudgetScreen = ({navigation, route}) => {
                     setPlannedExpenditure(plannedTemp);
                     setMonthly(monthlyTemp);
                 }
-                // console.log(myBudgetData);
             })
             .then(()=>{
             }) 

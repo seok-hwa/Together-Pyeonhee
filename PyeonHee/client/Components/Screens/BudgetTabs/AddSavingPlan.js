@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Modal, Image, Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 import { saveSavingPlan } from '../../api';
 
 const SavingPlan = (props) => {
@@ -14,14 +12,10 @@ const SavingPlan = (props) => {
     const[startDate, setStartDate] = useState(new Date());  //시작일
     const[endYear, setEndYear] = useState("");              //마감 연도
     const[endMonth, setEndMonth] = useState("");            //마감 월
-
-    // const[savingsDay, setSavingsDay] = useState(0);         //매달 저금(출금)일
-    // const[period, setPeriod] = useState(0);                 //기간
     
     let now = new Date();
     let year = now.getFullYear();
     let todayMonth = now.getMonth()+1;
-    // let today = now.getDate()+1;
     
     const saveHandler = () => {
         let tempIncome = props.income;
@@ -118,16 +112,10 @@ const SavingPlan = (props) => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                //  alert('Modal has now been closed.');
                  setModalVisible(!modalVisible);
                 }}
             >
                 <View style={styles.centeredView}>
-
-                    {/* <View style={styles.titleContainer}>
-                        <Text style={styles.modalText}>저금 계획</Text>
-                    </View> */}
-                
                     <View style={styles.modalView}>
 
                         <View style={styles.titleContainer}>
@@ -158,7 +146,6 @@ const SavingPlan = (props) => {
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <TextInput
                                         style={styles.textInputDesign}
-                                        // placeholder='1~31일 중 선택하세요'
                                         onChangeText={text => handleSavingMoney(text)}
                                         value={savingMoney}
                                         maxLength = {10}
@@ -224,12 +211,7 @@ const SavingPlan = (props) => {
               onPress={() => {
                 setModalVisible(true);
               }}>
-                {/* <Icon name={'add-circle-outline'} size={20} color={'gray'}/> */}
-                {/* <View style={{backgroundColor: 'pink', justifyContent: 'flex-end',}}>
-                    <Text style={styles.addButtonStyle}> 추가하기 </Text>
-                </View> */}
                 <Image source={require('../assets/add.png')} style={{width: 18, height: 18, tintColor: 'gray'}}/>
-                {/* <Text style={styles.addButtonStyle}> 추가하기 </Text> */}
             </TouchableOpacity>  
         </View>
     )

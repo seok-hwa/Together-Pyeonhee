@@ -24,12 +24,10 @@ const EditBudgetScreen = (props) => {
     const [userID, setUserId] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
 
-    // const [saving, setSaving] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isCompleted, setIsCompleted] = useState(false);
 
     const [income, setIncome] = useState("");   //수입
-    // const [savings, setSavings] = useState(0);   //저금계획 -> total 합계 받아오기
     const [sumOfSavings, setSumOfSavings] = useState("");    //저금계획 총합계
 
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
@@ -106,12 +104,6 @@ const EditBudgetScreen = (props) => {
                     console.log(plannedTemp);
                     setPlannedExpenditure(plannedTemp);
 
-                    // let monthlyTemp = parseInt(fixedTemp) + parseInt(plannedTemp);
-
-                    // setFixedExpenditure(fixedTemp);
-                    // setPlannedExpenditure(plannedTemp);
-                    // setMonthly(monthlyTemp);
-
                     setLoading(true);
                 }
                 // console.log(myBudgetData);
@@ -165,10 +157,7 @@ const EditBudgetScreen = (props) => {
             
           if(responseJson.status === 'success'){
             console.log('제출 완료!!!!!!');
-            // navigation.replace('Main');
             setModalVisible(!modalVisible);
-            
-            // navigation.goBack();
           }else{
             console.log('fail to submit.');
           }
@@ -187,13 +176,10 @@ const EditBudgetScreen = (props) => {
                 transparent={false}
                 visible={modalVisible}
                 onRequestClose={() => {
-                //  alert('Modal has now been closed.');
                  setModalVisible(!modalVisible);
                 }}
             >       
                 <ScrollView style={styles.bodySize}>
-
-                {/* <Text>{todayMonth} 월</Text> */}
 
                     <View style={{flexDirection: 'row', paddingTop: 15, justifyContent: 'space-between',}}>
                         <Text style={styles.monthText}>

@@ -12,7 +12,6 @@ const BudgetList = ({navigation, route}) => {
     const [otherBudgetData, setOtherBudgetData] = useState([]);
     const [recommendedBudgetData, setRecommendedBudgetData] = useState([]);
     const [check, setCheck] = useState(false);
-    const [refresh, setRefresh] = useState(false);
     const [loading, setLoading] = useState(false);
     const [read, setRead] = useState(false);
 
@@ -54,23 +53,6 @@ const BudgetList = ({navigation, route}) => {
         }
     }
 
-    // const loadBudget = () => {
-    //     setRefresh(true);
-    //     setCheck(false);
-    //     setRead(false);
-
-    //     fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
-    //     .then((response)=>response.json())
-    //     .then((responseJson)=>{
-    //         console.log('response data');
-    //         console.log(responseJson);
-    //         setRecommendedBudgetData(responseJson);
-    //     })
-    //     .then(()=>{
-    //         setRefresh(false);
-    //     })  
-    // }
-
     if(loading === true){
         return (
             <View style={styles.appSize}>
@@ -82,32 +64,6 @@ const BudgetList = ({navigation, route}) => {
                         나와 유사한 계획서 찾기
                     </Text>
                 </View>
-
-                {/* <View>
-                    {check === false && 
-                        <FlatList
-                            keyExtractor={item => item.planning_number}
-                            data={otherBudgetData}
-                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
-                            />}
-                            refreshing={refresh}
-                            onRefresh={loadBudget}
-                            />
-                        }
-                    {check === true && 
-                        <FlatList
-                            keyExtractor={item => item.planning_number}
-                            data={recommendedBudgetData}
-                            renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                                userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
-                            />}
-                            refreshing={refresh}
-                            onRefresh={loadBudget}
-                        />
-                    }
-                </View> */}
-
 
                 { check === false && 
                     otherBudgetData.map(item => {

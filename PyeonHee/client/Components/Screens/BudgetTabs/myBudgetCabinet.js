@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Modal} from 'react-native';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 
 import MyBudgetItem from './myBudgetCabinetItem';
 import { MyBudgetPlanCabinet } from '../../api';
@@ -13,36 +12,6 @@ const myBudgetCabinet = (props) => {
     const [myBudgetData, setmyBudgetData] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [isSelected, setIsSelected] = useState(false);
-
-    //for test
-    // let myBudgetData = [
-    //     {
-    //         planning_number: 1,
-    //         income: 20000000,
-    //         sumOfSavings: 3000,
-    //         fixedExpenditure: 20000,
-    //         plannedExpenditure: 10000,
-    //         dailyMoney: 1000,
-    //     },
-    //     {
-    //         planning_number: 2,
-    //         income: 20000000,
-    //         sumOfSavings: 4000,
-    //         fixedExpenditure: 30000,
-    //         plannedExpenditure: 20000,
-    //         dailyMoney: 2000,
-    //     },
-    //     {
-    //         planning_number: 3,
-    //         income: 20000000,
-    //         sumOfSavings: 6000,
-    //         fixedExpenditure: 50000,
-    //         plannedExpenditure: 30000,
-    //         dailyMoney: 3000,
-    //     }
-    // ]
-
-
 
     useEffect(()=>{
         let tempID;
@@ -90,7 +59,6 @@ const myBudgetCabinet = (props) => {
                 transparent={false}
                 visible={modalVisible}
                 onRequestClose={() => {
-                // alert('Modal has now been closed.');
                 setModalVisible(!modalVisible);
                 }}
             >
@@ -146,7 +114,6 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 5,
         marginBottom: 20,
-        // marginVertical: 15, 
         flexDirection: 'row', 
         alignItems: 'center', 
         justifyContent: "center",

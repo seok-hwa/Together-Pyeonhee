@@ -17,8 +17,6 @@ const EditInputBudget = (props) => {
         else{
             props.setBudget("0");
         }
-
-        // console.log(text);
     };
     
     return (
