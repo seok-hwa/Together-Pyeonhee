@@ -47,7 +47,11 @@ const DailyScreen = (props) => {
     const [monthMoney, setMonthMoney] = useState(0);
 
     const [saving, setSaving] = useState([]);
-    //for test
+
+    let date = new Date();	// 현재 날짜 및 시간
+    let todayYear = date.getFullYear(); //년
+    let todayMonth = date.getMonth()+1;	// 월
+    let todayDate = date.getDate(); 
 
     useEffect(()=>{
         let tempID;
@@ -189,8 +193,8 @@ const DailyScreen = (props) => {
                             <Text style={styles.monthText}>{year}년 {month}월 {day}일</Text>
                         </View>
                     </View>
-                    
                 </View>
+
                 <View style={styles.appBody}>
                     <Text style={styles.dailyText}>Daily</Text>
                     <View style={styles.dailyBody}>
@@ -362,8 +366,13 @@ const DailyScreen = (props) => {
             <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
                     <View style={styles.titleDiv}>
-                        <Text style={styles.NameStyle}>{userName}</Text>
-                        <Text style={styles.NextToNameStyle}>님</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.NameStyle}>{userName}</Text>
+                            <Text style={styles.NextToNameStyle}>님</Text>
+                        </View>
+                        <View style={styles.monthDiv}>
+                            <Text style={styles.monthText}>{todayYear}년 {todayMonth}월 {todayDate}일</Text>
+                        </View>
                     </View>
                 </View>
                 <View style={styles.appBody}>

@@ -1,10 +1,9 @@
 //예산계획추천 및 좋아요/보관함 기능
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
-
 
     //예산계획추천페이지(모든 사용자 동일)
     router.get('/saveSelectBudgetPlan', function (req, res) {
@@ -218,7 +217,7 @@ module.exports = function () {
     });
 
     // 좋아요&취소 버튼 기능
-    router.post('/likeBudgetPlan/', function (req, res) {
+    router.post('/likeBudgetPlan', function (req, res) {
         //console.log(req.body);
         var budgetPlanID = req.body.budgetPlanID;
         var userLike = req.body.userLike;

@@ -12,6 +12,7 @@ const url = config.url;
 const MonthReportItem = (props) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     {/* 실제 고정지출 */}
     const [realRent, setRealRent] = useState(0);
@@ -72,6 +73,7 @@ const MonthReportItem = (props) => {
     const progressPercentage = parseInt(props.daily_count)/date*100;
 
     const handlePress = () => {
+        console.log('/monthReport/Cabinet/WithPlan', props.month);
         fetch(`${url}/monthReport/Cabinet/WithPlan`, {
             method: 'POST',
             body: JSON.stringify({
@@ -88,63 +90,46 @@ const MonthReportItem = (props) => {
         .then((responseJson)=>{
             console.log(responseJson);
 
-            if(responseJson.real.length != 0 && responseJson.plan.length != 0){
-                responseJson.real.map(item  => {
-                    if(item.tran_type === '월세'){
-                        setRealRent(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '보험'){
-                        setRealInsurance(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '통신'){
-                        setRealCommunication(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '구독'){
-                        setRealSubscribe(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '교통'){
-                        setRealTraffic(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '여가'){
-                        setRealHobby(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '쇼핑'){
-                        setRealShopping(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '교육'){
-                        setRealEducation(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '의료'){
-                        setRealMedical(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '선물'){
-                        setRealEvent(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '식비'){
-                        setRealDinner(parseInt(item.daily_amount));
-                    }else if(item.tran_type === '저금'){
-                        setRealSaving(parseInt(item.daily_amount));
-                    }else{
-                        setRealEct(parseInt(item.daily_amount));
-                    }
-                })
+            if(responseJson.length != ''){
+                setPlanRent(responseJson.planRent);
+                setPlanInsurance(responseJson.planInsurance);
+                setPlanCommunication(responseJson.planCommunication);
+                setPlanSubscribe(responseJson.planSubscribe);
 
-                if(responseJson.plan.length !=0){
-                    setPlanRent(responseJson.plan.monthly_rent);
-                    setPlanInsurance(responseJson.plan.insurance_expense);
-                    setPlanCommunication(responseJson.plan.communication_expense);
-                    setPlanSubscribe(responseJson.plan.subscribe_expense);
+                setPlanTraffic(responseJson.planTraffic);
+                setPlanHobby(responseJson.planHobby);
+                setPlanShopping(responseJson.planShopping);
+                setPlanEducation(responseJson.planEducation);
+                setPlanMedical(responseJson.planMedical);
+                setPlanEvent(responseJson.planEvent);
+                setPlanEct(responseJson.planEct);
+                setPlanDinner(responseJson.planDinner);
+                setPlanSaving(responseJson.planSavings);
 
-                    setPlanTraffic(responseJson.plan.transportation_expense);
-                    setPlanHobby(responseJson.plan.leisure_expense);
-                    setPlanShopping(responseJson.plan.shopping_expense);
-                    setPlanEducation(responseJson.plan.education_expense);
-                    setPlanMedical(responseJson.plan.medical_expense);
-                    setPlanEvent(responseJson.plan.event_expense);
-                    setPlanEct(responseJson.plan.etc_expense);
-                    setPlanDinner(responseJson.live_expense);
-                    setPlanSaving(responseJson.plan.user_savings);
+                setRealRent(responseJson.realRent);
+                setRealInsurance(responseJson.realInsurance);
+                setRealCommunication(responseJson.realCommunication);
+                setRealSubscribe(responseJson.realSubscribe);
 
-                }
+                setRealTraffic(responseJson.realTraffic);
+                setRealHobby(responseJson.realHobby);
+                setRealShopping(responseJson.realShopping);
+                setRealEducation(responseJson.realEducation);
+                setRealMedical(responseJson.realMedical);
+                setRealEvent(responseJson.realEvent);
+                setRealDinner(responseJson.realDinner);
+                setRealSaving(responseJson.realSavings);
+                setRealEct(responseJson.realEct);
             }
         })
         .then(()=> {
             let prevMonth = props.month - 1;
-            // let prevYear = props.year;
+            let prevYear = props.year;
             if(prevMonth === 0) {
                 prevMonth = 12;
-                // prevYear = prevYear - 1;
+                prevYear = prevYear - 1;
             }
+            console.log('/monthReport/Cabinet/WithLastMonth',  prevMonth);
             fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -161,7 +146,7 @@ const MonthReportItem = (props) => {
             .then((responseJson)=>{
                 console.log(responseJson);
 
-                if(responseJson.length !=0){
+                if(responseJson.length > 0){
                     setLastRent(responseJson.monthly_rent);
                     setLastInsurance(responseJson.insurance_expense);
                     setLastCommunication(responseJson.communication_expense);
@@ -180,16 +165,19 @@ const MonthReportItem = (props) => {
 
                 }
             })
+            .then(()=>{
+                // setLoading(true);
+                setModalVisible(true);
+            })
+
+            setLoading(true);
 
         })
         .catch((e)=>{
             console.error(e);
         })
 
-
-
         setModalVisible(true);
-
     }
 
     return (
@@ -235,25 +223,28 @@ const MonthReportItem = (props) => {
                             <Text style={styles.topInfoText}>수입: {props.userIncome.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>
                             <Text style={styles.topInfoText}>이행률: {Math.floor(progressPercentage)}%</Text>
                         </View>
-
-                        {selectedIndex === 0 && 
-                            <CabinetReportWithLast month={props.month} prevMonth={(props.month - 1)} lastSaving={lastSaving} lastRent={lastRent}
-                                lastInsurance={lastInsurance}  lastCommunication={lastCommunication} lastSubscribe={lastSubscribe} lastDinner={lastDinner}
-                                lastTraffic={lastTraffic} lastHobby={lastHobby} lastShopping={lastShopping} lastEducation={lastEducation} lastMedical={lastMedical}
-                                lastEvent={lastEvent} lastEct={lastEct}
-                                rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
-                                hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct}
-                            />
-                            // <CabinetReportWithLast  month={props.month} prevMonth={(props.month - 1)}/>
-                        }
-                        {selectedIndex === 1 && 
-                            <CabinetReportWithPlan planSaving={planSaving} planRent={planRent} planInsurance={planInsurance}  planCommunication={planCommunication} 
-                                planSubscribe={planSubscribe} planDinner={planDinner} planTraffic={planTraffic} planHobby={planHobby} planShopping={planShopping} 
-                                planEducation={planEducation} planMedical={planMedical} planEvent={planEvent} planEct={planEct}
-                                rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
-                                hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct}
-                            />
-                            // <CabinetReportWithPlan />
+                        {loading === true ? 
+                            <View>
+                                {selectedIndex === 0 && 
+                                    <CabinetReportWithLast month={props.month} prevMonth={(props.month - 1)} lastSaving={lastSaving} lastRent={lastRent}
+                                        lastInsurance={lastInsurance}  lastCommunication={lastCommunication} lastSubscribe={lastSubscribe} lastDinner={lastDinner}
+                                        lastTraffic={lastTraffic} lastHobby={lastHobby} lastShopping={lastShopping} lastEducation={lastEducation} lastMedical={lastMedical}
+                                        lastEvent={lastEvent} lastEct={lastEct}
+                                        rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
+                                        hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct} saving={realSaving}
+                                    />
+                                }
+                                {selectedIndex === 1 && 
+                                    <CabinetReportWithPlan planSaving={planSaving} planRent={planRent} planInsurance={planInsurance}  planCommunication={planCommunication} 
+                                        planSubscribe={planSubscribe} planDinner={planDinner} planTraffic={planTraffic} planHobby={planHobby} planShopping={planShopping} 
+                                        planEducation={planEducation} planMedical={planMedical} planEvent={planEvent} planEct={planEct}
+                                        rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
+                                        hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct} saving={realSaving}
+                                    />
+                                }
+                            </View> :
+                            <View style={{alignItems: 'center', justifyContent: 'center'}}><Text>...</Text></View>
+                            
                         }
                     </View>
                 </View>
@@ -296,7 +287,7 @@ const MonthReportItem = (props) => {
                 </View>
             </TouchableOpacity>
         </View>
-    );
+    )
 };
 
 const styles = StyleSheet.create({
@@ -345,6 +336,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
+        marginTop : 30
     }, 
     appTopBarText: {
         fontSize: 18,
@@ -432,6 +424,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold', 
         color: '#203864',
         marginLeft: 20,
+
     }
 });
 

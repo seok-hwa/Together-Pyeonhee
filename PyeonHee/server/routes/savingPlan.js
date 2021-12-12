@@ -1,11 +1,11 @@
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
     //저축계획 작성
-    router.post('/saveSavingPlan', function (req, res) {
+    router.post('/save', function (req, res) {
         console.log(req.body);
         var userID = req.body.userID;
         var savingName = req.body.savingName;
@@ -80,7 +80,7 @@ module.exports = function () {
     });
 
     //저금계획 삭제
-    router.post('/removeSavingPlan', function (req, res) {
+    router.post('/remove', function (req, res) {
         console.log(req.body);
         var userID = req.body.userID;
         var savingID = req.body.savingID;

@@ -23,32 +23,11 @@ const CabinetReportWithLast = (props) => {
     let fixedSum =  props.rent + props.insurance + props.communication + props.subscribe;
 
     let lastPlannedSum = props.lastDinner + props.lastTraffic + props.lastHobby + props.lastShopping + 
-    props.lastEducation + props.lastMedical + props.lastEvent + props.lastEct;
+        props.lastEducation + props.lastMedical + props.lastEvent + props.lastEct;
     let plannedSum = props.dinner + props.traffic + props.hobby + props.shopping + 
-    props.education + props.medical + props.event + props.ect;
+        props.education + props.medical + props.event + props.ect;
 
-    //for test
-    // let savingDif = 0;
 
-    // let rentDif = 1000;
-    // let insuranceDif = 30000;
-    // let communicationDif = 5000;
-    // let subscribeDif = 9;
-
-    // let dinnerDif = -200000;
-    // let trafficDif = -40000;
-    // let hobbyDif = -800;
-    // let shoppingDif = -800000;
-    // let educationDif = 0;
-    // let medicalDif = 0;
-    // let eventDif = 15000;
-    // let ectDif = 2400000;
-
-    // let lastFixedSum = 10000000;
-    // let fixedSum = 13000000;
-
-    // let lastPlannedSum = 10000000;
-    // let plannedSum = 13000000;
 
     let fixedDif = fixedSum - lastFixedSum;
     let plannedDif = plannedSum - lastPlannedSum;
@@ -60,6 +39,7 @@ const CabinetReportWithLast = (props) => {
                 <Text style={styles.monthText}>{props.prevMonth}월</Text>
                 <Text style={styles.monthText}>{props.month}월</Text>
             </View>
+            
 
             <View style={styles.categoryDiv}>
                 <View style={styles.leftDiv}>
@@ -68,11 +48,10 @@ const CabinetReportWithLast = (props) => {
                     </View>
                     <Text>저금 총합</Text>
                 </View>
-                <View style={styles.moneyDiv}><Text>{(props.lastSaving+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                <View style={styles.moneyDiv}><Text>{(props.saving+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000원</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000원</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.lastSaving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.saving.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
+            
             <View style={styles.difDiv}>
                 { savingDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
                 { savingDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
@@ -98,8 +77,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastRent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.rent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000원</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000원</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { rentDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -117,8 +94,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastInsurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.insurance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { insuranceDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -136,8 +111,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastCommunication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.communication.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { communicationDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -155,8 +128,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastSubscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.subscribe.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { subscribeDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -175,8 +146,6 @@ const CabinetReportWithLast = (props) => {
                     </View>
                     <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{lastFixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                     <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{fixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                    {/* <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View>
-                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View> */}
                 </View>
                 <View style={styles.difDiv}>
                     { fixedDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -204,8 +173,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastDinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.dinner.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { dinnerDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -223,8 +190,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastTraffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.traffic.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { trafficDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -243,8 +208,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastHobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.hobby.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { hobbyDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -262,8 +225,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastShopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.shopping.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { shoppingDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -281,8 +242,6 @@ const CabinetReportWithLast = (props) => {
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastEducation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                 <View style={styles.moneyDiv}><Text>{props.education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
             </View>
             <View style={styles.difDiv}>
                 { educationDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -299,9 +258,7 @@ const CabinetReportWithLast = (props) => {
                     <Text>의료비</Text>
                 </View>
                 <View style={styles.moneyDiv}><Text>{props.lastMedical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                <View style={styles.moneyDiv}><Text>{props.medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>원</View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.medical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { medicalDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -317,10 +274,8 @@ const CabinetReportWithLast = (props) => {
                     </View>
                     <Text>경조사/선물</Text>
                 </View>
-                <View style={styles.moneyDiv}>{props.lastEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</View>
-                <View style={styles.moneyDiv}>{props.event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.lastEvent.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.event.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { eventDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -337,10 +292,8 @@ const CabinetReportWithLast = (props) => {
                     </View>
                     <Text>기타</Text>
                 </View>
-                <View style={styles.moneyDiv}>{props.lastEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</View>
-                <View style={styles.moneyDiv}>{props.ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</View>
-                {/* <View style={styles.moneyDiv}><Text>1,000,000</Text></View>
-                <View style={styles.moneyDiv}><Text>1,000,000</Text></View> */}
+                <View style={styles.moneyDiv}><Text>{props.lastEct.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                <View style={styles.moneyDiv}><Text>{props.ect.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
             </View>
             <View style={styles.difDiv}>
                 { ectDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -359,8 +312,6 @@ const CabinetReportWithLast = (props) => {
                     </View>
                     <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{lastPlannedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
                     <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{plannedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
-                    {/* <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000원</Text></View>
-                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000원</Text></View> */}
                 </View>
                 <View style={styles.difDiv}>
                     { plannedDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
@@ -370,6 +321,8 @@ const CabinetReportWithLast = (props) => {
                     { plannedDif != 0 && <Text style={[styles.sumMoneyText, {fontWeight: 'bold'}]}> {Math.abs(plannedDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
                 </View>
             </View>
+   
+            
 
         </ScrollView>
     );

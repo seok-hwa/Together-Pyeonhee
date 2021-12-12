@@ -1,13 +1,13 @@
 //사용자 공지사항 확인
 module.exports = function () {
-    var db = require('../config_db.js');
+    var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
     router.use(express.json());
 
     /*사용자 공지사항(앱)_ 관리자가 작성한 글 확인 */
     //사용자 공지사항 글 목록 확인
-    router.get('/noticeList', function (req, res) {
+    router.get('/List', function (req, res) {
         db.query(`SELECT * FROM notice ORDER BY notice_number desc`, function (error, result) {
             if (error) throw error;
             else {
@@ -18,7 +18,7 @@ module.exports = function () {
     });
 
     //사용자 공지사항 글 내용 확인
-    router.get('/noticeBoard', function (req, res) {
+    router.get('/Board', function (req, res) {
         var boardID = req.query.boardID;
         db.query(`SELECT * FROM notice WHERE notice_number =?`, [boardID], function (error, result) {
             if (error) throw error;
@@ -35,8 +35,6 @@ module.exports = function () {
             }
         });
     });
-
-
 
     return router;
 }
