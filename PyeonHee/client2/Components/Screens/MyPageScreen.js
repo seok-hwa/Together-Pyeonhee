@@ -209,6 +209,7 @@ const MyPageScreen = ({navigation, route}) => {
         let daily_count=0;
 
         let isTransactionList = true;
+        let isPlan = true;
 
         reportWithLast(userID)
         .then((responseJson)=>{
@@ -330,6 +331,9 @@ const MyPageScreen = ({navigation, route}) => {
                             planSaving=responseJson.plan.user_savings;
                             daily_count=responseJson.plan.last_count;
                     }
+                    else{
+                        isPlan = false;
+                    }
                 }
             })
             .then(()=>{
@@ -393,6 +397,7 @@ const MyPageScreen = ({navigation, route}) => {
                         planSaving:planSaving,
                     },
                     isTransactionList: isTransactionList,
+                    isPlan: isPlan,
                     userCurrentMbti: userMbti,
                     userName: userName,
                     daily_count: daily_count,
