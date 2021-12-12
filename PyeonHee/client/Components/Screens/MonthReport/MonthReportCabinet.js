@@ -102,11 +102,11 @@ const MonthReportCabinet = ({navigation}) => {
                 </View>
                 <View>
                     <FlatList
-                        keyExtractor={item => item.reportID}
+                        keyExtractor={item => item.report_month}
                         data={monthReportData}
-                        renderItem={({item}) => <MonthReportItem userID={userID} /*reportID={item.reportID}*/ month={item.report_month.substring(4,6)} year={item.report_month.substring(0,4)}
+                        renderItem={({item}) => <MonthReportItem userID={userID} month={item.report_month.substring(4,6)} year={item.report_month.substring(0,4)}
                             navigation={navigation} userMbti={item.mbti} userIncome={item.income} totalSavings={item.savings} 
-                            daily_count={item.progress_days} /*year={item.year}*/
+                            daily_count={item.progress_days}
                         />}
                         refreshing={refresh}
                         onRefresh={loadCabinet}
