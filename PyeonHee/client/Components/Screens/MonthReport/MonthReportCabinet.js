@@ -105,7 +105,7 @@ const MonthReportCabinet = ({navigation}) => {
                         keyExtractor={item => item.report_month}
                         data={monthReportData}
                         renderItem={({item}) => <MonthReportItem userID={userID} month={item.report_month.substring(4,6)} year={item.report_month.substring(0,4)}
-                            navigation={navigation} userMbti={item.mbti} userIncome={item.income} totalSavings={item.savings} 
+                            navigation={navigation} userMbti={item.mbti} userIncome={item.income} totalSavings={item.realSaving} 
                             daily_count={item.progress_days}
                         />}
                         refreshing={refresh}

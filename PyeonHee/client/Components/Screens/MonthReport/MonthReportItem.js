@@ -147,21 +147,21 @@ const MonthReportItem = (props) => {
                 console.log(responseJson);
 
                 if(responseJson.length > 0){
-                    setLastRent(responseJson.monthly_rent);
-                    setLastInsurance(responseJson.insurance_expense);
-                    setLastCommunication(responseJson.communication_expense);
-                    setLastSubscribe(responseJson.subscribe_expense);
+                    setLastRent(responseJson.prevRent);
+                    setLastInsurance(responseJson.prevInsurance);
+                    setLastCommunication(responseJson.prevCommunication);
+                    setLastSubscribe(responseJson.prevSubscribe);
 
-                    setLastTraffic(responseJson.transportation_expense);
-                    setLastHobby(responseJson.leisure_expense);
-                    setLastShopping(responseJson.shopping_expense);
-                    setLastEducation(responseJson.education_expense);
-                    setLastMedical(responseJson.medical_expense);
-                    setLastEvent(responseJson.event_expense);
-                    setLastEct(responseJson.etc_expense);
+                    setLastTraffic(responseJson.prevTraffic);
+                    setLastHobby(responseJson.prevHobby);
+                    setLastShopping(responseJson.prevShopping);
+                    setLastEducation(responseJson.prevEducation);
+                    setLastMedical(responseJson.prevMedical);
+                    setLastEvent(responseJson.prevEvent);
+                    setLastEct(responseJson.prevEct);
 
-                    setLastDinner(responseJson.live_expense);
-                    setLastSaving(responseJson.user_savings);
+                    setLastDinner(responseJson.prevDinner);
+                    setLastSaving(responseJson.prevSavings);
 
                 }
             })
