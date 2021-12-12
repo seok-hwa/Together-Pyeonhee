@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, Image} from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const CabinetReportWithLast = (props) => {
