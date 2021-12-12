@@ -644,8 +644,8 @@ export const close = (userID) => {
 
 export const counselingFinancialProduct = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/Counseling/FinancialProduct/Detail`);
-        fetch(`${url}/Counseling/FinancialProduct/Detail`)   //get
+        console.log(`${url}/Counseling/FinancialProduct`);
+        fetch(`${url}/Counseling/FinancialProduct`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
