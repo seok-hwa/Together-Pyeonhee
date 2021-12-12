@@ -75,7 +75,6 @@ const SavingPlan = (props) => {
         //   console.error(error);
         // })
         props.setAddSavingsPlan(true);
-
     }
 
     const cancleHandler = () => {

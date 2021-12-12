@@ -8,11 +8,11 @@ import { editSavingPlan, removeSavingPlan } from '../../api';
 const SavingPlanItem = (props) => {
   let startYear = props.startSavingDate.substring(0, 4);
   let startMonth = props.startSavingDate.substring(5, 7);
-  let startDay = props.startSavingDate.substring(8, 10);
+  // let startDay = props.startSavingDate.substring(8, 10);
 
   let finishYear = props.endSavingDate.substring(0, 4);
   let finishMonth = props.endSavingDate.substring(5, 7);
-  let finishDay = props.endSavingDate.substring(8, 10);
+  // let finishDay = props.endSavingDate.substring(8, 10);
 
   let userIncome = props.userIncome;
   let availableSavings = props.userIncome - props.sumOfSavings + props.savingMoney - props.fixedExpenditure - props.plannedExpenditure;
@@ -74,16 +74,18 @@ const SavingPlanItem = (props) => {
       Alert.alert(' ','기간은 최소 1개월 이상이어야 합니다.');
       return;
     }
-
-    editSavingPlan(props.userID, props.savingID, tempTitle, parseInt(savingMoney.split(",").join("")), parseInt(tempEndYear), parseInt(tempEndMonth))
+    
+    setModalVisible(!modalVisible);
+    editSavingPlan(props.userID, props.savingID, tempTitle, parseInt(tempSavingMoney.split(",").join("")), parseInt(tempEndYear), parseInt(tempEndMonth))
     .then((responseJson)=>{
       console.log(responseJson);
     })
     .catch((e)=>{
         console.error(e);
     })
-    setModalVisible(!modalVisible);
+    // setModalVisible(!modalVisible);
     props.setAddSavingsPlan(true);
+    // setModalVisible(!modalVisible);
   }
 
   const handleRemoveButton = () => {
