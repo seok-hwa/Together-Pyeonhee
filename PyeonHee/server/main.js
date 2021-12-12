@@ -9,7 +9,7 @@ var app = express();
 app.use(express.json());
 
 //schedule
-var scheduleRouter = require('./routes/schedule')();
+var scheduleRouter = require('./routes/schedule')(admin);
 app.use('/', scheduleRouter);
 
 //회원가입 및 설문조사
@@ -69,7 +69,7 @@ var boardRouter = require('./routes/board')();
 app.use('/query', boardRouter);
 
 //관리자 웹페이지
-var adminRouter = require('./routes/admin')();
+var adminRouter = require('./routes/admin')(admin);
 app.use('/admin', adminRouter);
 
 const PORT = 8000;

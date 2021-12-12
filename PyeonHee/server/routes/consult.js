@@ -105,6 +105,7 @@ module.exports = function () {
         })
     });
 
+    /*
     //상담사 세부정보 받아오기 
     router.get('/FinancialProduct/Detail', function (req, res) {
         var consultNumber = req.query.consultNumber;
@@ -127,6 +128,6 @@ module.exports = function () {
             });
         }
     });
-
+    */
     return router;
 }

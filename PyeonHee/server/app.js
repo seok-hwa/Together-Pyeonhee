@@ -69,9 +69,10 @@ const SSHConnection = new Promise((resolve, reject) => {
                         result1.map(user => {
                             if(user.daily_spent_money <= user.available_money) {
                                 user.daily_count = user.daily_count + 1;
+                                user.rest_money = user.rest_money + (user.available_money - user.daily_spent_money);
                                 console.log(user.user_id, "님의 일일권장금액 이행률이 업데이트 되었습니다.");
                                 console.log(user.user_id,"님의 이행 횟수 :",user.daily_count);
-                                db.query(`UPDATE daily_data SET daily_count = ?, daily_spent_money = 0 WHERE user_id = ?`, [user.daily_count, user.user_id], function(error2, result2){
+                                db.query(`UPDATE daily_data SET daily_count = ?, daily_spent_money = 0 rest_money = ? WHERE user_id = ?`, [user.daily_count, user.user_id, user.rest_money], function(error2, result2){
                                     if(error2) throw error2;
                                     console.log("일일권장금액 이행 여부가 업데이트 되었습니다.");
                                     // console.log(result2);
@@ -178,25 +179,25 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             });
 
-            // // 30초마다 일일소비량 업데이트
-            // schedule.scheduleJob('* * */30 * * *', async () => {
-            //     db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
-            //         if(error1) throw error1;
-            //         else{
-            //             if(result1.spend_money == null)
-            //                 console.log('소비한 내역이 없습니다.');
-            //             else{
-            //                 console.log(result1);
-            //                 daily_spent_money = result1[0].spend_money
-            //                 db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
-            //                        if(error2) throw error2;
-            //                     console.log(result2);
-            //                 })
-            //             }
-            //         }
+            // 30초마다 일일소비량 업데이트
+            schedule.scheduleJob('*/30 * * * * *', async () => {
+                db.query(`SELECT sum(tran_amt) as spend_money FROM real_expense WHERE DAY(now()) = SUBSTR(tran_date, 7,2) AND user_id = ?`,[global_id], function(error1, result1){
+                    if(error1) throw error1;
+                    else{
+                        if(result1.spend_money == null)
+                            console.log('소비한 내역이 없습니다.');
+                        else{
+                            console.log(result1);
+                            daily_spent_money = result1[0].spend_money
+                            db.query(`UPDATE daily_data SET  daily_spent_money= ? WHERE user_id = ?`,[daily_spent_money, global_id], function(error2, result2){
+                                   if(error2) throw error2;
+                                console.log(result2);
+                            })
+                        }
+                    }
                     
-            //     })
-            // });
+                })
+            });
 
             
             // // 일일권장 소비금액 (잔액 푸시알림)
@@ -2265,9 +2266,12 @@ const SSHConnection = new Promise((resolve, reject) => {
             //한달 리포트 불러오기 : 지난 달과 비교
             app.post('/monthReport/Cabinet/WithLastMonth', function(req,res){
                 var userID = req.body.userID;
-                var month = req.body.month + 1;
-                var prevMonth = req.body.month;
+                var month = (req.body.month + 1).toString();
+                var prevMonth = (req.body.month).toString();
                 var year = req.body.year;
+
+                if(month.length == 1) month = '0'+month;
+                if(prevMonth.length == 1) prevMonth = '0'+prevMonth;
 
                 var YYMM = year + month;
                 var prevYYMM = year + prevMonth;
