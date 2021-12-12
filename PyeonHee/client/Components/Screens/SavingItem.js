@@ -13,12 +13,12 @@ const SavingItem = (props) => {
                 <View style={styles.savingBottomDiv}>
                     <View style={styles.savingInnerDiv} >
                         {/* <Text style={styles.goalText}> 시작일: </Text> */}
-                        <Text style={styles.goalText}>{(props.startSavingDate+'').substring(0,10)}</Text> 
+                        <Text style={styles.goalText}>{(props.startSavingDate+'').substring(0,7)}</Text> 
                     </View>
                     <View style={styles.savingInnerDiv} >
                         {/* <Text style={styles.goalText}> ~종료일: </Text> */}
                         <Text style={styles.goalText}> ~ </Text>
-                        <Text style={styles.goalText}>{(props.endSavingDate+'').substring(0,10)}</Text> 
+                        <Text style={styles.goalText}>{(props.endSavingDate+'').substring(0,7)}</Text> 
                     </View>
                 </View>
             </View>

@@ -130,48 +130,47 @@ const MonthReportItem = (props) => {
                 prevYear = prevYear - 1;
             }
             console.log('/monthReport/Cabinet/WithLastMonth',  prevMonth);
-            fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
-                method: 'POST',
-                body: JSON.stringify({
-                  userID: props.userID,
-                  month: prevMonth,
-                  year: prevYear,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json',
-                },
-            })
-            .then((response)=>response.json())
-            .then((responseJson)=>{
-                console.log(responseJson);
-
-                if(responseJson.length > 0){
-                    setLastRent(responseJson.monthly_rent);
-                    setLastInsurance(responseJson.insurance_expense);
-                    setLastCommunication(responseJson.communication_expense);
-                    setLastSubscribe(responseJson.subscribe_expense);
-
-                    setLastTraffic(responseJson.transportation_expense);
-                    setLastHobby(responseJson.leisure_expense);
-                    setLastShopping(responseJson.shopping_expense);
-                    setLastEducation(responseJson.education_expense);
-                    setLastMedical(responseJson.medical_expense);
-                    setLastEvent(responseJson.event_expense);
-                    setLastEct(responseJson.etc_expense);
-
-                    setLastDinner(responseJson.live_expense);
-                    setLastSaving(responseJson.user_savings);
-
-                }
-            })
-            .then(()=>{
-                // setLoading(true);
-                setModalVisible(true);
-            })
-
+            if(props.index > 0) {
+                fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      userID: props.userID,
+                      month: prevMonth,
+                      year: prevYear,
+                    }),
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type':'application/json',
+                    },
+                })
+                .then((response)=>response.json())
+                .then((responseJson)=>{
+                    console.log(responseJson);
+    
+                    if(responseJson.length > 0){
+                        setLastRent(responseJson.monthly_rent);
+                        setLastInsurance(responseJson.insurance_expense);
+                        setLastCommunication(responseJson.communication_expense);
+                        setLastSubscribe(responseJson.subscribe_expense);
+    
+                        setLastTraffic(responseJson.transportation_expense);
+                        setLastHobby(responseJson.leisure_expense);
+                        setLastShopping(responseJson.shopping_expense);
+                        setLastEducation(responseJson.education_expense);
+                        setLastMedical(responseJson.medical_expense);
+                        setLastEvent(responseJson.event_expense);
+                        setLastEct(responseJson.etc_expense);
+    
+                        setLastDinner(responseJson.live_expense);
+                        setLastSaving(responseJson.user_savings);
+                    }
+                })
+                .then(()=>{
+                    // setLoading(true);
+                    setModalVisible(true);
+                })
+            }
             setLoading(true);
-
         })
         .catch((e)=>{
             console.error(e);
@@ -225,7 +224,8 @@ const MonthReportItem = (props) => {
                         </View>
                         {loading === true ? 
                             <View>
-                                {selectedIndex === 0 && 
+                                {(selectedIndex === 0 && props.index > 0) && 
+
                                     <CabinetReportWithLast month={props.month} prevMonth={(props.month - 1)} lastSaving={lastSaving} lastRent={lastRent}
                                         lastInsurance={lastInsurance}  lastCommunication={lastCommunication} lastSubscribe={lastSubscribe} lastDinner={lastDinner}
                                         lastTraffic={lastTraffic} lastHobby={lastHobby} lastShopping={lastShopping} lastEducation={lastEducation} lastMedical={lastMedical}
@@ -233,6 +233,12 @@ const MonthReportItem = (props) => {
                                         rent={realRent} insurance={realInsurance} communication={realCommunication} subscribe={realSubscribe} dinner={realDinner} traffic={realTraffic} 
                                         hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct} saving={realSaving}
                                     />
+                                }
+                                {(selectedIndex === 0 && props.index === 0) && 
+
+                                    <View style={{padding: 30, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Text style={{fontSize: 15,}}>이전 달의 내역이 없습니다.</Text>
+                                    </View>
                                 }
                                 {selectedIndex === 1 && 
                                     <CabinetReportWithPlan planSaving={planSaving} planRent={planRent} planInsurance={planInsurance}  planCommunication={planCommunication} 
@@ -242,7 +248,7 @@ const MonthReportItem = (props) => {
                                         hobby={realHobby} shopping={realShopping} education={realEducation} medical={realMedical} event={realEvent} ect={realEct} saving={realSaving}
                                     />
                                 }
-                            </View> :
+                            </View>:
                             <View style={{alignItems: 'center', justifyContent: 'center'}}><Text>...</Text></View>
                             
                         }
@@ -336,7 +342,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
-        marginTop : 30
     }, 
     appTopBarText: {
         fontSize: 18,
