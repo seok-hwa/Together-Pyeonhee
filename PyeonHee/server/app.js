@@ -2149,7 +2149,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             //한달 리포트 보관함 목록 불러오기
             app.post('/MonthReportCabinet', function(req,res){
                 var userID = req.body.userID;
-                db.query(`SELECT report_month, mbti, progress_days, income, savings FROM Monthly_Report WHERE user_id =?`,[userID], function(error, result){
+                db.query(`SELECT * FROM Monthly_Report WHERE user_id =?`,[userID], function(error, result){
                     if(error) throw error;
                     else{
                         console.log(result);
@@ -2195,7 +2195,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     planEct : result1[0].etc_expense,
                                     planDinner : planDinner,
 
-                                    realSavings : result2[0].savings,
+                                    realSavings : result2[0].realSaving,
                                     realRent : result2[0].realRent,
                                     realInsurance : result2[0].realInsurance,
                                     realCommunication : result2[0].realCommunication,
@@ -2241,7 +2241,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             if(error2) throw error2;
                             else{
                                 data = {
-                                    realSavings : result1[0].savings,
+                                    realSavings : result1[0].realSaving,
                                     realRent : result1[0].realRent,
                                     realInsurance : result1[0].realInsurance,
                                     realCommunication : result1[0].realCommunication,
@@ -2256,7 +2256,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                                     realEct : result1[0].realEct,
                                     realDinner : result1[0].realDinner,
 
-                                    prevSavings : result2[0].savings,
+                                    prevSavings : result2[0].realSaving,
                                     prevRent : result2[0].realRent,
                                     prevInsurance : result2[0].realInsurance,
                                     prevCommunication : result2[0].realCommunication,
