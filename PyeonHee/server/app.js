@@ -1358,7 +1358,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error, result){
                             if (error) throw error;
-
                             else if(result.length != 0){
                                 dailyMoney = Calculate_Daily_Money(result, result1);
                                 console.log(result[0]);
@@ -1382,14 +1381,14 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 sumOfSavings : parseInt(result1[0].total_savings_money),
                                 dailyMoney : dailyMoney
                                 };
-                            console.log(data);
-                            res.send(data);
-                        } 
-                        else {
-                            res.send([]);
-                        }
-                    });
-                }
+                                console.log(data);
+                                res.send(data);
+                            } 
+                            else {
+                                res.send([]);
+                            }
+                        });
+                    }
                 });
             });
 
