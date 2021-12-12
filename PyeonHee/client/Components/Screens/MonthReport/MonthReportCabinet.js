@@ -35,7 +35,6 @@ const MonthReportCabinet = ({navigation}) => {
                 setLoading(true);
             })  
         })
-        // setLoading(true); //for test
     }, [])
 
     const loadCabinet = () => {

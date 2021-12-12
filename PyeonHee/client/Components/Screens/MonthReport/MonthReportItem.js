@@ -191,7 +191,6 @@ const MonthReportItem = (props) => {
             >
                 <View style={styles.appTopBar}>
                     <TouchableOpacity
-                        // style={styles.closeButton}
                         onPress={() => {setModalVisible(!modalVisible)}}
                     >
                         <Icon name={'arrow-back-outline'} size={23} color={'#203864'}/>

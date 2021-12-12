@@ -432,7 +432,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                                     userID={userID} setAddSavingsPlan={setAddSavingsPlan} savingID={item.saving_number} 
                                     userIncome={myBudgetData.userIncome} sumOfSavings={myBudgetData.sumOfSavings} 
                                     plannedExpenditure={plannedExpenditure} fixedExpenditure={fixedExpenditure}
-                                    />;
+                                />;
                         })}
                     </View>
                 </View>            

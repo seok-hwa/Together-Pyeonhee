@@ -18,7 +18,7 @@ import IamportID from './IamportComponents/AppID';
 import IamportPassword from './IamportComponents/AppPassword';
 import AsyncStorage from '@react-native-community/async-storage';
 import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
-import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
+// import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
 import BudgetScreen from './Components/Screens/BudgetScreen';
 import AccountLinkScreen from './Components/Screens/AssetsTab/Account/AccountLinkScreen';
 import SetCategoryScreen from './Components/Screens/SetCategoryScreen'
@@ -35,6 +35,7 @@ import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
 import FindIDResult from './Components/Screens/Find/FindIDResult';
 import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
 import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
+import ManualScreen from './Components/Screens/ManualScreen';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -174,13 +175,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
-            <Stack.Screen    //for Budget Writing test
+            {/* <Stack.Screen    //for Budget Writing test
               name="WriteBudget"
               component={WriteBudgetScreen}
               options={{
                 headerShown: false,
             }} 
-            />
+            /> */}
            <Stack.Screen
              name="MyBudget"
              component={BudgetScreen}
@@ -268,6 +269,13 @@ function App(){         //navigation
             <Stack.Screen
               name="QueryWrite"
               component={QueryWrite}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
+              name="ManualScreen"
+              component={ManualScreen}
               options={{
                 headerShown: false,
             }} 
@@ -349,13 +357,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
-            <Stack.Screen    //for Budget Writing test
+            {/* <Stack.Screen    //for Budget Writing test
               name="WriteBudget"
               component={WriteBudgetScreen}
               options={{
                 headerShown: false,
             }} 
-            />
+            /> */}
            <Stack.Screen
              name="MyBudget"
              component={BudgetScreen}
@@ -443,6 +451,13 @@ function App(){         //navigation
             <Stack.Screen
               name="QueryWrite"
               component={QueryWrite}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
+              name="ManualScreen"
+              component={ManualScreen}
               options={{
                 headerShown: false,
             }} 
@@ -524,13 +539,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
-            <Stack.Screen    //for Budget Writing test
+            {/* <Stack.Screen    //for Budget Writing test
               name="WriteBudget"
               component={WriteBudgetScreen}
               options={{
                 headerShown: false,
             }} 
-            />
+            /> */}
            <Stack.Screen
              name="MyBudget"
              component={BudgetScreen}
@@ -618,6 +633,13 @@ function App(){         //navigation
             <Stack.Screen
               name="QueryWrite"
               component={QueryWrite}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
+              name="ManualScreen"
+              component={ManualScreen}
               options={{
                 headerShown: false,
             }} 
