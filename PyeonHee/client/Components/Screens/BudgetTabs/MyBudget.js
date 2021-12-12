@@ -119,7 +119,7 @@ const MyBudgetScreen = ({navigation, route}) => {
             .then((responseJson)=>{
                 // console.log('내 예산계획서가 있나?');
                 console.log(responseJson);
-                if(responseJson.status === false){
+                if(responseJson.length === 0){
                     console.log('예산계획서 작성필요');
                     setIsCompleted(false);
                 } else{
