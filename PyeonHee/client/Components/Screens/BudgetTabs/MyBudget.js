@@ -157,34 +157,19 @@ const MyBudgetScreen = ({navigation, route}) => {
                     console.log(responseJson);
                     
                     setSaving(responseJson);
-    
-                    // setLoading(true);
-                    if(loading === true){
-                        console.log('로딩 됐어');
-                    }else{
-                        console.log('로딩 안 됐어');
-                    }
-                    if(isCompleted === true){
-                        console.log('정보 됐어');
-                    }else{
-                        console.log('정보 안 됐어');
-                    }
-                  
-                }) 
-            })
-            .then(()=>{
-                didStore(tempID, tempBudgetID)
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        setUserStore(true);
-                    }
                 })
                 .then(()=>{
-                    setLoading(true);
-                })
-            })
-            .then(()=>{
+                    didStore(tempID, tempBudgetID)
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            setUserStore(true);
+                        }
+                    })
+                    .then(()=>{
+                        setLoading(true);
+                    })
+                }) 
             })
         })
     }, [isEdited])
@@ -260,7 +245,7 @@ const MyBudgetScreen = ({navigation, route}) => {
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center',}}>
                             <Text style={{fontSize: 20, fontWeight:'bold', color: '#8EB3EE', marginRight: 3}}>
-                                {myBudgetData.dailyMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                {(myBudgetData.dailyMoney+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </Text> 
                             <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                 원
@@ -423,13 +408,22 @@ const MyBudgetScreen = ({navigation, route}) => {
                                 <AddSavingPlan income={myBudgetData.userIncome.toString()} setAddSavingsPlan={setAddSavingsPlan}/>
                             </View>
                         </View>
-                        <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                            {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
-                        </Text>
+                        {
+                            saving.length === 0 ?
+                            <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                                0 원
+                            </Text>
+                            :
+                            <Text style={{fontSize: 18, fontWeight:'bold'}}>
+                            {myBudgetData.sumOfSavings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                            } 원
+                            </Text>
+                        }
                     </View>
                     <View>
                         {saving.length === 0 ?
-                            <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> :
+                            <Text style={{margin: 10,}}>아직 저장된 저축 계획이 없습니다.</Text> 
+                            :
                             saving.map(item => {
                                 return <SavingPlanItem key={item.saving_number} savingName={item.saving_name} 
                                     currentSavingMoney={item.all_savings_money} savingMoney={item.savings_money}

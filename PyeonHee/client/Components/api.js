@@ -108,6 +108,9 @@ export const dailySaving = (userID) => {
         .then((responseJson)=>{
             resolve(responseJson);
         })
+        .catch((e)=>{
+            console.log('에러', e);
+        })
     })
 };
 export const saveTranHistory = (userID) => {
