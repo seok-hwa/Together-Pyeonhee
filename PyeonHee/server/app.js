@@ -1111,13 +1111,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var startDate = req.body.startDate;
                 var endYear = req.body.endYear;
                 var endMonth = req.body.endMonth;
-                var endDay = endYear+'-'+endMonth+'-01';
+                var endDay = endYear+'-'+endMonth+'-28';
 
                 var startYear = startDate.substring(0,4);
                 var startMonth = startDate.substring(5,7);
 
 
-                startDate = startYear+'-'+startMonth+'-'+ '01';
+                startDate = startYear+'-'+startMonth+'-'+ '05';
                 
                 db.query(`INSERT INTO Savings(user_id, saving_name, savings_money, start_date, finish_date)
                 VALUES(?,?,?,?,?)`,[userID, savingName,savingMoney,startDate,endDay], function(error, result){
@@ -1145,10 +1145,13 @@ const SSHConnection = new Promise((resolve, reject) => {
                 var endYear = req.body.endYear;
                 var endMonth = req.body.endMonth;
 
-                db.query(`UPDATE Savings SET saving_name = ? , savings_money = ? , finish_date = DATE_FORMAT('?-?-01','%Y-%m-%d')  WHERE saving_number = ? and user_id = ?`,
+
+                db.query(`UPDATE Savings SET saving_name = ? , savings_money = ? , finish_date = DATE_FORMAT('?-?-28','%Y-%m-%d') WHERE saving_number = ? and user_id = ?`,
                 [savingName,savingMoney,endYear,endMonth,savingID,userID], function(error, result){
                     if(error) throw error;
                     else{
+
+                        console.log(result);
                         data = {
                             status : 'success'
                         }
