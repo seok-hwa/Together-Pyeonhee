@@ -144,107 +144,112 @@ module.exports = function () {
                         if (error2) throw error2;
                         else {
                             console.log(result[0]);
-                            user_income = result[0].user_income;
-                            user_saving = result[0].user_saving;
-                            spend_money.map(item => {
-                                if (item.tran_type === '쇼핑') {
-                                    shopping_expense = item.daily_amount;
-                                } else if (item.tran_type === '교통') {
-                                    transportation_expense = item.daily_amount;
-                                } else if (item.tran_type === '구독') {
-                                    subscribe_expense = item.daily_amount;
-                                } else if (item.tran_type === '통신') {
-                                    communication_expense = item.daily_amount;
-                                } else if (item.tran_type === '여가') {
-                                    leisure_expense = item.daily_amount;
-                                } else if (item.tran_type === '교육') {
-                                    education_expense = item.daily_amount;
-                                } else if (item.tran_type === '선물') {
-                                    event_expense = item.daily_amount;
-                                } else if (item.tran_type === '보험') {
-                                    insurance_expense = item.daily_amount;
-                                } else if (item.tran_type === '의료') {
-                                    medical_expense = item.daily_amount;
-                                } else if (item.tran_type === '월세') {
-                                    monthly_rent = item.daily_amount;
-                                } else if (item.tran_type === '기타') {
-                                    etc_expense = item.daily_amount;
-                                }
-                            })
-                            db.query(`SELECT last_count FROM daily_data WHERE user_id = ?`, [userID], function (error3, daily_count) {
-                                if (error3) throw error3;
-                                else {
-                                    console.log("한달리포트로 MBTI 제시 부분");
-                                    console.log(daily_count[0])
-                                    var date = new Date();
-                                    var year = date.getFullYear();
-                                    var month = date.getMonth();
-                                    var last = new Date(year, month);
-                                    last = new Date(last - 1);
-                                    var count_stand = last.getDate()
-                                    var portion = daily_count[0].last_count / count_stand * 100;
-                                    // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
-                                    var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
-                                    // 즉흥 vs 계획
-                                    if (portion < 70) {
-                                        userMbti = userMbti + 'I';
-                                        description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
+                            if (result[0] != undefined) {
+                                user_income = result[0].user_income;
+                                user_saving = result[0].user_saving;
+                                spend_money.map(item => {
+                                    if (item.tran_type === '쇼핑') {
+                                        shopping_expense = item.daily_amount;
+                                    } else if (item.tran_type === '교통') {
+                                        transportation_expense = item.daily_amount;
+                                    } else if (item.tran_type === '구독') {
+                                        subscribe_expense = item.daily_amount;
+                                    } else if (item.tran_type === '통신') {
+                                        communication_expense = item.daily_amount;
+                                    } else if (item.tran_type === '여가') {
+                                        leisure_expense = item.daily_amount;
+                                    } else if (item.tran_type === '교육') {
+                                        education_expense = item.daily_amount;
+                                    } else if (item.tran_type === '선물') {
+                                        event_expense = item.daily_amount;
+                                    } else if (item.tran_type === '보험') {
+                                        insurance_expense = item.daily_amount;
+                                    } else if (item.tran_type === '의료') {
+                                        medical_expense = item.daily_amount;
+                                    } else if (item.tran_type === '월세') {
+                                        monthly_rent = item.daily_amount;
+                                    } else if (item.tran_type === '기타') {
+                                        etc_expense = item.daily_amount;
                                     }
+                                })
+                                db.query(`SELECT last_count FROM daily_data WHERE user_id = ?`, [userID], function (error3, daily_count) {
+                                    if (error3) throw error3;
                                     else {
-                                        userMbti = userMbti + 'P';
-                                        description = description + '당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. ';
-                                    }
-                                    // 절약 vs 소비
-                                    // 수입이 350만이 넘는경우
-                                    if (user_income >= 3500000) {
-                                        if ((user_saving * 0.6) > life_expense) {
-                                            userMbti = userMbti + 'C';
-                                            description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                                        console.log("한달리포트로 MBTI 제시 부분");
+                                        console.log(daily_count[0])
+                                        var date = new Date();
+                                        var year = date.getFullYear();
+                                        var month = date.getMonth();
+                                        var last = new Date(year, month);
+                                        last = new Date(last - 1);
+                                        var count_stand = last.getDate()
+                                        var portion = daily_count[0].last_count / count_stand * 100;
+                                        // life_expense : 수입 - 저금 - 고정지출 (구독료 제외)
+                                        var life_expense = user_income - user_saving - monthly_rent - insurance_expense - communication_expense;
+                                        // 즉흥 vs 계획
+                                        if (portion < 70) {
+                                            userMbti = userMbti + 'I';
+                                            description = description + '당신은 계획적으로 사전에 생각하고 소비하기보다 필요에 맞춰서 그때그때 사용하는 편입니다. ';
                                         }
                                         else {
-                                            userMbti = userMbti + 'H';
-                                            description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                                            userMbti = userMbti + 'P';
+                                            description = description + '당신은 소비하기전에 계획했던 범위에서 벗어나지 않도록 사전에 생각하고 사용하는 편입니다. ';
                                         }
-                                    }
-                                    // 수입이 350만 아래인 경우
-                                    else {
-                                        if (user_saving >= life_expense) {
-                                            userMbti = userMbti + 'C';
-                                            description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                                        // 절약 vs 소비
+                                        // 수입이 350만이 넘는경우
+                                        if (user_income >= 3500000) {
+                                            if ((user_saving * 0.6) > life_expense) {
+                                                userMbti = userMbti + 'C';
+                                                description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                                            }
+                                            else {
+                                                userMbti = userMbti + 'H';
+                                                description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                                            }
+                                        }
+                                        // 수입이 350만 아래인 경우
+                                        else {
+                                            if (user_saving >= life_expense) {
+                                                userMbti = userMbti + 'C';
+                                                description = description + '수입이 생기면 저금보다 일단 필요한 부분에 있어서 소비하고 현재를 즐기는 것을 선호하시네요. ';
+                                            }
+                                            else {
+                                                userMbti = userMbti + 'H';
+                                                description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                                            }
+                                        }
+                                        // 본인 vs 타인
+                                        if ((shopping_expense + leisure_expense + education_expense) / 3 >= event_expense * 1.2) {
+                                            userMbti = userMbti + 'S';
+                                            description = description + '종종 본인 스스로에게 선물을 해주기도 하고 가끔 좋아하는 음식을 먹으며 스트레스를 푸시네요. ';
                                         }
                                         else {
-                                            userMbti = userMbti + 'H';
-                                            description = description + '수입이 생기면 당장 필요한 것들을 소비하기보다 미래를 위해 저금을 해 모으는 것을 선호하십니다. ';
+                                            userMbti = userMbti + 'O';
+                                            description = description + '종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. ';
                                         }
-                                    }
-                                    // 본인 vs 타인
-                                    if ((shopping_expense + leisure_expense + education_expense) / 3 >= event_expense * 1.2) {
-                                        userMbti = userMbti + 'S';
-                                        description = description + '종종 본인 스스로에게 선물을 해주기도 하고 가끔 좋아하는 음식을 먹으며 스트레스를 푸시네요. ';
-                                    }
-                                    else {
-                                        userMbti = userMbti + 'O';
-                                        description = description + '종종 친구들에게 해줄 선물들을 고르면서 좋아하는 반응을 보며 즐기시는 편이시네요. ';
-                                    }
-                                    // 경험 vs 물질
-                                    if (leisure_expense >= shopping_expense) {
-                                        userMbti = userMbti + 'E';
-                                        description = description + '소비를 크게 차지하는 부분은 쇼핑을 위주로 하기보다 취미나 사람들을 만나고 경험적인 일을 쌓는데 주로 사용하십니다. ';
-                                    }
-                                    else {
-                                        userMbti = userMbti + 'M';
-                                        description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
-                                    }
+                                        // 경험 vs 물질
+                                        if (leisure_expense >= shopping_expense) {
+                                            userMbti = userMbti + 'E';
+                                            description = description + '소비를 크게 차지하는 부분은 쇼핑을 위주로 하기보다 취미나 사람들을 만나고 경험적인 일을 쌓는데 주로 사용하십니다. ';
+                                        }
+                                        else {
+                                            userMbti = userMbti + 'M';
+                                            description = description + '소비를 크게 차지하는 부분은 취미나 사람들을 만나는데 주로 사용하시기보다 기분전환을 위해 쇼핑을 하시는 것을 좋아하십니다. ';
+                                        }
 
-                                    data = {
-                                        userID: userID,
-                                        userMbti: userMbti,
-                                        description: description,
+                                        data = {
+                                            userID: userID,
+                                            userMbti: userMbti,
+                                            description: description,
+                                        }
+                                        console.log(data);
+                                        res.send(data);
                                     }
-                                    console.log(data);
-                                    res.send(data);
-                                }
-                            })
+                                })
+                            }
+                            else {
+                                res.send([]);
+                            }
                         }
                     })
                 }
