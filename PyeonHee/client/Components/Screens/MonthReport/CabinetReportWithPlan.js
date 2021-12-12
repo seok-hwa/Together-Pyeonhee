@@ -320,6 +320,27 @@ const CabinetReportWithPlan = (props) => {
                     { plannedDif != 0 && <Text style={[styles.sumMoneyText, {fontWeight: 'bold'}]}> {Math.abs(plannedDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
                 </View>
             </View>
+            <View style={styles.sumContainer}>
+                <View style={styles.categoryDiv}>
+                    <View style={styles.leftDiv}>
+                        <View style={styles.sumLogoContainer}>
+                            <Icon name={'add-outline'} size={15}/>
+                        </View>
+                        <Text style={{color: '#203864'}}>총합</Text>
+                    </View>
+                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{planFixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>{fixedSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text></View>
+                    {/* <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View>
+                    <View style={styles.moneyDiv}><Text style={styles.sumMoneyText}>1,000,000</Text></View> */}
+                </View>
+                <View style={styles.difDiv}>
+                    { plannedDif > 0 && <Icon name={'caret-up-outline'} size={12} color={'red'}/> }
+                    { plannedDif < 0 && <Icon name={'caret-down-outline'} size={12} color={'blue'}/> }
+                    { plannedDif === 0 && <Icon name={'remove-outline'} size={12}/> }
+                    
+                    { plannedDif != 0 && <Text style={[styles.sumMoneyText, {fontWeight: 'bold'}]}> {Math.abs(plannedDif).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Text>}
+                </View>
+            </View>
         </ScrollView>
     );
 }

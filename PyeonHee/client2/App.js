@@ -35,6 +35,7 @@ import QueryWrite from './Components/Screens/ServiceCenter/QueryWrtie';
 import FindIDResult from './Components/Screens/Find/FindIDResult';
 import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
 import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
+import ManualScreen from './Components/Screens/ManualScreen';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -273,6 +274,13 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
+              name="ManualScreen"
+              component={ManualScreen}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
               name="FindIDResult"
               component={FindIDResult}
               options={{
@@ -448,6 +456,13 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
+              name="ManualScreen"
+              component={ManualScreen}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
               name="FindIDResult"
               component={FindIDResult}
               options={{
@@ -618,6 +633,13 @@ function App(){         //navigation
             <Stack.Screen
               name="QueryWrite"
               component={QueryWrite}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
+              name="ManualScreen"
+              component={ManualScreen}
               options={{
                 headerShown: false,
             }} 
