@@ -76,14 +76,14 @@ const MonthReportScreen = ({navigation, route}) => {
 
   const handleSubmitButton = () => {
     if(route.params.userCurrentMbti === userMbti){
-      alert('이미 해당 mbti로 설정되어있습니다.');
+      alert('이미 해당 유형으로 설정되어있습니다.');
     }else{
       updateMbti(userID, userMbti)
       .then((responseJson)=>{
         console.log(responseJson);
         if(responseJson.status === true){
           console.log('설정 완료');
-          alert(`${userMbti}를 소비 성향 MBTI로 설정 했습니다.`);
+          alert(`${userMbti}를 소비 성향으로 설정 했습니다.`);
           setUserMbti(userMbti);
           setMbtiModalVisible(false);     
         }else{

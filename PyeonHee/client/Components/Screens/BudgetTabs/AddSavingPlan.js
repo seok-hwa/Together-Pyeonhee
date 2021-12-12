@@ -161,11 +161,12 @@ const SavingPlan = (props) => {
                                         style={styles.textInputDesign}
                                         // placeholder='1~31일 중 선택하세요'
                                         onChangeText={text => handleSavingMoney(text)}
+                                        value={savingMoney}
                                         maxLength = {10}
                                         textAlign="right"
                                         keyboardType="numeric"
                                     />
-                                <Text>일</Text>
+                                <Text>원</Text>
                                 </View>
                             </View>
                         </View> 

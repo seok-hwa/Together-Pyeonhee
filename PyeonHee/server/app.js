@@ -1103,35 +1103,23 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             })
             
-            //저축계획 작성
             app.post('/saveSavingPlan', function(req, res){
-                console.log(req.body);
                 var userID = req.body.userID;
                 var savingName = req.body.savingName;
                 var savingMoney = req.body.savingMoney;
                 var startDate = req.body.startDate;
-                var savingsDay = req.body.savingsDay;
-                var period = req.body.period;
+                var endYear = req.body.endYear;
+                var endMonth = req.body.endMonth;
+                var endDay = endYear+'-'+endMonth+'-01';
 
                 var startYear = startDate.substring(0,4);
                 var startMonth = startDate.substring(5,7);
-                var startDay = startDate.substring(8,10);
 
-                if(startDay > savingsDay){
-                    if(startMonth == '12'){
-                        startYear = parseInt(startYear) + 1;
-                        startMonth = '01';
-                    }
-                    else{
-                        startMonth = parseInt(startMonth) + 1;
-                    }
-                }
 
-                startDate = startYear+'-'+startMonth+'-'+ savingsDay;
-
+                startDate = startYear+'-'+startMonth+'-'+ '01';
+                
                 db.query(`INSERT INTO Savings(user_id, saving_name, savings_money, start_date, finish_date)
-                VALUES(?, ?, ?, ?,DATE_ADD(?, INTERVAL ? MONTH))`,
-                [userID, savingName, savingMoney, startDate, startDate, period],function(error, result){
+                VALUES(?,?,?,?,?)`,[userID, savingName,savingMoney,startDate,endDay], function(error, result){
                     if(error) throw error;
                     else{
                         const data = {
@@ -1139,44 +1127,9 @@ const SSHConnection = new Promise((resolve, reject) => {
                         }
                         res.send(data);
                         console.log(data);
-                        // db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function(error1, result1){
-                        //     if(error1) throw error1;
-                        //     else{
-                        //         sum_savings = result1[0].total_savings_money;
-                        //         db.query(`UPDATE BudgetPlanning SET user_savings = ?`, [sum_savings], function(error2, result2){
-                        //             if(error2) throw error2;
-                        //             else{
-                        //                 db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function(err, result5){
-                        //                     if(err) throw err;
-                        //                     else{
-                        //                         db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error3, result3){
-                        //                             if(error3) throw error3;
-                        //                             else{
-                        //                                 var dailyMoney = Calculate_Daily_Money(result3, result5);
-                        //                                 db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`,[dailyMoney, userID], function(error4, result4){
-                        //                                     if(error4) throw error4;
-                        //                                     else{
-                        //                                         const data = {
-                        //                                             status : 'success',
-                        //                                         }
-                        //                                         res.send(data);
-                        //                                         console.log(data);
-                        //                                     }
-                        //                                 });
-                        //                             }
-                        //                         });
-                        //                     }
-                        //                 });
-                                        
-                        //             }
-                        //         })
-                        //     }
-                        // })
-                        
-                        
                     }
                 });
-            }); 
+            });
 
             //저금계획 수정
             
@@ -1405,7 +1358,6 @@ const SSHConnection = new Promise((resolve, reject) => {
                     else {
                         db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function(error, result){
                             if (error) throw error;
-
                             else if(result.length != 0){
                                 dailyMoney = Calculate_Daily_Money(result, result1);
                                 console.log(result[0]);
@@ -1429,14 +1381,14 @@ const SSHConnection = new Promise((resolve, reject) => {
                                 sumOfSavings : parseInt(result1[0].total_savings_money),
                                 dailyMoney : dailyMoney
                                 };
-                            console.log(data);
-                            res.send(data);
-                        } 
-                        else {
-                            res.send([]);
-                        }
-                    });
-                }
+                                console.log(data);
+                                res.send(data);
+                            } 
+                            else {
+                                res.send([]);
+                            }
+                        });
+                    }
                 });
             });
 
@@ -1952,7 +1904,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                             WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1 AND BudgetPlanning.state = 1;`, [userID], function(error2, plan_spend){
                                 if(error2) throw error2;
                                 else{
-                                    if(real_spend.length === 0){
+                                    if(plan_spend.length === 0){
                                         console.log("계획한 내역이 없습니다.");
                                         data = {
                                             real : real_spend,
