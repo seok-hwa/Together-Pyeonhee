@@ -43,6 +43,16 @@ const MonthReportScreen = ({navigation, route}) => {
     console.log(date);
     console.log('지난달과 비교', route.params.withLast);
     console.log('계획과 비교', route.params.withPlan);
+    if(route.params.isTransactionList === true){
+      console.log('거래 내역 있음');
+    }else{
+      console.log('거래 내역 없음');
+    }
+    if(route.params.isPlan === true){
+      console.log('계획서 있음');
+    }else{
+      console.log('계획서 없음');
+    }
     let tempID;
     AsyncStorage.getItem('userID', (err, result) => {
       tempID = result;
@@ -97,7 +107,7 @@ const MonthReportScreen = ({navigation, route}) => {
     }
   }
 
-  if(loading === true && route.params.isTransactionList === true){
+  if(loading === true && route.params.isTransactionList === true && route.params.isPlan === true){
   return (
     <View style={styles.container}>
       <Modal
@@ -187,6 +197,21 @@ const MonthReportScreen = ({navigation, route}) => {
             </View>
             <View style={styles.notThere}>
               <Text style={{fontSize: 18, fontWeight: 'bold',}}>{month}월 소비 내역이 없습니다.</Text>
+            </View>
+        </View>
+    )
+  }else if(loading === true && route.params.isPlan === false){
+    return(
+        <View style={styles.notSmallContainer}>
+          <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                  <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+                </View>
+                <View style={styles.headerRightDiv}></View>
+            </View>
+            <View style={styles.notThere}>
+              <Text style={{fontSize: 18, fontWeight: 'bold',}}>작성된 예산 계획서가 없습니다.</Text>
             </View>
         </View>
     )
