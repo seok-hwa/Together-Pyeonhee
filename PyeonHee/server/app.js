@@ -1103,6 +1103,7 @@ const SSHConnection = new Promise((resolve, reject) => {
                 })
             })
             
+            //저금계획 추가
             app.post('/saveSavingPlan', function(req, res){
                 var userID = req.body.userID;
                 var savingName = req.body.savingName;
