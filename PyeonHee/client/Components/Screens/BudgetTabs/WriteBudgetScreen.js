@@ -101,7 +101,6 @@ const WriteBudgetScreen = ({navigation}) => {
     }, []);
 
     if(addSavingsPlan === true) {
-        console.log('어디에서 ㅇㅔ러가 나는거야?');
         dailySaving(userID)
         .then((responseJson)=>{
             console.log('response data');
