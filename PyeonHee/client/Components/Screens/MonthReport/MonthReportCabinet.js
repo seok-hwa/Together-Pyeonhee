@@ -12,6 +12,37 @@ const MonthReportCabinet = ({navigation}) => {
     const [refresh, setRefresh] = useState(false);
     const [monthReportData, setMonthReportData] = useState([]);
 
+    // let monthReportData = [
+    //     {
+    //         reportID: 1,
+    //         year: 2021,
+    //         month: 6,
+    //         user_mbti: 'PHSE',
+    //         income: 3000000,
+    //         totalSavings: 1800000,
+    //         daily_count: 20,
+
+    //     },
+    //     {
+    //         reportID: 2,
+    //         year: 2021,
+    //         month: 7,
+    //         user_mbti: 'PHSE',
+    //         income: 4000000,
+    //         totalSavings: 1900000,
+    //         daily_count: 15,
+    //     },
+    //     {
+    //         reportID: 3,
+    //         year: 2021,
+    //         month: 8,
+    //         user_mbti: 'PHSE',
+    //         income: 5000000,
+    //         totalSavings: 1950000,
+    //         daily_count: 11,
+    //     },
+    // ]
+
     useEffect(()=>{
         let tempID;
         AsyncStorage.getItem("userID")
@@ -35,6 +66,7 @@ const MonthReportCabinet = ({navigation}) => {
                 setLoading(true);
             })  
         })
+        // setLoading(true); //for test
     }, [])
 
     const loadCabinet = () => {
@@ -58,6 +90,7 @@ const MonthReportCabinet = ({navigation}) => {
         .then(()=>{
             setRefresh(false);
         }) 
+        // setRefresh(false);  //for test
     }
 
     if(loading === true){
@@ -71,9 +104,9 @@ const MonthReportCabinet = ({navigation}) => {
                     <FlatList
                         keyExtractor={item => item.report_month}
                         data={monthReportData}
-                        renderItem={({item, index}) => <MonthReportItem userID={userID} month={item.report_month.substring(4,6)} year={item.report_month.substring(0,4)}
+                        renderItem={({item}) => <MonthReportItem userID={userID} month={item.report_month.substring(4,6)} year={item.report_month.substring(0,4)}
                             navigation={navigation} userMbti={item.mbti} userIncome={item.income} totalSavings={item.realSaving} 
-                            daily_count={item.progress_days} index = {index}
+                            daily_count={item.progress_days}
                         />}
                         refreshing={refresh}
                         onRefresh={loadCabinet}
@@ -99,6 +132,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
+        marginTop :40
     }, 
     appTopBarText: {
         fontSize: 18,

@@ -149,7 +149,7 @@ const MyPageScreen = ({navigation, route}) => {
           }
         })
       }
-      const toMonthReport = () => {
+    const toMonthReport = () => {
         let currentRent=0;
         let currentInsurance=0;
         let currentCommunication=0;
@@ -209,6 +209,7 @@ const MyPageScreen = ({navigation, route}) => {
         let daily_count=0;
 
         let isTransactionList = true;
+        let isPlan = true;
 
         reportWithLast(userID)
         .then((responseJson)=>{
@@ -280,59 +281,138 @@ const MyPageScreen = ({navigation, route}) => {
             }
         })
         .then(()=>{
-            reportWithPlan(userID)
-            .then((responseJson)=>{
-                console.log(responseJson);
-                if(responseJson.real.length != 0 && responseJson.plan.length != 0){
-                    responseJson.real.map(item  => {
-                        if(item.tran_type === '쇼핑'){
-                            realShopping+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '교통'){
-                            realTraffic+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '구독'){
-                            realSubscribe+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '통신'){
-                            realCommunication+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '여가'){
-                            realHobby+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '교육'){
-                            realEducation+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '선물'){
-                            realEvent+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '보험'){
-                            realInsurance+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '의료'){
-                            realMedical+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '월세'){
-                            realRent+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '식비'){
-                            realDinner+=parseInt(item.daily_amount);
-                        }else if(item.tran_type === '저금'){
-                            realSaving+=parseInt(item.daily_amount);
-                        }else{
-                            realEct+=parseInt(item.daily_amount);
-                        }
-                    })
+            if(isTransactionList === true){
+                reportWithPlan(userID)
+                .then((responseJson)=>{
+                    if(responseJson.plan.length != 0){
+                        console.log('있음');
+                        responseJson.real.map(item  => {
+                            if(item.tran_type === '쇼핑'){
+                                realShopping+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '교통'){
+                                realTraffic+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '구독'){
+                                realSubscribe+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '통신'){
+                                realCommunication+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '여가'){
+                                realHobby+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '교육'){
+                                realEducation+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '선물'){
+                                realEvent+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '보험'){
+                                realInsurance+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '의료'){
+                                realMedical+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '월세'){
+                                realRent+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '식비'){
+                                realDinner+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '저금'){
+                                realSaving+=parseInt(item.daily_amount);
+                            }else{
+                                realEct+=parseInt(item.daily_amount);
+                            }
+                        })
 
-                    if(responseJson.plan.length !=0){
-                            planRent=responseJson.plan.monthly_rent;
-                            planInsurance=responseJson.plan.insurance_expense;
-                            planCommunication=responseJson.plan.communication_expense;
-                            planSubscribe=responseJson.plan.subscribe_expense;
-                            planTraffic=responseJson.plan.transportation_expense;
-                            planMedical=responseJson.plan.medical_expense;
-                            planEducation=responseJson.plan.education_expense;
-                            planEct=responseJson.plan.etc_expense;
-                            planShopping=responseJson.plan.shopping_expense;
-                            planHobby=responseJson.plan.leisure_expense;
-                            planEvent=responseJson.plan.event_expense;
-                            planDinner=responseJson.live_expense;
-                            planSaving=responseJson.plan.user_savings;
-                            daily_count=responseJson.plan.last_count;
+                        planRent=responseJson.plan.monthly_rent;
+                        planInsurance=responseJson.plan.insurance_expense;
+                        planCommunication=responseJson.plan.communication_expense;
+                        planSubscribe=responseJson.plan.subscribe_expense;
+                        planTraffic=responseJson.plan.transportation_expense;
+                        planMedical=responseJson.plan.medical_expense;
+                        planEducation=responseJson.plan.education_expense;
+                        planEct=responseJson.plan.etc_expense;
+                        planShopping=responseJson.plan.shopping_expense;
+                        planHobby=responseJson.plan.leisure_expense;
+                        planEvent=responseJson.plan.event_expense;
+                        planDinner=responseJson.live_expense;
+                        planSaving=responseJson.plan.user_savings;
+                        daily_count=responseJson.plan.last_count;
+                    }else{
+                        isPlan = false;
+                        console.log('없음');
                     }
-                }
-            })
-            .then(()=>{
+                })
+                .then(()=>{
+                    if(isPlan === true){
+                        console.log('계획서 있음!!!!!!!!!1');
+                        }else{
+                        console.log('계획서 없음!!!!!!!');
+                    }
+                    navigation.navigate('MonthReport', {
+                        withLast: {
+                            currentRent: currentRent,
+                            currentInsurance: currentInsurance,
+                            currentCommunication:currentCommunication,
+                            currentSubscribe:currentSubscribe,
+                            currentTraffic:currentTraffic,
+                            currentMedical:currentMedical,
+                            currentEducation:currentEducation,
+                            currentEct:currentEct,
+                            currentShopping:currentShopping,
+                            currentHobby:currentHobby,
+                            currentEvent:currentEvent,
+                            currentDinner:currentDinner,
+                            currentSaving:currentSaving,
+        
+                            lastRent:lastRent,
+                            lastInsurance:lastInsurance,
+                            lastCommunication:lastCommunication,
+                            lastSubscribe:lastSubscribe,
+                            lastTraffic:lastTraffic,
+                            lastMedical:lastMedical,
+                            lastEducation:lastEducation,
+                            lastEct:lastEct,
+                            lastShopping:lastShopping,
+                            lastHobby:lastHobby,
+                            lastEvent:lastEvent,
+                            lastDinner:lastDinner,
+                            lastSaving:lastSaving,
+                        },
+                        withPlan:{
+                            realRent: realRent,
+                            realInsurance: realInsurance,
+                            realCommunication:realCommunication,
+                            realSubscribe:realSubscribe,
+                            realTraffic:realTraffic,
+                            realMedical:realMedical,
+                            realEducation:realEducation,
+                            realEct:realEct,
+                            realShopping:realShopping,
+                            realHobby:realHobby,
+                            realEvent:realEvent,
+                            realDinner:realDinner,
+                            realSaving:realSaving,
+        
+                            planRent:planRent,
+                            planInsurance:planInsurance,
+                            planCommunication:planCommunication,
+                            planSubscribe:planSubscribe,
+                            planTraffic:planTraffic,
+                            planMedical:planMedical,
+                            planEducation:planEducation,
+                            planEct:planEct,
+                            planShopping:planShopping,
+                            planHobby:planHobby,
+                            planEvent:planEvent,
+                            planDinner:planDinner,
+                            planSaving:planSaving,
+                        },
+                        isTransactionList: isTransactionList,
+                        isPlan: isPlan,
+                        userCurrentMbti: userMbti,
+                        userName: userName,
+                        daily_count: daily_count,
+                        }
+                    )
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+            }
+            else{
                 navigation.navigate('MonthReport', {
                     withLast: {
                         currentRent: currentRent,
@@ -393,15 +473,13 @@ const MyPageScreen = ({navigation, route}) => {
                         planSaving:planSaving,
                     },
                     isTransactionList: isTransactionList,
+                    isPlan: isPlan,
                     userCurrentMbti: userMbti,
                     userName: userName,
                     daily_count: daily_count,
-                }
+                    }
                 )
-            })
-        })
-        .catch((err)=>{
-            console.log(err);
+            }
         })
     }
     if(loading === true){
@@ -628,7 +706,7 @@ const MyPageScreen = ({navigation, route}) => {
                 </View>
                 <View style={styles.pyeonheeDiv}>
                     <Text style={styles.assetBudgetTitle}>이용안내</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('ManualScreen')}>
+                    <TouchableOpacity onPress={()=>alert('사용 설명서')}>
                         <Text style={styles.assetBudgetBoard} >사용 설명서</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('ServiceCenter')}>
