@@ -1,5 +1,8 @@
+import axios from 'axios';
 import config from "../config";
 const url = config.url;
+const client_id = config.client_id;
+const client_secret = config.client_secret;
 
 export const getMyInfo = (userID) => {
     return new Promise(function(resolve, reject) {
@@ -644,8 +647,8 @@ export const close = (userID) => {
 
 export const counselingFinancialProduct = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/Counseling/FinancialProduct/Detail`);
-        fetch(`${url}/Counseling/FinancialProduct/Detail`)   //get
+        console.log(`${url}/Counseling/FinancialProduct`);
+        fetch(`${url}/Counseling/FinancialProduct`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -971,6 +974,50 @@ export const queryRegisterApi = (boardTitle, boardCate, boardContent, userID) =>
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
+        })
+    })
+};
+
+//계좌 연동
+
+export const saveAccountApi = (userID, userToken, userSeqNo) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/account/saveAccount`);
+        fetch(`${url}/account/saveAccount`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userToken: userToken,
+              userSeqNo: userSeqNo,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+export const requestTokenApi = (code) => {
+    return new Promise(function(resolve, reject) {
+        var request_token_url = "https://testapi.openbanking.or.kr/oauth/2.0/token";
+
+        axios({
+            method: "post",
+            url: request_token_url,
+            params: {
+                grant_type: 'authorization_code',
+                client_id: client_id,
+                client_secret: client_secret,
+                redirect_uri: `${url}/account/Together`,
+                code: code,
+            },
+        })
+        .then((response) =>{
+            resolve(response);
         })
     })
 };

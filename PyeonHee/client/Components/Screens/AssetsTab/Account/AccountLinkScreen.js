@@ -2,17 +2,20 @@ import React, { useEffect, useState, Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import config from '../../../../config';
 import { WebView } from 'react-native-webview';
-import axios from 'axios';
+//import axios from 'axios';
+import { saveAccountApi, requestTokenApi } from '../../../api';
 import {
     SafeAreaView,
     Alert,
 } from 'react-native';
 import Loading from '../../Loading';
-
+/*
 const url = config.url;
 const openBankingURL = config.openBankingURL;
 const client_id = config.client_id;
 const client_secret = config.client_secret;
+*/
+const openBankingURL = config.openBankingURL;
 
 const runFirst = `window.ReactNativeWebView.postMessage("this is message from web");`;
 
@@ -55,6 +58,35 @@ class testScreen extends Component {
   const requestToken = async (request_code) => {
       var access_token = "none";
       var user_sequence_num = "none";
+
+      requestTokenApi(request_code)
+      .then(function (response) {
+          console.log('비교', response);
+          access_token = response.data.access_token;
+          user_sequence_num = response.data.user_seq_no;
+          console.log('토큰', access_token, '시퀀', user_sequence_num);
+      })
+      .then(()=>{
+        //api 구현 되면 테스트
+        saveAccountApi(this.state.userID, access_token, user_sequence_num)
+        .then((responseJson)=>{
+          console.log(responseJson);
+          if(responseJson.status === 'success'){
+            console.log('계좌 등록 완료');
+            alert('계좌 등록이 완료되었습니다.');
+          }else{
+            console.log('계좌 등록 실패');
+            alert('계좌 등록에 실패했습니다.');
+          }
+          this.props.navigation.goBack();
+        })
+        
+      })
+      .catch(function (error) {
+          console.log('error', error);
+      });
+
+      /*
       var request_token_url = "https://testapi.openbanking.or.kr/oauth/2.0/token";
 
       axios({
@@ -74,20 +106,7 @@ class testScreen extends Component {
           console.log('토큰', access_token, '시퀀', user_sequence_num);
       }).then(()=>{
         //api 구현 되면 테스트
-        
-        fetch(`${url}/saveAccount`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: this.state.userID,
-            userToken: access_token,
-            userSeqNo: user_sequence_num,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
+        saveAccountApi(this.state.userID, access_token, user_sequence_num)
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){
@@ -103,7 +122,7 @@ class testScreen extends Component {
       })
       .catch(function (error) {
           console.log('error', error);
-      });
+      });*/
   };
 
     return (
