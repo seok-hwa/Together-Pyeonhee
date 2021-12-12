@@ -1,7 +1,6 @@
 import axios from 'axios';
 import config from "../config";
 const url = config.url;
-const openBankingURL = config.openBankingURL;
 const client_id = config.client_id;
 const client_secret = config.client_secret;
 
