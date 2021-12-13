@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView, FlatList, SegmentedControlIOSBase } from 'react-native';
+import { 
+    StyleSheet, 
+    Text, 
+    View, 
+    ScrollView, 
+    FlatList, 
+} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
-// import BudgetItem from '../BudgetItem';
-import OtherBudgetItem from './others/OtherBudgetItem';
+import BudgetItem from '../BudgetItem';
 
 import { saveSelectBudgetPlan, viewBudgetPlan } from '../../api';
 const BudgetList = ({navigation, route}) => {
@@ -68,14 +73,14 @@ const BudgetList = ({navigation, route}) => {
 
                 { check === false && 
                     otherBudgetData.map(item => {
-                    return <OtherBudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
+                    return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
                         userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
                         cabinet={false}
                     />;
                 })}
                 { check === true && 
                     recommendedBudgetData.map(item => {
-                    return <OtherBudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
+                    return <BudgetItem key={item.planning_number} userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
                         userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} userID={userID}
                         cabinet={false}
                     />;

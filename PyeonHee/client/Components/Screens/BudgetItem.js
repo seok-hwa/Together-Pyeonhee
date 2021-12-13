@@ -36,7 +36,6 @@ const TierImage = (props) => {
 const BudgetItem = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
-
     const handlePress = () => {
         if(props.cabinet === 'true') {
             console.log('보관함')
@@ -78,7 +77,7 @@ const BudgetItem = (props) => {
 
                 let alertMessage = '잔여포인트는 ' + `${responseJson.restPoint}` + '포인트 입니다.';
                 Alert.alert('포인트 차감완료', alertMessage);
-                props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                props.navigation.navigate('OtherBudgetInfo', {budgetPlanningID: props.budgetPlanningID});
             } else{
                 console.log('포인트 부족');
                 let alertMessage = '현재 보유 포인트는 ' + `${responseJson.restPoint}` + '포인트 입니다.';
