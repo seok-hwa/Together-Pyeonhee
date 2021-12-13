@@ -90,31 +90,29 @@ const BasicSurveyScreen = ({navigation}) => {
           </View>
           <View style={styles.innerTextAlign}>
               <Text style={styles.questText}>직업</Text>
-          </View>  
-          <View style={styles.textDiv}>
-            <RNPickerSelect
+          </View>
+          <View style={styles.pickerDiv}>
+             <RNPickerSelect
               placeholder={{
                 label: placeholder,
                 color: 'gray',
               }}
-              style={pickerSelectStyles}
-                    onValueChange={(value) => setUserJob(value)}
-                    items={JOBS}
+              onValueChange={(value) => setUserJob(value)}
+              items={JOBS}
             />    
           </View>
           <View style={styles.innerTextAlign}>
               <Text style={styles.questText}>월 수입</Text>
           </View>
-          <View style={styles.textDiv}>
+          <View style={styles.pickerDiv}>
             <RNPickerSelect
               placeholder={{
                 label: placeholder,
                 color: 'gray',
               }}
-              style={pickerSelectStyles}
-                    onValueChange={(value) => setUserMonthlyIncome(value)}
-                    items={INCOMES}
-            />
+              onValueChange={(value) => setUserMonthlyIncome(value)}
+              items={INCOMES}
+            /> 
           </View>
         </View>
       </View>
@@ -176,6 +174,17 @@ const styles = StyleSheet.create({
   appFooter: {
     flex: 2,
     alignItems: 'center',
+  },
+
+  pickerDiv: {
+    backgroundColor: '#DCDCDC',
+    marginTop: 10,
+    paddingHorizontal: 10,
+    height: 40,
+    width: 240,
+    borderRadius: 3,
+    backgroundColor: '#DCDCDC',
+    justifyContent: 'center',
   },
 });
 const pickerSelectStyles = StyleSheet.create({
