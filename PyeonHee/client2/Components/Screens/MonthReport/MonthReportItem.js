@@ -147,7 +147,7 @@ const MonthReportItem = (props) => {
                 .then((responseJson)=>{
                     console.log(responseJson);
     
-                    if(responseJson.length > 0){
+                    if(responseJson.length != ''){
                         // setLastRent(responseJson.monthly_rent);
                         // setLastInsurance(responseJson.insurance_expense);
                         // setLastCommunication(responseJson.communication_expense);

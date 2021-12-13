@@ -36,6 +36,7 @@ import FindIDResult from './Components/Screens/Find/FindIDResult';
 import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
 import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
 import ManualScreen from './Components/Screens/ManualScreen';
+import Manual from './Components/Screens/MyPageTabs/Manual';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -281,6 +282,13 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
+              name="Manual"
+              component={Manual}
+              options={{
+                headerShown: false,
+              }} 
+            />
+            <Stack.Screen
               name="FindIDResult"
               component={FindIDResult}
               options={{
@@ -463,6 +471,13 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
+              name="Manual"
+              component={Manual}
+              options={{
+                headerShown: false,
+              }} 
+            />
+            <Stack.Screen
               name="FindIDResult"
               component={FindIDResult}
               options={{
@@ -643,6 +658,13 @@ function App(){         //navigation
               options={{
                 headerShown: false,
             }} 
+            />
+            <Stack.Screen
+              name="Manual"
+              component={Manual}
+              options={{
+                headerShown: false,
+              }} 
             />
             <Stack.Screen
               name="FindIDResult"

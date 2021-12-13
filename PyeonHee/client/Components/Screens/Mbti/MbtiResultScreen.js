@@ -185,7 +185,8 @@ const MbtiScreen = ({navigation, route}) => {
                 </View>
             <View style={styles.buttonPosition}>
               <MbtiToMain onPress={()=>{
-                navigation.replace('Main');
+                // navigation.replace('Main');
+                navigation.navigate('ManualScreen');
               }}/>
             </View>
         </View>
