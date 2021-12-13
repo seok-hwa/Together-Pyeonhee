@@ -55,8 +55,12 @@ const MonthReportCabinet = ({navigation}) => {
             <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
                     <BackButton onPress={()=>{navigation.goBack()}}/>
-                    <Text style={styles.appTopBarText}>한달 리포트 보관함</Text>
+                    <View style={styles.headerDiv}>
+                        <Text style={styles.topFont}>한달 리포트 보관함</Text>
+                    </View>
+                    <View style={styles.headerRightDiv}></View>
                 </View>
+
                 <View>
                     <FlatList
                         keyExtractor={item => item.report_month}
@@ -85,14 +89,23 @@ const styles = StyleSheet.create({
     },
     appTopBar: {
         height: 50,
-        paddingLeft: 20,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
-    }, 
-    appTopBarText: {
-        fontSize: 18,
-        marginLeft: 10,
-    }
+      },
+      headerDiv: {
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        flex: 1,
+    },
+    headerRightDiv:{
+      width: 30,
+    },
+    topFont: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
 })
 export default MonthReportCabinet;
