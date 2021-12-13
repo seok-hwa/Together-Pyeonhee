@@ -5,8 +5,7 @@ import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import { requestMatching } from '../../../api';
 // import config from "../config";
-import config
- from '../../../../config';
+import config from '../../../../config';
 const url = config.url;
 
 const AssetConsultItem = (props) => {
@@ -53,8 +52,8 @@ const AssetConsultItem = (props) => {
     }
 
     const handleLike = () => {
-        console.log('/AssetConsultLike');
-        fetch(`${url}/AssetConsultLike`, {
+        console.log('/Counseling/AssetConsultLike');
+        fetch(`${url}/Counseling/AssetConsultLike`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: props.userID,
