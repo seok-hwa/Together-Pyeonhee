@@ -4,8 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import { requestMatching } from '../../../api';
-import config from '../../../../config';
-const url = config.url;
+import { FinancialConsultLikeApi } from '../../../api';
+
 const FinancialConsultItem = (props) => {
 
     const sendMail = () => {
@@ -50,19 +50,7 @@ const FinancialConsultItem = (props) => {
     }
 
     const handleLike = () => {
-        console.log('/Counseling/FinancialConsultLike');
-        fetch(`${url}/Counseling/FinancialConsultLike`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: props.userID,
-                counselorID: props.consultNumber,
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        FinancialConsultLikeApi(props.userID, props.consultNumber)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);
