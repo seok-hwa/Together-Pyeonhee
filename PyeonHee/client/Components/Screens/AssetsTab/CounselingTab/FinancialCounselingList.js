@@ -11,6 +11,7 @@ const FinancialCounseling = ({navigation}) => {
     const [financialCounselingData, setFinancialCounselingData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [like, setLike] = useState(false);
 
     useEffect(()=>{
         let tempID;
@@ -28,15 +29,13 @@ const FinancialCounseling = ({navigation}) => {
                 console.log('response data');
                 console.log(responseJson);
                 setFinancialCounselingData(responseJson);
-
+                setLike(false);
             })
             .then(()=>{
                 setLoading(true);
             })  
-
-            // setLoading(true); //for test
         })
-    }, [])
+    }, [like])
 
     const loadCounselor = () => {
         setRefresh(true);
@@ -49,11 +48,9 @@ const FinancialCounseling = ({navigation}) => {
         .then(()=>{
             setRefresh(false);
         })  
-        // setRefresh(false); //for test
-
     }
 
-    const hadlePressed = (value) => {
+    const handlePressed = (value) => {
         console.log(`Pressed!`);
         counselingFinancialProductCategory(value)
         .then((responseJson)=>{
@@ -70,7 +67,7 @@ const FinancialCounseling = ({navigation}) => {
                     <View style={{width: 65, alignItems: 'center'}}><Text style={styles.categoryText}>상담분야</Text></View>
                     <View style={{width: 40, height: 40, alignItems: 'center', justifyContent: 'center',}}>
                         <RNPickerSelect
-                            onValueChange={(value) => hadlePressed(value)}
+                            onValueChange={(value) => handlePressed(value)}
                             placeholder={{ label: "선택", value: null }}
                             dropdownIconColor={'white'}
                             items={[
@@ -91,8 +88,8 @@ const FinancialCounseling = ({navigation}) => {
                         keyExtractor={item => item.counselor_id}
                         data={financialCounselingData}
                         renderItem={({item, index}) => <FinancialConsultItem key= {item.counselor_id} consultNumber={item.counselor_id} counselorName={item.name} consultPart={item.part} 
-                            counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} userID={userID}
-                            counselorRank={index+1}
+                            counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} userID={userID} counselorRank={index+1}
+                            setLike={setLike}
                         />}
                         refreshing={refresh}
                         onRefresh={loadCounselor}

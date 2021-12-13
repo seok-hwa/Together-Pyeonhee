@@ -9,10 +9,10 @@ const AssetCounseling = ({navigation}) => {
     const [assetCounselingData, setAssetCounselingData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [like, setLike] = useState(false);
 
     useEffect(()=>{
         let tempID;
-
         AsyncStorage.getItem('userID', (err, result) => {
             tempID = result;
             if(tempID!= null){
@@ -26,12 +26,13 @@ const AssetCounseling = ({navigation}) => {
                 console.log('response data');
                 console.log(responseJson);
                 setAssetCounselingData(responseJson);
+                setLike(false);
             })
             .then(()=>{
                 setLoading(true);
             })  
         })
-    }, [])
+    }, [like])
 
     const loadCounselor = () => {
         setRefresh(true);
@@ -60,7 +61,8 @@ const AssetCounseling = ({navigation}) => {
                     data={assetCounselingData}
                     renderItem={({item, index}) => <AssetConsultItem consultNumber={item.counselor_id} counselorName={item.name} 
                         counselorCorp={item.company} counselorLike={item.like_count} navigation={navigation} counselorRank={index+1} 
-                        userID={userID} key = {item.counselor_id}
+                        userID={userID} key={item.counselor_id}
+                        setLike={setLike}
                     />}
                     refreshing={refresh}
                     onRefresh={loadCounselor}
