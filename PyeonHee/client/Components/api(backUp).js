@@ -6,8 +6,8 @@ const client_secret = config.client_secret;
 
 export const getMyInfo = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myPage/myInfo?userID=${userID}`);
-        fetch(`${url}/myPage/myInfo?userID=${userID}`)   //get
+        console.log(`${url}/myInfo?userID=${userID}`);
+        fetch(`${url}/myInfo?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -17,7 +17,7 @@ export const getMyInfo = (userID) => {
 
 export const getMbti = (userID) => {
     return new Promise(function(resolve, reject) {
-        fetch(`${url}/register/getMbti?userID=${userID}`)   //get
+        fetch(`${url}/getMbti?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -28,9 +28,9 @@ export const getMbti = (userID) => {
 export const login = (userID, userPassword, fcmToken) => {
     return new Promise(function(resolve, reject) {
         console.log('디바이스 토큰: ', fcmToken);
-        console.log(`${url}/access/login`);
+        console.log(`${url}/login`);
 
-        fetch(`${url}/access/login`, {
+        fetch(`${url}/login`, {
           method: 'POST',
           body: JSON.stringify({
             userID: userID,
@@ -51,7 +51,7 @@ export const login = (userID, userPassword, fcmToken) => {
 
 export const join = (userID, userName, userPhone, userPassword, userPasswordCheck) => {
     return new Promise(function(resolve, reject) {
-        fetch(`${url}/register/signUp`, {
+        fetch(`${url}/signUp`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -74,8 +74,8 @@ export const join = (userID, userName, userPhone, userPassword, userPasswordChec
 
 export const daily = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/daily/history`);
-        fetch(`${url}/daily/history`, {
+        console.log(`${url}/daily`);
+        fetch(`${url}/daily`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -108,12 +108,15 @@ export const dailySaving = (userID) => {
         .then((responseJson)=>{
             resolve(responseJson);
         })
+        .catch((e)=>{
+            console.log('에러', e);
+        })
     })
 };
 export const saveTranHistory = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/saveTranHistory?userID=${userID}`);
-        fetch(`${url}/account/saveTranHistory?userID=${userID}`)   //get
+        console.log(`${url}/saveTranHistory?userID=${userID}`);
+        fetch(`${url}/saveTranHistory?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -122,8 +125,8 @@ export const saveTranHistory = (userID) => {
 };
 export const latestTranList = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/latestTranList`);
-        fetch(`${url}/account/latestTranList`, {
+        console.log(`${url}/latestTranList`);
+        fetch(`${url}/latestTranList`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -141,8 +144,8 @@ export const latestTranList = (userID) => {
 };
 export const totalTranList = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/tranList`);
-        fetch(`${url}/account/tranList`, {
+        console.log(`${url}/tranList`);
+        fetch(`${url}/tranList`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -171,8 +174,8 @@ export const calendarClick = (userID, tempDay) => {
 };
 export const calendarInfo = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/calendar/info?userID=${userID}`);
-        fetch(`${url}/calendar/info?userID=${userID}`)   //get
+        console.log(`${url}/calendar?userID=${userID}`);
+        fetch(`${url}/calendar?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -181,7 +184,7 @@ export const calendarInfo = (userID) => {
 };
 export const submitMbti = (userID, userAge, userMonthlyIncome, userJob, mbti1Score, mbti2Score, mbti3Score, mbti4Score) => {
     return new Promise(function(resolve, reject) {
-        fetch(`${url}/register/submitMbti`, {
+        fetch(`${url}/submitMbti`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -206,8 +209,8 @@ export const submitMbti = (userID, userAge, userMonthlyIncome, userJob, mbti1Sco
 };
 export const removeDeviceToken = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/myPage/removeDeviceToken?userID=${userID}`);
-        fetch(`${url}/myPage/removeDeviceToken?userID=${userID}`)   //get
+        console.log(`${url}/removeDeviceToken?userID=${userID}`);
+        fetch(`${url}/removeDeviceToken?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -217,8 +220,8 @@ export const removeDeviceToken = (userID) => {
 
 export const reportWithLast = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReport/WithLast?userID=${userID}`);
-        fetch(`${url}/monthReport/WithLast?userID=${userID}`)   //get
+        console.log(`${url}/monthReportWithLast?userID=${userID}`);
+        fetch(`${url}/monthReportWithLast?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -228,8 +231,8 @@ export const reportWithLast = (userID) => {
 
 export const reportWithPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReport/WithPlan?userID=${userID}`);
-        fetch(`${url}/monthReport/WithPlan?userID=${userID}`)   //get
+        console.log(`${url}/monthReportWithPlan?userID=${userID}`);
+        fetch(`${url}/monthReportWithPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -239,8 +242,8 @@ export const reportWithPlan = (userID) => {
 
 export const sendLike = (budgetPlanID, userLike, userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/likeBudgetPlan`);
-        fetch(`${url}/plan/likeBudgetPlan`, {
+        console.log(`${url}/likeBudgetPlan/`);
+        fetch(`${url}/likeBudgetPlan/`, {
             method: 'POST',
             body: JSON.stringify({
                 budgetPlanID: budgetPlanID,
@@ -260,8 +263,8 @@ export const sendLike = (budgetPlanID, userLike, userID) => {
 };
 export const recommendedBudgetPlan = (budgetPlanningID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`);
-        fetch(`${url}/plan/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`)   //get
+        console.log(`${url}/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`);
+        fetch(`${url}/recommendedBudgetPlan?budgetPlanningID=${budgetPlanningID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -270,8 +273,8 @@ export const recommendedBudgetPlan = (budgetPlanningID) => {
 };
 export const didLike = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/didLike`);
-        fetch(`${url}/plan/didLike`, {
+        console.log(`${url}/didLike`);
+        fetch(`${url}/didLike`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -290,8 +293,8 @@ export const didLike = (userID, budgetPlanID) => {
 };
 export const didStore = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/didStore`);
-        fetch(`${url}/plan/didStore`, {
+        console.log(`${url}/didStore`);
+        fetch(`${url}/didStore`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -310,8 +313,7 @@ export const didStore = (userID, budgetPlanID) => {
 };
 export const saveBudgetPlan = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/saveBudgetPlan`);
-        fetch(`${url}/plan/saveBudgetPlan`, {
+        fetch(`${url}/saveBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -330,8 +332,7 @@ export const saveBudgetPlan = (userID, budgetPlanID) => {
 };
 export const cancelBudgetPlan = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/cancelBudgetPlan`);
-        fetch(`${url}/plan/cancelBudgetPlan`, {
+        fetch(`${url}/cancelBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -350,8 +351,8 @@ export const cancelBudgetPlan = (userID, budgetPlanID) => {
 };
 export const updateCategory = (userID, fintech, tranCate, tranDate, tranTime) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/update_category`);
-        fetch(`${url}/account/update_category`, {
+        console.log(`${url}/update_category`);
+        fetch(`${url}/update_category`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -374,8 +375,8 @@ export const updateCategory = (userID, fintech, tranCate, tranDate, tranTime) =>
 
 export const openCheck = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/openCheck`);
-        fetch(`${url}/plan/openCheck`, {
+        console.log(`${url}/openCheck`);
+        fetch(`${url}/openCheck`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -395,8 +396,8 @@ export const openCheck = (userID, budgetPlanID) => {
 
 export const usePoint = (userID, budgetPlanID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/usePoint`);
-        fetch(`${url}/plan/usePoint`, {
+        console.log(`${url}/usePoint`);
+        fetch(`${url}/usePoint`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -416,8 +417,8 @@ export const usePoint = (userID, budgetPlanID) => {
 };
 export const saveSavingPlan = (userID, savingName, savingMoney, startDate, endYear, endMonth) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/SavingPlan/save`);
-        fetch(`${url}/SavingPlan/save`, {
+        console.log(`${url}/saveSavingPlan`);
+        fetch(`${url}/saveSavingPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -441,8 +442,8 @@ export const saveSavingPlan = (userID, savingName, savingMoney, startDate, endYe
 
 export const budgetPlanCabinet = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/BudgetPlanCabinet?userID=${userID}`);
-        fetch(`${url}/plan/BudgetPlanCabinet?userID=${userID}`)   //get
+        console.log(`${url}/BudgetPlanCabinet?userID=${userID}`);
+        fetch(`${url}/BudgetPlanCabinet?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -452,8 +453,8 @@ export const budgetPlanCabinet = (userID) => {
 
 export const saveSelectBudgetPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/saveSelectBudgetPlan?userID=${userID}`);
-        fetch(`${url}/plan/saveSelectBudgetPlan?userID=${userID}`)   //get
+        console.log(`${url}/saveSelectBudgetPlan?userID=${userID}`);
+        fetch(`${url}/saveSelectBudgetPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -463,8 +464,8 @@ export const saveSelectBudgetPlan = (userID) => {
 
 export const viewBudgetPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/plan/viewBudgetPlan?userID=${userID}`);
-        fetch(`${url}/plan/viewBudgetPlan?userID=${userID}`)   //get
+        console.log(`${url}/viewBudgetPlan?userID=${userID}`);
+        fetch(`${url}/viewBudgetPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -474,8 +475,8 @@ export const viewBudgetPlan = (userID) => {
 
 export const myBudgetPlan = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/budget/myBudgetPlan?userID=${userID}`);
-        fetch(`${url}/budget/myBudgetPlan?userID=${userID}`)   //get
+        console.log(`${url}/myBudgetPlan?userID=${userID}`);
+        fetch(`${url}/myBudgetPlan?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -486,8 +487,8 @@ export const myBudgetPlan = (userID) => {
 export const  editBudget = (userID, income, savings, fixedExpenditure, plannedExpenditure, monthlyRent, insurance, transportation, 
     communication, subscription, leisure, shopping, education, medical, event, etc) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/budget/editBudget`);
-        fetch(`${url}/budget/editBudget`, {
+        console.log(`${url}/editBudget`);
+        fetch(`${url}/editBudget`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -521,8 +522,8 @@ export const  editBudget = (userID, income, savings, fixedExpenditure, plannedEx
 
 export const MyBudgetPlanCabinet = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/budget/MyBudgetPlanCabinet?userID=${userID}`);
-        fetch(`${url}/budget/MyBudgetPlanCabinet?userID=${userID}`)   //get
+        console.log(`${url}/MyBudgetPlanCabinet?userID=${userID}`);
+        fetch(`${url}/MyBudgetPlanCabinet?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -532,8 +533,8 @@ export const MyBudgetPlanCabinet = (userID) => {
 
 export const editSavingPlan = (userID, savingID, savingName, savingMoney, endYear, endMonth) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/SavingPlan/edit`);
-        fetch(`${url}/SavingPlan/edit`, {
+        console.log(`${url}/editSavingPlan`);
+        fetch(`${url}/editSavingPlan`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -557,8 +558,8 @@ export const editSavingPlan = (userID, savingID, savingName, savingMoney, endYea
 
 export const removeSavingPlan = (userID, savingID) => {
     return new Promise(function(resolve, reject) {
-        console.log('/SavingPlan/remove');
-        fetch(`${url}/SavingPlan/remove`, {
+        console.log('/removeSavingPlan');
+        fetch(`${url}/removeSavingPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -579,8 +580,8 @@ export const removeSavingPlan = (userID, savingID) => {
 export const  submitBudgetPlan = (userID, income, savings, fixedExpenditure, plannedExpenditure, monthlyRent, insurance, transportation, 
     communication, subscription, leisure, shopping, education, medical, event, etc) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/budget/submitBudgetPlan`);
-        fetch(`${url}/budget/submitBudgetPlan`, {
+        console.log(`${url}/submitBudgetPlan`);
+        fetch(`${url}/submitBudgetPlan`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -614,8 +615,8 @@ export const  submitBudgetPlan = (userID, income, savings, fixedExpenditure, pla
 
 export const MyBudgetPlanDetail = (callMyBudgetID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/budget/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
-        fetch(`${url}/budget/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
+        console.log(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`);
+        fetch(`${url}/MyBudgetPlanDetail?budgetPlanningID=${callMyBudgetID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -625,8 +626,8 @@ export const MyBudgetPlanDetail = (callMyBudgetID) => {
 
 export const accountListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/accountList?userID=${userID}`);
-        fetch(`${url}/account/accountList?userID=${userID}`)   //get
+        console.log(`${url}/accountList?userID=${userID}`);
+        fetch(`${url}/accountList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -636,8 +637,8 @@ export const accountListApi = (userID) => {
 
 export const close = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/close?userID=${userID}`);
-        fetch(`${url}/account/close?userID=${userID}`)   //get
+        console.log(`${url}/close?userID=${userID}`);
+        fetch(`${url}/close?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -655,7 +656,6 @@ export const counselingFinancialProduct = () => {
         })
     })
 };
-
 export const counselingFinancialProductCategory = (categoryName) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/Counseling/FinancialProduct/Category`);
@@ -678,8 +678,8 @@ export const counselingFinancialProductCategory = (categoryName) => {
 
 export const requestMatching = (userID, counselorName, counselor_id) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/Counseling/requestMatching`);
-        fetch(`${url}/Counseling/requestMatching`, {
+        console.log(`${url}/requestMatching`);
+        fetch(`${url}/requestMatching`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -712,8 +712,8 @@ export const counselingAssetManagement = () => {
 
 export const allFundListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/allFundList`);
-        fetch(`${url}/financialItem/allFundList`)   //get
+        console.log(`${url}/allFundList`);
+        fetch(`${url}/allFundList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -722,8 +722,8 @@ export const allFundListApi = () => {
 };
 export const myFundListApi= (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/myFundList?userID=${userID}`)
-        fetch(`${url}/financialItem/myFundList?userID=${userID}`)   //get
+        console.log(`${url}/myFundList?userID=${userID}`)
+        fetch(`${url}/myFundList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -732,8 +732,8 @@ export const myFundListApi= (userID) => {
 };
 export const allLoanListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/allLoanList`);
-        fetch(`${url}/financialItem/allLoanList`)   //get
+        console.log(`${url}/allLoanList`);
+        fetch(`${url}/allLoanList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -742,8 +742,8 @@ export const allLoanListApi = () => {
 };
 export const allSavingListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/allSavingList`);
-        fetch(`${url}/financialItem/allSavingList`)   //get
+        console.log(`${url}/allSavingList`);
+        fetch(`${url}/allSavingList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -752,8 +752,8 @@ export const allSavingListApi = () => {
 };
 export const mySavingListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/mySavingList?userID=${userID}`);
-        fetch(`${url}/financialItem/mySavingList?userID=${userID}`)   //get
+        console.log(`${url}/mySavingList?userID=${userID}`);
+        fetch(`${url}/mySavingList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -762,8 +762,8 @@ export const mySavingListApi = (userID) => {
 };
 export const allPensionListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/allPensionList`);
-        fetch(`${url}/financialItem/allPensionList`)   //get
+        console.log(`${url}/allPensionList`);
+        fetch(`${url}/allPensionList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -772,8 +772,8 @@ export const allPensionListApi = () => {
 };
 export const myPensionListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/financialItem/myPensionList?userID=${userID}`);
-        fetch(`${url}/financialItem/myPensionList?userID=${userID}`)   //get
+        console.log(`${url}/myPensionList?userID=${userID}`);
+        fetch(`${url}/myPensionList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -783,8 +783,8 @@ export const myPensionListApi = (userID) => {
 
 export const selectedAccountHistory = (userID, fintech_use_num) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/selectedAccountHistory`);
-        fetch(`${url}/account/selectedAccountHistory`, {
+        console.log(`${url}/selectedAccountHistory`);
+        fetch(`${url}/selectedAccountHistory`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -803,8 +803,8 @@ export const selectedAccountHistory = (userID, fintech_use_num) => {
 };
 export const update_info = (userID, fintech_use_num, newAlias) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/update_info`);
-        fetch(`${url}/account/update_info`, {
+        console.log(`${url}/update_info`);
+        fetch(`${url}/update_info`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: userID,
@@ -845,8 +845,8 @@ export const MonthReportCabinetApi = (userID) => {
 };
 export const monthReportMbti = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReport/Mbti?userID=${userID}`);
-        fetch(`${url}/monthReport/Mbti?userID=${userID}`)   //get
+        console.log(`${url}/monthReportMbti?userID=${userID}`);
+        fetch(`${url}/monthReportMbti?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -855,8 +855,8 @@ export const monthReportMbti = (userID) => {
 };
 export const updateMbti = (userID, userMbti) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/monthReport/updateMbti`);
-        fetch(`${url}/monthReport/updateMbti`, {
+        console.log(`${url}/updateMbti`);
+        fetch(`${url}/updateMbti`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -875,8 +875,8 @@ export const updateMbti = (userID, userMbti) => {
 };
 export const noticeBoard = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/notice/Board?boardID=${boardID}`);
-        fetch(`${url}/notice/Board?boardID=${boardID}`)   //get
+        console.log(`${url}/noticeBoard?boardID=${boardID}`);
+        fetch(`${url}/noticeBoard?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -885,8 +885,8 @@ export const noticeBoard = (boardID) => {
 };
 export const noticeListApi = () => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/notice/List`);
-        fetch(`${url}/notice/List`)   //get
+        console.log(`${url}/noticeList`);
+        fetch(`${url}/noticeList`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -895,8 +895,8 @@ export const noticeListApi = () => {
 };
 export const queryBoardApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/query/Board?boardID=${boardID}`);
-        fetch(`${url}/query/Board?boardID=${boardID}`)   //get
+        console.log(`${url}/queryBoard?boardID=${boardID}`);
+        fetch(`${url}/queryBoard?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -905,8 +905,8 @@ export const queryBoardApi = (boardID) => {
 };
 export const queryReplyApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/query/Reply?boardID=${boardID}`);
-        fetch(`${url}/query/Reply?boardID=${boardID}`)   //get
+        console.log(`${url}/queryReply?boardID=${boardID}`);
+        fetch(`${url}/queryReply?boardID=${boardID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -915,8 +915,8 @@ export const queryReplyApi = (boardID) => {
 };
 export const deleteQueryBoardApi = (boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/query/deleteBoard?boardID=${boardID}`);
-        fetch(`${url}/query/deleteBoard?boardID=${boardID}`)
+        console.log(`${url}/deleteQueryBoard?boardID=${boardID}`);
+        fetch(`${url}/deleteQueryBoard?boardID=${boardID}`)
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -926,8 +926,8 @@ export const deleteQueryBoardApi = (boardID) => {
 
 export const queryListApi = (userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/query/List?userID=${userID}`);
-        fetch(`${url}/query/List?userID=${userID}`)   //get
+        console.log(`${url}/queryList?userID=${userID}`);
+        fetch(`${url}/queryList?userID=${userID}`)   //get
         .then((response)=>response.json())
         .then((responseJson)=>{
             resolve(responseJson);
@@ -937,8 +937,8 @@ export const queryListApi = (userID) => {
 
 export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/query/Update`);
-        fetch(`${url}/query/Update`, {
+        console.log(`${url}/queryUpdate`);
+        fetch(`${url}/queryUpdate`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,
@@ -959,8 +959,8 @@ export const queryUpdateApi = (boardTitle, boardCate, boardContent, boardID) => 
 };
 export const queryRegisterApi = (boardTitle, boardCate, boardContent, userID) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/query/Register`);
-        fetch(`${url}/query/Register`, {
+        console.log(`${url}/queryRegister`);
+        fetch(`${url}/queryRegister`, {
             method: 'POST',
             body: JSON.stringify({
                 boardTitle: boardTitle,
@@ -984,8 +984,8 @@ export const queryRegisterApi = (boardTitle, boardCate, boardContent, userID) =>
 
 export const saveAccountApi = (userID, userToken, userSeqNo) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/account/saveAccount`);
-        fetch(`${url}/account/saveAccount`, {
+        console.log(`${url}/saveAccount`);
+        fetch(`${url}/saveAccount`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
@@ -1014,7 +1014,7 @@ export const requestTokenApi = (code) => {
                 grant_type: 'authorization_code',
                 client_id: client_id,
                 client_secret: client_secret,
-                redirect_uri: `${url}/account/Together`,
+                redirect_uri: `${url}/Together`,
                 code: code,
             },
         })
@@ -1023,50 +1023,6 @@ export const requestTokenApi = (code) => {
         })
     })
 };
-//아이디 찾기
-export const findIDApi = (userName, userPhone) => {
-    return new Promise(function(resolve, reject) {
-        fetch(`${url}/access/findID`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userName: userName,
-              userPhone: userPhone,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            resolve(responseJson);
-        })
-    })
-};
-//개인정보 비밀번호 수정
-export const passwordUpdateApi = (userID, userPassword, userPasswordCheck) => {
-    return new Promise(function(resolve, reject) {
-        console.log(`${url}/access/passwordUpdate`);
-        fetch(`${url}/access/passwordUpdate`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userID: userID,
-              userPassword: userPassword,
-              userPasswordCheck: userPasswordCheck,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            resolve(responseJson);
-        })
-    })
-};
-
-//아래 api 추가 라우팅 필요!!
 
 //개인정보 수정 정보 불러오기
 export const loadUserInfoApi = (userID) => {
@@ -1125,6 +1081,29 @@ export const updateUserInfoApi = (userID, userAge, userJob) => {
     })
 };
 
+//개인정보 비밀번호 수정
+export const passwordUpdateApi = (userID, userPassword, userPasswordCheck) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/passwordUpdate`);
+        fetch(`${url}/passwordUpdate`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userPassword: userPassword,
+              userPasswordCheck: userPasswordCheck,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
 //한달리포트 보관함 계획서와 비교
 export const cabinetWithPlanApi = (userID, month, year) => {
     return new Promise(function(resolve, reject) {
@@ -1158,6 +1137,27 @@ export const cabinetWithLastApi = (userID, month, year) => {
               userID: userID,
               month: month,
               year: year,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//아이디 찾기
+export const findIDApi = (userName, userPhone) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/findID`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userName: userName,
+              userPhone: userPhone,
             }),
             headers: {
               'Accept': 'application/json',
