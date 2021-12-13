@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import { requestMatching } from '../../../api';
-
+import config from '../../../../config';
+const url = config.url;
 const FinancialConsultItem = (props) => {
 
     const sendMail = () => {
