@@ -51,17 +51,22 @@ const BudgetCabinet = ({navigation}) => {
     if(loading === true){
     return (
         <View style={styles.appSize}>
-                <View>
-                    <FlatList
-                    keyExtractor={item => item.planning_number}
-                    data={otherBudgetData}
-                    renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={'true'}
-                    />}
-                    refreshing={refresh}
-                    onRefresh={loadCabinet}
-                    />
+            {
+                otherBudgetData.length === 0 ?
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+                    <Text style={{fontSize: 17,}}>보관된 예산계획서가 없습니다.</Text>
                 </View>
+                :
+                <FlatList
+                keyExtractor={item => item.planning_number}
+                data={otherBudgetData}
+                renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
+                    userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={'true'}
+                />}
+                refreshing={refresh}
+                onRefresh={loadCabinet}
+                />
+            }
         </View>
     )}
     else{
