@@ -39,17 +39,7 @@ const MonthReportCabinet = ({navigation}) => {
 
     const loadCabinet = () => {
         setRefresh(true);
-        fetch(`${url}/MonthReportCabinet`, {
-            method: 'POST',
-            body: JSON.stringify({
-                userID: tempID,
-            }),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        MonthReportCabinetApi(tempID)
         .then((responseJson)=>{
             console.log('response data');
             console.log(responseJson);

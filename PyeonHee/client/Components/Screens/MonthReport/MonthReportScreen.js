@@ -145,14 +145,14 @@ const MonthReportScreen = ({navigation, route}) => {
               </View>
           </View>
       </Modal>
+        <View style={styles.appTopBar}>
+          <BackButton onPress={()=>{navigation.goBack()}}/>
+          <View style={styles.headerDiv}>
+            <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
+          </View>
+          <View style={styles.headerRightDiv}></View>
+        </View>
         <View style={styles.smallcontainer}>
-            <View style={styles.appTopBar}>
-                <BackButton onPress={()=>{navigation.goBack()}}/>
-                <View style={styles.headerDiv}>
-                  <Text style={styles.topFont}>{month}월 소비 분석 리포트</Text>
-                </View>
-                <View style={styles.headerRightDiv}></View>
-            </View>
             <View style={styles.tapContainer}>
                 <SegmentedControlTab
                     values={['지난달 소비 내역과 비교', '예산 계획서와 비교']}
@@ -230,13 +230,13 @@ export default MonthReportScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
   },
   notSmallContainer:{
     flex: 1,
   },
   smallcontainer: {
     flex: 1,
+    padding: 5,
     justifyContent: 'space-between',
   },
   tapContainer: {

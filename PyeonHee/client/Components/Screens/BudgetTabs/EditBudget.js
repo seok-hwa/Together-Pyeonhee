@@ -15,7 +15,6 @@ import {
     Alert,
     Modal,
 } from 'react-native';
-import BudgetSaveButton from '../../Buttons/BudgetSaveButton';
 import EditInputBudget from './EditInputBudget';
 import { myBudgetPlan, editBudget } from '../../api';
 

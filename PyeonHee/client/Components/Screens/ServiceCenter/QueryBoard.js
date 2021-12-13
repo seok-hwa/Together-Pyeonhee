@@ -154,9 +154,6 @@ const QueryBoard = ({navigation, route}) => {
                 </View>
                 <View style={styles.headerRightDiv}></View>
             </View>
-            <View style={styles.HeaderDiv}>
-                <Text style={styles.HeaderFont}>문의게시판 확인</Text>
-            </View>
             <ScrollView style={styles.appSize}>
                 <View style={styles.TopDiv}>
                     <View style={styles.TitleDiv}>

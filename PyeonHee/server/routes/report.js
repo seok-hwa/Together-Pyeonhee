@@ -28,7 +28,7 @@ module.exports = function () {
                             BudgetPlanning.transportation_expense, BudgetPlanning.communication_expense, BudgetPlanning.leisure_expense, BudgetPlanning.shopping_expense, 
                             BudgetPlanning.education_expense, BudgetPlanning.medical_expense, BudgetPlanning.event_expense, BudgetPlanning.subscribe_expense, 
                             BudgetPlanning.etc_expense, daily_data.rest_money, daily_data.last_count FROM daily_data left join BudgetPlanning on daily_data.user_id = BudgetPlanning.user_id 
-                            WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1 AND BudgetPlanning.state = 1;`, [userID], function (error2, plan_spend) {
+                            WHERE daily_data.user_id = ? AND DATE_FORMAT(BudgetPlanning.planning_date ,'%m') = MONTH(now())-1;`, [userID], function (error2, plan_spend) {
                         if (error2) throw error2;
                         else {
                             if (plan_spend.length === 0) {

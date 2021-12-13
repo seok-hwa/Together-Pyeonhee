@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Popup} from 'react-native-popup-confirm-toast'
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
+import { loadUserInfoApi, getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
 
 import {
     StyleSheet,
@@ -240,6 +240,7 @@ const MyPageScreen = ({navigation, route}) => {
                         currentDinner+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '저금'){
                         currentSaving+=parseInt(item.daily_amount);
+                    }else if(item.tran_type === '송금'){
                     }else{
                         currentEct+=parseInt(item.daily_amount);
                     }
@@ -271,6 +272,7 @@ const MyPageScreen = ({navigation, route}) => {
                             lastDinner+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '저금'){
                             lastSaving+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '송금'){
                         }else{
                             lastEct+=parseInt(item.daily_amount);
                         }
@@ -285,7 +287,6 @@ const MyPageScreen = ({navigation, route}) => {
                 reportWithPlan(userID)
                 .then((responseJson)=>{
                     if(responseJson.plan.length != 0){
-                        console.log('있음');
                         responseJson.real.map(item  => {
                             if(item.tran_type === '쇼핑'){
                                 realShopping+=parseInt(item.daily_amount);
@@ -311,6 +312,7 @@ const MyPageScreen = ({navigation, route}) => {
                                 realDinner+=parseInt(item.daily_amount);
                             }else if(item.tran_type === '저금'){
                                 realSaving+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '송금'){
                             }else{
                                 realEct+=parseInt(item.daily_amount);
                             }
@@ -332,15 +334,9 @@ const MyPageScreen = ({navigation, route}) => {
                         daily_count=responseJson.plan.last_count;
                     }else{
                         isPlan = false;
-                        console.log('없음');
                     }
                 })
                 .then(()=>{
-                    if(isPlan === true){
-                        console.log('계획서 있음!!!!!!!!!1');
-                        }else{
-                        console.log('계획서 없음!!!!!!!');
-                    }
                     navigation.navigate('MonthReport', {
                         withLast: {
                             currentRent: currentRent,
@@ -718,7 +714,7 @@ const MyPageScreen = ({navigation, route}) => {
                 </View>
                 <View style = {styles.ectDiv}>
                 <Text style={styles.assetBudgetTitle}>기타</Text>
-                    <TouchableOpacity onPress={()=>alert('개인 정보 수정')}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('UpdateInfoScreen', {userID: userID, userName: userName,})}>
                         <Text style={styles.assetBudgetBoard} >개인 정보 수정</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={logout}>

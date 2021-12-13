@@ -40,7 +40,7 @@ app.use('/budget', budgetPlanRouter);
 var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
 app.use('/plan', recommendBudgetplanRouter);
 
-//저축
+//저금계획
 var savingPlanRouter = require('./routes/savingPlan')();
 app.use('/SavingPlan', savingPlanRouter);
 
@@ -48,7 +48,11 @@ app.use('/SavingPlan', savingPlanRouter);
 var reportRouter = require('./routes/report')();
 app.use('/monthReport', reportRouter);
 
-//마이페이지 (로그아웃 포함)
+//한달리포트 보관함
+var reportRouter = require('./routes/reportCabinet')();
+app.use('/monthReport/Cabinet', reportRouter);
+
+//마이페이지 (개인정보 수정 및 로그아웃)
 var myInfoRouter = require('./routes/myPage')();
 app.use('/myPage', myInfoRouter);
 

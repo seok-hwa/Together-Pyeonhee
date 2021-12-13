@@ -2,6 +2,7 @@ module.exports = function () {
     var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
+    const nodemailer = require('nodemailer');
     router.use(express.json());
 
     // 상담사 매칭 서비스
