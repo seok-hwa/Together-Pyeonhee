@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { StyleSheet, Text, View, ScrollView, FlatList} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, DeviceEventEmitter,} from 'react-native';
 import { budgetPlanCabinet } from '../../api';
 import BudgetItem from '../BudgetItem';
 
@@ -62,7 +62,7 @@ const BudgetCabinet = ({navigation}) => {
         .catch((error)=>{
             console.log(error);
         })
-    }, [route])
+    },[])
 
     const loadCabinet = () => {
         setRefresh(true);
