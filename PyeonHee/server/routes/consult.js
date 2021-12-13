@@ -117,7 +117,7 @@ module.exports = function () {
                 else {
                     console.log(result[0].success, "존재하면 1 없으면 0");
                     if (result[0].success == 1) {
-                        db.query(`DELETE FinancialconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
+                        db.query(`DELETE FROM FinancialconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
                             if (error1) throw error1;
                             else{
                                 db.query(`SELECT like_count FROM FinancialCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
@@ -179,7 +179,7 @@ module.exports = function () {
                 if (error) throw error;
                 else {
                     if (result[0].success == 1) {
-                        db.query(`DELETE AssetconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
+                        db.query(`DELETE FROM AssetconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
                             if (error1) throw error1;
                             else{
                                 db.query(`SELECT like_count FROM AssetCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
