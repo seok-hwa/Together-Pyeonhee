@@ -4,7 +4,6 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import QuerySubmitButton from '../../Buttons/QuerySubmitButton';
 import RNPickerSelect from 'react-native-picker-select';
 import { BOARDCATEGORY } from '../constants';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import BackButton from '../../Buttons/BackButton'
 import { queryUpdateApi } from '../../api';
@@ -27,53 +26,23 @@ const QueryUpdate = ({navigation, route}) => {
 
     const handleSubmitButton = () => {
         if(!boardTitle){
-          Popup.show({
-            type: 'success',
-            textBody: '제목을 입력하세요.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-          })
+            alert('제목을 입력하세요.');
           return;
         }
         if(!boardCate){
-          Popup.show({
-            type: 'success',
-            textBody: '분류를 선택해주세요.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-          })
+            alert('분류를 선택해주세요.');
           return;
         }
         if(!boardContent){
-            Popup.show({
-              type: 'success',
-              textBody: '내용을 입력해주세요.',
-              buttonText: '확인',
-              okButtonStyle: {backgroundColor: '#0000CD'},
-              iconEnabled: false,
-              callback: () => Popup.hide()
-            })
+            alert('내용을 입력해주세요.');
             return;
         }
         queryUpdateApi(boardTitle, boardCate, boardContent, route.params.boardID)
         .then((responseJson)=>{
-        console.log(responseJson);
+            console.log(responseJson);
             if(responseJson.status === 'success'){
-                Popup.show({
-                    type: 'success',
-                    textBody: '수정이 완료되었습니다.',
-                    buttonText: '확인',
-                    okButtonStyle: {backgroundColor: '#0000CD'},
-                    iconEnabled: false,
-                    callback: () => {
-                        Popup.hide();
-                        navigation.replace('ServiceCenter');
-                    }
-                })
+                alert('수정이 완료되었습니다.');
+                navigation.replace('ServiceCenter');
             }else{
                 console.log('수정 실패');
             }
@@ -84,52 +53,50 @@ const QueryUpdate = ({navigation, route}) => {
       }
 
     return (
-        <Root>
-            <View style={styles.appSize}>
-                <View style={styles.appTopBar}>
-                    <BackButton onPress={()=>{navigation.goBack()}}/>
-                    <View style={styles.headerDiv}>
-                    <Text style={styles.topFont}>문의게시판 수정</Text>
-                    </View>
-                    <View style={styles.headerRightDiv}></View>
+        <View style={styles.appSize}>
+            <View style={styles.appTopBar}>
+                <BackButton onPress={()=>{navigation.goBack()}}/>
+                <View style={styles.headerDiv}>
+                <Text style={styles.topFont}>문의게시판 수정</Text>
                 </View>
-                <View style={styles.TopDiv}>
-                    <View style={styles.TitleDiv}>
-                        <Text style={styles.TitleLeft}>제목: </Text>
-                        <TextInput 
-                            style={styles.textInputDesign}
-                            onChangeText={(boardTitle) => setBoardTitle(boardTitle)}
-                            maxLength ={45}
-                            value={boardTitle}
-                        />
-                    </View>
-                    <View style={styles.CateDiv}>
-                        <Text style={styles.CateLeft}>분류: </Text>
-                        <View style={styles.pickerDiv}>
-                            <RNPickerSelect
-                                placeholder={{
-                                label: '선택',
-                                color: 'gray',
-                                }}
-                                onValueChange={(value) => setBoardCate(value)}
-                                items={BOARDCATEGORY}
-                                value={boardCate}
-                            /> 
-                        </View>
-                    </View>
-                </View>
+                <View style={styles.headerRightDiv}></View>
+            </View>
+            <View style={styles.TopDiv}>
+                <View style={styles.TitleDiv}>
+                    <Text style={styles.TitleLeft}>제목: </Text>
                     <TextInput 
-                        style={styles.textInputBodyDesign}
-                        placeholder='내용'
-                        onChangeText={(boardContent) => setBoardContent(boardContent)}
-                        maxLength ={1024}
-                        value={boardContent}
+                        style={styles.textInputDesign}
+                        onChangeText={(boardTitle) => setBoardTitle(boardTitle)}
+                        maxLength ={45}
+                        value={boardTitle}
                     />
-                <View style={styles.ButtonDiv}>
-                    <QuerySubmitButton onPress={handleSubmitButton}/>
+                </View>
+                <View style={styles.CateDiv}>
+                    <Text style={styles.CateLeft}>분류: </Text>
+                    <View style={styles.pickerDiv}>
+                        <RNPickerSelect
+                            placeholder={{
+                            label: '선택',
+                            color: 'gray',
+                            }}
+                            onValueChange={(value) => setBoardCate(value)}
+                            items={BOARDCATEGORY}
+                            value={boardCate}
+                        /> 
+                    </View>
                 </View>
             </View>
-        </Root>
+                <TextInput 
+                    style={styles.textInputBodyDesign}
+                    placeholder='내용'
+                    onChangeText={(boardContent) => setBoardContent(boardContent)}
+                    maxLength ={1024}
+                    value={boardContent}
+                />
+            <View style={styles.ButtonDiv}>
+                <QuerySubmitButton onPress={handleSubmitButton}/>
+            </View>
+        </View>
     );
 };
 
