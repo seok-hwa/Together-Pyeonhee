@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Popup} from 'react-native-popup-confirm-toast'
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
+import { loadUserInfoApi, getMyInfo, removeDeviceToken, reportWithLast, reportWithPlan } from '../api';
 
 import {
     StyleSheet,
@@ -240,6 +240,7 @@ const MyPageScreen = ({navigation, route}) => {
                         currentDinner+=parseInt(item.daily_amount);
                     }else if(item.tran_type === '저금'){
                         currentSaving+=parseInt(item.daily_amount);
+                    }else if(item.tran_type === '송금'){
                     }else{
                         currentEct+=parseInt(item.daily_amount);
                     }
@@ -271,6 +272,7 @@ const MyPageScreen = ({navigation, route}) => {
                             lastDinner+=parseInt(item.daily_amount);
                         }else if(item.tran_type === '저금'){
                             lastSaving+=parseInt(item.daily_amount);
+                        }else if(item.tran_type === '송금'){
                         }else{
                             lastEct+=parseInt(item.daily_amount);
                         }
@@ -310,6 +312,7 @@ const MyPageScreen = ({navigation, route}) => {
                                 realDinner+=parseInt(item.daily_amount);
                             }else if(item.tran_type === '저금'){
                                 realSaving+=parseInt(item.daily_amount);
+                            }else if(item.tran_type === '송금'){
                             }else{
                                 realEct+=parseInt(item.daily_amount);
                             }
