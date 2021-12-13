@@ -111,8 +111,8 @@ module.exports = function () {
         //console.log(req.body);
         var userID = req.body.userID;
         var counselorID = req.body.counselorID;
-        db.query(`SELECT EXISTS (SELECT * FROM FinancialconsultLike WHERE user_id = ? and counselor_name = ? and like_check = 1 limit 1) as success`,
-            [userID, counselorName], function (error, result) {
+        db.query(`SELECT EXISTS (SELECT * FROM FinancialconsultLike WHERE user_id = ? and counselor_id = ? and like_check = 1 limit 1) as success`,
+            [userID, counselorID], function (error, result) {
                 if (error) throw error;
                 else {
                     if (result[0].success == 1) {
@@ -171,8 +171,8 @@ module.exports = function () {
         //console.log(req.body);
         var userID = req.body.userID;
         var counselorID = req.body.counselorID;
-        db.query(`SELECT EXISTS (SELECT * FROM AssetconsultLike WHERE user_id = ? and counselor_name = ? and like_check = 1 limit 1) as success`,
-            [userID, counselorName], function (error, result) {
+        db.query(`SELECT EXISTS (SELECT * FROM AssetconsultLike WHERE user_id = ? and counselor_id = ? and like_check = 1 limit 1) as success`,
+            [userID, counselorID], function (error, result) {
                 if (error) throw error;
                 else {
                     if (result[0].success == 1) {
