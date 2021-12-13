@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Button, Modal, Alert} from 'react-native';
-// import BudgetDetail from './RecommendedPlanningScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { openCheck, usePoint } from '../../../api';
 

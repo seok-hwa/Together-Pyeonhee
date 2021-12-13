@@ -58,15 +58,6 @@ const BudgetCabinet = ({navigation, route}) => {
         .then(()=>{
             console.log(tempID);
             fetchBudget(tempID);
-            // budgetPlanCabinet(tempID)
-            // .then((responseJson)=>{
-            //     console.log('response data');
-            //     console.log(responseJson);
-            //     setOtherBudgetData(responseJson);
-            // })
-            // .then(()=>{
-            //     setLoading(true);
-            // })  
         })
         .catch((error)=>{
             console.log(error);
@@ -93,8 +84,8 @@ const BudgetCabinet = ({navigation, route}) => {
                     <FlatList
                     keyExtractor={item => item.planning_number}
                     data={otherBudgetData}
-                    renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                        userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={'true'}
+                    renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} 
+                    userIncome={item.user_income} userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={'true'}
                     />}
                     refreshing={refresh}
                     onRefresh={loadCabinet}
@@ -112,16 +103,6 @@ const BudgetCabinet = ({navigation, route}) => {
 const styles = StyleSheet.create({
     appSize: {
         flex: 1,
-    },
-    wrapper: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignContent: 'center',
-        paddingVertical: 5,
-    },
-    text: {
-        lineHeight: 30,
-        marginLeft: 10,
     },
 })
 export default BudgetCabinet;

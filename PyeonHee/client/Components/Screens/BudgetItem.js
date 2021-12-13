@@ -38,7 +38,6 @@ const BudgetItem = (props) => {
 
 
     const handlePress = () => {
-
         if(props.cabinet === 'true') {
             console.log('보관함')
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
@@ -53,7 +52,7 @@ const BudgetItem = (props) => {
                 console.log('읽은적있음');
                 setModalVisible(false);
 
-                props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
+                props.navigation.navigate('OtherBudgetInfo', {budgetPlanningID: props.budgetPlanningID});
 
             } else {
                 console.log('읽은적없음');
@@ -62,9 +61,7 @@ const BudgetItem = (props) => {
                     {text: '취소', onPress:() => console.log('Cancel Pressed!'), style: 'cancel'},
                     {text: '열람', onPress:() => handleOKButton()}
                 ]
-                // ,{cancelable: false}
                 );
-                // setModalVisible(true);
             }                 
         })
 
@@ -72,7 +69,6 @@ const BudgetItem = (props) => {
     }
 
     const handleOKButton = () => {
-        // setModalVisible(false);
         console.log('OK 버튼 함수!')
         usePoint(props.userID, props.budgetPlanningID)
         .then((responseJson)=>{
@@ -85,62 +81,17 @@ const BudgetItem = (props) => {
                 props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
             } else{
                 console.log('포인트 부족');
-
                 let alertMessage = '현재 보유 포인트는 ' + `${responseJson.restPoint}` + '포인트 입니다.';
                 Alert.alert('포인트 부족', alertMessage);
-                // Popup.show({
-                //     type: 'success',
-                //     title: '포인트 부족',
-                //     textBody: '사용자의 포인트는 얼마로, 얼마의 포인트가 부족합니다.',
-                //     buttonText: '확인',
-                //     okButtonStyle: {backgroundColor: '#0000CD'},
-                //     iconEnabled: false,
-                //     callback: () => Popup.hide()
-                // })
             }
         })
         .catch((e)=>{
             console.error(e);
         })
-
-
-        // props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
     }
-    
-    
 
     return (
         <View>
-            {/* <Modal
-                animationType = {"slide"}
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                //  alert('Modal has now been closed.');
-                 setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>열람을 위해 100포인트가 차감됩니다.</Text>
-                        <View style={{flexDirection: 'row', marginTop: 20,}}>
-                            <TouchableOpacity
-                                style={styles.closeButton}
-                                onPress={() => {setModalVisible(!modalVisible)}}
-                            >
-                                <Text style={{color: '#203864', fontWeight: 'bold'}}>취소</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.openButton}
-                                onPress={handleOKButton}
-                            >
-                                <Text style={{color: '#203864', fontWeight: 'bold'}}>열람</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                </View>
-            </Modal> */}
 
         <TouchableOpacity
             style={styles.container}
