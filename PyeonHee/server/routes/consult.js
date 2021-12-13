@@ -115,6 +115,7 @@ module.exports = function () {
             [userID, counselorID], function (error, result) {
                 if (error) throw error;
                 else {
+                    console.log(result[0].success, "존재하면 1 없으면 0");
                     if (result[0].success == 1) {
                         db.query(`DELETE FinancialconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
                             if (error1) throw error1;
@@ -126,6 +127,7 @@ module.exports = function () {
                                         db.query(`UPDATE FinancialCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
                                             if(error4) throw error4;
                                             else{
+                                                console.log("좋아요를 취소했습니다.");
                                                 const data = {
                                                     status: false,
                                                 }
@@ -150,6 +152,7 @@ module.exports = function () {
                                         db.query(`UPDATE FinancialCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
                                             if(error4) throw error4;
                                             else{
+                                                console.log("좋아요를 눌렀습니다.");
                                                 const data = {
                                                     status: true,
                                                 }
