@@ -5,7 +5,7 @@ module.exports = function () {
     router.use(express.json());
 
     //저금계획 추가
-    app.post('/saveSavingPlan', function(req, res){
+    app.post('/save', function(req, res){
         var userID = req.body.userID;
         var savingName = req.body.savingName;
         var savingMoney = req.body.savingMoney;
@@ -35,7 +35,7 @@ module.exports = function () {
 
     //저금계획 수정
             
-    app.post('/editSavingPlan', function(req,res){
+    app.post('/edit', function(req,res){
         console.log('예산계획 수정');
 
         var userID = req.body.userID;

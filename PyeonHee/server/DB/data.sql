@@ -437,3 +437,11 @@ INSERT INTO real_expense (`user_id`,`fintech_use_num`,`bank_name`,`balance_amt`,
 /*푸시알림 확인용*/
 INSERT INTO real_expense (`user_id`,`fintech_use_num`,`bank_name`,`balance_amt`,`tran_date`,`tran_time`,`inout_type`,`tran_type`,`print_content`,`tran_amt`,`after_balance_amt`,`branch_name`,`state`,`alarm`) 
 VALUES ('pyeonhee','120211357588932329649483','KB국민은행',4153150,'20211212','07:30:23','출금','식비','맥도날드',5700,4153150,'송도점',0,0);
+
+
+/*예산계획 백업*/
+INSERT INTO pyeonhee.BudgetPlanning (`user_id`,`planning_number`,`planning_date`,`user_mbti`,`user_age`,`user_income`,`user_savings`,`like_number`,`monthly_rent`,`insurance_expense`,`transportation_expense`,`communication_expense`,`leisure_expense`,`shopping_expense`,`education_expense`,`medical_expense`,`event_expense`,`etc_expense`,`subscribe_expense`,`state`)
+ VALUES ('pyeonhee',21,'2021-11-22 03:06:00','PHSE',26,2500000,500000,0,450000,100000,100000,100000,300000,200000,0,0,100000,0,100000,1);
+ 
+ INSERT INTO pyeonhee.BudgetPlanning (`user_id`,`planning_number`,`planning_date`,`user_mbti`,`user_age`,`user_income`,`user_savings`,`like_number`,`monthly_rent`,`insurance_expense`,`transportation_expense`,`communication_expense`,`leisure_expense`,`shopping_expense`,`education_expense`,`medical_expense`,`event_expense`,`etc_expense`,`subscribe_expense`,`state`) 
+ VALUES ('pyeonhee',49,'2021-10-01 11:13:49','PHOM',26,2500000,500000,0,500000,100000,100000,100000,150000,300000,0,0,100000,0,100000,0);
