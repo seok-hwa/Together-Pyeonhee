@@ -74,7 +74,7 @@ module.exports = function () {
                                     else {
                                         console.log(result2);
                                         db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
-                                                WHERE user_id = 'pyeonhee' AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function (error3, result3) {
+                                                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function (error3, result3) {
                                             console.log(result3[0]);
                                             if (error3) throw error3;
                                             else {
@@ -92,7 +92,7 @@ module.exports = function () {
                                                 }
                                                 else {
                                                     db.query(`SELECT sum(tran_amt) as today_money FROM real_expense 
-                                                            WHERE user_id = 'pyeonhee' AND inout_type = '출금' AND SUBSTR(NOW(),9,2) = SUBSTR(tran_date,7,2) AND tran_type = '식비'`, [userID], function (err, money) {
+                                                            WHERE user_id = ? AND inout_type = '출금' AND SUBSTR(NOW(),9,2) = SUBSTR(tran_date,7,2) AND tran_type = '식비'`, [userID], function (err, money) {
                                                         if (err) throw err;
                                                         else {
                                                             if (money[0].today_money === null) {
