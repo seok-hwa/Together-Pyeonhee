@@ -60,8 +60,13 @@ const MonthReportCabinet = ({navigation}) => {
                     </View>
                     <View style={styles.headerRightDiv}></View>
                 </View>
-
-                <View>
+                {
+                    monthReportData.length === 0 ?
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
+                        <Text style={{fontSize: 17,}}>보관된 한달리포트가 없습니다.</Text>
+                    </View>
+                    :
+                    <View>
                     <FlatList
                         keyExtractor={item => item.report_month}
                         data={monthReportData}
@@ -72,7 +77,8 @@ const MonthReportCabinet = ({navigation}) => {
                         refreshing={refresh}
                         onRefresh={loadCabinet}
                     />
-                </View>
+                    </View>
+                }
             </View>
         )}
     else{

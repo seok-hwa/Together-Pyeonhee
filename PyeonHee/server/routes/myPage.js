@@ -55,7 +55,6 @@ module.exports = function () {
 
     // 개인정보 수정 정보 불러오기
     router.get('/load', function (req, res) {
-        console.log('들어오긴 하니');
         var userID = req.query.userID;
         db.query(`SELECT age, job FROM user WHERE user_id = ?`, [userID], function (error, result) {
             if (error) throw error;
