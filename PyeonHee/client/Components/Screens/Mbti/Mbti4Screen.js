@@ -313,10 +313,10 @@ const Mbti4Screen = ({navigation, route}) => {
     }
 
     let totalScore = 0;
-    totalScore+=Calculator1(mbti1_2, mbti1_3, mbti1_4, mbti1_5);
-    totalScore+=Calculator2(mbti2_1, mbti2_2, mbti2_3, mbti2_4);
-    totalScore+=Calculator3(mbti3_2, mbti3_3, mbti3_4, mbti3_5);
-    totalScore+=Calculator4(mbti4_1, mbti4_2, mbti4_3, mbti4_4);
+    totalScore+=Calculator1(mbti1_1, mbti1_2, mbti1_3, mbti1_4, mbti1_5);
+    totalScore+=Calculator2(mbti2_1, mbti2_2, mbti2_3, mbti2_4, mbti2_5);
+    totalScore+=Calculator3(mbti3_1, mbti3_2, mbti3_3, mbti3_4, mbti3_5);
+    totalScore+=Calculator4(mbti4_1, mbti4_2, mbti4_3, mbti4_4, mbti4_5);
 
     console.log('mbti 설문조사 끝');
     console.log('아이디');

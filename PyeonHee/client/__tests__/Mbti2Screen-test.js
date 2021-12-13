@@ -12,9 +12,9 @@ describe("Mbti2Screen", () => {
     });
 
     it('Mbti2Screen 점수', ()=>{
-        expect(Calculator1(false, false, false, true)).toBe(25);
-        expect(Calculator2(false, false, false, true)).toBe(5);
-        expect(Calculator3(false, false, true, false)).toBe(20);
-        expect(Calculator4(true, false, false, false)).toBe(25);
+        expect(Calculator1(false, false, false, false, true)).toBe(25);
+        expect(Calculator2(false, false, false, true, false)).toBe(5);
+        expect(Calculator3(false, false, false, true, false)).toBe(20);
+        expect(Calculator4(true, false, false, false, false)).toBe(25);
     })
 })
