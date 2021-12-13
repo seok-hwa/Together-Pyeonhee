@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
-const UpdateInfoScreen = ({navigation}) => {
+const UpdateInfoScreen = ({navigation, route}) => {
   const [userMonthlyIncome, setUserMonthlyIncome] = useState('250');
   const [userAge, setUserAge] = useState(26);
   const [userJob, setUserJob] = useState('자영업');
@@ -29,6 +29,9 @@ const UpdateInfoScreen = ({navigation}) => {
 
   const placeholder = '선택';
   
+  useEffect(()=>{
+
+  }, [])
   const checkPassword = () => {
     setPasswordCheckModalVisible(false);
     setPasswordUpdateModalVisible(true);
@@ -177,13 +180,13 @@ const UpdateInfoScreen = ({navigation}) => {
                 <Text style={styles.questText}>ID</Text>
             </View>
             <View style={styles.idDiv}>
-                <Text style={styles.idText}>Pyeonhee</Text>
+                <Text style={styles.idText}>{route.params.userID}</Text>
             </View>
             <View style={styles.innerTextAlign}>
                 <Text style={styles.questText}>이름</Text>
             </View>
             <View style={styles.idDiv}>
-                <Text style={styles.idText}>장재욱</Text>
+                <Text style={styles.idText}>{route.params.userName}</Text>
             </View>
             <View style={styles.innerTextAlign}>
                 <Text style={styles.questText}>나이</Text>

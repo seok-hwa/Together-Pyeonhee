@@ -711,7 +711,7 @@ const MyPageScreen = ({navigation, route}) => {
                 </View>
                 <View style = {styles.ectDiv}>
                 <Text style={styles.assetBudgetTitle}>기타</Text>
-                    <TouchableOpacity onPress={()=>navigation.navigate('UpdateInfoScreen')}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('UpdateInfoScreen', {userID: userID, userName: userName,})}>
                         <Text style={styles.assetBudgetBoard} >개인 정보 수정</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={logout}>
