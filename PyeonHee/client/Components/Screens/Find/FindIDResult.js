@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-community/async-storage'
-import { Root, Popup } from 'react-native-popup-confirm-toast';
-import config from '../../../config';
+import { findIDApi} from '../../api';
 import {
     StyleSheet,
     Text,
     View,
     TextInput,
 } from 'react-native';
-const url=config.url;
 const FindIDResult = ({route, navigation }) => {
     const [userID, setUserID] = useState('');
 
@@ -24,27 +21,16 @@ const FindIDResult = ({route, navigation }) => {
         setUserName(route.params.data.name);
         setUserPhone(route.params.data.phone);
 
-        fetch(`${url}/findID`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userName: route.params.data.name,
-              userPhone: route.params.data.phone,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-          })
-          .then((response)=>response.json())
-          .then((responseJson)=>{
-              if(responseJson.status === 'success'){
-                setIsUserID(true);
-                setUserID(responseJson.userID);
-              }
-          })
-          .then(()=>{
-              setLoading(true);
-          })
+        findIDApi(route.params.data.name, route.params.data.phone)
+        .then((responseJson)=>{
+            if(responseJson.status === 'success'){
+            setIsUserID(true);
+            setUserID(responseJson.userID);
+            }
+        })
+        .then(()=>{
+            setLoading(true);
+        })
     },[]);
 
     if(loading === true && isUserID === true){

@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { Root, Popup } from 'react-native-popup-confirm-toast';
 import config from '../../../config';
 import UpdatePasswordButton from '../../Buttons/UpdatePasswordButton';
+import { findIDApi, passwordUpdateApi } from '../../api';
 import {
     StyleSheet,
     Text,
@@ -28,18 +29,7 @@ const FindPasswordResult = ({route, navigation }) => {
         //setUserName(route.params.data.name);
         //setUserPhone(route.params.data.phone);
 
-        fetch(`${url}/findID`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userName: route.params.data.name,
-              userPhone: route.params.data.phone,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-          })
-          .then((response)=>response.json())
+        findIDApi(route.params.data.name, route.params.data.phone)
           .then((responseJson)=>{
               if(responseJson.status === 'success'){
                 setIsUserID(true);
@@ -98,19 +88,7 @@ const FindPasswordResult = ({route, navigation }) => {
             return;
         }
 
-        fetch(`${url}/passwordUpdate`, {
-          method: 'POST',
-          body: JSON.stringify({
-            userID: userID,
-            userPassword: userPassword,
-            userPasswordCheck: userPasswordCheck,
-          }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json',
-          },
-        })
-        .then((response)=>response.json())
+        passwordUpdateApi(userID, userPassword, userPasswordCheck)
         .then((responseJson)=>{
           console.log(responseJson);
           if(responseJson.status === 'success'){

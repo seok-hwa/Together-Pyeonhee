@@ -1,7 +1,4 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 import { WebView } from 'react-native-webview';
 import Loading from '../../Loading';
 

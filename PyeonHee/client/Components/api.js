@@ -823,6 +823,8 @@ export const update_info = (userID, fintech_use_num, newAlias) => {
         })
     })
 };
+
+//한달리포트 보관함 
 export const MonthReportCabinetApi = (userID) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/MonthReportCabinet`);
@@ -1090,6 +1092,73 @@ export const passwordUpdateApi = (userID, userPassword, userPasswordCheck) => {
               userID: userID,
               userPassword: userPassword,
               userPasswordCheck: userPasswordCheck,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//한달리포트 보관함 계획서와 비교
+export const cabinetWithPlanApi = (userID, month, year) => {
+    return new Promise(function(resolve, reject) {
+        console.log('/monthReport/Cabinet/WithPlan');
+        fetch(`${url}/monthReport/Cabinet/WithPlan`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              month: month,
+              year: year,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//한달리포트 보관함 지난달과 비교
+export const cabinetWithLastApi = (userID, month, year) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/monthReport/Cabinet/WithLastMonth`);
+        fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              month: month,
+              year: year,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//아이디 찾기
+export const findIDApi = (userName, userPhone) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/findID`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userName: userName,
+              userPhone: userPhone,
             }),
             headers: {
               'Accept': 'application/json',
