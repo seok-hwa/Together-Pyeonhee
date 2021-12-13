@@ -36,6 +36,7 @@ import FindIDResult from './Components/Screens/Find/FindIDResult';
 import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
 import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
 import ManualScreen from './Components/Screens/ManualScreen';
+import UpdateInfoScreen from './Components/Screens/UpdateInfoScreen';
 
 import messaging from '@react-native-firebase/messaging';
 
@@ -301,6 +302,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
+            <Stack.Screen
+              name="UpdateInfoScreen"
+              component={UpdateInfoScreen}
+              options={{
+                headerShown: false,
+            }} 
+            />
           </Stack.Navigator>
         </NavigationContainer>
       ); 
@@ -483,6 +491,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
+            <Stack.Screen
+              name="UpdateInfoScreen"
+              component={UpdateInfoScreen}
+              options={{
+                headerShown: false,
+            }} 
+            />
           </Stack.Navigator>
         </NavigationContainer>
       );
@@ -661,6 +676,13 @@ function App(){         //navigation
             <Stack.Screen
               name="QueryUpdate"
               component={QueryUpdate}
+              options={{
+                headerShown: false,
+            }} 
+            />
+            <Stack.Screen
+              name="UpdateInfoScreen"
+              component={UpdateInfoScreen}
               options={{
                 headerShown: false,
             }} 
