@@ -142,7 +142,7 @@ module.exports = function () {
                         })
                     }
                     else {
-                        db.query(`INSERT INTO FinancialconsultLike(user_id, counselor_id) VALUES(? ?);`, [userID, counselorID], function(error2, result2){
+                        db.query(`INSERT INTO FinancialconsultLike(user_id, counselor_id) VALUES(? ,?);`, [userID, counselorID], function(error2, result2){
                             if(error2) throw error2;
                             else{
                                 db.query(`SELECT like_count FROM FinancialCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
@@ -203,7 +203,7 @@ module.exports = function () {
                         })
                     }
                     else {
-                        db.query(`INSERT INTO AssetconsultLike(user_id, counselor_id) VALUES(? ?);`, [userID, counselorID], function(error2, result2){
+                        db.query(`INSERT INTO AssetconsultLike(user_id, counselor_id) VALUES(?, ?);`, [userID, counselorID], function(error2, result2){
                             if(error2) throw error2;
                             else{
                                 db.query(`SELECT like_count FROM AssetCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
