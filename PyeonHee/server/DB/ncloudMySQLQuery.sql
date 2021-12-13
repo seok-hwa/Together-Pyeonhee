@@ -339,4 +339,4 @@ CREATE TABLE pyeonhee.Monthly_Report (
 
 	primary key (user_id, report_month),
 	foreign key (user_id) references pyeonhee.user (user_id) on delete cascade
-	);
+);
