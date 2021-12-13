@@ -50,8 +50,8 @@ const FinancialConsultItem = (props) => {
     }
 
     const handleLike = () => {
-        console.log('/FinancialConsultLike');
-        fetch(`${url}/FinancialConsultLike`, {
+        console.log('/Counseling/FinancialConsultLike');
+        fetch(`${url}/Counseling/FinancialConsultLike`, {
             method: 'POST',
             body: JSON.stringify({
                 userID: props.userID,
