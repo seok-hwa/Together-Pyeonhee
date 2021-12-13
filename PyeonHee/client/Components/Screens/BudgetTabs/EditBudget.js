@@ -107,8 +107,8 @@ const EditBudgetScreen = (props) => {
                 }
                 // console.log(myBudgetData);
             })
-            }) 
-    }, []);
+        }) 
+    }, [props]);
 
     
 
