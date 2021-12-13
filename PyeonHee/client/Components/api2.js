@@ -1023,6 +1023,48 @@ export const requestTokenApi = (code) => {
         })
     })
 };
+//아이디 찾기
+export const findIDApi = (userName, userPhone) => {
+    return new Promise(function(resolve, reject) {
+        fetch(`${url}/access/findID`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userName: userName,
+              userPhone: userPhone,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+//개인정보 비밀번호 수정
+export const passwordUpdateApi = (userID, userPassword, userPasswordCheck) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/access/passwordUpdate`);
+        fetch(`${url}/access/passwordUpdate`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userPassword: userPassword,
+              userPasswordCheck: userPasswordCheck,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
 
 //아래 api 추가 라우팅 필요!!
 
@@ -1083,29 +1125,6 @@ export const updateUserInfoApi = (userID, userAge, userJob) => {
     })
 };
 
-//개인정보 비밀번호 수정
-export const passwordUpdateApi = (userID, userPassword, userPasswordCheck) => {
-    return new Promise(function(resolve, reject) {
-        console.log(`${url}/passwordUpdate`);
-        fetch(`${url}/passwordUpdate`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userID: userID,
-              userPassword: userPassword,
-              userPasswordCheck: userPasswordCheck,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            resolve(responseJson);
-        })
-    })
-};
-
 //한달리포트 보관함 계획서와 비교
 export const cabinetWithPlanApi = (userID, month, year) => {
     return new Promise(function(resolve, reject) {
@@ -1139,27 +1158,6 @@ export const cabinetWithLastApi = (userID, month, year) => {
               userID: userID,
               month: month,
               year: year,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
-        .then((responseJson)=>{
-            resolve(responseJson);
-        })
-    })
-};
-
-//아이디 찾기
-export const findIDApi = (userName, userPhone) => {
-    return new Promise(function(resolve, reject) {
-        fetch(`${url}/findID`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userName: userName,
-              userPhone: userPhone,
             }),
             headers: {
               'Accept': 'application/json',
