@@ -376,3 +376,24 @@ VALUES ('jykim123', 202111, 'PHSE', 26, 2500000, 138000,717700,0,230000,190000,0
 INSERT INTO Monthly_Report(user_id,report_month,mbti, progress_days, income,realCommunication,
 realDinner,realEducation,realEvent,realHobby,realInsurance,realMedical,realRent,realSaving,realShopping,realSubscribe,realTraffic,realEct)
 VALUES ('jykim123', 202110, 'PHOM', 26, 2500000, 100000,400000,0,100000,300000,0,0,500000,500000,300000,100000,200000,0);
+
+
+create table FinancialconsultLike (
+    user_id varchar(10) not null,
+    counselor_id int not null,
+    like_check int default 1,
+
+    primary key (user_id, counselor_id),
+    foreign key (user_id) references user (user_id),
+    foreign key (counselor_id) references FinancialCounselor (counselor_id) on delete cascade
+);
+
+create table AssetconsultLike (
+    user_id varchar(10) not null,
+    counselor_id int not null,
+    like_check int default 1,
+
+    primary key (user_id, counselor_id),
+    foreign key (user_id) references user (user_id),
+    foreign key (counselor_id) references AssetCounselor (counselor_id) on delete cascade
+);
