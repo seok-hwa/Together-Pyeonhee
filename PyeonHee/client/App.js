@@ -39,6 +39,7 @@ import ManualScreen from './Components/Screens/ManualScreen';
 import UpdateInfoScreen from './Components/Screens/UpdateInfoScreen';
 import Manual from './Components/Screens/MyPageTabs/Manual';
 import messaging from '@react-native-firebase/messaging';
+import OtherBudgetInfo from './Components/Screens/BudgetTabs/others/OtherBudgetInfo';
 
 import config from './config';
 import {getMbti} from './Components/api'
@@ -197,6 +198,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
+            <Stack.Screen
+               name="OtherBudgetInfo"
+               component={OtherBudgetInfo}
+               options={{
+                 headerShown: false,
+             }} 
+             />
             <Stack.Screen
               name="accountLink"
               component={AccountLinkScreen}
@@ -394,6 +402,13 @@ function App(){         //navigation
             }} 
             />
             <Stack.Screen
+               name="OtherBudgetInfo"
+               component={OtherBudgetInfo}
+               options={{
+                 headerShown: false,
+             }} 
+             />
+            <Stack.Screen
               name="accountLink"
               component={AccountLinkScreen}
               options={{
@@ -589,6 +604,13 @@ function App(){         //navigation
                 headerShown: false,
             }} 
             />
+            <Stack.Screen
+               name="OtherBudgetInfo"
+               component={OtherBudgetInfo}
+               options={{
+                 headerShown: false,
+             }} 
+             />
             <Stack.Screen
               name="accountLink"
               component={AccountLinkScreen}
