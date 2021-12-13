@@ -1,5 +1,6 @@
 module.exports = function () {
     var db = require('../db_config.js');
+    var config = require('../config.js');
     var express = require('express');
     var router = express.Router();
     const nodemailer = require('nodemailer');
