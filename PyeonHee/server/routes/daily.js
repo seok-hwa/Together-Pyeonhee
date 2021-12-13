@@ -100,7 +100,7 @@ module.exports = function () {
                                                                 data = {
                                                                     userName: name,
                                                                     planamt: result1[0],
-                                                                    realamt: result3[0],
+                                                                    realamt: result3,
                                                                     daily_money: daily_money,
                                                                     spend_money: spend_money,
                                                                     live_money: live_money,
@@ -118,7 +118,7 @@ module.exports = function () {
                                                                         data = {
                                                                             userName: name,
                                                                             planamt: result1[0],
-                                                                            realamt: result3[0],
+                                                                            realamt: result3,
                                                                             daily_money: daily_money,
                                                                             spend_money: spend_money,
                                                                             live_money: live_money,
