@@ -36,9 +36,8 @@
  import FindPasswordResult from './Components/Screens/Find/FindPasswordResult';
  import QueryUpdate from './Components/Screens/ServiceCenter/QueryUpdate';
  import ManualScreen from './Components/Screens/ManualScreen';
+ import UpdateInfoScreen from './Components/Screens/UpdateInfoScreen';
  import Manual from './Components/Screens/MyPageTabs/Manual';
- import OtherBudgetInfo from './Components/Screens/BudgetTabs/others/OtherBudgetInfo';
- 
  import messaging from '@react-native-firebase/messaging';
  
  import config from './config';
@@ -199,13 +198,6 @@
              }} 
              />
              <Stack.Screen
-               name="OtherBudgetInfo"
-               component={OtherBudgetInfo}
-               options={{
-                 headerShown: false,
-             }} 
-             />
-             <Stack.Screen
                name="accountLink"
                component={AccountLinkScreen}
                options={{
@@ -313,6 +305,13 @@
              <Stack.Screen
                name="QueryUpdate"
                component={QueryUpdate}
+               options={{
+                 headerShown: false,
+             }} 
+             />
+             <Stack.Screen
+               name="UpdateInfoScreen"
+               component={UpdateInfoScreen}
                options={{
                  headerShown: false,
              }} 
@@ -395,13 +394,6 @@
              }} 
              />
              <Stack.Screen
-               name="OtherBudgetInfo"
-               component={OtherBudgetInfo}
-               options={{
-                 headerShown: false,
-             }} 
-             />
-             <Stack.Screen
                name="accountLink"
                component={AccountLinkScreen}
                options={{
@@ -509,6 +501,13 @@
              <Stack.Screen
                name="QueryUpdate"
                component={QueryUpdate}
+               options={{
+                 headerShown: false,
+             }} 
+             />
+             <Stack.Screen
+               name="UpdateInfoScreen"
+               component={UpdateInfoScreen}
                options={{
                  headerShown: false,
              }} 
@@ -591,13 +590,6 @@
              }} 
              />
              <Stack.Screen
-               name="OtherBudgetInfo"
-               component={OtherBudgetInfo}
-               options={{
-                 headerShown: false,
-             }} 
-             />
-             <Stack.Screen
                name="accountLink"
                component={AccountLinkScreen}
                options={{
@@ -705,6 +697,13 @@
              <Stack.Screen
                name="QueryUpdate"
                component={QueryUpdate}
+               options={{
+                 headerShown: false,
+             }} 
+             />
+             <Stack.Screen
+               name="UpdateInfoScreen"
+               component={UpdateInfoScreen}
                options={{
                  headerShown: false,
              }} 
