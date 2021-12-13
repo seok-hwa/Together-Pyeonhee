@@ -1166,3 +1166,47 @@ export const updateUserInfoApi = (userID, userAge, userJob) => {
         })
     })
 };
+
+
+export const FinancialConsultLikeApi = (userID, counselorID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/Counseling/FinancialConsultLike`);
+        fetch(`${url}/Counseling/FinancialConsultLike`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                counselorID: counselorID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+
+export const AssetConsultLikeApi = (userID, counselorID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/Counseling/AssetConsultLike`);
+        fetch(`${url}/Counseling/AssetConsultLike`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: userID,
+                counselorID: counselorID,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
