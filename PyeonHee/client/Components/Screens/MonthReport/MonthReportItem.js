@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     mbtiInnerContainer: {
         padding: 3,
         borderRadius: 5,
-        width: 50,
+        width: 60,
         alignItems: 'center',
         backgroundColor: 'pink'
     },
