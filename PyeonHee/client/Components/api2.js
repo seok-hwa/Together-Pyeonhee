@@ -532,8 +532,8 @@ export const MyBudgetPlanCabinet = (userID) => {
 
 export const editSavingPlan = (userID, savingID, savingName, savingMoney, endYear, endMonth) => {
     return new Promise(function(resolve, reject) {
-        console.log(`${url}/editSavingPlan`);
-        fetch(`${url}/editSavingPlan`, {
+        console.log(`${url}/SavingPlan/edit`);
+        fetch(`${url}/SavingPlan/edit`, {
             method: 'POST',
             body: JSON.stringify({
               userID: userID,
