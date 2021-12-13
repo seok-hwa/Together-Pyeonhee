@@ -285,7 +285,6 @@ const MyPageScreen = ({navigation, route}) => {
                 reportWithPlan(userID)
                 .then((responseJson)=>{
                     if(responseJson.plan.length != 0){
-                        console.log('있음');
                         responseJson.real.map(item  => {
                             if(item.tran_type === '쇼핑'){
                                 realShopping+=parseInt(item.daily_amount);
@@ -332,15 +331,9 @@ const MyPageScreen = ({navigation, route}) => {
                         daily_count=responseJson.plan.last_count;
                     }else{
                         isPlan = false;
-                        console.log('없음');
                     }
                 })
                 .then(()=>{
-                    if(isPlan === true){
-                        console.log('계획서 있음!!!!!!!!!1');
-                        }else{
-                        console.log('계획서 없음!!!!!!!');
-                    }
                     navigation.navigate('MonthReport', {
                         withLast: {
                             currentRent: currentRent,
@@ -718,7 +711,7 @@ const MyPageScreen = ({navigation, route}) => {
                 </View>
                 <View style = {styles.ectDiv}>
                 <Text style={styles.assetBudgetTitle}>기타</Text>
-                    <TouchableOpacity onPress={()=>alert('개인 정보 수정')}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('UpdateInfoScreen', {userID: userID, userName: userName,})}>
                         <Text style={styles.assetBudgetBoard} >개인 정보 수정</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={logout}>

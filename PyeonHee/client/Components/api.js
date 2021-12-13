@@ -1022,3 +1022,83 @@ export const requestTokenApi = (code) => {
         })
     })
 };
+
+//개인정보 수정 정보 불러오기
+export const loadUserInfoApi = (userID) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/loadUserInfo?userID=${userID}`);
+        fetch(`${url}/loadUserInfo?userID=${userID}`)   //get
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//개인정보 수정 비밀번호 확인
+export const passwordCheckApi = (userID, userPassword) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/checkUserPassword`);
+        fetch(`${url}/checkUserPassword`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userPassword: userPassword,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//개인정보 수정
+export const updateUserInfoApi = (userID, userAge, userJob) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/updateUserInfo`);
+        fetch(`${url}/updateUserInfo`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userAge: userAge,
+              userJob: userJob,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
+
+//개인정보 비밀번호 수정
+export const passwordUpdateApi = (userID, userPassword, userPasswordCheck) => {
+    return new Promise(function(resolve, reject) {
+        console.log(`${url}/passwordUpdate`);
+        fetch(`${url}/passwordUpdate`, {
+            method: 'POST',
+            body: JSON.stringify({
+              userID: userID,
+              userPassword: userPassword,
+              userPasswordCheck: userPasswordCheck,
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            resolve(responseJson);
+        })
+    })
+};
