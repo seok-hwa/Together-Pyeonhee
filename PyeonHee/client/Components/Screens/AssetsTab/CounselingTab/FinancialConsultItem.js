@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
       flexDirection: 'row',
-      paddingHorizontal: 3, 
-    //   justifyContent: 'space-between',
+      paddingHorizontal: 5, 
+      paddingVertical: 5,
       alignItems: 'center',
     },
     rankingLogoContainer: {
@@ -136,28 +136,25 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: 'center',
         alignItems: 'center',
-      },
+    },
     item2: {
         flexDirection: 'row',
         alignItems: 'center',
         width: 300,
         paddingVertical: 15,
         marginHorizontal: 10,
-        // backgroundColor: 'yellow',
     },
     likeContainer: {
         flexDirection: 'row', 
         alignItems: 'center', 
-        marginLeft: 7,
-        // backgroundColor: 'pink',
-        padding: 5,
-        // width: 30,
+        justifyContent: 'center',
+        marginLeft: 10,
+        padding: 3,
+        width: 40,
         height: 20,
     },
     buttonContainer: {
         width: 20,
-        // backgroundColor: 'pink'
-
     },
     likeLogo: {
         width: 10,
