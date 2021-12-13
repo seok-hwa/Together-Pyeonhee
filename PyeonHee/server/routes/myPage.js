@@ -53,5 +53,80 @@ module.exports = function () {
             });
     });
 
+    // 개인정보 수정 정보 불러오기
+    router.get('/load', function (req, res) {
+        console.log('들어오긴 하니');
+        var userID = req.query.userID;
+        db.query(`SELECT age, job FROM user WHERE user_id = ?`, [userID], function (error, result) {
+            if (error) throw error;
+            else {
+                if (result.length === 0) {
+                    console.log("개인정보가 없습니다.");
+                }
+                else {
+                    data = {
+                        userJob: result[0].job,
+                        userAge: result[0].age,
+                    }
+                    console.log(data);
+                    res.send(data);
+                }
+            }
+        })
+    });
+
+    // 개인정보 수정 비밀번호 확인
+    router.post(`/checkPassword`, function (req, res) {
+        var userID = req.body.userID;
+        var userPassword = req.body.userPassword;
+        db.query(`SELECT password FROM user WHERE user.user_id=?`, [userID], function (error, result) {
+            if (error) throw error;
+            else {
+                if (result.length === 0) {
+                    const data = {
+                        status: 'failed',
+                    }
+                    console.log(data);
+                    res.send(data);
+                }
+                else {
+                    const same = bcrypt.compareSync(userPassword, result[0].password);
+                    if (same) {
+                        const data = {
+                            status: 'success',
+                        };
+                        console.log(data);
+                        res.send(data);
+                    }
+                    else {
+                        const data = {
+                            status: 'failed',
+                        }
+                        console.log(data);
+                        res.send(data);
+                    }
+                }
+            }
+        });
+    });
+
+    // 개인정보 수정
+    router.post(`/update`, function (req, res) {
+        console.log(req.body);
+        var userID = req.body.userID;
+        var userAge = parseInt(req.body.userAge);
+        var userJob = req.body.userJob;
+        db.query(`UPDATE user SET age = ?, job = ? WHERE user_id = ?`, [userAge, userJob, userID], function (error, result) {
+            if (error) throw error;
+            else {
+                data = {
+                    status: 'success',
+                }
+                console.log("개인정보 수정이 완료되었습니다.");
+                res.send(data);
+            }
+        })
+    });
+
     return router;
 }
