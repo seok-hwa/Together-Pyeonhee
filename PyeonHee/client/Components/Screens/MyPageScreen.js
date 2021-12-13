@@ -92,7 +92,7 @@ const MyPageScreen = ({navigation, route}) => {
         return () => {
             DeviceEventEmitter.removeAllListeners();
         }
-    }, []);
+    }, [route]);
     
     function TierImage(){
         if(userTier === 'BRONZE'){
