@@ -467,3 +467,23 @@ insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_
 values ('together', '120211357588932329649483', 'KB국민은행', 1200000, '20211010', '13:09:00', '출금', '선물', '계좌이체', 100000, 1100000, '인터넷뱅킹', 1, 1);
 insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
 values ('together', '120211357588932329649483', 'KB국민은행', 1100000, '20211010', '13:10:00', '출금', '구독', '계좌이체', 100000, 1000000, '인터넷뱅킹', 1, 1);
+
+
+
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('이상담',10000,'펀드','신한은행',3,'shjeong3332@gmail.com');
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('박상담',10001,'적금','현대카드',4,'shjeong3332@gmail.com');
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('정상담',10002,'보험','한국투자',6,'shjeong3332@gmail.com');
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('최상담',10003,'펀드','카카오뱅크',10,'shjeong3332@gmail.com');
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('와신상담',10004,'대출','새마을금고',8,'shjeong3332@gmail.com');
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('김아주',10005,'대출','IBK기업은행',26,'shjeong3332@gmail.com');
+INSERT INTO FinancialCounselor (`name`,`counselor_id`,`part`,`company`,`like_count`,`email`) VALUES ('김희주',10012,'펀드','KB 국민은행',0,'asdf@asdf.com');
+
+
+
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('이자산',20000,'현대카드',4,'shjeong3332@gmail.com');
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('장덕수',20001,'하나은행',9,'shjeong3332@gmail.com');
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('오일남',20002,'신한은행',11,'shjeong3332@gmail.com');
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('성기훈',20003,'수협',5,'shjeong3332@gmail.com');
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('이자산',20004,'현대카드',2,'shjeong3332@gmail.com');
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('김자산',20005,'새마을금고',3,'shjeong3332@gmail.com');
+INSERT INTO AssetCounselor (`name`,`counselor_id`,`company`,`like_count`,`email`) VALUES ('이자산',20006,'현대카드',4,'shjeong3332@gmail.com');
