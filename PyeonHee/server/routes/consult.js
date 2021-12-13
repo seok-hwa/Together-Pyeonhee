@@ -108,13 +108,14 @@ module.exports = function () {
 
     // 좋아요 여부 확인
     router.post('/FinancialConsultLike', function (req, res) {
-        //console.log(req.body);
+        console.log(req.body);
         var userID = req.body.userID;
         var counselorID = req.body.counselorID;
         db.query(`SELECT EXISTS (SELECT * FROM FinancialconsultLike WHERE user_id = ? and counselor_id = ? and like_check = 1 limit 1) as success`,
             [userID, counselorID], function (error, result) {
                 if (error) throw error;
                 else {
+                    console.log(result[0].success, "존재하면 1 없으면 0");
                     if (result[0].success == 1) {
                         db.query(`DELETE FinancialconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
                             if (error1) throw error1;
@@ -126,6 +127,7 @@ module.exports = function () {
                                         db.query(`UPDATE FinancialCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
                                             if(error4) throw error4;
                                             else{
+                                                console.log("좋아요를 취소했습니다.");
                                                 const data = {
                                                     status: false,
                                                 }
@@ -140,7 +142,7 @@ module.exports = function () {
                         })
                     }
                     else {
-                        db.query(`INSERT INTO FinancialconsultLike(user_id, counselor_id) VALUES(? ?);`, [userID, counselorID], function(error2, result2){
+                        db.query(`INSERT INTO FinancialconsultLike(user_id, counselor_id) VALUES(? ,?);`, [userID, counselorID], function(error2, result2){
                             if(error2) throw error2;
                             else{
                                 db.query(`SELECT like_count FROM FinancialCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
@@ -150,6 +152,7 @@ module.exports = function () {
                                         db.query(`UPDATE FinancialCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
                                             if(error4) throw error4;
                                             else{
+                                                console.log("좋아요를 눌렀습니다.");
                                                 const data = {
                                                     status: true,
                                                 }
@@ -200,7 +203,7 @@ module.exports = function () {
                         })
                     }
                     else {
-                        db.query(`INSERT INTO AssetconsultLike(user_id, counselor_id) VALUES(? ?);`, [userID, counselorID], function(error2, result2){
+                        db.query(`INSERT INTO AssetconsultLike(user_id, counselor_id) VALUES(?, ?);`, [userID, counselorID], function(error2, result2){
                             if(error2) throw error2;
                             else{
                                 db.query(`SELECT like_count FROM AssetCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
