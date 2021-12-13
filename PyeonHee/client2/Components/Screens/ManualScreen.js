@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
     StyleSheet,
@@ -8,19 +7,11 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
+    Alert
 } from 'react-native';
-import BackButton from '../Buttons/BackButton';
 
-const ManualScreen = ({navigation}) => {
-    const [userID, setUserId] = useState('');
-    const [isSelected, setIsSelected] = useState(false);
+const ManualScreen = ({navigation, route}) => {
     const [selectedIdx, setSelectedIdx] = useState(0);
-
-    const handleSingleIndexSelect = () => {
-        setIsSelected(true);
-        console.log('눌렀다!');
-        console.log(isSelected);
-    };
 
     const handLeftBotton = () => {
         if(selectedIdx - 1 < 0){
@@ -31,22 +22,25 @@ const ManualScreen = ({navigation}) => {
     }
 
     const handRightBotton = () => {
-        if(selectedIdx + 1 > 7){
-            return;
+        if(selectedIdx + 1 === 7){
+            Alert.alert('환영합니다!','편히가계와 스마트한 자산관리를\n 진행하세요.', [
+                {text: '확인', onPress:() => navigation.replace('Main')}
+              ]
+            );
         } else {
             setSelectedIdx(selectedIdx + 1);
         }
     }
 
-    
     return (
         <View style={styles.appSize}>
             <View style={styles.appTopBar}>
-                    <BackButton onPress={()=>{navigation.goBack()}}/>
-                    <Text style={styles.appTopBarText}>사용 설명서</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Text style={styles.appTopBarText}>편히가계</Text>
+                        <Text style={{color: 'black'}}> 란?</Text>
+                    </View>
             </View>
-            <View style={styles.rowContainer}> 
-
+            <View style={styles.rowContainer}>
                 {
                     selectedIdx > 0 ? 
                     <TouchableOpacity
@@ -119,18 +113,11 @@ const ManualScreen = ({navigation}) => {
                     </View>
                 }
 
-                {
-                    selectedIdx < 7 ?
-                    <TouchableOpacity
-                        onPress={handRightBotton}
-                    >
-                        <Icon name={'chevron-forward-outline'} size={20} color={'#203864'}/>
-                    </TouchableOpacity>
-                    :
-                    <Icon name={'chevron-forward-outline'} size={20} color={'white'}/>
-                }
-
-                
+                <TouchableOpacity
+                    onPress={handRightBotton}
+                >
+                    <Icon name={'chevron-forward-outline'} size={20} color={'#203864'}/>
+                </TouchableOpacity>
             </View>
             
         </View>
@@ -168,6 +155,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: '#203864'
+    },
+    lastPage:{
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: 25,
+        backgroundColor: 'yellow'
+
     }
 });
 
