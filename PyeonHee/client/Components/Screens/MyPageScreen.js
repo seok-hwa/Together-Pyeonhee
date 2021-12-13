@@ -478,6 +478,25 @@ const MyPageScreen = ({navigation, route}) => {
             }
         })
     }
+    const toUserInfo = () =>{
+        let userAge;
+        let userJob;
+
+        loadUserInfoApi(userID)
+        .then((responseJson)=>{
+            console.log(responseJson);
+            userAge = responseJson.userAge;
+            userJob = responseJson.userJob;
+        })
+        .then(()=>{
+            navigation.navigate('UpdateInfoScreen', {
+                userID: userID, 
+                userName: userName,
+                userAge: userAge,
+                userJob: userJob,
+            })
+        })
+    }
     if(loading === true){
         return(
             <ScrollView style={styles.appSize}>
@@ -714,7 +733,7 @@ const MyPageScreen = ({navigation, route}) => {
                 </View>
                 <View style = {styles.ectDiv}>
                 <Text style={styles.assetBudgetTitle}>기타</Text>
-                    <TouchableOpacity onPress={()=>navigation.navigate('UpdateInfoScreen', {userID: userID, userName: userName,})}>
+                    <TouchableOpacity onPress={toUserInfo}>
                         <Text style={styles.assetBudgetBoard} >개인 정보 수정</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={logout}>
@@ -885,7 +904,7 @@ const styles = StyleSheet.create({
     },
     modalMbtiBodySize: {
         width: '75%',
-        height: '40%',
+        height: '50%',
         backgroundColor: 'white',
         borderRadius: 10,
     },

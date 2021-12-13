@@ -7,7 +7,7 @@ import UpdateUserInfoButton from '../Buttons/UpdateUserInfoButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PasswordCheckButton from '../Buttons/PasswordCheckButton';
 import PasswordUpdateButton from '../Buttons/PasswordUpdateButton';
-import {loadUserInfoApi, passwordCheckApi, updateUserInfoApi, passwordUpdateApi} from '../api';
+import { passwordCheckApi, updateUserInfoApi, passwordUpdateApi} from '../api';
 import Loading from '../Screens/Loading';
 
 import {
@@ -18,9 +18,10 @@ import {
   TouchableOpacity,
   Modal,
 } from 'react-native';
+
 const UpdateInfoScreen = ({navigation, route}) => {
-  const [userAge, setUserAge] = useState(0);
-  const [userJob, setUserJob] = useState('');
+  const [userAge, setUserAge] = useState(route.params.userAge);
+  const [userJob, setUserJob] = useState(route.params.userJob);
 
   const [userPassword, setUserPassword] = useState('');
   const [userNewPassword, setUserNewPassword] = useState('');
@@ -29,25 +30,8 @@ const UpdateInfoScreen = ({navigation, route}) => {
   const [passwordCheckModalVisible, setPasswordCheckModalVisible] = useState(false);
   const [passwordUpdateModalVisible, setPasswordUpdateModalVisible] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-
   const placeholder = '선택';
-  
-  useEffect(()=>{
-    loadUserInfoApi(route.params.userID)
-    .then((responseJson)=>{
-        console.log(responseJson);
-        setUserAge(responseJson.userAge);
-        setUserJob(responseJson.userJob);
-    })
-    .then(()=>{
-        setLoading(true);
-    })
-  }, [])
-  const checkPassword = () => {
-    setPasswordCheckModalVisible(false);
-    setPasswordUpdateModalVisible(true);
-  }
+
   const handleInfo = () => {
     if(!userAge){
         alert('나이를 입력해주세요.');
@@ -114,7 +98,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
     })
 
   }
-  if(loading === true){
+
   return (
     <View style={styles.appSize}>
         <Modal
@@ -245,10 +229,10 @@ const UpdateInfoScreen = ({navigation, route}) => {
             <View style={styles.pickerDiv}>
                 <RNPickerSelect
                 placeholder={{
-                    label: userJob,
-                    color: 'gray',
+                label: '선택',
+                color: 'gray',
                 }}
-                onValueChange={(value) => setUserJob(value)}
+                onValueChange={(userJob) => setUserJob(userJob)}
                 items={JOBS}
                 value={userJob}
                 />    
@@ -262,14 +246,6 @@ const UpdateInfoScreen = ({navigation, route}) => {
         </View> 
     </View>
   )
-    }
-    else{
-        return(
-            <View style={styles.appSize}>
-                <Loading />
-            </View>
-        )
-    }
 }
 const styles = StyleSheet.create({
   appSize: {
