@@ -48,6 +48,10 @@ app.use('/SavingPlan', savingPlanRouter);
 var reportRouter = require('./routes/report')();
 app.use('/monthReport', reportRouter);
 
+//한달리포트 보관함
+var reportRouter = require('./routes/reportCabinet')();
+app.use('/monthReport/Cabinet', reportRouter);
+
 //마이페이지 (로그아웃 포함)
 var myInfoRouter = require('./routes/myPage')();
 app.use('/myPage', myInfoRouter);
