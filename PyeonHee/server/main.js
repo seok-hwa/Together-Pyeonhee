@@ -40,7 +40,7 @@ app.use('/budget', budgetPlanRouter);
 var recommendBudgetplanRouter = require('./routes/recommendBudgetplan')();
 app.use('/plan', recommendBudgetplanRouter);
 
-//저축
+//저금계획
 var savingPlanRouter = require('./routes/savingPlan')();
 app.use('/SavingPlan', savingPlanRouter);
 
