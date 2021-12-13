@@ -185,13 +185,13 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                markedDates={{
-                  // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
-                  '20211219': {inout_type: '출금', daily_amt: -20000},
-                  '20211220': {inout_type: '출금', daily_amt: -2125000},
-                  '20211225': {inout_type: '입금', daily_amt: 0},
-                  '20211226': {inout_type: '입금', daily_amt: 5000}
-                }}
+                // markedDates={{
+                //   // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
+                //   '20211219': {inout_type: '출금', daily_amt: -20000},
+                //   '20211220': {inout_type: '출금', daily_amt: -2125000},
+                //   '20211225': {inout_type: '입금', daily_amt: 0},
+                //   '20211226': {inout_type: '입금', daily_amt: 5000}
+                // }}
 
                 // markedDates={this.state.monthlyData}
 
@@ -223,13 +223,13 @@ class CalendarScreen extends React.Component {
 
 
                 //for test
-                markedDates={{
-                  // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
-                  '20211219': {inout_type: '출금', daily_amt: -20000},
-                  '20211220': {inout_type: '출금', daily_amt: -2125000},
-                  '20211225': {inout_type: '입금', daily_amt: 0},
-                  '20211226': {inout_type: '입금', daily_amt: 5000}
-                }}
+                // markedDates={{
+                //   // '2021-12-19': {inout_type: '입금', daily_amt: 2000},
+                //   '20211219': {inout_type: '출금', daily_amt: -20000},
+                //   '20211220': {inout_type: '출금', daily_amt: -2125000},
+                //   '20211225': {inout_type: '입금', daily_amt: 0},
+                //   '20211226': {inout_type: '입금', daily_amt: 5000}
+                // }}
 
                 // markedDates={this.state.monthlyData}
 

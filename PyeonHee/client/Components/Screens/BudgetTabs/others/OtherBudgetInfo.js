@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import BackButton from '../Buttons/BackButton';
+import BackButton from '../../../Buttons/BackButton';
 import Icon from 'react-native-vector-icons/Ionicons';
-import PlanningSaveButton from '../Buttons/PlanningSaveButton';
-import PlanningSaveCancelButton from '../Buttons/PlanningSaveCancelButton';
+import PlanningSaveButton from '../../../Buttons/PlanningSaveButton';
+import PlanningSaveCancelButton from '../../../Buttons/PlanningSaveCancelButton';
 import { PieChart } from 'react-native-chart-kit';
-import SavingItem from './SavingItem';
+// import OtherBudgetItem from './OtherBudgetItem';
+import SavingItem from '../../SavingItem';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
-import { didLike, didStore, saveBudgetPlan, cancelBudgetPlan, recommendedBudgetPlan, sendLike } from '../api';
+import { didLike, didStore, saveBudgetPlan, cancelBudgetPlan, recommendedBudgetPlan, sendLike } from '../../../api';
 
 import {
     StyleSheet,
@@ -16,7 +17,6 @@ import {
     TouchableOpacity,
     ScrollView,
     Image,
-    DeviceEventEmitter
 } from 'react-native';
 
 const LikeButton = (props) => {          //like
@@ -52,7 +52,7 @@ const LikeButton = (props) => {          //like
         </TouchableOpacity>
     );
 };
-const RecommendedPlanningScreen = ({navigation, route}) => {
+const OtherBudgetInfo = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     const [userAge, setUserAge] = useState(0);
     const [userIncome, setUserIncome] = useState(0);
@@ -218,10 +218,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                     })
                 })
             })
-        }) 
-        return () => {
-            DeviceEventEmitter.emit('BudgetDetail');
-          }
+        })
     }, []) 
     const handleSubmitSaveButton = () => {
         Popup.show({
@@ -314,9 +311,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
             <Root>
                 <View style={styles.appTopBar}>
                         <View style={styles.appTitlePosition}>
-                            {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-                                <Icon name="arrow-back-outline" size={25} color={'gray'}></Icon>
-                            </TouchableOpacity> */}
                             <BackButton onPress={()=>{navigation.goBack()}}/>
                             <View style={{ marginLeft: 20, justifyContent: 'center',}}>
                                 <Text style={styles.appTitle}>추천 예산 계획서</Text> 
@@ -389,7 +383,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/health-insurance.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/health-insurance.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>보험료</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -407,7 +401,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>구독료</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -422,7 +416,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
 
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/traffic.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>교통비</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -431,7 +425,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/leisure.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/leisure.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>문화/취미/여행</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -440,7 +434,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                 <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/shopping.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>뷰티/미용/쇼핑</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -449,7 +443,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/education.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/education.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>교육</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -458,7 +452,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/medical.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/medical.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>의료비</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -467,7 +461,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/event.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>경조사/선물</Text>
                                         <View style={{alignItems: 'flex-end'}}>
@@ -693,4 +687,4 @@ const styles = StyleSheet.create({
         color: 'white',
     }
 })
-export default RecommendedPlanningScreen;
+export default OtherBudgetInfo;
