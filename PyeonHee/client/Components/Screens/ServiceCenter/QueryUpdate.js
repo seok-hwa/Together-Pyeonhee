@@ -105,17 +105,16 @@ const QueryUpdate = ({navigation, route}) => {
                     </View>
                     <View style={styles.CateDiv}>
                         <Text style={styles.CateLeft}>분류: </Text>
-                        <View>
-                        <RNPickerSelect
-                            placeholder={{
-                            label: '선택',
-                            color: 'gray',
-                            }}
-                            style={pickerSelectStyles}
-                            onValueChange={(value) => setBoardCate(value)}
-                            items={BOARDCATEGORY}
-                            value={boardCate}
-                        />
+                        <View style={styles.pickerDiv}>
+                            <RNPickerSelect
+                                placeholder={{
+                                label: '선택',
+                                color: 'gray',
+                                }}
+                                onValueChange={(value) => setBoardCate(value)}
+                                items={BOARDCATEGORY}
+                                value={boardCate}
+                            /> 
                         </View>
                     </View>
                 </View>
@@ -221,14 +220,15 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
         fontSize: 15,
     },
-});
-const pickerSelectStyles = StyleSheet.create({
-    inputAndroid: {
-        height: 30, 
-        width: 200,
-        backgroundColor: 'white', 
+    pickerDiv: {
+        backgroundColor: '#DCDCDC',
+        marginTop: 10,
+        paddingHorizontal: 10,
+        height: 40,
+        width: 240,
         borderRadius: 3,
-        fontSize: 10,
+        backgroundColor: 'white',
+        justifyContent: 'center',
     },
 });
 export default QueryUpdate;
