@@ -52,7 +52,7 @@ app.use('/monthReport', reportRouter);
 var reportRouter = require('./routes/reportCabinet')();
 app.use('/monthReport/Cabinet', reportRouter);
 
-//마이페이지 (로그아웃 포함)
+//마이페이지 (개인정보 수정 및 로그아웃)
 var myInfoRouter = require('./routes/myPage')();
 app.use('/myPage', myInfoRouter);
 
