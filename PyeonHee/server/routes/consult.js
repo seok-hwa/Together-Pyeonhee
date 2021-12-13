@@ -108,7 +108,7 @@ module.exports = function () {
 
     // 좋아요 여부 확인
     router.post('/FinancialConsultLike', function (req, res) {
-        //console.log(req.body);
+        console.log(req.body);
         var userID = req.body.userID;
         var counselorID = req.body.counselorID;
         db.query(`SELECT EXISTS (SELECT * FROM FinancialconsultLike WHERE user_id = ? and counselor_id = ? and like_check = 1 limit 1) as success`,
