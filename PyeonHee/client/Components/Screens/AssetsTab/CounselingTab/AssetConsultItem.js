@@ -4,6 +4,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import RankingLogo from './RankingLogo';
 import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import { requestMatching } from '../../../api';
+// import config from "../config";
+import config
+ from '../../../../config';
+const url = config.url;
 
 const AssetConsultItem = (props) => {
     const sendMail = () =>{
@@ -48,12 +52,41 @@ const AssetConsultItem = (props) => {
         })
     }
 
+    const handleLike = () => {
+        console.log('/AssetConsultLike');
+        fetch(`${url}/AssetConsultLike`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: props.userID,
+                counselorID: props.consultNumber,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            if(responseJson.status === true) {
+                console.log('add like');
+                alert('좋아요를 눌렀습니다.');
+                props.setLike(true);
+            } else {
+                console.log('cancle like');
+                alert('좋아요를 취소했습니다.');
+                props.setLike(true);
+            }
+        })
+
+        // alert('좋아요를 눌렀습니다.');
+        // console.log('add like');
+        // props.setLike(true);
+    }
+
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={sendMail}
-            // onPress={() => props.navigation.navigate('FinancialConsult', {consultNumber: props.consultNumber})}
-        >
+        <View style={styles.container}>
             <View style={styles.itemContainer}>
                 <View style={styles.rankingLogoContainer}>
                     <RankingLogo rank={props.counselorRank}/>
@@ -69,18 +102,23 @@ const AssetConsultItem = (props) => {
                         <Text>{props.counselorName}</Text> 
                     </View>
 
-                    <View style={{flexDirection: 'row', alignItems: 'center', width: 55, }}>
+                    <TouchableOpacity 
+                        onPress={handleLike}
+                        style={styles.likeContainer}
+                    >
                         <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
                         <Text style={{marginLeft: 5, fontSize: 10, }}>{(props.counselorLike+'').replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
-                <View>
+                <TouchableOpacity
+                    onPress={sendMail}
+                >
                     <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
-                </View>
+                </TouchableOpacity>
 
             </View>
-        </TouchableOpacity>
+        </View>
     );
 };
 
@@ -107,6 +145,12 @@ const styles = StyleSheet.create({
           justifyContent: 'space-between',
           width: 300,
           paddingVertical: 20,
+      },
+      likeContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        width: 55, 
+        marginLeft: 10,
       },
       likeLogo: {
           width: 10,
