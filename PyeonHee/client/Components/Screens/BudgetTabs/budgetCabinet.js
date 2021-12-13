@@ -10,8 +10,42 @@ const BudgetCabinet = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
+    const fetchBudget = (userID) => {
+        budgetPlanCabinet(userID)
+        .then((responseJson)=>{
+            console.log('보관함 목록 response data');
+            console.log(responseJson);
+
+            setOtherBudgetData(responseJson);
+        })
+        .then(()=>{
+            setLoading(true);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    };
+
     useEffect(()=>{
         let tempID;
+        DeviceEventEmitter.addListener('BudgetDetail', () => {
+            let tempID;
+            AsyncStorage.getItem("userID")
+            .then(
+                (value) => {
+                    if (value !== null){
+                        tempID=value
+                        setUserID(tempID);
+                    }
+                }
+            )
+            .then(()=>{
+                fetchBudget(tempID);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        })
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -23,17 +57,12 @@ const BudgetCabinet = ({navigation}) => {
         )
         .then(()=>{
             console.log(tempID);
-            budgetPlanCabinet(tempID)
-            .then((responseJson)=>{
-                console.log('response data');
-                console.log(responseJson);
-                setOtherBudgetData(responseJson);
-            })
-            .then(()=>{
-                setLoading(true);
-            })  
+            fetchBudget(tempID);
         })
-    }, [])
+        .catch((error)=>{
+            console.log(error);
+        })
+    }, [route])
 
     const loadCabinet = () => {
         setRefresh(true);
