@@ -110,7 +110,7 @@ module.exports = function () {
     router.post('/FinancialConsultLike', function (req, res) {
         //console.log(req.body);
         var userID = req.body.userID;
-        var counselorID = req.body.counselor_id;
+        var counselorID = req.body.counselorID;
         db.query(`SELECT EXISTS (SELECT * FROM FinancialconsultLike WHERE user_id = ? and counselor_name = ? and like_check = 1 limit 1) as success`,
             [userID, counselorName], function (error, result) {
                 if (error) throw error;
@@ -170,7 +170,7 @@ module.exports = function () {
     router.post('/AssetConsultLike', function (req, res) {
         //console.log(req.body);
         var userID = req.body.userID;
-        var counselorID = req.body.counselor_id;
+        var counselorID = req.body.counselorID;
         db.query(`SELECT EXISTS (SELECT * FROM AssetconsultLike WHERE user_id = ? and counselor_name = ? and like_check = 1 limit 1) as success`,
             [userID, counselorName], function (error, result) {
                 if (error) throw error;
