@@ -1,5 +1,6 @@
 //마이페이지 (로그아웃 포함)
 module.exports = function () {
+    const bcrypt = require('bcrypt');
     var db = require('../db_config.js');
     var express = require('express');
     var router = express.Router();
