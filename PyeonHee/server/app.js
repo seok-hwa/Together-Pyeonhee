@@ -667,7 +667,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             app.post(`/updateUserInfo`, function(req, res){
                 console.log(req.body);
                 var userID = req.body.userID;
-                var userAge = req.body.userAge;
+                var userAge = parseInt(req.body.userAge);
                 var userJob = req.body.userJob;
                 db.query(`UPDATE user SET age = ?, job = ? WHERE user_id = ?`[userAge, userJob, userID], function(error, result){
                     if(error) throw error;
