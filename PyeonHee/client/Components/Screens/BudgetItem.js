@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
       borderRightColor: '#8EB3EE',
     },
     item2: {
-    marginRight: 20,
-      justifyContent: 'space-between',
+        marginRight: 20,
+        justifyContent: 'space-between',
     },
     tierDesign: {
       width: 50,
@@ -157,12 +157,13 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignItems: 'center',
         borderRadius: 10,
+        justifyContent: 'center',
     },
     mbtiInnerContainer: {
         backgroundColor: 'pink',
         padding: 3,
         borderRadius: 5,
-        width: 50,
+        width: 60,
         alignItems: 'center',
     },
     mbtiText: {
