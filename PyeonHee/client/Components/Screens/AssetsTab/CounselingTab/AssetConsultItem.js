@@ -134,8 +134,10 @@ const styles = StyleSheet.create({
       likeContainer: {
         flexDirection: 'row', 
         alignItems: 'center', 
-        width: 55, 
+        width: 50, 
         marginLeft: 10,
+        paddingLeft: 5,
+        paddingVertical: 3,
       },
       likeLogo: {
           width: 10,
