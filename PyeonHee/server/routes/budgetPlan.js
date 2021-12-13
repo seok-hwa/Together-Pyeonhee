@@ -172,14 +172,14 @@ module.exports = function () {
                     leisure, shopping, education, medical, event, etc, subscription, userID], function (error1, result1) {
                         if (error1) throw error1;
                         else {
-                            db.query(`SELECT sum(savings_money) as total_savings_money FROM Savings WHERE user_id = ?`, [userID], function (error2, result2) {
+                            db.query(`SELECT IFNULL(sum(savings_money),0) as totalSaving FROM Savings WHERE user_id = ?`, [userID], function (error2, result2) {
                                 if (error1) throw error1;
                                 else {
                                     db.query(`SELECT * FROM BudgetPlanning Where user_id = ? AND state = 1`, [userID], function (error3, result3) {
                                         if (error) throw error;
 
-                                        else if (result.length != 0) {
-                                            dailyMoney = Calculate_Daily_Money(result3, result2);
+                                        else {
+                                            dailyMoney = Calculate_Daily_Money(result3, result2[0].totalSaving);
                                             console.log(result[0]);
                                             db.query(`UPDATE daily_data SET available_money = ? WHERE user_id = ?`, [dailyMoney, userID], function (error4, result4) {
                                                 if (error4) throw error4;
@@ -191,9 +191,6 @@ module.exports = function () {
                                                     res.send(data);
                                                 }
                                             })
-                                        }
-                                        else {
-                                            res.send([]);
                                         }
                                     });
                                 }
