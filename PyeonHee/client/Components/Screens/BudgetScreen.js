@@ -17,7 +17,7 @@ const BudgetScreen = ({navigation}) => {
         setUserID(tempID);
       }
     });
-  })
+  }, [])
 
   const handleSingleIndexSelect = (index) => {
     setSelectedIndex(index);

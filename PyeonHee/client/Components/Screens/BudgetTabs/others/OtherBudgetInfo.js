@@ -17,6 +17,7 @@ import {
     TouchableOpacity,
     ScrollView,
     Image,
+    DeviceEventEmitter,
 } from 'react-native';
 
 const LikeButton = (props) => {          //like
@@ -219,6 +220,9 @@ const OtherBudgetInfo = ({navigation, route}) => {
                 })
             })
         })
+        return () => {
+            DeviceEventEmitter.emit('OtherBudgetInfo');
+        }
     }, []) 
     const handleSubmitSaveButton = () => {
         Popup.show({

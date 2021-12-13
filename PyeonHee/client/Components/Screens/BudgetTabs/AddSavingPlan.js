@@ -68,6 +68,10 @@ const SavingPlan = (props) => {
         // .catch((error)=>{
         //   console.error(error);
         // })
+        setSavingName("");
+        setSavingMoney("");
+        setEndMonth("");
+        setEndYear("");
         props.setAddSavingsPlan(true);
     }
 
