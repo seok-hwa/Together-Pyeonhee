@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { JOBS, INCOMES } from './constants';
 import RNPickerSelect from 'react-native-picker-select';
-import { Root, Popup } from 'react-native-popup-confirm-toast';
 import BackButton from '../Buttons/BackButton';
 import UpdateUserInfoButton from '../Buttons/UpdateUserInfoButton';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -35,7 +34,6 @@ const UpdateInfoScreen = ({navigation, route}) => {
   const placeholder = '선택';
   
   useEffect(()=>{
-      /*
     loadUserInfoApi(route.params.userID)
     .then((responseJson)=>{
         console.log(responseJson);
@@ -44,11 +42,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
     })
     .then(()=>{
         setLoading(true);
-    })*/
-
-
-    //test
-    setLoading(true);
+    })
   }, [])
   const checkPassword = () => {
     setPasswordCheckModalVisible(false);
@@ -56,25 +50,11 @@ const UpdateInfoScreen = ({navigation, route}) => {
   }
   const handleInfo = () => {
     if(!userAge){
-      Popup.show({
-        type: 'success',
-        textBody: '나이를 입력해주세요.',
-        buttonText: '확인',
-        okButtonStyle: {backgroundColor: '#0000CD'},
-        iconEnabled: false,
-        callback: () => Popup.hide()
-      })
+        alert('나이를 입력해주세요.');
       return;
     }
     if(!userJob){
-      Popup.show({
-        type: 'success',
-        textBody: '직업군을 선택해주세요.',
-        buttonText: '확인',
-        okButtonStyle: {backgroundColor: '#0000CD'},
-        iconEnabled: false,
-        callback: () => Popup.hide()
-      })
+        alert('직업군을 선택해주세요.');
       return;
     }
 
@@ -105,48 +85,20 @@ const UpdateInfoScreen = ({navigation, route}) => {
 
   const handlePasswordUpdate = () =>{
     if(!userNewPassword){
-        Popup.show({
-            type: 'success',
-            textBody: '비밀번호를 입력해주세요.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-        })
+        alert('비밀번호를 입력해주세요.')
         return;
     }
     var pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     if(!pwCheck.test(userNewPassword)){
-        Popup.show({
-            type: 'success',
-            textBody: '비밀번호는 8~25자의 영문자, 숫자, 특수문자의\n조합으로 입력해야 합니다.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-        })
+        alert('비밀번호는 8~25자의 영문자, 숫자, 특수문자의\n조합으로 입력해야 합니다.')
         return;
     }
     if(!userNewPasswordCheck){
-        Popup.show({
-            type: 'success',
-            textBody: '비밀번호 확인을 입력해주세요.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-        })
+        alert('비밀번호 확인을 입력해주세요.');
         return;
     }
     if(userNewPassword != userNewPasswordCheck){
-        Popup.show({
-            type: 'success',
-            textBody: '비밀번호가 일치하지 않습니다.',
-            buttonText: '확인',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => Popup.hide()
-        })
+        alert('비밀번호가 일치하지 않습니다.');
         return;
     }
     passwordUpdateApi(route.params.userID, userNewPassword, userNewPasswordCheck)
@@ -154,6 +106,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
         console.log(responseJson);
         if(responseJson.status === 'success'){
             alert('비밀번호 변경 완료');
+            setPasswordUpdateModalVisible(false);
         }
         else{
             alert('비밀번호 변경 실패')
@@ -163,7 +116,6 @@ const UpdateInfoScreen = ({navigation, route}) => {
   }
   if(loading === true){
   return (
-    <Root>
     <View style={styles.appSize}>
         <Modal
             animationType="fade"
@@ -189,6 +141,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
                         </View>
                         <View style={styles.passwordInputDiv}>
                             <TextInput 
+                            secureTextEntry={true}
                             style={styles.passwordInputDesign}
                             maxLength ={20}
                             placeholder='비밀번호 입력'
@@ -226,6 +179,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
                         </View>
                         <View style={styles.passwordInputDiv}>
                             <TextInput 
+                            secureTextEntry={true}
                             style={styles.passwordInputDesign}
                             maxLength ={25}
                             placeholder='8~25자 영문자, 숫자, 특수문자 조합'
@@ -237,6 +191,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
                         </View>
                         <View style={styles.passwordInputDiv}>
                             <TextInput 
+                            secureTextEntry={true}
                             style={styles.passwordInputDesign}
                             maxLength ={25}
                             placeholder='새 비밀번호 입력 확인'
@@ -290,7 +245,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
             <View style={styles.pickerDiv}>
                 <RNPickerSelect
                 placeholder={{
-                    label: placeholder,
+                    label: userJob,
                     color: 'gray',
                 }}
                 onValueChange={(value) => setUserJob(value)}
@@ -306,7 +261,6 @@ const UpdateInfoScreen = ({navigation, route}) => {
             </TouchableOpacity>
         </View> 
     </View>
-    </Root>
   )
     }
     else{
