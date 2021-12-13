@@ -7,7 +7,7 @@ import { requestMatching } from '../../../api';
 
 const FinancialConsultItem = (props) => {
 
-    const sendMail = () =>{
+    const sendMail = () => {
         console.log('상담사 id: ',props.consultNumber);
         Popup.show({
             type: 'confirm',
@@ -47,11 +47,38 @@ const FinancialConsultItem = (props) => {
             }
         })
     }
+
+    const handleLike = () => {
+        console.log('/FinancialConsultLike');
+        fetch(`${url}/FinancialConsultLike`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userID: props.userID,
+                counselorID: props.consultNumber,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json',
+            },
+        })
+        .then((response)=>response.json())
+        .then((responseJson)=>{
+            console.log('response data');
+            console.log(responseJson);
+            if(responseJson.status === true) {
+                console.log('add like');
+                alert('좋아요를 눌렀습니다.');
+                props.setLike(true);
+            } else {
+                console.log('cancle like');
+                alert('좋아요를 취소했습니다.');
+                props.setLike(true);
+            }
+        })
+    }
+
     return (
-        <TouchableOpacity
-            style={styles.container}
-            onPress={sendMail}
-        >
+        <View style={styles.container}>
             <View style={styles.itemContainer}>
                 <View style={styles.rankingLogoContainer}>
                     <RankingLogo rank={props.counselorRank}/>
@@ -71,18 +98,24 @@ const FinancialConsultItem = (props) => {
                         <Text>{props.counselorName}</Text> 
                     </View>
 
-                    <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 5,}}>
+                    <TouchableOpacity 
+                        style={styles.likeContainer}
+                        onPress={handleLike}
+                    >
                         <Image source={require('../../assets/redHeart.png')} style={styles.likeLogo}/>
                         <Text style={{marginLeft: 5, fontSize: 10, }}>{props.counselorLike}</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
-                <View>
+                <TouchableOpacity
+                    onPress={sendMail}
+                    style={styles.buttonContainer}
+                >
                     <Icon name={'chevron-forward-outline'} size={20} color={'#8EB3EE'}/>
-                </View>
+                </TouchableOpacity>
 
             </View>
-        </TouchableOpacity>
+        </View>
     );
 };
 
@@ -94,7 +127,7 @@ const styles = StyleSheet.create({
     itemContainer: {
       flexDirection: 'row',
       paddingHorizontal: 3, 
-      justifyContent: 'space-between',
+    //   justifyContent: 'space-between',
       alignItems: 'center',
     },
     rankingLogoContainer: {
@@ -107,7 +140,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: 300,
-        paddingVertical: 20,
+        paddingVertical: 15,
+        marginHorizontal: 10,
+        // backgroundColor: 'yellow',
+    },
+    likeContainer: {
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        marginLeft: 7,
+        // backgroundColor: 'pink',
+        padding: 5,
+        // width: 30,
+        height: 20,
+    },
+    buttonContainer: {
+        width: 20,
+        // backgroundColor: 'pink'
+
     },
     likeLogo: {
         width: 10,

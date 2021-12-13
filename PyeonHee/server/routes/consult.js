@@ -106,6 +106,127 @@ module.exports = function () {
         })
     });
 
+    // 좋아요 여부 확인
+    router.post('/FinancialConsultLike', function (req, res) {
+        //console.log(req.body);
+        var userID = req.body.userID;
+        var counselorID = req.body.counselor_id;
+        db.query(`SELECT EXISTS (SELECT * FROM FinancialconsultLike WHERE user_id = ? and counselor_name = ? and like_check = 1 limit 1) as success`,
+            [userID, counselorName], function (error, result) {
+                if (error) throw error;
+                else {
+                    if (result[0].success == 1) {
+                        db.query(`DELETE FinancialconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
+                            if (error1) throw error1;
+                            else{
+                                db.query(`SELECT like_count FROM FinancialCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
+                                    if(error3) throw error3;
+                                    else{
+                                        var count = result3[0].like_count - 1;
+                                        db.query(`UPDATE FinancialCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
+                                            if(error4) throw error4;
+                                            else{
+                                                const data = {
+                                                    status: false,
+                                                }
+                                                res.send(data);
+                                            }
+                                        })
+                                    }
+                                
+                                })
+                                
+                            }
+                        })
+                    }
+                    else {
+                        db.query(`INSERT INTO FinancialconsultLike(user_id, counselor_id) VALUES(? ?);`, [userID, counselorID], function(error2, result2){
+                            if(error2) throw error2;
+                            else{
+                                db.query(`SELECT like_count FROM FinancialCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
+                                    if(error3) throw error3;
+                                    else{
+                                        var count = result3[0].like_count + 1;
+                                        db.query(`UPDATE FinancialCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
+                                            if(error4) throw error4;
+                                            else{
+                                                const data = {
+                                                    status: true,
+                                                }
+                                                res.send(data);
+                                            }
+                                        })
+                                    }
+                                
+                                })
+                            }
+                        })
+                        
+                    }
+                }
+            });
+    });
+
+    router.post('/AssetConsultLike', function (req, res) {
+        //console.log(req.body);
+        var userID = req.body.userID;
+        var counselorID = req.body.counselor_id;
+        db.query(`SELECT EXISTS (SELECT * FROM AssetconsultLike WHERE user_id = ? and counselor_name = ? and like_check = 1 limit 1) as success`,
+            [userID, counselorName], function (error, result) {
+                if (error) throw error;
+                else {
+                    if (result[0].success == 1) {
+                        db.query(`DELETE AssetconsultLike WHERE user_id =? AND counselor_id = ?`, [userID, counselorID], function(error1, result1){
+                            if (error1) throw error1;
+                            else{
+                                db.query(`SELECT like_count FROM AssetCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
+                                    if(error3) throw error3;
+                                    else{
+                                        var count = result3[0].like_count - 1;
+                                        db.query(`UPDATE AssetCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
+                                            if(error4) throw error4;
+                                            else{
+                                                const data = {
+                                                    status: false,
+                                                }
+                                                res.send(data);
+                                            }
+                                        })
+                                    }
+                                
+                                })
+                                
+                            }
+                        })
+                    }
+                    else {
+                        db.query(`INSERT INTO AssetconsultLike(user_id, counselor_id) VALUES(? ?);`, [userID, counselorID], function(error2, result2){
+                            if(error2) throw error2;
+                            else{
+                                db.query(`SELECT like_count FROM AssetCounselor WHERE counselor_id = ?`, [counselorID], function(error3, result3){
+                                    if(error3) throw error3;
+                                    else{
+                                        var count = result3[0].like_count + 1;
+                                        db.query(`UPDATE AssetCounselor SET like_count = ? WHERE counselor_id = ?`, [count, counselorID], function(error4, result4){
+                                            if(error4) throw error4;
+                                            else{
+                                                const data = {
+                                                    status: true,
+                                                }
+                                                res.send(data);
+                                            }
+                                        })
+                                    }
+                                
+                                })
+                            }
+                        })
+                        
+                    }
+                }
+            });
+    });
+
     /*
     //상담사 세부정보 받아오기 
     router.get('/FinancialProduct/Detail', function (req, res) {
