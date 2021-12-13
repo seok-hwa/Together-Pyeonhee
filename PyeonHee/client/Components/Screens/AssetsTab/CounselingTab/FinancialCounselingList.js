@@ -12,46 +12,6 @@ const FinancialCounseling = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [refresh, setRefresh] = useState(false);
 
-    //for test
-    // let financialCounselingData = [
-    //     {
-    //         consult_number: 1,
-    //         counselor_name: '김아주',
-    //         consult_title: '상담 제목1',    //상담사가 자기를 표현하는 한 줄로 했으면 좋겠음
-    //         consult_part: '재무/회계',
-    //         counselor_corp: '카카오뱅크',     //상담사 소속 회사 정보 필요
-    //         counselor_like: 20,            //상담사 평점? 또는 좋아요 정보
-    //         counselor_rank: 1,
-    //     },
-    //     {
-    //         consult_number: 2,
-    //         counselor_name: '이아주',
-    //         consult_title: '상담 제목2',
-    //         consult_part: '편드',
-    //         counselor_corp: 'SBI저축은행',
-    //         counselor_like: 330,
-    //         counselor_rank: 2,
-    //     },
-    //     {
-    //         consult_number: 3,
-    //         counselor_name: '남궁아주',
-    //         consult_title: '상담 제목3',
-    //         consult_part: '연금',
-    //         counselor_corp: 'IBK기업은행',
-    //         counselor_like: 7300,
-    //         counselor_rank: 3,
-    //     },
-    //     {
-    //         consult_number: 4,
-    //         counselor_name: '홍아주',
-    //         consult_title: '상담 제목3',
-    //         consult_part: '연금',
-    //         counselor_corp: '새마을금고',
-    //         counselor_like: 2513,
-    //         counselor_rank: 4,
-    //     },
-    // ]
-
     useEffect(()=>{
         let tempID;
 

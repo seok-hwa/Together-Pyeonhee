@@ -6,9 +6,8 @@ import SegmentedControlTab from 'react-native-segmented-control-tab';
 import CabinetReportWithLast from './CabinetReportWithLast';
 import CabinetReportWithPlan from './CabinetReportWithPlan';
 
-import config from '../../../config';
+import { cabinetWithLastApi, cabinetWithPlanApi } from '../../api';
 
-const url = config.url;
 const MonthReportItem = (props) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
@@ -73,20 +72,7 @@ const MonthReportItem = (props) => {
     const progressPercentage = parseInt(props.daily_count)/date*100;
 
     const handlePress = () => {
-        console.log('/monthReport/Cabinet/WithPlan', props.month);
-        fetch(`${url}/monthReport/Cabinet/WithPlan`, {
-            method: 'POST',
-            body: JSON.stringify({
-              userID: props.userID,
-              month: props.month,
-              year: props.year,
-            }),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type':'application/json',
-            },
-        })
-        .then((response)=>response.json())
+        cabinetWithPlanApi(props.userID, props.month, props.year)
         .then((responseJson)=>{
             console.log(responseJson);
 
@@ -129,21 +115,8 @@ const MonthReportItem = (props) => {
                 prevMonth = 12;
                 prevYear = prevYear - 1;
             }
-            console.log('/monthReport/Cabinet/WithLastMonth',  prevMonth);
             if(props.index > 0) {
-                fetch(`${url}/monthReport/Cabinet/WithLastMonth`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      userID: props.userID,
-                      month: prevMonth,
-                      year: prevYear,
-                    }),
-                    headers: {
-                      'Accept': 'application/json',
-                      'Content-Type':'application/json',
-                    },
-                })
-                .then((response)=>response.json())
+                cabinetWithLastApi(props.userID, prevMonth, prevYear)
                 .then((responseJson)=>{
                     console.log(responseJson);
     

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import config from '../../../config'
 import { SafeAreaView, StyleSheet, Text, View, Button, ScrollView, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 

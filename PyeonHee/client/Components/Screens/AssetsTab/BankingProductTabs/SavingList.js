@@ -13,37 +13,6 @@ const SavingProduct = ({navigation}) => {
     const [allSavingList, setAllSavingList] = useState([]);
     const [mySavingList, setMySavingList] = useState([]);
 
-    //for test
-    /*
-    const tempAll = [
-        {
-            product_name: '스마트 정기적금',
-            bank_name: '스마트저축은행',
-            product_type: '정액정립식',
-            max_interest: '4.0%',
-            interest: '3.5%',
-            link: 'https://www.smartbank.co.kr/HMA0001',
-        },
-        {
-            product_name: '웰컴 첫거래우대 정기적금',
-            bank_name: '웰컴저축은행',
-            product_type: '정액적립식',
-            max_interest: '4.2%',
-            interest: '3.5%',
-            link: 'https://www.welcomebank.co.kr/ib20/mnu/IBN000000000',
-        },
-    ]
-    const tempMy = [
-        {
-            product_name: '스마트 정기적금',
-            bank_name: '스마트저축은행',
-            product_type: '정액정립식',
-            max_interest: '4.0%',
-            interest: '3.5%',
-            link: 'https://www.smartbank.co.kr/HMA0001',
-        },
-    ]*/
-
     useEffect(()=>{
         let tempID;
         AsyncStorage.getItem('userID', (err, result) => {
