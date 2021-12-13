@@ -17,7 +17,7 @@ module.exports = function () {
     });
 
     //한달 리포트 불러오기 : 예산계획과 비교
-    router.post('WithPlan', function (req, res) {
+    router.post('/WithPlan', function (req, res) {
         var userID = req.body.userID;
         var month = req.body.month;
         var year = req.body.year;
@@ -77,7 +77,7 @@ module.exports = function () {
     });
 
     //한달 리포트 불러오기 : 지난 달과 비교
-    router.post('WithLastMonth', function (req, res) {
+    router.post('/WithLastMonth', function (req, res) {
         var userID = req.body.userID;
         var month = (req.body.month + 1).toString();
         var prevMonth = (req.body.month).toString();
