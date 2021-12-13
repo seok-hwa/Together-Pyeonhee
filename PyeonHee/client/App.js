@@ -17,7 +17,7 @@ import Iamport from './IamportComponents/App';
 import IamportID from './IamportComponents/AppID';
 import IamportPassword from './IamportComponents/AppPassword';
 import AsyncStorage from '@react-native-community/async-storage';
-import BudgetInfoScreen from './Components/Screens/RecommendedPlanningScreen';
+import BudgetInfoScreen from './Components/Screens/BudgetTabs/me/RecommendedPlanningScreen';
 // import WriteBudgetScreen from './Components/Screens/BudgetTabs/WriteBudgetScreen'; //for budget writing test
 import BudgetScreen from './Components/Screens/BudgetScreen';
 import AccountLinkScreen from './Components/Screens/AssetsTab/Account/AccountLinkScreen';

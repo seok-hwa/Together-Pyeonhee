@@ -55,10 +55,10 @@ module.exports = function () {
                             var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
                             live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                             db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function (error2, result2) {
-                                var daily_money = result2[0].available_money;
-                                var spend_money = result2[0].available_money - result2[0].daily_spent_money;
                                 if (error2) throw error2;
                                 else {
+                                    var daily_money = result2[0].available_money;
+                                    var spend_money = result2[0].available_money - result2[0].daily_spent_money;
                                     if (result2.length === 0) {
                                         data = {
                                             userName: name,
@@ -74,7 +74,7 @@ module.exports = function () {
                                     else {
                                         console.log(result2);
                                         db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
-                                                WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function (error3, result3) {
+                                                WHERE user_id = 'pyeonhee' AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function (error3, result3) {
                                             console.log(result3[0]);
                                             if (error3) throw error3;
                                             else {
@@ -92,7 +92,7 @@ module.exports = function () {
                                                 }
                                                 else {
                                                     db.query(`SELECT sum(tran_amt) as today_money FROM real_expense 
-                                                            WHERE user_id = ? AND inout_type = '출금' AND SUBSTR(NOW(),9,2) = SUBSTR(tran_date,7,2) AND tran_type = '식비'`, [userID], function (err, money) {
+                                                            WHERE user_id = 'pyeonhee' AND inout_type = '출금' AND SUBSTR(NOW(),9,2) = SUBSTR(tran_date,7,2) AND tran_type = '식비'`, [userID], function (err, money) {
                                                         if (err) throw err;
                                                         else {
                                                             if (money[0].today_money === null) {
@@ -100,7 +100,7 @@ module.exports = function () {
                                                                 data = {
                                                                     userName: name,
                                                                     planamt: result1[0],
-                                                                    realamt: result3,
+                                                                    realamt: result3[0],
                                                                     daily_money: daily_money,
                                                                     spend_money: spend_money,
                                                                     live_money: live_money,
@@ -118,7 +118,7 @@ module.exports = function () {
                                                                         data = {
                                                                             userName: name,
                                                                             planamt: result1[0],
-                                                                            realamt: result3,
+                                                                            realamt: result3[0],
                                                                             daily_money: daily_money,
                                                                             spend_money: spend_money,
                                                                             live_money: live_money,

@@ -7,7 +7,6 @@ import PlanningSaveCancelButton from '../../../Buttons/PlanningSaveCancelButton'
 import { PieChart } from 'react-native-chart-kit';
 // import OtherBudgetItem from './OtherBudgetItem';
 import SavingItem from '../../SavingItem';
-import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
 import { didLike, didStore, saveBudgetPlan, cancelBudgetPlan, recommendedBudgetPlan, sendLike } from '../../../api';
 
 import {
@@ -18,6 +17,7 @@ import {
     ScrollView,
     Image,
     DeviceEventEmitter,
+    Alert,
 } from 'react-native';
 
 const LikeButton = (props) => {          //like
@@ -220,99 +220,76 @@ const OtherBudgetInfo = ({navigation, route}) => {
                 })
             })
         })
+        
         return () => {
             DeviceEventEmitter.emit('OtherBudgetInfo');
         }
     }, []) 
     const handleSubmitSaveButton = () => {
-        Popup.show({
-            type: 'confirm',
-            title: '보관함',
-            textBody: '보관함에 추가 하시겠습니까?',
-            buttonText: 'yes',
-            confirmText: 'no',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => {
-              //Popup.hide()
-                saveBudgetPlan(userID, budgetPlanID)
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('추가 완료');
-                        setUserStore(true);
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함에 추가되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                    }else{
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함에 추가되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                        console.log('fail to save.');
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
-            }
-        })
+        Alert.alert(                    
+            "보관함",                 
+            "보관함에 추가 하시겠습니까?",                        
+            [                            
+                {
+                text: "취소",                              
+                onPress: () => console.log("취소"),     
+                },
+                { text: "확인", onPress: () => {
+                    saveBudgetPlan(userID, budgetPlanID)
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            console.log('추가 완료');
+                            setUserStore(true);
+                            alert('보관함에 추가되었습니다.');
+                        }else{
+                            alert('보관함 저장 실패');
+                            console.log('fail to save.');
+                        }
+                    })
+                    .catch((error)=>{
+                        console.error(error);
+                    })
+                }
+                },                                               
+            ],
+            { cancelable: false }
+        );
     }
     const handleSubmitCancelButton = () => {
-        Popup.show({
-            type: 'confirm',
-            title: '보관함',
-            textBody: '보관함에서 삭제 하시겠습니까?',
-            buttonText: 'yes',
-            confirmText: 'no',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => {
-              //Popup.hide()
-                cancelBudgetPlan(userID, budgetPlanID)
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('삭제 완료');
-                        setUserStore(false);
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함에서 삭제되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                    }else{
-                        console.log('fail to save.');
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함 삭제를 실패 했습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
-            }
-        })
+        Alert.alert(                    
+            "보관함",                 
+            "보관함에서 삭제 하시겠습니까?",                        
+            [                            
+                {
+                text: "취소",                              
+                onPress: () => console.log("취소"),     
+                },
+                { text: "확인", onPress: () => {
+                    cancelBudgetPlan(userID, budgetPlanID)
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            console.log('삭제 완료');
+                            setUserStore(false);
+                            alert('보관함에서 삭제되었습니다.');
+                        }else{
+                            console.log('fail to save.');
+                            alert('보관함에서 삭제 실패');
+                        }
+                    })
+                    .catch((error)=>{
+                        console.error(error);
+                    })
+                }
+                },                                               
+            ],
+            { cancelable: false }
+        );
     }
     if(loading === true){
         return (
-            <Root>
+            <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
                         <View style={styles.appTitlePosition}>
                             <BackButton onPress={()=>{navigation.goBack()}}/>
@@ -322,8 +299,6 @@ const OtherBudgetInfo = ({navigation, route}) => {
                         </View>
                     </View>
                 <ScrollView style={styles.appSize}>
-
-
                     <View style={styles.appBody}>
                         <View style={styles.infoBody}>
                             <View style={styles.mbtiBody}>
@@ -362,10 +337,6 @@ const OtherBudgetInfo = ({navigation, route}) => {
                                 })}
                             </View>
                         </View>
-
-
-
-
                         <View style={styles.titleDiv}>
                             <Text style={styles.savingTitle}>카테고리별 예산계획</Text>
                         </View>
@@ -513,12 +484,11 @@ const OtherBudgetInfo = ({navigation, route}) => {
                             </View>
                     </View>
                 </ScrollView>
-            </Root>
+            </View>
         )
     }
     else{
         return(
-            <Root>
                 <View style={styles.appSize}>
                     <View style={styles.appTopBar}>
                         <View style={styles.appTitlePosition}>
@@ -536,7 +506,6 @@ const OtherBudgetInfo = ({navigation, route}) => {
 
                     </View>
                 </View>
-            </Root>
         );
     }
 }
