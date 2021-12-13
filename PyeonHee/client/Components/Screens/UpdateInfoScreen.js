@@ -7,6 +7,10 @@ import BackButton from '../Buttons/BackButton';
 import UpdateUserInfoButton from '../Buttons/UpdateUserInfoButton';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PasswordCheckButton from '../Buttons/PasswordCheckButton';
+import PasswordUpdateButton from '../Buttons/PasswordUpdateButton';
+import {loadUserInfoApi, passwordCheckApi, updateUserInfoApi, passwordUpdateApi} from '../api';
+import Loading from '../Screens/Loading';
+
 import {
   StyleSheet,
   Text,
@@ -16,9 +20,8 @@ import {
   Modal,
 } from 'react-native';
 const UpdateInfoScreen = ({navigation, route}) => {
-  const [userMonthlyIncome, setUserMonthlyIncome] = useState('250');
-  const [userAge, setUserAge] = useState(26);
-  const [userJob, setUserJob] = useState('자영업');
+  const [userAge, setUserAge] = useState(0);
+  const [userJob, setUserJob] = useState('');
 
   const [userPassword, setUserPassword] = useState('');
   const [userNewPassword, setUserNewPassword] = useState('');
@@ -27,16 +30,31 @@ const UpdateInfoScreen = ({navigation, route}) => {
   const [passwordCheckModalVisible, setPasswordCheckModalVisible] = useState(false);
   const [passwordUpdateModalVisible, setPasswordUpdateModalVisible] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const placeholder = '선택';
   
   useEffect(()=>{
+      /*
+    loadUserInfoApi(route.params.userID)
+    .then((responseJson)=>{
+        console.log(responseJson);
+        setUserAge(responseJson.userAge);
+        setUserJob(responseJson.userJob);
+    })
+    .then(()=>{
+        setLoading(true);
+    })*/
 
+
+    //test
+    setLoading(true);
   }, [])
   const checkPassword = () => {
     setPasswordCheckModalVisible(false);
     setPasswordUpdateModalVisible(true);
   }
-  const handleSubmitButton = () => {
+  const handleInfo = () => {
     if(!userAge){
       Popup.show({
         type: 'success',
@@ -47,18 +65,6 @@ const UpdateInfoScreen = ({navigation, route}) => {
         callback: () => Popup.hide()
       })
       return;
-    }
-    var ageCheck = /^[0-9]{1,3}$/;
-    if(!ageCheck.test(userAge)){
-        Popup.show({
-          type: 'success',
-          textBody: '숫자만 입력가능합니다.',
-          buttonText: '확인',
-          okButtonStyle: {backgroundColor: '#0000CD'},
-          iconEnabled: false,
-          callback: () => Popup.hide()
-        })
-        return;
     }
     if(!userJob){
       Popup.show({
@@ -71,23 +77,91 @@ const UpdateInfoScreen = ({navigation, route}) => {
       })
       return;
     }
-    if(!userMonthlyIncome){
-      Popup.show({
-        type: 'success',
-        textBody: '월 수입을 선택해주세요.',
-        buttonText: '확인',
-        okButtonStyle: {backgroundColor: '#0000CD'},
-        iconEnabled: false,
-        callback: () => Popup.hide()
-      })
-      return;
-    }
-    navigation.navigate('Mbti1', {
-      userAge: userAge,
-      userMonthlyIncome: userMonthlyIncome,
-      userJob: userJob,
-    });
+
+    updateUserInfoApi(route.params.userID, userAge, userJob)
+    .then((responseJson)=>{
+        console.log(responseJson);
+        if(responseJson.status === 'success'){
+            alert('수정 완료');
+        }else{
+            alert('수정 실패');
+        }
+    })
   }
+
+  const handlePasswordCheck = () => {
+    passwordCheckApi(route.params.userID, userPassword)
+    .then((responseJson)=>{
+        console.log(responseJson);
+        if(responseJson.status === 'success'){
+            setPasswordCheckModalVisible(false);
+            setPasswordUpdateModalVisible(true);
+        }
+        else{
+            alert('비밀번호가 일치하지 않습니다.');
+        }
+    })
+  }
+
+  const handlePasswordUpdate = () =>{
+    if(!userNewPassword){
+        Popup.show({
+            type: 'success',
+            textBody: '비밀번호를 입력해주세요.',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
+        })
+        return;
+    }
+    var pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    if(!pwCheck.test(userNewPassword)){
+        Popup.show({
+            type: 'success',
+            textBody: '비밀번호는 8~25자의 영문자, 숫자, 특수문자의\n조합으로 입력해야 합니다.',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
+        })
+        return;
+    }
+    if(!userNewPasswordCheck){
+        Popup.show({
+            type: 'success',
+            textBody: '비밀번호 확인을 입력해주세요.',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
+        })
+        return;
+    }
+    if(userNewPassword != userNewPasswordCheck){
+        Popup.show({
+            type: 'success',
+            textBody: '비밀번호가 일치하지 않습니다.',
+            buttonText: '확인',
+            okButtonStyle: {backgroundColor: '#0000CD'},
+            iconEnabled: false,
+            callback: () => Popup.hide()
+        })
+        return;
+    }
+    passwordUpdateApi(route.params.userID, userNewPassword, userNewPasswordCheck)
+    .then((responseJson)=>{
+        console.log(responseJson);
+        if(responseJson.status === 'success'){
+            alert('비밀번호 변경 완료');
+        }
+        else{
+            alert('비밀번호 변경 실패')
+        }
+    })
+
+  }
+  if(loading === true){
   return (
     <Root>
     <View style={styles.appSize}>
@@ -110,6 +184,9 @@ const UpdateInfoScreen = ({navigation, route}) => {
                         <Text>비밀번호 확인</Text>
                     </View>
                     <View style={styles.modalContent}>
+                        <View style={styles.passwordRow}>
+                            <Text>현재 비밀번호</Text>
+                        </View>
                         <View style={styles.passwordInputDiv}>
                             <TextInput 
                             style={styles.passwordInputDesign}
@@ -119,7 +196,7 @@ const UpdateInfoScreen = ({navigation, route}) => {
                             />
                         </View>
                         <View>
-                            <PasswordCheckButton onPress={checkPassword}/>
+                            <PasswordCheckButton onPress={handlePasswordCheck}/>
                         </View>
                     </View>
                 </View>
@@ -144,24 +221,30 @@ const UpdateInfoScreen = ({navigation, route}) => {
                         <Text>비밀번호 변경</Text>
                     </View>
                     <View style={styles.modalContent}>
-                        <View style={styles.passwordInputDiv}>
-                            <TextInput 
-                            style={styles.passwordInputDesign}
-                            maxLength ={20}
-                            placeholder='새 비밀번호 입력'
-                            onChangeText={(password) => setUserNewPassword(password)}
-                            />
+                        <View style={styles.passwordRow}>
+                            <Text>새 비밀번호</Text>
                         </View>
                         <View style={styles.passwordInputDiv}>
                             <TextInput 
                             style={styles.passwordInputDesign}
-                            maxLength ={20}
+                            maxLength ={25}
+                            placeholder='8~25자 영문자, 숫자, 특수문자 조합'
+                            onChangeText={(password) => setUserNewPassword(password)}
+                            />
+                        </View>
+                        <View style={styles.passwordRow}>
+                            <Text>새 비밀번호 확인</Text>
+                        </View>
+                        <View style={styles.passwordInputDiv}>
+                            <TextInput 
+                            style={styles.passwordInputDesign}
+                            maxLength ={25}
                             placeholder='새 비밀번호 입력 확인'
                             onChangeText={(password) => setUserNewPasswordCheck(password)}
                             />
                         </View>
                         <View>
-                            <PasswordCheckButton />
+                            <PasswordUpdateButton onPress={handlePasswordUpdate}/>
                         </View>
                     </View>
                 </View>
@@ -215,22 +298,9 @@ const UpdateInfoScreen = ({navigation, route}) => {
                 value={userJob}
                 />    
             </View>
-            <View style={styles.innerTextAlign}>
-                <Text style={styles.questText}>월 수입</Text>
-            </View>
-            <View style={styles.pickerDiv}>
-                <RNPickerSelect
-                placeholder={{
-                    label: placeholder,
-                    color: 'gray',
-                }}
-                onValueChange={(value) => setUserMonthlyIncome(value)}
-                items={INCOMES}
-                />
-            </View>
         </View>
         <View style={styles.appFooter}>
-            <UpdateUserInfoButton />
+            <UpdateUserInfoButton onPress={handleInfo}/>
             <TouchableOpacity style={styles.passwordUpdateDiv} onPress={()=>{setPasswordCheckModalVisible(true)}}>
                 <Text>비밀번호 변경</Text>
             </TouchableOpacity>
@@ -238,6 +308,14 @@ const UpdateInfoScreen = ({navigation, route}) => {
     </View>
     </Root>
   )
+    }
+    else{
+        return(
+            <View style={styles.appSize}>
+                <Loading />
+            </View>
+        )
+    }
 }
 const styles = StyleSheet.create({
   appSize: {
@@ -273,14 +351,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   appBody: {
-    flex: 7,
+    flex: 3,
     alignItems: 'center',
     borderColor: 'black',
   },
   innerTextAlign: {
     flexDirection: 'row',
     width: 240,
-    marginTop: 20,
+    marginTop: 30,
   },
   textDiv:{
     flexDirection: 'row',
@@ -294,7 +372,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#DCDCDC',
   },
   appFooter: {
-    flex: 2,
+    flex: 1,
     alignItems: 'center',
   },
   idDiv:{
@@ -330,13 +408,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.50)',
     },
     modalPasswordCheckBodySize: {
-        width: 270,
+        width: 300,
         height: 250,
         backgroundColor: 'white',
         borderRadius: 10,
     },
     modalPasswordUpdateBodySize: {
-        width: 270,
+        width: 300,
         height: 300,
         backgroundColor: 'white',
         borderRadius: 10,
@@ -362,12 +440,16 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingHorizontal: 10,
         height: 40,
-        width: 180,
+        width: 250,
         borderRadius: 3,
         backgroundColor: '#DCDCDC',
     },
     passwordInputDiv:{
         marginBottom: 10,
     },
+    passwordRow: {
+        width: 250,
+        alignItems: 'flex-start',
+    }
 });
 export default UpdateInfoScreen;

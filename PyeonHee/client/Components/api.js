@@ -1058,7 +1058,7 @@ export const passwordCheckApi = (userID, userPassword) => {
 };
 
 //개인정보 수정
-export const updateUserInfoApi = (userID, userAge, userJob, userIncome) => {
+export const updateUserInfoApi = (userID, userAge, userJob) => {
     return new Promise(function(resolve, reject) {
         console.log(`${url}/updateUserInfo`);
         fetch(`${url}/updateUserInfo`, {
@@ -1067,7 +1067,6 @@ export const updateUserInfoApi = (userID, userAge, userJob, userIncome) => {
               userID: userID,
               userAge: userAge,
               userJob: userJob,
-              userIncome: userIncome,
             }),
             headers: {
               'Accept': 'application/json',
