@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Button, ScrollView} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Button, ScrollView, Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import QueryDeleteButton from '../../Buttons/QueryDeleteButton';
 import QueryUpdateButton from '../../Buttons/QueryUpdateButton';
-import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast';
 import BackButton from '../../Buttons/BackButton';
 import { queryBoardApi, queryReplyApi, deleteQueryBoardApi } from '../../api';
 
@@ -60,45 +59,38 @@ const QueryBoard = ({navigation, route}) => {
         })
     }, [])
     const deleteButton = () => {
-        Popup.show({
-            type: 'confirm',
-            title: '삭제',
-            textBody: '문의글을 삭제 하시겠습니까?',
-            buttonText: 'yes',
-            confirmText: 'no',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => {
-                deleteQueryBoardApi(route.params.boardID)
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('삭제 완료');
-                        Popup.show({
-                            type: 'success',
-                            textBody: '문의글이 삭제되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => {
-                                Popup.hide()
-                                navigation.replace('ServiceCenter');
-                            }
-                        })
-                    }else{
-                        console.log('fail to save.');
-                        alert('문의글 삭제 실패');
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
-            }
-        })
+        Alert.alert(                    
+            "삭제",                 
+            "문의글을 삭제하시겠습니까?",                        
+            [                            
+                {
+                text: "취소",                              
+                onPress: () => console.log("취소"),     
+                },
+                { text: "확인", onPress: () => {
+                    deleteQueryBoardApi(route.params.boardID)
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            console.log('삭제 완료');
+                            alert('삭제 했습니다.');
+                            navigation.replace('ServiceCenter');
+                        }else{
+                            console.log('fail to save.');
+                            alert('문의글 삭제 실패');
+                        }
+                    })
+                    .catch((error)=>{
+                        console.error(error);
+                    })
+                }
+                },                                               
+            ],
+            { cancelable: false }
+        );
     }
    if(boardAnswer === true && loading === true){
     return (
-    <Root>
         <View style={styles.appSize}>
             <View style={styles.appTopBar}>
                 <BackButton onPress={()=>{navigation.goBack()}}/>
@@ -140,12 +132,10 @@ const QueryBoard = ({navigation, route}) => {
                 }
             </ScrollView>
         </View>
-    </Root>
     );
    }
    else if(boardAnswer === false && loading === true){
        return(
-        <Root>
         <View style={styles.appSize}>
             <View style={styles.appTopBar}>
                 <BackButton onPress={()=>{navigation.goBack()}}/>
@@ -181,7 +171,6 @@ const QueryBoard = ({navigation, route}) => {
                 }
             </ScrollView>
         </View>
-        </Root>
        );
    }
    else if(loading === false){
