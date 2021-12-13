@@ -665,6 +665,7 @@ const SSHConnection = new Promise((resolve, reject) => {
             
             // 개인정보 수정
             app.post(`/updateUserInfo`, function(req, res){
+                console.log(req.body);
                 var userID = req.body.userID;
                 var userAge = req.body.userAge;
                 var userJob = req.body.userJob;
