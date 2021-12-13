@@ -39,8 +39,8 @@ const BudgetList = ({navigation, route}) => {
     };
 
     useEffect(()=>{
-        let tempID;
         DeviceEventEmitter.addListener('OtherBudgetInfo', () => {
+            console.log('들어오긴 하냐/');
             let tempID;
             AsyncStorage.getItem("userID")
             .then(
@@ -54,10 +54,15 @@ const BudgetList = ({navigation, route}) => {
             .then(()=>{
                 fetchBudget(tempID);
             })
+            .then(()=>{
+                resolve(true);
+            })
             .catch((error)=>{
                 console.log(error);
             })
         })
+
+        let tempID;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -74,7 +79,11 @@ const BudgetList = ({navigation, route}) => {
         .catch((error)=>{
             console.log(error);
         })
-    },[route])
+        
+        return () => {
+            DeviceEventEmitter.removeAllListeners();
+        }
+    },[])
     
     const checkHandler = () => {
         setCheck(!check);

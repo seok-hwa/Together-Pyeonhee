@@ -37,7 +37,7 @@ const BudgetItem = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const handlePress = () => {
-        if(props.cabinet === 'true') {
+        if(props.cabinet === true) {
             console.log('보관함')
             props.navigation.navigate('BudgetDetail', {budgetPlanningID: props.budgetPlanningID});
         }
