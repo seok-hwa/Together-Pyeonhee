@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView, FlatList, DeviceEventEmitter,} from
 import { budgetPlanCabinet } from '../../api';
 import BudgetItem from '../BudgetItem';
 
-const BudgetCabinet = ({navigation}) => {
+const BudgetCabinet = ({navigation, route}) => {
     const [userID, setUserID] = useState('');
     const [otherBudgetData, setOtherBudgetData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ const BudgetCabinet = ({navigation}) => {
         .catch((error)=>{
             console.log(error);
         })
-    },[])
+    },[route])
 
     const loadCabinet = () => {
         setRefresh(true);
