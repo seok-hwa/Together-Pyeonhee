@@ -27,13 +27,11 @@ const WriteBudgetScreen = ({navigation}) => {
 
     const [saving, setSaving] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [dataComplete, setDataComplete] = useState(true);
 
     const [callMyButgetPlan, setCallMyButgetPlan] = useState(false);
     const [callMyBudgetID, setCallMyBudgetID] = useState(0);
 
     const [income, setIncome] = useState("0");   //수입
-    // const [savings, setSavings] = useState(0);   //저금계획 -> total 합계 받아오기
     const [sumOfSavings, setSumOfSavings] = useState(0);    //저금계획 총합계
 
     const [fixedExpenditure, setFixedExpenditure] = useState(0);        //고정지출
@@ -81,7 +79,6 @@ const WriteBudgetScreen = ({navigation}) => {
                 setSaving(responseJson);
                 if(responseJson.length > 0) {
                     let tempSum = 0;
-
                     responseJson.map(item => {
                         tempSum = tempSum + item.savings_money;
                         // return tempSum;
@@ -91,18 +88,16 @@ const WriteBudgetScreen = ({navigation}) => {
                     setSumOfSavings(tempSum);
                 }
 
-                // setLoading(true);
                 if(loading === true){
                     console.log('로딩 됐어');
                 }else{
                     console.log('로딩 안 됐어');
                 }
                 setLoading(true);
-
             }) 
             .then(()=>{                
             })
-            }) 
+        }) 
     }, []);
 
     if(addSavingsPlan === true) {
@@ -125,17 +120,9 @@ const WriteBudgetScreen = ({navigation}) => {
             }
             
             setAddSavingsPlan(false);
-
-            // setLoading(true);
-            // if(loading === true){
-            //     console.log('로딩 됐어');
-            // }else{
-            //     console.log('로딩 안 됐어');
-            // }
         }) 
         .then(()=>{
         })
-
     }
 
     const handleSaveButton = () => {
@@ -146,9 +133,6 @@ const WriteBudgetScreen = ({navigation}) => {
         console.log('고정지출');
         console.log(tempFixed);
 
-        // let tempPlanned = parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(ect);
-        // setPlannedExpenditure(tempPlanned);
-
         let tempPlanned = parseInt(transportation.split(",").join(""))+parseInt(leisure.split(",").join(""))+parseInt(shopping.split(",").join(""))+
             parseInt(education.split(",").join(""))+parseInt(medical.split(",").join(""))+parseInt(event.split(",").join(""))+parseInt(ect.split(",").join(""));
         setPlannedExpenditure(tempPlanned);
@@ -156,8 +140,6 @@ const WriteBudgetScreen = ({navigation}) => {
         console.log('계획지출');
         console.log(plannedExpenditure);
 
-        
-        // var tempTotal = sumOfSavings + fixedExpenditure + plannedExpenditure;
         let tempTotal = parseInt(sumOfSavings) + parseInt(fixedExpenditure) + parseInt(plannedExpenditure);
 
         console.log('수입');
@@ -176,7 +158,7 @@ const WriteBudgetScreen = ({navigation}) => {
             return;
         }
         
-        Popup.show({    //for test
+        Popup.show({
             type: 'success',
             textBody: '제출을 완료하시겠습니까?',
             buttonText: '확인',
@@ -184,12 +166,8 @@ const WriteBudgetScreen = ({navigation}) => {
             iconEnabled: false,
             callback: () => {
                 Popup.hide()
-                // navigation.goBack();
-                // navigation.replace('MyBudget');
             }
         })
-          
-        // return;
 
         submitBudgetPlan(userID, parseInt(income.split(",").join("")), parseInt(sumOfSavings), fixedExpenditure, plannedExpenditure,
             parseInt(monthlyRent.split(",").join("")), parseInt(insurance.split(",").join("")), parseInt(transportation.split(",").join("")), 
@@ -204,7 +182,6 @@ const WriteBudgetScreen = ({navigation}) => {
           if(responseJson.status === 'success'){
             console.log('제출 완료!!!!!!');
             navigation.replace('Main');
-            // navigation.goBack();
           }else{
             console.log('fail to submit.');
           }
@@ -290,7 +267,14 @@ const WriteBudgetScreen = ({navigation}) => {
                                 saving.map(item => {
                                     return <SavingPlanItem key={item.saving_number} savingName={item.saving_name} 
                                         currentSavingMoney={item.all_savings_money} savingMoney={item.savings_money}
-                                        startSavingDate={item.start_date} endSavingDate={item.finish_date}/>;
+                                        startSavingDate={item.start_date} endSavingDate={item.finish_date}
+                                        userID={userID} setAddSavingsPlan={setAddSavingsPlan} savingID={item.saving_number} 
+                                        userIncome={parseInt(income.split(",").join(""))} sumOfSavings={parseInt(sumOfSavings)} 
+                                        fixedExpenditure={(parseInt(monthlyRent.split(",").join(""))+parseInt(insurance.split(",").join(""))+parseInt(communication.split(",").join(""))+parseInt(subscription.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 
+                                        plannedExpenditure={(parseInt(transportation.split(",").join(""))+parseInt(leisure.split(",").join(""))+parseInt(shopping.split(",").join(""))+
+                                        parseInt(education.split(",").join(""))+parseInt(medical.split(",").join(""))+parseInt(event.split(",").join(""))+
+                                        parseInt(ect.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                    />;
                             })}
                         </View>
                     </View>
@@ -304,9 +288,6 @@ const WriteBudgetScreen = ({navigation}) => {
                             <View style={styles.bigCategoryContainer}>
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>고정지출</Text>
                                 <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                    {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                                        {parseInt(monthlyRent)+parseInt(insurance)+parseInt(communication)+parseInt(subscription)} 원
-                                    </Text> */}
                                     <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                         {(parseInt(monthlyRent.split(",").join(""))+parseInt(insurance.split(",").join(""))+parseInt(communication.split(",").join(""))+parseInt(subscription.split(",").join(""))).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
                                     </Text>
@@ -350,9 +331,6 @@ const WriteBudgetScreen = ({navigation}) => {
                             <View style={styles.bigCategoryContainer}>
                                 <Text style={{fontSize: 18, fontWeight:'bold'}}>계획지출</Text>
                                 <View style={{flexDirection: 'row', alignItems: 'center',}}>
-                                    {/* <Text style={{fontSize: 18, fontWeight:'bold'}}>
-                                        {parseInt(transportation)+parseInt(leisure)+parseInt(shopping)+parseInt(education)+parseInt(medical)+parseInt(event)+parseInt(etc)} 원
-                                    </Text> */}
                                     <Text style={{fontSize: 18, fontWeight:'bold'}}>
                                         {(parseInt(transportation.split(",").join(""))+parseInt(leisure.split(",").join(""))+parseInt(shopping.split(",").join(""))+
                                         parseInt(education.split(",").join(""))+parseInt(medical.split(",").join(""))+parseInt(event.split(",").join(""))+
@@ -430,8 +408,7 @@ const WriteBudgetScreen = ({navigation}) => {
     )
     }else{
         return(
-            <View >
-
+            <View>
             </View>
         )
     }
@@ -487,14 +464,6 @@ const styles = StyleSheet.create({
         borderColor: '#BFBFBF',
         borderWidth: 1,
     },
-    // textInputDesign: {
-    //     fontSize: 20,
-    //     borderRadius: 20,
-    //     paddingRight: 10,
-    //     width: 180,
-    //     fontWeight:'bold',
-    //     backgroundColor: '#D4E2F8',
-    // },
 });
 
 export default WriteBudgetScreen;

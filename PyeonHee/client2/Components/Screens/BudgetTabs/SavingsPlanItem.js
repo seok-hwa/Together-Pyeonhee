@@ -8,17 +8,16 @@ import { editSavingPlan, removeSavingPlan } from '../../api';
 const SavingPlanItem = (props) => {
   let startYear = props.startSavingDate.substring(0, 4);
   let startMonth = props.startSavingDate.substring(5, 7);
-  let startDay = props.startSavingDate.substring(8, 10);
+  // let startDay = props.startSavingDate.substring(8, 10);
 
   let finishYear = props.endSavingDate.substring(0, 4);
   let finishMonth = props.endSavingDate.substring(5, 7);
-  let finishDay = props.endSavingDate.substring(8, 10);
+  // let finishDay = props.endSavingDate.substring(8, 10);
 
   let userIncome = props.userIncome;
   let availableSavings = props.userIncome - props.sumOfSavings + props.savingMoney - props.fixedExpenditure - props.plannedExpenditure;
 
   const [userID, setUserID] = useState('');
-  // const [selectedIndex, setSelectedIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [tempTitle, setTempTitle] = useState("");
@@ -55,7 +54,6 @@ const SavingPlanItem = (props) => {
       Alert.alert(' ','저금 금액을 입력해주세요.');
       return;
     } else if(availableSavings < parseInt(tempSavingMoney.split(",").join(""))) {
-      // let alertMessage = '저금액이 저금 가능 금액'+'을 초과했습니다.';
       Alert.alert(' ', '저금액이 저금 가능 금액을 초과했습니다.');
       return;
     }
@@ -74,15 +72,15 @@ const SavingPlanItem = (props) => {
       Alert.alert(' ','기간은 최소 1개월 이상이어야 합니다.');
       return;
     }
-
-    editSavingPlan(props.userID, props.savingID, tempTitle, parseInt(savingMoney.split(",").join("")), parseInt(tempEndYear), parseInt(tempEndMonth))
+    
+    setModalVisible(!modalVisible);
+    editSavingPlan(props.userID, props.savingID, tempTitle, parseInt(tempSavingMoney.split(",").join("")), parseInt(tempEndYear), parseInt(tempEndMonth))
     .then((responseJson)=>{
       console.log(responseJson);
     })
     .catch((e)=>{
         console.error(e);
     })
-    setModalVisible(!modalVisible);
     props.setAddSavingsPlan(true);
   }
 
@@ -114,7 +112,6 @@ const SavingPlanItem = (props) => {
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
-          //  alert('Modal has now been closed.');
           setModalVisible(!modalVisible);
         }}
       >
@@ -145,7 +142,6 @@ const SavingPlanItem = (props) => {
                 <View style={styles.tagText} >
                   <Text style={styles.categoryText}>제목</Text>
                 </View>
-                {/* <EditInputBudget num={tempTitle} setBudget={setTempTitle}/> */}
                 <View style={styles.inputContainer}>
                   <TextInput
                     style={styles.textInputDesign}
@@ -209,7 +205,6 @@ const SavingPlanItem = (props) => {
             <View style={{flexDirection: 'row', marginTop: 20,}}>
               <TouchableOpacity
                 style={styles.openButton}
-                // onPress={() => {setModalVisible(!modalVisible)}}
                 onPress={handleRemoveButton}
               >
               <Text style={{color: '#203864'}}>삭제</Text>
@@ -228,9 +223,6 @@ const SavingPlanItem = (props) => {
 
       <TouchableOpacity
         onPress={handlePress}
-      //   onPress={() => {
-      //     alert('Pressed!');
-      // }}
       >
         <View style={styles.boxContainer}>
           <View style={styles.itemContainer}>
@@ -389,7 +381,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: 35,
     marginRight: 5, 
-}
+  }
 
 });
 

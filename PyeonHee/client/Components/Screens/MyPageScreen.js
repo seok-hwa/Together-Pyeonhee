@@ -699,7 +699,7 @@ const MyPageScreen = ({navigation, route}) => {
                 </View>
                 <View style={styles.pyeonheeDiv}>
                     <Text style={styles.assetBudgetTitle}>이용안내</Text>
-                    <TouchableOpacity onPress={()=>alert('사용 설명서')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('ManualScreen')}>
                         <Text style={styles.assetBudgetBoard} >사용 설명서</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>navigation.navigate('ServiceCenter')}>

@@ -17,8 +17,6 @@ const InputBudget = (props) => {
         else{
             props.setBudget("0");
         }
-
-        // console.log(text);
     };
     
     return (
@@ -39,8 +37,6 @@ const InputBudget = (props) => {
                 <View style={{flexDirection: 'row', alignItems: 'center',}}>
                     <TextInput
                         style={styles.textInputDesign}
-                        // placeholder='0'
-                        // onChangeText={text => props.setBudget(text)}
                         onChangeText={text => handleChange(text)}
                         value={tempNum}
 
@@ -50,10 +46,7 @@ const InputBudget = (props) => {
                     />
                     <Text>원</Text>
                 </View>
-
             }
-{/*             
-            <View><Text>원</Text></View> */}
         </View>
     )
 }
@@ -61,7 +54,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        // paddingRight: 20,
     },
     incomeInputDesign: {
         fontSize: 20,
