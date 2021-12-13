@@ -316,6 +316,7 @@ create table pyeonhee.AssetCounselor (
 ALTER TABLE pyeonhee.AssetCounselor MODIFY counselor_id int not null auto_increment;
 ALTER TABLE pyeonhee.AssetCounselor auto_increment =20000;
 
+/*
 CREATE TABLE pyeonhee.Monthly_Report (
 	user_id varchar(10) not null,
 	report_month varchar(11) not null,
@@ -340,3 +341,38 @@ CREATE TABLE pyeonhee.Monthly_Report (
 	primary key (user_id, report_month),
 	foreign key (user_id) references pyeonhee.user (user_id) on delete cascade
 );
+*/
+
+CREATE TABLE pyeonhee.Monthly_Report (
+	user_id varchar(10) not null,
+	report_month varchar(11) not null,
+	mbti varchar(4),
+	progress_days int default 0,
+
+	income int not null,
+
+	realCommunication int default 0,
+	realDinner int default 0, 
+	realEducation int default 0, 
+	realEvent int default 0, 
+	realHobby int default 0,
+	realInsurance int default 0, 
+	realMedical int default 0, 
+	realRent int default 0, 
+	realSaving int default 0, 
+	realShopping int default 0, 
+	realSubscribe int default 0, 
+	realTraffic int default 0, 
+	realEct int default 0,
+
+	primary key (user_id, report_month),
+	foreign key (user_id) references pyeonhee.user (user_id) on delete cascade
+	);
+
+INSERT INTO Monthly_Report(user_id,report_month,mbti, progress_days,income,realCommunication,
+realDinner,realEducation,realEvent,realHobby,realInsurance,realMedical,realRent,realSaving,realShopping,realSubscribe,realTraffic,realEct)
+VALUES ('jykim123', 202111, 'PHSE', 26, 2500000, 138000,717700,0,230000,190000,0,0,500000,1050000,5271000,100000,326800,840000);
+
+INSERT INTO Monthly_Report(user_id,report_month,mbti, progress_days, income,realCommunication,
+realDinner,realEducation,realEvent,realHobby,realInsurance,realMedical,realRent,realSaving,realShopping,realSubscribe,realTraffic,realEct)
+VALUES ('jykim123', 202110, 'PHOM', 26, 2500000, 100000,400000,0,100000,300000,0,0,500000,500000,300000,100000,200000,0);
