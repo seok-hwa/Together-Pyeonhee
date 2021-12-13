@@ -24,11 +24,22 @@ module.exports = function () {
         VALUES(?,?,?,?,?)`,[userID, savingName,savingMoney,startDate,endDay], function(error, result){
             if(error) throw error;
             else{
-                const data = {
-                    status : 'success',
-                }
-                res.send(data);
-                console.log(data);
+                db.query(`SELECT sum(savings_money) as totalSavings FROM Savings WHERE user_id =?`,[userID],function(error1, result1){
+                    if (error1) throw error1;
+                    else{
+                        var totalSavings = result1[0].totalSavings
+                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? ORDER BY planning_number DESC`,[totalSavings, userID], function(error2,result2){
+                            if(error2) throw error2;
+                            else{
+                                const data = {
+                                    status : 'success',
+                                }
+                                res.send(data);
+                                console.log(data);
+                            }
+                        })
+                    }
+                });
             }
         });
     });
@@ -51,12 +62,23 @@ module.exports = function () {
         [savingName,savingMoney,endYear,endMonth,savingID,userID], function(error, result){
             if(error) throw error;
             else{
+                db.query(`SELECT sum(savings_money) as totalSavings FROM Savings WHERE user_id =?`,[userID],function(error1, result1){
+                    if (error1) throw error1;
+                    else{
+                        var totalSavings = result1[0].totalSavings
+                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? ORDER BY planning_number DESC`,[totalSavings, userID], function(error2,result2){
+                            if(error2) throw error2;
+                            else{
+                                console.log(result);
+                                data = {
+                                    status : 'success'
+                                }
+                                res.send(data);
+                            }
+                        })
+                    }
+                });
 
-                console.log(result);
-                data = {
-                    status : 'success'
-                }
-                res.send(data);
             }
         });
     });
@@ -70,10 +92,21 @@ module.exports = function () {
         db.query(`DELETE FROM Savings WHERE user_id = ? and saving_number = ?`, [userID, savingID], function (error, result) {
             if (error) throw error;
             else {
-                data = {
-                    status: 'success'
-                }
-                res.send(data);
+                db.query(`SELECT IFNULL (sum(savings_money),0) as totalSavings FROM Savings WHERE user_id =?`,[userID],function(error1, result1){
+                    if (error1) throw error1;
+                    else{
+                        var totalSavings = result1[0].totalSavings
+                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? ORDER BY planning_number DESC`,[totalSavings, userID], function(error2,result2){
+                            if(error2) throw error2;
+                            else{
+                                data = {
+                                    status : 'success'
+                                }
+                                res.send(data);
+                            }
+                        })
+                    }
+                });
             }
         });
     });
