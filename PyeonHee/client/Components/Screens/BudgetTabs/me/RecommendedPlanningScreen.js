@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import BackButton from '../Buttons/BackButton';
+import BackButton from '../../../Buttons/BackButton';
 import Icon from 'react-native-vector-icons/Ionicons';
-import PlanningSaveButton from '../Buttons/PlanningSaveButton';
-import PlanningSaveCancelButton from '../Buttons/PlanningSaveCancelButton';
+import PlanningSaveButton from '../../../Buttons/PlanningSaveButton';
+import PlanningSaveCancelButton from '../../../Buttons/PlanningSaveCancelButton';
 import { PieChart } from 'react-native-chart-kit';
-import SavingItem from './SavingItem';
-import { Root, Popup, SPSheet } from 'react-native-popup-confirm-toast'
-import { didLike, didStore, saveBudgetPlan, cancelBudgetPlan, recommendedBudgetPlan, sendLike } from '../api';
+import SavingItem from '../../SavingItem';
+import { didLike, didStore, saveBudgetPlan, cancelBudgetPlan, recommendedBudgetPlan, sendLike } from '../../../api';
 
 import {
     StyleSheet,
@@ -16,7 +15,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Image,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    Alert,
 } from 'react-native';
 
 const LikeButton = (props) => {          //like
@@ -221,97 +221,73 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
         }) 
         return () => {
             DeviceEventEmitter.emit('BudgetDetail');
-          }
+        }
     }, []) 
     const handleSubmitSaveButton = () => {
-        Popup.show({
-            type: 'confirm',
-            title: '보관함',
-            textBody: '보관함에 추가 하시겠습니까?',
-            buttonText: 'yes',
-            confirmText: 'no',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => {
-              //Popup.hide()
-                saveBudgetPlan(userID, budgetPlanID)
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('추가 완료');
-                        setUserStore(true);
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함에 추가되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                    }else{
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함에 추가되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                        console.log('fail to save.');
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
-            }
-        })
+        Alert.alert(                    
+            "보관함",                 
+            "보관함에 추가 하시겠습니까?",                        
+            [                            
+                {
+                text: "취소",                              
+                onPress: () => console.log("취소"),     
+                },
+                { text: "확인", onPress: () => {
+                    saveBudgetPlan(userID, budgetPlanID)
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            console.log('추가 완료');
+                            setUserStore(true);
+                            alert('보관함에 추가되었습니다.');
+                        }else{
+                            alert('보관함 저장 실패');
+                            console.log('fail to save.');
+                        }
+                    })
+                    .catch((error)=>{
+                        console.error(error);
+                    })
+                }
+                },                                               
+            ],
+            { cancelable: false }
+        );
     }
     const handleSubmitCancelButton = () => {
-        Popup.show({
-            type: 'confirm',
-            title: '보관함',
-            textBody: '보관함에서 삭제 하시겠습니까?',
-            buttonText: 'yes',
-            confirmText: 'no',
-            okButtonStyle: {backgroundColor: '#0000CD'},
-            iconEnabled: false,
-            callback: () => {
-              //Popup.hide()
-                cancelBudgetPlan(userID, budgetPlanID)
-                .then((responseJson)=>{
-                    console.log(responseJson);
-                    if(responseJson.status === true){
-                        console.log('삭제 완료');
-                        setUserStore(false);
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함에서 삭제되었습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                    }else{
-                        console.log('fail to save.');
-                        Popup.show({
-                            type: 'success',
-                            textBody: '보관함 삭제를 실패 했습니다.',
-                            buttonText: '확인',
-                            okButtonStyle: {backgroundColor: '#0000CD'},
-                            iconEnabled: false,
-                            callback: () => Popup.hide()
-                        })
-                    }
-                })
-                .catch((error)=>{
-                    console.error(error);
-                })
-            }
-        })
+        Alert.alert(                    
+            "보관함",                 
+            "보관함에서 삭제 하시겠습니까?",                        
+            [                            
+                {
+                text: "취소",                              
+                onPress: () => console.log("취소"),     
+                },
+                { text: "확인", onPress: () => {
+                    cancelBudgetPlan(userID, budgetPlanID)
+                    .then((responseJson)=>{
+                        console.log(responseJson);
+                        if(responseJson.status === true){
+                            console.log('삭제 완료');
+                            setUserStore(false);
+                            alert('보관함에서 삭제되었습니다.');
+                        }else{
+                            console.log('fail to save.');
+                            alert('보관함에서 삭제 실패');
+                        }
+                    })
+                    .catch((error)=>{
+                        console.error(error);
+                    })
+                }
+                },                                               
+            ],
+            { cancelable: false }
+        );
     }
     if(loading === true){
         return (
-            <Root>
+            <View style={styles.appSize}>
                 <View style={styles.appTopBar}>
                         <View style={styles.appTitlePosition}>
                             {/* <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -389,7 +365,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/health-insurance.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/health-insurance.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>보험료</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -407,7 +383,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/subscribe.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>구독료</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -422,7 +398,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
 
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/traffic.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/traffic.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>교통비</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -431,7 +407,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/leisure.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/leisure.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>문화/취미/여행</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -440,7 +416,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                 <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/shopping.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/shopping.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>뷰티/미용/쇼핑</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -449,7 +425,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/education.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/education.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>교육</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -458,7 +434,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/medical.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/medical.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>의료비</Text>
                                     <View style={{alignItems: 'flex-end'}}>
@@ -467,7 +443,7 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                                 </View>
                                 <View style={styles.itemDiv}>
                                     <View style={styles.logoContainer}>
-                                        <Image source={require('./assets/category/event.png')} style={styles.categoryIconDiv}/>
+                                        <Image source={require('../../assets/category/event.png')} style={styles.categoryIconDiv}/>
                                     </View>
                                     <Text style={styles.itemTitle}>경조사/선물</Text>
                                         <View style={{alignItems: 'flex-end'}}>
@@ -515,12 +491,11 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
                             </View>
                     </View>
                 </ScrollView>
-            </Root>
+                </View>
         )
     }
     else{
         return(
-            <Root>
                 <View style={styles.appSize}>
                     <View style={styles.appTopBar}>
                         <View style={styles.appTitlePosition}>
@@ -538,7 +513,6 @@ const RecommendedPlanningScreen = ({navigation, route}) => {
 
                     </View>
                 </View>
-            </Root>
         );
     }
 }

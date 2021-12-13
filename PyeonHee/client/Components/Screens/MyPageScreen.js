@@ -53,8 +53,6 @@ const MyPageScreen = ({navigation, route}) => {
     };
 
     useEffect(()=>{
-        console.log('마이페이지 렌더링');
-        let tempID;
         DeviceEventEmitter.addListener('MonthReport', () => {
             let tempID;
             AsyncStorage.getItem("userID")
@@ -73,6 +71,8 @@ const MyPageScreen = ({navigation, route}) => {
                 console.log(error);
             })
         })
+        console.log('마이페이지 렌더링');
+        let tempID;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -89,7 +89,10 @@ const MyPageScreen = ({navigation, route}) => {
         .catch((error)=>{
             console.log(error);
         })
-    }, [route]);
+        return () => {
+            DeviceEventEmitter.removeAllListeners();
+        }
+    }, []);
     
     function TierImage(){
         if(userTier === 'BRONZE'){

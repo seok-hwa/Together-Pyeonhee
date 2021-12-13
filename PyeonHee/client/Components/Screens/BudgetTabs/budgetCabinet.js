@@ -27,7 +27,6 @@ const BudgetCabinet = ({navigation, route}) => {
     };
 
     useEffect(()=>{
-        let tempID;
         DeviceEventEmitter.addListener('BudgetDetail', () => {
             let tempID;
             AsyncStorage.getItem("userID")
@@ -46,6 +45,7 @@ const BudgetCabinet = ({navigation, route}) => {
                 console.log(error);
             })
         })
+        let tempID;
         AsyncStorage.getItem("userID")
         .then(
             (value) => {
@@ -62,7 +62,10 @@ const BudgetCabinet = ({navigation, route}) => {
         .catch((error)=>{
             console.log(error);
         })
-    },[route])
+        return () => {
+            DeviceEventEmitter.removeAllListeners();
+        }
+    },[])
 
     const loadCabinet = () => {
         setRefresh(true);
@@ -90,7 +93,7 @@ const BudgetCabinet = ({navigation, route}) => {
                 keyExtractor={item => item.planning_number}
                 data={otherBudgetData}
                 renderItem={({item}) => <BudgetItem userAge={item.user_age} budgetPlanningID={item.planning_number} navigation={navigation} userIncome={item.user_income} 
-                    userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={'true'}
+                    userTier={item.tier} userJob={item.job} userMbti={item.user_mbti} cabinet={true}
                 />}
                 refreshing={refresh}
                 onRefresh={loadCabinet}
