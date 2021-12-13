@@ -445,3 +445,25 @@ INSERT INTO pyeonhee.BudgetPlanning (`user_id`,`planning_number`,`planning_date`
  
  INSERT INTO pyeonhee.BudgetPlanning (`user_id`,`planning_number`,`planning_date`,`user_mbti`,`user_age`,`user_income`,`user_savings`,`like_number`,`monthly_rent`,`insurance_expense`,`transportation_expense`,`communication_expense`,`leisure_expense`,`shopping_expense`,`education_expense`,`medical_expense`,`event_expense`,`etc_expense`,`subscribe_expense`,`state`) 
  VALUES ('pyeonhee',49,'2021-10-01 11:13:49','PHOM',26,2500000,500000,0,500000,100000,100000,100000,150000,300000,0,0,100000,0,100000,0);
+
+ /**/
+ insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 500000, '20211010', '13:01:00', '입금', '송금', '생활비', 3000000, 3500000, '인터넷뱅킹', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 3500000, '20211010', '13:02:00', '출금', '쇼핑', '애플스토어', 300000, 3200000, '신사점', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 3200000, '20211010', '13:03:00', '출금', '식비', '하남돼지', 400000, 2800000, '압구정점', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 2800000, '20211010', '13:04:00', '출금', '여가', '볼링', 300000, 2500000, '강남역점', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 2500000, '20211010', '13:05:00', '출금', '월세', '집주인', 500000, 200000, '인터넷뱅킹', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 2000000, '20211010', '13:06:00', '출금', '저금', '계좌이체', 500000, 1500000, '인터넷뱅킹', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 1500000, '20211010', '13:07:00', '출금', '교통', '계좌이체', 200000, 1300000, '인터넷뱅킹', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 1300000, '20211010', '13:08:00', '출금', '통신', '계좌이체', 100000, 1200000, '인터넷뱅킹', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 1200000, '20211010', '13:09:00', '출금', '선물', '계좌이체', 100000, 1100000, '인터넷뱅킹', 1, 1);
+insert into real_expense(user_id, fintech_use_num, bank_name, balance_amt, tran_date, tran_time, inout_type, tran_type, print_content, tran_amt, after_balance_amt, branch_name, state, alarm)
+values ('together', '120211357588932329649483', 'KB국민은행', 1100000, '20211010', '13:10:00', '출금', '구독', '계좌이체', 100000, 1000000, '인터넷뱅킹', 1, 1);
