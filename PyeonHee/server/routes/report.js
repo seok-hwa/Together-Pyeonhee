@@ -264,7 +264,7 @@ module.exports = function () {
         db.query(`UPDATE user SET mbti = ? WHERE user_id = ?`, [userMbti, userID], function (error, result) {
             if (error) throw error;
             else {
-                console.log(result);
+                //console.log(result);
                 data = {
                     status: true,
                 }
