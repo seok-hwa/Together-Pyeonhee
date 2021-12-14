@@ -15,7 +15,7 @@ module.exports = function () {
         var userPhone = req.body.userPhone;
         // user table null 값 여부 변경 후 수정 예정
         const encryptedPassowrd = bcrypt.hashSync(userPassword, 10)
-        console.log(encryptedPassowrd);
+        // console.log(encryptedPassowrd);
         db.query(`SELECT * FROM user WHERE user.user_id=?`, [userID], function (error1, check) {
             console.log(check);
             if (error1) throw error1;

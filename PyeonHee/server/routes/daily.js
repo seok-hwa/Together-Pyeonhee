@@ -47,11 +47,11 @@ module.exports = function () {
                                 spend_money: 0,
                                 live_money: live_money,
                             };
-                            console.log('이거 계획조차 안한거야', data);
+                            //console.log('이거 계획조차 안한거야', data);
                             res.send(data);
                         }
                         else {
-                            console.log(result1)
+                            //console.log(result1)
                             var live_money = result1[0].user_income - result1[0].user_savings - result1[0].monthly_rent - result1[0].insurance_expense - result1[0].transportation_expense - result1[0].communication_expense;
                             live_money = live_money - result1[0].leisure_expense - result1[0].shopping_expense - result1[0].event_expense - result1[0].etc_expense - result1[0].subscribe_expense;
                             db.query(`SELECT available_money, daily_spent_money FROM daily_data WHERE user_id = ?`, [userID], function (error2, result2) {
@@ -68,11 +68,11 @@ module.exports = function () {
                                             spend_money: spend_money,
                                             live_money: live_money,
                                         };
-                                        console.log('이거 실제금액 없는거야', data);
+                                        //console.log('이거 실제금액 없는거야', data);
                                         res.send(data);
                                     }
                                     else {
-                                        console.log(result2);
+                                        //console.log(result2);
                                         db.query(`SELECT tran_type, sum(tran_amt) as daily_amount FROM real_expense  
                                                 WHERE user_id = ? AND inout_type = '출금' AND MONTH(now()) = SUBSTR(tran_date, 5,2) GROUP BY tran_type;`, [userID], function (error3, result3) {
                                             console.log(result3[0]);
@@ -87,7 +87,7 @@ module.exports = function () {
                                                         spend_money: spend_money,
                                                         live_money: live_money,
                                                     };
-                                                    console.log('이거 거래내역 없는거야', data);
+                                                    //console.log('이거 거래내역 없는거야', data);
                                                     res.send(data);
                                                 }
                                                 else {
@@ -105,11 +105,11 @@ module.exports = function () {
                                                                     spend_money: spend_money,
                                                                     live_money: live_money,
                                                                 };
-                                                                console.log('이거 다 들어가있는거야', data);
+                                                                //console.log('이거 다 들어가있는거야', data);
                                                                 res.send(data);
                                                             }
                                                             else {
-                                                                console.log(money);
+                                                                //console.log(money);
                                                                 var today_money = money[0].today_money;
                                                                 db.query(`UPDATE daily_data SET daily_spent_money = ? WHERE user_id = ?`, [today_money, userID], function (err2, result4) {
                                                                     if (err2) throw err2;
@@ -123,7 +123,7 @@ module.exports = function () {
                                                                             spend_money: spend_money,
                                                                             live_money: live_money,
                                                                         };
-                                                                        console.log('이거 다 들어가있는거야', data);
+                                                                        //console.log('이거 다 들어가있는거야', data);
                                                                         res.send(data);
                                                                     }
                                                                 })

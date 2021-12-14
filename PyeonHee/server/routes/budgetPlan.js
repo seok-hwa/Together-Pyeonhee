@@ -62,7 +62,6 @@ module.exports = function () {
     });
     //지난 내 계획 세부정보
     router.get('/MyBudgetPlanDetail', function (req, res) {
-        //var userID = req.query.userID;
         var budgetPlanningID = req.query.budgetPlanningID;
         db.query(`SELECT *, monthly_rent+insurance_expense+communication_expense+subscribe_expense AS fixedExpenditure,
                 transportation_expense+leisure_expense+shopping_expense+education_expense+medical_expense+event_expense+etc_expense 
