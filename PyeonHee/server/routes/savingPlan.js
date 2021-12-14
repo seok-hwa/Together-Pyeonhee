@@ -28,7 +28,7 @@ module.exports = function () {
                     if (error1) throw error1;
                     else{
                         var totalSavings = result1[0].totalSavings
-                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? ORDER BY planning_number DESC`,[totalSavings, userID], function(error2,result2){
+                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? and state =1`,[totalSavings, userID], function(error2,result2){
                             if(error2) throw error2;
                             else{
                                 const data = {
@@ -66,7 +66,7 @@ module.exports = function () {
                     if (error1) throw error1;
                     else{
                         var totalSavings = result1[0].totalSavings
-                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? ORDER BY planning_number DESC`,[totalSavings, userID], function(error2,result2){
+                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? and state =1`,[totalSavings, userID], function(error2,result2){
                             if(error2) throw error2;
                             else{
                                 console.log(result);
@@ -96,7 +96,7 @@ module.exports = function () {
                     if (error1) throw error1;
                     else{
                         var totalSavings = result1[0].totalSavings
-                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? ORDER BY planning_number DESC`,[totalSavings, userID], function(error2,result2){
+                        db.query(`UPDATE BudgetPlanning SET user_savings = ? WHERE user_id = ? and state = 1`,[totalSavings, userID], function(error2,result2){
                             if(error2) throw error2;
                             else{
                                 data = {
